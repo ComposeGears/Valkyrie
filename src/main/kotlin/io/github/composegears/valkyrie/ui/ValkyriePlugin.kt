@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.ui
 
-import ai.grazie.utils.dropPostfix
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,9 +8,6 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.generator.Icon
-import androidx.compose.material.icons.generator.IconParser
-import androidx.compose.material.icons.generator.VectorAssetGenerator
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,15 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.android.ide.common.vectordrawable.Svg2Vector
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.intellij.openapi.ide.CopyPasteManager
-import com.squareup.kotlinpoet.ClassName
+import io.github.composegears.valkyrie.parser.IconParser
 import java.awt.datatransfer.StringSelection
 import java.io.File
-import kotlin.io.path.createTempFile
-import kotlin.io.path.outputStream
-import kotlin.io.path.readText
 
 @Composable
 fun ValkyriePlugin() {
@@ -37,27 +29,9 @@ fun ValkyriePlugin() {
     var content by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(file) {
-        val file = file ?: return@LaunchedEffect
+        val iconFile = file ?: return@LaunchedEffect
 
-        val filename = file.name.orEmpty().replace("_", "").dropPostfix(".svg")
-        val tmp = createTempFile(suffix = "valkyrie/")
-        Svg2Vector.parseSvgToXml(file, tmp.outputStream())
-
-        val icon = Icon(
-            kotlinName = filename,
-            xmlFileName = "tmp",
-            fileContent = tmp.readText()
-        )
-        val vector = IconParser(icon).parse()
-
-        val aa = VectorAssetGenerator(
-            icon.kotlinName,
-            "groupPackage",
-            vector,
-            false
-        ).createFileSpec(ClassName("com.mycompany.package", "ProjectPack"))
-
-        content = aa.toString()
+        content = IconParser.tryParse(iconFile)
     }
 
     PluginUI(
