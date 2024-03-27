@@ -1,0 +1,8 @@
+[versions]
+jetbrains-compose = "1.6.1"
+
+[libraries]
+compose-multiplatform-file-picker = "com.darkrockstudios:mpfilepicker:3.1.0"
+
+[plugins]
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }

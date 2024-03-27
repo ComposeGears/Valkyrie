@@ -16,7 +16,6 @@
 
 package androidx.compose.material.icons.generator
 
-import br.com.devsrsouza.svg2compose.IconNameTransformer
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.MemberName
 import java.io.File
