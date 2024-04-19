@@ -47,7 +47,7 @@ fun WidgetTheme(
             onSurface = swingColor.onBackground,
         ),
         content = {
-            CompositionLocalProvider(LocalProject provides project,) {
+            CompositionLocalProvider(LocalProject provides project) {
                 content()
             }
         }

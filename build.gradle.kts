@@ -21,7 +21,12 @@ dependencies {
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
     implementation(compose.uiTooling)
+
     implementation(libs.compose.multiplatform.file.picker)
+    implementation(libs.tiamat)
+    implementation(libs.tiamat.koin)
+    implementation("io.insert-koin:koin-core:3.5.4")
+    implementation("io.insert-koin:koin-compose:1.1.2")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
@@ -40,6 +45,8 @@ intellij {
 
     plugins.set(listOf(/* Plugin Dependencies */))
 }
+
+val useDebugPersistantSettings = false
 
 tasks {
     run {
@@ -73,5 +80,17 @@ tasks {
 
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
+    }
+
+    if (useDebugPersistantSettings) {
+        runIde {
+            dependsOn("copyBuildRunIdeSandbox")
+        }
+
+        register<Copy>("copyBuildRunIdeSandbox") {
+            dependsOn("prepareSandbox")
+            from("buildRunIdeSandbox")
+            into("build/idea-sandbox")
+        }
     }
 }

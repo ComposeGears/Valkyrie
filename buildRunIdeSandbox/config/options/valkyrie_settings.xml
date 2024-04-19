@@ -1,0 +1,7 @@
+<application>
+    <component name="Valkyrie.Settings">
+        <option name="firstStart" value="false" />
+        <option name="iconPackName" value="ValkyrieIcons" />
+        <option name="packageName" value="io.github.composegears.valkyrie" />
+    </component>
+</application>
