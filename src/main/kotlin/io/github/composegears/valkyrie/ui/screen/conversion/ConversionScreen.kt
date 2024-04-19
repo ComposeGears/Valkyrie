@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.NavDestination
+import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
@@ -23,28 +24,33 @@ import java.io.File
 
 val ConversionScreen: NavDestination<Unit> by navDestination {
     val navController = navController()
+    val conversionViewModel = koinTiamatViewModel<ConversionViewModel>()
+
+    val state by conversionViewModel.state.collectAsState()
+
     val settingsService = ValkyrieSettings.instance
-
     Column(modifier = Modifier.fillMaxSize()) {
-        Text(text = "isFirstStart=${settingsService.isFirstStart}")
-        Text(text = "iconPackName=${settingsService.iconPackName}")
-        Text(text = "packageName=${settingsService.packageName}")
+        Text(text = "isFirstStart=${settingsService.isFirstStart}", style = MaterialTheme.typography.labelSmall)
+        Text(text = "iconPackName=${settingsService.iconPackName}", style = MaterialTheme.typography.labelSmall)
+        Text(text = "packageName=${settingsService.packageName}", style = MaterialTheme.typography.labelSmall)
+        Text(text = "lastPath=${settingsService.lastChoosePath}", style = MaterialTheme.typography.labelSmall)
 
-        ConversionUi()
+        ConversionUi(
+            state = state,
+            onPathChange = conversionViewModel::updateLastChoosePath
+        )
     }
 }
 
 @Composable
-private fun ConversionUi() {
+private fun ConversionUi(
+    state: ConversionState,
+    onPathChange: (String) -> Unit
+) {
     var showFilePicker by remember { mutableStateOf(false) }
     var file by remember { mutableStateOf<File?>(null) }
 
     var content by remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(Unit) {
-        val settingsService = ValkyrieSettings.instance
-        println(settingsService.isFirstStart)
-    }
 
     LaunchedEffect(file) {
         val iconFile = file ?: return@LaunchedEffect
@@ -65,10 +71,11 @@ private fun ConversionUi() {
     FilePicker(
         show = showFilePicker,
         fileExtensions = listOf("svg", "xml"),
-        initialDirectory = System.getProperty("user.home"),
+        initialDirectory = state.initialDirectory,
         onFileSelected = { mpFile ->
             if (mpFile != null) {
                 file = File(mpFile.path)
+                file?.parentFile?.path?.run(onPathChange)
                 showFilePicker = false
             } else {
                 showFilePicker = false

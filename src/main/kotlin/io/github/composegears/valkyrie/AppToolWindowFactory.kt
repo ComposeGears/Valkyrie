@@ -10,6 +10,7 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 import io.github.composegears.valkyrie.theme.WidgetTheme
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
+import io.github.composegears.valkyrie.ui.screen.conversion.ConversionViewModel
 import io.github.composegears.valkyrie.ui.screen.intro.IntroViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
@@ -47,4 +48,5 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
 
 val appModule = module {
     factoryOf(::IntroViewModel)
+    factoryOf(::ConversionViewModel)
 }

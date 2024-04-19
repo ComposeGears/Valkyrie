@@ -11,6 +11,7 @@ class ValkyrieSettings : SimplePersistentStateComponent<ValkyrieState>(ValkyrieS
         var isFirstStart by property(true)
         var iconPackName by string("")
         var packageName by string("")
+        var lastChoosePath by string("")
     }
 
     companion object {
