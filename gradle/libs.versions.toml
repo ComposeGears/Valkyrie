@@ -1,8 +1,12 @@
 [versions]
 jetbrains-compose = "1.6.1"
+kotlin = "1.9.23"
 
 [libraries]
 compose-multiplatform-file-picker = "com.darkrockstudios:mpfilepicker:3.1.0"
+
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
 tiamat = "io.github.composegears:tiamat:1.1.0-rc02"
 tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0-rc02"
 

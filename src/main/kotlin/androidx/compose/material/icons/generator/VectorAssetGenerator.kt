@@ -16,92 +16,9 @@
 
 package androidx.compose.material.icons.generator
 
-import androidx.compose.material.icons.generator.util.backingPropertySpec
 import androidx.compose.material.icons.generator.vector.Fill
-import androidx.compose.material.icons.generator.vector.Vector
 import androidx.compose.material.icons.generator.vector.VectorNode
-import com.squareup.kotlinpoet.*
-
-data class VectorAssetGenerationResult(
-    val sourceGeneration: FileSpec, val accessProperty: String
-)
-
-/**
- * Generator for creating a Kotlin source file with a VectorAsset property for the given [vector],
- * with name [iconName] and theme [iconTheme].
- *
- * @param iconName the name for the generated property, which is also used for the generated file.
- * I.e if the name is `Menu`, the property will be `Menu` (inside a theme receiver object) and
- * the file will be `Menu.kt` (under the theme package name).
- * @param iconTheme the theme that this vector belongs to. Used to scope the property to the
- * correct receiver object, and also for the package name of the generated file.
- * @param vector the parsed vector to generate VectorAssetBuilder commands for
- * @param generatePreview if true a preview for the icon will be created.
- */
-class VectorAssetGenerator(
-    private val iconName: String,
-    private val iconGroupPackage: String,
-    private val vector: Vector,
-    private val generatePreview: Boolean
-) {
-    /**
-     * @return a [FileSpec] representing a Kotlin source file containing the property for this
-     * programmatic [vector] representation.
-     *
-     * The package name and hence file location of the generated file is:
-     * [PackageNames.MaterialIconsPackage] + [IconTheme.themePackageName].
-     */
-    fun createFileSpec(
-        groupClassName: ClassName,
-        iconProperty: (PropertySpec) -> PropertySpec
-    ): VectorAssetGenerationResult {
-        val backingPropertyName = "_$iconName"
-        val backingProperty = backingPropertySpec(name = backingPropertyName, ClassNames.ImageVector)
-
-        val generation = FileSpec.builder(packageName = iconGroupPackage, fileName = iconName)
-            .addProperty(iconProperty(backingProperty))
-            .addProperty(backingProperty)
-            .apply { if (generatePreview) addFunction(iconPreview(MemberName(groupClassName, iconName))) }
-            .setIndent().build()
-
-        return VectorAssetGenerationResult(generation, iconName)
-    }
-
-    /**
-     * @param iconName Name that will be used to call the Icon inside the preview.
-     *
-     * Example:
-     * ```kotlin
-     *   @Preview
-     *   @Composable
-     *   private fun Preview(): Unit {
-     *      Box(modifier = Modifier.padding(12.dp)) {
-     *          Image(imageVector = Icon.Foo, contentDescription = "")
-     *      }
-     *   }
-     * ```
-     */
-    private fun iconPreview(iconName: MemberName): FunSpec {
-        val previewAnnotation = AnnotationSpec.builder(ClassNames.Preview).build()
-        val composableAnnotation = AnnotationSpec.builder(ClassNames.Composable).build()
-        val box = MemberName(PackageNames.LayoutPackage.packageName, "Box")
-        val modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")
-        val padding = MemberName(PackageNames.LayoutPackage.packageName, "padding")
-        val paddingValue = MemberNames.Dp
-        val composeImage = MemberName(PackageNames.FoundationPackage.packageName, "Image")
-
-        return FunSpec.builder("Preview")
-            .addModifiers(KModifier.PRIVATE)
-            .addAnnotation(previewAnnotation)
-            .addAnnotation(composableAnnotation)
-            .addCode(buildCodeBlock {
-                beginControlFlow("%M(modifier = %M.%M(12.%M))", box, modifier, padding, paddingValue)
-                addStatement("%M(imageVector = %M, contentDescription = \"\")", composeImage, iconName)
-                endControlFlow()
-            })
-            .build()
-    }
-}
+import com.squareup.kotlinpoet.CodeBlock
 
 /**
  * Recursively adds function calls to construct the given [vectorNode] and its children.
@@ -218,29 +135,6 @@ private fun getGradientStops(
     stops: List<Pair<Float, String>>
 ) = stops.map { stop ->
     "${stop.first}f to %M(0x${stop.second})"
-}
-
-private fun CodeBlock.Builder.addLinearGradient(
-    gradient: Fill.LinearGradient,
-    pathBody: CodeBlock.Builder.() -> Unit
-) {
-    //"0.0f to Color.Red"
-    val parameterList = with(gradient) {
-        listOfNotNull(
-            "start = %M(${gradient.startX},${gradient.startY})",
-            "end = %M(${gradient.endX},${gradient.endY})"
-        )
-    }
-
-    val parameters = parameterList.joinToString(prefix = "(", postfix = ")")
-
-    val members: Array<Any> = listOfNotNull(
-        MemberNames.LinearGradient,
-        MemberNames.Offset,
-        MemberNames.Offset
-    ).toTypedArray()
-
-
 }
 
 val GraphicUnit.withMemberIfNotNull: String get() = "${value}${if (memberName != null) ".%M" else "f"}"

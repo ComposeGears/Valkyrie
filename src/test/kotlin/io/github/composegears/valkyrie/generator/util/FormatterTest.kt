@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.generator.util
 
+import io.github.composegears.valkyrie.generator.ext.trimTrailingZero
 import org.junit.Test
 import kotlin.test.assertEquals
 

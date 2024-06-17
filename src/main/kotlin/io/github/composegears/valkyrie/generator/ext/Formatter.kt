@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator.util
+package io.github.composegears.valkyrie.generator.ext
 
 fun Float.trimTrailingZero(): String {
     val value = this.toString()

@@ -35,6 +35,8 @@ dependencies {
     implementation("com.android.tools:common:27.2.0-alpha16")
     implementation("com.squareup:kotlinpoet:1.9.0")
     implementation("org.ogce:xpp3:1.1.6")
+
+    testImplementation(libs.kotlin.test)
 }
 
 // Configure Gradle IntelliJ Plugin
