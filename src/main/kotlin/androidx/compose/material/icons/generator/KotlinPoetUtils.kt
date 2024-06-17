@@ -17,42 +17,8 @@
 package androidx.compose.material.icons.generator
 
 import com.squareup.kotlinpoet.FileSpec
-import java.io.File
-import java.nio.file.Files
 import java.text.SimpleDateFormat
 import java.util.Date
-
-/**
- * Writes the given [FileSpec] to [directory], appending a copyright notice to the beginning.
- * This is needed as this functionality isn't supported in KotlinPoet natively, and is not
- * intended to be supported. https://github.com/square/kotlinpoet/pull/514#issuecomment-441397363
- *
- * @param directory directory to write this [FileSpec] to
- * @param textTransform optional transformation to apply to the source file before writing to disk
- */
-fun FileSpec.writeToWithCopyright(directory: File, textTransform: ((String) -> String)? = null) {
-    var outputDirectory = directory
-
-    if (packageName.isNotEmpty()) {
-        for (packageComponent in packageName.split('.').dropLastWhile { it.isEmpty() }) {
-            outputDirectory = outputDirectory.resolve(packageComponent)
-        }
-    }
-
-    Files.createDirectories(outputDirectory.toPath())
-
-    val file = outputDirectory.resolve("$name.kt")
-
-    // Write this FileSpec to a StringBuilder, so we can process the text before writing to file.
-    val fileContent = StringBuilder().run {
-        writeTo(this)
-        toString()
-    }
-
-    val transformedText = textTransform?.invoke(fileContent) ?: fileContent
-
-    file.writeText(copyright + "\n\n" + transformedText)
-}
 
 /**
  * Sets the indent for this [FileSpec] to match that of our code style.

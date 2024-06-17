@@ -17,12 +17,10 @@
 package androidx.compose.material.icons.generator
 
 import androidx.compose.material.icons.generator.util.backingPropertySpec
-import androidx.compose.material.icons.generator.util.withBackingProperty
 import androidx.compose.material.icons.generator.vector.Fill
 import androidx.compose.material.icons.generator.vector.Vector
 import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.*
-import java.util.Locale
 
 data class VectorAssetGenerationResult(
     val sourceGeneration: FileSpec, val accessProperty: String
@@ -53,71 +51,20 @@ class VectorAssetGenerator(
      * The package name and hence file location of the generated file is:
      * [PackageNames.MaterialIconsPackage] + [IconTheme.themePackageName].
      */
-    fun createFileSpec(groupClassName: ClassName): VectorAssetGenerationResult {
-        // Use a unique property name for the private backing property. This is because (as of
-        // Kotlin 1.4) each property with the same name will be considered as a possible candidate
-        // for resolution, regardless of the access modifier, so by using unique names we reduce
-        // the size from ~6000 to 1, and speed up compilation time for these icons.
-        @OptIn(ExperimentalStdlibApi::class)
-        val backingPropertyName = "_" + iconName.decapitalize(Locale.ROOT)
+    fun createFileSpec(
+        groupClassName: ClassName,
+        iconProperty: (PropertySpec) -> PropertySpec
+    ): VectorAssetGenerationResult {
+        val backingPropertyName = "_$iconName"
         val backingProperty = backingPropertySpec(name = backingPropertyName, ClassNames.ImageVector)
 
-        val generation = FileSpec.builder(
-            packageName = iconGroupPackage,
-            fileName = iconName
-        ).addProperty(
-            PropertySpec.builder(name = iconName, type = ClassNames.ImageVector)
-                .receiver(groupClassName)
-                .getter(iconGetter(backingProperty))
-                .build()
-        ).addProperty(
-            backingProperty
-        )
+        val generation = FileSpec.builder(packageName = iconGroupPackage, fileName = iconName)
+            .addProperty(iconProperty(backingProperty))
+            .addProperty(backingProperty)
             .apply { if (generatePreview) addFunction(iconPreview(MemberName(groupClassName, iconName))) }
             .setIndent().build()
 
         return VectorAssetGenerationResult(generation, iconName)
-    }
-
-    /**
-     * @return the body of the getter for the icon property. This getter returns the backing
-     * property if it is not null, otherwise creates the icon and 'caches' it in the backing
-     * property, and then returns the backing property.
-     */
-    private fun iconGetter(backingProperty: PropertySpec): FunSpec {
-
-        val parameterList = with(vector) {
-            listOfNotNull(
-                "name = \"${iconName}\"",
-                "defaultWidth = ${width.withMemberIfNotNull}",
-                "defaultHeight = ${height.withMemberIfNotNull}",
-                "viewportWidth = ${viewportWidth}f",
-                "viewportHeight = ${viewportHeight}f"
-            )
-        }
-
-        val parameters = parameterList.joinToString(prefix = "(", postfix = ")")
-
-        val members: Array<Any> = listOfNotNull(
-            MemberNames.ImageVectorBuilder,
-            vector.width.memberName,
-            vector.height.memberName
-        ).toTypedArray()
-
-        return FunSpec.getterBuilder()
-            .withBackingProperty(backingProperty) {
-                addCode(buildCodeBlock {
-                    beginControlFlow(
-                        "%N = %M$parameters.apply",
-                        backingProperty,
-                        *members
-                    )
-                    vector.nodes.forEach { node -> addRecursively(node) }
-                    endControlFlow()
-                    addStatement(".build()")
-                })
-            }
-            .build()
     }
 
     /**
@@ -159,9 +106,8 @@ class VectorAssetGenerator(
 /**
  * Recursively adds function calls to construct the given [vectorNode] and its children.
  */
-private fun CodeBlock.Builder.addRecursively(vectorNode: VectorNode) {
+fun CodeBlock.Builder.addRecursively(vectorNode: VectorNode) {
     when (vectorNode) {
-        // TODO: b/147418351 - add clip-paths once they are supported
         is VectorNode.Group -> {
             beginControlFlow("%M", MemberNames.Group)
             vectorNode.paths.forEach { path ->
@@ -192,7 +138,7 @@ private fun CodeBlock.Builder.addPath(
     val parameterList = with(path) {
         listOfNotNull(
             "fill = ${getPathFill(path)}",
-            "stroke = ${if(hasStrokeColor) "%M(%M(0x$strokeColorHex))" else "null"}",
+            "stroke = ${if (hasStrokeColor) "%M(%M(0x$strokeColorHex))" else "null"}",
             "fillAlpha = ${fillAlpha}f".takeIf { fillAlpha != 1f },
             "strokeAlpha = ${strokeAlpha}f".takeIf { strokeAlpha != 1f },
             "strokeLineWidth = ${strokeLineWidth.withMemberIfNotNull}",
@@ -215,7 +161,7 @@ private fun CodeBlock.Builder.addPath(
         path.fillType.memberName
     ).toMutableList().apply {
         var fillIndex = 1
-        when (path.fill){
+        when (path.fill) {
             is Fill.Color -> {
                 add(fillIndex, MemberNames.SolidColor)
                 add(++fillIndex, MemberNames.Color)
@@ -241,28 +187,26 @@ private fun CodeBlock.Builder.addPath(
 
     beginControlFlow(
         "%M$parameters",
-       *members
+        *members
     )
 
     pathBody()
     endControlFlow()
 }
 
-private fun getPathFill (
-    path: VectorNode.Path
-) = when (path.fill){
+private fun getPathFill(path: VectorNode.Path) = when (path.fill) {
     is Fill.Color -> "%M(%M(0x${path.fill.colorHex}))"
     is Fill.LinearGradient -> {
-        with (path.fill){
+        with(path.fill) {
             "%M(" +
-                    "${getGradientStops(path.fill.colorStops).toString().removeSurrounding("[","]")}, " +
+                    "${getGradientStops(path.fill.colorStops).toString().removeSurrounding("[", "]")}, " +
                     "start = %M(${startX}f,${startY}f), " +
                     "end = %M(${endX}f,${endY}f))"
         }
     }
     is Fill.RadialGradient -> {
-        with (path.fill){
-            "%M(${getGradientStops(path.fill.colorStops).toString().removeSurrounding("[","]")}, " +
+        with(path.fill) {
+            "%M(${getGradientStops(path.fill.colorStops).toString().removeSurrounding("[", "]")}, " +
                     "center = %M(${centerX}f,${centerY}f), " +
                     "radius = ${gradientRadius}f)"
         }
@@ -279,7 +223,7 @@ private fun getGradientStops(
 private fun CodeBlock.Builder.addLinearGradient(
     gradient: Fill.LinearGradient,
     pathBody: CodeBlock.Builder.() -> Unit
-){
+) {
     //"0.0f to Color.Red"
     val parameterList = with(gradient) {
         listOfNotNull(
@@ -299,4 +243,4 @@ private fun CodeBlock.Builder.addLinearGradient(
 
 }
 
-private val GraphicUnit.withMemberIfNotNull: String get() = "${value}${if (memberName != null) ".%M" else "f"}"
+val GraphicUnit.withMemberIfNotNull: String get() = "${value}${if (memberName != null) ".%M" else "f"}"

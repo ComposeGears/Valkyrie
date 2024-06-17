@@ -12,29 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.koin.koinTiamatViewModel
-import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.parser.IconParser
-import io.github.composegears.valkyrie.settings.ValkyrieSettings
 import io.github.composegears.valkyrie.ui.components.IntellijEditorTextField
 import java.awt.datatransfer.StringSelection
 import java.io.File
 
 val ConversionScreen: NavDestination<Unit> by navDestination {
-    val navController = navController()
     val conversionViewModel = koinTiamatViewModel<ConversionViewModel>()
-
     val state by conversionViewModel.state.collectAsState()
 
-    val settingsService = ValkyrieSettings.instance
     Column(modifier = Modifier.fillMaxSize()) {
-        Text(text = "isFirstStart=${settingsService.isFirstStart}", style = MaterialTheme.typography.labelSmall)
-        Text(text = "iconPackName=${settingsService.iconPackName}", style = MaterialTheme.typography.labelSmall)
-        Text(text = "packageName=${settingsService.packageName}", style = MaterialTheme.typography.labelSmall)
-        Text(text = "lastPath=${settingsService.lastChoosePath}", style = MaterialTheme.typography.labelSmall)
-
         ConversionUi(
             state = state,
             onPathChange = conversionViewModel::updateLastChoosePath
@@ -55,7 +45,7 @@ private fun ConversionUi(
     LaunchedEffect(file) {
         val iconFile = file ?: return@LaunchedEffect
 
-        content = IconParser.tryParse(iconFile)
+        content = IconParser.tryParse(iconFile, state.config!!)
     }
 
     PluginUI(

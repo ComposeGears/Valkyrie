@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
 import com.composegears.tiamat.TiamatViewModel
+import io.github.composegears.valkyrie.parser.Config
 import io.github.composegears.valkyrie.settings.ValkyrieSettings
 import io.github.composegears.valkyrie.ui.screen.intro.updateState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,13 @@ class ConversionViewModel : TiamatViewModel() {
 
     init {
         _state.updateState {
-            copy(initialDirectory = settingsService.lastChoosePath ?: System.getProperty("user.home"))
+            copy(
+                initialDirectory = settingsService.lastChoosePath ?: System.getProperty("user.home"),
+                config = Config(
+                    packName = settingsService.iconPackName!!,
+                    packPackage = settingsService.packageName!!
+                )
+            )
         }
     }
 
