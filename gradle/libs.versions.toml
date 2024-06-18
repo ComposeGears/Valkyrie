@@ -1,14 +1,23 @@
 [versions]
-jetbrains-compose = "1.6.1"
+coroutines = "1.6.4"
+jetbrains-compose = "1.6.10"
 kotlin = "1.9.23"
 
 [libraries]
-compose-multiplatform-file-picker = "com.darkrockstudios:mpfilepicker:3.1.0"
+androd-build-tools = "com.android.tools:sdk-common:31.5.0"
 
+koin-compose = "io.insert-koin:koin-compose:1.1.2"
+
+kotlinpoet = "com.squareup:kotlinpoet:1.9.0"
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+multiplatform-filepicker = "com.darkrockstudios:mpfilepicker:3.1.0"
 
 tiamat = "io.github.composegears:tiamat:1.1.0-rc02"
 tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0-rc02"
 
 [plugins]
+intellij-sdk = "org.jetbrains.intellij:1.17.4"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

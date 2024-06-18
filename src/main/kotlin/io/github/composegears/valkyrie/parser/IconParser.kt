@@ -83,6 +83,6 @@ object IconParser {
 object SvgToXmlParser {
 
     fun parse(file: File, outPath: Path) {
-        Svg2Vector.parseSvgToXml(file, outPath.outputStream())
+        Svg2Vector.parseSvgToXml(file.toPath(), outPath.outputStream())
     }
 }
