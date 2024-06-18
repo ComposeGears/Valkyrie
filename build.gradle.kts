@@ -1,18 +1,22 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.23"
-    id("org.jetbrains.intellij") version "1.17.2"
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.intellij.sdk)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.kotlin.jvm)
     id("idea")
 }
 
 group = "io.github.composegears"
-version = "1.0"
+version = "0.0.2"
 
 repositories {
     mavenCentral()
     google()
-    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+    maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 dependencies {
@@ -22,19 +26,13 @@ dependencies {
     implementation(compose.materialIconsExtended)
     implementation(compose.uiTooling)
 
-    implementation(libs.compose.multiplatform.file.picker)
+    implementation(libs.androd.build.tools)
+    implementation(libs.koin.compose)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlinpoet)
+    implementation(libs.multiplatform.filepicker)
     implementation(libs.tiamat)
     implementation(libs.tiamat.koin)
-    implementation("io.insert-koin:koin-core:3.5.4")
-    implementation("io.insert-koin:koin-compose:1.1.2")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-
-    implementation("com.google.guava:guava:23.0")
-    implementation("com.android.tools:sdk-common:27.2.0-alpha16")
-    implementation("com.android.tools:common:27.2.0-alpha16")
-    implementation("com.squareup:kotlinpoet:1.9.0")
-    implementation("org.ogce:xpp3:1.1.6")
 
     testImplementation(libs.kotlin.test)
 }
@@ -42,10 +40,8 @@ dependencies {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.1.5")
-    type.set("IC") // Target IDE Platform
-
-    plugins.set(listOf(/* Plugin Dependencies */))
+    version.set("2024.1")
+    plugins.set(listOf("org.jetbrains.kotlin"))
 }
 
 val useDebugPersistantSettings = false
@@ -60,13 +56,15 @@ tasks {
             exclude { "coroutines" in it.name }
         }
     }
-    // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+
+    withType<KotlinCompile> {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
 
     patchPluginXml {
