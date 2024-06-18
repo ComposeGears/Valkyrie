@@ -23,7 +23,6 @@ import com.squareup.kotlinpoet.MemberName
  * Package names used for icon generation.
  */
 enum class PackageNames(val packageName: String) {
-    MaterialIconsPackage("androidx.compose.material.icons"),
     UiPackage("androidx.compose.ui"),
     GraphicsPackage(UiPackage.packageName + ".graphics"),
     VectorPackage(GraphicsPackage.packageName + ".vector"),
@@ -39,7 +38,6 @@ enum class PackageNames(val packageName: String) {
  * [ClassName]s used for icon generation.
  */
 object ClassNames {
-    val Icons = PackageNames.MaterialIconsPackage.className("Icons")
     val ImageVector = PackageNames.VectorPackage.className("ImageVector")
     val PathFillType = PackageNames.GraphicsPackage.className("PathFillType", CompanionImportName)
     val StrokeCap = PackageNames.GraphicsPackage.className("StrokeCap", CompanionImportName)

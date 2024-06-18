@@ -5,6 +5,7 @@ import androidx.compose.material.icons.generator.MemberNames.ImageVectorBuilder
 import androidx.compose.material.icons.generator.vector.Vector
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import io.github.composegears.valkyrie.generator.ext.formatFloat
 import io.github.composegears.valkyrie.generator.ext.trimTrailingZero
 
 fun imageVectorBuilderSpecs(
@@ -17,8 +18,8 @@ fun imageVectorBuilderSpecs(
     add("name = %S,\n", iconName)
     add("defaultWidth = %L.%M,\n", vector.width.value.trimTrailingZero(), MemberNames.Dp)
     add("defaultHeight = %L.%M,\n", vector.height.value.trimTrailingZero(), MemberNames.Dp)
-    add("viewportWidth = %Lf,\n", vector.viewportWidth.trimTrailingZero())
-    add("viewportHeight = %Lf\n", vector.viewportHeight.trimTrailingZero())
+    add("viewportWidth = %L,\n", vector.viewportWidth.formatFloat())
+    add("viewportHeight = %L\n", vector.viewportHeight.formatFloat())
     unindent()
     add(")")
 

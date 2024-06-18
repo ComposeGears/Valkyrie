@@ -8,3 +8,5 @@ fun Float.trimTrailingZero(): String {
         else -> value
     }
 }
+
+fun Float.formatFloat(): String = "${trimTrailingZero()}f"

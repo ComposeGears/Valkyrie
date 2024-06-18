@@ -3,10 +3,11 @@ package io.github.composegears.valkyrie.generator
 import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
 import androidx.compose.material.icons.generator.PackageNames
-import androidx.compose.material.icons.generator.addRecursively
 import androidx.compose.material.icons.generator.vector.Vector
+import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.*
 import io.github.composegears.valkyrie.generator.ext.*
+import io.github.composegears.valkyrie.generator.util.addPath
 import io.github.composegears.valkyrie.generator.util.backingPropertyName
 import io.github.composegears.valkyrie.generator.util.backingPropertySpec
 import io.github.composegears.valkyrie.generator.util.imageVectorBuilderSpecs
@@ -75,7 +76,7 @@ class ImageVectorGenerator(
                             iconName = iconName,
                             vector = vector,
                             path = {
-                                vector.nodes.forEach { node -> addRecursively(node) }
+                                vector.nodes.forEach { node -> addVectorNode(node) }
                             }
                         )
                     )
@@ -83,6 +84,25 @@ class ImageVectorGenerator(
             )
             addStatement("")
             addStatement("return %N!!", backingProperty)
+        }
+    }
+
+    private fun CodeBlock.Builder.addVectorNode(vectorNode: VectorNode) {
+        when (vectorNode) {
+            is VectorNode.Group -> {
+                beginControlFlow("%M", MemberNames.Group)
+                vectorNode.paths.forEach { path ->
+                    addVectorNode(path)
+                }
+                endControlFlow()
+            }
+            is VectorNode.Path -> {
+                addPath(vectorNode) {
+                    vectorNode.nodes.forEach { pathNode ->
+                        addStatement(pathNode.asFunctionCall())
+                    }
+                }
+            }
         }
     }
 
