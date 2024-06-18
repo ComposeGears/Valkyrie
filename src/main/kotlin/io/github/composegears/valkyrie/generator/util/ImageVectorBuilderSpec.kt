@@ -26,7 +26,8 @@ fun imageVectorBuilderSpecs(
     if (vector.nodes.isNotEmpty()) {
         beginControlFlow(".apply")
         path()
-        endControlFlow()
+        unindent()
+        add("}")
     }
     addStatement(".build()")
 }
