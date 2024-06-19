@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         mavenCentral()
@@ -6,3 +8,5 @@ pluginManagement {
 }
 
 rootProject.name = "valkyrie"
+
+include("google")

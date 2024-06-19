@@ -68,23 +68,21 @@ fun CodeBlock.Builder.addPath(
 }
 
 private fun CodeBlock.Builder.fillArg(path: VectorNode.Path) {
-    when (path.fill) {
+    when (val fill = path.fill) {
         is Fill.Color -> {
-            add("fill = %M(%M(0x${path.fill.colorHex}))", MemberNames.SolidColor, MemberNames.Color)
+            add("fill = %M(%M(0x${fill.colorHex}))", MemberNames.SolidColor, MemberNames.Color)
         }
         is Fill.LinearGradient -> {
             // TODO: simplify
             add(
                 "fill = ${
-                    with(path.fill) {
-                        "%M(" +
-                                "${getGradientStops(path.fill.colorStops).toString().removeSurrounding("[", "]")}, " +
-                                "start = %M(${startX}f,${startY}f), " +
-                                "end = %M(${endX}f,${endY}f))"
-                    }
+                    "%M(" +
+                            "${getGradientStops(fill.colorStops).toString().removeSurrounding("[", "]")}, " +
+                            "start = %M(${fill.startX}f,${fill.startY}f), " +
+                            "end = %M(${fill.endX}f,${fill.endY}f))"
                 }",
                 MemberNames.LinearGradient,
-                repeat(path.fill.colorStops.size) {
+                repeat(fill.colorStops.size) {
                     MemberNames.Color
                 },
                 MemberNames.Offset,
@@ -94,14 +92,12 @@ private fun CodeBlock.Builder.fillArg(path: VectorNode.Path) {
         is Fill.RadialGradient -> {
             add(
                 "fill = ${
-                    with(path.fill) {
-                        "%M(${getGradientStops(path.fill.colorStops).toString().removeSurrounding("[", "]")}, " +
-                                "center = %M(${centerX}f,${centerY}f), " +
-                                "radius = ${gradientRadius}f)"
-                    }
+                    "%M(${getGradientStops(fill.colorStops).toString().removeSurrounding("[", "]")}, " +
+                            "center = %M(${fill.centerX}f,${fill.centerY}f), " +
+                            "radius = ${fill.gradientRadius}f)"
                 }",
                 MemberNames.RadialGradient,
-                repeat(path.fill.colorStops.size) {
+                repeat(fill.colorStops.size) {
                     MemberNames.Color
                 },
                 MemberNames.Offset
@@ -120,6 +116,7 @@ private fun getGradientStops(
 private fun CodeBlock.Builder.fillAlphaArg(path: VectorNode.Path) {
     val fillAlpha = path.fillAlpha
 
+    // TODO: remove addIf
     addIf(fillAlpha != 1f) {
         add("fillAlpha = ${fillAlpha.formatFloat()},\n")
     }
@@ -182,14 +179,14 @@ private fun CodeBlock.Builder.pathFillTypeArg(path: VectorNode.Path) {
 }
 
 private fun VectorNode.Path.buildPathParams() = buildList {
-    if (fill != null) {
-        add(FillParam(fill))
+    fill?.let {
+        add(FillParam(it))
     }
     if (fillAlpha != 1f) {
         add(FillAlphaParam(fillAlpha))
     }
-    if (strokeColorHex != null) {
-        add(StrokeColorHexParam(strokeColorHex))
+    strokeColorHex?.let {
+        add(StrokeColorHexParam(it))
     }
     if (strokeAlpha != 1f) {
         add(StrokeAlphaParam(strokeAlpha))

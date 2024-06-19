@@ -12,7 +12,7 @@ class Pixel(override val value: Float) : GraphicUnit() {
 }
 
 class Dp(override val value: Float) : GraphicUnit() {
-    override val memberName: MemberName? = MemberNames.Dp
+    override val memberName: MemberName = MemberNames.Dp
 }
 
 fun rawAsGraphicUnit(raw: String): GraphicUnit {

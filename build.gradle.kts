@@ -20,13 +20,15 @@ repositories {
 }
 
 dependencies {
+    implementation(projects.google)
+
     implementation(compose.desktop.currentOs)
     implementation(compose.preview)
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
     implementation(compose.uiTooling)
 
-    implementation(libs.androd.build.tools)
+    implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlinpoet)
