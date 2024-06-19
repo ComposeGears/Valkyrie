@@ -4,7 +4,6 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,6 +20,8 @@ import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.icons.Help
+import io.github.composegears.valkyrie.ui.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
 import io.github.composegears.valkyrie.ui.screen.intro.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.intro.util.getIconPackAnnotatedString
@@ -173,7 +174,7 @@ fun InputField(
             ) {
                 Icon(
                     modifier = Modifier.size(18.dp),
-                    imageVector = Icons.AutoMirrored.Filled.Help,
+                    imageVector = ValkyrieIcons.Help,
                     contentDescription = null,
                 )
             }

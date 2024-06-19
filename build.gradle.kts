@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.github.composegears"
-version = "0.0.5-SNAPSHOT"
+version = "0.0.6-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -27,7 +27,6 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.preview)
     implementation(compose.material3)
-    implementation(compose.materialIconsExtended)
     implementation(compose.uiTooling)
 
     implementation(libs.android.build.tools)

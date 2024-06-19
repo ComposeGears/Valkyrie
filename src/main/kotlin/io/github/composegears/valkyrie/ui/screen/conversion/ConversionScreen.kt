@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.ui.screen.conversion
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,6 +16,8 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.parser.IconParser
 import io.github.composegears.valkyrie.ui.components.IntellijEditorTextField
+import io.github.composegears.valkyrie.ui.icons.ContentCopy
+import io.github.composegears.valkyrie.ui.icons.ValkyrieIcons
 import java.awt.datatransfer.StringSelection
 import java.io.File
 
@@ -116,7 +117,7 @@ private fun PluginUI(
                     ) {
                         Icon(
                             modifier = Modifier.size(16.dp),
-                            imageVector = Icons.Default.ContentCopy,
+                            imageVector = ValkyrieIcons.ContentCopy,
                             contentDescription = null
                         )
                     }
