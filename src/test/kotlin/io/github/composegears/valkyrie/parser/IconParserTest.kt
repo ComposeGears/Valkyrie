@@ -93,6 +93,117 @@ class IconParserTest {
         assertEquals(expectedOutput, output)
     }
 
+    @Test
+    fun `icon with path and solid color`() {
+        val icon = loadIcon("ic_fill_color_stroke.xml")
+        val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
+
+        val expectedOutput = """
+            package io.github.composegears.valkyrie.icons
+
+            import androidx.compose.ui.graphics.Color
+            import androidx.compose.ui.graphics.SolidColor
+            import androidx.compose.ui.graphics.vector.ImageVector
+            import androidx.compose.ui.graphics.vector.ImageVector.Builder
+            import androidx.compose.ui.graphics.vector.path
+            import androidx.compose.ui.unit.dp
+
+            val ValkyrieIcons.FillColorStroke: ImageVector
+                get() {
+                    if (_FillColorStroke != null) {
+                        return _FillColorStroke!!
+                    }
+                    _FillColorStroke = Builder(
+                        name = "FillColorStroke",
+                        defaultWidth = 24.dp,
+                        defaultHeight = 24.dp,
+                        viewportWidth = 18f,
+                        viewportHeight = 18f
+                    ).apply {
+                        path(
+                            fill = SolidColor(Color(0xFF232F34)),
+                            strokeLineWidth = 1f
+                        ) {
+                            moveTo(6.75f, 12.127f)
+                            lineTo(3.623f, 9.0f)
+                            lineTo(2.558f, 10.057f)
+                            lineTo(6.75f, 14.25f)
+                            lineTo(15.75f, 5.25f)
+                            lineTo(14.693f, 4.192f)
+                            lineTo(6.75f, 12.127f)
+                            close()
+                        }
+                    }.build()
+
+                    return _FillColorStroke!!
+                }
+
+            private var _FillColorStroke: ImageVector? = null
+
+        """.trimIndent()
+        assertEquals(expectedOutput, output)
+    }
+
+    @Test
+    fun `icon with all path params`() {
+        val icon = loadIcon("ic_all_path_params.xml")
+        val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
+
+        val expectedOutput = """
+           package io.github.composegears.valkyrie.icons
+           
+           import androidx.compose.ui.graphics.Color
+           import androidx.compose.ui.graphics.PathFillType
+           import androidx.compose.ui.graphics.SolidColor
+           import androidx.compose.ui.graphics.StrokeCap
+           import androidx.compose.ui.graphics.StrokeJoin
+           import androidx.compose.ui.graphics.vector.ImageVector
+           import androidx.compose.ui.graphics.vector.ImageVector.Builder
+           import androidx.compose.ui.graphics.vector.path
+           import androidx.compose.ui.unit.dp
+
+           val ValkyrieIcons.AllPathParams: ImageVector
+               get() {
+                   if (_AllPathParams != null) {
+                       return _AllPathParams!!
+                   }
+                   _AllPathParams = Builder(
+                       name = "AllPathParams",
+                       defaultWidth = 24.dp,
+                       defaultHeight = 24.dp,
+                       viewportWidth = 18f,
+                       viewportHeight = 18f
+                   ).apply {
+                       path(
+                           fill = SolidColor(Color(0xFF232F34)),
+                           fillAlpha = 0.5f,
+                           stroke = SolidColor(Color(0xFF232F34)),
+                           strokeAlpha = 0.5f,
+                           strokeLineWidth = 1f,
+                           strokeLineCap = StrokeCap.Round,
+                           strokeLineJoin = StrokeJoin.Round,
+                           strokeLineMiter = 3f,
+                           pathFillType = PathFillType.EvenOdd
+                       ) {
+                           moveTo(6.75f, 12.127f)
+                           lineTo(3.623f, 9.0f)
+                           lineTo(2.558f, 10.057f)
+                           lineTo(6.75f, 14.25f)
+                           lineTo(15.75f, 5.25f)
+                           lineTo(14.693f, 4.192f)
+                           lineTo(6.75f, 12.127f)
+                           close()
+                       }
+                   }.build()
+
+                   return _AllPathParams!!
+               }
+
+           private var _AllPathParams: ImageVector? = null
+
+        """.trimIndent()
+        assertEquals(expectedOutput, output)
+    }
 
     @Test
     fun `icon parsing`() {

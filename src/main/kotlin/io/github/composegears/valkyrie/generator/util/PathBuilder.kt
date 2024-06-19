@@ -2,9 +2,9 @@ package io.github.composegears.valkyrie.generator.util
 
 import androidx.compose.material.icons.generator.MemberNames
 import androidx.compose.material.icons.generator.vector.*
+import androidx.compose.ui.graphics.PathFillType
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
-import io.github.composegears.valkyrie.generator.ext.addIf
 import io.github.composegears.valkyrie.generator.ext.formatFloat
 import io.github.composegears.valkyrie.generator.util.PathParams.*
 
@@ -47,15 +47,24 @@ fun CodeBlock.Builder.addPath(
                     add("%M(\n", MemberNames.Path)
                     indent()
                     // TODO: arg "name" missing
-                    fillArg(path)
-                    fillAlphaArg(path)
-                    strokeArg(path)
-                    strokeAlphaArg(path)
-                    strokeLineWidthArg(path)
-                    strokeLineCapArg(path)
-                    strokeLineJoinArg(path)
-                    strokeLineMiterArg(path)
-                    pathFillTypeArg(path)
+                    pathParams.forEachIndexed { index, param ->
+                        when (param) {
+                            is FillParam -> fillArg(path)
+                            is FillAlphaParam -> fillAlphaArg(path)
+                            is FillTypeParam -> pathFillTypeArg(path)
+                            is StrokeAlphaParam -> strokeAlphaArg(path)
+                            is StrokeColorHexParam -> strokeArg(path)
+                            is StrokeLineCapParam -> strokeLineCapArg(path)
+                            is StrokeLineJoinParam -> strokeLineJoinArg(path)
+                            is StrokeLineMiterParam -> strokeLineMiterArg(path)
+                            is StrokeLineWidthParam -> strokeLineWidthArg(path)
+                        }
+                        if (index == pathParams.lastIndex) {
+                            add("\n")
+                        } else {
+                            add(",\n")
+                        }
+                    }
                     unindent()
                     add(")")
                     beginControlFlow("")
@@ -114,68 +123,35 @@ private fun getGradientStops(
 }
 
 private fun CodeBlock.Builder.fillAlphaArg(path: VectorNode.Path) {
-    val fillAlpha = path.fillAlpha
-
-    // TODO: remove addIf
-    addIf(fillAlpha != 1f) {
-        add("fillAlpha = ${fillAlpha.formatFloat()},\n")
-    }
+    add("fillAlpha = ${path.fillAlpha.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.strokeArg(path: VectorNode.Path) {
-    val strokeColorHex = path.strokeColorHex
-
-    addIf(strokeColorHex != null) {
-        add("stroke = %M(%M(0x$strokeColorHex)),\n", MemberNames.SolidColor, MemberNames.Color)
-    }
+    add("stroke = %M(%M(0x${path.strokeColorHex}))", MemberNames.SolidColor, MemberNames.Color)
 }
 
 private fun CodeBlock.Builder.strokeAlphaArg(path: VectorNode.Path) {
-    val strokeAlpha = path.strokeAlpha
-
-    addIf(strokeAlpha != 1f) {
-        add("strokeAlpha = ${strokeAlpha.formatFloat()},\n")
-    }
+    add("strokeAlpha = ${path.strokeAlpha.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.strokeLineWidthArg(path: VectorNode.Path) {
-    val strokeLineWidth = path.strokeLineWidth.value
-
-    addIf(strokeLineWidth != 0f) {
-        add("strokeLineWidth = ${strokeLineWidth.formatFloat()},\n")
-    }
+    add("strokeLineWidth = ${path.strokeLineWidth.value.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.strokeLineCapArg(path: VectorNode.Path) {
-    val strokeLineCap = path.strokeLineCap
-
-    addIf(strokeLineCap != StrokeCap.Butt) {
-        add("strokeLineCap = %M,\n", strokeLineCap.memberName)
-    }
+    add("strokeLineCap = %T.%L", androidx.compose.ui.graphics.StrokeCap::class, path.strokeLineCap.name)
 }
 
 private fun CodeBlock.Builder.strokeLineJoinArg(path: VectorNode.Path) {
-    val strokeLineJoin = path.strokeLineJoin
-
-    addIf(strokeLineJoin != StrokeJoin.Miter) {
-        add("strokeLineJoin = %M,\n", strokeLineJoin.memberName)
-    }
+    add("strokeLineJoin = %T.%L", androidx.compose.ui.graphics.StrokeJoin::class, path.strokeLineJoin.name)
 }
 
 private fun CodeBlock.Builder.strokeLineMiterArg(path: VectorNode.Path) {
-    val strokeLineMiter = path.strokeLineMiter
-
-    addIf(strokeLineMiter != 4f) {
-        add("strokeLineMiter = " + strokeLineMiter.formatFloat() + ",\n")
-    }
+    add("strokeLineMiter = ${path.strokeLineMiter.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.pathFillTypeArg(path: VectorNode.Path) {
-    val fillType = path.fillType
-
-    addIf(fillType != FillType.NonZero) {
-        add("pathFillType = %M,\n", fillType.memberName)
-    }
+    add("pathFillType = %T.%L", PathFillType::class, path.fillType.name)
 }
 
 private fun VectorNode.Path.buildPathParams() = buildList {

@@ -12,3 +12,5 @@ Build plugin: `./gradlew buildPlugin`
 Artifact with be located in "plugin" folder
 
 Check dependencies: `./gradlew dependencyUpdates`
+
+Run tests: `./gradlew test`
