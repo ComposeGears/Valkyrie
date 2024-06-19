@@ -24,17 +24,7 @@ fun CodeBlock.Builder.addPath(
             add(
                 codeBlock = buildCodeBlock {
                     add("%M(", MemberNames.Path)
-                    when (pathParams.first()) {
-                        is FillParam -> fillArg(path)
-                        is FillAlphaParam -> TODO()
-                        is FillTypeParam -> TODO()
-                        is StrokeAlphaParam -> TODO()
-                        is StrokeColorHexParam -> TODO()
-                        is StrokeLineCapParam -> TODO()
-                        is StrokeLineJoinParam -> TODO()
-                        is StrokeLineMiterParam -> TODO()
-                        is StrokeLineWidthParam -> TODO()
-                    }
+                    fillPathArgs(pathParams.first(), path)
                     beginControlFlow(")")
                     pathBody()
                     endControlFlow()
@@ -46,19 +36,8 @@ fun CodeBlock.Builder.addPath(
                 codeBlock = buildCodeBlock {
                     add("%M(\n", MemberNames.Path)
                     indent()
-                    // TODO: arg "name" missing
                     pathParams.forEachIndexed { index, param ->
-                        when (param) {
-                            is FillParam -> fillArg(path)
-                            is FillAlphaParam -> fillAlphaArg(path)
-                            is FillTypeParam -> pathFillTypeArg(path)
-                            is StrokeAlphaParam -> strokeAlphaArg(path)
-                            is StrokeColorHexParam -> strokeArg(path)
-                            is StrokeLineCapParam -> strokeLineCapArg(path)
-                            is StrokeLineJoinParam -> strokeLineJoinArg(path)
-                            is StrokeLineMiterParam -> strokeLineMiterArg(path)
-                            is StrokeLineWidthParam -> strokeLineWidthArg(path)
-                        }
+                        fillPathArgs(param, path)
                         if (index == pathParams.lastIndex) {
                             add("\n")
                         } else {
@@ -73,6 +52,24 @@ fun CodeBlock.Builder.addPath(
                 }
             )
         }
+    }
+}
+
+private fun CodeBlock.Builder.fillPathArgs(
+    param: PathParams,
+    path: VectorNode.Path
+) {
+    // TODO: arg "name" missing
+    when (param) {
+        is FillParam -> fillArg(path)
+        is FillAlphaParam -> fillAlphaArg(path)
+        is FillTypeParam -> pathFillTypeArg(path)
+        is StrokeAlphaParam -> strokeAlphaArg(path)
+        is StrokeColorHexParam -> strokeArg(path)
+        is StrokeLineCapParam -> strokeLineCapArg(path)
+        is StrokeLineJoinParam -> strokeLineJoinArg(path)
+        is StrokeLineMiterParam -> strokeLineMiterArg(path)
+        is StrokeLineWidthParam -> strokeLineWidthArg(path)
     }
 }
 
