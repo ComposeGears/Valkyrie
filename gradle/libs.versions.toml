@@ -4,10 +4,10 @@ kotlin = "2.0.0"
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.5.0"
 
-koin-compose = "io.insert-koin:koin-compose:1.1.2"
+koin-compose = "io.insert-koin:koin-compose:1.1.5"
 
 kotlinpoet = "com.squareup:kotlinpoet:1.17.0"
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 multiplatform-filepicker = "com.darkrockstudios:mpfilepicker:3.1.0"
@@ -19,6 +19,7 @@ xpp3 = "org.ogce:xpp3:1.1.6"
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+gradle-dependency-check = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 intellij-sdk = "org.jetbrains.intellij:1.17.4"
 jetbrains-compose = { id = "org.jetbrains.compose", version = "1.6.11" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
