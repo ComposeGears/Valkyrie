@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.generator.util
 
 import io.github.composegears.valkyrie.generator.ext.formatFloat
+import io.github.composegears.valkyrie.generator.ext.toColorHex
 import io.github.composegears.valkyrie.generator.ext.trimTrailingZero
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -16,5 +17,7 @@ class FormatterTest {
         assertEquals(24f.formatFloat(), "24f")
         assertEquals(24.0f.formatFloat(), "24f")
         assertEquals(24.00002f.formatFloat(), "24.00002f")
+
+        assertEquals("FFe676ff".toColorHex(), "0xFFE676FF")
     }
 }

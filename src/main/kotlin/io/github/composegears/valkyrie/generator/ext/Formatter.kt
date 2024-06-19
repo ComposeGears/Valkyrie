@@ -10,3 +10,5 @@ fun Float.trimTrailingZero(): String {
 }
 
 fun Float.formatFloat(): String = "${trimTrailingZero()}f"
+
+fun String.toColorHex(): String = "0x${this.uppercase()}"

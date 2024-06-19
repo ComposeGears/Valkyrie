@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.PathFillType
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.formatFloat
+import io.github.composegears.valkyrie.generator.ext.toColorHex
 import io.github.composegears.valkyrie.generator.util.PathParams.*
 
 fun CodeBlock.Builder.addPath(
@@ -24,7 +25,7 @@ fun CodeBlock.Builder.addPath(
             add(
                 codeBlock = buildCodeBlock {
                     add("%M(", MemberNames.Path)
-                    fillPathArgs(pathParams.first(), path)
+                    fillPathArgs(pathParams.first())
                     beginControlFlow(")")
                     pathBody()
                     endControlFlow()
@@ -37,7 +38,7 @@ fun CodeBlock.Builder.addPath(
                     add("%M(\n", MemberNames.Path)
                     indent()
                     pathParams.forEachIndexed { index, param ->
-                        fillPathArgs(param, path)
+                        fillPathArgs(param)
                         if (index == pathParams.lastIndex) {
                             add("\n")
                         } else {
@@ -55,28 +56,25 @@ fun CodeBlock.Builder.addPath(
     }
 }
 
-private fun CodeBlock.Builder.fillPathArgs(
-    param: PathParams,
-    path: VectorNode.Path
-) {
+private fun CodeBlock.Builder.fillPathArgs(param: PathParams) {
     // TODO: arg "name" missing
     when (param) {
-        is FillParam -> fillArg(path)
-        is FillAlphaParam -> fillAlphaArg(path)
-        is FillTypeParam -> pathFillTypeArg(path)
-        is StrokeAlphaParam -> strokeAlphaArg(path)
-        is StrokeColorHexParam -> strokeArg(path)
-        is StrokeLineCapParam -> strokeLineCapArg(path)
-        is StrokeLineJoinParam -> strokeLineJoinArg(path)
-        is StrokeLineMiterParam -> strokeLineMiterArg(path)
-        is StrokeLineWidthParam -> strokeLineWidthArg(path)
+        is FillParam -> fillArg(param)
+        is FillAlphaParam -> fillAlphaArg(param)
+        is FillTypeParam -> pathFillTypeArg(param)
+        is StrokeAlphaParam -> strokeAlphaArg(param)
+        is StrokeColorHexParam -> strokeArg(param)
+        is StrokeLineCapParam -> strokeLineCapArg(param)
+        is StrokeLineJoinParam -> strokeLineJoinArg(param)
+        is StrokeLineMiterParam -> strokeLineMiterArg(param)
+        is StrokeLineWidthParam -> strokeLineWidthArg(param)
     }
 }
 
-private fun CodeBlock.Builder.fillArg(path: VectorNode.Path) {
+private fun CodeBlock.Builder.fillArg(path: FillParam) {
     when (val fill = path.fill) {
         is Fill.Color -> {
-            add("fill = %M(%M(0x${fill.colorHex}))", MemberNames.SolidColor, MemberNames.Color)
+            add("fill = %M(%M(${fill.colorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
         }
         is Fill.LinearGradient -> {
             // TODO: simplify
@@ -96,6 +94,7 @@ private fun CodeBlock.Builder.fillArg(path: VectorNode.Path) {
             )
         }
         is Fill.RadialGradient -> {
+            // TODO: simplify
             add(
                 "fill = ${
                     "%M(${getGradientStops(fill.colorStops).toString().removeSurrounding("[", "]")}, " +
@@ -109,46 +108,45 @@ private fun CodeBlock.Builder.fillArg(path: VectorNode.Path) {
                 MemberNames.Offset
             )
         }
-        null -> {}
     }
 }
 
 private fun getGradientStops(
     stops: List<Pair<Float, String>>
 ) = stops.map { stop ->
-    "${stop.first}f to %M(0x${stop.second})"
+    "${stop.first}f to %M(${stop.second.toColorHex()})"
 }
 
-private fun CodeBlock.Builder.fillAlphaArg(path: VectorNode.Path) {
-    add("fillAlpha = ${path.fillAlpha.formatFloat()}")
+private fun CodeBlock.Builder.fillAlphaArg(param: FillAlphaParam) {
+    add("fillAlpha = ${param.fillAlpha.formatFloat()}")
 }
 
-private fun CodeBlock.Builder.strokeArg(path: VectorNode.Path) {
-    add("stroke = %M(%M(0x${path.strokeColorHex}))", MemberNames.SolidColor, MemberNames.Color)
+private fun CodeBlock.Builder.strokeArg(param: StrokeColorHexParam) {
+    add("stroke = %M(%M(${param.strokeColorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
 }
 
-private fun CodeBlock.Builder.strokeAlphaArg(path: VectorNode.Path) {
-    add("strokeAlpha = ${path.strokeAlpha.formatFloat()}")
+private fun CodeBlock.Builder.strokeAlphaArg(param: StrokeAlphaParam) {
+    add("strokeAlpha = ${param.strokeAlpha.formatFloat()}")
 }
 
-private fun CodeBlock.Builder.strokeLineWidthArg(path: VectorNode.Path) {
-    add("strokeLineWidth = ${path.strokeLineWidth.value.formatFloat()}")
+private fun CodeBlock.Builder.strokeLineWidthArg(param: StrokeLineWidthParam) {
+    add("strokeLineWidth = ${param.strokeLineWidth.formatFloat()}")
 }
 
-private fun CodeBlock.Builder.strokeLineCapArg(path: VectorNode.Path) {
-    add("strokeLineCap = %T.%L", androidx.compose.ui.graphics.StrokeCap::class, path.strokeLineCap.name)
+private fun CodeBlock.Builder.strokeLineCapArg(param: StrokeLineCapParam) {
+    add("strokeLineCap = %T.%L", androidx.compose.ui.graphics.StrokeCap::class, param.strokeLineCap.name)
 }
 
-private fun CodeBlock.Builder.strokeLineJoinArg(path: VectorNode.Path) {
-    add("strokeLineJoin = %T.%L", androidx.compose.ui.graphics.StrokeJoin::class, path.strokeLineJoin.name)
+private fun CodeBlock.Builder.strokeLineJoinArg(param: StrokeLineJoinParam) {
+    add("strokeLineJoin = %T.%L", androidx.compose.ui.graphics.StrokeJoin::class, param.strokeLineJoin.name)
 }
 
-private fun CodeBlock.Builder.strokeLineMiterArg(path: VectorNode.Path) {
-    add("strokeLineMiter = ${path.strokeLineMiter.formatFloat()}")
+private fun CodeBlock.Builder.strokeLineMiterArg(param: StrokeLineMiterParam) {
+    add("strokeLineMiter = ${param.strokeLineMiter.formatFloat()}")
 }
 
-private fun CodeBlock.Builder.pathFillTypeArg(path: VectorNode.Path) {
-    add("pathFillType = %T.%L", PathFillType::class, path.fillType.name)
+private fun CodeBlock.Builder.pathFillTypeArg(param: FillTypeParam) {
+    add("pathFillType = %T.%L", PathFillType::class, param.fillType.name)
 }
 
 private fun VectorNode.Path.buildPathParams() = buildList {

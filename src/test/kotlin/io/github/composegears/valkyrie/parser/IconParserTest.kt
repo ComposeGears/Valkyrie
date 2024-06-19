@@ -10,7 +10,7 @@ class IconParserTest {
     /**
      * add linear gradient icon
      * add radial gradient icon
-     * color to uppercase
+     * preview generation
      */
 
     @Test
@@ -206,8 +206,8 @@ class IconParserTest {
     }
 
     @Test
-    fun `icon parsing`() {
-        val icon = loadIcon("ic_check.xml")
+    fun `icon with several path`() {
+        val icon = loadIcon("ic_several_path.xml")
         val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
 
         val expectedOutput = """
@@ -220,19 +220,29 @@ class IconParserTest {
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
 
-            val ValkyrieIcons.Check: ImageVector
+            val ValkyrieIcons.SeveralPath: ImageVector
                 get() {
-                    if (_Check != null) {
-                        return _Check!!
+                    if (_SeveralPath != null) {
+                        return _SeveralPath!!
                     }
-                    _Check = Builder(
-                        name = "Check",
+                    _SeveralPath = Builder(
+                        name = "SeveralPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
                         viewportWidth = 18f,
                         viewportHeight = 18f
                     ).apply {
-                        path(fill = SolidColor(Color(0xFFe676ff))) {
+                        path(fill = SolidColor(Color(0xFFE676FF))) {
+                            moveTo(6.75f, 12.127f)
+                            lineTo(3.623f, 9.0f)
+                            lineTo(2.558f, 10.057f)
+                            lineTo(6.75f, 14.25f)
+                            lineTo(15.75f, 5.25f)
+                            lineTo(14.693f, 4.192f)
+                            lineTo(6.75f, 12.127f)
+                            close()
+                        }
+                        path(fill = SolidColor(Color(0xFFFF00FF))) {
                             moveTo(6.75f, 12.127f)
                             lineTo(3.623f, 9.0f)
                             lineTo(2.558f, 10.057f)
@@ -244,10 +254,10 @@ class IconParserTest {
                         }
                     }.build()
 
-                    return _Check!!
+                    return _SeveralPath!!
                 }
 
-            private var _Check: ImageVector? = null
+            private var _SeveralPath: ImageVector? = null
 
         """.trimIndent()
         assertEquals(expectedOutput, output)
