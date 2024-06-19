@@ -17,13 +17,16 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 class AppToolWindowFactory : ToolWindowFactory, DumbAware {
-    override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        System.setProperty("compose.interop.blending", "true")
-        System.setProperty("compose.swing.render.on.graphics", "true")
 
+    init {
         startKoin {
             modules(appModule)
         }
+    }
+
+    override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
+        System.setProperty("compose.interop.blending", "true")
+        System.setProperty("compose.swing.render.on.graphics", "true")
 
         ApplicationManager.getApplication().invokeLater {
             toolWindow.contentManager.addContent(
