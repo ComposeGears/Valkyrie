@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.github.composegears"
-version = "0.0.2"
+version = "0.0.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -65,6 +65,10 @@ tasks {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
         }
+    }
+
+    jar.configure {
+        destinationDirectory.set(file("$rootDir/plugin"))
     }
 
     patchPluginXml {
