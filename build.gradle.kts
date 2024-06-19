@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.github.composegears"
-version = "0.0.3-SNAPSHOT"
+version = "0.0.4-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -75,10 +75,6 @@ tasks {
         rejectVersionIf {
             isNonStable(candidate.version)
         }
-    }
-
-    jar.configure {
-        destinationDirectory.set(file("$rootDir/plugin"))
     }
 
     patchPluginXml {

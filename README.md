@@ -5,11 +5,11 @@ Intellij IDEA / Android Studio plugin to generate Compose ImageVector from SVG/X
 - convenient formatting for generated icon
 - skip default parameters to reduce visual noise
 
-## Deployment
 
+### Gradle commands
 Build plugin: `./gradlew buildPlugin`
 
-Artifact with be located in "plugin" folder
+Artifact with be located in "build/distributions/" folder
 
 Check dependencies: `./gradlew dependencyUpdates`
 
