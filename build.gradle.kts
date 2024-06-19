@@ -6,14 +6,14 @@ plugins {
     id("java")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.gradle.dependency.check)
-    alias(libs.plugins.intellij.sdk)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.jetbrains.intellij)
     alias(libs.plugins.kotlin.jvm)
     id("idea")
 }
 
 group = "io.github.composegears"
-version = "0.0.6-SNAPSHOT"
+version = "0.0.7-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -24,10 +24,12 @@ repositories {
 dependencies {
     implementation(projects.google)
 
-    implementation(compose.desktop.currentOs)
-    implementation(compose.preview)
+    compileOnly(compose.desktop.currentOs)
+    implementation(compose.desktop.macos_arm64)
+    implementation(compose.desktop.macos_x64)
+    implementation(compose.desktop.windows_x64)
+    implementation(compose.desktop.common)
     implementation(compose.material3)
-    implementation(compose.uiTooling)
 
     implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
@@ -44,7 +46,6 @@ dependencies {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2024.1")
-    plugins.set(listOf("org.jetbrains.kotlin"))
 }
 
 val useDebugPersistantSettings = false
