@@ -1,21 +1,22 @@
 package io.github.composegears.valkyrie.ui.components
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.*
 import io.github.composegears.valkyrie.theme.LocalComponent
 import java.awt.dnd.*
 import java.io.File
 
 class SimpleDropTargetListener(
+    val onDragEnter: () -> Unit = {},
+    val onDragExit: () -> Unit = {},
     val onDrop: (File) -> Unit = {}
 ) : DropTargetListener {
-    override fun dragEnter(dtde: DropTargetDragEvent?) = Unit
+    override fun dragEnter(dtde: DropTargetDragEvent?) = onDragEnter()
 
     override fun dragOver(dtde: DropTargetDragEvent?) = Unit
 
     override fun dropActionChanged(dtde: DropTargetDragEvent?) = Unit
 
-    override fun dragExit(dte: DropTargetEvent?) = Unit
+    override fun dragExit(dte: DropTargetEvent?) = onDragExit()
 
     override fun drop(event: DropTargetDropEvent) {
         event.acceptDrop(DnDConstants.ACTION_COPY)
@@ -32,17 +33,29 @@ class SimpleDropTargetListener(
     }
 }
 
+data class DragAndDropHandlerState(
+    val isDragging: Boolean = false
+)
+
 @Composable
-fun DragAndDropHandler(onDrop: (File) -> Unit) {
+fun rememberDragAndDropHandler(
+    onDrop: (File) -> Unit
+): DragAndDropHandlerState {
+    var handlerState by remember { mutableStateOf(DragAndDropHandlerState()) }
+
     val localComponent = LocalComponent.current
 
     DisposableEffect(Unit) {
-        val listener = SimpleDropTargetListener(onDrop = onDrop)
+        val listener = SimpleDropTargetListener(
+            onDrop = onDrop,
+            onDragEnter = { handlerState = handlerState.copy(isDragging = true) },
+            onDragExit = { handlerState = handlerState.copy(isDragging = false) })
         val dropTarget = DropTarget(localComponent, listener)
 
         onDispose {
             dropTarget.removeDropTargetListener(listener)
         }
     }
-}
 
+    return handlerState
+}
