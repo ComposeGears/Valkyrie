@@ -34,7 +34,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
                     ComposePanel().apply {
                         setBounds(0, 0, 800, 600)
                         setContent {
-                            WidgetTheme(project) {
+                            WidgetTheme(project = project, currentComponent = this) {
                                 Surface {
                                     ValkyriePlugin()
                                 }

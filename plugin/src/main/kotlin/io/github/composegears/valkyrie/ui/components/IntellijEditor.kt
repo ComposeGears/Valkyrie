@@ -10,7 +10,7 @@ import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.ui.EditorTextFieldProvider
 import com.intellij.ui.SimpleEditorCustomization
-import io.github.composegears.valkyrie.util.LocalProject
+import io.github.composegears.valkyrie.theme.LocalProject
 
 @Composable
 fun IntellijEditorTextField(

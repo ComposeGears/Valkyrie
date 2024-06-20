@@ -8,7 +8,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.theme.intellig.SwingColor
-import io.github.composegears.valkyrie.util.LocalProject
+import java.awt.Component
 
 val green200 = Color(0xffa5d6a7)
 val green500 = Color(0xff4caf50)
@@ -33,6 +33,7 @@ private val LightGreenColorPalette = lightColorScheme(
 @Composable
 fun WidgetTheme(
     project: Project,
+    currentComponent: Component,
     darkTheme: Boolean = true,
     content: @Composable () -> Unit,
 ) {
@@ -47,7 +48,10 @@ fun WidgetTheme(
             onSurface = swingColor.onBackground,
         ),
         content = {
-            CompositionLocalProvider(LocalProject provides project) {
+            CompositionLocalProvider(
+                LocalProject provides project,
+                LocalComponent provides currentComponent
+            ) {
                 content()
             }
         }

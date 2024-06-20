@@ -4,5 +4,6 @@ import io.github.composegears.valkyrie.parser.Config
 
 data class ConversionState(
     val initialDirectory: String = "",
-    val config: Config? = null
+    val config: Config? = null,
+    val iconContent: String? = null
 )

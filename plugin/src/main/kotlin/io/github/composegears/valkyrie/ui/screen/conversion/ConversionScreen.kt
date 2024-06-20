@@ -11,10 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.koin.koinTiamatViewModel
+import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.intellij.openapi.ide.CopyPasteManager
-import io.github.composegears.valkyrie.parser.IconParser
+import io.github.composegears.valkyrie.ui.components.DragAndDropHandler
 import io.github.composegears.valkyrie.ui.components.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.icons.ContentCopy
 import io.github.composegears.valkyrie.ui.icons.ValkyrieIcons
@@ -25,38 +26,45 @@ val ConversionScreen: NavDestination<Unit> by navDestination {
     val conversionViewModel = koinTiamatViewModel<ConversionViewModel>()
     val state by conversionViewModel.state.collectAsState()
 
+    val navController = navController()
+
     Column(modifier = Modifier.fillMaxSize()) {
         ConversionUi(
             state = state,
-            onPathChange = conversionViewModel::updateLastChoosePath
+            onSelectFile = {
+                conversionViewModel.parseIcon(it)
+                conversionViewModel.updateLastChoosePath(it)
+            },
+            openSettings = {
+                // navController.navigate(IntroScreen)
+            },
+            resetIconContent = conversionViewModel::resetIconContent
         )
+    }
+
+    DragAndDropHandler { file ->
+        conversionViewModel.parseIcon(file)
     }
 }
 
 @Composable
 private fun ConversionUi(
     state: ConversionState,
-    onPathChange: (String) -> Unit
+    onSelectFile: (File) -> Unit,
+    openSettings: () -> Unit,
+    resetIconContent: () -> Unit
 ) {
     var showFilePicker by remember { mutableStateOf(false) }
-    var file by remember { mutableStateOf<File?>(null) }
-
-    var content by remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(file) {
-        val iconFile = file ?: return@LaunchedEffect
-
-        content = IconParser.tryParse(iconFile, state.config!!)
-    }
 
     PluginUI(
-        content = content,
+        content = state.iconContent,
         onChooseFile = { showFilePicker = true },
-        onClear = { content = null },
+        onClear = resetIconContent,
         onCopy = {
-            val text = content ?: return@PluginUI
+            val text = state.iconContent ?: return@PluginUI
             CopyPasteManager.getInstance().setContents(StringSelection(text))
-        }
+        },
+        openSettings = openSettings
     )
 
     FilePicker(
@@ -65,8 +73,7 @@ private fun ConversionUi(
         initialDirectory = state.initialDirectory,
         onFileSelected = { mpFile ->
             if (mpFile != null) {
-                file = File(mpFile.path)
-                file?.parentFile?.path?.run(onPathChange)
+                onSelectFile(File(mpFile.path))
                 showFilePicker = false
             } else {
                 showFilePicker = false
@@ -80,7 +87,8 @@ private fun PluginUI(
     content: String?,
     onChooseFile: () -> Unit,
     onClear: () -> Unit,
-    onCopy: () -> Unit
+    onCopy: () -> Unit,
+    openSettings: () -> Unit
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -100,7 +108,7 @@ private fun PluginUI(
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { }) {
+                IconButton(onClick = openSettings) {
                     Icon(imageVector = Icons.Default.Settings, contentDescription = null)
                 }
             }
@@ -126,7 +134,7 @@ private fun PluginUI(
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
                         modifier = Modifier.padding(32.dp),
-                        text = "Choose SVG or XML to convert to Compose ImageVector format",
+                        text = "Choose SVG/XML or drag & drop icon",
                         style = MaterialTheme.typography.titleSmall
                     )
                 }
