@@ -7,10 +7,11 @@ Intellij IDEA / Android Studio plugin to generate Compose ImageVector from SVG/X
 
 
 ### Gradle commands
-Build plugin: `./gradlew buildPlugin`
+Build plugin: `./gradlew buildPlugin` and get latest from "build/distributions/" folder
+or take latest build from "artifacts" folder
 
-Artifact with be located in "build/distributions/" folder
-
+<hr>
 Check dependencies: `./gradlew dependencyUpdates`
 
+<hr>
 Run tests: `./gradlew test`

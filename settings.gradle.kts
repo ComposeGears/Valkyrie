@@ -9,4 +9,5 @@ pluginManagement {
 
 rootProject.name = "valkyrie"
 
+include("plugin")
 include("google")
