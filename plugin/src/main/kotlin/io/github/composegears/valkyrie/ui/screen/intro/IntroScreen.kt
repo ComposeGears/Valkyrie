@@ -155,7 +155,7 @@ fun InputField(
             Text(
                 modifier = Modifier.padding(bottom = 4.dp),
                 text = caption,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyMedium
             )
             TooltipBox(
@@ -185,6 +185,9 @@ fun InputField(
             onValueChange = onValueChange,
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors().copy(
+                focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                cursorColor = MaterialTheme.colorScheme.surface,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),

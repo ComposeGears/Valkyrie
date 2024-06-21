@@ -8,7 +8,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
-import io.github.composegears.valkyrie.theme.WidgetTheme
+import io.github.composegears.valkyrie.theme.ValkyrieTheme
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionViewModel
 import io.github.composegears.valkyrie.ui.screen.intro.IntroViewModel
@@ -34,7 +34,10 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
                     ComposePanel().apply {
                         setBounds(0, 0, 800, 600)
                         setContent {
-                            WidgetTheme(project = project, currentComponent = this) {
+                            ValkyrieTheme(
+                                project = project,
+                                currentComponent = this
+                            ) {
                                 Surface {
                                     ValkyriePlugin()
                                 }

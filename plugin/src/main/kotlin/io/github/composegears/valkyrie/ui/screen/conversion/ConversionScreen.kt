@@ -1,7 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -12,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
@@ -104,13 +107,19 @@ private fun PluginUI(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 if (content != null) {
                     IconButton(onClick = onClear) {
                         Icon(imageVector = Icons.Default.Clear, contentDescription = null)
+                    }
+                    IconButton(onClick = onCopy) {
+                        Icon(
+                            modifier = Modifier.size(18.dp),
+                            imageVector = ValkyrieIcons.ContentCopy,
+                            contentDescription = null
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -118,24 +127,11 @@ private fun PluginUI(
                     Icon(imageVector = Icons.Default.Settings, contentDescription = null)
                 }
             }
-
             if (content != null) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    IntellijEditorTextField(
-                        modifier = Modifier.fillMaxSize(),
-                        text = content
-                    )
-                    IconButton(
-                        modifier = Modifier.align(Alignment.TopEnd),
-                        onClick = onCopy
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(16.dp),
-                            imageVector = ValkyrieIcons.ContentCopy,
-                            contentDescription = null
-                        )
-                    }
-                }
+                IntellijEditorTextField(
+                    modifier = Modifier.fillMaxSize(),
+                    text = content
+                )
             } else {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -176,7 +172,18 @@ private fun SelectableState(
                 color = dashColor,
                 shape = MaterialTheme.shapes.small
             )
-            .clickable(onClick = onChooseFile),
+            .padding(2.dp)
+            .background(
+                color = when {
+                    isHover -> Color.Black.copy(alpha = 0.1f)
+                    else -> Color.Transparent
+                },
+                shape = MaterialTheme.shapes.small
+            )
+            .clickable(
+                onClick = onChooseFile,
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
