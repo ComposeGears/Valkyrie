@@ -1,45 +1,57 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.parser.Config
+import io.github.composegears.valkyrie.parser.ParserConfig
 import io.github.composegears.valkyrie.parser.IconParser
-import io.github.composegears.valkyrie.settings.ValkyrieSettings
+import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.screen.intro.updateState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import java.io.File
 
-class ConversionViewModel : TiamatViewModel() {
-    private val settingsService = ValkyrieSettings.instance
+class ConversionViewModel(
+    private val inMemorySettings: InMemorySettings
+) : TiamatViewModel() {
 
     private val _state = MutableStateFlow(ConversionState())
     val state = _state.asStateFlow()
 
+    val valkyriesSettings = inMemorySettings.settings
+
     init {
-        _state.updateState {
-            copy(
-                initialDirectory = settingsService.lastChoosePath ?: System.getProperty("user.home"),
-                config = Config(
-                    packName = settingsService.iconPackName!!,
-                    packPackage = settingsService.packageName!!
-                )
-            )
-        }
+        _state
+            .combine(inMemorySettings.settings) { state, settings ->
+                if (state.lastFile != null) {
+                    updateIcon(state.lastFile, settings)
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
-    fun parseIcon(file: File) {
-        val icon = IconParser.tryParse(file, state.value.config!!)
+    private fun updateIcon(file: File, valkyriesSettings: ValkyriesSettings) {
+        val icon = IconParser.tryParse(
+            file = file,
+            config = ParserConfig(
+                packName = valkyriesSettings.iconPackName,
+                packPackage = valkyriesSettings.packageName,
+                generatePreview = valkyriesSettings.generatePreview
+            )
+        )
         _state.updateState { copy(iconContent = icon) }
     }
 
-    fun resetIconContent() {
-        _state.updateState { copy(iconContent = null) }
+    fun selectFile(file: File) {
+        _state.updateState { copy(lastFile = file) }
+    }
+
+    fun reset() {
+        _state.updateState { copy(iconContent = null, lastFile = null) }
     }
 
     fun updateLastChoosePath(file: File) {
-        val lastPath = file.parentFile.path
-
-        settingsService.lastChoosePath = lastPath
-        _state.updateState { copy(initialDirectory = lastPath) }
+        inMemorySettings.updateInitialDirectory(file.parentFile.path)
     }
 }

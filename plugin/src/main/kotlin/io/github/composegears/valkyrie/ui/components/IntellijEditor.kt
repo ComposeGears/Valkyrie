@@ -42,5 +42,6 @@ private class EditorCustomization(enabled: Boolean) : SimpleEditorCustomization(
         editor.settings.isLineNumbersShown = true
         editor.setHorizontalScrollbarVisible(false)
         editor.setVerticalScrollbarVisible(true)
+        editor.setBorder(null)
     }
 }

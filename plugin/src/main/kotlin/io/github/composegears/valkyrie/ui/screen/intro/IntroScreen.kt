@@ -2,17 +2,15 @@ package io.github.composegears.valkyrie.ui.screen.intro
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.NavDestination
@@ -20,8 +18,7 @@ import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.icons.Help
-import io.github.composegears.valkyrie.ui.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.components.InputField
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
 import io.github.composegears.valkyrie.ui.screen.intro.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.intro.util.getIconPackAnnotatedString
@@ -78,7 +75,9 @@ private fun IntroScreenUI(
             VerticalSpacer(32.dp)
 
             InputField(
-                modifier = Modifier.widthIn(max = 420.dp),
+                modifier = Modifier
+                    .widthIn(max = 420.dp)
+                    .padding(horizontal = 16.dp),
                 caption = "Icon pack name",
                 value = iconPackName.text,
                 tooltipValue = getIconPackAnnotatedString(iconPackName.text),
@@ -103,7 +102,9 @@ private fun IntroScreenUI(
             VerticalSpacer(32.dp)
 
             InputField(
-                modifier = Modifier.widthIn(max = 420.dp),
+                modifier = Modifier
+                    .widthIn(max = 420.dp)
+                    .padding(horizontal = 16.dp),
                 caption = "Package",
                 value = packageName.text,
                 isError = packageName.validationResult is ValidationResult.Error,
@@ -126,84 +127,14 @@ private fun IntroScreenUI(
             )
             VerticalSpacer(36.dp)
             Button(
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(end = 16.dp),
                 enabled = state.nextAvailable,
                 onClick = onNext,
             ) {
                 Text(text = "Next")
             }
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun InputField(
-    modifier: Modifier = Modifier,
-    caption: String,
-    value: String,
-    isError: Boolean = false,
-    tooltipValue: AnnotatedString,
-    supportingText: @Composable (() -> Unit)? = null,
-    onValueChange: (String) -> Unit
-) {
-    Column(modifier = modifier) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(
-                modifier = Modifier.padding(bottom = 4.dp),
-                text = caption,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            TooltipBox(
-                positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-                tooltip = {
-                    Surface(
-                        color = MaterialTheme.colorScheme.inverseSurface,
-                        shape = MaterialTheme.shapes.extraSmall
-                    ) {
-                        Box(modifier = Modifier.padding(PaddingValues(8.dp, 4.dp))) {
-                            Text(text = tooltipValue, style = MaterialTheme.typography.bodySmall)
-                        }
-                    }
-                },
-                state = rememberTooltipState(isPersistent = true)
-            ) {
-                Icon(
-                    modifier = Modifier.size(18.dp),
-                    imageVector = ValkyrieIcons.Help,
-                    contentDescription = null,
-                )
-            }
-        }
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = value,
-            onValueChange = onValueChange,
-            shape = RoundedCornerShape(8.dp),
-            colors = TextFieldDefaults.colors().copy(
-                focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                cursorColor = MaterialTheme.colorScheme.surface,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            ),
-            isError = isError,
-            singleLine = true,
-            supportingText = supportingText,
-            trailingIcon = {
-                if (value.isNotEmpty()) {
-                    IconButton(onClick = { onValueChange("") }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Close,
-                            contentDescription = null
-                        )
-                    }
-                }
-            }
-        )
     }
 }

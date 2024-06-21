@@ -15,16 +15,17 @@ import kotlin.io.path.createTempFile
 import kotlin.io.path.outputStream
 import kotlin.io.path.readText
 
-data class Config(
+data class ParserConfig(
     val packName: String,
-    val packPackage: String
+    val packPackage: String,
+    val generatePreview: Boolean
 )
 
 object IconParser {
 
     fun tryParse(
         file: File,
-        config: Config
+        config: ParserConfig
     ): String {
         val iconType = IconTypeParser.getIconType(file.extension) ?: return "File not SVG or XML"
 
@@ -55,7 +56,7 @@ object IconParser {
             iconName = icon.kotlinName,
             iconGroupPackage = config.packPackage,
             vector = vector,
-            generatePreview = false
+            generatePreview = config.generatePreview
         ).createFileSpec(
             ClassName(
                 config.packPackage,

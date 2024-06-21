@@ -8,12 +8,15 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
+import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.theme.ValkyrieTheme
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionViewModel
 import io.github.composegears.valkyrie.ui.screen.intro.IntroViewModel
+import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 class AppToolWindowFactory : ToolWindowFactory, DumbAware {
@@ -25,7 +28,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
     }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        System.setProperty("compose.interop.blending", "true")
+       // System.setProperty("compose.interop.blending", "true")
         System.setProperty("compose.swing.render.on.graphics", "true")
 
         ApplicationManager.getApplication().invokeLater {
@@ -55,4 +58,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
 val appModule = module {
     factoryOf(::IntroViewModel)
     factoryOf(::ConversionViewModel)
+    factoryOf(::SettingsViewModel)
+
+    singleOf(::InMemorySettings)
 }

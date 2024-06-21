@@ -1,9 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
-import io.github.composegears.valkyrie.parser.Config
+import java.io.File
 
 data class ConversionState(
-    val initialDirectory: String = "",
-    val config: Config? = null,
+    val lastFile: File? = null,
     val iconContent: String? = null
 )

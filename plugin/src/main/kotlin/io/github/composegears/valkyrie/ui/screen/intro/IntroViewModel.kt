@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.intro
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.settings.ValkyrieSettings
+import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.intro.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.intro.InputChange.PackageName
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class IntroViewModel : TiamatViewModel() {
-   private val settingsService = ValkyrieSettings.instance
-
+class IntroViewModel(
+    private val inMemorySettings: InMemorySettings
+) : TiamatViewModel() {
     private val inputHandler = InputHandler()
 
     private val _introState = MutableStateFlow(IntroState())
@@ -36,9 +36,9 @@ class IntroViewModel : TiamatViewModel() {
 
     fun saveSettings() {
         val inputFieldState = introState.value.inputFieldState
-        settingsService.isFirstStart = false
-        settingsService.packageName = inputFieldState.packageName.text
-        settingsService.iconPackName = inputFieldState.iconPackName.text
+        inMemorySettings.updateIconPackName(inputFieldState.iconPackName.text)
+        inMemorySettings.updatePackageName(inputFieldState.packageName.text)
+        inMemorySettings.updateFirstLaunch(false)
     }
 }
 
