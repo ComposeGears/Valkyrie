@@ -82,16 +82,4 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
-
-    if (useDebugPersistantSettings) {
-        runIde {
-            dependsOn("copyBuildRunIdeSandbox")
-        }
-
-        register<Copy>("copyBuildRunIdeSandbox") {
-            dependsOn("prepareSandbox")
-            from("buildRunIdeSandbox")
-            into("plugin/build/idea-sandbox")
-        }
-    }
 }
