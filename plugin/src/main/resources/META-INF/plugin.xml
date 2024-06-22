@@ -9,7 +9,11 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Valkyrie" anchor="right" factoryClass="io.github.composegears.valkyrie.AppToolWindowFactory"/>
+        <toolWindow id="Valkyrie"
+                    anchor="right"
+                    doNotActivateOnStart="false"
+                    factoryClass="io.github.composegears.valkyrie.AppToolWindowFactory"
+                    icon="icons/ic_logo_tool_window.svg"/>
     </extensions>
 
 </idea-plugin>

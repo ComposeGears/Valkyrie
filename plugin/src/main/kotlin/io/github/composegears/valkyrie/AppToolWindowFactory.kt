@@ -1,64 +1,62 @@
 package io.github.composegears.valkyrie
 
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.awt.ComposePanel
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import com.intellij.ui.content.ContentFactory
-import io.github.composegears.valkyrie.settings.InMemorySettings
+import com.intellij.util.ui.components.BorderLayoutPanel
 import io.github.composegears.valkyrie.theme.ValkyrieTheme
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
-import io.github.composegears.valkyrie.ui.screen.conversion.ConversionViewModel
-import io.github.composegears.valkyrie.ui.screen.intro.IntroViewModel
-import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
-import org.koin.core.context.startKoin
-import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import io.github.composegears.valkyrie.ui.di.Koin
 
 class AppToolWindowFactory : ToolWindowFactory, DumbAware {
 
     init {
-        startKoin {
-            modules(appModule)
-        }
+        Koin.start()
     }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-       // System.setProperty("compose.interop.blending", "true")
         System.setProperty("compose.swing.render.on.graphics", "true")
 
-        ApplicationManager.getApplication().invokeLater {
-            toolWindow.contentManager.addContent(
-                ContentFactory.getInstance().createContent(
-                    ComposePanel().apply {
-                        setBounds(0, 0, 800, 600)
-                        setContent {
-                            ValkyrieTheme(
-                                project = project,
-                                currentComponent = this
-                            ) {
-                                Surface {
-                                    ValkyriePlugin()
-                                }
-                            }
-                        }
-                    },
-                    "Valkyrie SVG to ImageVector",
-                    false
-                )
-            )
+        toolWindow.addComposePanel {
+            ValkyrieTheme(
+                project = project,
+                currentComponent = this
+            ) {
+                Surface {
+                    ValkyriePlugin()
+                }
+            }
         }
     }
 }
 
-val appModule = module {
-    factoryOf(::IntroViewModel)
-    factoryOf(::ConversionViewModel)
-    factoryOf(::SettingsViewModel)
+private fun ToolWindow.addComposePanel(
+    displayName: String = "",
+    isLockable: Boolean = true,
+    content: @Composable ComposePanel.() -> Unit
+) = PluginWindow(content = content)
+    .also { contentManager.addContent(contentManager.factory.createContent(it, displayName, isLockable)) }
 
-    singleOf(::InMemorySettings)
+private class PluginWindow(
+    height: Int = 800,
+    width: Int = 800,
+    y: Int = 0,
+    x: Int = 0,
+    content: @Composable ComposePanel.() -> Unit
+) : BorderLayoutPanel() {
+
+    init {
+        add(
+            ComposePanel().apply {
+                setBounds(x = x, y = y, width = width, height = height)
+                setContent {
+                    content()
+                }
+            }
+        )
+    }
 }
