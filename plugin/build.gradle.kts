@@ -29,7 +29,6 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
-    implementation(libs.kotlin.coroutines)
     implementation(libs.kotlinpoet)
     implementation(libs.multiplatform.filepicker)
     implementation(libs.tiamat)
@@ -68,8 +67,12 @@ tasks {
         }
     }
 
+    buildSearchableOptions {
+        enabled = false
+    }
+
     patchPluginXml {
-        sinceBuild.set("231")
+        sinceBuild.set("241")
         untilBuild.set("241.*")
     }
 
