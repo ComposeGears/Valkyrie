@@ -7,7 +7,7 @@
 
 ## Key features
 
-- build using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
+- built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
   and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
 - support SVG/XML
 - convenient code formatting for generated ImageVector icon
