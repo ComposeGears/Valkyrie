@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.composegears"
-version = "0.0.10-SNAPSHOT"
+version = "0.0.11-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -74,8 +74,13 @@ tasks {
     }
 
     signPlugin {
+        // chain.crt content (base64 ci)
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+
+        // private.pem content (base64 ci)
         privateKey.set(System.getenv("PRIVATE_KEY"))
+
+        // PEM pass phrase
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 
