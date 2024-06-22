@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     alias(libs.plugins.compose.compiler)
@@ -8,8 +9,12 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
+val pluginProperties = Properties().apply {
+    load(file("${rootDir}/plugin.properties").reader())
+}
+
 group = "io.github.composegears"
-version = "0.0.10-SNAPSHOT"
+version = pluginProperties.getProperty("version")
 
 repositories {
     mavenCentral()
@@ -29,13 +34,16 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
-    implementation(libs.kotlin.coroutines)
     implementation(libs.kotlinpoet)
     implementation(libs.multiplatform.filepicker)
     implementation(libs.tiamat)
     implementation(libs.tiamat.koin)
 
     testImplementation(libs.kotlin.test)
+}
+
+compose.resources {
+    generateResClass = never
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -68,14 +76,23 @@ tasks {
         }
     }
 
+    buildSearchableOptions {
+        enabled = false
+    }
+
     patchPluginXml {
-        sinceBuild.set("231")
+        sinceBuild.set("241")
         untilBuild.set("241.*")
     }
 
     signPlugin {
+        // chain.crt content (base64 ci)
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+
+        // private.pem content (base64 ci)
         privateKey.set(System.getenv("PRIVATE_KEY"))
+
+        // PEM pass phrase
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 

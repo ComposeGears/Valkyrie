@@ -1,4 +1,4 @@
-name: Build plugin
+name: Build signed plugin
 
 on:
   workflow_dispatch:
@@ -6,16 +6,63 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    env:
+      CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+
+    outputs:
+      version: ${{ steps.properties.outputs.artifactName }}
 
     steps:
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Setup properties
+        id: properties
+        shell: bash
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          NAME=$(grep "^pluginName=" plugin.properties | cut -d '=' -f 2)
+          VERSION=$(grep "^version=" plugin.properties | cut -d '=' -f 2)
+          
+          echo "NAME=$NAME"
+          echo "VERSION=$VERSION"
+
+          echo "name=$NAME" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "artifactName=$NAME-$VERSION" >> $GITHUB_ENV
+
+      - name: Build signed plugin
+        run: ./gradlew signPlugin
+
+      - name: Remove old drafts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/{owner}/{repo}/releases \
+            --jq '.[] | select(.draft == true) | .id' \
+            | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
+
+      - name: Create draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ env.artifactName }} \
+            --draft \
+            --title "${{ env.artifactName }}" \
+            --notes ""
+
+      - name: Upload release asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ env.artifactName }} ./plugin/build/distributions/*-signed.zip
