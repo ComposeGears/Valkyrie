@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     alias(libs.plugins.compose.compiler)
@@ -8,8 +9,12 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
+val pluginProperties = Properties().apply {
+    load(file("${rootDir}/plugin.properties").reader())
+}
+
 group = "io.github.composegears"
-version = "0.0.11-SNAPSHOT"
+version = pluginProperties.getProperty("version")
 
 repositories {
     mavenCentral()
@@ -35,6 +40,10 @@ dependencies {
     implementation(libs.tiamat.koin)
 
     testImplementation(libs.kotlin.test)
+}
+
+compose.resources {
+    generateResClass = never
 }
 
 // Configure Gradle IntelliJ Plugin
