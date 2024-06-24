@@ -2,44 +2,53 @@ package io.github.composegears.valkyrie.generator
 
 import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
-import androidx.compose.material.icons.generator.PackageNames
 import androidx.compose.material.icons.generator.vector.Vector
 import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.*
 import io.github.composegears.valkyrie.generator.ext.*
-import io.github.composegears.valkyrie.generator.util.addPath
-import io.github.composegears.valkyrie.generator.util.backingPropertyName
-import io.github.composegears.valkyrie.generator.util.backingPropertySpec
-import io.github.composegears.valkyrie.generator.util.imageVectorBuilderSpecs
+import io.github.composegears.valkyrie.generator.util.*
 
-data class ImageVectorGenerationResult(
-    val sourceCode: String
+data class ImageVectorGenerationResult(val sourceCode: String)
+
+data class GeneratorConfig(
+    val iconName: String,
+    val iconPackage: String,
+    val generatePreview: Boolean,
+    val iconPack: ClassName? = null
 )
 
-class ImageVectorGenerator(
-    private val iconName: String,
-    private val iconGroupPackage: String,
-    private val vector: Vector,
-    private val generatePreview: Boolean
-) {
+class ImageVectorGenerator(private val config: GeneratorConfig) {
 
-    fun createFileSpec(receiverClass: ClassName): ImageVectorGenerationResult {
+    fun createFileFor(vector: Vector): ImageVectorGenerationResult {
         val backingProperty = backingPropertySpec(
-            name = iconName.backingPropertyName(),
+            name = config.iconName.backingPropertyName(),
             type = ClassNames.ImageVector
         )
 
-        val fileSpec = fileSpecBuilder(packageName = iconGroupPackage, fileName = iconName) {
-            addProperty(propertySpec = iconProperty(receiverClass, backingProperty))
+        val fileSpec = fileSpecBuilder(
+            packageName = config.iconPackage,
+            fileName = config.iconName
+        ) {
+            addProperty(propertySpec = iconProperty(vector = vector, backingProperty = backingProperty))
             addProperty(propertySpec = backingProperty)
             apply {
-                if (generatePreview) {
+                if (config.generatePreview) {
                     addFunction(
                         funSpec = iconPreviewSpec(
-                            MemberName(
-                                enclosingClassName = receiverClass,
-                                simpleName = iconName
-                            )
+                            iconName = when {
+                                config.iconPack != null -> {
+                                    MemberName(
+                                        enclosingClassName = config.iconPack,
+                                        simpleName = config.iconName
+                                    )
+                                }
+                                else -> {
+                                    MemberName(
+                                        packageName = config.iconPackage,
+                                        simpleName = config.iconName
+                                    )
+                                }
+                            }
                         )
                     )
                 }
@@ -50,16 +59,13 @@ class ImageVectorGenerator(
         return ImageVectorGenerationResult(sourceCode = fileSpec.removeDeadCode())
     }
 
-    private fun iconProperty(
-        receiverClass: ClassName,
-        backingProperty: PropertySpec
-    ): PropertySpec =
-        propertySpecBuilder(name = iconName, type = ClassNames.ImageVector) {
-            receiver(receiverClass)
-            getter(iconFun(backingProperty))
+    private fun iconProperty(vector: Vector, backingProperty: PropertySpec): PropertySpec =
+        propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
+            receiver(config.iconPack)
+            getter(iconFun(vector = vector, backingProperty = backingProperty))
         }
 
-    private fun iconFun(backingProperty: PropertySpec): FunSpec {
+    private fun iconFun(vector: Vector, backingProperty: PropertySpec): FunSpec {
         return getterFunSpecBuilder {
             addCode(
                 buildCodeBlock {
@@ -73,7 +79,7 @@ class ImageVectorGenerator(
                     addCode("%N = ", backingProperty)
                     add(
                         imageVectorBuilderSpecs(
-                            iconName = iconName,
+                            iconName = config.iconName,
                             vector = vector,
                             path = {
                                 vector.nodes.forEach { node -> addVectorNode(node) }
@@ -103,29 +109,6 @@ class ImageVectorGenerator(
                     }
                 }
             }
-        }
-    }
-
-    private fun iconPreviewSpec(iconName: MemberName): FunSpec {
-        val previewAnnotation = AnnotationSpec.builder(ClassNames.Preview).build()
-        val composableAnnotation = AnnotationSpec.builder(ClassNames.Composable).build()
-        val box = MemberName(PackageNames.LayoutPackage.packageName, "Box")
-        val modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")
-        val padding = MemberName(PackageNames.LayoutPackage.packageName, "padding")
-        val paddingValue = MemberNames.Dp
-        val composeImage = MemberName(PackageNames.FoundationPackage.packageName, "Image")
-
-        return funSpecBuilder("Preview") {
-            addModifiers(KModifier.PRIVATE)
-            addAnnotation(previewAnnotation)
-            addAnnotation(composableAnnotation)
-            addCode(
-                codeBlock = buildCodeBlock {
-                    beginControlFlow("%M(modifier = %M.%M(12.%M))", box, modifier, padding, paddingValue)
-                    addStatement("%M(imageVector = %M, contentDescription = \"\")", composeImage, iconName)
-                    endControlFlow()
-                }
-            )
         }
     }
 }
