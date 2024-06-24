@@ -12,4 +12,8 @@ class SettingsViewModel(
     fun updateGeneratePreview(generatePreview: Boolean) {
         inMemorySettings.updateGeneratePreview(generatePreview)
     }
+
+    fun clearSettings() {
+        inMemorySettings.clear()
+    }
 }

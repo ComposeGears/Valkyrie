@@ -28,6 +28,16 @@ class InMemorySettings {
         PersistentSettings.persistentSettings.isFirstLaunch = isFirstLaunch
     }
 
+    fun clear() = updateSettings {
+        with(PersistentSettings.persistentSettings) {
+            isFirstLaunch = true
+            iconPackName = ""
+            packageName = ""
+            initialDirectory = ""
+            generatePreview = false
+        }
+    }
+
     private fun updateSettings(function: () -> Unit) {
         function()
         _settings.updateState { PersistentSettings.persistentSettings.toValkyriesSettings() }
