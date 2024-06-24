@@ -69,6 +69,10 @@ object MemberNames {
     val StrokeJoinBevel = MemberName(ClassNames.StrokeJoin, "Bevel")
 
     val Dp = MemberName(PackageNames.Unit.packageName, "dp")
+    val Modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")
+    val Padding = MemberName(PackageNames.LayoutPackage.packageName, "padding")
+    val Box = MemberName(PackageNames.LayoutPackage.packageName, "Box")
+    val Image = MemberName(PackageNames.FoundationPackage.packageName, "Image")
 
     val Color = MemberName(PackageNames.GraphicsPackage.packageName, "Color")
     val SolidColor = MemberName(PackageNames.GraphicsPackage.packageName, "SolidColor")

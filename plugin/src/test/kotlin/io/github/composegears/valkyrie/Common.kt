@@ -4,8 +4,8 @@ import io.github.composegears.valkyrie.parser.ParserConfig
 import java.io.File
 
 val DEFAULT_CONFIG = ParserConfig(
-    packName = "ValkyrieIcons",
     packPackage = "io.github.composegears.valkyrie.icons",
+    packName = "ValkyrieIcons",
     generatePreview = false
 )
 

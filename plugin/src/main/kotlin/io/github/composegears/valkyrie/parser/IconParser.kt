@@ -6,6 +6,7 @@ import androidx.compose.material.icons.generator.Icon
 import androidx.compose.material.icons.generator.IconParser
 import com.android.ide.common.vectordrawable.Svg2Vector
 import com.squareup.kotlinpoet.ClassName
+import io.github.composegears.valkyrie.generator.GeneratorConfig
 import io.github.composegears.valkyrie.generator.ImageVectorGenerator
 import io.github.composegears.valkyrie.parser.IconType.SVG
 import io.github.composegears.valkyrie.parser.IconType.XML
@@ -16,8 +17,8 @@ import kotlin.io.path.outputStream
 import kotlin.io.path.readText
 
 data class ParserConfig(
-    val packName: String,
     val packPackage: String,
+    val packName: String,
     val generatePreview: Boolean
 )
 
@@ -53,16 +54,21 @@ object IconParser {
         val vector = IconParser(icon).parse()
 
         val assetGenerationResult = ImageVectorGenerator(
-            iconName = icon.kotlinName,
-            iconGroupPackage = config.packPackage,
-            vector = vector,
-            generatePreview = config.generatePreview
-        ).createFileSpec(
-            ClassName(
-                config.packPackage,
-                config.packName
+            config = GeneratorConfig(
+                iconName = icon.kotlinName,
+                iconPackage = config.packPackage,
+                generatePreview = config.generatePreview,
+                iconPack = when {
+                    config.packName.isEmpty() -> null
+                    else -> {
+                        ClassName(
+                            config.packPackage,
+                            config.packName
+                        )
+                    }
+                }
             )
-        )
+        ).createFileFor(vector)
 
         return assetGenerationResult.sourceCode
     }

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator.util
+package io.github.composegears.valkyrie
 
 import io.github.composegears.valkyrie.generator.ext.formatFloat
 import io.github.composegears.valkyrie.generator.ext.toColorHex

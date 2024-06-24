@@ -1,17 +1,57 @@
-package io.github.composegears.valkyrie.parser
+package io.github.composegears.valkyrie
 
-import io.github.composegears.valkyrie.DEFAULT_CONFIG
-import io.github.composegears.valkyrie.loadIcon
+import io.github.composegears.valkyrie.parser.IconParser
+import io.github.composegears.valkyrie.parser.ParserConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class IconParserTest {
+class XmlIconParserTest {
 
     /**
      * add linear gradient icon
      * add radial gradient icon
-     * preview generation
      */
+
+    @Test
+    fun `generation without icon pack`() {
+        val icon = loadIcon("ic_without_path.xml")
+        val output = IconParser.tryParse(
+            file = icon,
+            config = ParserConfig(
+                packPackage = "io.github.composegears.valkyrie.icons",
+                packName = "",
+                generatePreview = false
+            )
+        )
+
+        val expectedOutput = """
+            package io.github.composegears.valkyrie.icons
+
+            import androidx.compose.ui.graphics.vector.ImageVector
+            import androidx.compose.ui.graphics.vector.ImageVector.Builder
+            import androidx.compose.ui.unit.dp
+
+            val WithoutPath: ImageVector
+                get() {
+                    if (_WithoutPath != null) {
+                        return _WithoutPath!!
+                    }
+                    _WithoutPath = Builder(
+                        name = "WithoutPath",
+                        defaultWidth = 24.dp,
+                        defaultHeight = 24.dp,
+                        viewportWidth = 18f,
+                        viewportHeight = 18f
+                    ).build()
+
+                    return _WithoutPath!!
+                }
+
+            private var _WithoutPath: ImageVector? = null
+
+        """.trimIndent()
+        assertEquals(expectedOutput, output)
+    }
 
     @Test
     fun `empty path xml`() {
