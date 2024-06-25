@@ -1,140 +1,121 @@
 package io.github.composegears.valkyrie.ui.screen.intro
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.NavDestination
-import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
-import io.github.composegears.valkyrie.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.components.InputField
-import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
-import io.github.composegears.valkyrie.ui.screen.intro.InputChange.IconPackName
-import io.github.composegears.valkyrie.ui.screen.intro.util.getIconPackAnnotatedString
-import io.github.composegears.valkyrie.ui.screen.intro.util.getPackageAnnotatedString
-import kotlinx.coroutines.Dispatchers
+import com.composegears.tiamat.navigationSlideInOut
+import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
+import io.github.composegears.valkyrie.ui.foundation.TooltipButton
+import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.screen.intro.Mode.IconPack
+import io.github.composegears.valkyrie.ui.screen.intro.Mode.Simple
+import io.github.composegears.valkyrie.ui.screen.intro.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeSetupScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
 
 val IntroScreen: NavDestination<Unit> by navDestination {
 
     val navController = navController()
-    val introViewModel = koinTiamatViewModel<IntroViewModel>()
 
-    val introState by introViewModel.introState.collectAsState(Dispatchers.Main.immediate)
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        IntroScreenUI(
-            state = introState,
-            onValueChange = introViewModel::onValueChange,
-            onNext = {
-                introViewModel.saveSettings()
-                navController.replace(ConversionScreen)
+    IntroScreenUI(
+        onSelect = {
+            when (it) {
+                Simple -> {
+                    navController.navigate(
+                        dest = SimpleModeSetupScreen,
+                        transition = navigationSlideInOut(true)
+                    )
+                }
+                IconPack -> {
+                    navController.navigate(
+                        dest = IconPackModeSetupScreen,
+                        transition = navigationSlideInOut(true)
+                    )
+                }
+                Unspecified -> {}
             }
+        }
+    )
+}
+
+@Composable
+@Preview
+private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Welcome to Valkyrie",
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center
+        )
+        VerticalSpacer(42.dp)
+        Text(
+            text = "Choose plugin mode",
+            style = MaterialTheme.typography.labelSmall,
+            color = LocalContentColor.current.copy(alpha = 0.5f),
+            textAlign = TextAlign.Center
+        )
+        VerticalSpacer(8.dp)
+
+        ModeRow(
+            title = "Simple mode",
+            tooltipText = "One-click conversion from SVG/XML into ImageVector",
+            onSelect = { onSelect(Simple) }
+        )
+        VerticalSpacer(16.dp)
+        ModeRow(
+            title = "IconPack mode",
+            tooltipText = "Create organized icon pack with an extension property of you pack object",
+            onSelect = { onSelect(IconPack) }
         )
     }
 }
 
 @Composable
-@Preview
-private fun IntroScreenUI(
-    state: IntroState,
-    onValueChange: (InputChange) -> Unit,
-    onNext: () -> Unit
+private fun ModeRow(
+    title: String,
+    tooltipText: String,
+    onSelect: () -> Unit
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
     ) {
-        val iconPackName = state.inputFieldState.iconPackName
-        val packageName = state.inputFieldState.packageName
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Welcome to Valkyrie",
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = "Customize basic preferences or proceed with default values",
-                style = MaterialTheme.typography.labelSmall,
-                color = LocalContentColor.current.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center
-            )
-            VerticalSpacer(32.dp)
-
-            InputField(
-                modifier = Modifier
-                    .widthIn(max = 420.dp)
-                    .padding(horizontal = 16.dp),
-                caption = "Icon pack name",
-                value = iconPackName.text,
-                tooltipValue = getIconPackAnnotatedString(iconPackName.text),
-                isError = iconPackName.validationResult is ValidationResult.Error,
-                onValueChange = {
-                    onValueChange(IconPackName(it))
-                },
-                supportingText = if (iconPackName.validationResult is ValidationResult.Error) {
-                    {
-                        Text(
-                            text = when (iconPackName.validationResult.errorCriteria) {
-                                ErrorCriteria.EMPTY -> "Value can't be empty"
-                                ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid name"
-                            }
-                        )
-                    }
-                } else {
-                    null
-                }
-            )
-
-            VerticalSpacer(32.dp)
-
-            InputField(
-                modifier = Modifier
-                    .widthIn(max = 420.dp)
-                    .padding(horizontal = 16.dp),
-                caption = "Package",
-                value = packageName.text,
-                isError = packageName.validationResult is ValidationResult.Error,
-                tooltipValue = getPackageAnnotatedString(packageName.text, iconPackName.text),
-                onValueChange = {
-                    onValueChange(InputChange.PackageName(it))
-                },
-                supportingText = if (packageName.validationResult is ValidationResult.Error) {
-                    {
-                        Text(
-                            text = when (packageName.validationResult.errorCriteria) {
-                                ErrorCriteria.EMPTY -> "Value can't be empty"
-                                ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid package"
-                            }
-                        )
-                    }
-                } else {
-                    null
-                }
-            )
-            VerticalSpacer(36.dp)
-            Button(
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(end = 16.dp),
-                enabled = state.nextAvailable,
-                onClick = onNext,
-            ) {
-                Text(text = "Next")
-            }
+        HorizontalSpacer(36.dp)
+        Button(onClick = onSelect) {
+            Text(text = title)
         }
+        TooltipButton(
+            text = tooltipText,
+            modifier = Modifier.widthIn(max = 250.dp)
+        )
     }
+}
+
+@Preview
+@Composable
+private fun IntroScreenUIPreview() {
+    IntroScreenUI(
+        onSelect = {}
+    )
 }

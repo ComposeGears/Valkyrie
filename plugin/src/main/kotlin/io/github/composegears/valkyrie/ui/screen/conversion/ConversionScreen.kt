@@ -1,20 +1,39 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
@@ -22,45 +41,60 @@ import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.navigationSlideInOut
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
+import com.intellij.notification.NotificationGroupManager
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.components.IntellijEditorTextField
-import io.github.composegears.valkyrie.ui.components.dashedBorder
-import io.github.composegears.valkyrie.ui.components.rememberDragAndDropHandler
-import io.github.composegears.valkyrie.ui.icons.Collections
-import io.github.composegears.valkyrie.ui.icons.ContentCopy
-import io.github.composegears.valkyrie.ui.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.theme.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.ClearAction
+import io.github.composegears.valkyrie.ui.foundation.CopyAction
+import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
+import io.github.composegears.valkyrie.ui.foundation.SettingsAction
+import io.github.composegears.valkyrie.ui.foundation.TopAppBar
+import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
+import io.github.composegears.valkyrie.ui.foundation.dashedBorder
+import io.github.composegears.valkyrie.ui.foundation.icons.Collections
+import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.rememberDragAndDropHandler
+import io.github.composegears.valkyrie.ui.screen.intro.Mode
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.awt.datatransfer.StringSelection
 import java.io.File
 
 val ConversionScreen: NavDestination<Unit> by navDestination {
     val navController = navController()
 
-    val conversionViewModel = koinTiamatViewModel<ConversionViewModel>()
-    val state by conversionViewModel.state.collectAsState()
-    val settings by conversionViewModel.valkyriesSettings.collectAsState()
+    val viewModel = koinTiamatViewModel<ConversionViewModel>()
+    val state by viewModel.state.collectAsState()
+    val settings by viewModel.valkyriesSettings.collectAsState()
 
     val dragAndDropHandler = rememberDragAndDropHandler {
-        conversionViewModel.selectFile(it)
+        viewModel.selectFile(it)
     }
 
     val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        ConversionUi(
-            state = state,
-            settings = settings,
-            isDragging = isDragging,
-            onSelectFile = {
-                conversionViewModel.selectFile(it)
-                conversionViewModel.updateLastChoosePath(it)
-            },
-            openSettings = { navController.navigate(SettingsScreen) },
-            resetIconContent = conversionViewModel::reset
-        )
-    }
+    ConversionUi(
+        state = state,
+        settings = settings,
+        isDragging = isDragging,
+        onSelectFile = {
+            viewModel.selectFile(it)
+            viewModel.updateLastChoosePath(it)
+        },
+        openSettings = {
+            navController.navigate(
+                dest = SettingsScreen,
+                transition = navigationSlideInOut(true)
+            )
+        },
+        resetIconContent = viewModel::reset,
+        onSelectNestedPack = viewModel::selectNestedPack
+    )
 }
 
 @Composable
@@ -70,19 +104,34 @@ private fun ConversionUi(
     isDragging: Boolean,
     onSelectFile: (File) -> Unit,
     openSettings: () -> Unit,
-    resetIconContent: () -> Unit
+    resetIconContent: () -> Unit,
+    onSelectNestedPack: (String) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     var showFilePicker by remember { mutableStateOf(false) }
 
+    val project = LocalProject.current
     PluginUI(
         content = state.iconContent,
+        settings = settings,
         isDragging = isDragging,
         onChooseFile = { showFilePicker = true },
         onClear = resetIconContent,
         onCopy = {
             val text = state.iconContent ?: return@PluginUI
             CopyPasteManager.getInstance().setContents(StringSelection(text))
+
+            scope.launch {
+                val notification = NotificationGroupManager.getInstance()
+                    .getNotificationGroup(/* groupId = */ "valkyrie")
+                    .createNotification(content = "Copied in clipboard", type = NotificationType.INFORMATION)
+                notification.notify(project)
+
+                delay(2000)
+                notification.expire()
+            }
         },
+        onSelectPack = onSelectNestedPack,
         openSettings = openSettings
     )
 
@@ -104,52 +153,95 @@ private fun ConversionUi(
 @Composable
 private fun PluginUI(
     content: String?,
+    settings: ValkyriesSettings,
     isDragging: Boolean,
     onChooseFile: () -> Unit,
     onClear: () -> Unit,
     onCopy: () -> Unit,
+    onSelectPack: (String) -> Unit,
     openSettings: () -> Unit
 ) {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (content != null) {
-                    IconButton(onClick = onClear) {
-                        Icon(imageVector = Icons.Default.Clear, contentDescription = null)
-                    }
-                    IconButton(onClick = onCopy) {
-                        Icon(
-                            modifier = Modifier.size(18.dp),
-                            imageVector = ValkyrieIcons.ContentCopy,
-                            contentDescription = null
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = openSettings) {
-                    Icon(imageVector = Icons.Default.Settings, contentDescription = null)
-                }
-            }
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopAppBar {
             if (content != null) {
-                IntellijEditorTextField(
-                    modifier = Modifier.fillMaxSize(),
-                    text = content
+                ClearAction(onClear)
+                CopyAction(onCopy)
+            }
+            WeightSpacer()
+            SettingsAction(openSettings = openSettings)
+        }
+        if (content != null) {
+            if (settings.mode == Mode.IconPack) {
+                NestedPacksDropdown(
+                    settings = settings,
+                    onSelectPack = onSelectPack
                 )
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    SelectableState(
-                        isDragging = isDragging,
-                        onChooseFile = onChooseFile
-                    )
-                }
+            }
+        }
+        if (content != null) {
+            IntellijEditorTextField(
+                modifier = Modifier.fillMaxSize(),
+                text = content
+            )
+        } else {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                SelectableState(
+                    isDragging = isDragging,
+                    onChooseFile = onChooseFile
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun NestedPacksDropdown(
+    settings: ValkyriesSettings,
+    onSelectPack: (String) -> Unit,
+) {
+    var dropdownVisible by remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier.padding(start = 12.dp, bottom = 16.dp)) {
+        Row(
+            modifier = Modifier
+                .clip(RoundedCornerShape(20.dp))
+                .clickable { dropdownVisible = true }
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            val rotation by animateFloatAsState(if (dropdownVisible) -180f else 0f)
+            Text(
+                text = "${settings.iconPackName}.${settings.currentNestedPack}",
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1
+            )
+            Icon(
+                modifier = Modifier.graphicsLayer {
+                    rotationZ = rotation
+                },
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = null
+            )
+        }
+
+        DropdownMenu(
+            expanded = dropdownVisible,
+            onDismissRequest = { dropdownVisible = false }
+        ) {
+            settings.nestedPacks.forEach {
+                DropdownMenuItem(
+                    text = {
+                        Text(text = it)
+                    },
+                    onClick = {
+                        dropdownVisible = false
+                        onSelectPack(it)
+                    }
+                )
             }
         }
     }
@@ -183,7 +275,7 @@ private fun SelectableState(
             .padding(2.dp)
             .background(
                 color = when {
-                    isHover -> Color.Black.copy(alpha = 0.1f)
+                    isHover -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
                     else -> Color.Transparent
                 },
                 shape = MaterialTheme.shapes.small

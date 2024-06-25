@@ -1,6 +1,11 @@
 package io.github.composegears.valkyrie.theme.intellig
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.LafManagerListener
