@@ -20,6 +20,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         System.setProperty("compose.swing.render.on.graphics", "true")
+        System.setProperty("compose.interop.blending", "true")
 
         toolWindow.addComposePanel {
             ValkyrieTheme(

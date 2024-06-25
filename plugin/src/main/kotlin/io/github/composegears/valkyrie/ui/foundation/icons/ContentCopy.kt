@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.icons
+package io.github.composegears.valkyrie.ui.foundation.icons
 
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath

@@ -1,11 +1,11 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.parser.ParserConfig
 import io.github.composegears.valkyrie.parser.IconParser
+import io.github.composegears.valkyrie.parser.ParserConfig
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.screen.intro.updateState
+import io.github.composegears.valkyrie.ui.extension.updateState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -35,8 +35,9 @@ class ConversionViewModel(
         val icon = IconParser.tryParse(
             file = file,
             config = ParserConfig(
-                packName = valkyriesSettings.iconPackName,
                 packPackage = valkyriesSettings.packageName,
+                packName = valkyriesSettings.iconPackName,
+                nestedPackName = valkyriesSettings.currentNestedPack,
                 generatePreview = valkyriesSettings.generatePreview
             )
         )
@@ -53,5 +54,9 @@ class ConversionViewModel(
 
     fun updateLastChoosePath(file: File) {
         inMemorySettings.updateInitialDirectory(file.parentFile.path)
+    }
+
+    fun selectNestedPack(nestedPack: String) {
+        inMemorySettings.updateCurrentNestedPack(nestedPack)
     }
 }

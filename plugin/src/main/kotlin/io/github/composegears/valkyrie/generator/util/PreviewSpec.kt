@@ -2,7 +2,11 @@ package io.github.composegears.valkyrie.generator.util
 
 import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.funSpecBuilder
 
 fun iconPreviewSpec(iconName: MemberName): FunSpec {
