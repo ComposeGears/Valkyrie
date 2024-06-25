@@ -1,13 +1,25 @@
 package io.github.composegears.valkyrie.generator.util
 
 import androidx.compose.material.icons.generator.MemberNames
-import androidx.compose.material.icons.generator.vector.*
+import androidx.compose.material.icons.generator.vector.Fill
+import androidx.compose.material.icons.generator.vector.FillType
+import androidx.compose.material.icons.generator.vector.StrokeCap
+import androidx.compose.material.icons.generator.vector.StrokeJoin
+import androidx.compose.material.icons.generator.vector.VectorNode
 import androidx.compose.ui.graphics.PathFillType
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.formatFloat
 import io.github.composegears.valkyrie.generator.ext.toColorHex
-import io.github.composegears.valkyrie.generator.util.PathParams.*
+import io.github.composegears.valkyrie.generator.util.PathParams.FillAlphaParam
+import io.github.composegears.valkyrie.generator.util.PathParams.FillParam
+import io.github.composegears.valkyrie.generator.util.PathParams.FillTypeParam
+import io.github.composegears.valkyrie.generator.util.PathParams.StrokeAlphaParam
+import io.github.composegears.valkyrie.generator.util.PathParams.StrokeColorHexParam
+import io.github.composegears.valkyrie.generator.util.PathParams.StrokeLineCapParam
+import io.github.composegears.valkyrie.generator.util.PathParams.StrokeLineJoinParam
+import io.github.composegears.valkyrie.generator.util.PathParams.StrokeLineMiterParam
+import io.github.composegears.valkyrie.generator.util.PathParams.StrokeLineWidthParam
 
 fun CodeBlock.Builder.addPath(
     path: VectorNode.Path,

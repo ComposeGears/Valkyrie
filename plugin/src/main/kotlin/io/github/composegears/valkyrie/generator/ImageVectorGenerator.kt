@@ -4,14 +4,28 @@ import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
 import androidx.compose.material.icons.generator.vector.Vector
 import androidx.compose.material.icons.generator.vector.VectorNode
-import com.squareup.kotlinpoet.*
-import io.github.composegears.valkyrie.generator.ext.*
-import io.github.composegears.valkyrie.generator.util.*
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.buildCodeBlock
+import io.github.composegears.valkyrie.generator.ext.fileSpecBuilder
+import io.github.composegears.valkyrie.generator.ext.getterFunSpecBuilder
+import io.github.composegears.valkyrie.generator.ext.propertySpecBuilder
+import io.github.composegears.valkyrie.generator.ext.removeDeadCode
+import io.github.composegears.valkyrie.generator.ext.setIndent
+import io.github.composegears.valkyrie.generator.util.addPath
+import io.github.composegears.valkyrie.generator.util.backingPropertyName
+import io.github.composegears.valkyrie.generator.util.backingPropertySpec
+import io.github.composegears.valkyrie.generator.util.iconPreviewSpec
+import io.github.composegears.valkyrie.generator.util.imageVectorBuilderSpecs
 
 data class ImageVectorGenerationResult(val sourceCode: String)
 
 data class GeneratorConfig(
     val iconName: String,
+    val iconNestedPack: String,
     val iconPackage: String,
     val generatePreview: Boolean,
     val iconPack: ClassName? = null
@@ -79,7 +93,10 @@ class ImageVectorGenerator(private val config: GeneratorConfig) {
                     addCode("%N = ", backingProperty)
                     add(
                         imageVectorBuilderSpecs(
-                            iconName = config.iconName,
+                            iconName = when {
+                                config.iconNestedPack.isEmpty() -> config.iconName
+                                else -> "${config.iconNestedPack}.${config.iconName}"
+                            },
                             vector = vector,
                             path = {
                                 vector.nodes.forEach { node -> addVectorNode(node) }

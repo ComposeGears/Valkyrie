@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.components
+package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

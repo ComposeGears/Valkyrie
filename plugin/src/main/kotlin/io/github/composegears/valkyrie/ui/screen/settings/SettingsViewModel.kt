@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.settings
 
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.ui.screen.intro.Mode.Unspecified
 
 class SettingsViewModel(
     private val inMemorySettings: InMemorySettings
@@ -13,7 +14,7 @@ class SettingsViewModel(
         inMemorySettings.updateGeneratePreview(generatePreview)
     }
 
-    fun clearSettings() {
-        inMemorySettings.clear()
-    }
+    fun clearSettings() = inMemorySettings.clear()
+
+    fun resetMode() = inMemorySettings.updateMode(Unspecified)
 }

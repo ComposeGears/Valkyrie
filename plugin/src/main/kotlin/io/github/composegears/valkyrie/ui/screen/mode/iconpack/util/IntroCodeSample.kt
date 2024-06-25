@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.intro.util
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.util
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle

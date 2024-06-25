@@ -7,11 +7,6 @@ import org.junit.Test
 
 class XmlIconParserTest {
 
-    /**
-     * add linear gradient icon
-     * add radial gradient icon
-     */
-
     @Test
     fun `generation without icon pack`() {
         val icon = loadIcon("ic_without_path.xml")
@@ -20,6 +15,7 @@ class XmlIconParserTest {
             config = ParserConfig(
                 packPackage = "io.github.composegears.valkyrie.icons",
                 packName = "",
+                nestedPackName = "",
                 generatePreview = false
             )
         )

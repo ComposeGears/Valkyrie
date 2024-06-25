@@ -33,6 +33,8 @@ fun ValkyrieTheme(
             onSurface = swingColor.onBackground,
             surfaceVariant = swingColor.onBackground,
             onSurfaceVariant = swingColor.background,
+            inverseSurface = swingColor.onBackground,
+            inverseOnSurface = swingColor.background,
         ),
         content = {
             CompositionLocalProvider(

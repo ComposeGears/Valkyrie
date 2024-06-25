@@ -15,6 +15,7 @@ class PreviewGenerationTest {
             config = ParserConfig(
                 packPackage = "io.github.composegears.valkyrie.icons",
                 packName = "",
+                nestedPackName = "",
                 generatePreview = true
             )
         )
@@ -70,6 +71,7 @@ class PreviewGenerationTest {
             config = ParserConfig(
                 packPackage = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
+                nestedPackName = "",
                 generatePreview = true
             )
         )
