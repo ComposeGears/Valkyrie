@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie
 
-import io.github.composegears.valkyrie.generator.ext.formatFloat
-import io.github.composegears.valkyrie.generator.ext.toColorHex
-import io.github.composegears.valkyrie.generator.ext.trimTrailingZero
+import io.github.composegears.valkyrie.generator.imagevector.ext.formatFloat
+import io.github.composegears.valkyrie.generator.imagevector.ext.toColorHex
+import io.github.composegears.valkyrie.generator.imagevector.ext.trimTrailingZero
 import org.junit.Test
 import kotlin.test.assertEquals
 
