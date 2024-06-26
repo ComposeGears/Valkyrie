@@ -10,6 +10,9 @@ class InMemorySettings {
     private val _settings = MutableStateFlow(value = PersistentSettings.persistentSettings.toValkyriesSettings())
     val settings = _settings.asStateFlow()
 
+    val current: ValkyriesSettings
+        get() = settings.value
+
     fun updateGeneratePreview(generatePreview: Boolean) = updateSettings {
         PersistentSettings.persistentSettings.generatePreview = generatePreview
     }

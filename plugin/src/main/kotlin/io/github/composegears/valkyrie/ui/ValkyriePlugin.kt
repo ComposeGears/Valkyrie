@@ -9,8 +9,8 @@ import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.intro.Mode.Companion.isUnspecified
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeSetupScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackPreviewScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.preview.IconPackPreviewScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.IconPackModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import org.koin.compose.koinInject
@@ -32,7 +32,7 @@ fun ValkyriePlugin() {
         configuration = {
             if (current != null) return@rememberNavController
 
-            val settings = inMemorySettings.settings.value
+            val settings = inMemorySettings.current
             val screen = when {
                 settings.mode.isUnspecified() -> IntroScreen
                 else -> ConversionScreen

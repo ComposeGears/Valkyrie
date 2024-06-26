@@ -21,9 +21,7 @@ import io.github.composegears.valkyrie.generator.imagevector.util.backingPropert
 import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpec
 import io.github.composegears.valkyrie.generator.imagevector.util.imageVectorBuilderSpecs
 
-data class ImageVectorGenerationResult(val sourceCode: String)
-
-data class GeneratorConfig(
+data class ImageVectorGeneratorConfig(
     val iconName: String,
     val iconNestedPack: String,
     val iconPackage: String,
@@ -31,9 +29,9 @@ data class GeneratorConfig(
     val iconPack: ClassName? = null
 )
 
-class ImageVectorGenerator(private val config: GeneratorConfig) {
+class ImageVectorGenerator(private val config: ImageVectorGeneratorConfig) {
 
-    fun createFileFor(vector: Vector): ImageVectorGenerationResult {
+    fun createFileFor(vector: Vector): String {
         val backingProperty = backingPropertySpec(
             name = config.iconName.backingPropertyName(),
             type = ClassNames.ImageVector
@@ -70,7 +68,7 @@ class ImageVectorGenerator(private val config: GeneratorConfig) {
             setIndent()
         }
 
-        return ImageVectorGenerationResult(sourceCode = fileSpec.removeDeadCode())
+        return fileSpec.removeDeadCode()
     }
 
     private fun iconProperty(vector: Vector, backingProperty: PropertySpec): PropertySpec =

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup
 
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.settings.InMemorySettings
@@ -9,8 +9,8 @@ import io.github.composegears.valkyrie.ui.domain.validation.PackageValidationUse
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.intro.Mode
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.InputChange.IconPackName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.InputChange.PackageName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.IconPackName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.PackageName
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -60,7 +60,7 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
     private val iconPackValidationUseCase = IconPackValidationUseCase()
 
     private val valkyriesSettings: ValkyriesSettings
-        get() = inMemorySettings.settings.value
+        get() = inMemorySettings.current
 
     private val _state = MutableStateFlow(
         InputFieldState(

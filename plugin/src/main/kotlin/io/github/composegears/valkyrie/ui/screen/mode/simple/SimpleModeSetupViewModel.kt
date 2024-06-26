@@ -19,7 +19,7 @@ class SimpleModeSetupViewModel(
     private val inputHandler = SimpleModeInputHandler(inMemorySettings)
 
     private val valkyriesSettings: ValkyriesSettings
-        get() = inMemorySettings.settings.value
+        get() = inMemorySettings.current
 
     private val _state = MutableStateFlow(
         SimpleModeSetupState(
@@ -65,7 +65,7 @@ data class SimpleModeSetupState(
 private class SimpleModeInputHandler(private val inMemorySettings: InMemorySettings) {
 
     private val valkyriesSettings: ValkyriesSettings
-        get() = inMemorySettings.settings.value
+        get() = inMemorySettings.current
 
     private val packageValidationUseCase = PackageValidationUseCase()
 
