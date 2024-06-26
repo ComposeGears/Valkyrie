@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -35,10 +35,11 @@ import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.InputTextField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.InputChange.IconPackName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.InputChange.NestedPackName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.util.getIconPackAnnotatedString
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.util.getPackageAnnotatedString
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.IconPackName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.NestedPackName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.preview.IconPackPreviewScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.util.getIconPackAnnotatedString
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.util.getPackageAnnotatedString
 import kotlinx.coroutines.Dispatchers
 
 val IconPackModeSetupScreen by navDestination<Unit> {
