@@ -1,9 +1,9 @@
-package io.github.composegears.valkyrie.generator.util
+package io.github.composegears.valkyrie.generator.imagevector.util
 
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
-import io.github.composegears.valkyrie.generator.ext.nullable
-import io.github.composegears.valkyrie.generator.ext.propertySpecBuilder
+import io.github.composegears.valkyrie.generator.imagevector.ext.nullable
+import io.github.composegears.valkyrie.generator.imagevector.ext.propertySpecBuilder
 
 fun String.backingPropertyName() = "_$this"
 

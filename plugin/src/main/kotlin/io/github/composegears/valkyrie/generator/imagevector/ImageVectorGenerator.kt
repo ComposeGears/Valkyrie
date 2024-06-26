@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator
+package io.github.composegears.valkyrie.generator.imagevector
 
 import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
@@ -10,16 +10,16 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
-import io.github.composegears.valkyrie.generator.ext.fileSpecBuilder
-import io.github.composegears.valkyrie.generator.ext.getterFunSpecBuilder
-import io.github.composegears.valkyrie.generator.ext.propertySpecBuilder
-import io.github.composegears.valkyrie.generator.ext.removeDeadCode
-import io.github.composegears.valkyrie.generator.ext.setIndent
-import io.github.composegears.valkyrie.generator.util.addPath
-import io.github.composegears.valkyrie.generator.util.backingPropertyName
-import io.github.composegears.valkyrie.generator.util.backingPropertySpec
-import io.github.composegears.valkyrie.generator.util.iconPreviewSpec
-import io.github.composegears.valkyrie.generator.util.imageVectorBuilderSpecs
+import io.github.composegears.valkyrie.generator.imagevector.ext.fileSpecBuilder
+import io.github.composegears.valkyrie.generator.imagevector.ext.getterFunSpecBuilder
+import io.github.composegears.valkyrie.generator.imagevector.ext.propertySpecBuilder
+import io.github.composegears.valkyrie.generator.imagevector.ext.removeDeadCode
+import io.github.composegears.valkyrie.generator.imagevector.ext.setIndent
+import io.github.composegears.valkyrie.generator.imagevector.util.addPath
+import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertyName
+import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertySpec
+import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpec
+import io.github.composegears.valkyrie.generator.imagevector.util.imageVectorBuilderSpecs
 
 data class ImageVectorGenerationResult(val sourceCode: String)
 
