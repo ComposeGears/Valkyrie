@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator.imagevector
+package io.github.composegears.valkyrie.processing.generator.imagevector
 
 import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
@@ -10,16 +10,16 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
-import io.github.composegears.valkyrie.generator.imagevector.ext.fileSpecBuilder
-import io.github.composegears.valkyrie.generator.imagevector.ext.getterFunSpecBuilder
-import io.github.composegears.valkyrie.generator.imagevector.ext.propertySpecBuilder
-import io.github.composegears.valkyrie.generator.imagevector.ext.removeDeadCode
-import io.github.composegears.valkyrie.generator.imagevector.ext.setIndent
-import io.github.composegears.valkyrie.generator.imagevector.util.addPath
-import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertyName
-import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertySpec
-import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpec
-import io.github.composegears.valkyrie.generator.imagevector.util.imageVectorBuilderSpecs
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.fileSpecBuilder
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.getterFunSpecBuilder
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.propertySpecBuilder
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.removeDeadCode
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.setIndent
+import io.github.composegears.valkyrie.processing.generator.imagevector.util.addPath
+import io.github.composegears.valkyrie.processing.generator.imagevector.util.backingPropertyName
+import io.github.composegears.valkyrie.processing.generator.imagevector.util.backingPropertySpec
+import io.github.composegears.valkyrie.processing.generator.imagevector.util.iconPreviewSpec
+import io.github.composegears.valkyrie.processing.generator.imagevector.util.imageVectorBuilderSpecs
 
 data class ImageVectorGeneratorConfig(
     val iconName: String,

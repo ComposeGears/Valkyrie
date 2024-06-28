@@ -36,7 +36,7 @@ import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.theme.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.CopyAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox

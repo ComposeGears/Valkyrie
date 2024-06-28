@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator.imagevector.util
+package io.github.composegears.valkyrie.processing.generator.imagevector.util
 
 import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
@@ -7,7 +7,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.buildCodeBlock
-import io.github.composegears.valkyrie.generator.imagevector.ext.funSpecBuilder
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.funSpecBuilder
 
 fun iconPreviewSpec(iconName: MemberName): FunSpec {
     return funSpecBuilder("Preview") {

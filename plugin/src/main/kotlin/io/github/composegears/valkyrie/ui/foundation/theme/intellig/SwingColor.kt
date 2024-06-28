@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.theme.intellig
+package io.github.composegears.valkyrie.ui.foundation.theme.intellig
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.LafManagerListener
 import com.intellij.openapi.application.ApplicationManager
-import io.github.composegears.valkyrie.theme.intellig.SwingColor.Theme
+import io.github.composegears.valkyrie.ui.foundation.theme.intellig.SwingColor.Theme
 import javax.swing.UIManager
 import java.awt.Color as AWTColor
 

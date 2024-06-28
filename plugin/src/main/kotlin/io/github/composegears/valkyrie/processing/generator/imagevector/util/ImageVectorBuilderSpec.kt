@@ -1,12 +1,12 @@
-package io.github.composegears.valkyrie.generator.imagevector.util
+package io.github.composegears.valkyrie.processing.generator.imagevector.util
 
 import androidx.compose.material.icons.generator.MemberNames
 import androidx.compose.material.icons.generator.MemberNames.ImageVectorBuilder
 import androidx.compose.material.icons.generator.vector.Vector
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
-import io.github.composegears.valkyrie.generator.imagevector.ext.formatFloat
-import io.github.composegears.valkyrie.generator.imagevector.ext.trimTrailingZero
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.formatFloat
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.trimTrailingZero
 
 fun imageVectorBuilderSpecs(
     iconName: String,
