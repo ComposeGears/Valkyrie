@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser
+package io.github.composegears.valkyrie.processing.parser
 
 import ai.grazie.utils.capitalize
 import ai.grazie.utils.dropPostfix
@@ -6,10 +6,10 @@ import androidx.compose.material.icons.generator.Icon
 import androidx.compose.material.icons.generator.IconParser
 import com.android.ide.common.vectordrawable.Svg2Vector
 import com.squareup.kotlinpoet.ClassName
-import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.parser.IconType.SVG
-import io.github.composegears.valkyrie.parser.IconType.XML
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.processing.parser.IconType.SVG
+import io.github.composegears.valkyrie.processing.parser.IconType.XML
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.createTempFile

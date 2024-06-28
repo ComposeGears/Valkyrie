@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings

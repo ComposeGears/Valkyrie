@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.theme
+package io.github.composegears.valkyrie.ui.foundation.theme
 
 import androidx.compose.runtime.compositionLocalOf
 import com.intellij.openapi.project.Project

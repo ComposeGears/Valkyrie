@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie
 
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGeneratorConfig
 import org.junit.Test
 import kotlin.test.assertEquals
 

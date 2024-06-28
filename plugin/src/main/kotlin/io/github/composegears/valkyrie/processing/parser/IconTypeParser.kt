@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser
+package io.github.composegears.valkyrie.processing.parser
 
 object IconTypeParser {
 

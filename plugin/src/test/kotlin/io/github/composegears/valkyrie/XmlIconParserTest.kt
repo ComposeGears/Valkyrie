@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie
 
-import io.github.composegears.valkyrie.parser.IconParser
-import io.github.composegears.valkyrie.parser.ParserConfig
+import io.github.composegears.valkyrie.processing.parser.IconParser
+import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

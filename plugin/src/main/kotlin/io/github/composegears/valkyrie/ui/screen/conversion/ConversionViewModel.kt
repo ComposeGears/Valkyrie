@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.parser.IconParser
-import io.github.composegears.valkyrie.parser.ParserConfig
+import io.github.composegears.valkyrie.processing.parser.IconParser
+import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
