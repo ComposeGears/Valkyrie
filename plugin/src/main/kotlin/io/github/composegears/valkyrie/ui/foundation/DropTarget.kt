@@ -3,8 +3,6 @@ package io.github.composegears.valkyrie.ui.foundation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import io.github.composegears.valkyrie.theme.LocalComponent
 import java.awt.dnd.DnDConstants
@@ -51,7 +49,7 @@ data class DragAndDropHandlerState(
 fun rememberDragAndDropHandler(
     onDrop: (File) -> Unit
 ): DragAndDropHandlerState {
-    var handlerState by remember { mutableStateOf(DragAndDropHandlerState()) }
+    var handlerState by rememberMutableState { DragAndDropHandlerState() }
 
     val localComponent = LocalComponent.current
 

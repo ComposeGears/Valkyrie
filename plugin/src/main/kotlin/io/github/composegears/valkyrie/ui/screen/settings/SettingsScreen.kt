@@ -19,8 +19,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +32,7 @@ import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.intro.Mode.IconPack
 import io.github.composegears.valkyrie.ui.screen.intro.Mode.Simple
@@ -45,7 +44,7 @@ val SettingsScreen by navDestination<Unit> {
 
     val settings by settingsViewModel.settings.collectAsState()
 
-    var showClearSettingsDialog by remember { mutableStateOf(false) }
+    var showClearSettingsDialog by rememberMutableState { false }
 
     SettingsUI(
         settings = settings,

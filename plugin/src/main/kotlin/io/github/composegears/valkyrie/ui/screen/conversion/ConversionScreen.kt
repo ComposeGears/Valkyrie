@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -58,6 +57,7 @@ import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.rememberDragAndDropHandler
+import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.intro.Mode
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.delay
@@ -76,7 +76,7 @@ val ConversionScreen: NavDestination<Unit> by navDestination {
         viewModel.selectFile(it)
     }
 
-    val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
+    val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
     ConversionUi(
         state = state,
@@ -108,7 +108,7 @@ private fun ConversionUi(
     onSelectNestedPack: (String) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    var showFilePicker by remember { mutableStateOf(false) }
+    var showFilePicker by rememberMutableState { false }
 
     val project = LocalProject.current
     PluginUI(
@@ -202,7 +202,7 @@ private fun NestedPacksDropdown(
     settings: ValkyriesSettings,
     onSelectPack: (String) -> Unit,
 ) {
-    var dropdownVisible by remember { mutableStateOf(false) }
+    var dropdownVisible by rememberMutableState { false }
 
     Box(modifier = Modifier.padding(start = 12.dp, bottom = 16.dp)) {
         Row(
@@ -253,7 +253,7 @@ private fun SelectableState(
     isDragging: Boolean,
     onChooseFile: () -> Unit
 ) {
-    var isHover by remember(isDragging) { mutableStateOf(isDragging) }
+    var isHover by rememberMutableState(isDragging) { isDragging }
 
     val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     val border by animateDpAsState(if (isHover) 4.dp else 1.dp)
