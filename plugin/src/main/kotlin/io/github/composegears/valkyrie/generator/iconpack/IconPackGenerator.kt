@@ -4,7 +4,6 @@ import io.github.composegears.valkyrie.generator.imagevector.ext.fileSpecBuilder
 import io.github.composegears.valkyrie.generator.imagevector.ext.objectBuilder
 import io.github.composegears.valkyrie.generator.imagevector.ext.removeDeadCode
 import io.github.composegears.valkyrie.generator.imagevector.ext.setIndent
-import io.github.composegears.valkyrie.processing.writter.FileWriter
 
 data class IconPackGeneratorConfig(
     val packageName: String,
@@ -37,24 +36,4 @@ class IconPackGenerator(private val config: IconPackGeneratorConfig) {
             name = fileSpec.name
         )
     }
-}
-
-fun main() {
-    val config = IconPackGeneratorConfig(
-        packageName = "com.example.icons",
-        iconPackName = "IconPack",
-        subPacks = listOf("SubPack1", "SubPack2")
-    )
-    val generator = IconPackGenerator(config)
-    val generatedCode = generator.generate()
-
-    println(generatedCode.content)
-
-    val exportDirectory = "/Users/yahor/Work/plugin/Valkyrie/test"
-
-    FileWriter.writeToFile(
-        content = generatedCode.content,
-        outDirectory = exportDirectory,
-        fileName = generatedCode.name
-    )
 }

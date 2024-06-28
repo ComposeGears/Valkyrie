@@ -6,12 +6,12 @@ import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfi
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.domain.validation.IconPackValidationUseCase
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.PackageValidationUseCase
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.PackageName
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -39,7 +39,18 @@ class IconPackCreationViewModel(
                     copy(
                         inputFieldState = inputFieldState,
                         nestedPacks = inputFieldState.nestedPacks,
-                        nextAvailable = inputFieldState.noErrors()
+                        nextAvailable = inputFieldState.noErrors(),
+                        packPreview = if (inputFieldState.noErrors()) {
+                            IconPackGenerator(
+                                config = IconPackGeneratorConfig(
+                                    packageName = inputFieldState.packageName.text,
+                                    iconPackName = inputFieldState.iconPackName.text,
+                                    subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text }
+                                )
+                            ).generate().content
+                        } else {
+                            ""
+                        }
                     )
                 }
             }
@@ -210,7 +221,8 @@ data class IconPackModeState(
         packageName = InputState(),
         nestedPacks = emptyList()
     ),
-    val nestedPacks: List<NestedPack> = emptyList()
+    val nestedPacks: List<NestedPack> = emptyList(),
+    val packPreview: String = ""
 )
 
 data class NestedPack(

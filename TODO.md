@@ -1,4 +1,3 @@
-- preview IconPack as code
 - add tests with nested icon packs
 - add test for linear gradient icon 
 - add test for radial gradient icon
