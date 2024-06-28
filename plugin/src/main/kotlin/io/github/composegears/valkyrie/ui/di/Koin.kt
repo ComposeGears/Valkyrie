@@ -2,7 +2,9 @@ package io.github.composegears.valkyrie.ui.di
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionViewModel
-import io.github.composegears.valkyrie.ui.screen.intro.IntroViewModel
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationViewModel
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationViewModel
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
@@ -19,7 +21,10 @@ object Koin {
 }
 
 private val appModule = module {
-    factoryOf(::IntroViewModel)
+    factoryOf(::IconPackCreationViewModel)
+    factoryOf(::SimpleModeSetupViewModel)
+    factoryOf(::IconPackDestinationViewModel)
+
     factoryOf(::ConversionViewModel)
     factoryOf(::SettingsViewModel)
 

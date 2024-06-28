@@ -8,6 +8,12 @@ import com.composegears.tiamat.rememberNavController
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
+import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import org.koin.compose.koinInject
 
@@ -16,15 +22,23 @@ fun ValkyriePlugin() {
     val inMemorySettings = koinInject<InMemorySettings>()
 
     val navController = rememberNavController(
-        destinations = arrayOf(IntroScreen, ConversionScreen, SettingsScreen),
+        destinations = arrayOf(
+            IntroScreen,
+            SimpleModeSetupScreen,
+            IconPackCreationScreen,
+            IconPackDestinationScreen,
+            ConversionScreen,
+            SettingsScreen
+        ),
         startDestination = null,
         configuration = {
             if (current != null) return@rememberNavController
 
-            val settingsService = inMemorySettings.settings.value
-            val screen = when {
-                settingsService.isFirstLaunch -> IntroScreen
-                else -> ConversionScreen
+            val settings = inMemorySettings.current
+            val screen = when (settings.mode) {
+                Simple -> ConversionScreen
+                IconPack -> ConversionScreen
+                Unspecified -> IntroScreen
             }
             navigate(screen)
         }

@@ -8,7 +8,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.util.ui.components.BorderLayoutPanel
-import io.github.composegears.valkyrie.theme.ValkyrieTheme
+import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.Koin
 
@@ -20,6 +20,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         System.setProperty("compose.swing.render.on.graphics", "true")
+        System.setProperty("compose.interop.blending", "true")
 
         toolWindow.addComposePanel {
             ValkyrieTheme(

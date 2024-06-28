@@ -14,6 +14,8 @@
                     doNotActivateOnStart="false"
                     factoryClass="io.github.composegears.valkyrie.AppToolWindowFactory"
                     icon="icons/ic_logo_tool_window.svg"/>
+
+        <notificationGroup id="valkyrie" displayType="BALLOON"/>
     </extensions>
 
 </idea-plugin>

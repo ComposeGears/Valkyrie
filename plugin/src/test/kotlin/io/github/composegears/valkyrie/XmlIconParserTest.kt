@@ -1,16 +1,11 @@
 package io.github.composegears.valkyrie
 
-import io.github.composegears.valkyrie.parser.IconParser
-import io.github.composegears.valkyrie.parser.ParserConfig
+import io.github.composegears.valkyrie.processing.parser.IconParser
+import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class XmlIconParserTest {
-
-    /**
-     * add linear gradient icon
-     * add radial gradient icon
-     */
 
     @Test
     fun `generation without icon pack`() {
@@ -20,6 +15,7 @@ class XmlIconParserTest {
             config = ParserConfig(
                 packPackage = "io.github.composegears.valkyrie.icons",
                 packName = "",
+                nestedPackName = "",
                 generatePreview = false
             )
         )

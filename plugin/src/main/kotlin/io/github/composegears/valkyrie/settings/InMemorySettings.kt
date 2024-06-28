@@ -1,12 +1,17 @@
 package io.github.composegears.valkyrie.settings
 
-import io.github.composegears.valkyrie.ui.screen.intro.updateState
+import io.github.composegears.valkyrie.ui.extension.or
+import io.github.composegears.valkyrie.ui.extension.updateState
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class InMemorySettings {
     private val _settings = MutableStateFlow(value = PersistentSettings.persistentSettings.toValkyriesSettings())
     val settings = _settings.asStateFlow()
+
+    val current: ValkyriesSettings
+        get() = settings.value
 
     fun updateGeneratePreview(generatePreview: Boolean) = updateSettings {
         PersistentSettings.persistentSettings.generatePreview = generatePreview
@@ -20,21 +25,46 @@ class InMemorySettings {
         PersistentSettings.persistentSettings.iconPackName = iconPackName
     }
 
+    fun updateIconPackDestination(iconPackDestination: String) = updateSettings {
+        PersistentSettings.persistentSettings.iconPackDestination = iconPackDestination
+    }
+
+    fun updateNestedPack(nestedPacks: List<String>) = updateSettings {
+        if (nestedPacks.isEmpty()) {
+            PersistentSettings.persistentSettings.nestedPacks = ""
+            PersistentSettings.persistentSettings.currentNestedPack = ""
+        } else {
+            PersistentSettings.persistentSettings.nestedPacks = nestedPacks.joinToString(separator = ",")
+            PersistentSettings.persistentSettings.currentNestedPack = nestedPacks.first()
+        }
+    }
+
+    fun updateCurrentNestedPack(currentNestedPack: String) = updateSettings {
+        PersistentSettings.persistentSettings.currentNestedPack = currentNestedPack
+    }
+
     fun updatePackageName(packageName: String) = updateSettings {
         PersistentSettings.persistentSettings.packageName = packageName
     }
 
-    fun updateFirstLaunch(isFirstLaunch: Boolean) = updateSettings {
-        PersistentSettings.persistentSettings.isFirstLaunch = isFirstLaunch
+    fun updateMode(mode: Mode) = updateSettings {
+        PersistentSettings.persistentSettings.mode = mode.name
     }
 
     fun clear() = updateSettings {
         with(PersistentSettings.persistentSettings) {
-            isFirstLaunch = true
-            iconPackName = ""
+            mode = Mode.Unspecified.name
+
             packageName = ""
-            initialDirectory = ""
+            iconPackName = ""
+            iconPackDestination = ""
+
+            nestedPacks = ""
+            currentNestedPack = ""
+
             generatePreview = false
+
+            initialDirectory = ""
         }
     }
 
@@ -45,19 +75,34 @@ class InMemorySettings {
 
     private fun PersistentSettings.ValkyrieState.toValkyriesSettings() =
         ValkyriesSettings(
-            iconPackName = iconPackName.orEmpty(),
-            packageName = packageName.orEmpty(),
+            mode = Mode.valueOf(mode!!),
+
+            packageName = packageName.or("io.github.composegears.valkyrie"),
+            iconPackName = iconPackName.or("ValkyrieIcons"),
+            iconPackDestination = iconPackDestination.or(""),
+
+            nestedPacks = nestedPacks.orEmpty()
+                .split(",")
+                .filter { it.isNotEmpty() },
+            currentNestedPack = currentNestedPack.orEmpty(),
+
             generatePreview = generatePreview,
 
-            isFirstLaunch = isFirstLaunch,
             initialDirectory = initialDirectory ?: System.getProperty("user.home"),
         )
 }
 
 data class ValkyriesSettings(
-    val iconPackName: String,
+    val mode: Mode,
+
     val packageName: String,
+    val iconPackName: String,
+    val iconPackDestination: String,
+
+    val nestedPacks: List<String>,
+    val currentNestedPack: String,
+
     val generatePreview: Boolean,
+
     val initialDirectory: String,
-    val isFirstLaunch: Boolean
 )
