@@ -43,7 +43,7 @@ private class EditorCustomization(enabled: Boolean) : SimpleEditorCustomization(
         editor.scrollingModel.scrollTo(logicalPosition, ScrollType.RELATIVE)
 
         editor.scrollPane.verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
-
+        editor.isRendererMode = true
         editor.settings.isLineNumbersShown = true
         editor.setHorizontalScrollbarVisible(false)
         editor.setVerticalScrollbarVisible(true)

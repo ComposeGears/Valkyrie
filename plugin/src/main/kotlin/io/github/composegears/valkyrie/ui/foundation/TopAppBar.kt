@@ -43,7 +43,7 @@ fun BackAction(onBack: () -> Unit) {
 @Composable
 fun AppBarTitle(title: String) {
     Text(
-        modifier = Modifier.padding(horizontal = 4.dp),
+        modifier = Modifier.padding(horizontal = 8.dp),
         text = title,
         maxLines = 1,
         style = MaterialTheme.typography.titleSmall

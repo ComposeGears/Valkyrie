@@ -13,7 +13,7 @@ class XmlIconParserTest {
         val output = IconParser.tryParse(
             file = icon,
             config = ParserConfig(
-                packPackage = "io.github.composegears.valkyrie.icons",
+                packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
                 generatePreview = false
