@@ -28,7 +28,7 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
-import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 
 val IntroScreen: NavDestination<Unit> by navDestination {
 

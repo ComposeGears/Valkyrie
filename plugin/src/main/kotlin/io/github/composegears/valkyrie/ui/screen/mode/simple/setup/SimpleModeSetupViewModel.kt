@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.simple
+package io.github.composegears.valkyrie.ui.screen.mode.simple.setup
 
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.settings.InMemorySettings
