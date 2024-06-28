@@ -10,7 +10,7 @@ kotlinpoet = "com.squareup:kotlinpoet:1.17.0"
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
-multiplatform-filepicker = "com.darkrockstudios:mpfilepicker:3.1.0"
+filekit = "io.github.vinceglb:filekit-compose:0.6.1"
 
 tiamat = "io.github.composegears:tiamat:1.1.0-rc02"
 tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0-rc02"

@@ -23,7 +23,7 @@ fun ValkyriePlugin() {
 
             val settingsService = inMemorySettings.settings.value
             val screen = when {
-                settingsService.isFirstLaunch -> IntroScreen
+                settingsService.isFirstLaunch -> ConversionScreen
                 else -> ConversionScreen
             }
             navigate(screen)

@@ -33,9 +33,9 @@ dependencies {
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
+    implementation(libs.filekit)
     implementation(libs.koin.compose)
     implementation(libs.kotlinpoet)
-    implementation(libs.multiplatform.filepicker)
     implementation(libs.tiamat)
     implementation(libs.tiamat.koin)
 

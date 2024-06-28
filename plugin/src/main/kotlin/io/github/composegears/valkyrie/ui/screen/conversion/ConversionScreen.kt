@@ -22,7 +22,6 @@ import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
-import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.components.IntellijEditorTextField
@@ -32,6 +31,9 @@ import io.github.composegears.valkyrie.ui.icons.Collections
 import io.github.composegears.valkyrie.ui.icons.ContentCopy
 import io.github.composegears.valkyrie.ui.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
+import io.github.vinceglb.filekit.core.PickerMode
+import io.github.vinceglb.filekit.core.PickerType
 import java.awt.datatransfer.StringSelection
 import java.io.File
 
@@ -72,32 +74,27 @@ private fun ConversionUi(
     openSettings: () -> Unit,
     resetIconContent: () -> Unit
 ) {
-    var showFilePicker by remember { mutableStateOf(false) }
+    val filePicker = rememberFilePickerLauncher(
+        type = PickerType.File(listOf("svg", "xml")),
+        mode = PickerMode.Single,
+        initialDirectory = settings.initialDirectory,
+        onResult = { file ->
+            file?.let {
+                onSelectFile(it.file)
+            }
+        }
+    )
 
     PluginUI(
         content = state.iconContent,
         isDragging = isDragging,
-        onChooseFile = { showFilePicker = true },
+        onChooseFile = { filePicker.launch() },
         onClear = resetIconContent,
         onCopy = {
             val text = state.iconContent ?: return@PluginUI
             CopyPasteManager.getInstance().setContents(StringSelection(text))
         },
         openSettings = openSettings
-    )
-
-    FilePicker(
-        show = showFilePicker,
-        fileExtensions = listOf("svg", "xml"),
-        initialDirectory = settings.initialDirectory,
-        onFileSelected = { mpFile ->
-            if (mpFile != null) {
-                onSelectFile(File(mpFile.path))
-                showFilePicker = false
-            } else {
-                showFilePicker = false
-            }
-        }
     )
 }
 
