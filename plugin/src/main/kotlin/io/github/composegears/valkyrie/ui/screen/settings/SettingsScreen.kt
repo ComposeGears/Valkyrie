@@ -28,15 +28,15 @@ import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
+import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
-import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
-import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
-import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 
 val SettingsScreen by navDestination<Unit> {
     val navController = navController()

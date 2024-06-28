@@ -4,7 +4,7 @@ import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import java.io.File
 
 val DEFAULT_CONFIG = ParserConfig(
-    packPackage = "io.github.composegears.valkyrie.icons",
+    packageName = "io.github.composegears.valkyrie.icons",
     packName = "ValkyrieIcons",
     nestedPackName = "",
     generatePreview = false

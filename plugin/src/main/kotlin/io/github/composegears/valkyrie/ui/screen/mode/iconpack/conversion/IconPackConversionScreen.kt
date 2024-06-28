@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.conversion
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
@@ -36,7 +35,7 @@ import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.CopyAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
@@ -48,17 +47,17 @@ import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.domain.model.Mode
+import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.awt.datatransfer.StringSelection
 import java.io.File
 
-val ConversionScreen: NavDestination<Unit> by navDestination {
+val IconPackConversionScreen by navDestination<Unit> {
     val navController = navController()
 
-    val viewModel = koinTiamatViewModel<ConversionViewModel>()
+    val viewModel = koinTiamatViewModel<IconPackConversionViewModel>()
     val state by viewModel.state.collectAsState()
     val settings by viewModel.valkyriesSettings.collectAsState()
 
@@ -82,7 +81,7 @@ val ConversionScreen: NavDestination<Unit> by navDestination {
 
 @Composable
 private fun ConversionUi(
-    state: ConversionState,
+    state: IconPackConversionState,
     settings: ValkyriesSettings,
     onSelectFile: (File) -> Unit,
     openSettings: () -> Unit,

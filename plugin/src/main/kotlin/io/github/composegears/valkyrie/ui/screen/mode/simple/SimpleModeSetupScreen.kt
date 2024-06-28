@@ -6,15 +6,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
@@ -28,7 +25,7 @@ import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeInputChange.PackageName
 import io.github.composegears.valkyrie.ui.screen.mode.simple.util.buildPackageHint
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +45,7 @@ val SimpleModeSetupScreen by navDestination<Unit> {
         onNext = {
             viewModel.saveSettings()
             navController.navigate(
-                dest = ConversionScreen,
+                dest = SimpleConversionScreen,
                 transition = navigationSlideInOut(true)
             )
         }
@@ -65,9 +62,9 @@ private fun SimpleModeSetupScreenUI(
     Column {
         TopAppBar {
             BackAction(onBack)
-            AppBarTitle("Simple mode setup")
+            AppBarTitle(title = "Simple mode setup")
         }
-        VerticalSpacer(24.dp)
+        VerticalSpacer(36.dp)
         Column(
             modifier = Modifier
                 .widthIn(max = 420.dp)
@@ -75,14 +72,6 @@ private fun SimpleModeSetupScreenUI(
                 .align(Alignment.CenterHorizontally),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Customize basic preferences or proceed with default values",
-                style = MaterialTheme.typography.labelSmall,
-                color = LocalContentColor.current.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center
-            )
-            VerticalSpacer(24.dp)
-
             val packageName = state.packageName
             InputField(
                 modifier = Modifier.fillMaxWidth(),

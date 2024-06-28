@@ -17,7 +17,7 @@ import kotlin.io.path.outputStream
 import kotlin.io.path.readText
 
 data class ParserConfig(
-    val packPackage: String,
+    val packageName: String,
     val packName: String,
     val nestedPackName: String,
     val generatePreview: Boolean
@@ -56,18 +56,18 @@ object IconParser {
 
         val assetGenerationResult = ImageVectorGenerator(
             config = ImageVectorGeneratorConfig(
-                iconPackage = config.packPackage,
+                iconPackage = config.packageName,
                 iconPack = when {
                     config.packName.isEmpty() -> null
                     else -> {
                         if (config.nestedPackName.isEmpty()) {
                             ClassName(
-                                config.packPackage,
+                                config.packageName,
                                 config.packName
                             )
                         } else {
                             ClassName(
-                                config.packPackage,
+                                config.packageName,
                                 config.packName
                             ).nestedClass(config.nestedPackName)
                         }

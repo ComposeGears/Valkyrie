@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.conversion
+package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.processing.parser.IconParser
@@ -6,18 +6,17 @@ import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.domain.model.Mode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import java.io.File
 
-class ConversionViewModel(
+class SimpleConversionViewModel(
     private val inMemorySettings: InMemorySettings
 ) : TiamatViewModel() {
 
-    private val _state = MutableStateFlow(ConversionState())
+    private val _state = MutableStateFlow(SimpleConversionState())
     val state = _state.asStateFlow()
 
     val valkyriesSettings = inMemorySettings.settings
@@ -36,8 +35,8 @@ class ConversionViewModel(
         val icon = IconParser.tryParse(
             file = file,
             config = ParserConfig(
-                packPackage = valkyriesSettings.iconPackage(),
-                packName = valkyriesSettings.packName(),
+                packageName = valkyriesSettings.packageName,
+                packName = "",
                 nestedPackName = valkyriesSettings.currentNestedPack,
                 generatePreview = valkyriesSettings.generatePreview
             )
@@ -55,25 +54,5 @@ class ConversionViewModel(
 
     fun updateLastChoosePath(file: File) {
         inMemorySettings.updateInitialDirectory(file.parentFile.path)
-    }
-
-    fun selectNestedPack(nestedPack: String) {
-        inMemorySettings.updateCurrentNestedPack(nestedPack)
-    }
-
-    private fun ValkyriesSettings.iconPackage(): String {
-        return if (mode == Mode.IconPack) {
-            "$packageName.${currentNestedPack.lowercase()}"
-        } else {
-            packageName
-        }
-    }
-
-    private fun ValkyriesSettings.packName(): String {
-        return if (mode == Mode.IconPack) {
-            iconPackName
-        } else {
-            ""
-        }
     }
 }

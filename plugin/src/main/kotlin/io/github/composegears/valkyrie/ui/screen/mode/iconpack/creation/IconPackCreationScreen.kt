@@ -43,7 +43,7 @@ import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.NestedPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.buildIconPackHint
@@ -60,7 +60,7 @@ val IconPackCreationScreen by navDestination<Unit> {
         viewModel.events.collect {
             when (it) {
                 is IconPackCreationEvent.NavigateToNextScreen -> {
-                    navController.navigate(ConversionScreen)
+                    navController.navigate(SimpleConversionScreen)
                 }
             }
         }

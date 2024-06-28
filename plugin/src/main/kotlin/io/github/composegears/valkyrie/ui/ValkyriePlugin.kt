@@ -6,13 +6,14 @@ import androidx.compose.ui.Modifier
 import com.composegears.tiamat.Navigation
 import com.composegears.tiamat.rememberNavController
 import io.github.composegears.valkyrie.settings.InMemorySettings
-import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
-import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import org.koin.compose.koinInject
@@ -25,9 +26,12 @@ fun ValkyriePlugin() {
         destinations = arrayOf(
             IntroScreen,
             SimpleModeSetupScreen,
-            IconPackCreationScreen,
+            SimpleConversionScreen,
+
             IconPackDestinationScreen,
-            ConversionScreen,
+            IconPackCreationScreen,
+            IconPackConversionScreen,
+
             SettingsScreen
         ),
         startDestination = null,
@@ -36,8 +40,8 @@ fun ValkyriePlugin() {
 
             val settings = inMemorySettings.current
             val screen = when (settings.mode) {
-                Simple -> ConversionScreen
-                IconPack -> ConversionScreen
+                Simple -> SimpleConversionScreen
+                IconPack -> IconPackConversionScreen
                 Unspecified -> IntroScreen
             }
             navigate(screen)

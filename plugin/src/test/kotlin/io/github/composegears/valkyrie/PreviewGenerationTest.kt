@@ -13,7 +13,7 @@ class PreviewGenerationTest {
         val output = IconParser.tryParse(
             file = icon,
             config = ParserConfig(
-                packPackage = "io.github.composegears.valkyrie.icons",
+                packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
                 generatePreview = true
@@ -69,7 +69,7 @@ class PreviewGenerationTest {
         val output = IconParser.tryParse(
             file = icon,
             config = ParserConfig(
-                packPackage = "io.github.composegears.valkyrie.icons",
+                packageName = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
                 nestedPackName = "",
                 generatePreview = true
