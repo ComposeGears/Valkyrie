@@ -4,25 +4,26 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
@@ -32,15 +33,21 @@ import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
+import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.InputTextField
+import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
+import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
+import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.NestedPackName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.getIconPackAnnotatedString
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.getPackageAnnotatedString
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.buildIconPackHint
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.buildPackPackageHint
 import kotlinx.coroutines.Dispatchers
 
 val IconPackCreationScreen by navDestination<Unit> {
@@ -81,6 +88,8 @@ private fun IconPackModeSetupUI(
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
+    var showPackPreview by rememberMutableState { false }
+
     Column {
         TopAppBar {
             BackAction(onBack)
@@ -102,7 +111,7 @@ private fun IconPackModeSetupUI(
                 caption = "Package",
                 value = packageName.text,
                 isError = packageName.validationResult is ValidationResult.Error,
-                tooltipValue = getPackageAnnotatedString(packageName.text, iconPackName.text),
+                tooltipValue = buildPackPackageHint(packageName.text, iconPackName.text),
                 onValueChange = {
                     onValueChange(InputChange.PackageName(it))
                 },
@@ -126,7 +135,7 @@ private fun IconPackModeSetupUI(
                 modifier = Modifier.fillMaxWidth(),
                 caption = "Icon pack name",
                 value = iconPackName.text,
-                tooltipValue = getIconPackAnnotatedString(iconPackName.text),
+                tooltipValue = buildIconPackHint(iconPackName.text),
                 isError = iconPackName.validationResult is ValidationResult.Error,
                 onValueChange = {
                     onValueChange(IconPackName(it))
@@ -160,14 +169,33 @@ private fun IconPackModeSetupUI(
                     onAddNestedPack = onAddNestedPack
                 )
             }
-
-            VerticalSpacer(36.dp)
-            Button(
-                modifier = Modifier.align(Alignment.End),
-                enabled = state.nextAvailable,
-                onClick = onNext,
-            ) {
-                Text(text = "Export and continue")
+            VerticalSpacer(56.dp)
+            Row(modifier = Modifier.fillMaxWidth()) {
+                IconButton(
+                    imageVector = ValkyrieIcons.Visibility,
+                    onClick = { showPackPreview = true },
+                    enabled = state.nextAvailable
+                )
+                WeightSpacer()
+                Button(
+                    enabled = state.nextAvailable,
+                    onClick = onNext,
+                ) {
+                    Text(text = "Export and continue")
+                }
+            }
+        }
+    }
+    if (showPackPreview) {
+        Dialog(onDismissRequest = { showPackPreview = false }) {
+            Surface {
+                IntellijEditorTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(16.dp),
+                    text = state.packPreview
+                )
             }
         }
     }
@@ -188,14 +216,10 @@ private fun NestedPacks(
             Row(modifier = Modifier.fillMaxWidth()) {
                 IconButton(
                     modifier = Modifier.padding(top = 6.dp),
-                    onClick = { onRemove(nestedPack) }
-                ) {
-                    Icon(
-                        modifier = Modifier.size(18.dp),
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = null
-                    )
-                }
+                    imageVector = Icons.Default.Delete,
+                    onClick = { onRemove(nestedPack) },
+                    iconSize = 18.dp,
+                )
                 InputTextField(
                     modifier = Modifier.weight(1f),
                     value = inputFieldState.text,
