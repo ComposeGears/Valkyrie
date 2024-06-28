@@ -1,9 +1,9 @@
-package io.github.composegears.valkyrie.generator.iconpack
+package io.github.composegears.valkyrie.processing.generator.iconpack
 
-import io.github.composegears.valkyrie.generator.imagevector.ext.fileSpecBuilder
-import io.github.composegears.valkyrie.generator.imagevector.ext.objectBuilder
-import io.github.composegears.valkyrie.generator.imagevector.ext.removeDeadCode
-import io.github.composegears.valkyrie.generator.imagevector.ext.setIndent
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.fileSpecBuilder
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.objectBuilder
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.removeDeadCode
+import io.github.composegears.valkyrie.processing.generator.imagevector.ext.setIndent
 
 data class IconPackGeneratorConfig(
     val packageName: String,

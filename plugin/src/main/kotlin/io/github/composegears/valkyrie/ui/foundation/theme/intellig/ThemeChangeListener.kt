@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.theme.intellig
+package io.github.composegears.valkyrie.ui.foundation.theme.intellig
 
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.LafManagerListener

@@ -10,7 +10,7 @@ import com.intellij.openapi.editor.ScrollType
 import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.ui.EditorTextFieldProvider
 import com.intellij.ui.SimpleEditorCustomization
-import io.github.composegears.valkyrie.theme.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import javax.swing.ScrollPaneConstants
 
 
