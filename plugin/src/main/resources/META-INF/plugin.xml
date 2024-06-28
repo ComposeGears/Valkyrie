@@ -1,10 +1,10 @@
 <idea-plugin>
     <id>io.github.composegears.valkyrie</id>
-    <name>Valkyrie</name>
+    <name>Valkyrie - SVG to ImageVector</name>
 
     <vendor url="https://github.com/ComposeGears">ComposeGears</vendor>
 
-    <description>Plugin that help to convert SVG into Compose ImageVector</description>
+    <description>Plugin that help to convert SVG/XML images into Compose ImageVector</description>
 
     <depends>com.intellij.modules.platform</depends>
 
