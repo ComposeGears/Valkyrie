@@ -7,7 +7,7 @@ import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.PackageValidationUseCase
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.screen.intro.Mode
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

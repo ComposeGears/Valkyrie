@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.parser.ParserConfig
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -35,8 +36,8 @@ class ConversionViewModel(
         val icon = IconParser.tryParse(
             file = file,
             config = ParserConfig(
-                packPackage = valkyriesSettings.packageName,
-                packName = valkyriesSettings.iconPackName,
+                packPackage = valkyriesSettings.iconPackage(),
+                packName = valkyriesSettings.packName(),
                 nestedPackName = valkyriesSettings.currentNestedPack,
                 generatePreview = valkyriesSettings.generatePreview
             )
@@ -58,5 +59,21 @@ class ConversionViewModel(
 
     fun selectNestedPack(nestedPack: String) {
         inMemorySettings.updateCurrentNestedPack(nestedPack)
+    }
+
+    private fun ValkyriesSettings.iconPackage(): String {
+        return if (mode == Mode.IconPack) {
+            "$packageName.${currentNestedPack.lowercase()}"
+        } else {
+            packageName
+        }
+    }
+
+    private fun ValkyriesSettings.packName(): String {
+        return if (mode == Mode.IconPack) {
+            iconPackName
+        } else {
+            ""
+        }
     }
 }

@@ -1,6 +1,9 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import com.composegears.tiamat.TiamatViewModel
+import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.validation.IconPackValidationUseCase
@@ -8,14 +11,16 @@ import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.PackageValidationUseCase
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.screen.intro.Mode
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.IconPackName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.PackageName
+import io.github.composegears.valkyrie.ui.domain.model.Mode
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.IconPackName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.PackageName
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class IconPackModeSetupViewModel(
+class IconPackCreationViewModel(
     private val inMemorySettings: InMemorySettings
 ) : TiamatViewModel() {
 
@@ -23,6 +28,9 @@ class IconPackModeSetupViewModel(
 
     private val _state = MutableStateFlow(IconPackModeState())
     val state = _state.asStateFlow()
+
+    private val _events = MutableSharedFlow<IconPackCreationEvent>()
+    val events = _events.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -46,11 +54,29 @@ class IconPackModeSetupViewModel(
     fun removeNestedPack(nestedPack: NestedPack) = inputHandler.removeNestedPack(nestedPack)
 
     fun saveSettings() {
-        val fieldState = state.value.inputFieldState
-        inMemorySettings.updatePackageName(fieldState.packageName.text)
-        inMemorySettings.updateIconPackName(fieldState.iconPackName.text)
-        inMemorySettings.updateNestedPack(fieldState.nestedPacks.map { it.inputFieldState.text })
-        inMemorySettings.updateMode(Mode.IconPack)
+        viewModelScope.launch {
+            val fieldState = state.value.inputFieldState
+            inMemorySettings.updatePackageName(fieldState.packageName.text)
+            inMemorySettings.updateIconPackName(fieldState.iconPackName.text)
+            inMemorySettings.updateNestedPack(fieldState.nestedPacks.map { it.inputFieldState.text })
+            inMemorySettings.updateMode(Mode.IconPack)
+
+            val iconPack = IconPackGenerator(
+                config = IconPackGeneratorConfig(
+                    packageName = inMemorySettings.current.packageName,
+                    iconPackName = inMemorySettings.current.iconPackName,
+                    subPacks = inMemorySettings.current.nestedPacks
+                )
+            ).generate()
+
+            FileWriter.writeToFile(
+                content = iconPack.content,
+                outDirectory = inMemorySettings.current.iconPackDestination,
+                fileName = iconPack.name
+            )
+
+            _events.emit(IconPackCreationEvent.NavigateToNextScreen)
+        }
     }
 }
 
@@ -155,6 +181,10 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
             )
         }
     }
+}
+
+sealed interface IconPackCreationEvent {
+    data object NavigateToNextScreen : IconPackCreationEvent
 }
 
 sealed interface InputChange {

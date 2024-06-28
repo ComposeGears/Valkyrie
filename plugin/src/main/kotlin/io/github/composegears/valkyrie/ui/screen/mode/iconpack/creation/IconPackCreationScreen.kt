@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,19 +36,28 @@ import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.InputTextField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.IconPackName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.InputChange.NestedPackName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.preview.IconPackPreviewScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.util.getIconPackAnnotatedString
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.util.getPackageAnnotatedString
+import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.IconPackName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.NestedPackName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.getIconPackAnnotatedString
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.getPackageAnnotatedString
 import kotlinx.coroutines.Dispatchers
 
-val IconPackModeSetupScreen by navDestination<Unit> {
-
+val IconPackCreationScreen by navDestination<Unit> {
     val navController = navController()
-    val viewModel = koinTiamatViewModel<IconPackModeSetupViewModel>()
+    val viewModel = koinTiamatViewModel<IconPackCreationViewModel>()
 
     val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect {
+            when (it) {
+                is IconPackCreationEvent.NavigateToNextScreen -> {
+                    navController.navigate(ConversionScreen)
+                }
+            }
+        }
+    }
 
     IconPackModeSetupUI(
         state = state,
@@ -57,10 +67,7 @@ val IconPackModeSetupScreen by navDestination<Unit> {
         },
         onAddNestedPack = viewModel::addNestedPack,
         onRemoveNestedPack = viewModel::removeNestedPack,
-        onNext = {
-            viewModel.saveSettings()
-            navController.navigate(IconPackPreviewScreen)
-        }
+        onNext = viewModel::saveSettings
     )
 }
 
@@ -77,7 +84,7 @@ private fun IconPackModeSetupUI(
     Column {
         TopAppBar {
             BackAction(onBack)
-            AppBarTitle("IconPack mode setup")
+            AppBarTitle("IconPack setup")
         }
         Column(
             modifier = Modifier
@@ -160,7 +167,7 @@ private fun IconPackModeSetupUI(
                 enabled = state.nextAvailable,
                 onClick = onNext,
             ) {
-                Text(text = "Next")
+                Text(text = "Export and continue")
             }
         }
     }

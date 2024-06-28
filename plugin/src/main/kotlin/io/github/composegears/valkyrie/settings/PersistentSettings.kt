@@ -7,7 +7,7 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
 import io.github.composegears.valkyrie.settings.PersistentSettings.ValkyrieState
-import io.github.composegears.valkyrie.ui.screen.intro.Mode
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 
 @Service
 @State(name = "Valkyrie.Settings", storages = [Storage("valkyrie_settings.xml")])
@@ -18,6 +18,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         var packageName by string()
         var iconPackName by string()
+        var iconPackDestination by string()
 
         var nestedPacks by string()
         var currentNestedPack by string()
@@ -29,6 +30,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
     companion object {
         @JvmStatic
-        val persistentSettings = service<PersistentSettings>().state
+        val persistentSettings: ValkyrieState
+            get() = service<PersistentSettings>().state
     }
 }

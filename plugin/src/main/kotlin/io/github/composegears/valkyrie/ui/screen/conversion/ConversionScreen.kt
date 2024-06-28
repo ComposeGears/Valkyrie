@@ -1,17 +1,12 @@
 package io.github.composegears.valkyrie.ui.screen.conversion
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,17 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.koin.koinTiamatViewModel
@@ -49,16 +39,16 @@ import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.theme.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.CopyAction
+import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
-import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.rememberDragAndDropHandler
+import io.github.composegears.valkyrie.ui.foundation.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.intro.Mode
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,16 +62,9 @@ val ConversionScreen: NavDestination<Unit> by navDestination {
     val state by viewModel.state.collectAsState()
     val settings by viewModel.valkyriesSettings.collectAsState()
 
-    val dragAndDropHandler = rememberDragAndDropHandler {
-        viewModel.selectFile(it)
-    }
-
-    val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
-
     ConversionUi(
         state = state,
         settings = settings,
-        isDragging = isDragging,
         onSelectFile = {
             viewModel.selectFile(it)
             viewModel.updateLastChoosePath(it)
@@ -101,7 +84,6 @@ val ConversionScreen: NavDestination<Unit> by navDestination {
 private fun ConversionUi(
     state: ConversionState,
     settings: ValkyriesSettings,
-    isDragging: Boolean,
     onSelectFile: (File) -> Unit,
     openSettings: () -> Unit,
     resetIconContent: () -> Unit,
@@ -114,7 +96,6 @@ private fun ConversionUi(
     PluginUI(
         content = state.iconContent,
         settings = settings,
-        isDragging = isDragging,
         onChooseFile = { showFilePicker = true },
         onClear = resetIconContent,
         onCopy = {
@@ -132,7 +113,8 @@ private fun ConversionUi(
             }
         },
         onSelectPack = onSelectNestedPack,
-        openSettings = openSettings
+        openSettings = openSettings,
+        onSelectFile = onSelectFile
     )
 
     FilePicker(
@@ -154,11 +136,11 @@ private fun ConversionUi(
 private fun PluginUI(
     content: String?,
     settings: ValkyriesSettings,
-    isDragging: Boolean,
     onChooseFile: () -> Unit,
     onClear: () -> Unit,
     onCopy: () -> Unit,
     onSelectPack: (String) -> Unit,
+    onSelectFile: (File) -> Unit,
     openSettings: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -171,7 +153,7 @@ private fun PluginUI(
             SettingsAction(openSettings = openSettings)
         }
         if (content != null) {
-            if (settings.mode == Mode.IconPack) {
+            if (settings.mode == Mode.IconPack && settings.nestedPacks.isNotEmpty()) {
                 NestedPacksDropdown(
                     settings = settings,
                     onSelectPack = onSelectPack
@@ -189,7 +171,7 @@ private fun PluginUI(
                 contentAlignment = Alignment.Center
             ) {
                 SelectableState(
-                    isDragging = isDragging,
+                    onSelectFile = onSelectFile,
                     onChooseFile = onChooseFile
                 )
             }
@@ -247,44 +229,17 @@ private fun NestedPacksDropdown(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun SelectableState(
-    isDragging: Boolean,
-    onChooseFile: () -> Unit
+    onChooseFile: () -> Unit,
+    onSelectFile: (File) -> Unit
 ) {
-    var isHover by rememberMutableState(isDragging) { isDragging }
+    val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectFile)
+    val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
-    val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-    val border by animateDpAsState(if (isHover) 4.dp else 1.dp)
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth(0.8f)
-            .heightIn(min = 300.dp)
-            .clip(MaterialTheme.shapes.small)
-            .onPointerEvent(PointerEventType.Enter) { isHover = true }
-            .onPointerEvent(PointerEventType.Exit) { isHover = false }
-            .dashedBorder(
-                strokeWidth = border,
-                gapWidth = 8.dp,
-                dashWidth = 8.dp,
-                color = dashColor,
-                shape = MaterialTheme.shapes.small
-            )
-            .padding(2.dp)
-            .background(
-                color = when {
-                    isHover -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
-                    else -> Color.Transparent
-                },
-                shape = MaterialTheme.shapes.small
-            )
-            .clickable(
-                onClick = onChooseFile,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }),
-        contentAlignment = Alignment.Center
+    DragAndDropBox(
+        isDragging = isDragging,
+        onChoose = onChooseFile
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
