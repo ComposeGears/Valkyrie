@@ -14,13 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
@@ -36,6 +30,7 @@ import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeInputChange.PackageName
+import io.github.composegears.valkyrie.ui.screen.mode.simple.util.buildPackageHint
 import kotlinx.coroutines.Dispatchers
 
 val SimpleModeSetupScreen by navDestination<Unit> {
@@ -94,7 +89,7 @@ private fun SimpleModeSetupScreenUI(
                 caption = "Package",
                 value = packageName.text,
                 isError = packageName.validationResult is ValidationResult.Error,
-                tooltipValue = getPackageHint(packageName.text),
+                tooltipValue = buildPackageHint(packageName.text),
                 onValueChange = {
                     onValueChange(PackageName(it))
                 },
@@ -122,37 +117,6 @@ private fun SimpleModeSetupScreenUI(
                 Text(text = "Next")
             }
         }
-    }
-}
-
-private fun getPackageHint(packageName: String): AnnotatedString {
-    val placeholder = packageName.ifEmpty { "your.package" }
-    val codeBlock = """
-        package $placeholder
-        
-        val MyIcon: ImageVector
-            get() {
-                if (_MyIcon != null) {
-                return _MyIcon!!
-            }
-            ...
-       }
-       """.trimIndent()
-
-    return buildAnnotatedString {
-        withStyle(SpanStyle(fontWeight = FontWeight.ExtraLight)) {
-            append(codeBlock)
-        }
-        val startIndex = codeBlock.indexOf(placeholder)
-        val lastIndex = startIndex + placeholder.length
-        addStyle(
-            style = SpanStyle(
-                fontWeight = FontWeight.Bold,
-                textDecoration = TextDecoration.Underline
-            ),
-            start = startIndex,
-            end = lastIndex
-        )
     }
 }
 
