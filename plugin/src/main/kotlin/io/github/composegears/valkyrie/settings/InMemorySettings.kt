@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.settings
 
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.screen.intro.Mode
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -25,9 +25,18 @@ class InMemorySettings {
         PersistentSettings.persistentSettings.iconPackName = iconPackName
     }
 
+    fun updateIconPackDestination(iconPackDestination: String) = updateSettings {
+        PersistentSettings.persistentSettings.iconPackDestination = iconPackDestination
+    }
+
     fun updateNestedPack(nestedPacks: List<String>) = updateSettings {
-        PersistentSettings.persistentSettings.nestedPacks = nestedPacks.joinToString(separator = ",")
-        PersistentSettings.persistentSettings.currentNestedPack = nestedPacks.first()
+        if (nestedPacks.isEmpty()) {
+            PersistentSettings.persistentSettings.nestedPacks = ""
+            PersistentSettings.persistentSettings.currentNestedPack = ""
+        } else {
+            PersistentSettings.persistentSettings.nestedPacks = nestedPacks.joinToString(separator = ",")
+            PersistentSettings.persistentSettings.currentNestedPack = nestedPacks.first()
+        }
     }
 
     fun updateCurrentNestedPack(currentNestedPack: String) = updateSettings {
@@ -48,6 +57,7 @@ class InMemorySettings {
 
             packageName = ""
             iconPackName = ""
+            iconPackDestination = ""
 
             nestedPacks = ""
             currentNestedPack = ""
@@ -69,6 +79,7 @@ class InMemorySettings {
 
             packageName = packageName.or("io.github.composegears.valkyrie"),
             iconPackName = iconPackName.or("ValkyrieIcons"),
+            iconPackDestination = iconPackDestination.or(""),
 
             nestedPacks = nestedPacks.orEmpty()
                 .split(",")
@@ -86,6 +97,7 @@ data class ValkyriesSettings(
 
     val packageName: String,
     val iconPackName: String,
+    val iconPackDestination: String,
 
     val nestedPacks: List<String>,
     val currentNestedPack: String,
