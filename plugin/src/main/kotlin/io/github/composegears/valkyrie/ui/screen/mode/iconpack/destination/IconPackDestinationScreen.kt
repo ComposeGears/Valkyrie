@@ -34,9 +34,9 @@ import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
+import io.github.composegears.valkyrie.ui.foundation.dnd.rememberDragAndDropFolderHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Folder
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.rememberFolderDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 
 val IconPackDestinationScreen by navDestination<Unit> {
@@ -45,7 +45,7 @@ val IconPackDestinationScreen by navDestination<Unit> {
 
     val state by viewModel.state.collectAsState()
 
-    val dragAndDropHandler = rememberFolderDragAndDropHandler(onDrop = viewModel::updateDestination)
+    val dragAndDropHandler = rememberDragAndDropFolderHandler(onDrop = viewModel::updateDestination)
     val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
 
     var showDirectoryPicker by remember { mutableStateOf(false) }
@@ -115,7 +115,7 @@ private fun IconPackDestinationScreenUI(
                 .align(Alignment.CenterHorizontally)
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
-                if (state.destination.isNotEmpty()) {
+                if (state.iconPackDestination.isNotEmpty()) {
                     Text(
                         modifier = Modifier.align(Alignment.Start),
                         text = "Export path:",
@@ -123,7 +123,7 @@ private fun IconPackDestinationScreenUI(
                     )
                     Text(
                         modifier = Modifier.align(Alignment.Start),
-                        text = state.destination,
+                        text = state.iconPackDestination,
                         textDecoration = TextDecoration.Underline,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -148,7 +148,7 @@ private fun IconPackDestinationScreenPreview() {
     IconPackDestinationScreenUI(
         state = IconPackDestinationState(
             nextButtonEnabled = true,
-            destination = "Users/Downloads/IconPackDestination"
+            iconPackDestination = "Users/Downloads/IconPackDestination"
         ),
         onChooseDirectory = {},
         isDragging = false,
