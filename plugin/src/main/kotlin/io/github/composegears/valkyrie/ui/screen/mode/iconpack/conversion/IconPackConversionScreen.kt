@@ -43,9 +43,9 @@ import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
+import io.github.composegears.valkyrie.ui.foundation.dnd.rememberDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
@@ -233,7 +233,7 @@ private fun SelectableState(
     onChooseFile: () -> Unit,
     onSelectFile: (File) -> Unit
 ) {
-    val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectFile)
+    val dragAndDropHandler = rememberDragAndDropHandler(onDrop = onSelectFile)
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
     DragAndDropBox(

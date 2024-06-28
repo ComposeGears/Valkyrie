@@ -1,9 +1,10 @@
-package io.github.composegears.valkyrie.ui.foundation
+package io.github.composegears.valkyrie.ui.foundation.dnd
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalComponent
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
@@ -13,7 +14,43 @@ import java.awt.dnd.DropTargetEvent
 import java.awt.dnd.DropTargetListener
 import java.io.File
 
-class SimpleFileDropTargetListener(
+@Composable
+fun rememberDragAndDropFolderHandler(
+    onDrop: (String) -> Unit
+) = rememberDragAndDropHandler { file ->
+    val destination = when {
+        file.isDirectory -> file.path
+        else -> file.parent
+    }
+    onDrop(destination)
+}
+
+@Composable
+fun rememberDragAndDropHandler(
+    onDrop: (File) -> Unit
+): DragAndDropHandlerState {
+    var handlerState by rememberMutableState { DragAndDropHandlerState() }
+
+    val localComponent = LocalComponent.current
+
+    DisposableEffect(Unit) {
+        val listener = SimpleDropTargetListener(
+            onDrop = onDrop,
+            onDragEnter = { handlerState = handlerState.copy(isDragging = true) },
+            onDragExit = { handlerState = handlerState.copy(isDragging = false) })
+        val dropTarget = DropTarget(localComponent, listener)
+
+        onDispose {
+            dropTarget.removeDropTargetListener(listener)
+        }
+    }
+
+    return handlerState
+}
+
+data class DragAndDropHandlerState(val isDragging: Boolean = false)
+
+class SimpleDropTargetListener(
     val onDragEnter: () -> Unit = {},
     val onDragExit: () -> Unit = {},
     val onDrop: (File) -> Unit = {}
@@ -39,31 +76,4 @@ class SimpleFileDropTargetListener(
         onDrop(file)
         event.dropComplete(true)
     }
-}
-
-data class DragAndDropHandlerState(
-    val isDragging: Boolean = false
-)
-
-@Composable
-fun rememberFileDragAndDropHandler(
-    onDrop: (File) -> Unit
-): DragAndDropHandlerState {
-    var handlerState by rememberMutableState { DragAndDropHandlerState() }
-
-    val localComponent = LocalComponent.current
-
-    DisposableEffect(Unit) {
-        val listener = SimpleFileDropTargetListener(
-            onDrop = onDrop,
-            onDragEnter = { handlerState = handlerState.copy(isDragging = true) },
-            onDragExit = { handlerState = handlerState.copy(isDragging = false) })
-        val dropTarget = DropTarget(localComponent, listener)
-
-        onDispose {
-            dropTarget.removeDropTargetListener(listener)
-        }
-    }
-
-    return handlerState
 }

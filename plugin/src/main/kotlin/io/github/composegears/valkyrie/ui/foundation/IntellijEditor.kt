@@ -13,7 +13,6 @@ import com.intellij.ui.SimpleEditorCustomization
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import javax.swing.ScrollPaneConstants
 
-
 @Composable
 fun IntellijEditorTextField(
     text: String,

@@ -15,7 +15,7 @@ class IconPackDestinationViewModel(
     private val _state = MutableStateFlow(
         IconPackDestinationState(
             nextButtonEnabled = settings.iconPackDestination.isNotEmpty(),
-            destination = settings.iconPackDestination
+            iconPackDestination = settings.iconPackDestination
         )
     )
     val state = _state.asStateFlow()
@@ -23,18 +23,18 @@ class IconPackDestinationViewModel(
     fun updateDestination(destination: String) {
         _state.updateState {
             copy(
-                destination = destination,
+                iconPackDestination = destination,
                 nextButtonEnabled = true
             )
         }
     }
 
     fun saveSettings() {
-        inMemorySettings.updateIconPackDestination(state.value.destination)
+        inMemorySettings.updateIconPackDestination(state.value.iconPackDestination)
     }
 }
 
 data class IconPackDestinationState(
     val nextButtonEnabled: Boolean = false,
-    val destination: String = ""
+    val iconPackDestination: String = ""
 )
