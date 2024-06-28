@@ -34,9 +34,9 @@ import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
-import io.github.composegears.valkyrie.ui.screen.intro.Mode.IconPack
-import io.github.composegears.valkyrie.ui.screen.intro.Mode.Simple
-import io.github.composegears.valkyrie.ui.screen.intro.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 
 val SettingsScreen by navDestination<Unit> {
     val navController = navController()
@@ -196,10 +196,13 @@ private fun SettingsScreenPreview() {
             mode = Simple,
             packageName = "",
             iconPackName = "",
+            iconPackDestination = "",
+
             nestedPacks = emptyList(),
             currentNestedPack = "",
+
             generatePreview = false,
-            initialDirectory = ""
+            initialDirectory = "",
         ),
         onGeneratePreviewChanged = {},
         onClearSettings = {},

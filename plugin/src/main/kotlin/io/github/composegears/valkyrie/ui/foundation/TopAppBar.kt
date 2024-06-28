@@ -50,6 +50,7 @@ fun AppBarTitle(title: String) {
     Text(
         modifier = Modifier.padding(horizontal = 4.dp),
         text = title,
+        maxLines = 1,
         style = MaterialTheme.typography.titleSmall
     )
 }

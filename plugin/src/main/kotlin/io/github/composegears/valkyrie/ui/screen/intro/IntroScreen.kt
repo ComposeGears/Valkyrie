@@ -20,13 +20,14 @@ import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
 import io.github.composegears.valkyrie.ui.foundation.TooltipButton
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.screen.intro.Mode.IconPack
-import io.github.composegears.valkyrie.ui.screen.intro.Mode.Simple
-import io.github.composegears.valkyrie.ui.screen.intro.Mode.Unspecified
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.IconPackModeSetupScreen
+import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
 
 val IntroScreen: NavDestination<Unit> by navDestination {
@@ -44,7 +45,7 @@ val IntroScreen: NavDestination<Unit> by navDestination {
                 }
                 IconPack -> {
                     navController.navigate(
-                        dest = IconPackModeSetupScreen,
+                        dest = IconPackDestinationScreen,
                         transition = navigationSlideInOut(true)
                     )
                 }
@@ -84,7 +85,7 @@ private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
         VerticalSpacer(16.dp)
         ModeRow(
             title = "IconPack mode",
-            tooltipText = "Create organized icon pack with an extension property of you pack object",
+            tooltipText = "Create organized icon pack with an extension property of you pack object and batch export into your project",
             onSelect = { onSelect(IconPack) }
         )
     }

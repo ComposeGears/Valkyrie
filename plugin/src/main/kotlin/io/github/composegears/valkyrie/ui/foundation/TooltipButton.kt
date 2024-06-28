@@ -46,7 +46,7 @@ fun TooltipButton(text: String, modifier: Modifier = Modifier) {
             modifier = Modifier.size(36.dp),
             contentPadding = PaddingValues(0.dp),
             colors = ButtonDefaults.buttonColors().copy(
-                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+                containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
             ),
             shape = CircleShape,
             onClick = {},

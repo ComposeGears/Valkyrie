@@ -8,9 +8,11 @@ import com.composegears.tiamat.rememberNavController
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.conversion.ConversionScreen
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
-import io.github.composegears.valkyrie.ui.screen.intro.Mode.Companion.isUnspecified
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.preview.IconPackPreviewScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.setup.IconPackModeSetupScreen
+import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import org.koin.compose.koinInject
@@ -23,8 +25,8 @@ fun ValkyriePlugin() {
         destinations = arrayOf(
             IntroScreen,
             SimpleModeSetupScreen,
-            IconPackModeSetupScreen,
-            IconPackPreviewScreen,
+            IconPackCreationScreen,
+            IconPackDestinationScreen,
             ConversionScreen,
             SettingsScreen
         ),
@@ -33,9 +35,10 @@ fun ValkyriePlugin() {
             if (current != null) return@rememberNavController
 
             val settings = inMemorySettings.current
-            val screen = when {
-                settings.mode.isUnspecified() -> IntroScreen
-                else -> ConversionScreen
+            val screen = when (settings.mode) {
+                Simple -> ConversionScreen
+                IconPack -> ConversionScreen
+                Unspecified -> IntroScreen
             }
             navigate(screen)
         }
