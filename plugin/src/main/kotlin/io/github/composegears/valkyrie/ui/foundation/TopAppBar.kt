@@ -6,13 +6,10 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,12 +34,10 @@ fun TopAppBar(content: @Composable RowScope.() -> Unit) {
 
 @Composable
 fun BackAction(onBack: () -> Unit) {
-    IconButton(onClick = onBack) {
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-            contentDescription = null
-        )
-    }
+    IconButton(
+        onClick = onBack,
+        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft
+    )
 }
 
 @Composable
@@ -57,33 +52,27 @@ fun AppBarTitle(title: String) {
 
 @Composable
 fun ClearAction(onClear: () -> Unit) {
-    IconButton(onClick = onClear) {
-        Icon(
-            imageVector = Icons.Default.Clear,
-            contentDescription = null
-        )
-    }
+    IconButton(
+        imageVector = Icons.Default.Clear,
+        onClick = onClear
+    )
 }
 
 @Composable
 fun CopyAction(onCopy: () -> Unit) {
-    IconButton(onClick = onCopy) {
-        Icon(
-            modifier = Modifier.size(18.dp),
-            imageVector = ValkyrieIcons.ContentCopy,
-            contentDescription = null
-        )
-    }
+    IconButton(
+        imageVector = ValkyrieIcons.ContentCopy,
+        onClick = onCopy,
+        iconSize = 18.dp
+    )
 }
 
 @Composable
 fun SettingsAction(openSettings: () -> Unit) {
-    IconButton(onClick = openSettings) {
-        Icon(
-            imageVector = Icons.Default.Settings,
-            contentDescription = null
-        )
-    }
+    IconButton(
+        imageVector = Icons.Default.Settings,
+        onClick = openSettings
+    )
 }
 
 @Preview
