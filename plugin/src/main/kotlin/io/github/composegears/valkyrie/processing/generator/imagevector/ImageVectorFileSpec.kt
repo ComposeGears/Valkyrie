@@ -43,7 +43,7 @@ data class ImageVectorSpecOutput(
 
 class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
-    fun createFileFor(vector: Vector): ImageVectorSpecOutput {
+    fun createFileFor(vector: Vector): ImageVectorSpecOutput  {
         val backingProperty = backingPropertySpec(
             name = config.iconName.backingPropertyName(),
             type = ClassNames.ImageVector
@@ -63,7 +63,7 @@ class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
                                 config.iconPack != null -> {
                                     MemberName(
                                         enclosingClassName = config.iconPack,
-                                        simpleName = config.iconName
+                                        simpleName = config.iconName,
                                     )
                                 }
                                 else -> {
