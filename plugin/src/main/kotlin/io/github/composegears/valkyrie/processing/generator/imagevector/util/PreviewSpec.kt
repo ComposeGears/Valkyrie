@@ -10,7 +10,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.processing.generator.imagevector.ext.funSpecBuilder
 
 fun iconPreviewSpec(iconName: MemberName): FunSpec {
-    return funSpecBuilder("Preview") {
+    return funSpecBuilder("${iconName.simpleName}Preview") {
         addModifiers(KModifier.PRIVATE)
         addAnnotation(previewAnnotation)
         addAnnotation(composableAnnotation)
