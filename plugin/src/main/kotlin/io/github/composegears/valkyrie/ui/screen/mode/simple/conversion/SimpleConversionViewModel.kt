@@ -1,8 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
 import com.composegears.tiamat.TiamatViewModel
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.processing.parser.IconParser
-import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
@@ -32,16 +33,22 @@ class SimpleConversionViewModel(
     }
 
     private fun updateIcon(file: File, valkyriesSettings: ValkyriesSettings) {
-        val icon = IconParser.tryParse(
-            file = file,
-            config = ParserConfig(
-                packageName = valkyriesSettings.packageName,
-                packName = "",
-                nestedPackName = valkyriesSettings.currentNestedPack,
-                generatePreview = valkyriesSettings.generatePreview
-            )
-        )
-        _state.updateState { copy(iconContent = icon) }
+        val output = runCatching {
+            val parserOutput = IconParser.toVector(file)
+            ImageVectorGenerator.convert(
+                parserOutput = parserOutput,
+                config = ImageVectorGeneratorConfig(
+                    packageName = valkyriesSettings.packageName,
+                    packName = "",
+                    nestedPackName = "",
+                    generatePreview = valkyriesSettings.generatePreview
+                )
+            ).content
+        }.getOrElse {
+            it.message.orEmpty()
+        }
+
+        _state.updateState { copy(iconContent = output) }
     }
 
     fun selectFile(file: File) {

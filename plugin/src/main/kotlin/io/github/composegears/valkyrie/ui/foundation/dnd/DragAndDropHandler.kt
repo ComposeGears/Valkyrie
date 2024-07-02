@@ -4,6 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalInspectionMode
+import io.github.composegears.valkyrie.ui.foundation.dnd.DragAndDropHandlerState.Companion.dragging
+import io.github.composegears.valkyrie.ui.foundation.dnd.DragAndDropHandlerState.Companion.notDragging
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalComponent
 import java.awt.dnd.DnDConstants
@@ -15,45 +18,62 @@ import java.awt.dnd.DropTargetListener
 import java.io.File
 
 @Composable
-fun rememberDragAndDropFolderHandler(
-    onDrop: (String) -> Unit
-) = rememberDragAndDropHandler { file ->
-    val destination = when {
-        file.isDirectory -> file.path
-        else -> file.parent
+fun rememberDragAndDropFolderHandler(onDrop: (String) -> Unit): DragAndDropHandlerState {
+    return rememberFileDragAndDropHandler { file ->
+        val destination = when {
+            file.isDirectory -> file.path
+            else -> file.parent
+        }
+        onDrop(destination)
     }
-    onDrop(destination)
 }
 
 @Composable
-fun rememberDragAndDropHandler(
-    onDrop: (File) -> Unit
-): DragAndDropHandlerState {
-    var handlerState by rememberMutableState { DragAndDropHandlerState() }
-
-    val localComponent = LocalComponent.current
-
-    DisposableEffect(Unit) {
-        val listener = SimpleDropTargetListener(
-            onDrop = onDrop,
-            onDragEnter = { handlerState = handlerState.copy(isDragging = true) },
-            onDragExit = { handlerState = handlerState.copy(isDragging = false) })
-        val dropTarget = DropTarget(localComponent, listener)
-
-        onDispose {
-            dropTarget.removeDropTargetListener(listener)
+fun rememberFileDragAndDropHandler(onDrop: (File) -> Unit): DragAndDropHandlerState {
+    return rememberMultiSelectDragAndDropHandler { fileList ->
+        if (fileList.isNotEmpty()) {
+            onDrop(fileList.first())
         }
     }
-
-    return handlerState
 }
 
-data class DragAndDropHandlerState(val isDragging: Boolean = false)
+@Composable
+fun rememberMultiSelectDragAndDropHandler(onDrop: (List<File>) -> Unit): DragAndDropHandlerState {
+    if (LocalInspectionMode.current) {
+        return DragAndDropHandlerState()
+    } else {
+        val localComponent = LocalComponent.current
+        var state by rememberMutableState { DragAndDropHandlerState() }
 
-class SimpleDropTargetListener(
+        DisposableEffect(Unit) {
+            val listener = SimpleDropTargetListener(
+                onDrop = onDrop,
+                onDragEnter = { state = state.dragging() },
+                onDragExit = { state = state.notDragging() }
+            )
+            val dropTarget = DropTarget(localComponent, listener)
+
+            onDispose {
+                dropTarget.removeDropTargetListener(listener)
+            }
+        }
+
+        return state
+    }
+}
+
+data class DragAndDropHandlerState(val isDragging: Boolean = false) {
+
+    companion object {
+        fun DragAndDropHandlerState.dragging() = copy(isDragging = true)
+        fun DragAndDropHandlerState.notDragging() = copy(isDragging = false)
+    }
+}
+
+private class SimpleDropTargetListener(
     val onDragEnter: () -> Unit = {},
     val onDragExit: () -> Unit = {},
-    val onDrop: (File) -> Unit = {}
+    val onDrop: (List<File>) -> Unit = {}
 ) : DropTargetListener {
     override fun dragEnter(dtde: DropTargetDragEvent?) = onDragEnter()
 
@@ -67,13 +87,13 @@ class SimpleDropTargetListener(
         event.acceptDrop(DnDConstants.ACTION_COPY)
         val transferable = event.transferable
 
-        val file = transferable.transferDataFlavors
+        val files = transferable.transferDataFlavors
             .filter { it.isFlavorJavaFileListType }
             .mapNotNull { transferable.getTransferData(it) as? List<*> }
             .flatten()
-            .firstNotNullOf { it as? File }
+            .filterIsInstance<File>()
 
-        onDrop(file)
+        onDrop(files)
         event.dropComplete(true)
     }
 }

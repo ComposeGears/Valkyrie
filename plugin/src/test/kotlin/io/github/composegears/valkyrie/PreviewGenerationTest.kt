@@ -1,7 +1,8 @@
 package io.github.composegears.valkyrie
 
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.processing.parser.IconParser
-import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -10,15 +11,16 @@ class PreviewGenerationTest {
     @Test
     fun `preview generation without icon pack`() {
         val icon = loadIcon("ic_without_path.xml")
-        val output = IconParser.tryParse(
-            file = icon,
-            config = ParserConfig(
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = ImageVectorGeneratorConfig(
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
                 generatePreview = true
             )
-        )
+        ).content
 
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons
@@ -66,15 +68,16 @@ class PreviewGenerationTest {
     @Test
     fun `preview generation with icon pack`() {
         val icon = loadIcon("ic_without_path.xml")
-        val output = IconParser.tryParse(
-            file = icon,
-            config = ParserConfig(
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = ImageVectorGeneratorConfig(
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
                 nestedPackName = "",
                 generatePreview = true
             )
-        )
+        ).content
 
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons

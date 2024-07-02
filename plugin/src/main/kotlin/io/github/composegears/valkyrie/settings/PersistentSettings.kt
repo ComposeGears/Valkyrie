@@ -21,7 +21,6 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var iconPackDestination by string()
 
         var nestedPacks by string()
-        var currentNestedPack by string()
 
         var generatePreview by property(false)
 

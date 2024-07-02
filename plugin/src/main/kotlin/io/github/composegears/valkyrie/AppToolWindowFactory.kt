@@ -8,9 +8,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.util.ui.components.BorderLayoutPanel
-import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.Koin
+import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 
 class AppToolWindowFactory : ToolWindowFactory, DumbAware {
 

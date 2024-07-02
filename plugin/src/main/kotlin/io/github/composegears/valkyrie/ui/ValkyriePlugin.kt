@@ -15,6 +15,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
+import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import org.koin.compose.koinInject
 
@@ -31,6 +32,8 @@ fun ValkyriePlugin() {
             IconPackDestinationScreen,
             IconPackCreationScreen,
             IconPackConversionScreen,
+
+            CodePreviewScreen,
 
             SettingsScreen
         ),

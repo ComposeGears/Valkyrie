@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.processing.writter
 
+import com.intellij.openapi.vfs.VirtualFileManager
 import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
 import kotlin.io.path.outputStream
@@ -18,5 +19,7 @@ object FileWriter {
             .use {
                 it.write(content)
             }
+
+        VirtualFileManager.getInstance().asyncRefresh()
     }
 }

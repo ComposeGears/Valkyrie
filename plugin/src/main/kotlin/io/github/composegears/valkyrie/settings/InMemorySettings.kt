@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.settings
 
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.domain.model.Mode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -32,15 +32,9 @@ class InMemorySettings {
     fun updateNestedPack(nestedPacks: List<String>) = updateSettings {
         if (nestedPacks.isEmpty()) {
             PersistentSettings.persistentSettings.nestedPacks = ""
-            PersistentSettings.persistentSettings.currentNestedPack = ""
         } else {
             PersistentSettings.persistentSettings.nestedPacks = nestedPacks.joinToString(separator = ",")
-            PersistentSettings.persistentSettings.currentNestedPack = nestedPacks.first()
         }
-    }
-
-    fun updateCurrentNestedPack(currentNestedPack: String) = updateSettings {
-        PersistentSettings.persistentSettings.currentNestedPack = currentNestedPack
     }
 
     fun updatePackageName(packageName: String) = updateSettings {
@@ -60,7 +54,6 @@ class InMemorySettings {
             iconPackDestination = ""
 
             nestedPacks = ""
-            currentNestedPack = ""
 
             generatePreview = false
 
@@ -84,7 +77,6 @@ class InMemorySettings {
             nestedPacks = nestedPacks.orEmpty()
                 .split(",")
                 .filter { it.isNotEmpty() },
-            currentNestedPack = currentNestedPack.orEmpty(),
 
             generatePreview = generatePreview,
 
@@ -100,7 +92,6 @@ data class ValkyriesSettings(
     val iconPackDestination: String,
 
     val nestedPacks: List<String>,
-    val currentNestedPack: String,
 
     val generatePreview: Boolean,
 

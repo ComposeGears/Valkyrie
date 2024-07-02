@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import com.composegears.tiamat.TiamatViewModel
-import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.processing.writter.FileWriter
@@ -87,8 +86,6 @@ class IconPackCreationViewModel(
                 outDirectory = inMemorySettings.current.iconPackDestination,
                 fileName = iconPack.name
             )
-
-            VirtualFileManager.getInstance().asyncRefresh()
 
             _events.emit(IconPackCreationEvent.NavigateToNextScreen)
         }

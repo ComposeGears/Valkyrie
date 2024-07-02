@@ -13,6 +13,27 @@ class IconPackGeneratorTest {
             config = IconPackGeneratorConfig(
                 packageName = "io.github.composegears.valkyrie.icons",
                 iconPackName = "ValkyrieIcons",
+                subPacks = emptyList()
+            )
+        ).generate()
+
+        val expectedContent = """
+            package io.github.composegears.valkyrie.icons
+            
+            object ValkyrieIcons
+            
+        """.trimIndent()
+
+        assertEquals(result.content, expectedContent)
+        assertEquals(result.name, "ValkyrieIcons")
+    }
+
+    @Test
+    fun `generate nested packs`() {
+        val result = IconPackGenerator(
+            config = IconPackGeneratorConfig(
+                packageName = "io.github.composegears.valkyrie.icons",
+                iconPackName = "ValkyrieIcons",
                 subPacks = listOf("Filled", "Colored")
             )
         ).generate()
