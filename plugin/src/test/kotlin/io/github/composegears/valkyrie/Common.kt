@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie
 
-import io.github.composegears.valkyrie.processing.parser.ParserConfig
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
 import java.io.File
 
-val DEFAULT_CONFIG = ParserConfig(
+val DEFAULT_CONFIG = ImageVectorGeneratorConfig(
     packageName = "io.github.composegears.valkyrie.icons",
     packName = "ValkyrieIcons",
     nestedPackName = "",

@@ -1,7 +1,8 @@
 package io.github.composegears.valkyrie
 
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.processing.parser.IconParser
-import io.github.composegears.valkyrie.processing.parser.ParserConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -10,15 +11,16 @@ class XmlIconParserTest {
     @Test
     fun `generation without icon pack`() {
         val icon = loadIcon("ic_without_path.xml")
-        val output = IconParser.tryParse(
-            file = icon,
-            config = ParserConfig(
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = ImageVectorGeneratorConfig(
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
                 generatePreview = false
             )
-        )
+        ).content
 
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons
@@ -52,7 +54,11 @@ class XmlIconParserTest {
     @Test
     fun `empty path xml`() {
         val icon = loadIcon("ic_without_path.xml")
-        val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = DEFAULT_CONFIG
+        ).content
 
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons
@@ -86,7 +92,11 @@ class XmlIconParserTest {
     @Test
     fun `icon only with path`() {
         val icon = loadIcon("ic_only_path.xml")
-        val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = DEFAULT_CONFIG
+        ).content
 
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons
@@ -132,7 +142,11 @@ class XmlIconParserTest {
     @Test
     fun `icon with path and solid color`() {
         val icon = loadIcon("ic_fill_color_stroke.xml")
-        val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = DEFAULT_CONFIG
+        ).content
 
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons
@@ -183,7 +197,11 @@ class XmlIconParserTest {
     @Test
     fun `icon with all path params`() {
         val icon = loadIcon("ic_all_path_params.xml")
-        val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = DEFAULT_CONFIG
+        ).content
 
         val expectedOutput = """
            package io.github.composegears.valkyrie.icons
@@ -244,7 +262,11 @@ class XmlIconParserTest {
     @Test
     fun `icon with several path`() {
         val icon = loadIcon("ic_several_path.xml")
-        val output = IconParser.tryParse(file = icon, config = DEFAULT_CONFIG)
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = DEFAULT_CONFIG
+        ).content
 
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons

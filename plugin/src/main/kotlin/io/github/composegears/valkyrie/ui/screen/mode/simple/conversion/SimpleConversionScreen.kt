@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,10 +24,18 @@ import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.foundation.*
-import io.github.composegears.valkyrie.ui.foundation.dnd.rememberDragAndDropHandler
+import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
+import io.github.composegears.valkyrie.ui.foundation.ClearAction
+import io.github.composegears.valkyrie.ui.foundation.CopyAction
+import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
+import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
+import io.github.composegears.valkyrie.ui.foundation.SettingsAction
+import io.github.composegears.valkyrie.ui.foundation.TopAppBar
+import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
+import io.github.composegears.valkyrie.ui.foundation.dnd.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.delay
@@ -148,7 +160,7 @@ private fun SelectableState(
     onChooseFile: () -> Unit,
     onSelectFile: (File) -> Unit
 ) {
-    val dragAndDropHandler = rememberDragAndDropHandler(onDrop = onSelectFile)
+    val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectFile)
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
     DragAndDropBox(

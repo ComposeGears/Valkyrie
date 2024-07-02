@@ -1,58 +1,51 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
-import com.darkrockstudios.libraries.mpfilepicker.FilePicker
-import com.intellij.notification.NotificationGroupManager
-import com.intellij.notification.NotificationType
-import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.domain.model.Mode
+import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
-import io.github.composegears.valkyrie.ui.foundation.CopyAction
-import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
-import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
-import io.github.composegears.valkyrie.ui.foundation.dnd.rememberDragAndDropHandler
-import io.github.composegears.valkyrie.ui.foundation.icons.Collections
-import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.BatchIcon
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.IconName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.BatchProcessingState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.IconPackPickerState
+import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.awt.datatransfer.StringSelection
-import java.io.File
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 val IconPackConversionScreen by navDestination<Unit> {
     val navController = navController()
@@ -61,199 +54,116 @@ val IconPackConversionScreen by navDestination<Unit> {
     val state by viewModel.state.collectAsState()
     val settings by viewModel.valkyriesSettings.collectAsState()
 
-    ConversionUi(
+    LaunchedEffect(Unit) {
+        viewModel.events
+            .onEach {
+                when (it) {
+                    is ConversionEvent.OpenPreview -> {
+                        navController.navigate(
+                            dest = CodePreviewScreen,
+                            navArgs = it.iconContent
+                        )
+                    }
+                }
+            }.launchIn(this)
+    }
+
+    IconPackConversionUi(
         state = state,
         settings = settings,
-        onSelectFile = {
-            viewModel.selectFile(it)
-            viewModel.updateLastChoosePath(it)
-        },
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
                 transition = navigationSlideInOut(true)
             )
         },
-        resetIconContent = viewModel::reset,
-        onSelectNestedPack = viewModel::selectNestedPack
+        onPickEvent = viewModel::pickerEvent,
+        updatePack = viewModel::updateIconPack,
+        onDeleteIcon = viewModel::deleteIcon,
+        onReset = viewModel::reset,
+        onPreviewClick = viewModel::showPreview,
+        onExport = viewModel::export
     )
 }
 
 @Composable
-private fun ConversionUi(
+private fun IconPackConversionUi(
     state: IconPackConversionState,
     settings: ValkyriesSettings,
-    onSelectFile: (File) -> Unit,
     openSettings: () -> Unit,
-    resetIconContent: () -> Unit,
-    onSelectNestedPack: (String) -> Unit
+    onPickEvent: (PickerEvent) -> Unit,
+    updatePack: (BatchIcon, String) -> Unit,
+    onDeleteIcon: (IconName) -> Unit,
+    onReset: () -> Unit,
+    onPreviewClick: (IconName) -> Unit,
+    onExport: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    var showFilePicker by rememberMutableState { false }
+    var isVisible by rememberSaveable { mutableStateOf(true) }
 
-    val project = LocalProject.current
-    PluginUI(
-        content = state.iconContent,
-        settings = settings,
-        onChooseFile = { showFilePicker = true },
-        onClear = resetIconContent,
-        onCopy = {
-            val text = state.iconContent ?: return@PluginUI
-            CopyPasteManager.getInstance().setContents(StringSelection(text))
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (available.y < -1) {
+                    isVisible = false
+                }
+                if (available.y > 1) {
+                    isVisible = true
+                }
 
-            scope.launch {
-                val notification = NotificationGroupManager.getInstance()
-                    .getNotificationGroup(/* groupId = */ "valkyrie")
-                    .createNotification(content = "Copied in clipboard", type = NotificationType.INFORMATION)
-                notification.notify(project)
-
-                delay(2000)
-                notification.expire()
-            }
-        },
-        onSelectPack = onSelectNestedPack,
-        openSettings = openSettings,
-        onSelectFile = onSelectFile
-    )
-
-    FilePicker(
-        show = showFilePicker,
-        fileExtensions = listOf("svg", "xml"),
-        initialDirectory = settings.initialDirectory,
-        onFileSelected = { mpFile ->
-            if (mpFile != null) {
-                onSelectFile(File(mpFile.path))
-                showFilePicker = false
-            } else {
-                showFilePicker = false
+                return Offset.Zero
             }
         }
-    )
-}
+    }
 
-@Composable
-private fun PluginUI(
-    content: String?,
-    settings: ValkyriesSettings,
-    onChooseFile: () -> Unit,
-    onClear: () -> Unit,
-    onCopy: () -> Unit,
-    onSelectPack: (String) -> Unit,
-    onSelectFile: (File) -> Unit,
-    openSettings: () -> Unit
-) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
-            if (content != null) {
-                ClearAction(onClear)
-                CopyAction(onCopy)
+    Box {
+        Column(modifier = Modifier.fillMaxSize()) {
+            TopAppBar {
+                if (state is BatchFilesProcessing) {
+                    ClearAction(onReset)
+                }
+                AppBarTitle(title = "IconPack generation")
+                WeightSpacer()
+                SettingsAction(openSettings = openSettings)
             }
-            WeightSpacer()
-            SettingsAction(openSettings = openSettings)
-        }
-        if (content != null) {
-            if (settings.mode == Mode.IconPack && settings.nestedPacks.isNotEmpty()) {
-                NestedPacksDropdown(
-                    settings = settings,
-                    onSelectPack = onSelectPack
-                )
+            when (state) {
+                is IconsPickering -> {
+                    IconPackPickerState(
+                        initialDirectory = settings.initialDirectory,
+                        onPickerEvent = onPickEvent
+                    )
+                }
+                is BatchFilesProcessing -> {
+                    BatchProcessingState(
+                        modifier = Modifier.nestedScroll(nestedScrollConnection),
+                        icons = state.iconsToProcess,
+                        onDeleteIcon = onDeleteIcon,
+                        onUpdatePack = updatePack,
+                        onPreviewClick = onPreviewClick
+                    )
+                }
             }
         }
-        if (content != null) {
-            IntellijEditorTextField(
-                modifier = Modifier.fillMaxSize(),
-                text = content
-            )
-        } else {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+
+        if (state is BatchFilesProcessing) {
+            AnimatedVisibility(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 16.dp),
+                visible = isVisible,
+                enter = slideInVertically(initialOffsetY = { it * 2 }),
+                exit = slideOutVertically(targetOffsetY = { it * 2 }),
             ) {
-                SelectableState(
-                    onSelectFile = onSelectFile,
-                    onChooseFile = onChooseFile
-                )
+                ExtendedFloatingActionButton(
+                    modifier = Modifier.defaultMinSize(minHeight = 36.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    onClick = onExport
+                ) {
+                    Text(
+                        text = "Export",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
-        }
-    }
-}
-
-@Composable
-private fun NestedPacksDropdown(
-    settings: ValkyriesSettings,
-    onSelectPack: (String) -> Unit,
-) {
-    var dropdownVisible by rememberMutableState { false }
-
-    Box(modifier = Modifier.padding(start = 12.dp, bottom = 16.dp)) {
-        Row(
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
-                .clickable { dropdownVisible = true }
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            val rotation by animateFloatAsState(if (dropdownVisible) -180f else 0f)
-            Text(
-                text = "${settings.iconPackName}.${settings.currentNestedPack}",
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 1
-            )
-            Icon(
-                modifier = Modifier.graphicsLayer {
-                    rotationZ = rotation
-                },
-                imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = null
-            )
-        }
-
-        DropdownMenu(
-            expanded = dropdownVisible,
-            onDismissRequest = { dropdownVisible = false }
-        ) {
-            settings.nestedPacks.forEach {
-                DropdownMenuItem(
-                    text = {
-                        Text(text = it)
-                    },
-                    onClick = {
-                        dropdownVisible = false
-                        onSelectPack(it)
-                    }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun SelectableState(
-    onChooseFile: () -> Unit,
-    onSelectFile: (File) -> Unit
-) {
-    val dragAndDropHandler = rememberDragAndDropHandler(onDrop = onSelectFile)
-    val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
-
-    DragAndDropBox(
-        isDragging = isDragging,
-        onChoose = onChooseFile
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                imageVector = ValkyrieIcons.Collections,
-                contentDescription = null
-            )
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = "Drag & Drop or browse",
-                style = MaterialTheme.typography.titleSmall
-            )
-            Text(
-                text = "Supports: SVG, XML",
-                style = MaterialTheme.typography.bodySmall
-            )
         }
     }
 }

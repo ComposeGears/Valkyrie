@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,11 +29,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DragAndDropBox(
     isDragging: Boolean,
-    onChoose: () -> Unit,
+    onChoose: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
-    var isHover by remember(isDragging) { mutableStateOf(isDragging) }
+    var isHover by rememberMutableState(isDragging) { isDragging }
 
     val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     val border by animateDpAsState(if (isHover) 4.dp else 1.dp)
@@ -61,10 +60,16 @@ fun DragAndDropBox(
                 },
                 shape = MaterialTheme.shapes.small
             )
-            .clickable(
-                onClick = onChoose,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }),
+            .then(
+                if (onChoose != null) {
+                    Modifier.clickable(
+                        onClick = onChoose,
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() })
+                } else {
+                    Modifier
+                }
+            ),
         contentAlignment = Alignment.Center,
         content = content
     )

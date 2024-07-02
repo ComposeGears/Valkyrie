@@ -199,7 +199,6 @@ private fun SettingsScreenPreview() {
             iconPackDestination = "",
 
             nestedPacks = emptyList(),
-            currentNestedPack = "",
 
             generatePreview = false,
             initialDirectory = "",
