@@ -94,7 +94,7 @@ class IconPackConversionViewModel(
             ImageVectorGenerator.convert(
                 parserOutput = parserOutput,
                 config = ImageVectorGeneratorConfig(
-                    packageName = icon.iconPack.packageName,
+                    packageName = icon.iconPack.iconPackage,
                     packName = valkyriesSettings.value.iconPackName,
                     nestedPackName = icon.iconPack.currentNestedPack,
                     generatePreview = valkyriesSettings.value.generatePreview
@@ -118,7 +118,7 @@ class IconPackConversionViewModel(
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             parserOutput = parserOutput,
                             config = ImageVectorGeneratorConfig(
-                                packageName = icon.iconPack.packageName,
+                                packageName = icon.iconPack.iconPackage,
                                 packName = valkyriesSettings.value.iconPackName,
                                 nestedPackName = iconPack.currentNestedPack,
                                 generatePreview = valkyriesSettings.value.generatePreview
@@ -136,7 +136,7 @@ class IconPackConversionViewModel(
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             parserOutput = parserOutput,
                             config = ImageVectorGeneratorConfig(
-                                packageName = icon.iconPack.packageName,
+                                packageName = icon.iconPack.iconPackage,
                                 packName = valkyriesSettings.value.iconPackName,
                                 nestedPackName = "",
                                 generatePreview = valkyriesSettings.value.generatePreview
