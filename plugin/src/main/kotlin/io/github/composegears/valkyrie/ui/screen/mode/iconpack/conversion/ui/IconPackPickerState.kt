@@ -82,7 +82,10 @@ fun IconPackPickerState(
             }
         }
     )
-    DirectoryPicker(show = showDirectoryPicker) {
+    DirectoryPicker(
+        show = showDirectoryPicker,
+        initialDirectory = initialDirectory
+    ) {
         showDirectoryPicker = false
 
         if (it != null) {
