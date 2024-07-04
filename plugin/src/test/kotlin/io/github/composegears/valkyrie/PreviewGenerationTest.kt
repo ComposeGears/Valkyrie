@@ -31,7 +31,6 @@ class PreviewGenerationTest {
             import androidx.compose.runtime.Composable
             import androidx.compose.ui.Modifier
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
 
@@ -40,7 +39,7 @@ class PreviewGenerationTest {
                     if (_WithoutPath != null) {
                         return _WithoutPath!!
                     }
-                    _WithoutPath = Builder(
+                    _WithoutPath = ImageVector.Builder(
                         name = "WithoutPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
@@ -88,7 +87,6 @@ class PreviewGenerationTest {
             import androidx.compose.runtime.Composable
             import androidx.compose.ui.Modifier
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
 
@@ -97,7 +95,7 @@ class PreviewGenerationTest {
                     if (_WithoutPath != null) {
                         return _WithoutPath!!
                     }
-                    _WithoutPath = Builder(
+                    _WithoutPath = ImageVector.Builder(
                         name = "WithoutPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
@@ -145,7 +143,6 @@ class PreviewGenerationTest {
             import androidx.compose.runtime.Composable
             import androidx.compose.ui.Modifier
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
             import io.github.composegears.valkyrie.icons.ValkyrieIcons
@@ -155,7 +152,7 @@ class PreviewGenerationTest {
                     if (_WithoutPath != null) {
                         return _WithoutPath!!
                     }
-                    _WithoutPath = Builder(
+                    _WithoutPath = ImageVector.Builder(
                         name = "Filled.WithoutPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,

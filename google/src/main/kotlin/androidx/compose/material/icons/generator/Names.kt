@@ -51,8 +51,6 @@ object ClassNames {
  * [MemberName]s used for icon generation.
  */
 object MemberNames {
-    val ImageVectorBuilder = MemberName(ClassNames.ImageVector, "Builder")
-
     val Path = MemberName(PackageNames.VectorPackage.packageName, "path")
 
     val EvenOdd = MemberName(ClassNames.PathFillType, "EvenOdd")

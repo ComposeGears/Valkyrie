@@ -26,7 +26,6 @@ class XmlIconParserTest {
             package io.github.composegears.valkyrie.icons
 
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.unit.dp
 
             val WithoutPath: ImageVector
@@ -34,7 +33,7 @@ class XmlIconParserTest {
                     if (_WithoutPath != null) {
                         return _WithoutPath!!
                     }
-                    _WithoutPath = Builder(
+                    _WithoutPath = ImageVector.Builder(
                         name = "WithoutPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
@@ -69,7 +68,6 @@ class XmlIconParserTest {
             package io.github.composegears.valkyrie.icons.colored
 
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.unit.dp
             import io.github.composegears.valkyrie.icons.ValkyrieIcons
 
@@ -78,7 +76,7 @@ class XmlIconParserTest {
                     if (_WithoutPath != null) {
                         return _WithoutPath!!
                     }
-                    _WithoutPath = Builder(
+                    _WithoutPath = ImageVector.Builder(
                         name = "Colored.WithoutPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
@@ -108,7 +106,6 @@ class XmlIconParserTest {
             package io.github.composegears.valkyrie.icons
 
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.unit.dp
 
             val ValkyrieIcons.WithoutPath: ImageVector
@@ -116,7 +113,7 @@ class XmlIconParserTest {
                     if (_WithoutPath != null) {
                         return _WithoutPath!!
                     }
-                    _WithoutPath = Builder(
+                    _WithoutPath = ImageVector.Builder(
                         name = "WithoutPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
@@ -146,7 +143,6 @@ class XmlIconParserTest {
             package io.github.composegears.valkyrie.icons
 
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
 
@@ -155,7 +151,7 @@ class XmlIconParserTest {
                     if (_OnlyPath != null) {
                         return _OnlyPath!!
                     }
-                    _OnlyPath = Builder(
+                    _OnlyPath = ImageVector.Builder(
                         name = "OnlyPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
@@ -198,7 +194,6 @@ class XmlIconParserTest {
             import androidx.compose.ui.graphics.Color
             import androidx.compose.ui.graphics.SolidColor
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
 
@@ -207,7 +202,7 @@ class XmlIconParserTest {
                     if (_FillColorStroke != null) {
                         return _FillColorStroke!!
                     }
-                    _FillColorStroke = Builder(
+                    _FillColorStroke = ImageVector.Builder(
                         name = "FillColorStroke",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
@@ -256,7 +251,6 @@ class XmlIconParserTest {
            import androidx.compose.ui.graphics.StrokeCap
            import androidx.compose.ui.graphics.StrokeJoin
            import androidx.compose.ui.graphics.vector.ImageVector
-           import androidx.compose.ui.graphics.vector.ImageVector.Builder
            import androidx.compose.ui.graphics.vector.path
            import androidx.compose.ui.unit.dp
 
@@ -265,7 +259,7 @@ class XmlIconParserTest {
                    if (_AllPathParams != null) {
                        return _AllPathParams!!
                    }
-                   _AllPathParams = Builder(
+                   _AllPathParams = ImageVector.Builder(
                        name = "AllPathParams",
                        defaultWidth = 24.dp,
                        defaultHeight = 24.dp,
@@ -318,7 +312,6 @@ class XmlIconParserTest {
             import androidx.compose.ui.graphics.Color
             import androidx.compose.ui.graphics.SolidColor
             import androidx.compose.ui.graphics.vector.ImageVector
-            import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
 
@@ -327,7 +320,7 @@ class XmlIconParserTest {
                     if (_SeveralPath != null) {
                         return _SeveralPath!!
                     }
-                    _SeveralPath = Builder(
+                    _SeveralPath = ImageVector.Builder(
                         name = "SeveralPath",
                         defaultWidth = 24.dp,
                         defaultHeight = 24.dp,
