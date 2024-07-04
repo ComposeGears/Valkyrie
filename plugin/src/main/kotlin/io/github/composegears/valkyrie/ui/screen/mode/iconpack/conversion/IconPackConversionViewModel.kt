@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
 import com.composegears.tiamat.TiamatViewModel
-import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorSpecOutput
@@ -150,7 +149,9 @@ class IconPackConversionViewModel(
                         }
                     }
                 }
-            VirtualFileManager.getInstance().asyncRefresh {
+
+            viewModelScope.launch {
+                _events.emit(ConversionEvent.ExportCompleted)
                 reset()
             }
         }
@@ -221,6 +222,7 @@ class IconPackConversionViewModel(
 
 sealed interface ConversionEvent {
     data class OpenPreview(val iconContent: String) : ConversionEvent
+    data object ExportCompleted: ConversionEvent
 }
 
 sealed interface PickerEvent {
