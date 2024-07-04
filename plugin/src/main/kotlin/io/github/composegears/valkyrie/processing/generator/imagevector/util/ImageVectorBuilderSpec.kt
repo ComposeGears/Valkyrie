@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.processing.generator.imagevector.util
 
+import androidx.compose.material.icons.generator.ClassNames
 import androidx.compose.material.icons.generator.MemberNames
-import androidx.compose.material.icons.generator.MemberNames.ImageVectorBuilder
 import androidx.compose.material.icons.generator.vector.Vector
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
@@ -13,7 +13,7 @@ fun imageVectorBuilderSpecs(
     vector: Vector,
     path: CodeBlock.Builder.() -> Unit,
 ): CodeBlock = buildCodeBlock {
-    add("%M(\n", ImageVectorBuilder)
+    add("%T.Builder(\n", ClassNames.ImageVector)
     indent()
     add("name = %S,\n", iconName)
     add("defaultWidth = %L.%M,\n", vector.width.value.trimTrailingZero(), MemberNames.Dp)
