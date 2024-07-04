@@ -91,7 +91,6 @@ class PreviewGenerationTest {
             import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
-            import io.github.composegears.valkyrie.icons.ValkyrieIcons.WithoutPath
 
             val ValkyrieIcons.WithoutPath: ImageVector
                 get() {
@@ -115,7 +114,7 @@ class PreviewGenerationTest {
             @Composable
             private fun WithoutPathPreview() {
                 Box(modifier = Modifier.padding(12.dp)) {
-                    Image(imageVector = WithoutPath, contentDescription = null)
+                    Image(imageVector = ValkyrieIcons.WithoutPath, contentDescription = null)
                 }
             }
 
@@ -138,7 +137,7 @@ class PreviewGenerationTest {
         ).content
 
         val expectedOutput = """
-            package io.github.composegears.valkyrie.icons
+            package io.github.composegears.valkyrie.icons.filled
 
             import androidx.compose.foundation.Image
             import androidx.compose.foundation.layout.Box
@@ -149,7 +148,7 @@ class PreviewGenerationTest {
             import androidx.compose.ui.graphics.vector.ImageVector.Builder
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
-            import io.github.composegears.valkyrie.icons.ValkyrieIcons.Filled.WithoutPath
+            import io.github.composegears.valkyrie.icons.ValkyrieIcons
 
             val ValkyrieIcons.Filled.WithoutPath: ImageVector
                 get() {
@@ -173,7 +172,7 @@ class PreviewGenerationTest {
             @Composable
             private fun WithoutPathPreview() {
                 Box(modifier = Modifier.padding(12.dp)) {
-                    Image(imageVector = WithoutPath, contentDescription = null)
+                    Image(imageVector = ValkyrieIcons.Filled.WithoutPath, contentDescription = null)
                 }
             }
 

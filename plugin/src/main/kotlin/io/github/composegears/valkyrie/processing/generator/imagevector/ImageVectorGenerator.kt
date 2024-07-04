@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.processing.generator.imagevector
 
-import com.squareup.kotlinpoet.ClassName
 import io.github.composegears.valkyrie.processing.parser.IconParserOutput
 
 data class ImageVectorGeneratorConfig(
@@ -18,22 +17,7 @@ object ImageVectorGenerator {
     ): ImageVectorSpecOutput = ImageVectorFileSpec(
         config = ImageVectorSpecConfig(
             iconPackage = config.packageName,
-            iconPack = when {
-                config.packName.isEmpty() -> null
-                else -> {
-                    if (config.nestedPackName.isEmpty()) {
-                        ClassName(
-                            config.packageName,
-                            config.packName
-                        )
-                    } else {
-                        ClassName(
-                            config.packageName,
-                            config.packName
-                        ).nestedClass(config.nestedPackName)
-                    }
-                }
-            },
+            iconPack = config.packName,
             iconName = parserOutput.kotlinName,
             iconNestedPack = config.nestedPackName,
             generatePreview = config.generatePreview

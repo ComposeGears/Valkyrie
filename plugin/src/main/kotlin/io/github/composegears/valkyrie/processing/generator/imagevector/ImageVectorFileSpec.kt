@@ -7,7 +7,6 @@ import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.processing.generator.imagevector.ext.fileSpecBuilder
@@ -19,14 +18,15 @@ import io.github.composegears.valkyrie.processing.generator.imagevector.util.add
 import io.github.composegears.valkyrie.processing.generator.imagevector.util.backingPropertyName
 import io.github.composegears.valkyrie.processing.generator.imagevector.util.backingPropertySpec
 import io.github.composegears.valkyrie.processing.generator.imagevector.util.iconPreviewSpec
+import io.github.composegears.valkyrie.processing.generator.imagevector.util.iconPreviewSpecForNestedPack
 import io.github.composegears.valkyrie.processing.generator.imagevector.util.imageVectorBuilderSpecs
 
 data class ImageVectorSpecConfig(
     val iconName: String,
+    val iconPack: String,
     val iconNestedPack: String,
     val iconPackage: String,
     val generatePreview: Boolean,
-    val iconPack: ClassName? = null
 )
 
 data class ImageVectorSpecOutput(
@@ -43,37 +43,59 @@ data class ImageVectorSpecOutput(
 
 class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
-    fun createFileFor(vector: Vector): ImageVectorSpecOutput  {
+    fun createFileFor(vector: Vector): ImageVectorSpecOutput {
         val backingProperty = backingPropertySpec(
             name = config.iconName.backingPropertyName(),
             type = ClassNames.ImageVector
         )
 
+        val iconPackClassName = when {
+            config.iconPack.isEmpty() -> null
+            else -> {
+                if (config.iconNestedPack.isEmpty()) {
+                    ClassName(
+                        config.iconPackage,
+                        config.iconPack
+                    )
+                } else {
+                    ClassName(
+                        config.iconPackage,
+                        config.iconPack
+                    ).nestedClass(config.iconNestedPack)
+                }
+            }
+        }
+
+        val packageName = when {
+            config.iconNestedPack.isEmpty() -> config.iconPackage
+            else -> "${config.iconPackage}.${config.iconNestedPack.lowercase()}"
+        }
+
         val fileSpec = fileSpecBuilder(
-            packageName = config.iconPackage,
+            packageName = packageName,
             fileName = config.iconName
         ) {
-            addProperty(propertySpec = iconProperty(vector = vector, backingProperty = backingProperty))
+            addProperty(
+                propertySpec = iconProperty(
+                    vector = vector,
+                    iconPackClassName = iconPackClassName,
+                    backingProperty = backingProperty
+                )
+            )
             addProperty(propertySpec = backingProperty)
             apply {
                 if (config.generatePreview) {
                     addFunction(
-                        funSpec = iconPreviewSpec(
-                            iconName = when {
-                                config.iconPack != null -> {
-                                    MemberName(
-                                        enclosingClassName = config.iconPack,
-                                        simpleName = config.iconName,
-                                    )
-                                }
-                                else -> {
-                                    MemberName(
-                                        packageName = config.iconPackage,
-                                        simpleName = config.iconName
-                                    )
-                                }
-                            }
-                        )
+                        funSpec = when {
+                            iconPackClassName != null -> iconPreviewSpecForNestedPack(
+                                iconPackClassName = iconPackClassName,
+                                iconName = config.iconName
+                            )
+                            else -> iconPreviewSpec(
+                                iconPackage = packageName,
+                                iconName = config.iconName
+                            )
+                        }
                     )
                 }
             }
@@ -86,11 +108,14 @@ class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
         )
     }
 
-    private fun iconProperty(vector: Vector, backingProperty: PropertySpec): PropertySpec =
-        propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
-            receiver(config.iconPack)
-            getter(iconFun(vector = vector, backingProperty = backingProperty))
-        }
+    private fun iconProperty(
+        vector: Vector,
+        iconPackClassName: ClassName?,
+        backingProperty: PropertySpec
+    ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
+        receiver(iconPackClassName)
+        getter(iconFun(vector = vector, backingProperty = backingProperty))
+    }
 
     private fun iconFun(vector: Vector, backingProperty: PropertySpec): FunSpec {
         return getterFunSpecBuilder {

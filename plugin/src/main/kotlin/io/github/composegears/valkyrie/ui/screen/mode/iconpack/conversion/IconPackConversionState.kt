@@ -23,25 +23,22 @@ sealed interface IconPackConversionState {
         value class IconName(val value: String)
 
         sealed interface IconPack {
-            val packageName: String
+            val iconPackage: String
             val currentNestedPack: String
 
             data class Single(
-                val iconPackage: String,
+                override val iconPackage: String,
                 val iconPackName: String
             ) : IconPack {
-                override val packageName = iconPackage
                 override val currentNestedPack = ""
             }
 
             data class Nested(
-                val iconPackage: String,
+                override val iconPackage: String,
                 val iconPackName: String,
                 val nestedPacks: List<String>,
                 override val currentNestedPack: String
-            ) : IconPack {
-                override val packageName = "$iconPackage.${currentNestedPack.lowercase()}"
-            }
+            ) : IconPack
         }
     }
 }

@@ -52,6 +52,50 @@ class XmlIconParserTest {
     }
 
     @Test
+    fun `generation with nested icon pack`() {
+        val icon = loadIcon("ic_without_path.xml")
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            parserOutput = parserOutput,
+            config = ImageVectorGeneratorConfig(
+                packageName = "io.github.composegears.valkyrie.icons",
+                packName = "ValkyrieIcons",
+                nestedPackName = "Colored",
+                generatePreview = false
+            )
+        ).content
+
+        val expectedOutput = """
+            package io.github.composegears.valkyrie.icons.colored
+
+            import androidx.compose.ui.graphics.vector.ImageVector
+            import androidx.compose.ui.graphics.vector.ImageVector.Builder
+            import androidx.compose.ui.unit.dp
+            import io.github.composegears.valkyrie.icons.ValkyrieIcons
+
+            val ValkyrieIcons.Colored.WithoutPath: ImageVector
+                get() {
+                    if (_WithoutPath != null) {
+                        return _WithoutPath!!
+                    }
+                    _WithoutPath = Builder(
+                        name = "Colored.WithoutPath",
+                        defaultWidth = 24.dp,
+                        defaultHeight = 24.dp,
+                        viewportWidth = 18f,
+                        viewportHeight = 18f
+                    ).build()
+
+                    return _WithoutPath!!
+                }
+
+            private var _WithoutPath: ImageVector? = null
+
+        """.trimIndent()
+        assertEquals(expectedOutput, output)
+    }
+
+    @Test
     fun `empty path xml`() {
         val icon = loadIcon("ic_without_path.xml")
         val parserOutput = IconParser.toVector(icon)
