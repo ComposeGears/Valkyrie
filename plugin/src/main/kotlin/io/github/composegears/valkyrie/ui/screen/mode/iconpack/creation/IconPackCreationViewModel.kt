@@ -1,6 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import com.composegears.tiamat.TiamatViewModel
+import com.intellij.openapi.application.writeAction
+import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.processing.writter.FileWriter
@@ -19,7 +21,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-
 
 class IconPackCreationViewModel(
     private val inMemorySettings: InMemorySettings
@@ -87,6 +88,9 @@ class IconPackCreationViewModel(
                 fileName = iconPack.name
             )
 
+            writeAction {
+                VirtualFileManager.getInstance().syncRefresh()
+            }
             _events.emit(IconPackCreationEvent.NavigateToNextScreen)
         }
     }

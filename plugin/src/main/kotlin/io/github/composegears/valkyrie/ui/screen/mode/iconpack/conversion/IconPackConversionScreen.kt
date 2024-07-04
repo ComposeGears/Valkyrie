@@ -32,6 +32,8 @@ import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
+import com.intellij.openapi.application.writeAction
+import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
@@ -63,6 +65,11 @@ val IconPackConversionScreen by navDestination<Unit> {
                             dest = CodePreviewScreen,
                             navArgs = it.iconContent
                         )
+                    }
+                    is ConversionEvent.ExportCompleted -> {
+                        writeAction {
+                            VirtualFileManager.getInstance().syncRefresh()
+                        }
                     }
                 }
             }.launchIn(this)
