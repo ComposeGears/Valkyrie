@@ -11,6 +11,9 @@ sealed interface IconPackConversionState {
         val iconsToProcess: List<BatchIcon> = emptyList(),
     ) : IconPackConversionState {
 
+        val exportEnabled: Boolean
+            get() = iconsToProcess.isNotEmpty() && iconsToProcess.all { it.painter != null }
+
         data class BatchIcon(
             val iconPack: IconPack,
             val iconName: IconName,
