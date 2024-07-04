@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
@@ -12,18 +12,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
@@ -36,18 +33,16 @@ import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.InputTextField
-import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.NestedPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.buildIconPackHint
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.util.buildPackPackageHint
+import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import kotlinx.coroutines.Dispatchers
 
 val IconPackCreationScreen by navDestination<Unit> {
@@ -74,7 +69,13 @@ val IconPackCreationScreen by navDestination<Unit> {
         },
         onAddNestedPack = viewModel::addNestedPack,
         onRemoveNestedPack = viewModel::removeNestedPack,
-        onNext = viewModel::saveSettings
+        onNext = viewModel::saveSettings,
+        onPreviewPack = {
+            navController.navigate(
+                dest = CodePreviewScreen,
+                navArgs = state.packPreview
+            )
+        }
     )
 }
 
@@ -85,11 +86,10 @@ private fun IconPackModeSetupUI(
     onValueChange: (InputChange) -> Unit,
     onAddNestedPack: () -> Unit,
     onRemoveNestedPack: (NestedPack) -> Unit,
+    onPreviewPack: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
-    var showPackPreview by rememberMutableState { false }
-
     Column {
         TopAppBar {
             BackAction(onBack)
@@ -170,32 +170,21 @@ private fun IconPackModeSetupUI(
                 )
             }
             VerticalSpacer(56.dp)
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+            ) {
                 IconButton(
                     imageVector = ValkyrieIcons.Visibility,
-                    onClick = { showPackPreview = true },
+                    onClick = onPreviewPack,
                     enabled = state.nextAvailable
                 )
-                WeightSpacer()
                 Button(
                     enabled = state.nextAvailable,
                     onClick = onNext,
                 ) {
                     Text(text = "Export and continue")
                 }
-            }
-        }
-    }
-    if (showPackPreview) {
-        Dialog(onDismissRequest = { showPackPreview = false }) {
-            Surface {
-                IntellijEditorTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .padding(16.dp),
-                    text = state.packPreview
-                )
             }
         }
     }
@@ -273,6 +262,7 @@ private fun IconPackModeSetupUIPreview() {
         onBack = {},
         onAddNestedPack = {},
         onRemoveNestedPack = {},
+        onPreviewPack = {},
         onNext = {}
     )
 }
