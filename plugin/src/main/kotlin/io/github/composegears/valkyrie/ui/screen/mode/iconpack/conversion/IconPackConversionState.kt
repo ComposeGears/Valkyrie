@@ -12,36 +12,46 @@ sealed interface IconPackConversionState {
     ) : IconPackConversionState {
 
         val exportEnabled: Boolean
-            get() = iconsToProcess.isNotEmpty() && iconsToProcess.all { it.painter != null }
-
-        data class BatchIcon(
-            val iconPack: IconPack,
-            val iconName: IconName,
-            val extension: String,
-            val painter: Painter?,
-            val file: File,
-        )
-
-        @JvmInline
-        value class IconName(val value: String)
-
-        sealed interface IconPack {
-            val iconPackage: String
-            val currentNestedPack: String
-
-            data class Single(
-                override val iconPackage: String,
-                val iconPackName: String
-            ) : IconPack {
-                override val currentNestedPack = ""
-            }
-
-            data class Nested(
-                override val iconPackage: String,
-                val iconPackName: String,
-                val nestedPacks: List<String>,
-                override val currentNestedPack: String
-            ) : IconPack
-        }
+            get() = iconsToProcess.isNotEmpty() && iconsToProcess.all { it is BatchIcon.Valid }
     }
+}
+
+sealed interface BatchIcon {
+    val iconName: IconName
+    val extension: String
+
+    data class Broken(
+        override val iconName: IconName,
+        override val extension: String
+    ) : BatchIcon
+
+    data class Valid(
+        val iconPack: IconPack,
+        override val iconName: IconName,
+        override val extension: String,
+        val painter: Painter,
+        val file: File
+    ) : BatchIcon
+}
+
+@JvmInline
+value class IconName(val value: String)
+
+sealed interface IconPack {
+    val iconPackage: String
+    val currentNestedPack: String
+
+    data class Single(
+        override val iconPackage: String,
+        val iconPackName: String
+    ) : IconPack {
+        override val currentNestedPack = ""
+    }
+
+    data class Nested(
+        override val iconPackage: String,
+        val iconPackName: String,
+        val nestedPacks: List<String>,
+        override val currentNestedPack: String
+    ) : IconPack
 }

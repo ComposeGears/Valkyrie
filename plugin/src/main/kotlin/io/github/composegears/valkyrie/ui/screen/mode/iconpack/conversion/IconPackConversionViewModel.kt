@@ -12,9 +12,6 @@ import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.BatchIcon
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.IconName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -68,7 +65,7 @@ class IconPackConversionViewModel(
                 is BatchFilesProcessing -> {
                     copy(
                         iconsToProcess = iconsToProcess.map { icon ->
-                            if (icon.iconName == batchIcon.iconName) {
+                            if (icon.iconName == batchIcon.iconName && icon is BatchIcon.Valid) {
                                 icon.copy(
                                     iconPack = when (icon.iconPack) {
                                         is IconPack.Nested -> icon.iconPack.copy(currentNestedPack = nestedPack)
@@ -86,7 +83,7 @@ class IconPackConversionViewModel(
     }
 
     fun showPreview(iconName: IconName) = onReadBatchScope {
-        val icon = iconsToProcess.first { it.iconName == iconName }
+        val icon = iconsToProcess.first { it.iconName == iconName } as BatchIcon.Valid
 
         val iconResult = runCatching {
             val parserOutput = IconParser.toVector(icon.file)
@@ -111,46 +108,48 @@ class IconPackConversionViewModel(
         onReadBatchScope {
             val settings = inMemorySettings.current
 
-            iconsToProcess.forEach { icon ->
-                when (val iconPack = icon.iconPack) {
-                    is IconPack.Nested -> {
-                        val parserOutput = IconParser.toVector(icon.file)
-                        val vectorSpecOutput = ImageVectorGenerator.convert(
-                            parserOutput = parserOutput,
-                            config = ImageVectorGeneratorConfig(
-                                packageName = icon.iconPack.iconPackage,
-                                packName = valkyriesSettings.value.iconPackName,
-                                nestedPackName = iconPack.currentNestedPack,
-                                generatePreview = valkyriesSettings.value.generatePreview
+            iconsToProcess
+                .filterIsInstance<BatchIcon.Valid>()
+                .forEach { icon ->
+                    when (val iconPack = icon.iconPack) {
+                        is IconPack.Nested -> {
+                            val parserOutput = IconParser.toVector(icon.file)
+                            val vectorSpecOutput = ImageVectorGenerator.convert(
+                                parserOutput = parserOutput,
+                                config = ImageVectorGeneratorConfig(
+                                    packageName = icon.iconPack.iconPackage,
+                                    packName = valkyriesSettings.value.iconPackName,
+                                    nestedPackName = iconPack.currentNestedPack,
+                                    generatePreview = valkyriesSettings.value.generatePreview
+                                )
                             )
-                        )
 
-                        FileWriter.writeToFile(
-                            content = vectorSpecOutput.content,
-                            outDirectory = "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}",
-                            fileName = vectorSpecOutput.name
-                        )
-                    }
-                    is IconPack.Single -> {
-                        val parserOutput = IconParser.toVector(icon.file)
-                        val vectorSpecOutput = ImageVectorGenerator.convert(
-                            parserOutput = parserOutput,
-                            config = ImageVectorGeneratorConfig(
-                                packageName = icon.iconPack.iconPackage,
-                                packName = valkyriesSettings.value.iconPackName,
-                                nestedPackName = "",
-                                generatePreview = valkyriesSettings.value.generatePreview
+                            FileWriter.writeToFile(
+                                content = vectorSpecOutput.content,
+                                outDirectory = "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}",
+                                fileName = vectorSpecOutput.name
                             )
-                        )
+                        }
+                        is IconPack.Single -> {
+                            val parserOutput = IconParser.toVector(icon.file)
+                            val vectorSpecOutput = ImageVectorGenerator.convert(
+                                parserOutput = parserOutput,
+                                config = ImageVectorGeneratorConfig(
+                                    packageName = icon.iconPack.iconPackage,
+                                    packName = valkyriesSettings.value.iconPackName,
+                                    nestedPackName = "",
+                                    generatePreview = valkyriesSettings.value.generatePreview
+                                )
+                            )
 
-                        FileWriter.writeToFile(
-                            content = vectorSpecOutput.content,
-                            outDirectory = settings.iconPackDestination,
-                            fileName = vectorSpecOutput.name
-                        )
+                            FileWriter.writeToFile(
+                                content = vectorSpecOutput.content,
+                                outDirectory = settings.iconPackDestination,
+                                fileName = vectorSpecOutput.name
+                            )
+                        }
                     }
                 }
-            }
             VirtualFileManager.getInstance().asyncRefresh {
                 reset()
             }
@@ -169,13 +168,19 @@ class IconPackConversionViewModel(
                 BatchFilesProcessing(
                     iconsToProcess = files
                         .map {
-                            BatchIcon(
-                                iconName = IconName(it.nameWithoutExtension),
-                                extension = it.extension,
-                                iconPack = inMemorySettings.current.buildDefaultIconPack(),
-                                file = it,
-                                painter = it.toPainterOrNull()
-                            )
+                            when (val painter = it.toPainterOrNull()) {
+                                null -> BatchIcon.Broken(
+                                    iconName = IconName(it.nameWithoutExtension),
+                                    extension = it.extension
+                                )
+                                else -> BatchIcon.Valid(
+                                    iconName = IconName(it.nameWithoutExtension),
+                                    extension = it.extension,
+                                    iconPack = inMemorySettings.current.buildDefaultIconPack(),
+                                    file = it,
+                                    painter = painter
+                                )
+                            }
                         }
                 )
             }

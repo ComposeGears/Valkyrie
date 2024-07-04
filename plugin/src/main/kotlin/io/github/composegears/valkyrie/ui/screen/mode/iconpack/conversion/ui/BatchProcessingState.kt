@@ -44,9 +44,9 @@ import io.github.composegears.valkyrie.ui.foundation.PreviewWrapper
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.BatchIcon
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.IconName
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing.IconPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchIcon
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.FileTypeBadge
 import java.io.File
 
@@ -67,15 +67,15 @@ fun BatchProcessingState(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = icons, key = { it.iconName }) { batchIcon ->
-            when (batchIcon.painter) {
-                null -> BrokenIconItem(
+            when (batchIcon) {
+                is BatchIcon.Broken -> BrokenIconItem(
                     modifier = Modifier.animateItemPlacement(),
-                    batchIcon = batchIcon,
+                    broken = batchIcon,
                     onDelete = onDeleteIcon
                 )
-                else -> ValidIconItem(
+                is BatchIcon.Valid -> ValidIconItem(
                     modifier = Modifier.animateItemPlacement(),
-                    batchIcon = batchIcon,
+                    icon = batchIcon,
                     onUpdatePack = onUpdatePack,
                     onDeleteIcon = onDeleteIcon,
                     onPreview = onPreviewClick
@@ -88,7 +88,7 @@ fun BatchProcessingState(
 @Composable
 private fun ValidIconItem(
     modifier: Modifier = Modifier,
-    batchIcon: BatchIcon,
+    icon: BatchIcon.Valid,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreview: (IconName) -> Unit,
     onDeleteIcon: (IconName) -> Unit
@@ -100,7 +100,7 @@ private fun ValidIconItem(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(top = 2.dp, end = 2.dp),
-                    extension = batchIcon.extension
+                    extension = icon.extension
                 )
                 Row(
                     modifier = Modifier
@@ -111,7 +111,7 @@ private fun ValidIconItem(
                 ) {
                     Image(
                         modifier = Modifier.size(36.dp),
-                        painter = batchIcon.painter!!,
+                        painter = icon.painter!!,
                         contentDescription = null
                     )
                     Text(
@@ -120,24 +120,24 @@ private fun ValidIconItem(
                             .padding(end = 32.dp),
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
-                        text = batchIcon.iconName.value
+                        text = icon.iconName.value
                     )
                 }
-                when (batchIcon.iconPack) {
+                when (icon.iconPack) {
                     is IconPack.Nested -> {
                         PacksDropdown(
-                            iconPackName = batchIcon.iconPack.iconPackName,
-                            currentNestedPack = batchIcon.iconPack.currentNestedPack,
-                            nestedPacks = batchIcon.iconPack.nestedPacks,
+                            iconPackName = icon.iconPack.iconPackName,
+                            currentNestedPack = icon.iconPack.currentNestedPack,
+                            nestedPacks = icon.iconPack.nestedPacks,
                             onSelectPack = {
-                                onUpdatePack(batchIcon, it)
+                                onUpdatePack(icon, it)
                             }
                         )
                     }
                     is IconPack.Single -> {
                         Text(
                             modifier = Modifier.padding(16.dp),
-                            text = "IconPack: ${batchIcon.iconPack.iconPackName}",
+                            text = "IconPack: ${icon.iconPack.iconPackName}",
                             style = MaterialTheme.typography.bodySmall,
                             maxLines = 1
                         )
@@ -160,11 +160,11 @@ private fun ValidIconItem(
                     onDismissRequest = { isExpanded = false },
                     onDelete = {
                         isExpanded = false
-                        onDeleteIcon(batchIcon.iconName)
+                        onDeleteIcon(icon.iconName)
                     },
                     onPreview = {
                         isExpanded = false
-                        onPreview(batchIcon.iconName)
+                        onPreview(icon.iconName)
                     }
                 )
             }
@@ -175,7 +175,7 @@ private fun ValidIconItem(
 @Composable
 private fun BrokenIconItem(
     modifier: Modifier = Modifier,
-    batchIcon: BatchIcon,
+    broken: BatchIcon.Broken,
     onDelete: (IconName) -> Unit
 ) {
     Card(
@@ -193,13 +193,13 @@ private fun BrokenIconItem(
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "Failed to parse icon: ${batchIcon.iconName.value}.${batchIcon.extension}"
+                    text = "Failed to parse icon: ${broken.iconName.value}.${broken.extension}"
                 )
                 IconButton(
                     imageVector = Icons.Default.Delete,
                     iconSize = 18.dp,
                     onClick = {
-                        onDelete(batchIcon.iconName)
+                        onDelete(broken.iconName)
                     }
                 )
             }
@@ -302,7 +302,7 @@ private fun PacksDropdown(
 private fun BatchProcessingStatePreview() = PreviewWrapper {
     BatchProcessingState(
         icons = listOf(
-            BatchIcon(
+            BatchIcon.Valid(
                 iconName = IconName("ic_all_path_params_1"),
                 extension = "xml",
                 file = File(""),
@@ -312,7 +312,7 @@ private fun BatchProcessingStatePreview() = PreviewWrapper {
                 ),
                 painter = painterResource("META-INF/pluginIcon.svg"),
             ),
-            BatchIcon(
+            BatchIcon.Valid(
                 iconName = IconName("ic_all_path_params_2"),
                 extension = "svg",
                 file = File(""),
@@ -324,15 +324,9 @@ private fun BatchProcessingStatePreview() = PreviewWrapper {
                 ),
                 painter = painterResource("META-INF/pluginIcon.svg"),
             ),
-            BatchIcon(
+            BatchIcon.Broken(
                 iconName = IconName("ic_all_path_params_3"),
-                extension = "svg",
-                iconPack = IconPack.Single(
-                    iconPackage = "package",
-                    iconPackName = "ValkyrieIcons"
-                ),
-                file = File(""),
-                painter = null,
+                extension = "svg"
             ),
         ),
         onDeleteIcon = {},
