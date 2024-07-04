@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DragAndDropBox(
     isDragging: Boolean,
-    onChoose: (() -> Unit)? = null,
+    onChoose: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -60,16 +60,10 @@ fun DragAndDropBox(
                 },
                 shape = MaterialTheme.shapes.small
             )
-            .then(
-                if (onChoose != null) {
-                    Modifier.clickable(
-                        onClick = onChoose,
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() })
-                } else {
-                    Modifier
-                }
-            ),
+            .clickable(
+                onClick = onChoose,
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }),
         contentAlignment = Alignment.Center,
         content = content
     )
