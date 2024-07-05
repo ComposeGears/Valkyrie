@@ -16,6 +16,8 @@
 
 package androidx.compose.material.icons.generator.vector
 
+import io.github.composegears.valkyrie.generator.ext.formatFloat
+
 /**
  * Class representing a singular path command in a vector.
  *
@@ -32,36 +34,36 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
 
     // RelativeClose and Close are considered the same internally, so we represent both with Close
     // for simplicity and to make equals comparisons robust.
-    object Close : PathNode() {
+    data object Close : PathNode() {
         override fun asFunctionCall() = "close()"
     }
 
     data class RelativeMoveTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "moveToRelative(${x}f, ${y}f)"
+        override fun asFunctionCall() = "moveToRelative(${x.formatFloat()}, ${y.formatFloat()})"
     }
     data class MoveTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "moveTo(${x}f, ${y}f)"
+        override fun asFunctionCall() = "moveTo(${x.formatFloat()}, ${y.formatFloat()})"
     }
 
     data class RelativeLineTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "lineToRelative(${x}f, ${y}f)"
+        override fun asFunctionCall() = "lineToRelative(${x.formatFloat()}, ${y.formatFloat()})"
     }
     data class LineTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "lineTo(${x}f, ${y}f)"
+        override fun asFunctionCall() = "lineTo(${x.formatFloat()}, ${y.formatFloat()})"
     }
 
     data class RelativeHorizontalTo(val x: Float) : PathNode() {
-        override fun asFunctionCall() = "horizontalLineToRelative(${x}f)"
+        override fun asFunctionCall() = "horizontalLineToRelative(${x.formatFloat()})"
     }
     data class HorizontalTo(val x: Float) : PathNode() {
-        override fun asFunctionCall() = "horizontalLineTo(${x}f)"
+        override fun asFunctionCall() = "horizontalLineTo(${x.formatFloat()})"
     }
 
     data class RelativeVerticalTo(val y: Float) : PathNode() {
-        override fun asFunctionCall() = "verticalLineToRelative(${y}f)"
+        override fun asFunctionCall() = "verticalLineToRelative(${y.formatFloat()})"
     }
     data class VerticalTo(val y: Float) : PathNode() {
-        override fun asFunctionCall() = "verticalLineTo(${y}f)"
+        override fun asFunctionCall() = "verticalLineTo(${y.formatFloat()})"
     }
 
     data class RelativeCurveTo(
@@ -72,7 +74,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val dx3: Float,
         val dy3: Float
     ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "curveToRelative(${dx1}f, ${dy1}f, ${dx2}f, ${dy2}f, ${dx3}f, ${dy3}f)"
+        override fun asFunctionCall() = "curveToRelative(${dx1.formatFloat()}, ${dy1.formatFloat()}, ${dx2.formatFloat()}, ${dy2.formatFloat()}, ${dx3.formatFloat()}, ${dy3.formatFloat()})"
     }
 
     data class CurveTo(
@@ -83,7 +85,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val x3: Float,
         val y3: Float
     ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "curveTo(${x1}f, ${y1}f, ${x2}f, ${y2}f, ${x3}f, ${y3}f)"
+        override fun asFunctionCall() = "curveTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()}, ${x3.formatFloat()}, ${y3.formatFloat()})"
     }
 
     data class RelativeReflectiveCurveTo(
@@ -92,7 +94,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val x2: Float,
         val y2: Float
     ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "reflectiveCurveToRelative(${x1}f, ${y1}f, ${x2}f, ${y2}f)"
+        override fun asFunctionCall() = "reflectiveCurveToRelative(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
     }
 
     data class ReflectiveCurveTo(
@@ -101,7 +103,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val x2: Float,
         val y2: Float
     ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "reflectiveCurveTo(${x1}f, ${y1}f, ${x2}f, ${y2}f)"
+        override fun asFunctionCall() = "reflectiveCurveTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
     }
 
     data class RelativeQuadTo(
@@ -110,7 +112,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val x2: Float,
         val y2: Float
     ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "quadToRelative(${x1}f, ${y1}f, ${x2}f, ${y2}f)"
+        override fun asFunctionCall() = "quadToRelative(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
     }
 
     data class QuadTo(
@@ -119,21 +121,21 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val x2: Float,
         val y2: Float
     ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "quadTo(${x1}f, ${y1}f, ${x2}f, ${y2}f)"
+        override fun asFunctionCall() = "quadTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
     }
 
     data class RelativeReflectiveQuadTo(
         val x: Float,
         val y: Float
     ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "reflectiveQuadToRelative(${x}f, ${y}f)"
+        override fun asFunctionCall() = "reflectiveQuadToRelative(${x.formatFloat()}, ${y.formatFloat()})"
     }
 
     data class ReflectiveQuadTo(
         val x: Float,
         val y: Float
     ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "reflectiveQuadTo(${x}f, ${y}f)"
+        override fun asFunctionCall() = "reflectiveQuadTo(${x.formatFloat()}, ${y.formatFloat()})"
     }
 
     data class RelativeArcTo(
@@ -145,7 +147,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val arcStartDx: Float,
         val arcStartDy: Float
     ) : PathNode() {
-        override fun asFunctionCall() = "arcToRelative(${horizontalEllipseRadius}f, ${verticalEllipseRadius}f, ${theta}f, $isMoreThanHalf, $isPositiveArc, ${arcStartDx}f, ${arcStartDy}f)"
+        override fun asFunctionCall() = "arcToRelative(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, $isMoreThanHalf, $isPositiveArc, ${arcStartDx.formatFloat()}, ${arcStartDy.formatFloat()})"
     }
 
     data class ArcTo(
@@ -157,7 +159,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val arcStartX: Float,
         val arcStartY: Float
     ) : PathNode() {
-        override fun asFunctionCall() = "arcTo(${horizontalEllipseRadius}f, ${verticalEllipseRadius}f, ${theta}f, $isMoreThanHalf, $isPositiveArc, ${arcStartX}f, ${arcStartY}f)"
+        override fun asFunctionCall() = "arcTo(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, $isMoreThanHalf, $isPositiveArc, ${arcStartX.formatFloat()}, ${arcStartY.formatFloat()})"
     }
 }
 /* ktlint-enable max-line-length */

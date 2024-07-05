@@ -162,7 +162,7 @@ class XmlIconParserTest {
                     ).apply {
                         path {
                             moveTo(6.75f, 12.127f)
-                            lineTo(3.623f, 9.0f)
+                            lineTo(3.623f, 9f)
                             lineTo(2.558f, 10.057f)
                             lineTo(6.75f, 14.25f)
                             lineTo(15.75f, 5.25f)
@@ -217,7 +217,7 @@ class XmlIconParserTest {
                             strokeLineWidth = 1f
                         ) {
                             moveTo(6.75f, 12.127f)
-                            lineTo(3.623f, 9.0f)
+                            lineTo(3.623f, 9f)
                             lineTo(2.558f, 10.057f)
                             lineTo(6.75f, 14.25f)
                             lineTo(15.75f, 5.25f)
@@ -282,7 +282,7 @@ class XmlIconParserTest {
                            pathFillType = PathFillType.EvenOdd
                        ) {
                            moveTo(6.75f, 12.127f)
-                           lineTo(3.623f, 9.0f)
+                           lineTo(3.623f, 9f)
                            lineTo(2.558f, 10.057f)
                            lineTo(6.75f, 14.25f)
                            lineTo(15.75f, 5.25f)
@@ -334,7 +334,7 @@ class XmlIconParserTest {
                     ).apply {
                         path(fill = SolidColor(Color(0xFFE676FF))) {
                             moveTo(6.75f, 12.127f)
-                            lineTo(3.623f, 9.0f)
+                            lineTo(3.623f, 9f)
                             lineTo(2.558f, 10.057f)
                             lineTo(6.75f, 14.25f)
                             lineTo(15.75f, 5.25f)
@@ -344,7 +344,7 @@ class XmlIconParserTest {
                         }
                         path(fill = SolidColor(Color(0xFFFF00FF))) {
                             moveTo(6.75f, 12.127f)
-                            lineTo(3.623f, 9.0f)
+                            lineTo(3.623f, 9f)
                             lineTo(2.558f, 10.057f)
                             lineTo(6.75f, 14.25f)
                             lineTo(15.75f, 5.25f)
