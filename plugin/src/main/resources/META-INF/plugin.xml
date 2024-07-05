@@ -4,8 +4,28 @@
 
     <vendor url="https://github.com/ComposeGears">ComposeGears</vendor>
 
-    <description>Plugin that help to convert SVG/XML images into Compose ImageVector</description>
+    <description><![CDATA[
+<p>Plugin that help to convert SVG/XML images into Jetpack Compose ImageVector</p>
 
+<h2>Key Features</h2>
+<ul>
+    <li>built using Compose Multiplatform and Tiamat navigation library</li>
+    <li>support SVG/XML</li>
+    <li>convenient code formatting for generated icon</li>
+    <li>remove redundant code</li>
+    <li>remove unused imports</li>
+    <li>skip default ImageVector parameters</li>
+    <li>support drag and drop inside IDE</li>
+</ul>
+
+<h2>Conversion modes</h2>
+<h3>Simple - one-click solution to convert SVG/XML to ImageVector</h3>
+Allows previewing the generated icon and facilitates copying the result directly to the clipboard for easy integration into your project.
+
+<h3>IconPack - create your organized icon pack and auto export icons into your directory</h3>
+Allows to create organized icon pack with an extension property of you pack object and batch export into your specified directory.
+
+]]></description>
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
