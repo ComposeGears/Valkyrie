@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.processing.parser.IconParser
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.parser.IconParser
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
@@ -36,7 +36,8 @@ class SimpleConversionViewModel(
         val output = runCatching {
             val parserOutput = IconParser.toVector(file)
             ImageVectorGenerator.convert(
-                parserOutput = parserOutput,
+                vector = parserOutput.vector,
+                kotlinName = parserOutput.kotlinName,
                 config = ImageVectorGeneratorConfig(
                     packageName = valkyriesSettings.packageName,
                     packName = "",

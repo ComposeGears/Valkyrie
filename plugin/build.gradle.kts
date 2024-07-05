@@ -23,7 +23,9 @@ repositories {
 }
 
 dependencies {
-    implementation(projects.google)
+    implementation(projects.components.generator.iconpack)
+    implementation(projects.components.generator.imagevector)
+    implementation(projects.components.parser)
 
     compileOnly(compose.desktop.currentOs)
     implementation(compose.desktop.macos_arm64)
@@ -34,12 +36,9 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
-    implementation(libs.kotlinpoet)
     implementation(libs.multiplatform.filepicker)
     implementation(libs.tiamat)
     implementation(libs.tiamat.koin)
-
-    testImplementation(libs.kotlin.test)
 }
 
 compose.resources {

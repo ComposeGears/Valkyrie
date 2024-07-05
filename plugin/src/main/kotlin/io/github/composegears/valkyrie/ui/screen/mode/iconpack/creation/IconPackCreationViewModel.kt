@@ -3,8 +3,8 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 import com.composegears.tiamat.TiamatViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
-import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.processing.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
@@ -43,13 +43,13 @@ class IconPackCreationViewModel(
                         nestedPacks = inputFieldState.nestedPacks,
                         nextAvailable = inputFieldState.noErrors(),
                         packPreview = if (inputFieldState.noErrors()) {
-                            IconPackGenerator(
+                            IconPackGenerator.create(
                                 config = IconPackGeneratorConfig(
                                     packageName = inputFieldState.packageName.text,
                                     iconPackName = inputFieldState.iconPackName.text,
                                     subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text }
                                 )
-                            ).generate().content
+                            ).content
                         } else {
                             ""
                         }
@@ -74,13 +74,13 @@ class IconPackCreationViewModel(
             inMemorySettings.updateNestedPack(fieldState.nestedPacks.map { it.inputFieldState.text })
             inMemorySettings.updateMode(Mode.IconPack)
 
-            val iconPack = IconPackGenerator(
+            val iconPack = IconPackGenerator.create(
                 config = IconPackGeneratorConfig(
                     packageName = inMemorySettings.current.packageName,
                     iconPackName = inMemorySettings.current.iconPackName,
                     subPacks = inMemorySettings.current.nestedPacks
                 )
-            ).generate()
+            )
 
             FileWriter.writeToFile(
                 content = iconPack.content,

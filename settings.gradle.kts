@@ -10,4 +10,9 @@ pluginManagement {
 rootProject.name = "valkyrie"
 
 include("plugin")
-include("google")
+
+include("components:google")
+include("components:generator:common")
+include("components:generator:iconpack")
+include("components:generator:imagevector")
+include("components:parser")
