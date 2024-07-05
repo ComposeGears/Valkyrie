@@ -21,12 +21,12 @@ import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import io.github.composegears.valkyrie.ui.domain.model.Mode
-import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
-import io.github.composegears.valkyrie.ui.foundation.TooltipButton
-import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
+import io.github.composegears.valkyrie.ui.foundation.TooltipButton
+import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
 
@@ -70,7 +70,7 @@ private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
         )
         VerticalSpacer(42.dp)
         Text(
-            text = "Choose plugin mode",
+            text = "Choose conversion mode",
             style = MaterialTheme.typography.labelSmall,
             color = LocalContentColor.current.copy(alpha = 0.5f),
             textAlign = TextAlign.Center
@@ -78,13 +78,13 @@ private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
         VerticalSpacer(8.dp)
 
         ModeRow(
-            title = "Simple mode",
+            title = "Simple",
             tooltipText = "One-click conversion from SVG/XML into ImageVector",
             onSelect = { onSelect(Simple) }
         )
         VerticalSpacer(16.dp)
         ModeRow(
-            title = "IconPack mode",
+            title = "IconPack",
             tooltipText = "Create organized icon pack with an extension property of you pack object and batch export into your project",
             onSelect = { onSelect(IconPack) }
         )
