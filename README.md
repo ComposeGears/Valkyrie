@@ -10,9 +10,177 @@
 - built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
   and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
 - support SVG/XML
-- convenient code formatting for generated ImageVector icon
-- skip default ImageVector path parameters to reduce visual noise
+- convenient code formatting for generated icon
+  - remove redundant code
+  - remove unused imports 
+  - skip default ImageVector parameters
 - support drag and drop inside IDE
+
+##  Conversion modes:
+
+### **Simple** - one-click solution to convert SVG/XML to ImageVector
+Allows previewing the generated icon and facilitates copying the result directly to the clipboard for easy integration into your project.
+
+<img src="assets/simple_mode_1.png" width="300" /> <img src="assets/simple_mode_2.png" width="300" />
+
+Demo:
+
+
+https://github.com/ComposeGears/Valkyrie/assets/16294951/1c5ca6ef-4240-4916-b523-cf9bb15a7422
+
+
+
+### **IconPack** - create your organized icon pack and auto export icons into your directory
+
+Allows to create organized icon pack with an extension property of you pack object and batch export into your specified directory.
+
+<img src="assets/iconpack_mode_1.png" width="300" /> <img src="assets/iconpack_mode_2.png" width="305" />
+
+
+## Comparison
+
+Source SVG icon:
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#e8eaed"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+```
+
+ImageVector output: 
+
+<table>
+<tr>
+<td> Valkyrie </td> <td> composables.com </td>
+</tr>
+<tr>
+<td valign="top"> 
+
+```kotlin
+package io.github.composegears.valkyrie
+
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+
+val Add: ImageVector
+  get() {
+    if (_Add != null) {
+      return _Add!!
+    }
+    _Add = ImageVector.Builder(
+      name = "Add",
+      defaultWidth = 24.dp,
+      defaultHeight = 24.dp,
+      viewportWidth = 24f,
+      viewportHeight = 24f
+    ).apply {
+      path(fill = SolidColor(Color(0xFFE8EAED))) {
+        moveTo(19f, 13f)
+        horizontalLineToRelative(-6f)
+        verticalLineToRelative(6f)
+        horizontalLineToRelative(-2f)
+        verticalLineToRelative(-6f)
+        horizontalLineTo(5f)
+        verticalLineToRelative(-2f)
+        horizontalLineToRelative(6f)
+        verticalLineTo(5f)
+        horizontalLineToRelative(2f)
+        verticalLineToRelative(6f)
+        horizontalLineToRelative(6f)
+        verticalLineToRelative(2f)
+        close()
+      }
+    }.build()
+
+    return _Add!!
+  }
+
+private var _Add: ImageVector? = null
+
+```
+
+</td>
+<td>
+
+```kotlin
+import androidx.compose.runtime.Composable
+import androidx.compose.foundation.Image
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.PathFillType
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+
+private var _Add: ImageVector? = null
+
+public val Add: ImageVector
+  get() {
+    if (_Add != null) {
+      return _Add!!
+    }
+    _Add = ImageVector.Builder(
+      name = "Add",
+      defaultWidth = 24.dp,
+      defaultHeight = 24.dp,
+      viewportWidth = 24f,
+      viewportHeight = 24f
+    ).apply {
+      path(
+        fill = null,
+        fillAlpha = 1.0f,
+        stroke = null,
+        strokeAlpha = 1.0f,
+        strokeLineWidth = 1.0f,
+        strokeLineCap = StrokeCap.Butt,
+        strokeLineJoin = StrokeJoin.Miter,
+        strokeLineMiter = 1.0f,
+        pathFillType = PathFillType.NonZero
+      ) {
+        moveTo(0f, 0f)
+        horizontalLineToRelative(24f)
+        verticalLineToRelative(24f)
+        horizontalLineTo(0f)
+        verticalLineTo(0f)
+        close()
+      }
+      path(
+        fill = SolidColor(Color(0xFFE8EAED)),
+        fillAlpha = 1.0f,
+        stroke = null,
+        strokeAlpha = 1.0f,
+        strokeLineWidth = 1.0f,
+        strokeLineCap = StrokeCap.Butt,
+        strokeLineJoin = StrokeJoin.Miter,
+        strokeLineMiter = 1.0f,
+        pathFillType = PathFillType.NonZero
+      ) {
+        moveTo(19f, 13f)
+        horizontalLineToRelative(-6f)
+        verticalLineToRelative(6f)
+        horizontalLineToRelative(-2f)
+        verticalLineToRelative(-6f)
+        horizontalLineTo(5f)
+        verticalLineToRelative(-2f)
+        horizontalLineToRelative(6f)
+        verticalLineTo(5f)
+        horizontalLineToRelative(2f)
+        verticalLineToRelative(6f)
+        horizontalLineToRelative(6f)
+        verticalLineToRelative(2f)
+        close()
+      }
+    }.build()
+    return _Add!!
+  }
+
+```
+
+</td>
+</tr>
+</table>
 
 ## Requirements
 
@@ -21,8 +189,12 @@
 
 ## Installation
 
-- Manually:
+- Download from [Jetbrains Marketplace](https://plugins.jetbrains.com/plugin/24786-valkyrie) or find plugin inside IDE:
 
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Valkyrie"</kbd> >
+  <kbd>Install Plugin</kbd>
+
+- Manually:
   Download the [latest release](https://github.com/ComposeGears/Valkyrie/releases/latest)
   or [build your self](#Building) and install it manually using
   <kbd>Settings</kbd> -> <kbd>Plugins</kbd> -> <kbd>⚙️</kbd> -> <kbd>Install plugin from disk...</kbd>
