@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.processing.generator.imagevector.ImageVectorSpecOutput
-import io.github.composegears.valkyrie.processing.parser.IconParser
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
+import io.github.composegears.valkyrie.parser.IconParser
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
@@ -88,7 +88,8 @@ class IconPackConversionViewModel(
             val parserOutput = IconParser.toVector(icon.file)
 
             ImageVectorGenerator.convert(
-                parserOutput = parserOutput,
+                vector = parserOutput.vector,
+                kotlinName = parserOutput.kotlinName,
                 config = ImageVectorGeneratorConfig(
                     packageName = icon.iconPack.iconPackage,
                     packName = valkyriesSettings.value.iconPackName,
@@ -114,7 +115,8 @@ class IconPackConversionViewModel(
                         is IconPack.Nested -> {
                             val parserOutput = IconParser.toVector(icon.file)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
-                                parserOutput = parserOutput,
+                                vector = parserOutput.vector,
+                                kotlinName = parserOutput.kotlinName,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,
@@ -132,7 +134,8 @@ class IconPackConversionViewModel(
                         is IconPack.Single -> {
                             val parserOutput = IconParser.toVector(icon.file)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
-                                parserOutput = parserOutput,
+                                vector = parserOutput.vector,
+                                kotlinName = parserOutput.kotlinName,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,

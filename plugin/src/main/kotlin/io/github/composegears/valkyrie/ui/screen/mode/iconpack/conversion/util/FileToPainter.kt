@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toPainter
 import com.android.ide.common.vectordrawable.VdPreview
-import io.github.composegears.valkyrie.processing.parser.SvgToXmlParser
+import io.github.composegears.valkyrie.parser.SvgToXmlParser
 import java.io.File
 import kotlin.io.path.createTempFile
 import kotlin.io.path.readText
