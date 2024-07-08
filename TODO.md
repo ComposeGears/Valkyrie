@@ -1,3 +1,10 @@
-- add tests with nested icon packs
-- add test for linear gradient icon 
-- add test for radial gradient icon
+- [ ] add tests with nested icon packs
+- [ ] add test for linear gradient icon 
+- [ ] add test for radial gradient icon
+- [ ] Multi edit icon pack
+- [ ] Generated code as val or lazy delegate
+- [ ] Rename icon in icon pack
+- [ ] Preview icon on square background pattern
+- [ ] Simple mode without package
+- [ ] Add version into plugin settings
+- [ ] Export/import iconpack configuration into file
