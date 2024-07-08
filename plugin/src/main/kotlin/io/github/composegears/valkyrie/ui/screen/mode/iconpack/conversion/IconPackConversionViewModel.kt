@@ -171,6 +171,7 @@ class IconPackConversionViewModel(
             _state.updateState {
                 BatchFilesProcessing(
                     iconsToProcess = files
+                        .sortedBy { it.name }
                         .map {
                             when (val painter = it.toPainterOrNull()) {
                                 null -> BatchIcon.Broken(
