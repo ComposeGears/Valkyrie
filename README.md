@@ -36,6 +36,14 @@ Allows to create organized icon pack with an extension property of you pack obje
 
 <img src="assets/iconpack_mode_1.png" width="300" /> <img src="assets/iconpack_mode_2.png" width="305" />
 
+Demo:
+
+
+
+https://github.com/ComposeGears/Valkyrie/assets/16294951/5ad9cb33-cef2-46dd-9f0c-638583a90385
+
+
+
 
 ## Comparison
 
