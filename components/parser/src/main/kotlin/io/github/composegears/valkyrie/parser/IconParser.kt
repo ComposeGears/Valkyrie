@@ -21,35 +21,26 @@ object IconParser {
     fun toVector(file: File): IconParserOutput {
         val iconType = IconTypeParser.getIconType(file.extension) ?: error("File not SVG or XML")
 
-        val fileName = getFileName(file, iconType)
+        val fileName = getFileName(fileName = file.name, iconType = iconType)
         val icon = when (iconType) {
             SVG -> {
                 val tmpFile = createTempFile(suffix = "valkyrie/")
                 SvgToXmlParser.parse(file, tmpFile)
 
-                Icon(
-                    kotlinName = fileName,
-                    xmlFileName = "",
-                    fileContent = tmpFile.readText()
-                )
-
+                Icon(fileContent = tmpFile.readText())
             }
-            XML -> Icon(
-                kotlinName = fileName,
-                xmlFileName = file.name,
-                fileContent = file.readText()
-            )
+            XML -> Icon(fileContent = file.readText())
         }
 
         return IconParserOutput(
             vector = IconParser(icon).parse(),
-            kotlinName = icon.kotlinName
+            kotlinName = fileName
         )
     }
 
-    private fun getFileName(file: File, iconType: IconType): String {
+    private fun getFileName(fileName: String, iconType: IconType): String {
 
-        var name = file.name
+        var name = fileName
             .removeSuffix(".${iconType.extension}")
             .split("_")
             .joinToString("") { it.capitalized() }

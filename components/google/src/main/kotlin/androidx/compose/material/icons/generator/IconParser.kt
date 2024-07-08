@@ -16,9 +16,17 @@
 
 package androidx.compose.material.icons.generator
 
-import androidx.compose.material.icons.generator.vector.*
+import androidx.compose.material.icons.generator.vector.Fill
+import androidx.compose.material.icons.generator.vector.FillType
+import androidx.compose.material.icons.generator.vector.PathParser
+import androidx.compose.material.icons.generator.vector.StrokeCap
+import androidx.compose.material.icons.generator.vector.StrokeJoin
+import androidx.compose.material.icons.generator.vector.Vector
+import androidx.compose.material.icons.generator.vector.VectorNode
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParser.*
+import org.xmlpull.v1.XmlPullParser.END_DOCUMENT
+import org.xmlpull.v1.XmlPullParser.END_TAG
+import org.xmlpull.v1.XmlPullParser.START_TAG
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
 
@@ -68,13 +76,13 @@ class IconParser(private val icon: Icon) {
                             }
                             val strokeCap = parser.getAttributeValue(null, STROKE_LINE_CAP)
                                 ?.let {
-                                    StrokeCap.values()
+                                    StrokeCap.entries
                                         .find { strokeCap -> strokeCap.name.equals(it, ignoreCase = true) }
                                 }
                             val strokeWidth = rawAsGraphicUnit(parser.getAttributeValue(null, STROKE_WIDTH) ?: "0")
                             val strokeJoin = parser.getAttributeValue(null, STROKE_LINE_JOIN)
                                 ?.let {
-                                    StrokeJoin.values()
+                                    StrokeJoin.entries
                                         .find { strokeJoin -> strokeJoin.name.equals(it, ignoreCase = true) }
                                 }
                             val strokeMiterLimit = parser.getValueAsFloat(STROKE_MITER_LIMIT)
