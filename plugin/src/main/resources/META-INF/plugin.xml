@@ -1,4 +1,4 @@
-<idea-plugin>
+<idea-plugin require-restart="false">
     <id>io.github.composegears.valkyrie</id>
     <name>Valkyrie - SVG to ImageVector</name>
 
