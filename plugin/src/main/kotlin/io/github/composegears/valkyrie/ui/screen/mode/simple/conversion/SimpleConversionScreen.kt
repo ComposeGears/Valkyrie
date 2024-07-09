@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,11 +18,9 @@ import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
-import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.ide.CopyPasteManager
-import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.CopyAction
@@ -35,6 +32,7 @@ import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.dnd.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
@@ -48,15 +46,10 @@ val SimpleConversionScreen by navDestination<Unit> {
 
     val viewModel = koinTiamatViewModel<SimpleConversionViewModel>()
     val state by viewModel.state.collectAsState()
-    val settings by viewModel.valkyriesSettings.collectAsState()
 
     ConversionUi(
         state = state,
-        settings = settings,
-        onSelectFile = {
-            viewModel.selectFile(it)
-            viewModel.updateLastChoosePath(it)
-        },
+        onSelectFile = viewModel::selectFile,
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
@@ -70,18 +63,26 @@ val SimpleConversionScreen by navDestination<Unit> {
 @Composable
 private fun ConversionUi(
     state: SimpleConversionState,
-    settings: ValkyriesSettings,
     onSelectFile: (File) -> Unit,
     openSettings: () -> Unit,
     resetIconContent: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    var showFilePicker by rememberMutableState { false }
-
     val project = LocalProject.current
+
+    val scope = rememberCoroutineScope()
+    val filePicker = rememberFilePicker()
+
     PluginUI(
         content = state.iconContent,
-        onChooseFile = { showFilePicker = true },
+        onChooseFile = {
+            scope.launch {
+                val file = filePicker.launch()
+
+                if (file != null) {
+                    onSelectFile(file)
+                }
+            }
+        },
         onClear = resetIconContent,
         onCopy = {
             val text = state.iconContent ?: return@PluginUI
@@ -99,20 +100,6 @@ private fun ConversionUi(
         },
         onSelectFile = onSelectFile,
         openSettings = openSettings
-    )
-
-    FilePicker(
-        show = showFilePicker,
-        fileExtensions = listOf("svg", "xml"),
-        initialDirectory = settings.initialDirectory,
-        onFileSelected = { mpFile ->
-            if (mpFile != null) {
-                onSelectFile(File(mpFile.path))
-                showFilePicker = false
-            } else {
-                showFilePicker = false
-            }
-        }
     )
 }
 

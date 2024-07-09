@@ -18,7 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
-import com.darkrockstudios.libraries.mpfilepicker.DirectoryPicker
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
@@ -37,7 +36,9 @@ import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.dnd.rememberDragAndDropFolderHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Folder
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.picker.rememberDirectoryPicker
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
+import kotlinx.coroutines.launch
 
 val IconPackDestinationScreen by navDestination<Unit> {
     val navController = navController()
@@ -48,25 +49,27 @@ val IconPackDestinationScreen by navDestination<Unit> {
     val dragAndDropHandler = rememberDragAndDropFolderHandler(onDrop = viewModel::updateDestination)
     val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
 
-    var showDirectoryPicker by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val directoryPicker = rememberDirectoryPicker()
 
     IconPackDestinationScreenUI(
         state = state,
         isDragging = isDragging,
-        onChooseDirectory = { showDirectoryPicker = true },
+        onChooseDirectory = {
+            scope.launch {
+                val path = directoryPicker.launch()
+
+                if (path != null) {
+                    viewModel.updateDestination(path)
+                }
+            }
+        },
         onBack = navController::back,
         onNext = {
             viewModel.saveSettings()
             navController.navigate(IconPackCreationScreen)
         }
     )
-
-    DirectoryPicker(show = showDirectoryPicker) {
-        showDirectoryPicker = false
-        if (it != null) {
-            viewModel.updateDestination(it)
-        }
-    }
 }
 
 @Composable

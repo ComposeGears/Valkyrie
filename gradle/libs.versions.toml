@@ -11,8 +11,6 @@ kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.4.0"
 kotlinpoet = "com.squareup:kotlinpoet:1.17.0"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
-multiplatform-filepicker = "com.darkrockstudios:mpfilepicker:3.1.0"
-
 tiamat = "io.github.composegears:tiamat:1.1.0-rc02"
 tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0-rc02"
 

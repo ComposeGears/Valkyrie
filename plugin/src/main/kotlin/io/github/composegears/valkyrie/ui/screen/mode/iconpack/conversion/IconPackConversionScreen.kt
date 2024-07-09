@@ -134,10 +134,7 @@ private fun IconPackConversionUi(
             }
             when (state) {
                 is IconsPickering -> {
-                    IconPackPickerState(
-                        initialDirectory = settings.initialDirectory,
-                        onPickerEvent = onPickEvent
-                    )
+                    IconPackPickerState(onPickerEvent = onPickEvent)
                 }
                 is BatchFilesProcessing -> {
                     BatchProcessingState(

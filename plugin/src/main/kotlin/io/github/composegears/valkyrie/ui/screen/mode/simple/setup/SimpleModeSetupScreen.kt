@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.simple
+package io.github.composegears.valkyrie.ui.screen.mode.simple.setup
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -26,8 +26,8 @@ import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeInputChange.PackageName
-import io.github.composegears.valkyrie.ui.screen.mode.simple.util.buildPackageHint
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeInputChange.PackageName
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.util.buildPackageHint
 import kotlinx.coroutines.Dispatchers
 
 val SimpleModeSetupScreen by navDestination<Unit> {

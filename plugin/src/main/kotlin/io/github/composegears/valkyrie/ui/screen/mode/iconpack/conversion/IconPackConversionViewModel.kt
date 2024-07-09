@@ -189,7 +189,6 @@ class IconPackConversionViewModel(
                         }
                 )
             }
-            updateLastChoosePath(files.first())
         }
     }
 
@@ -208,10 +207,6 @@ class IconPackConversionViewModel(
                 nestedPacks = nestedPacks
             )
         }
-    }
-
-    private fun updateLastChoosePath(file: File) {
-        inMemorySettings.updateInitialDirectory(file.parentFile.path)
     }
 
     private fun onReadBatchScope(action: BatchFilesProcessing.() -> Unit) {

@@ -6,7 +6,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPa
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationViewModel
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationViewModel
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionViewModel
-import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupViewModel
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf

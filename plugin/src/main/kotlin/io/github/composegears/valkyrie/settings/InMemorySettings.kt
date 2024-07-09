@@ -17,10 +17,6 @@ class InMemorySettings {
         PersistentSettings.persistentSettings.generatePreview = generatePreview
     }
 
-    fun updateInitialDirectory(initialDirectory: String) = updateSettings {
-        PersistentSettings.persistentSettings.initialDirectory = initialDirectory
-    }
-
     fun updateIconPackName(iconPackName: String) = updateSettings {
         PersistentSettings.persistentSettings.iconPackName = iconPackName
     }
@@ -56,8 +52,6 @@ class InMemorySettings {
             nestedPacks = ""
 
             generatePreview = false
-
-            initialDirectory = ""
         }
     }
 
@@ -78,9 +72,7 @@ class InMemorySettings {
                 .split(",")
                 .filter { it.isNotEmpty() },
 
-            generatePreview = generatePreview,
-
-            initialDirectory = initialDirectory ?: System.getProperty("user.home"),
+            generatePreview = generatePreview
         )
 }
 
@@ -93,7 +85,5 @@ data class ValkyriesSettings(
 
     val nestedPacks: List<String>,
 
-    val generatePreview: Boolean,
-
-    val initialDirectory: String,
+    val generatePreview: Boolean
 )
