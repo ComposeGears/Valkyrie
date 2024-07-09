@@ -200,8 +200,7 @@ private fun SettingsScreenPreview() {
 
             nestedPacks = emptyList(),
 
-            generatePreview = false,
-            initialDirectory = "",
+            generatePreview = false
         ),
         onGeneratePreviewChanged = {},
         onClearSettings = {},

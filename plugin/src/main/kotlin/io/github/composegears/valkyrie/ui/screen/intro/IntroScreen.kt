@@ -28,7 +28,7 @@ import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
 import io.github.composegears.valkyrie.ui.foundation.TooltipButton
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
-import io.github.composegears.valkyrie.ui.screen.mode.simple.SimpleModeSetupScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 
 val IntroScreen: NavDestination<Unit> by navDestination {
 

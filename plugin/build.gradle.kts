@@ -36,7 +36,6 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
-    implementation(libs.multiplatform.filepicker)
     implementation(libs.tiamat)
     implementation(libs.tiamat.koin)
 }

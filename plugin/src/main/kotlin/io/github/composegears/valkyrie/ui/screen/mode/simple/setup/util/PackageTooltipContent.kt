@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.simple.util
+package io.github.composegears.valkyrie.ui.screen.mode.simple.setup.util
 
 import androidx.compose.ui.text.AnnotatedString
 import io.github.composegears.valkyrie.ui.util.codeBlockAnnotatedString

@@ -13,14 +13,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import java.io.File
 
-class SimpleConversionViewModel(
-    private val inMemorySettings: InMemorySettings
-) : TiamatViewModel() {
+class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatViewModel() {
 
     private val _state = MutableStateFlow(SimpleConversionState())
     val state = _state.asStateFlow()
-
-    val valkyriesSettings = inMemorySettings.settings
 
     init {
         _state
@@ -58,9 +54,5 @@ class SimpleConversionViewModel(
 
     fun reset() {
         _state.updateState { copy(iconContent = null, lastFile = null) }
-    }
-
-    fun updateLastChoosePath(file: File) {
-        inMemorySettings.updateInitialDirectory(file.parentFile.path)
     }
 }

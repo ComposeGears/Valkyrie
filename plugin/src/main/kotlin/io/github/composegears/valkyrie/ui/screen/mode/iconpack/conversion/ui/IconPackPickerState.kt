@@ -19,33 +19,33 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.darkrockstudios.libraries.mpfilepicker.DirectoryPicker
-import com.darkrockstudios.libraries.mpfilepicker.MultipleFilePicker
 import io.github.composegears.valkyrie.ui.foundation.PreviewWrapper
 import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.dnd.rememberMultiSelectDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.picker.rememberDirectoryPicker
+import io.github.composegears.valkyrie.ui.foundation.picker.rememberMultipleFilesPicker
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
+import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
-fun IconPackPickerState(
-    initialDirectory: String,
-    onPickerEvent: (PickerEvent) -> Unit,
-) {
-    var showDirectoryPicker by rememberMutableState { false }
-    var showFilesPicker by rememberMutableState { false }
+fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
+    val scope = rememberCoroutineScope()
+
+    val multipleFilePicker = rememberMultipleFilesPicker()
+    val directoryPicker = rememberDirectoryPicker()
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -65,32 +65,25 @@ fun IconPackPickerState(
                     else -> onPickerEvent(PickFiles(files = files))
                 }
             },
-            onPickDirectory = { showDirectoryPicker = true },
-            onPickFiles = { showFilesPicker = true },
-        )
-    }
+            onPickDirectory = {
+                scope.launch {
+                    val path = directoryPicker.launch()
 
-    MultipleFilePicker(
-        show = showFilesPicker,
-        fileExtensions = listOf("svg", "xml"),
-        initialDirectory = initialDirectory,
-        onFileSelected = { files ->
-            showFilesPicker = false
+                    if (path != null) {
+                        onPickerEvent(PickDirectory(path = path))
+                    }
+                }
+            },
+            onPickFiles = {
+                scope.launch {
+                    val files = multipleFilePicker.launch()
 
-            if (!files.isNullOrEmpty()) {
-                onPickerEvent(PickFiles(files = files.map { it.platformFile as File }))
+                    if (files.isNotEmpty()) {
+                        onPickerEvent(PickFiles(files = files))
+                    }
+                }
             }
-        }
-    )
-    DirectoryPicker(
-        show = showDirectoryPicker,
-        initialDirectory = initialDirectory
-    ) {
-        showDirectoryPicker = false
-
-        if (it != null) {
-            onPickerEvent(PickDirectory(path = it))
-        }
+        )
     }
 }
 
@@ -168,8 +161,5 @@ private fun DragAndDropBox(
 @Preview
 @Composable
 private fun PreviewPickerState() = PreviewWrapper {
-    IconPackPickerState(
-        initialDirectory = "",
-        onPickerEvent = {}
-    )
+    IconPackPickerState(onPickerEvent = {})
 }
