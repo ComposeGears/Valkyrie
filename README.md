@@ -1,3 +1,9 @@
+[![Plugin Homepage][badge:plugin-homepage]][plugin-homepage]
+[![License][badge:license]][gh:license]
+[![GitHub releases][badge:release]][gh:releases]
+[![Version][badge:version]][plugin-versions]
+[![Downloads][badge:downloads]][plugin-homepage]
+
 <div align="center">
     <img alt="Icon" src="plugin/src/main/resources/META-INF/pluginIcon.svg" width="200" />
 </div>
@@ -197,12 +203,16 @@ public val Add: ImageVector
 
 ## Installation
 
-- Download from [Jetbrains Marketplace](https://plugins.jetbrains.com/plugin/24786-valkyrie) or find plugin inside IDE:
+<a href="https://plugins.jetbrains.com/plugin/24786-valkyrie" target="_blank">
+    <img src="assets/installation_button.svg" height="40" alt="Get from Marketplace" title="Get from Marketplace">
+</a>
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Valkyrie"</kbd> >
+- **Find plugin inside IDE**:
+
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for <b>"Valkyrie"</b></kbd> >
   <kbd>Install Plugin</kbd>
 
-- Manually:
+- **Manually**:
   Download the [latest release](https://github.com/ComposeGears/Valkyrie/releases/latest)
   or [build your self](#Building) and install it manually using
   <kbd>Settings</kbd> -> <kbd>Plugins</kbd> -> <kbd>⚙️</kbd> -> <kbd>Install plugin from disk...</kbd>
@@ -236,3 +246,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+[badge:plugin-homepage]: https://img.shields.io/badge/plugin%20homepage-Valkyrie-24786.svg?style=flat-square
+
+[badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie.svg?style=flat-square
+[badge:release]: https://img.shields.io/github/release/ComposeGears/Valkyrie.svg?sort=semver&style=flat-square&colorB=0097A7
+[badge:version]: https://img.shields.io/jetbrains/plugin/v/24786.svg?style=flat-square&colorB=2196F3
+[badge:downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=flat-square&colorB=5C6BC0
+
+[gh:releases]: https://github.com/ComposeGears/Valkyrie/releases
+[gh:license]: https://github.com/ComposeGears/Valkyrie/blob/main/LICENSE
+
+[plugin-homepage]: https://plugins.jetbrains.com/plugin/24786-valkyrie
+[plugin-versions]: https://plugins.jetbrains.com/plugin/24786-valkyrie/versions
