@@ -45,6 +45,15 @@ jobs:
       - name: Build signed plugin
         run: ./gradlew signPlugin
 
+      - name: Verify intellij plugin
+        uses: thepieterdc/intellij-plugin-verifier-action@v1.4.0
+        with:
+          plugin: 'plugin/build/distributions/*-signed.zip'
+          versions: |
+            2024.1.2
+            2024.1.4
+            LATEST-EAP-SNAPSHOT
+
       - name: Remove old drafts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
