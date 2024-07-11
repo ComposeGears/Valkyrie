@@ -51,17 +51,15 @@ composeCompiler {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2024.1")
+    version = "2024.1"
 }
-
-val useDebugPersistantSettings = false
 
 tasks {
     run {
         // workaround for https://youtrack.jetbrains.com/issue/IDEA-285839/Classpath-clash-when-using-coroutines-in-an-unbundled-IntelliJ-plugin
         buildPlugin {
             exclude { "coroutines" in it.name }
-            archiveFileName.set("${rootProject.name}-${version}.zip")
+            archiveFileName = "${rootProject.name}-${version}.zip"
         }
         prepareSandbox {
             exclude { "coroutines" in it.name }
@@ -83,22 +81,22 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("241")
-        untilBuild.set("242.*")
+        sinceBuild = "241"
+        untilBuild = "242.*"
     }
 
     signPlugin {
         // chain.crt content (base64 ci)
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+        certificateChain = System.getenv("CERTIFICATE_CHAIN")
 
         // private.pem content (base64 ci)
-        privateKey.set(System.getenv("PRIVATE_KEY"))
+        privateKey = System.getenv("PRIVATE_KEY")
 
         // PEM pass phrase
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+        password = System.getenv("PRIVATE_KEY_PASSWORD")
     }
 
     publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
+        token = System.getenv("PUBLISH_TOKEN")
     }
 }
