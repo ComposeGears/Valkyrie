@@ -45,15 +45,31 @@ jobs:
       - name: Build signed plugin
         run: ./gradlew signPlugin
 
-      - name: Verify intellij plugin
-        # use 1.3.0 (https://github.com/thepieterdc/intellij-plugin-verifier-action/issues/16)
-        uses: thepieterdc/intellij-plugin-verifier-action@v1.3.0
+      - name: Verify IntelliJ plugin
+        # https://www.jetbrains.com/idea/download/other.html
+        uses: ChrisCarini/intellij-platform-plugin-verifier-action@v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          plugin: 'plugin/build/distributions/*-signed.zip'
-          versions: |
-            2024.1.2
-            2024.1.4
-            LATEST-EAP-SNAPSHOT
+          plugin-location: plugin/build/distributions/*-signed.zip
+          ide-versions: |
+            ideaIC:2024.1
+            ideaIC:2024.1.1
+            ideaIC:2024.1.2
+            ideaIC:2024.1.3
+            ideaIC:2024.1.4
+            ideaIC:LATEST-EAP-SNAPSHOT
+          failure-levels: |
+            COMPATIBILITY_WARNINGS
+            COMPATIBILITY_PROBLEMS
+            DEPRECATED_API_USAGES
+            INTERNAL_API_USAGES
+            OVERRIDE_ONLY_API_USAGES
+            NON_EXTENDABLE_API_USAGES
+            PLUGIN_STRUCTURE_WARNINGS
+            MISSING_DEPENDENCIES
+            INVALID_PLUGIN
+            NOT_DYNAMIC
 
       - name: Remove old drafts
         env:
