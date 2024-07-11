@@ -46,7 +46,8 @@ jobs:
         run: ./gradlew signPlugin
 
       - name: Verify intellij plugin
-        uses: thepieterdc/intellij-plugin-verifier-action@v1.4.0
+        # use 1.3.0 (https://github.com/thepieterdc/intellij-plugin-verifier-action/issues/16)
+        uses: thepieterdc/intellij-plugin-verifier-action@v1.3.0
         with:
           plugin: 'plugin/build/distributions/*-signed.zip'
           versions: |
