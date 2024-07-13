@@ -1,7 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.setup
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -25,6 +27,7 @@ import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeInputChange.PackageName
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.util.buildPackageHint
@@ -111,14 +114,16 @@ private fun SimpleModeSetupScreenUI(
 
 @Preview
 @Composable
-private fun SimpleModeSetupScreenPreview() {
-    SimpleModeSetupScreenUI(
-        state = SimpleModeSetupState(
-            packageName = InputState(text = "com.example"),
-            nextAvailable = true
-        ),
-        onValueChange = {},
-        onBack = {},
-        onNext = {}
-    )
+private fun SimpleModeSetupScreenPreview() = PreviewTheme {
+    Box(modifier = Modifier.fillMaxSize()) {
+        SimpleModeSetupScreenUI(
+            state = SimpleModeSetupState(
+                packageName = InputState(text = "com.example"),
+                nextAvailable = true
+            ),
+            onValueChange = {},
+            onBack = {},
+            onNext = {}
+        )
+    }
 }

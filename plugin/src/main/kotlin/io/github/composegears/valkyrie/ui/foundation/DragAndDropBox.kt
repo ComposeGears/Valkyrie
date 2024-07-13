@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -71,16 +73,21 @@ fun DragAndDropBox(
 
 @Preview
 @Composable
-private fun DragAndDropBoxPreview() {
-    DragAndDropBox(
-        isDragging = false,
-        onChoose = {},
+private fun DragAndDropBoxPreview() = PreviewTheme {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .background(Color.Gray.copy(alpha = 0.3f))
-        )
+        DragAndDropBox(
+            isDragging = false,
+            onChoose = {},
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .background(Color.Gray.copy(alpha = 0.3f))
+            )
+        }
     }
 }

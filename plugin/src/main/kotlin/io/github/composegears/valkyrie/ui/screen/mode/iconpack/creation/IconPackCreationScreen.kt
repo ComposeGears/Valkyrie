@@ -2,8 +2,10 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -37,6 +39,7 @@ import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.InputChange.NestedPackName
@@ -80,7 +83,6 @@ val IconPackCreationScreen by navDestination<Unit> {
 }
 
 @Composable
-@Preview
 private fun IconPackModeSetupUI(
     state: IconPackModeState,
     onValueChange: (InputChange) -> Unit,
@@ -248,21 +250,32 @@ private fun NestedPacks(
 
 @Preview
 @Composable
-private fun IconPackModeSetupUIPreview() {
-    IconPackModeSetupUI(
-        state = IconPackModeState(
-            nestedPacks = listOf(
-                NestedPack(
-                    id = "0",
-                    inputFieldState = InputState("", ValidationResult.Error(ErrorCriteria.EMPTY))
+private fun IconPackModeSetupUIPreview() = PreviewTheme {
+    Box(modifier = Modifier.fillMaxSize()) {
+        IconPackModeSetupUI(
+            state = IconPackModeState(
+                inputFieldState = InputFieldState(
+                    iconPackName = InputState(text = "IconPackName"),
+                    packageName = InputState(text = "com.example.iconpack"),
+                    nestedPacks = emptyList()
+                ),
+                nestedPacks = listOf(
+                    NestedPack(
+                        id = "0",
+                        inputFieldState = InputState("Outlined", ValidationResult.Success)
+                    ),
+                    NestedPack(
+                        id = "1",
+                        inputFieldState = InputState("", ValidationResult.Error(ErrorCriteria.EMPTY))
+                    )
                 )
-            )
-        ),
-        onValueChange = {},
-        onBack = {},
-        onAddNestedPack = {},
-        onRemoveNestedPack = {},
-        onPreviewPack = {},
-        onNext = {}
-    )
+            ),
+            onValueChange = {},
+            onBack = {},
+            onAddNestedPack = {},
+            onRemoveNestedPack = {},
+            onPreviewPack = {},
+            onNext = {}
+        )
+    }
 }

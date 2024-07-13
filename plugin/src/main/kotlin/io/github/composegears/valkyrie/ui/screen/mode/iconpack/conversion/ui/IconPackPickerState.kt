@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ui.foundation.PreviewWrapper
 import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.dnd.rememberMultiSelectDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
@@ -34,6 +33,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.picker.rememberDirectoryPicker
 import io.github.composegears.valkyrie.ui.foundation.picker.rememberMultipleFilesPicker
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
@@ -160,6 +160,6 @@ private fun DragAndDropBox(
 
 @Preview
 @Composable
-private fun PreviewPickerState() = PreviewWrapper {
+private fun PreviewPickerState() = PreviewTheme {
     IconPackPickerState(onPickerEvent = {})
 }

@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie
 
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.awt.ComposePanel
 import com.intellij.openapi.project.DumbAware
@@ -27,9 +26,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
                 project = project,
                 currentComponent = this
             ) {
-                Surface {
-                    ValkyriePlugin()
-                }
+                ValkyriePlugin()
             }
         }
     }

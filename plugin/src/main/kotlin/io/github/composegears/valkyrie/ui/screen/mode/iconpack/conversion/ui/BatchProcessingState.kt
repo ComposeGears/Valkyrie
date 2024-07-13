@@ -40,10 +40,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.IconButton
-import io.github.composegears.valkyrie.ui.foundation.PreviewWrapper
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchIcon
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
@@ -181,7 +181,8 @@ private fun BrokenIconItem(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors().copy(
-            containerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.4f)
+            containerColor = MaterialTheme.colorScheme.error,
+            contentColor = MaterialTheme.colorScheme.onError,
         )
     ) {
         Column {
@@ -299,7 +300,7 @@ private fun PacksDropdown(
 
 @Preview
 @Composable
-private fun BatchProcessingStatePreview() = PreviewWrapper {
+private fun BatchProcessingStatePreview() = PreviewTheme {
     BatchProcessingState(
         icons = listOf(
             BatchIcon.Valid(

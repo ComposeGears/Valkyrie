@@ -37,6 +37,7 @@ import io.github.composegears.valkyrie.ui.foundation.dnd.rememberDragAndDropFold
 import io.github.composegears.valkyrie.ui.foundation.icons.Folder
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.picker.rememberDirectoryPicker
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import kotlinx.coroutines.launch
 
@@ -147,7 +148,7 @@ private fun IconPackDestinationScreenUI(
 
 @Preview
 @Composable
-private fun IconPackDestinationScreenPreview() {
+private fun IconPackDestinationScreenPreview() = PreviewTheme {
     IconPackDestinationScreenUI(
         state = IconPackDestinationState(
             nextButtonEnabled = true,

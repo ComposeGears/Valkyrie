@@ -36,6 +36,7 @@ import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 
 val SettingsScreen by navDestination<Unit> {
@@ -190,7 +191,7 @@ private fun SectionTitle(
 
 @Preview
 @Composable
-private fun SettingsScreenPreview() {
+private fun SettingsScreenPreview() = PreviewTheme {
     SettingsUI(
         settings = ValkyriesSettings(
             mode = Simple,
