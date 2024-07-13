@@ -1,9 +1,14 @@
 package io.github.composegears.valkyrie.ui.foundation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
+import androidx.compose.ui.platform.LocalInspectionMode
 import com.intellij.lang.Language
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.ScrollType
@@ -18,21 +23,30 @@ fun IntellijEditorTextField(
     text: String,
     modifier: Modifier = Modifier,
 ) {
-    val project = LocalProject.current
-    val document = remember(text) { EditorFactory.getInstance().createDocument(text) }
+    if (LocalInspectionMode.current) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "EditorTextField")
+        }
+    } else {
+        val project = LocalProject.current
+        val document = remember(text) { EditorFactory.getInstance().createDocument(text) }
 
-    SwingPanel(
-        modifier = modifier,
-        factory = {
-            EditorTextFieldProvider.getInstance().getEditorField(
-                /* language = */ kotlinLanguage,
-                /* project = */ project,
-                /* features = */ listOf(EditorCustomization(true))
-            ).apply {
-                setDocument(document)
-            }
-        },
-    )
+        SwingPanel(
+            modifier = modifier,
+            factory = {
+                EditorTextFieldProvider.getInstance().getEditorField(
+                    /* language = */ kotlinLanguage,
+                    /* project = */ project,
+                    /* features = */ listOf(EditorCustomization(true))
+                ).apply {
+                    setDocument(document)
+                }
+            },
+        )
+    }
 }
 
 private class EditorCustomization(enabled: Boolean) : SimpleEditorCustomization(enabled) {

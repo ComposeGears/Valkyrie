@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,8 +19,6 @@ import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
-import com.intellij.notification.NotificationGroupManager
-import com.intellij.notification.NotificationType
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
@@ -32,11 +31,11 @@ import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.dnd.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.notification.rememberNotificationManager
 import io.github.composegears.valkyrie.ui.foundation.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.awt.datatransfer.StringSelection
 import java.io.File
@@ -67,10 +66,9 @@ private fun ConversionUi(
     openSettings: () -> Unit,
     resetIconContent: () -> Unit
 ) {
-    val project = LocalProject.current
-
     val scope = rememberCoroutineScope()
     val filePicker = rememberFilePicker()
+    val notificationManager = rememberNotificationManager()
 
     PluginUI(
         content = state.iconContent,
@@ -87,16 +85,7 @@ private fun ConversionUi(
         onCopy = {
             val text = state.iconContent ?: return@PluginUI
             CopyPasteManager.getInstance().setContents(StringSelection(text))
-
-            scope.launch {
-                val notification = NotificationGroupManager.getInstance()
-                    .getNotificationGroup(/* groupId = */ "valkyrie")
-                    .createNotification(content = "Copied in clipboard", type = NotificationType.INFORMATION)
-                notification.notify(project)
-
-                delay(2000)
-                notification.expire()
-            }
+            notificationManager.show("Copied in clipboard")
         },
         onSelectFile = onSelectFile,
         openSettings = openSettings
@@ -170,4 +159,15 @@ private fun SelectableState(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun SimpleConversionScreenPreview() = PreviewTheme {
+    ConversionUi(
+        state = SimpleConversionState(),
+        onSelectFile = {},
+        openSettings = {},
+        resetIconContent = {}
+    )
 }

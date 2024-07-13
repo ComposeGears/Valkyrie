@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.foundation.picker
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalInspectionMode
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
@@ -18,6 +19,8 @@ import java.io.File
 
 @Composable
 fun rememberMultipleFilesPicker(): Picker<List<File>> {
+    if (LocalInspectionMode.current) return StubMultipleFilesPicker
+
     val project = LocalProject.current
 
     return remember {
@@ -32,7 +35,11 @@ fun rememberMultipleFilesPicker(): Picker<List<File>> {
     }
 }
 
-class MultipleFilesPicker(
+private object StubMultipleFilesPicker : Picker<List<File>> {
+    override suspend fun launch(): List<File> = emptyList()
+}
+
+private class MultipleFilesPicker(
     private val project: Project,
     filterCondition: Condition<VirtualFile> = Condition { true }
 ) : Picker<List<File>> {

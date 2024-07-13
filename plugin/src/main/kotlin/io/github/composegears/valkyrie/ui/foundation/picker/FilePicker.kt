@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.foundation.picker
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalInspectionMode
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
@@ -18,6 +19,8 @@ import java.io.File
 
 @Composable
 fun rememberFilePicker(): Picker<File?> {
+    if (LocalInspectionMode.current) return StubFilePicker
+
     val project = LocalProject.current
 
     return remember {
@@ -32,7 +35,11 @@ fun rememberFilePicker(): Picker<File?> {
     }
 }
 
-class FilePicker(
+private object StubFilePicker : Picker<File?> {
+    override suspend fun launch(): File? = null
+}
+
+private class FilePicker(
     private val project: Project,
     filterCondition: Condition<VirtualFile> = Condition { true }
 ) : Picker<File?> {
