@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -48,6 +46,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchI
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.FileTypeBadge
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconPreviewBox
 import java.io.File
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -109,11 +108,7 @@ private fun ValidIconItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Image(
-                        modifier = Modifier.size(36.dp),
-                        painter = icon.painter!!,
-                        contentDescription = null
-                    )
+                    IconPreviewBox(painter = icon.painter)
                     Text(
                         modifier = Modifier
                             .weight(1f)
@@ -193,7 +188,9 @@ private fun BrokenIconItem(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(vertical = 8.dp),
                     text = "Failed to parse icon: ${broken.iconName.value}.${broken.extension}"
                 )
                 IconButton(
