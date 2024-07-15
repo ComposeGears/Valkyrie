@@ -10,6 +10,7 @@ import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.formatFloat
+import io.github.composegears.valkyrie.generator.ext.indention
 import io.github.composegears.valkyrie.generator.ext.toColorHex
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillParam
@@ -89,21 +90,27 @@ private fun CodeBlock.Builder.fillArg(path: FillParam) {
             add("fill = %M(%M(${fill.colorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
         }
         is Fill.LinearGradient -> {
-            // TODO: simplify
-            add(
-                "fill = ${
-                    "%M(" +
-                            "${getGradientStops(fill.colorStops).toString().removeSurrounding("[", "]")}, " +
-                            "start = %M(${fill.startX}f,${fill.startY}f), " +
-                            "end = %M(${fill.endX}f,${fill.endY}f))"
-                }",
-                MemberNames.LinearGradient,
-                repeat(fill.colorStops.size) {
-                    MemberNames.Color
-                },
-                MemberNames.Offset,
-                MemberNames.Offset
-            )
+            add("\n")
+            indention {
+                add("fill = %T.linearGradient(\n", ClassNames.Brush)
+                indention {
+                    add("colorStops = arrayOf(\n")
+                    indention {
+                        add(
+                            format = fill.colorStops.joinToString(separator = ",\n") { stop ->
+                                "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
+                            },
+                            args = List(fill.colorStops.size) {
+                                MemberNames.Color
+                            }.toTypedArray(),
+                        )
+                    }
+                    add("\n),\n")
+                    add("start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),\n", MemberNames.Offset)
+                    add("end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})\n", MemberNames.Offset)
+                }
+                add(")\n")
+            }
         }
         is Fill.RadialGradient -> {
             // TODO: simplify
