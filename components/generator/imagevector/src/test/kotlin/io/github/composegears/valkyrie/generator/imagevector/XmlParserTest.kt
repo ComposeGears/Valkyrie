@@ -4,7 +4,7 @@ import io.github.composegears.valkyrie.parser.IconParser
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class XmlIconParserTest {
+class XmlParserTest {
 
     @Test
     fun `generation without icon pack`() {

@@ -45,7 +45,7 @@ object ClassNames {
     val StrokeCap = PackageNames.GraphicsPackage.className("StrokeCap")
     val StrokeJoinWithCompanion = PackageNames.GraphicsPackage.className("StrokeJoin", CompanionImportName)
     val StrokeJoin = PackageNames.GraphicsPackage.className("StrokeJoin")
-    val Brush = PackageNames.GraphicsPackage.className("Brush", CompanionImportName)
+    val Brush = PackageNames.GraphicsPackage.className("Brush")
     val Preview = PackageNames.PreviewPackage.className("Preview")
     val Composable = PackageNames.RuntimePackage.className("Composable")
 }
@@ -78,7 +78,6 @@ object MemberNames {
     val Color = MemberName(PackageNames.GraphicsPackage.packageName, "Color")
     val SolidColor = MemberName(PackageNames.GraphicsPackage.packageName, "SolidColor")
 
-    val LinearGradient = MemberName(ClassNames.Brush, "linearGradient")
     val RadialGradient = MemberName(ClassNames.Brush, "radialGradient")
 
     val Offset = MemberName(PackageNames.GeometryPackage.packageName, "Offset")
