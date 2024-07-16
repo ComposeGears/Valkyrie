@@ -9,3 +9,5 @@
 - Generate preview for whole icon pack
 - Add limitations for ImageVector
 - Update Readme demo with latest plugin design
+- Update classes visibility
+- Continues drag & drop
