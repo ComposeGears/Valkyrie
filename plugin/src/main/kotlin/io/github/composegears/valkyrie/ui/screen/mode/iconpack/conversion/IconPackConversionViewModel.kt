@@ -172,17 +172,17 @@ class IconPackConversionViewModel(
                 BatchFilesProcessing(
                     iconsToProcess = files
                         .sortedBy { it.name }
-                        .map {
-                            when (val painter = it.toPainterOrNull()) {
+                        .map { file ->
+                            when (val painter = file.toPainterOrNull()) {
                                 null -> BatchIcon.Broken(
-                                    iconName = IconName(it.nameWithoutExtension),
-                                    extension = it.extension
+                                    iconName = IconName(file.nameWithoutExtension),
+                                    extension = file.extension
                                 )
                                 else -> BatchIcon.Valid(
-                                    iconName = IconName(it.nameWithoutExtension),
-                                    extension = it.extension,
+                                    iconName = IconName(IconParser.getIconName(file.name)),
+                                    extension = file.extension,
                                     iconPack = inMemorySettings.current.buildDefaultIconPack(),
-                                    file = it,
+                                    file = file,
                                     painter = painter
                                 )
                             }
@@ -221,7 +221,7 @@ class IconPackConversionViewModel(
 
 sealed interface ConversionEvent {
     data class OpenPreview(val iconContent: String) : ConversionEvent
-    data object ExportCompleted: ConversionEvent
+    data object ExportCompleted : ConversionEvent
 }
 
 sealed interface PickerEvent {

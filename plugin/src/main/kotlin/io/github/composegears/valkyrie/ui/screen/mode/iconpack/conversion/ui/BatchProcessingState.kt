@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.parser.IconParser
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
@@ -301,7 +302,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
     BatchProcessingState(
         icons = listOf(
             BatchIcon.Valid(
-                iconName = IconName("ic_all_path_params_1"),
+                iconName = IconName(IconParser.getIconName("ic_all_path_params_1")),
                 extension = "xml",
                 file = File(""),
                 iconPack = IconPack.Single(
@@ -310,8 +311,12 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 ),
                 painter = painterResource("META-INF/pluginIcon.svg"),
             ),
+            BatchIcon.Broken(
+                iconName = IconName("ic_all_path_params_3"),
+                extension = "svg"
+            ),
             BatchIcon.Valid(
-                iconName = IconName("ic_all_path_params_2"),
+                iconName = IconName(IconParser.getIconName("ic_all_path")),
                 extension = "svg",
                 file = File(""),
                 iconPack = IconPack.Nested(
@@ -321,10 +326,6 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                     nestedPacks = listOf("Lol", "Kek")
                 ),
                 painter = painterResource("META-INF/pluginIcon.svg"),
-            ),
-            BatchIcon.Broken(
-                iconName = IconName("ic_all_path_params_3"),
-                extension = "svg"
             ),
         ),
         onDeleteIcon = {},

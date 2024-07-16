@@ -21,7 +21,7 @@ object IconParser {
     fun toVector(file: File): IconParserOutput {
         val iconType = IconTypeParser.getIconType(file.extension) ?: error("File not SVG or XML")
 
-        val fileName = getFileName(fileName = file.name, iconType = iconType)
+        val fileName = getIconName(fileName = file.name)
         val icon = when (iconType) {
             SVG -> {
                 val tmpFile = createTempFile(suffix = "valkyrie/")
@@ -38,21 +38,14 @@ object IconParser {
         )
     }
 
-    private fun getFileName(fileName: String, iconType: IconType): String {
-
-        var name = fileName
-            .removeSuffix(".${iconType.extension}")
-            .split("_")
-            .joinToString("") { it.capitalized() }
-            .replace("\\d".toRegex(), "")
-
-        if (name.startsWith("ic", ignoreCase = true)) {
-            name = name.drop(2).capitalized()
-        }
-        return name
-    }
-}
-
-private fun String.capitalized(): String = replaceFirstChar {
-    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+    fun getIconName(fileName: String) = fileName
+        .removePrefix("-")
+        .removePrefix("_")
+        .removeSuffix(".svg")
+        .removeSuffix(".xml")
+        .removePrefix("ic_")
+        .removePrefix("ic-")
+        .replace("[^a-zA-Z0-9\\-_ ]".toRegex(), "_")
+        .split("_", "-")
+        .joinToString(separator = "") { it.lowercase().capitalized() }
 }
