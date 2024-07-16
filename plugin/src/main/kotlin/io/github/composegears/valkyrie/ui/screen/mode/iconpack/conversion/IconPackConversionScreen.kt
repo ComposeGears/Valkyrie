@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
@@ -27,6 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
@@ -34,7 +37,6 @@ import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
-import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
@@ -54,7 +56,6 @@ val IconPackConversionScreen by navDestination<Unit> {
 
     val viewModel = koinTiamatViewModel<IconPackConversionViewModel>()
     val state by viewModel.state.collectAsState()
-    val settings by viewModel.valkyriesSettings.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.events
@@ -77,7 +78,6 @@ val IconPackConversionScreen by navDestination<Unit> {
 
     IconPackConversionUi(
         state = state,
-        settings = settings,
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
@@ -89,21 +89,22 @@ val IconPackConversionScreen by navDestination<Unit> {
         onDeleteIcon = viewModel::deleteIcon,
         onReset = viewModel::reset,
         onPreviewClick = viewModel::showPreview,
-        onExport = viewModel::export
+        onExport = viewModel::export,
+        onRenameIcon = viewModel::renameIcon
     )
 }
 
 @Composable
 private fun IconPackConversionUi(
     state: IconPackConversionState,
-    settings: ValkyriesSettings,
     openSettings: () -> Unit,
     onPickEvent: (PickerEvent) -> Unit,
     updatePack: (BatchIcon, String) -> Unit,
     onDeleteIcon: (IconName) -> Unit,
     onReset: () -> Unit,
     onPreviewClick: (IconName) -> Unit,
-    onExport: () -> Unit
+    onExport: () -> Unit,
+    onRenameIcon: (BatchIcon, IconName) -> Unit
 ) {
     var isVisible by rememberSaveable { mutableStateOf(true) }
 
@@ -122,7 +123,13 @@ private fun IconPackConversionUi(
         }
     }
 
-    Box {
+    val focusManager = LocalFocusManager.current
+
+    Box(modifier = Modifier
+        .pointerInput(Unit) {
+            detectTapGestures(onTap = { focusManager.clearFocus() })
+        }
+    ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar {
                 if (state is BatchFilesProcessing) {
@@ -142,7 +149,8 @@ private fun IconPackConversionUi(
                         icons = state.iconsToProcess,
                         onDeleteIcon = onDeleteIcon,
                         onUpdatePack = updatePack,
-                        onPreviewClick = onPreviewClick
+                        onPreviewClick = onPreviewClick,
+                        onRenameIcon = onRenameIcon
                     )
                 }
             }

@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.parser.IconParser
 import io.github.composegears.valkyrie.ui.foundation.IconButton
@@ -47,6 +46,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchI
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.FileTypeBadge
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconNameField
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconPreviewBox
 import java.io.File
 
@@ -58,6 +58,7 @@ fun BatchProcessingState(
     onDeleteIcon: (IconName) -> Unit,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreviewClick: (IconName) -> Unit,
+    onRenameIcon: (BatchIcon, IconName) -> Unit
 ) {
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
@@ -78,7 +79,8 @@ fun BatchProcessingState(
                     icon = batchIcon,
                     onUpdatePack = onUpdatePack,
                     onDeleteIcon = onDeleteIcon,
-                    onPreview = onPreviewClick
+                    onPreview = onPreviewClick,
+                    onRenameIcon = onRenameIcon
                 )
             }
         }
@@ -91,7 +93,8 @@ private fun ValidIconItem(
     icon: BatchIcon.Valid,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreview: (IconName) -> Unit,
-    onDeleteIcon: (IconName) -> Unit
+    onDeleteIcon: (IconName) -> Unit,
+    onRenameIcon: (BatchIcon, IconName) -> Unit
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
         Box {
@@ -107,16 +110,17 @@ private fun ValidIconItem(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     IconPreviewBox(painter = icon.painter)
-                    Text(
+                    IconNameField(
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 32.dp),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        text = icon.iconName.value
+                        value = icon.iconName.value,
+                        onValueChange = {
+                            onRenameIcon(icon, IconName(it))
+                        }
                     )
                 }
                 when (icon.iconPack) {
@@ -330,6 +334,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
         ),
         onDeleteIcon = {},
         onUpdatePack = { _, _ -> },
-        onPreviewClick = {}
+        onPreviewClick = {},
+        onRenameIcon = { _, _ -> }
     )
 }
