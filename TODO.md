@@ -1,9 +1,10 @@
-- [ ] Multi edit icon pack
-- [ ] Generated code as val or lazy delegate
-- [ ] Rename icon in icon pack
-- [ ] Preview icon on square background pattern
-- [ ] Simple mode without package
-- [ ] Add version into plugin settings
-- [ ] Export/import iconpack configuration into file
-- [ ] Optimize current icons (clean up, adding into pack)
-- [ ] Generate preview for whole icon pack
+- Multi edit icon pack
+- Generated code as val or lazy delegate
+- Rename icon in icon pack
+- Preview icon on square background pattern
+- Simple mode without package
+- Add version into plugin settings
+- Export/import iconpack configuration into file
+- Optimize current icons (clean up, adding into pack)
+- Generate preview for whole icon pack
+- Add limitations for ImageVector
