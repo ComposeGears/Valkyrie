@@ -1,4 +1,4 @@
-name: Build signed plugin
+name: Create release
 
 on:
   workflow_dispatch:
