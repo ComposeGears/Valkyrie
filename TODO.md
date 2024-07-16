@@ -1,5 +1,3 @@
-- [ ] add tests with nested icon packs
-- [ ] add test for radial gradient icon
 - [ ] Multi edit icon pack
 - [ ] Generated code as val or lazy delegate
 - [ ] Rename icon in icon pack

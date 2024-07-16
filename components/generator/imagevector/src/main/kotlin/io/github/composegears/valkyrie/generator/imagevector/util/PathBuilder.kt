@@ -97,43 +97,50 @@ private fun CodeBlock.Builder.fillArg(path: FillParam) {
                     add("colorStops = arrayOf(\n")
                     indention {
                         add(
-                            format = fill.colorStops.joinToString(separator = ",\n") { stop ->
+                            fill.colorStops.joinToString(separator = ",\n") { stop ->
                                 "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
                             },
-                            args = List(fill.colorStops.size) {
-                                MemberNames.Color
-                            }.toTypedArray(),
+                            *Array(fill.colorStops.size) { MemberNames.Color },
                         )
                     }
                     add("\n),\n")
-                    add("start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),\n", MemberNames.Offset)
-                    add("end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})\n", MemberNames.Offset)
+                    add(
+                        "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),\n",
+                        MemberNames.Offset
+                    )
+                    add(
+                        "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})\n",
+                        MemberNames.Offset
+                    )
                 }
                 add(")\n")
             }
         }
         is Fill.RadialGradient -> {
-            // TODO: simplify
-            add(
-                "fill = ${
-                    "%M(${getGradientStops(fill.colorStops).toString().removeSurrounding("[", "]")}, " +
-                            "center = %M(${fill.centerX}f,${fill.centerY}f), " +
-                            "radius = ${fill.gradientRadius}f)"
-                }",
-                MemberNames.RadialGradient,
-                repeat(fill.colorStops.size) {
-                    MemberNames.Color
-                },
-                MemberNames.Offset
-            )
+            add("\n")
+            indention {
+                add("fill = %T.radialGradient(\n", ClassNames.Brush)
+                indention {
+                    add("colorStops = arrayOf(\n")
+                    indention {
+                        add(
+                            fill.colorStops.joinToString(separator = ",\n") { stop ->
+                                "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
+                            },
+                            *Array(fill.colorStops.size) { MemberNames.Color },
+                        )
+                    }
+                    add("\n),\n")
+                    add(
+                        "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),\n",
+                        MemberNames.Offset
+                    )
+                    add("radius = ${fill.gradientRadius.formatFloat()}\n")
+                }
+                add(")\n")
+            }
         }
     }
-}
-
-private fun getGradientStops(
-    stops: List<Pair<Float, String>>
-) = stops.map { stop ->
-    "${stop.first}f to %M(${stop.second.toColorHex()})"
 }
 
 private fun CodeBlock.Builder.fillAlphaArg(param: FillAlphaParam) {

@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="20px" width="100px">
+    <defs>
+        <radialGradient id="0" gradientTransform="translate(-1 -0.5) scale(2, 2)">
+            <stop offset="19%" stop-color="#d53a42"/>
+            <stop offset="39.25%" stop-color="#df7a40"/>
+            <stop offset="59.5%" stop-color="#f0a941"/>
+            <stop offset="100%" stop-color="#fffff0"/>
+        </radialGradient>
+    </defs>
+    <rect fill="url(#0)" height="100%" width="100%"/>
+</svg>
