@@ -78,8 +78,6 @@ object MemberNames {
     val Color = MemberName(PackageNames.GraphicsPackage.packageName, "Color")
     val SolidColor = MemberName(PackageNames.GraphicsPackage.packageName, "SolidColor")
 
-    val RadialGradient = MemberName(ClassNames.Brush, "radialGradient")
-
     val Offset = MemberName(PackageNames.GeometryPackage.packageName, "Offset")
 }
 
