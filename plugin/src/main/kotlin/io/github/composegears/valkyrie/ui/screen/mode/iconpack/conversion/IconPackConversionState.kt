@@ -12,7 +12,12 @@ sealed interface IconPackConversionState {
     ) : IconPackConversionState {
 
         val exportEnabled: Boolean
-            get() = iconsToProcess.isNotEmpty() && iconsToProcess.all { it is BatchIcon.Valid }
+            get() = iconsToProcess.isNotEmpty() &&
+                    iconsToProcess.all { it is BatchIcon.Valid } &&
+                    iconsToProcess.all { icon ->
+                        icon.iconName.value.isNotEmpty() &&
+                                !icon.iconName.value.contains(" ")
+                    }
     }
 }
 

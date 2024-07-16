@@ -30,7 +30,7 @@ class IconPackConversionViewModel(
     private val _events = MutableSharedFlow<ConversionEvent>()
     val events = _events.asSharedFlow()
 
-    val valkyriesSettings = inMemorySettings.settings
+    private val valkyriesSettings = inMemorySettings.settings
 
     fun pickerEvent(events: PickerEvent) {
         when (events) {
@@ -89,7 +89,7 @@ class IconPackConversionViewModel(
 
             ImageVectorGenerator.convert(
                 vector = parserOutput.vector,
-                kotlinName = parserOutput.kotlinName,
+                kotlinName = iconName.value,
                 config = ImageVectorGeneratorConfig(
                     packageName = icon.iconPack.iconPackage,
                     packName = valkyriesSettings.value.iconPackName,
@@ -116,7 +116,7 @@ class IconPackConversionViewModel(
                             val parserOutput = IconParser.toVector(icon.file)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
                                 vector = parserOutput.vector,
-                                kotlinName = parserOutput.kotlinName,
+                                kotlinName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,
@@ -156,6 +156,28 @@ class IconPackConversionViewModel(
             viewModelScope.launch {
                 _events.emit(ConversionEvent.ExportCompleted)
                 reset()
+            }
+        }
+    }
+
+    fun renameIcon(batchIcon: BatchIcon, newName: IconName) {
+        _state.updateState {
+            when (this) {
+                is IconsPickering -> this
+                is BatchFilesProcessing -> {
+                    copy(
+                        iconsToProcess = iconsToProcess.map { icon ->
+                            if (icon.iconName == batchIcon.iconName) {
+                                when (icon) {
+                                    is BatchIcon.Broken -> icon
+                                    is BatchIcon.Valid -> icon.copy(iconName = newName)
+                                }
+                            } else {
+                                icon
+                            }
+                        }
+                    )
+                }
             }
         }
     }
