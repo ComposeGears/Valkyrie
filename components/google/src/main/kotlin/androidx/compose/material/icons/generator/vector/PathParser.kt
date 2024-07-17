@@ -22,7 +22,7 @@ import kotlin.math.min
  * Trimmed down copy of PathParser that doesn't handle interacting with Paths, and only is
  * responsible for parsing path strings.
  */
-object PathParser {
+internal object PathParser {
     /**
      * Parses the path string to create a collection of PathNode instances with their corresponding
      * arguments

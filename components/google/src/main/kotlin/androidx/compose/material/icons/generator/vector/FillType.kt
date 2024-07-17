@@ -16,16 +16,13 @@
 
 package androidx.compose.material.icons.generator.vector
 
-import androidx.compose.material.icons.generator.MemberNames
-import com.squareup.kotlinpoet.MemberName
-
 /**
  * Determines the winding rule that decides how the interior of a [VectorNode.Path] is calculated.
  *
  * This maps to [android.graphics.Path.FillType] used in the framework, and can be defined in XML
  * via `android:fillType`.
  */
-enum class FillType(val memberName: MemberName) {
-    NonZero(MemberNames.NonZero),
-    EvenOdd(MemberNames.EvenOdd)
+enum class FillType {
+    NonZero,
+    EvenOdd
 }

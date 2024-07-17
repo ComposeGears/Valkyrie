@@ -7,15 +7,15 @@ sealed class GraphicUnit {
     abstract val memberName: MemberName?
 }
 
-class Pixel(override val value: Float) : GraphicUnit() {
+internal class Pixel(override val value: Float) : GraphicUnit() {
     override val memberName: MemberName? = null
 }
 
-class Dp(override val value: Float) : GraphicUnit() {
+internal class Dp(override val value: Float) : GraphicUnit() {
     override val memberName: MemberName = MemberNames.Dp
 }
 
-fun rawAsGraphicUnit(raw: String): GraphicUnit {
+internal fun rawAsGraphicUnit(raw: String): GraphicUnit {
     val isStrokeDp = raw.endsWith("dp")
     return when {
         isStrokeDp -> Dp(raw.removeSuffix("dp").toFloat())
