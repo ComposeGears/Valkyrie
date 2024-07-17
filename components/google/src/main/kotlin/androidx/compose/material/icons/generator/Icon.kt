@@ -17,7 +17,7 @@
 package androidx.compose.material.icons.generator
 
 /**
- * Represents a icon's Kotlin name, processed XML file name, theme, and XML file content.
+ * Represents an icon's Kotlin name, processed XML file name, theme, and XML file content.
  *
  * @property fileContent the content of the source XML file that will be parsed.
  */

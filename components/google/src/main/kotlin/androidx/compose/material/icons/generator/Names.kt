@@ -22,7 +22,7 @@ import com.squareup.kotlinpoet.MemberName
 /**
  * Package names used for icon generation.
  */
-enum class PackageNames(val packageName: String) {
+internal enum class PackageNames(val packageName: String) {
     UiPackage("androidx.compose.ui"),
     GraphicsPackage(UiPackage.packageName + ".graphics"),
     VectorPackage(GraphicsPackage.packageName + ".vector"),
@@ -56,18 +56,7 @@ object ClassNames {
 object MemberNames {
     val Path = MemberName(PackageNames.VectorPackage.packageName, "path")
 
-    val EvenOdd = MemberName(ClassNames.PathFillTypeWithCompanion, "EvenOdd")
-    val NonZero = MemberName(ClassNames.PathFillTypeWithCompanion, "NonZero")
-
     val Group = MemberName(PackageNames.VectorPackage.packageName, "group")
-
-    val StrokeCapButt = MemberName(ClassNames.StrokeCapWithCompanion, "Butt")
-    val StrokeCapRound = MemberName(ClassNames.StrokeCapWithCompanion, "Round")
-    val StrokeCapSquare = MemberName(ClassNames.StrokeCapWithCompanion, "Square")
-
-    val StrokeJoinMiter = MemberName(ClassNames.StrokeJoinWithCompanion, "Miter")
-    val StrokeJoinRound = MemberName(ClassNames.StrokeJoinWithCompanion, "Round")
-    val StrokeJoinBevel = MemberName(ClassNames.StrokeJoinWithCompanion, "Bevel")
 
     val Dp = MemberName(PackageNames.Unit.packageName, "dp")
     val Modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")
@@ -84,6 +73,6 @@ object MemberNames {
 /**
  * @return the [ClassName] of the given [classNames] inside this package.
  */
-fun PackageNames.className(vararg classNames: String) = ClassName(this.packageName, *classNames)
+internal fun PackageNames.className(vararg classNames: String) = ClassName(this.packageName, *classNames)
 
 private const val CompanionImportName = "Companion"

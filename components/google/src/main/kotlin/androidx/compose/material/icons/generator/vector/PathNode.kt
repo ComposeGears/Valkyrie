@@ -24,7 +24,6 @@ import io.github.composegears.valkyrie.generator.ext.formatFloat
  * @property isCurve whether this command is a curve command
  * @property isQuad whether this command is a quad command
  */
-/* ktlint-disable max-line-length */
 sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false) {
     /**
      * Maps a [PathNode] to a string representing an invocation of the corresponding PathBuilder
