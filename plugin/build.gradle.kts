@@ -28,10 +28,12 @@ dependencies {
     implementation(projects.components.parser)
 
     compileOnly(compose.desktop.currentOs)
+    implementation(compose.desktop.common)
+    implementation(compose.desktop.linux_arm64)
+    implementation(compose.desktop.linux_x64)
     implementation(compose.desktop.macos_arm64)
     implementation(compose.desktop.macos_x64)
     implementation(compose.desktop.windows_x64)
-    implementation(compose.desktop.common)
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
