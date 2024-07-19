@@ -95,5 +95,6 @@ private class SimpleDropTargetListener(
 
         onDrop(files)
         event.dropComplete(true)
+        onDragExit()
     }
 }
