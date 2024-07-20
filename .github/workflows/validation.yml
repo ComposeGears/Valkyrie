@@ -1,9 +1,10 @@
 name: Validation
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-
   workflow_dispatch:
 
 jobs:
@@ -18,6 +19,10 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      
-      - name: Run tests
-        run: ./gradlew test
+
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
+
+      - name: Run build
+        run: ./gradlew build

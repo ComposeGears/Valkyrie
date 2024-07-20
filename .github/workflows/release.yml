@@ -1,6 +1,9 @@
-name: Create release
+name: Release
 
 on:
+  push:
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:
@@ -15,6 +18,7 @@ jobs:
       CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
       PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+      PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
     outputs:
       version: ${{ steps.properties.outputs.artifactName }}
@@ -27,6 +31,10 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
 
       - name: Setup properties
         id: properties
@@ -70,6 +78,9 @@ jobs:
             MISSING_DEPENDENCIES
             INVALID_PLUGIN
             NOT_DYNAMIC
+
+      - name: Publish to Marketplace
+        run: ./gradlew publishPlugin
 
       - name: Remove old drafts
         env:
