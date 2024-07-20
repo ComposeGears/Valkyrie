@@ -32,6 +32,7 @@ internal enum class PackageNames(val packageName: String) {
     LayoutPackage(FoundationPackage.packageName + ".layout"),
     PreviewPackage(UiPackage.packageName + ".tooling.preview"),
     RuntimePackage("androidx.compose.runtime"),
+    Material3Package("androidx.compose.material3")
 }
 
 /**
@@ -62,7 +63,7 @@ object MemberNames {
     val Modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")
     val Padding = MemberName(PackageNames.LayoutPackage.packageName, "padding")
     val Box = MemberName(PackageNames.LayoutPackage.packageName, "Box")
-    val Image = MemberName(PackageNames.FoundationPackage.packageName, "Image")
+    val Icon = MemberName(PackageNames.Material3Package.packageName, "Icon")
 
     val Color = MemberName(PackageNames.GraphicsPackage.packageName, "Color")
     val SolidColor = MemberName(PackageNames.GraphicsPackage.packageName, "SolidColor")

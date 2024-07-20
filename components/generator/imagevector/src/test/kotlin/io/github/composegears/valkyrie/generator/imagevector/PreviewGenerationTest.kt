@@ -24,9 +24,9 @@ class PreviewGenerationTest {
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons
 
-            import androidx.compose.foundation.Image
             import androidx.compose.foundation.layout.Box
             import androidx.compose.foundation.layout.padding
+            import androidx.compose.material3.Icon
             import androidx.compose.runtime.Composable
             import androidx.compose.ui.Modifier
             import androidx.compose.ui.graphics.vector.ImageVector
@@ -55,7 +55,7 @@ class PreviewGenerationTest {
             @Composable
             private fun WithoutPathPreview() {
                 Box(modifier = Modifier.padding(12.dp)) {
-                    Image(imageVector = WithoutPath, contentDescription = null)
+                    Icon(imageVector = WithoutPath, contentDescription = null)
                 }
             }
 
@@ -81,9 +81,9 @@ class PreviewGenerationTest {
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons
 
-            import androidx.compose.foundation.Image
             import androidx.compose.foundation.layout.Box
             import androidx.compose.foundation.layout.padding
+            import androidx.compose.material3.Icon
             import androidx.compose.runtime.Composable
             import androidx.compose.ui.Modifier
             import androidx.compose.ui.graphics.vector.ImageVector
@@ -112,7 +112,7 @@ class PreviewGenerationTest {
             @Composable
             private fun WithoutPathPreview() {
                 Box(modifier = Modifier.padding(12.dp)) {
-                    Image(imageVector = ValkyrieIcons.WithoutPath, contentDescription = null)
+                    Icon(imageVector = ValkyrieIcons.WithoutPath, contentDescription = null)
                 }
             }
 
@@ -138,9 +138,9 @@ class PreviewGenerationTest {
         val expectedOutput = """
             package io.github.composegears.valkyrie.icons.filled
 
-            import androidx.compose.foundation.Image
             import androidx.compose.foundation.layout.Box
             import androidx.compose.foundation.layout.padding
+            import androidx.compose.material3.Icon
             import androidx.compose.runtime.Composable
             import androidx.compose.ui.Modifier
             import androidx.compose.ui.graphics.vector.ImageVector
@@ -170,7 +170,7 @@ class PreviewGenerationTest {
             @Composable
             private fun WithoutPathPreview() {
                 Box(modifier = Modifier.padding(12.dp)) {
-                    Image(imageVector = ValkyrieIcons.Filled.WithoutPath, contentDescription = null)
+                    Icon(imageVector = ValkyrieIcons.Filled.WithoutPath, contentDescription = null)
                 }
             }
 

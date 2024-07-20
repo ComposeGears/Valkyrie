@@ -118,7 +118,6 @@ private var _Add: ImageVector? = null
 
 ```kotlin
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap

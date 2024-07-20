@@ -28,7 +28,7 @@ internal fun iconPreviewSpecForNestedPack(
             )
             addStatement(
                 format = "%M(imageVector = %T, contentDescription = null)",
-                MemberNames.Image,
+                MemberNames.Icon,
                 iconPackClassName.nestedClass(iconName)
             )
             endControlFlow()
@@ -54,7 +54,7 @@ internal fun iconPreviewSpec(
             )
             addStatement(
                 format = "%M(imageVector = %M, contentDescription = null)",
-                MemberNames.Image,
+                MemberNames.Icon,
                 MemberName(
                     packageName = iconPackage,
                     simpleName = iconName
