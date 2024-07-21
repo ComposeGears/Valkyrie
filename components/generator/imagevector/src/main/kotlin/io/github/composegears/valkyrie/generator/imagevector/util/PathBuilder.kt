@@ -176,7 +176,7 @@ private fun CodeBlock.Builder.pathFillTypeArg(param: FillTypeParam) {
 }
 
 private fun VectorNode.Path.buildPathParams() = buildList {
-    fill?.let {
+    fill?.takeUnless { it is Fill.Color && it.isTransparent() }?.let {
         add(FillParam(it))
     }
     if (fillAlpha != 1f) {
@@ -204,6 +204,8 @@ private fun VectorNode.Path.buildPathParams() = buildList {
         add(FillTypeParam(fillType))
     }
 }
+
+private fun Fill.Color.isTransparent() = colorHex == "00000000" || colorHex == "0000"
 
 internal sealed interface PathParams {
     data class FillParam(val fill: Fill) : PathParams
