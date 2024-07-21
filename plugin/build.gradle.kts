@@ -97,16 +97,16 @@ tasks {
 
     signPlugin {
         // chain.crt content (base64 ci)
-        certificateChain = System.getenv("CERTIFICATE_CHAIN")
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
 
         // private.pem content (base64 ci)
-        privateKey = System.getenv("PRIVATE_KEY")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
 
         // PEM pass phrase
-        password = System.getenv("PRIVATE_KEY_PASSWORD")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
 
     publishPlugin {
-        token = System.getenv("PUBLISH_TOKEN")
+        token = providers.environmentVariable("PUBLISH_TOKEN")
     }
 }
