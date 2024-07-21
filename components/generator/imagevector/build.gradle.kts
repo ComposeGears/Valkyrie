@@ -2,11 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
-repositories {
-    google()
-    mavenCentral()
-}
-
 dependencies {
     implementation(projects.components.generator.common)
     implementation(projects.components.google)

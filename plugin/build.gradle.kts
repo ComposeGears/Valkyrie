@@ -16,10 +16,18 @@ val pluginProperties = Properties().apply {
 group = "io.github.composegears"
 version = pluginProperties.getProperty("version")
 
+/**
+ * Could not reuse repositories in settings.gradle.kts, seems this is a bug of Intellij plugin.
+ */
 repositories {
+    google {
+        mavenContent {
+            includeGroupAndSubgroups("androidx")
+            includeGroupAndSubgroups("com.android")
+            includeGroupAndSubgroups("com.google")
+        }
+    }
     mavenCentral()
-    google()
-    maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 dependencies {
