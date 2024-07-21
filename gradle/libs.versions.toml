@@ -8,7 +8,7 @@ koin-compose = "io.insert-koin:koin-compose:1.1.5"
 
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.4.0"
 
-kotlinpoet = "com.squareup:kotlinpoet:1.18.0"
+kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 tiamat = "io.github.composegears:tiamat:1.1.0-rc02"
