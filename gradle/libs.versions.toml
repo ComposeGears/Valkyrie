@@ -17,7 +17,7 @@ tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0-rc02"
 xpp3 = "org.ogce:xpp3:1.1.6"
 
 [plugins]
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version = "1.6.11" }
 jetbrains-intellij = "org.jetbrains.intellij:1.17.4"
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
