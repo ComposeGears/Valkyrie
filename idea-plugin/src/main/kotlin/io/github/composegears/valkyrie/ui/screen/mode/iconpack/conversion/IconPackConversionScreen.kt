@@ -3,7 +3,9 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,10 +45,11 @@ import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.BatchProcessingState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.IconPackPickerState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.BatchProcessingStateUi
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.IconPackPickerStateUi
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.flow.launchIn
@@ -68,6 +72,7 @@ val IconPackConversionScreen by navDestination<Unit> {
                         )
                     }
                     is ConversionEvent.ExportCompleted -> {
+                        @Suppress("UnstableApiUsage")
                         writeAction {
                             VirtualFileManager.getInstance().syncRefresh()
                         }
@@ -133,7 +138,7 @@ private fun IconPackConversionUi(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar {
-                if (state is BatchFilesProcessing) {
+                if (state is BatchProcessing.IconPackCreationState) {
                     ClearAction(onClear = onReset)
                 }
                 AppBarTitle(title = "IconPack generation")
@@ -142,12 +147,18 @@ private fun IconPackConversionUi(
             }
             when (state) {
                 is IconsPickering -> {
-                    IconPackPickerState(onPickerEvent = onPickEvent)
+                    IconPackPickerStateUi(onPickerEvent = onPickEvent)
                 }
-                is BatchFilesProcessing -> {
-                    BatchProcessingState(
+                BatchProcessing.ExportingState -> {
+                    LoadingStateUi(message = "Exporting icons...")
+                }
+                BatchProcessing.ImportValidationState -> {
+                    LoadingStateUi(message = "Processing icons...")
+                }
+                is BatchProcessing.IconPackCreationState -> {
+                    BatchProcessingStateUi(
                         modifier = Modifier.nestedScroll(nestedScrollConnection),
-                        icons = state.iconsToProcess,
+                        state = state,
                         onDeleteIcon = onDeleteIcon,
                         onUpdatePack = updatePack,
                         onPreviewClick = onPreviewClick,
@@ -157,7 +168,7 @@ private fun IconPackConversionUi(
             }
         }
 
-        if (state is BatchFilesProcessing) {
+        if (state is BatchProcessing.IconPackCreationState) {
             AnimatedVisibility(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -189,4 +200,27 @@ private fun IconPackConversionUi(
             }
         }
     }
+}
+
+@Composable
+private fun LoadingStateUi(message: String) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            CircularProgressIndicator()
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun LoadingStateUiPreview() = PreviewTheme {
+    LoadingStateUi(message = "Exporting icons...")
 }

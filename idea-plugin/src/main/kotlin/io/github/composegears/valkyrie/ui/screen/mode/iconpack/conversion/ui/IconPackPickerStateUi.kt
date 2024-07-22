@@ -43,7 +43,7 @@ import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
 
 @Composable
-fun IconPackPickerState(
+fun IconPackPickerStateUi(
     modifier: Modifier = Modifier,
     onPickerEvent: (PickerEvent) -> Unit,
 ) {
@@ -166,5 +166,5 @@ private fun DragAndDropBox(
 @Preview
 @Composable
 private fun PreviewPickerState() = PreviewTheme {
-    IconPackPickerState(onPickerEvent = {})
+    IconPackPickerStateUi(onPickerEvent = {})
 }

@@ -5,11 +5,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,15 +19,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
+import java.nio.file.Path
+import kotlin.io.path.Path
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun IconPreviewBox(
-    painter: Painter,
+    path: Path,
     modifier: Modifier = Modifier,
 ) {
     var bgType by rememberMutableState { BgType.PixelGrid }
@@ -65,11 +71,21 @@ fun IconPreviewBox(
                 )
             }
         }
-        Image(
-            modifier = Modifier.size(36.dp),
-            painter = painter,
-            contentDescription = null,
-        )
+
+        val iconPainter by produceState<Painter?>(initialValue = null) {
+            value = withContext(Dispatchers.Default) {
+                path.toPainterOrNull()
+            }
+        }
+
+        when (val painter = iconPainter) {
+            null -> Spacer(modifier = Modifier.size(36.dp))
+            else -> Image(
+                modifier = Modifier.size(36.dp),
+                painter = painter,
+                contentDescription = null,
+            )
+        }
     }
 }
 
@@ -90,6 +106,6 @@ private enum class BgType {
 @Composable
 private fun IconPreviewBoxPreview() = PreviewTheme {
     Box(modifier = Modifier.fillMaxSize()) {
-        IconPreviewBox(painter = painterResource("META-INF/pluginIcon.svg"))
+        IconPreviewBox(path = Path("META-INF/pluginIcon.svg"))
     }
 }
