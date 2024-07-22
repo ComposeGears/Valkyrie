@@ -34,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.parser.IconParser
 import io.github.composegears.valkyrie.ui.foundation.IconButton
@@ -45,6 +44,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchIcon
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconNameField
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconPreviewBox
@@ -52,8 +52,8 @@ import kotlin.io.path.Path
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BatchProcessingState(
-    icons: List<BatchIcon>,
+fun BatchProcessingStateUi(
+    state: IconPackCreationState,
     onDeleteIcon: (IconName) -> Unit,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreviewClick: (IconName) -> Unit,
@@ -67,7 +67,7 @@ fun BatchProcessingState(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(items = icons, key = { it.iconName }) { batchIcon ->
+        items(items = state.icons, key = { it.iconName }) { batchIcon ->
             when (batchIcon) {
                 is BatchIcon.Broken -> BrokenIconItem(
                     modifier = Modifier.animateItemPlacement(),
@@ -112,7 +112,7 @@ private fun ValidIconItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    IconPreviewBox(painter = icon.painter)
+                    IconPreviewBox(path = icon.path)
                     IconNameField(
                         modifier = Modifier
                             .weight(1f)
@@ -303,33 +303,34 @@ private fun PacksDropdown(
 @Preview
 @Composable
 private fun BatchProcessingStatePreview() = PreviewTheme {
-    BatchProcessingState(
-        icons = listOf(
-            BatchIcon.Valid(
-                iconName = IconName(IconParser.getIconName("ic_all_path_params_1")),
-                extension = "xml",
-                path = Path(""),
-                iconPack = IconPack.Single(
-                    iconPackage = "package",
-                    iconPackName = "ValkyrieIcons",
+    BatchProcessingStateUi(
+        state = IconPackCreationState(
+            exportEnabled = false,
+            icons = listOf(
+                BatchIcon.Valid(
+                    iconName = IconName(IconParser.getIconName("ic_all_path_params_1")),
+                    extension = "xml",
+                    path = Path(""),
+                    iconPack = IconPack.Single(
+                        iconPackage = "package",
+                        iconPackName = "ValkyrieIcons",
+                    ),
                 ),
-                painter = painterResource("META-INF/pluginIcon.svg"),
-            ),
-            BatchIcon.Broken(
-                iconName = IconName("ic_all_path_params_3"),
-                extension = "svg",
-            ),
-            BatchIcon.Valid(
-                iconName = IconName(IconParser.getIconName("ic_all_path")),
-                extension = "svg",
-                path = Path(""),
-                iconPack = IconPack.Nested(
-                    iconPackName = "ValkyrieIcons",
-                    iconPackage = "package",
-                    currentNestedPack = "Kek",
-                    nestedPacks = listOf("Lol", "Kek"),
+                BatchIcon.Broken(
+                    iconName = IconName("ic_all_path_params_3"),
+                    extension = "svg",
                 ),
-                painter = painterResource("META-INF/pluginIcon.svg"),
+                BatchIcon.Valid(
+                    iconName = IconName(IconParser.getIconName("ic_all_path")),
+                    extension = "svg",
+                    path = Path(""),
+                    iconPack = IconPack.Nested(
+                        iconPackName = "ValkyrieIcons",
+                        iconPackage = "package",
+                        currentNestedPack = "Kek",
+                        nestedPacks = listOf("Lol", "Kek"),
+                    ),
+                ),
             ),
         ),
         onDeleteIcon = {},

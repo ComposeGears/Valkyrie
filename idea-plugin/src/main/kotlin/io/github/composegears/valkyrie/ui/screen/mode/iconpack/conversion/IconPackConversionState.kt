@@ -1,23 +1,20 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
-import androidx.compose.ui.graphics.painter.Painter
 import java.nio.file.Path
 
 sealed interface IconPackConversionState {
 
     data object IconsPickering : IconPackConversionState
 
-    data class BatchFilesProcessing(
-        val iconsToProcess: List<BatchIcon> = emptyList(),
-    ) : IconPackConversionState {
+    sealed interface BatchProcessing : IconPackConversionState {
 
-        val exportEnabled: Boolean
-            get() = iconsToProcess.isNotEmpty() &&
-                iconsToProcess.all { it is BatchIcon.Valid } &&
-                iconsToProcess.all { icon ->
-                    icon.iconName.value.isNotEmpty() &&
-                        !icon.iconName.value.contains(" ")
-                }
+        data class IconPackCreationState(
+            val icons: List<BatchIcon>,
+            val exportEnabled: Boolean,
+        ) : BatchProcessing
+
+        data object ImportValidationState : BatchProcessing
+        data object ExportingState : BatchProcessing
     }
 }
 
@@ -34,7 +31,6 @@ sealed interface BatchIcon {
         val iconPack: IconPack,
         override val iconName: IconName,
         override val extension: String,
-        val painter: Painter,
         val path: Path,
     ) : BatchIcon
 }

@@ -12,7 +12,7 @@ import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
 import java.nio.file.Path
@@ -21,11 +21,13 @@ import kotlin.io.path.isRegularFile
 import kotlin.io.path.listDirectoryEntries
 import kotlin.io.path.name
 import kotlin.io.path.nameWithoutExtension
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class IconPackConversionViewModel(
     private val inMemorySettings: InMemorySettings,
@@ -46,76 +48,95 @@ class IconPackConversionViewModel(
         }
     }
 
-    fun deleteIcon(iconName: IconName) {
-        _state.updateState {
-            when (this) {
-                is IconsPickering -> this
-                is BatchFilesProcessing -> {
-                    val iconsToProcess = iconsToProcess.filter { it.iconName != iconName }
+    fun deleteIcon(iconName: IconName) = viewModelScope.launch {
+        withContext(Dispatchers.Default) {
+            _state.updateState {
+                when (this) {
+                    is BatchProcessing.IconPackCreationState -> {
+                        val iconsToProcess = icons.filter { it.iconName != iconName }
 
-                    if (iconsToProcess.isEmpty()) {
-                        _state.updateState { IconsPickering }
-                        this
-                    } else {
-                        copy(iconsToProcess = iconsToProcess)
+                        if (iconsToProcess.isEmpty()) {
+                            _state.updateState { IconsPickering }
+                            this
+                        } else {
+                            copy(
+                                icons = iconsToProcess,
+                                exportEnabled = iconsToProcess.isAllIconsValid(),
+                            )
+                        }
                     }
+                    else -> this
                 }
             }
         }
     }
 
-    fun updateIconPack(batchIcon: BatchIcon, nestedPack: String) {
-        _state.updateState {
-            when (this) {
-                is IconsPickering -> this
-                is BatchFilesProcessing -> {
-                    copy(
-                        iconsToProcess = iconsToProcess.map { icon ->
-                            if (icon.iconName == batchIcon.iconName && icon is BatchIcon.Valid) {
-                                icon.copy(
-                                    iconPack = when (icon.iconPack) {
-                                        is IconPack.Nested -> icon.iconPack.copy(currentNestedPack = nestedPack)
-                                        is IconPack.Single -> icon.iconPack
-                                    },
-                                )
-                            } else {
-                                icon
-                            }
-                        },
-                    )
+    fun updateIconPack(batchIcon: BatchIcon, nestedPack: String) = viewModelScope.launch {
+        withContext(Dispatchers.Default) {
+            _state.updateState {
+                when (this) {
+                    is BatchProcessing.IconPackCreationState -> {
+                        copy(
+                            icons = icons.map { icon ->
+                                if (icon.iconName == batchIcon.iconName && icon is BatchIcon.Valid) {
+                                    icon.copy(
+                                        iconPack = when (icon.iconPack) {
+                                            is IconPack.Nested -> icon.iconPack.copy(currentNestedPack = nestedPack)
+                                            is IconPack.Single -> icon.iconPack
+                                        },
+                                    )
+                                } else {
+                                    icon
+                                }
+                            },
+                        )
+                    }
+                    else -> this
                 }
             }
         }
     }
 
-    fun showPreview(iconName: IconName) = onReadBatchScope {
-        val icon = iconsToProcess.first { it.iconName == iconName } as BatchIcon.Valid
+    fun showPreview(iconName: IconName) = viewModelScope.launch {
+        withContext(Dispatchers.Default) {
+            val icons = when (val state = _state.value) {
+                is BatchProcessing.IconPackCreationState -> state.icons
+                else -> return@withContext
+            }
 
-        val iconResult = runCatching {
-            val parserOutput = IconParser.toVector(icon.path)
+            val icon = icons.first { it.iconName == iconName } as BatchIcon.Valid
 
-            ImageVectorGenerator.convert(
-                vector = parserOutput.vector,
-                kotlinName = iconName.value,
-                config = ImageVectorGeneratorConfig(
-                    packageName = icon.iconPack.iconPackage,
-                    packName = valkyriesSettings.value.iconPackName,
-                    nestedPackName = icon.iconPack.currentNestedPack,
-                    generatePreview = valkyriesSettings.value.generatePreview,
-                ),
-            )
-        }.getOrDefault(ImageVectorSpecOutput.empty)
+            val iconResult = runCatching {
+                val parserOutput = IconParser.toVector(icon.path)
 
-        viewModelScope.launch {
+                ImageVectorGenerator.convert(
+                    vector = parserOutput.vector,
+                    kotlinName = iconName.value,
+                    config = ImageVectorGeneratorConfig(
+                        packageName = icon.iconPack.iconPackage,
+                        packName = valkyriesSettings.value.iconPackName,
+                        nestedPackName = icon.iconPack.currentNestedPack,
+                        generatePreview = valkyriesSettings.value.generatePreview,
+                    ),
+                )
+            }.getOrDefault(ImageVectorSpecOutput.empty)
+
             _events.emit(OpenPreview(iconResult.content))
         }
     }
 
-    fun export() {
-        onReadBatchScope {
-            val settings = inMemorySettings.current
+    fun export() = viewModelScope.launch {
+        val settings = inMemorySettings.current
 
-            iconsToProcess
+        withContext(Dispatchers.Default) {
+            val icons = when (val state = _state.value) {
+                is BatchProcessing.IconPackCreationState -> state.icons
+                else -> return@withContext
+            }
+
+            _state.updateState { BatchProcessing.ExportingState }
+
+            icons
                 .filterIsInstance<BatchIcon.Valid>()
                 .forEach { icon ->
                     when (val iconPack = icon.iconPack) {
@@ -160,20 +181,17 @@ class IconPackConversionViewModel(
                     }
                 }
 
-            viewModelScope.launch {
-                _events.emit(ConversionEvent.ExportCompleted)
-                reset()
-            }
+            _events.emit(ConversionEvent.ExportCompleted)
+            reset()
         }
     }
 
-    fun renameIcon(batchIcon: BatchIcon, newName: IconName) {
-        _state.updateState {
-            when (this) {
-                is IconsPickering -> this
-                is BatchFilesProcessing -> {
-                    copy(
-                        iconsToProcess = iconsToProcess.map { icon ->
+    fun renameIcon(batchIcon: BatchIcon, newName: IconName) = viewModelScope.launch {
+        withContext(Dispatchers.Default) {
+            _state.updateState {
+                when (this) {
+                    is BatchProcessing.IconPackCreationState -> {
+                        val icons = icons.map { icon ->
                             if (icon.iconName == batchIcon.iconName) {
                                 when (icon) {
                                     is BatchIcon.Broken -> icon
@@ -182,8 +200,13 @@ class IconPackConversionViewModel(
                             } else {
                                 icon
                             }
-                        },
-                    )
+                        }
+                        copy(
+                            icons = icons,
+                            exportEnabled = icons.isAllIconsValid(),
+                        )
+                    }
+                    else -> this
                 }
             }
         }
@@ -193,16 +216,17 @@ class IconPackConversionViewModel(
         _state.updateState { IconsPickering }
     }
 
-    private fun List<Path>.processFiles() {
-        val paths = filter { it.isRegularFile() && (it.isXml || it.isSvg) }
+    private fun List<Path>.processFiles() = viewModelScope.launch {
+        withContext(Dispatchers.Default) {
+            val paths = filter { it.isRegularFile() && (it.isXml || it.isSvg) }
 
-        if (paths.isNotEmpty()) {
-            _state.updateState {
-                BatchFilesProcessing(
-                    iconsToProcess = paths
+            if (paths.isNotEmpty()) {
+                _state.updateState { BatchProcessing.ImportValidationState }
+                _state.updateState {
+                    val icons = paths
                         .sortedBy { it.name }
                         .map { path ->
-                            when (val painter = path.toPainterOrNull()) {
+                            when (path.toPainterOrNull(imageScale = 0.1)) {
                                 null -> BatchIcon.Broken(
                                     iconName = IconName(path.nameWithoutExtension),
                                     extension = path.extension,
@@ -212,11 +236,14 @@ class IconPackConversionViewModel(
                                     extension = path.extension,
                                     iconPack = inMemorySettings.current.buildDefaultIconPack(),
                                     path = path,
-                                    painter = painter,
                                 )
                             }
-                        },
-                )
+                        }
+                    BatchProcessing.IconPackCreationState(
+                        icons = icons,
+                        exportEnabled = icons.isAllIconsValid(),
+                    )
+                }
             }
         }
     }
@@ -238,14 +265,9 @@ class IconPackConversionViewModel(
         }
     }
 
-    private fun onReadBatchScope(action: BatchFilesProcessing.() -> Unit) {
-        when (val state = _state.value) {
-            is IconsPickering -> Unit
-            is BatchFilesProcessing -> {
-                action(state)
-            }
-        }
-    }
+    private fun List<BatchIcon>.isAllIconsValid() = isNotEmpty() &&
+        all { it is BatchIcon.Valid } &&
+        all { it.iconName.value.isNotEmpty() && !it.iconName.value.contains(" ") }
 }
 
 sealed interface ConversionEvent {
