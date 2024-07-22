@@ -11,14 +11,13 @@ import com.intellij.openapi.util.Condition
 import com.intellij.openapi.vfs.VirtualFile
 import io.github.composegears.valkyrie.ui.extension.isSvg
 import io.github.composegears.valkyrie.ui.extension.isXml
-import io.github.composegears.valkyrie.ui.extension.toFile
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
+import java.nio.file.Path
 
 @Composable
-fun rememberMultipleFilesPicker(): Picker<List<File>> {
+fun rememberMultipleFilesPicker(): Picker<List<Path>> {
     if (LocalInspectionMode.current) return StubMultipleFilesPicker
 
     val project = LocalProject.current
@@ -26,8 +25,8 @@ fun rememberMultipleFilesPicker(): Picker<List<File>> {
     return remember {
         MultipleFilesPicker(
             project = project,
-            filterCondition = { file ->
-                val extension = file.extension
+            filterCondition = { path ->
+                val extension = path.extension
 
                 extension != null && (extension.isSvg() || extension.isXml())
             }
@@ -35,14 +34,14 @@ fun rememberMultipleFilesPicker(): Picker<List<File>> {
     }
 }
 
-private object StubMultipleFilesPicker : Picker<List<File>> {
-    override suspend fun launch(): List<File> = emptyList()
+private object StubMultipleFilesPicker : Picker<List<Path>> {
+    override suspend fun launch(): List<Path> = emptyList()
 }
 
 private class MultipleFilesPicker(
     private val project: Project,
     filterCondition: Condition<VirtualFile> = Condition { true }
-) : Picker<List<File>> {
+) : Picker<List<Path>> {
 
     private val fileChooserDescriptor = FileChooserDescriptor(
         /* chooseFiles = */ true,
@@ -53,9 +52,9 @@ private class MultipleFilesPicker(
         /* chooseMultiple = */ true
     ).withFileFilter(filterCondition)
 
-    override suspend fun launch(): List<File> = withContext(Dispatchers.EDT) {
+    override suspend fun launch(): List<Path> = withContext(Dispatchers.EDT) {
         FileChooser
             .chooseFiles(fileChooserDescriptor, project, null)
-            .map(VirtualFile::toFile)
+            .map(VirtualFile::toNioPath)
     }
 }

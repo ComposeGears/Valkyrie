@@ -40,6 +40,7 @@ import io.github.composegears.valkyrie.ui.foundation.picker.rememberDirectoryPic
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import kotlinx.coroutines.launch
+import kotlin.io.path.absolutePathString
 
 val IconPackDestinationScreen by navDestination<Unit> {
     val navController = navController()
@@ -47,7 +48,9 @@ val IconPackDestinationScreen by navDestination<Unit> {
 
     val state by viewModel.state.collectAsState()
 
-    val dragAndDropHandler = rememberDragAndDropFolderHandler(onDrop = viewModel::updateDestination)
+    val dragAndDropHandler = rememberDragAndDropFolderHandler {
+        viewModel.updateDestination(it.absolutePathString())
+    }
     val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
 
     val scope = rememberCoroutineScope()
@@ -61,7 +64,7 @@ val IconPackDestinationScreen by navDestination<Unit> {
                 val path = directoryPicker.launch()
 
                 if (path != null) {
-                    viewModel.updateDestination(path)
+                    viewModel.updateDestination(path.absolutePathString())
                 }
             }
         },

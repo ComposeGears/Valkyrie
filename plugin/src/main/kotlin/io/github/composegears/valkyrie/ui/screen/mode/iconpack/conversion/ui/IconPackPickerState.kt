@@ -38,7 +38,9 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Picker
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
 import kotlinx.coroutines.launch
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.isDirectory
+import kotlin.io.path.isRegularFile
 
 @Composable
 fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
@@ -52,17 +54,17 @@ fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         SelectableState(
-            onSelectFile = { files ->
+            onSelectPath = { paths ->
                 when {
-                    files.size == 1 -> {
-                        val file = files.first()
+                    paths.size == 1 -> {
+                        val path = paths.first()
 
                         when {
-                            file.isDirectory -> onPickerEvent(PickDirectory(path = file.path))
-                            file.isFile -> onPickerEvent(PickFiles(files = files))
+                            path.isDirectory() -> onPickerEvent(PickDirectory(path = path))
+                            path.isRegularFile() -> onPickerEvent(PickFiles(paths = paths))
                         }
                     }
-                    else -> onPickerEvent(PickFiles(files = files))
+                    else -> onPickerEvent(PickFiles(paths = paths))
                 }
             },
             onPickDirectory = {
@@ -76,10 +78,10 @@ fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
             },
             onPickFiles = {
                 scope.launch {
-                    val files = multipleFilePicker.launch()
+                    val paths = multipleFilePicker.launch()
 
-                    if (files.isNotEmpty()) {
-                        onPickerEvent(PickFiles(files = files))
+                    if (paths.isNotEmpty()) {
+                        onPickerEvent(PickFiles(paths = paths))
                     }
                 }
             }
@@ -92,9 +94,9 @@ fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
 private fun SelectableState(
     onPickDirectory: () -> Unit,
     onPickFiles: () -> Unit,
-    onSelectFile: (List<File>) -> Unit
+    onSelectPath: (List<Path>) -> Unit
 ) {
-    val dragAndDropHandler = rememberMultiSelectDragAndDropHandler(onDrop = onSelectFile)
+    val dragAndDropHandler = rememberMultiSelectDragAndDropHandler(onDrop = onSelectPath)
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
     DragAndDropBox(isDragging = isDragging) {

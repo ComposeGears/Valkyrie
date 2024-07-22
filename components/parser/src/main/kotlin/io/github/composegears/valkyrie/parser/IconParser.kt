@@ -5,9 +5,11 @@ import androidx.compose.material.icons.generator.IconParser
 import androidx.compose.material.icons.generator.vector.Vector
 import io.github.composegears.valkyrie.parser.IconType.SVG
 import io.github.composegears.valkyrie.parser.IconType.XML
-import java.io.File
+import java.nio.file.Path
 import java.util.*
 import kotlin.io.path.createTempFile
+import kotlin.io.path.extension
+import kotlin.io.path.name
 import kotlin.io.path.readText
 
 data class IconParserOutput(
@@ -18,18 +20,18 @@ data class IconParserOutput(
 object IconParser {
 
     @Throws(IllegalStateException::class)
-    fun toVector(file: File): IconParserOutput {
-        val iconType = IconTypeParser.getIconType(file.extension) ?: error("File not SVG or XML")
+    fun toVector(path: Path): IconParserOutput {
+        val iconType = IconTypeParser.getIconType(path.extension) ?: error("File not SVG or XML")
 
-        val fileName = getIconName(fileName = file.name)
+        val fileName = getIconName(fileName = path.name)
         val icon = when (iconType) {
             SVG -> {
-                val tmpFile = createTempFile(suffix = "valkyrie/")
-                SvgToXmlParser.parse(file, tmpFile)
+                val tmpPath = createTempFile(suffix = "valkyrie/")
+                SvgToXmlParser.parse(path, tmpPath)
 
-                Icon(fileContent = tmpFile.readText())
+                Icon(fileContent = tmpPath.readText())
             }
-            XML -> Icon(fileContent = file.readText())
+            XML -> Icon(fileContent = path.readText())
         }
 
         return IconParserOutput(

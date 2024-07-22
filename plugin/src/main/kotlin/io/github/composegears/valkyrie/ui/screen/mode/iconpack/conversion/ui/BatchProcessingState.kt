@@ -48,7 +48,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPa
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconNameField
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconPreviewBox
-import java.io.File
+import kotlin.io.path.Path
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -308,7 +308,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
             BatchIcon.Valid(
                 iconName = IconName(IconParser.getIconName("ic_all_path_params_1")),
                 extension = "xml",
-                file = File(""),
+                path = Path(""),
                 iconPack = IconPack.Single(
                     iconPackage = "package",
                     iconPackName = "ValkyrieIcons"
@@ -322,7 +322,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
             BatchIcon.Valid(
                 iconName = IconName(IconParser.getIconName("ic_all_path")),
                 extension = "svg",
-                file = File(""),
+                path = Path(""),
                 iconPack = IconPack.Nested(
                     iconPackName = "ValkyrieIcons",
                     iconPackage = "package",

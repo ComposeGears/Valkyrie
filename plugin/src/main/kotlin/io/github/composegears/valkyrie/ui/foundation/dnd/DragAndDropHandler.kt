@@ -15,21 +15,22 @@ import java.awt.dnd.DropTargetDragEvent
 import java.awt.dnd.DropTargetDropEvent
 import java.awt.dnd.DropTargetEvent
 import java.awt.dnd.DropTargetListener
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.isDirectory
 
 @Composable
-fun rememberDragAndDropFolderHandler(onDrop: (String) -> Unit): DragAndDropHandlerState {
-    return rememberFileDragAndDropHandler { file ->
+fun rememberDragAndDropFolderHandler(onDrop: (Path) -> Unit): DragAndDropHandlerState {
+    return rememberFileDragAndDropHandler { path ->
         val destination = when {
-            file.isDirectory -> file.path
-            else -> file.parent
+            path.isDirectory() -> path
+            else -> path.parent
         }
         onDrop(destination)
     }
 }
 
 @Composable
-fun rememberFileDragAndDropHandler(onDrop: (File) -> Unit): DragAndDropHandlerState {
+fun rememberFileDragAndDropHandler(onDrop: (Path) -> Unit): DragAndDropHandlerState {
     return rememberMultiSelectDragAndDropHandler { fileList ->
         if (fileList.isNotEmpty()) {
             onDrop(fileList.first())
@@ -38,7 +39,7 @@ fun rememberFileDragAndDropHandler(onDrop: (File) -> Unit): DragAndDropHandlerSt
 }
 
 @Composable
-fun rememberMultiSelectDragAndDropHandler(onDrop: (List<File>) -> Unit): DragAndDropHandlerState {
+fun rememberMultiSelectDragAndDropHandler(onDrop: (List<Path>) -> Unit): DragAndDropHandlerState {
     if (LocalInspectionMode.current) {
         return DragAndDropHandlerState()
     } else {
@@ -73,7 +74,7 @@ data class DragAndDropHandlerState(val isDragging: Boolean = false) {
 private class SimpleDropTargetListener(
     val onDragEnter: () -> Unit = {},
     val onDragExit: () -> Unit = {},
-    val onDrop: (List<File>) -> Unit = {}
+    val onDrop: (List<Path>) -> Unit = {}
 ) : DropTargetListener {
     override fun dragEnter(dtde: DropTargetDragEvent?) = onDragEnter()
 
@@ -87,13 +88,16 @@ private class SimpleDropTargetListener(
         event.acceptDrop(DnDConstants.ACTION_COPY)
         val transferable = event.transferable
 
-        val files = transferable.transferDataFlavors
+        val paths = transferable.transferDataFlavors
+            .asSequence()
             .filter { it.isFlavorJavaFileListType }
             .mapNotNull { transferable.getTransferData(it) as? List<*> }
             .flatten()
-            .filterIsInstance<File>()
+            .filterIsInstance<java.io.File>()
+            .map { it.toPath() }
+            .toList()
 
-        onDrop(files)
+        onDrop(paths)
         event.dropComplete(true)
         onDragExit()
     }

@@ -18,7 +18,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.extension
+import kotlin.io.path.name
+import kotlin.io.path.isRegularFile
+import kotlin.io.path.listDirectoryEntries
+import kotlin.io.path.nameWithoutExtension
 
 class IconPackConversionViewModel(
     private val inMemorySettings: InMemorySettings
@@ -34,8 +39,8 @@ class IconPackConversionViewModel(
 
     fun pickerEvent(events: PickerEvent) {
         when (events) {
-            is PickerEvent.PickDirectory -> File(events.path).listFiles()?.toList()?.processFiles()
-            is PickerEvent.PickFiles -> events.files.processFiles()
+            is PickerEvent.PickDirectory -> events.path.listDirectoryEntries().processFiles()
+            is PickerEvent.PickFiles -> events.paths.processFiles()
         }
     }
 
@@ -85,7 +90,7 @@ class IconPackConversionViewModel(
         val icon = iconsToProcess.first { it.iconName == iconName } as BatchIcon.Valid
 
         val iconResult = runCatching {
-            val parserOutput = IconParser.toVector(icon.file)
+            val parserOutput = IconParser.toVector(icon.path)
 
             ImageVectorGenerator.convert(
                 vector = parserOutput.vector,
@@ -113,7 +118,7 @@ class IconPackConversionViewModel(
                 .forEach { icon ->
                     when (val iconPack = icon.iconPack) {
                         is IconPack.Nested -> {
-                            val parserOutput = IconParser.toVector(icon.file)
+                            val parserOutput = IconParser.toVector(icon.path)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
                                 vector = parserOutput.vector,
                                 kotlinName = icon.iconName.value,
@@ -132,7 +137,7 @@ class IconPackConversionViewModel(
                             )
                         }
                         is IconPack.Single -> {
-                            val parserOutput = IconParser.toVector(icon.file)
+                            val parserOutput = IconParser.toVector(icon.path)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
                                 vector = parserOutput.vector,
                                 kotlinName = parserOutput.kotlinName,
@@ -186,25 +191,25 @@ class IconPackConversionViewModel(
         _state.updateState { IconsPickering }
     }
 
-    private fun List<File>.processFiles() {
-        val files = filter { it.isFile && (it.extension == "xml" || it.extension == "svg") }
+    private fun List<Path>.processFiles() {
+        val paths = filter { it.isRegularFile() && (it.extension == "xml" || it.extension == "svg") }
 
-        if (files.isNotEmpty()) {
+        if (paths.isNotEmpty()) {
             _state.updateState {
                 BatchFilesProcessing(
-                    iconsToProcess = files
+                    iconsToProcess = paths
                         .sortedBy { it.name }
-                        .map { file ->
-                            when (val painter = file.toPainterOrNull()) {
+                        .map { path ->
+                            when (val painter = path.toPainterOrNull()) {
                                 null -> BatchIcon.Broken(
-                                    iconName = IconName(file.nameWithoutExtension),
-                                    extension = file.extension
+                                    iconName = IconName(path.nameWithoutExtension),
+                                    extension = path.extension
                                 )
                                 else -> BatchIcon.Valid(
-                                    iconName = IconName(IconParser.getIconName(file.name)),
-                                    extension = file.extension,
+                                    iconName = IconName(IconParser.getIconName(path.name)),
+                                    extension = path.extension,
                                     iconPack = inMemorySettings.current.buildDefaultIconPack(),
-                                    file = file,
+                                    path = path,
                                     painter = painter
                                 )
                             }
@@ -247,6 +252,6 @@ sealed interface ConversionEvent {
 }
 
 sealed interface PickerEvent {
-    data class PickDirectory(val path: String) : PickerEvent
-    data class PickFiles(val files: List<File>) : PickerEvent
+    data class PickDirectory(val path: Path) : PickerEvent
+    data class PickFiles(val paths: List<Path>) : PickerEvent
 }
