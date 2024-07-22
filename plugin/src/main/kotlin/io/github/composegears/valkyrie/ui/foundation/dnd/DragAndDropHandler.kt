@@ -15,6 +15,7 @@ import java.awt.dnd.DropTargetDragEvent
 import java.awt.dnd.DropTargetDropEvent
 import java.awt.dnd.DropTargetEvent
 import java.awt.dnd.DropTargetListener
+import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 
@@ -93,8 +94,8 @@ private class SimpleDropTargetListener(
             .filter { it.isFlavorJavaFileListType }
             .mapNotNull { transferable.getTransferData(it) as? List<*> }
             .flatten()
-            .filterIsInstance<java.io.File>()
-            .map { it.toPath() }
+            .filterIsInstance<File>()
+            .map(File::toPath)
             .toList()
 
         onDrop(paths)
