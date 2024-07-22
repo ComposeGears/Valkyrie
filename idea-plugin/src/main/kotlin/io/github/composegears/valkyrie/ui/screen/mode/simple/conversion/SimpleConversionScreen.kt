@@ -106,8 +106,8 @@ private fun PluginUI(
             AppBarTitle(title = "Simple conversion")
             WeightSpacer()
             if (content != null) {
-                ClearAction(onClear)
-                CopyAction(onCopy)
+                ClearAction(onClear = onClear)
+                CopyAction(onCopy = onCopy)
             }
             SettingsAction(openSettings = openSettings)
         }

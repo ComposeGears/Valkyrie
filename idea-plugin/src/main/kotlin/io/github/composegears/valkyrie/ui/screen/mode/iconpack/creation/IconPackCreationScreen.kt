@@ -94,7 +94,7 @@ private fun IconPackModeSetupUI(
 ) {
     Column {
         TopAppBar {
-            BackAction(onBack)
+            BackAction(onBack = onBack)
             AppBarTitle("IconPack setup")
         }
         Column(

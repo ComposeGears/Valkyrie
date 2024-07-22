@@ -25,11 +25,11 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
 fun InputField(
-    modifier: Modifier = Modifier,
     caption: String,
     value: String,
-    isError: Boolean = false,
     tooltipValue: AnnotatedString,
+    modifier: Modifier = Modifier,
+    isError: Boolean = false,
     supportingText: @Composable (() -> Unit)? = null,
     onValueChange: (String) -> Unit,
 ) {
@@ -59,8 +59,8 @@ fun InputField(
 
 @Composable
 fun InputTextField(
-    modifier: Modifier = Modifier,
     value: String,
+    modifier: Modifier = Modifier,
     isError: Boolean = false,
     supportingText: @Composable (() -> Unit)? = null,
     onValueChange: (String) -> Unit,

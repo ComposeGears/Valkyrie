@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:compose:compositionlocal-allowlist")
+
 package io.github.composegears.valkyrie.ui.foundation.theme
 
 import androidx.compose.runtime.compositionLocalOf

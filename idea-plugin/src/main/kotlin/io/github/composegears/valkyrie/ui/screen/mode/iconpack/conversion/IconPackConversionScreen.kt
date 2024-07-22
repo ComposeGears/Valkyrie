@@ -134,7 +134,7 @@ private fun IconPackConversionUi(
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar {
                 if (state is BatchFilesProcessing) {
-                    ClearAction(onReset)
+                    ClearAction(onClear = onReset)
                 }
                 AppBarTitle(title = "IconPack generation")
                 WeightSpacer()

@@ -43,14 +43,17 @@ import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
 
 @Composable
-fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
+fun IconPackPickerState(
+    modifier: Modifier = Modifier,
+    onPickerEvent: (PickerEvent) -> Unit,
+) {
     val scope = rememberCoroutineScope()
 
     val multipleFilePicker = rememberMultipleFilesPicker()
     val directoryPicker = rememberDirectoryPicker()
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         SelectableState(

@@ -24,11 +24,14 @@ import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
-fun IconPreviewBox(painter: Painter) {
+fun IconPreviewBox(
+    painter: Painter,
+    modifier: Modifier = Modifier,
+) {
     var bgType by rememberMutableState { BgType.PixelGrid }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(56.dp)
             .clip(RoundedCornerShape(8.dp))
             .pointerInput(Unit) {

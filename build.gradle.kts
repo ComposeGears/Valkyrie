@@ -16,6 +16,11 @@ allprojects {
             // Sources copied from AndroidX Compose
             targetExclude("src/main/kotlin/androidx/**")
             ktlint(rootProject.libs.ktlint.get().version)
+                .customRuleSets(
+                    listOf(
+                        rootProject.libs.composeRules.get().toString(),
+                    ),
+                )
         }
         kotlinGradle {
             ktlint(rootProject.libs.ktlint.get().version)
