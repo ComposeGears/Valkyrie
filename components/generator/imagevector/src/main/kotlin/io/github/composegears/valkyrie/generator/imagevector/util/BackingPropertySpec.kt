@@ -9,7 +9,7 @@ internal fun String.backingPropertyName() = "_$this"
 
 internal fun backingPropertySpec(
     name: String,
-    type: TypeName
+    type: TypeName,
 ) = propertySpecBuilder(name = name, type = type.nullable()) {
     mutable()
     addModifiers(KModifier.PRIVATE)

@@ -5,4 +5,4 @@ import com.intellij.openapi.project.Project
 import java.awt.Component
 
 val LocalProject = compositionLocalOf<Project> { error("LocalProject not provided") }
-val LocalComponent = compositionLocalOf<Component> { error("LocalComponent not provided")  }
+val LocalComponent = compositionLocalOf<Component> { error("LocalComponent not provided") }

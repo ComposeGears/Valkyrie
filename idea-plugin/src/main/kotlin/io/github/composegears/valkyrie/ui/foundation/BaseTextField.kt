@@ -45,7 +45,7 @@ fun BaseTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = LocalTextStyle.current.copy(
-        fontSize = MaterialTheme.typography.bodyMedium.fontSize
+        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
     ),
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
@@ -74,7 +74,7 @@ fun BaseTextField(
         errorTrailingIconColor = MaterialTheme.colorScheme.onError,
         errorIndicatorColor = Color.Transparent,
         focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent
+        unfocusedIndicatorColor = Color.Transparent,
     ),
 ) {
     val textColor = textStyle.color.takeOrElse {
@@ -87,7 +87,7 @@ fun BaseTextField(
             modifier = modifier
                 .defaultMinSize(
                     minWidth = TextFieldDefaults.MinWidth,
-                    minHeight = TextFieldDefaults.MinHeight
+                    minHeight = TextFieldDefaults.MinHeight,
                 ),
             onValueChange = onValueChange,
             enabled = enabled,
@@ -121,7 +121,7 @@ fun BaseTextField(
                     interactionSource = interactionSource,
                     colors = colors,
                 )
-            }
+            },
         )
     }
 }
@@ -135,7 +135,7 @@ private fun TextFieldColors.cursorColor(isError: Boolean): State<Color> {
 private fun TextFieldColors.textColor(
     enabled: Boolean,
     isError: Boolean,
-    interactionSource: InteractionSource
+    interactionSource: InteractionSource,
 ): State<Color> {
     val focused by interactionSource.collectIsFocusedAsState()
 
@@ -154,17 +154,17 @@ private fun BaseTextFieldPreview() = PreviewTheme {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         BaseTextField(
             value = "Hello, World!",
             onValueChange = {},
-            isError = false
+            isError = false,
         )
         BaseTextField(
             value = "Hello, World!",
             onValueChange = {},
-            isError = true
+            isError = true,
         )
     }
 }

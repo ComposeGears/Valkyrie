@@ -41,4 +41,5 @@ val ValkyrieIcons.Backspace: ImageVector
         return _backspace!!
     }
 
+@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
 private var _backspace: ImageVector? = null

@@ -16,7 +16,7 @@ val ValkyrieIcons.BatchProcessing: ImageVector
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,
-            viewportHeight = 24f
+            viewportHeight = 24f,
         ).apply {
             path(fill = SolidColor(Color(0xFF000000))) {
                 moveTo(11.75f, 1.716f)
@@ -801,4 +801,5 @@ val ValkyrieIcons.BatchProcessing: ImageVector
         return _BatchProcessing!!
     }
 
+@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
 private var _BatchProcessing: ImageVector? = null

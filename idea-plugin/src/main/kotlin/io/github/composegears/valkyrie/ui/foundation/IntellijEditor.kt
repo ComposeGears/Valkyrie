@@ -26,7 +26,7 @@ fun IntellijEditorTextField(
     if (LocalInspectionMode.current) {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(text = "EditorTextField")
         }
@@ -38,9 +38,12 @@ fun IntellijEditorTextField(
             modifier = modifier,
             factory = {
                 EditorTextFieldProvider.getInstance().getEditorField(
-                    /* language = */ kotlinLanguage,
-                    /* project = */ project,
-                    /* features = */ listOf(EditorCustomization(true))
+                    /* language = */
+                    kotlinLanguage,
+                    /* project = */
+                    project,
+                    /* features = */
+                    listOf(EditorCustomization(true)),
                 ).apply {
                     setDocument(document)
                 }

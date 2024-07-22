@@ -7,7 +7,7 @@ class IconParserTest {
 
     private data class IconTest(
         val fileName: String,
-        val expected: String
+        val expected: String,
     )
 
     @Test

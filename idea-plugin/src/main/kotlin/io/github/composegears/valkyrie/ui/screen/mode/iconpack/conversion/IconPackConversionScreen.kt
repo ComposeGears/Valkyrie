@@ -64,7 +64,7 @@ val IconPackConversionScreen by navDestination<Unit> {
                     is ConversionEvent.OpenPreview -> {
                         navController.navigate(
                             dest = CodePreviewScreen,
-                            navArgs = it.iconContent
+                            navArgs = it.iconContent,
                         )
                     }
                     is ConversionEvent.ExportCompleted -> {
@@ -81,7 +81,7 @@ val IconPackConversionScreen by navDestination<Unit> {
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
-                transition = navigationSlideInOut(true)
+                transition = navigationSlideInOut(true),
             )
         },
         onPickEvent = viewModel::pickerEvent,
@@ -90,7 +90,7 @@ val IconPackConversionScreen by navDestination<Unit> {
         onReset = viewModel::reset,
         onPreviewClick = viewModel::showPreview,
         onExport = viewModel::export,
-        onRenameIcon = viewModel::renameIcon
+        onRenameIcon = viewModel::renameIcon,
     )
 }
 
@@ -104,7 +104,7 @@ private fun IconPackConversionUi(
     onReset: () -> Unit,
     onPreviewClick: (IconName) -> Unit,
     onExport: () -> Unit,
-    onRenameIcon: (BatchIcon, IconName) -> Unit
+    onRenameIcon: (BatchIcon, IconName) -> Unit,
 ) {
     var isVisible by rememberSaveable { mutableStateOf(true) }
 
@@ -125,10 +125,11 @@ private fun IconPackConversionUi(
 
     val focusManager = LocalFocusManager.current
 
-    Box(modifier = Modifier
-        .pointerInput(Unit) {
-            detectTapGestures(onTap = { focusManager.clearFocus() })
-        }
+    Box(
+        modifier = Modifier
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { focusManager.clearFocus() })
+            },
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar {
@@ -150,7 +151,7 @@ private fun IconPackConversionUi(
                         onDeleteIcon = onDeleteIcon,
                         onUpdatePack = updatePack,
                         onPreviewClick = onPreviewClick,
-                        onRenameIcon = onRenameIcon
+                        onRenameIcon = onRenameIcon,
                     )
                 }
             }
@@ -176,13 +177,13 @@ private fun IconPackConversionUi(
                         defaultElevation = 6.dp,
                         pressedElevation = 6.dp,
                         focusedElevation = 6.dp,
-                        disabledElevation = 0.dp
+                        disabledElevation = 0.dp,
                     ),
-                    onClick = onExport
+                    onClick = onExport,
                 ) {
                     Text(
                         text = "Export",
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
                     )
                 }
             }

@@ -4,5 +4,5 @@ import java.nio.file.Path
 
 data class SimpleConversionState(
     val lastPath: Path? = null,
-    val iconContent: String? = null
+    val iconContent: String? = null,
 )

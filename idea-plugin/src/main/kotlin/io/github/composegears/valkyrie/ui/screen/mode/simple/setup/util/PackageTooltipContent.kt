@@ -15,10 +15,10 @@ fun buildPackageHint(packageName: String): AnnotatedString {
             }
             ...
         }
-       """.trimIndent()
+    """.trimIndent()
 
     return codeBlockAnnotatedString(
         codeBlock = codeBlock,
-        highlightText = packagePlaceholder
+        highlightText = packagePlaceholder,
     )
 }

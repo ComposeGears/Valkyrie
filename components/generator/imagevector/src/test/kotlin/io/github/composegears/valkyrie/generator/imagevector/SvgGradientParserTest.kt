@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
 import io.github.composegears.valkyrie.parser.IconParser
-import org.junit.Assert.assertEquals
 import kotlin.test.Test
+import org.junit.Assert.assertEquals
 
 class SvgGradientParserTest {
 
@@ -17,8 +17,8 @@ class SvgGradientParserTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
-                generatePreview = false
-            )
+                generatePreview = false,
+            ),
         ).content
 
         val expectedOutput = """
@@ -216,8 +216,8 @@ class SvgGradientParserTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
-                generatePreview = false
-            )
+                generatePreview = false,
+            ),
         ).content
 
         val expectedOutput = """

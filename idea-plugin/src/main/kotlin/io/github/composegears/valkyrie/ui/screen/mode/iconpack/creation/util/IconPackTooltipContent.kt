@@ -21,7 +21,7 @@ fun buildPackPackageHint(packageName: String, iconPackName: String): AnnotatedSt
 
     return codeBlockAnnotatedString(
         codeBlock = codeBlock,
-        highlightText = packagePlaceholder
+        highlightText = packagePlaceholder,
     )
 }
 
@@ -41,6 +41,6 @@ fun buildIconPackHint(iconPackName: String): AnnotatedString {
 
     return codeBlockAnnotatedString(
         codeBlock = codeBlock,
-        highlightText = iconPackPlaceholder
+        highlightText = iconPackPlaceholder,
     )
 }

@@ -11,8 +11,8 @@ import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.LafManagerListener
 import com.intellij.openapi.application.ApplicationManager
 import io.github.composegears.valkyrie.ui.foundation.theme.IntelliJTheme.Theme
-import javax.swing.UIManager
 import java.awt.Color as AwtColor
+import javax.swing.UIManager
 
 @Composable
 fun rememberIntelliJTheme(): IntelliJTheme {
@@ -22,7 +22,7 @@ fun rememberIntelliJTheme(): IntelliJTheme {
     DisposableEffect(messageBus) {
         messageBus.subscribe(
             LafManagerListener.TOPIC,
-            ThemeChangeListener(themeExtractor::invalidate)
+            ThemeChangeListener(themeExtractor::invalidate),
         )
 
         onDispose {
@@ -34,7 +34,7 @@ fun rememberIntelliJTheme(): IntelliJTheme {
 }
 
 private class ThemeChangeListener(
-    private val onChanged: () -> Unit
+    private val onChanged: () -> Unit,
 ) : LafManagerListener {
 
     override fun lookAndFeelChanged(source: LafManager) = onChanged()
@@ -44,10 +44,11 @@ data class IntelliJTheme(
     val theme: Theme,
     val primary: Color,
     val background: Color,
-    val onBackground: Color
+    val onBackground: Color,
 ) {
     enum class Theme {
-        LIGHT, DARK
+        LIGHT,
+        DARK,
     }
 }
 
@@ -74,7 +75,7 @@ private class IntelliJThemeExtractorImpl : IntelliJThemeExtractor {
             theme = theme,
             primary = primary,
             background = background,
-            onBackground = onBackground
+            onBackground = onBackground,
         )
     }
 

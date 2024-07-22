@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.generator.ext
 
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class FormatterTest {
 

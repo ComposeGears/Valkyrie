@@ -12,7 +12,7 @@ import io.github.composegears.valkyrie.generator.ext.funSpecBuilder
 
 internal fun iconPreviewSpecForNestedPack(
     iconName: String,
-    iconPackClassName: ClassName
+    iconPackClassName: ClassName,
 ): FunSpec = funSpecBuilder("${iconName}Preview") {
     addModifiers(KModifier.PRIVATE)
     addAnnotation(previewAnnotation)
@@ -24,15 +24,15 @@ internal fun iconPreviewSpecForNestedPack(
                 MemberNames.Box,
                 MemberNames.Modifier,
                 MemberNames.Padding,
-                MemberNames.Dp
+                MemberNames.Dp,
             )
             addStatement(
                 format = "%M(imageVector = %T, contentDescription = null)",
                 MemberNames.Image,
-                iconPackClassName.nestedClass(iconName)
+                iconPackClassName.nestedClass(iconName),
             )
             endControlFlow()
-        }
+        },
     )
 }
 
@@ -50,18 +50,18 @@ internal fun iconPreviewSpec(
                 MemberNames.Box,
                 MemberNames.Modifier,
                 MemberNames.Padding,
-                MemberNames.Dp
+                MemberNames.Dp,
             )
             addStatement(
                 format = "%M(imageVector = %M, contentDescription = null)",
                 MemberNames.Image,
                 MemberName(
                     packageName = iconPackage,
-                    simpleName = iconName
-                )
+                    simpleName = iconName,
+                ),
             )
             endControlFlow()
-        }
+        },
     )
 }
 

@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class IconPackCreationViewModel(
-    private val inMemorySettings: InMemorySettings
+    private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
     private val inputHandler = InputHandler(inMemorySettings)
@@ -47,12 +47,12 @@ class IconPackCreationViewModel(
                                 config = IconPackGeneratorConfig(
                                     packageName = inputFieldState.packageName.text,
                                     iconPackName = inputFieldState.iconPackName.text,
-                                    subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text }
-                                )
+                                    subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
+                                ),
                             ).content
                         } else {
                             ""
-                        }
+                        },
                     )
                 }
             }
@@ -78,14 +78,14 @@ class IconPackCreationViewModel(
                 config = IconPackGeneratorConfig(
                     packageName = inMemorySettings.current.packageName,
                     iconPackName = inMemorySettings.current.iconPackName,
-                    subPacks = inMemorySettings.current.nestedPacks
-                )
+                    subPacks = inMemorySettings.current.nestedPacks,
+                ),
             )
 
             FileWriter.writeToFile(
                 content = iconPack.content,
                 outDirectory = inMemorySettings.current.iconPackDestination,
-                fileName = iconPack.name
+                fileName = iconPack.name,
             )
 
             writeAction {
@@ -111,10 +111,10 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
             nestedPacks = valkyriesSettings.nestedPacks.mapIndexed { index, nestedPack ->
                 NestedPack(
                     id = index.toString(),
-                    inputFieldState = InputState(text = nestedPack)
+                    inputFieldState = InputState(text = nestedPack),
                 )
-            }
-        )
+            },
+        ),
     )
     val state = _state.asStateFlow()
 
@@ -125,9 +125,9 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
                     id = nestedPacks.size.toString(),
                     inputFieldState = InputState(
                         text = "",
-                        validationResult = ValidationResult.None
-                    )
-                )
+                        validationResult = ValidationResult.None,
+                    ),
+                ),
             )
         }
     }
@@ -145,8 +145,8 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
                     copy(
                         iconPackName = iconPackName.copy(
                             text = change.text,
-                            validationResult = ValidationResult.Success
-                        )
+                            validationResult = ValidationResult.Success,
+                        ),
                     )
                 }
             }
@@ -155,8 +155,8 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
                     copy(
                         packageName = packageName.copy(
                             text = change.text,
-                            validationResult = ValidationResult.Success
-                        )
+                            validationResult = ValidationResult.Success,
+                        ),
                     )
                 }
             }
@@ -169,7 +169,7 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
                             } else {
                                 it
                             }
-                        }
+                        },
                     )
                 }
             }
@@ -191,9 +191,9 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
                 packageName = packageName.copy(validationResult = packageResult),
                 nestedPacks = nestedPacks.mapIndexed { index, nestedPack ->
                     nestedPack.copy(
-                        inputFieldState = nestedPack.inputFieldState.copy(validationResult = nestedPackResults[index])
+                        inputFieldState = nestedPack.inputFieldState.copy(validationResult = nestedPackResults[index]),
                     )
-                }
+                },
             )
         }
     }
@@ -212,11 +212,11 @@ sealed interface InputChange {
 data class InputFieldState(
     val iconPackName: InputState,
     val packageName: InputState,
-    val nestedPacks: List<NestedPack>
+    val nestedPacks: List<NestedPack>,
 ) {
     fun noErrors() = iconPackName.validationResult !is ValidationResult.Error &&
-            packageName.validationResult !is ValidationResult.Error &&
-            nestedPacks.all { it.inputFieldState.validationResult !is ValidationResult.Error && it.inputFieldState.text.isNotEmpty() }
+        packageName.validationResult !is ValidationResult.Error &&
+        nestedPacks.all { it.inputFieldState.validationResult !is ValidationResult.Error && it.inputFieldState.text.isNotEmpty() }
 }
 
 data class IconPackModeState(
@@ -224,13 +224,13 @@ data class IconPackModeState(
     val inputFieldState: InputFieldState = InputFieldState(
         iconPackName = InputState(),
         packageName = InputState(),
-        nestedPacks = emptyList()
+        nestedPacks = emptyList(),
     ),
     val nestedPacks: List<NestedPack> = emptyList(),
-    val packPreview: String = ""
+    val packPreview: String = "",
 )
 
 data class NestedPack(
     val id: String,
-    val inputFieldState: InputState
+    val inputFieldState: InputState,
 )

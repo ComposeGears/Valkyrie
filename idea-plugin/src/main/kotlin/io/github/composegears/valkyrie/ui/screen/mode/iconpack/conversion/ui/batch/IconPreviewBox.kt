@@ -35,17 +35,17 @@ fun IconPreviewBox(painter: Painter) {
                 detectTapGestures(
                     onTap = {
                         bgType = bgType.next()
-                    }
+                    },
                 )
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         when (bgType) {
             BgType.Black -> {
                 Box(
                     modifier = Modifier
                         .matchParentSize()
-                        .background(Color.Black)
+                        .background(Color.Black),
                 )
             }
             BgType.White -> {
@@ -58,14 +58,14 @@ fun IconPreviewBox(painter: Painter) {
             BgType.PixelGrid -> {
                 PixelGrid(
                     modifier = Modifier.matchParentSize(),
-                    gridSize = 2.dp
+                    gridSize = 2.dp,
                 )
             }
         }
         Image(
             modifier = Modifier.size(36.dp),
             painter = painter,
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
@@ -73,7 +73,8 @@ fun IconPreviewBox(painter: Painter) {
 private enum class BgType {
     Black,
     White,
-    PixelGrid;
+    PixelGrid,
+    ;
 
     fun next(): BgType = when (this) {
         Black -> White

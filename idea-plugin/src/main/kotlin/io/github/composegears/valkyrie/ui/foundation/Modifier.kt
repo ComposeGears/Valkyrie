@@ -30,14 +30,14 @@ fun Modifier.dashedBorder(
         width = strokeWidth.toPx(),
         pathEffect = PathEffect.dashPathEffect(
             intervals = floatArrayOf(dashWidth.toPx(), gapWidth.toPx()),
-            phase = 0f
-        )
+            phase = 0f,
+        ),
     )
 
     drawContent()
     drawPath(
         path = path,
         style = stroke,
-        color = color
+        color = color,
     )
 }

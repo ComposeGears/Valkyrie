@@ -16,7 +16,7 @@ val ValkyrieIcons.SimpleConversion: ImageVector
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,
-            viewportHeight = 24f
+            viewportHeight = 24f,
         ).apply {
             path(fill = SolidColor(Color(0xFF030303))) {
                 moveTo(7.899f, 2.068f)
@@ -679,4 +679,5 @@ val ValkyrieIcons.SimpleConversion: ImageVector
         return _SimpleConversion!!
     }
 
+@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
 private var _SimpleConversion: ImageVector? = null

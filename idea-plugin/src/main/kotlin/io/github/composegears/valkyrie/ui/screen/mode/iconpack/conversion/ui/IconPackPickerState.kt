@@ -37,10 +37,10 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
-import kotlinx.coroutines.launch
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
+import kotlinx.coroutines.launch
 
 @Composable
 fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
@@ -51,7 +51,7 @@ fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         SelectableState(
             onSelectPath = { paths ->
@@ -84,7 +84,7 @@ fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
                         onPickerEvent(PickFiles(paths = paths))
                     }
                 }
-            }
+            },
         )
     }
 }
@@ -94,7 +94,7 @@ fun IconPackPickerState(onPickerEvent: (PickerEvent) -> Unit) {
 private fun SelectableState(
     onPickDirectory: () -> Unit,
     onPickFiles: () -> Unit,
-    onSelectPath: (List<Path>) -> Unit
+    onSelectPath: (List<Path>) -> Unit,
 ) {
     val dragAndDropHandler = rememberMultiSelectDragAndDropHandler(onDrop = onSelectPath)
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
@@ -103,13 +103,13 @@ private fun SelectableState(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
                 imageVector = ValkyrieIcons.Collections,
-                contentDescription = null
+                contentDescription = null,
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 text = "Drag & drop\n\nor",
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
             )
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
@@ -130,7 +130,7 @@ private fun SelectableState(
 private fun DragAndDropBox(
     isDragging: Boolean,
     modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     val border by animateDpAsState(if (isDragging) 4.dp else 1.dp)
@@ -145,7 +145,7 @@ private fun DragAndDropBox(
                 gapWidth = 8.dp,
                 dashWidth = 8.dp,
                 color = dashColor,
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
             )
             .padding(2.dp)
             .background(
@@ -153,10 +153,10 @@ private fun DragAndDropBox(
                     isDragging -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
                     else -> Color.Transparent
                 },
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
             ),
         contentAlignment = Alignment.Center,
-        content = content
+        content = content,
     )
 }
 

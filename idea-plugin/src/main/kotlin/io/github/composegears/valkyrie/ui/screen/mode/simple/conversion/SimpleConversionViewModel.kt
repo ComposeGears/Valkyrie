@@ -7,11 +7,11 @@ import io.github.composegears.valkyrie.parser.IconParser
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
+import java.nio.file.Path
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import java.nio.file.Path
 
 class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatViewModel() {
 
@@ -38,8 +38,8 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
                     packageName = valkyriesSettings.packageName,
                     packName = "",
                     nestedPackName = "",
-                    generatePreview = valkyriesSettings.generatePreview
-                )
+                    generatePreview = valkyriesSettings.generatePreview,
+                ),
             ).content
         }.getOrElse {
             it.message.orEmpty()

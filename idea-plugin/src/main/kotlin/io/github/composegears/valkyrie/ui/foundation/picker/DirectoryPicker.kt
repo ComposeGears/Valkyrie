@@ -8,9 +8,9 @@ import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.nio.file.Path
 
 @Composable
 fun rememberDirectoryPicker(): Picker<Path?> {
@@ -27,12 +27,18 @@ private object StubDirectoryPicker : Picker<Path?> {
 private class DirectoryPicker(private val project: Project) : Picker<Path?> {
 
     private val fileChooserDescriptor = FileChooserDescriptor(
-        /* chooseFiles = */ false,
-        /* chooseFolders = */ true,
-        /* chooseJars = */ false,
-        /* chooseJarsAsFiles = */ false,
-        /* chooseJarContents = */ false,
-        /* chooseMultiple = */ false
+        /* chooseFiles = */
+        false,
+        /* chooseFolders = */
+        true,
+        /* chooseJars = */
+        false,
+        /* chooseJarsAsFiles = */
+        false,
+        /* chooseJarContents = */
+        false,
+        /* chooseMultiple = */
+        false,
     )
 
     override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {

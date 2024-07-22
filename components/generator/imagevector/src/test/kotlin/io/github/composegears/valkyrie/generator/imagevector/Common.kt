@@ -6,7 +6,7 @@ val DEFAULT_CONFIG = ImageVectorGeneratorConfig(
     packageName = "io.github.composegears.valkyrie.icons",
     packName = "ValkyrieIcons",
     nestedPackName = "",
-    generatePreview = false
+    generatePreview = false,
 )
 
-fun loadIcon(name: String) = Path("src/test/resources/${name}")
+fun loadIcon(name: String) = Path("src/test/resources/$name")

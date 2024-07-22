@@ -17,14 +17,14 @@ val CodePreviewScreen by navDestination {
 
     CodePreviewUi(
         code = navArgs,
-        onBack = navController::back
+        onBack = navController::back,
     )
 }
 
 @Composable
 private fun CodePreviewUi(
     code: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     Column {
         TopAppBar {
@@ -32,7 +32,7 @@ private fun CodePreviewUi(
         }
         IntellijEditorTextField(
             modifier = Modifier.fillMaxSize(),
-            text = code
+            text = code,
         )
     }
 }

@@ -42,4 +42,5 @@ val ValkyrieIcons.Collections: ImageVector
         return _collections!!
     }
 
+@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
 private var _collections: ImageVector? = null

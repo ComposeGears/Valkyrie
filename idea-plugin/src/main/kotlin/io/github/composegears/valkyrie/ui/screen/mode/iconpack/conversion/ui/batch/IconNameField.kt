@@ -83,7 +83,7 @@ fun IconNameField(
             {
                 Text(
                     text = "Could not be empty",
-                    color = MaterialTheme.colorScheme.onError
+                    color = MaterialTheme.colorScheme.onError,
                 )
             }
         } else {
@@ -100,10 +100,12 @@ fun IconNameField(
                     onClick = {
                         onValueChange(text)
                         focusManager.clearFocus()
-                    }
+                    },
                 )
             }
-        } else null
+        } else {
+            null
+        },
     )
 }
 
@@ -112,12 +114,12 @@ fun IconNameField(
 private fun IconNameFieldPreview() = PreviewTheme {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         IconNameField(
             modifier = Modifier.width(300.dp),
             value = "IconName",
-            onValueChange = {}
+            onValueChange = {},
         )
     }
 }

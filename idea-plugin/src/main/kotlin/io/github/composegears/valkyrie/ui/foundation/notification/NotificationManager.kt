@@ -7,7 +7,7 @@ import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
-import java.util.*
+import java.util.Timer
 import kotlin.concurrent.schedule
 import kotlin.time.Duration.Companion.seconds
 

@@ -9,7 +9,7 @@ import androidx.compose.ui.text.withStyle
 
 fun codeBlockAnnotatedString(
     codeBlock: String,
-    highlightText: String
+    highlightText: String,
 ): AnnotatedString = buildAnnotatedString {
     withStyle(SpanStyle(fontWeight = FontWeight.ExtraLight)) {
         append(codeBlock)
@@ -20,10 +20,10 @@ fun codeBlockAnnotatedString(
         addStyle(
             style = SpanStyle(
                 fontWeight = FontWeight.Bold,
-                textDecoration = TextDecoration.Underline
+                textDecoration = TextDecoration.Underline,
             ),
             start = it,
-            end = it + highlightText.length
+            end = it + highlightText.length,
         )
     }
 }

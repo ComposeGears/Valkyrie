@@ -72,7 +72,7 @@ class InMemorySettings {
                 .split(",")
                 .filter { it.isNotEmpty() },
 
-            generatePreview = generatePreview
+            generatePreview = generatePreview,
         )
 }
 
@@ -85,5 +85,5 @@ data class ValkyriesSettings(
 
     val nestedPacks: List<String>,
 
-    val generatePreview: Boolean
+    val generatePreview: Boolean,
 )

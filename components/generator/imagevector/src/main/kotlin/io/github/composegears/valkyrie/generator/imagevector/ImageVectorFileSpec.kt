@@ -34,7 +34,7 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
     fun createFileFor(vector: Vector): ImageVectorSpecOutput {
         val backingProperty = backingPropertySpec(
             name = config.iconName.backingPropertyName(),
-            type = ClassNames.ImageVector
+            type = ClassNames.ImageVector,
         )
 
         val iconPackClassName = when {
@@ -43,12 +43,12 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
                 if (config.iconNestedPack.isEmpty()) {
                     ClassName(
                         config.iconPackage,
-                        config.iconPack
+                        config.iconPack,
                     )
                 } else {
                     ClassName(
                         config.iconPackage,
-                        config.iconPack
+                        config.iconPack,
                     ).nestedClass(config.iconNestedPack)
                 }
             }
@@ -61,14 +61,14 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
         val fileSpec = fileSpecBuilder(
             packageName = packageName,
-            fileName = config.iconName
+            fileName = config.iconName,
         ) {
             addProperty(
                 propertySpec = iconProperty(
                     vector = vector,
                     iconPackClassName = iconPackClassName,
-                    backingProperty = backingProperty
-                )
+                    backingProperty = backingProperty,
+                ),
             )
             addProperty(propertySpec = backingProperty)
             apply {
@@ -77,13 +77,13 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
                         funSpec = when {
                             iconPackClassName != null -> iconPreviewSpecForNestedPack(
                                 iconPackClassName = iconPackClassName,
-                                iconName = config.iconName
+                                iconName = config.iconName,
                             )
                             else -> iconPreviewSpec(
                                 iconPackage = packageName,
-                                iconName = config.iconName
+                                iconName = config.iconName,
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -92,14 +92,14 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
         return ImageVectorSpecOutput(
             content = fileSpec.removeDeadCode(),
-            name = fileSpec.name
+            name = fileSpec.name,
         )
     }
 
     private fun iconProperty(
         vector: Vector,
         iconPackClassName: ClassName?,
-        backingProperty: PropertySpec
+        backingProperty: PropertySpec,
     ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
         receiver(iconPackClassName)
         getter(iconFun(vector = vector, backingProperty = backingProperty))
@@ -112,7 +112,7 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
                     beginControlFlow("if (%N != null)", backingProperty)
                     addStatement("return %N!!", backingProperty)
                     endControlFlow()
-                }
+                },
             )
             addCode(
                 buildCodeBlock {
@@ -126,10 +126,10 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
                             vector = vector,
                             path = {
                                 vector.nodes.forEach { node -> addVectorNode(node) }
-                            }
-                        )
+                            },
+                        ),
                     )
-                }
+                },
             )
             addStatement("")
             addStatement("return %N!!", backingProperty)
