@@ -48,9 +48,7 @@ val IconPackDestinationScreen by navDestination<Unit> {
 
     val state by viewModel.state.collectAsState()
 
-    val dragAndDropHandler = rememberDragAndDropFolderHandler {
-        viewModel.updateDestination(it.absolutePathString())
-    }
+    val dragAndDropHandler = rememberDragAndDropFolderHandler(onDrop = viewModel::updateDestination)
     val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
 
     val scope = rememberCoroutineScope()
@@ -64,7 +62,7 @@ val IconPackDestinationScreen by navDestination<Unit> {
                 val path = directoryPicker.launch()
 
                 if (path != null) {
-                    viewModel.updateDestination(path.absolutePathString())
+                    viewModel.updateDestination(path)
                 }
             }
         },

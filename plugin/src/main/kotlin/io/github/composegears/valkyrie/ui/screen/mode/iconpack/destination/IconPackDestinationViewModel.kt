@@ -5,6 +5,8 @@ import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.extension.updateState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.nio.file.Path
+import kotlin.io.path.absolutePathString
 
 class IconPackDestinationViewModel(
     private val inMemorySettings: InMemorySettings
@@ -20,10 +22,10 @@ class IconPackDestinationViewModel(
     )
     val state = _state.asStateFlow()
 
-    fun updateDestination(destination: String) {
+    fun updateDestination(path: Path) {
         _state.updateState {
             copy(
-                iconPackDestination = destination,
+                iconPackDestination = path.absolutePathString(),
                 nextButtonEnabled = true
             )
         }
