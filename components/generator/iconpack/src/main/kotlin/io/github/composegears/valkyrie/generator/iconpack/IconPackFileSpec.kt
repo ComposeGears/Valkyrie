@@ -15,14 +15,14 @@ internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
         }
         val fileSpec = fileSpecBuilder(
             packageName = config.packageName,
-            fileName = config.iconPackName
+            fileName = config.iconPackName,
         ) {
             addType(iconPackSpec)
             setIndent()
         }
         return IconPackSpecOutput(
             content = fileSpec.removeDeadCode(),
-            name = fileSpec.name
+            name = fileSpec.name,
         )
     }
 }

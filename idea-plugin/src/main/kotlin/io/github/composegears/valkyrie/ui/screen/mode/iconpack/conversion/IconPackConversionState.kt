@@ -13,11 +13,11 @@ sealed interface IconPackConversionState {
 
         val exportEnabled: Boolean
             get() = iconsToProcess.isNotEmpty() &&
-                    iconsToProcess.all { it is BatchIcon.Valid } &&
-                    iconsToProcess.all { icon ->
-                        icon.iconName.value.isNotEmpty() &&
-                                !icon.iconName.value.contains(" ")
-                    }
+                iconsToProcess.all { it is BatchIcon.Valid } &&
+                iconsToProcess.all { icon ->
+                    icon.iconName.value.isNotEmpty() &&
+                        !icon.iconName.value.contains(" ")
+                }
     }
 }
 
@@ -27,7 +27,7 @@ sealed interface BatchIcon {
 
     data class Broken(
         override val iconName: IconName,
-        override val extension: String
+        override val extension: String,
     ) : BatchIcon
 
     data class Valid(
@@ -35,7 +35,7 @@ sealed interface BatchIcon {
         override val iconName: IconName,
         override val extension: String,
         val painter: Painter,
-        val path: Path
+        val path: Path,
     ) : BatchIcon
 }
 
@@ -48,7 +48,7 @@ sealed interface IconPack {
 
     data class Single(
         override val iconPackage: String,
-        val iconPackName: String
+        val iconPackName: String,
     ) : IconPack {
         override val currentNestedPack = ""
     }
@@ -57,6 +57,6 @@ sealed interface IconPack {
         override val iconPackage: String,
         val iconPackName: String,
         val nestedPacks: List<String>,
-        override val currentNestedPack: String
+        override val currentNestedPack: String,
     ) : IconPack
 }

@@ -17,8 +17,8 @@ class PreviewGenerationTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
-                generatePreview = true
-            )
+                generatePreview = true,
+            ),
         ).content
 
         val expectedOutput = """
@@ -74,8 +74,8 @@ class PreviewGenerationTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
                 nestedPackName = "",
-                generatePreview = true
-            )
+                generatePreview = true,
+            ),
         ).content
 
         val expectedOutput = """
@@ -131,8 +131,8 @@ class PreviewGenerationTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
                 nestedPackName = "Filled",
-                generatePreview = true
-            )
+                generatePreview = true,
+            ),
         ).content
 
         val expectedOutput = """

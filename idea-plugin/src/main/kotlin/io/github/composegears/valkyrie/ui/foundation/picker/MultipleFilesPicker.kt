@@ -12,9 +12,9 @@ import com.intellij.openapi.vfs.VirtualFile
 import io.github.composegears.valkyrie.ui.extension.isSvg
 import io.github.composegears.valkyrie.ui.extension.isXml
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.nio.file.Path
 
 @Composable
 fun rememberMultipleFilesPicker(): Picker<List<Path>> {
@@ -29,7 +29,7 @@ fun rememberMultipleFilesPicker(): Picker<List<Path>> {
                 val extension = path.extension
 
                 extension != null && (extension.isSvg() || extension.isXml())
-            }
+            },
         )
     }
 }
@@ -40,16 +40,22 @@ private object StubMultipleFilesPicker : Picker<List<Path>> {
 
 private class MultipleFilesPicker(
     private val project: Project,
-    filterCondition: Condition<VirtualFile> = Condition { true }
+    filterCondition: Condition<VirtualFile> = Condition { true },
 ) : Picker<List<Path>> {
 
     private val fileChooserDescriptor = FileChooserDescriptor(
-        /* chooseFiles = */ true,
-        /* chooseFolders = */ false,
-        /* chooseJars = */ false,
-        /* chooseJarsAsFiles = */ false,
-        /* chooseJarContents = */ false,
-        /* chooseMultiple = */ true
+        /* chooseFiles = */
+        true,
+        /* chooseFolders = */
+        false,
+        /* chooseJars = */
+        false,
+        /* chooseJarsAsFiles = */
+        false,
+        /* chooseJarContents = */
+        false,
+        /* chooseMultiple = */
+        true,
     ).withFileFilter(filterCondition)
 
     override suspend fun launch(): List<Path> = withContext(Dispatchers.EDT) {

@@ -19,11 +19,11 @@ fun FileTypeBadge(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
             )
             .padding(horizontal = 8.dp, vertical = 2.dp),
         text = extension,
         color = MaterialTheme.colorScheme.onPrimary,
-        style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp)
+        style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
     )
 }

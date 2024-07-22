@@ -31,18 +31,18 @@ fun InputField(
     isError: Boolean = false,
     tooltipValue: AnnotatedString,
     supportingText: @Composable (() -> Unit)? = null,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
                 modifier = Modifier.padding(bottom = 4.dp),
                 text = caption,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
 
             Tooltip(text = tooltipValue)
@@ -63,7 +63,7 @@ fun InputTextField(
     value: String,
     isError: Boolean = false,
     supportingText: @Composable (() -> Unit)? = null,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     TextField(
         modifier = modifier.fillMaxWidth(),
@@ -80,7 +80,7 @@ fun InputTextField(
             errorTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
             errorIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent,
         ),
         isError = isError,
         singleLine = true,
@@ -93,7 +93,7 @@ fun InputTextField(
                     onClick = { onValueChange("") },
                 )
             }
-        }
+        },
     )
 }
 
@@ -103,12 +103,12 @@ private fun InputTextFieldPreview() = PreviewTheme {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         InputTextField(
             modifier = Modifier.width(300.dp),
             value = "Hello, World!",
-            onValueChange = {}
+            onValueChange = {},
         )
         InputTextField(
             modifier = Modifier.width(300.dp),
@@ -117,7 +117,7 @@ private fun InputTextFieldPreview() = PreviewTheme {
             onValueChange = {},
             supportingText = {
                 Text("This is an error message")
-            }
+            },
         )
     }
 }

@@ -35,7 +35,7 @@ fun ValkyriePlugin() {
 
             CodePreviewScreen,
 
-            SettingsScreen
+            SettingsScreen,
         ),
         startDestination = null,
         configuration = {
@@ -48,11 +48,11 @@ fun ValkyriePlugin() {
                 Unspecified -> IntroScreen
             }
             navigate(screen)
-        }
+        },
     )
 
     Navigation(
         modifier = Modifier.fillMaxSize(),
-        navController = navController
+        navController = navController,
     )
 }

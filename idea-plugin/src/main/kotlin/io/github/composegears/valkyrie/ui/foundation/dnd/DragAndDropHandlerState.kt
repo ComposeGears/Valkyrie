@@ -51,7 +51,7 @@ fun rememberMultiSelectDragAndDropHandler(onDrop: (List<Path>) -> Unit): DragAnd
             val listener = SimpleDropTargetListener(
                 onDrop = onDrop,
                 onDragEnter = { state = state.dragging() },
-                onDragExit = { state = state.notDragging() }
+                onDragExit = { state = state.notDragging() },
             )
             val dropTarget = DropTarget(localComponent, listener)
 
@@ -75,7 +75,7 @@ data class DragAndDropHandlerState(val isDragging: Boolean = false) {
 private class SimpleDropTargetListener(
     val onDragEnter: () -> Unit = {},
     val onDragExit: () -> Unit = {},
-    val onDrop: (List<Path>) -> Unit = {}
+    val onDrop: (List<Path>) -> Unit = {},
 ) : DropTargetListener {
     override fun dragEnter(dtde: DropTargetDragEvent?) = onDragEnter()
 

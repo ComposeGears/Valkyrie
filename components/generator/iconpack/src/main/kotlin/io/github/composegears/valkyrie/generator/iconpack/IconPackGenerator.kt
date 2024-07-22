@@ -3,12 +3,12 @@ package io.github.composegears.valkyrie.generator.iconpack
 data class IconPackGeneratorConfig(
     val packageName: String,
     val iconPackName: String,
-    val subPacks: List<String>
+    val subPacks: List<String>,
 )
 
 data class IconPackSpecOutput(
     val content: String,
-    val name: String
+    val name: String,
 )
 
 object IconPackGenerator {

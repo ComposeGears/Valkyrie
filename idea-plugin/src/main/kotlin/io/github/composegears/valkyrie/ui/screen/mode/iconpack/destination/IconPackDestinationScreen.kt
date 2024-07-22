@@ -40,7 +40,6 @@ import io.github.composegears.valkyrie.ui.foundation.picker.rememberDirectoryPic
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import kotlinx.coroutines.launch
-import kotlin.io.path.absolutePathString
 
 val IconPackDestinationScreen by navDestination<Unit> {
     val navController = navController()
@@ -70,7 +69,7 @@ val IconPackDestinationScreen by navDestination<Unit> {
         onNext = {
             viewModel.saveSettings()
             navController.navigate(IconPackCreationScreen)
-        }
+        },
     )
 }
 
@@ -85,7 +84,7 @@ private fun IconPackDestinationScreenUI(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
         TopAppBar {
             BackAction(onBack = onBack)
@@ -95,21 +94,21 @@ private fun IconPackDestinationScreenUI(
         DragAndDropBox(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             isDragging = isDragging,
-            onChoose = onChooseDirectory
+            onChoose = onChooseDirectory,
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Icon(
                     imageVector = ValkyrieIcons.Folder,
-                    contentDescription = null
+                    contentDescription = null,
                 )
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     textAlign = TextAlign.Center,
                     text = "Drag & Drop folder\nor browse",
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -117,20 +116,20 @@ private fun IconPackDestinationScreenUI(
         Row(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 if (state.iconPackDestination.isNotEmpty()) {
                     Text(
                         modifier = Modifier.align(Alignment.Start),
                         text = "Export path:",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                     Text(
                         modifier = Modifier.align(Alignment.Start),
                         text = state.iconPackDestination,
                         textDecoration = TextDecoration.Underline,
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
                     )
                     VerticalSpacer(36.dp)
                 }
@@ -153,7 +152,7 @@ private fun IconPackDestinationScreenPreview() = PreviewTheme {
     IconPackDestinationScreenUI(
         state = IconPackDestinationState(
             nextButtonEnabled = true,
-            iconPackDestination = "Users/Downloads/IconPackDestination"
+            iconPackDestination = "Users/Downloads/IconPackDestination",
         ),
         onChooseDirectory = {},
         isDragging = false,

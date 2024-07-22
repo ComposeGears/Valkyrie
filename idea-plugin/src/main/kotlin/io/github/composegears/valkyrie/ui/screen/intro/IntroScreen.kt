@@ -48,18 +48,18 @@ val IntroScreen: NavDestination<Unit> by navDestination {
                 Simple -> {
                     navController.navigate(
                         dest = SimpleModeSetupScreen,
-                        transition = navigationSlideInOut(true)
+                        transition = navigationSlideInOut(true),
                     )
                 }
                 IconPack -> {
                     navController.navigate(
                         dest = IconPackDestinationScreen,
-                        transition = navigationSlideInOut(true)
+                        transition = navigationSlideInOut(true),
                     )
                 }
                 Unspecified -> {}
             }
-        }
+        },
     )
 }
 
@@ -69,19 +69,19 @@ private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = "Welcome to Valkyrie",
                 style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             VerticalSpacer(42.dp)
             Text(
                 text = "Choose conversion mode",
                 style = MaterialTheme.typography.labelSmall,
                 color = LocalContentColor.current.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             VerticalSpacer(8.dp)
 
@@ -89,14 +89,14 @@ private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
                 onClick = { onSelect(Simple) },
                 image = ValkyrieIcons.SimpleConversion,
                 title = "Simple",
-                description = "One-click conversion from SVG/XML into ImageVector"
+                description = "One-click conversion from SVG/XML into ImageVector",
             )
             VerticalSpacer(16.dp)
             SelectableCard(
                 onClick = { onSelect(IconPack) },
                 image = ValkyrieIcons.BatchProcessing,
                 title = "IconPack",
-                description = "Create organized icon pack with batch export into your project"
+                description = "Create organized icon pack with batch export into your project",
             )
         }
     }
@@ -107,31 +107,31 @@ private fun SelectableCard(
     onClick: () -> Unit,
     image: ImageVector,
     title: String,
-    description: String
+    description: String,
 ) {
     Card(
         onClick = onClick,
-        elevation = CardDefaults.elevatedCardElevation()
+        elevation = CardDefaults.elevatedCardElevation(),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Icon(
                 modifier = Modifier
                     .align(Alignment.Top)
                     .size(36.dp),
                 imageVector = image,
-                contentDescription = null
+                contentDescription = null,
             )
             Column(
                 modifier = Modifier.width(250.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.titleSmall,
                 )
                 Text(
                     text = description,

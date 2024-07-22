@@ -11,7 +11,9 @@ import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.Koin
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 
-class AppToolWindowFactory : ToolWindowFactory, DumbAware {
+class AppToolWindowFactory :
+    ToolWindowFactory,
+    DumbAware {
 
     init {
         Koin.start()
@@ -24,7 +26,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.addComposePanel {
             ValkyrieTheme(
                 project = project,
-                currentComponent = this
+                currentComponent = this,
             ) {
                 ValkyriePlugin()
             }
@@ -35,7 +37,7 @@ class AppToolWindowFactory : ToolWindowFactory, DumbAware {
 private fun ToolWindow.addComposePanel(
     displayName: String = "",
     isLockable: Boolean = true,
-    content: @Composable ComposePanel.() -> Unit
+    content: @Composable ComposePanel.() -> Unit,
 ) = PluginWindow(content = content)
     .also { contentManager.addContent(contentManager.factory.createContent(it, displayName, isLockable)) }
 
@@ -44,7 +46,7 @@ private class PluginWindow(
     width: Int = 800,
     y: Int = 0,
     x: Int = 0,
-    content: @Composable ComposePanel.() -> Unit
+    content: @Composable ComposePanel.() -> Unit,
 ) : BorderLayoutPanel() {
 
     init {
@@ -54,7 +56,7 @@ private class PluginWindow(
                 setContent {
                     content()
                 }
-            }
+            },
         )
     }
 }

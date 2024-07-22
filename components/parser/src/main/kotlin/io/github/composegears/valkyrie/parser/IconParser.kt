@@ -6,7 +6,6 @@ import androidx.compose.material.icons.generator.vector.Vector
 import io.github.composegears.valkyrie.parser.IconType.SVG
 import io.github.composegears.valkyrie.parser.IconType.XML
 import java.nio.file.Path
-import java.util.*
 import kotlin.io.path.createTempFile
 import kotlin.io.path.extension
 import kotlin.io.path.name
@@ -14,7 +13,7 @@ import kotlin.io.path.readText
 
 data class IconParserOutput(
     val vector: Vector,
-    val kotlinName: String
+    val kotlinName: String,
 )
 
 object IconParser {
@@ -36,7 +35,7 @@ object IconParser {
 
         return IconParserOutput(
             vector = IconParser(icon).parse(),
-            kotlinName = fileName
+            kotlinName = fileName,
         )
     }
 

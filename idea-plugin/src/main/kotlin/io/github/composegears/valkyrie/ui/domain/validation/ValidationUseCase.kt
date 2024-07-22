@@ -13,10 +13,10 @@ sealed interface ValidationResult {
 enum class ErrorCriteria {
     EMPTY,
     INCONSISTENT_FORMAT,
-    FIRST_LETTER_LOWER_CASE
+    FIRST_LETTER_LOWER_CASE,
 }
 
 data class InputState(
     val text: String = "",
-    val validationResult: ValidationResult = ValidationResult.Success
+    val validationResult: ValidationResult = ValidationResult.Success,
 )

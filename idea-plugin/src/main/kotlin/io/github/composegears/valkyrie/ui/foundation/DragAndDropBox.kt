@@ -33,7 +33,7 @@ fun DragAndDropBox(
     isDragging: Boolean,
     onChoose: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     var isHover by rememberMutableState(isDragging) { isDragging }
 
@@ -52,7 +52,7 @@ fun DragAndDropBox(
                 gapWidth = 8.dp,
                 dashWidth = 8.dp,
                 color = dashColor,
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
             )
             .padding(2.dp)
             .background(
@@ -60,14 +60,15 @@ fun DragAndDropBox(
                     isHover -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
                     else -> Color.Transparent
                 },
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
             )
             .clickable(
                 onClick = onChoose,
                 indication = null,
-                interactionSource = remember { MutableInteractionSource() }),
+                interactionSource = remember { MutableInteractionSource() },
+            ),
         contentAlignment = Alignment.Center,
-        content = content
+        content = content,
     )
 }
 
@@ -76,7 +77,7 @@ fun DragAndDropBox(
 private fun DragAndDropBoxPreview() = PreviewTheme {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         DragAndDropBox(
             isDragging = false,
@@ -86,7 +87,7 @@ private fun DragAndDropBoxPreview() = PreviewTheme {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp)
-                    .background(Color.Gray.copy(alpha = 0.3f))
+                    .background(Color.Gray.copy(alpha = 0.3f)),
             )
         }
     }

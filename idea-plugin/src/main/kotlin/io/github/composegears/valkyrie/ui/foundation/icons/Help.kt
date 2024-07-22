@@ -43,4 +43,5 @@ val ValkyrieIcons.Help: ImageVector
         return _help!!
     }
 
+@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
 private var _help: ImageVector? = null

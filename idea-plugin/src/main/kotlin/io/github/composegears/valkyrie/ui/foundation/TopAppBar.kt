@@ -29,7 +29,7 @@ fun TopAppBar(content: @Composable RowScope.() -> Unit) {
             .fillMaxWidth()
             .height(56.dp)
             .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         content()
     }
@@ -39,7 +39,7 @@ fun TopAppBar(content: @Composable RowScope.() -> Unit) {
 fun BackAction(onBack: () -> Unit) {
     IconButton(
         onClick = onBack,
-        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft
+        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
     )
 }
 
@@ -49,7 +49,7 @@ fun AppBarTitle(title: String) {
         modifier = Modifier.padding(horizontal = 8.dp),
         text = title,
         maxLines = 1,
-        style = MaterialTheme.typography.titleSmall
+        style = MaterialTheme.typography.titleSmall,
     )
 }
 
@@ -57,7 +57,7 @@ fun AppBarTitle(title: String) {
 fun ClearAction(onClear: () -> Unit) {
     IconButton(
         imageVector = Icons.Default.Clear,
-        onClick = onClear
+        onClick = onClear,
     )
 }
 
@@ -66,7 +66,7 @@ fun CopyAction(onCopy: () -> Unit) {
     IconButton(
         imageVector = ValkyrieIcons.ContentCopy,
         onClick = onCopy,
-        iconSize = 18.dp
+        iconSize = 18.dp,
     )
 }
 
@@ -74,7 +74,7 @@ fun CopyAction(onCopy: () -> Unit) {
 fun SettingsAction(openSettings: () -> Unit) {
     IconButton(
         imageVector = Icons.Default.Settings,
-        onClick = openSettings
+        onClick = openSettings,
     )
 }
 

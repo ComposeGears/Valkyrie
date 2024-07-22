@@ -24,7 +24,7 @@ import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.Str
 
 internal fun CodeBlock.Builder.addPath(
     path: VectorNode.Path,
-    pathBody: CodeBlock.Builder.() -> Unit
+    pathBody: CodeBlock.Builder.() -> Unit,
 ) {
     val pathParams = path.buildPathParams()
 
@@ -42,7 +42,7 @@ internal fun CodeBlock.Builder.addPath(
                     beginControlFlow(")")
                     pathBody()
                     endControlFlow()
-                }
+                },
             )
         }
         else -> {
@@ -63,7 +63,7 @@ internal fun CodeBlock.Builder.addPath(
                     beginControlFlow("")
                     pathBody()
                     endControlFlow()
-                }
+                },
             )
         }
     }
@@ -106,11 +106,11 @@ private fun CodeBlock.Builder.fillArg(path: FillParam) {
                     add("\n),\n")
                     add(
                         "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),\n",
-                        MemberNames.Offset
+                        MemberNames.Offset,
                     )
                     add(
                         "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})\n",
-                        MemberNames.Offset
+                        MemberNames.Offset,
                     )
                 }
                 add(")\n")
@@ -133,7 +133,7 @@ private fun CodeBlock.Builder.fillArg(path: FillParam) {
                     add("\n),\n")
                     add(
                         "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),\n",
-                        MemberNames.Offset
+                        MemberNames.Offset,
                     )
                     add("radius = ${fill.gradientRadius.formatFloat()}\n")
                 }

@@ -36,9 +36,9 @@ import io.github.composegears.valkyrie.ui.foundation.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import kotlinx.coroutines.launch
 import java.awt.datatransfer.StringSelection
 import java.nio.file.Path
+import kotlinx.coroutines.launch
 
 val SimpleConversionScreen by navDestination<Unit> {
     val navController = navController()
@@ -52,10 +52,10 @@ val SimpleConversionScreen by navDestination<Unit> {
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
-                transition = navigationSlideInOut(true)
+                transition = navigationSlideInOut(true),
             )
         },
-        resetIconContent = viewModel::reset
+        resetIconContent = viewModel::reset,
     )
 }
 
@@ -64,7 +64,7 @@ private fun ConversionUi(
     state: SimpleConversionState,
     onSelectPath: (Path) -> Unit,
     openSettings: () -> Unit,
-    resetIconContent: () -> Unit
+    resetIconContent: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val filePicker = rememberFilePicker()
@@ -88,7 +88,7 @@ private fun ConversionUi(
             notificationManager.show("Copied in clipboard")
         },
         onSelectPath = onSelectPath,
-        openSettings = openSettings
+        openSettings = openSettings,
     )
 }
 
@@ -99,7 +99,7 @@ private fun PluginUI(
     onClear: () -> Unit,
     onCopy: () -> Unit,
     onSelectPath: (Path) -> Unit,
-    openSettings: () -> Unit
+    openSettings: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar {
@@ -115,16 +115,16 @@ private fun PluginUI(
         if (content != null) {
             IntellijEditorTextField(
                 modifier = Modifier.fillMaxSize(),
-                text = content
+                text = content,
             )
         } else {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 SelectableState(
                     onSelectPath = onSelectPath,
-                    onChoosePath = onChoosePath
+                    onChoosePath = onChoosePath,
                 )
             }
         }
@@ -134,28 +134,28 @@ private fun PluginUI(
 @Composable
 private fun SelectableState(
     onChoosePath: () -> Unit,
-    onSelectPath: (Path) -> Unit
+    onSelectPath: (Path) -> Unit,
 ) {
     val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectPath)
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
     DragAndDropBox(
         isDragging = isDragging,
-        onChoose = onChoosePath
+        onChoose = onChoosePath,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
                 imageVector = ValkyrieIcons.Collections,
-                contentDescription = null
+                contentDescription = null,
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 text = "Drag & Drop or browse",
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
             )
             Text(
                 text = "Supports: SVG, XML",
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
             )
         }
     }
@@ -168,6 +168,6 @@ private fun SimpleConversionScreenPreview() = PreviewTheme {
         state = SimpleConversionState(),
         onSelectPath = {},
         openSettings = {},
-        resetIconContent = {}
+        resetIconContent = {},
     )
 }

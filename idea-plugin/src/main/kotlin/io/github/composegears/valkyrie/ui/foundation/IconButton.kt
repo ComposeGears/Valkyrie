@@ -17,18 +17,18 @@ fun IconButton(
     enabled: Boolean = true,
     colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
     iconSize: Dp = Dp.Unspecified,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     IconButton(
         colors = colors,
         modifier = modifier,
         onClick = onClick,
-        enabled = enabled
+        enabled = enabled,
     ) {
         Icon(
             modifier = Modifier.size(iconSize),
             imageVector = imageVector,
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }

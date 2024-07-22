@@ -24,7 +24,7 @@ private fun Path.svgToPainter(): Painter? {
         VdPreview.getPreviewFromVectorXml(
             VdPreview.TargetSize.createFromScale(5.0),
             outPath.readText(),
-            StringBuilder()
+            StringBuilder(),
         ).toPainter()
     }.getOrElse { null }
 }
@@ -33,7 +33,6 @@ private fun Path.xmlToPainter(): Painter? = runCatching {
     VdPreview.getPreviewFromVectorXml(
         VdPreview.TargetSize.createFromScale(5.0),
         this.readText(),
-        StringBuilder()
+        StringBuilder(),
     ).toPainter()
-
 }.getOrElse { null }

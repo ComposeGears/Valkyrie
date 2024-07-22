@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.parser
 
-import java.util.*
+import java.util.Locale
 
 fun String.removePrefix(prefix: CharSequence): String {
     if (startsWith(prefix, ignoreCase = true)) {

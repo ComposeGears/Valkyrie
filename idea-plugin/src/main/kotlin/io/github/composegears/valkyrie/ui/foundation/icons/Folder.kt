@@ -35,4 +35,5 @@ val ValkyrieIcons.Folder: ImageVector
         return _folder!!
     }
 
+@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
 private var _folder: ImageVector? = null

@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.generator.iconpack
 
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class IconPackGeneratorTest {
 
@@ -11,8 +11,8 @@ class IconPackGeneratorTest {
             config = IconPackGeneratorConfig(
                 packageName = "io.github.composegears.valkyrie.icons",
                 iconPackName = "ValkyrieIcons",
-                subPacks = emptyList()
-            )
+                subPacks = emptyList(),
+            ),
         )
 
         val expectedContent = """
@@ -32,8 +32,8 @@ class IconPackGeneratorTest {
             config = IconPackGeneratorConfig(
                 packageName = "io.github.composegears.valkyrie.icons",
                 iconPackName = "ValkyrieIcons",
-                subPacks = listOf("Filled", "Colored")
-            )
+                subPacks = listOf("Filled", "Colored"),
+            ),
         )
 
         val expectedContent = """

@@ -3,13 +3,13 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.extension.updateState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class IconPackDestinationViewModel(
-    private val inMemorySettings: InMemorySettings
+    private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
     private val settings = inMemorySettings.current
@@ -17,8 +17,8 @@ class IconPackDestinationViewModel(
     private val _state = MutableStateFlow(
         IconPackDestinationState(
             nextButtonEnabled = settings.iconPackDestination.isNotEmpty(),
-            iconPackDestination = settings.iconPackDestination
-        )
+            iconPackDestination = settings.iconPackDestination,
+        ),
     )
     val state = _state.asStateFlow()
 
@@ -26,7 +26,7 @@ class IconPackDestinationViewModel(
         _state.updateState {
             copy(
                 iconPackDestination = path.absolutePathString(),
-                nextButtonEnabled = true
+                nextButtonEnabled = true,
             )
         }
     }
@@ -38,5 +38,5 @@ class IconPackDestinationViewModel(
 
 data class IconPackDestinationState(
     val nextButtonEnabled: Boolean = false,
-    val iconPackDestination: String = ""
+    val iconPackDestination: String = "",
 )

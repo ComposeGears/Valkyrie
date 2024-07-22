@@ -76,9 +76,9 @@ val IconPackCreationScreen by navDestination<Unit> {
         onPreviewPack = {
             navController.navigate(
                 dest = CodePreviewScreen,
-                navArgs = state.packPreview
+                navArgs = state.packPreview,
             )
-        }
+        },
     )
 }
 
@@ -90,7 +90,7 @@ private fun IconPackModeSetupUI(
     onRemoveNestedPack: (NestedPack) -> Unit,
     onPreviewPack: () -> Unit,
     onBack: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
 ) {
     Column {
         TopAppBar {
@@ -103,7 +103,7 @@ private fun IconPackModeSetupUI(
                 .padding(16.dp)
                 .align(Alignment.CenterHorizontally)
                 .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val iconPackName = state.inputFieldState.iconPackName
             val packageName = state.inputFieldState.packageName
@@ -124,12 +124,12 @@ private fun IconPackModeSetupUI(
                                 ErrorCriteria.EMPTY -> "Value can't be empty"
                                 ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid package"
                                 ErrorCriteria.FIRST_LETTER_LOWER_CASE -> error("not possible")
-                            }
+                            },
                         )
                     }
                 } else {
                     null
-                }
+                },
             )
             VerticalSpacer(32.dp)
 
@@ -149,17 +149,17 @@ private fun IconPackModeSetupUI(
                                 ErrorCriteria.EMPTY -> "Value can't be empty"
                                 ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid name"
                                 ErrorCriteria.FIRST_LETTER_LOWER_CASE -> "First letter should be uppercase"
-                            }
+                            },
                         )
                     }
                 } else {
                     null
-                }
+                },
             )
             if (state.nestedPacks.isEmpty()) {
                 TextButton(
                     modifier = Modifier.align(Alignment.Start),
-                    onClick = onAddNestedPack
+                    onClick = onAddNestedPack,
                 ) {
                     Text(text = "+ Add nested pack")
                 }
@@ -168,18 +168,18 @@ private fun IconPackModeSetupUI(
                     nestedPacks = state.nestedPacks,
                     onRemove = onRemoveNestedPack,
                     onValueChange = onValueChange,
-                    onAddNestedPack = onAddNestedPack
+                    onAddNestedPack = onAddNestedPack,
                 )
             }
             VerticalSpacer(56.dp)
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
             ) {
                 IconButton(
                     imageVector = ValkyrieIcons.Visibility,
                     onClick = onPreviewPack,
-                    enabled = state.nextAvailable
+                    enabled = state.nextAvailable,
                 )
                 Button(
                     enabled = state.nextAvailable,
@@ -197,7 +197,7 @@ private fun NestedPacks(
     nestedPacks: List<NestedPack>,
     onRemove: (NestedPack) -> Unit,
     onAddNestedPack: () -> Unit,
-    onValueChange: (InputChange) -> Unit
+    onValueChange: (InputChange) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         VerticalSpacer(8.dp)
@@ -225,12 +225,12 @@ private fun NestedPacks(
                                     ErrorCriteria.EMPTY -> "Value can't be empty"
                                     ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid name"
                                     ErrorCriteria.FIRST_LETTER_LOWER_CASE -> "First letter should be uppercase"
-                                }
+                                },
                             )
                         }
                     } else {
                         null
-                    }
+                    },
                 )
             }
             if (index != nestedPacks.lastIndex) {
@@ -241,7 +241,7 @@ private fun NestedPacks(
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(start = 40.dp),
-            onClick = onAddNestedPack
+            onClick = onAddNestedPack,
         ) {
             Text(text = "+ Add nested pack")
         }
@@ -257,25 +257,25 @@ private fun IconPackModeSetupUIPreview() = PreviewTheme {
                 inputFieldState = InputFieldState(
                     iconPackName = InputState(text = "IconPackName"),
                     packageName = InputState(text = "com.example.iconpack"),
-                    nestedPacks = emptyList()
+                    nestedPacks = emptyList(),
                 ),
                 nestedPacks = listOf(
                     NestedPack(
                         id = "0",
-                        inputFieldState = InputState("Outlined", ValidationResult.Success)
+                        inputFieldState = InputState("Outlined", ValidationResult.Success),
                     ),
                     NestedPack(
                         id = "1",
-                        inputFieldState = InputState("", ValidationResult.Error(ErrorCriteria.EMPTY))
-                    )
-                )
+                        inputFieldState = InputState("", ValidationResult.Error(ErrorCriteria.EMPTY)),
+                    ),
+                ),
             ),
             onValueChange = {},
             onBack = {},
             onAddNestedPack = {},
             onRemoveNestedPack = {},
             onPreviewPack = {},
-            onNext = {}
+            onNext = {},
         )
     }
 }

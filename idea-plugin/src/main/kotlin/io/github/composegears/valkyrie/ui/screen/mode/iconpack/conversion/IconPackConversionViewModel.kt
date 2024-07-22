@@ -13,20 +13,20 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Conver
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchFilesProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
+import java.nio.file.Path
+import kotlin.io.path.extension
+import kotlin.io.path.isRegularFile
+import kotlin.io.path.listDirectoryEntries
+import kotlin.io.path.name
+import kotlin.io.path.nameWithoutExtension
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.nio.file.Path
-import kotlin.io.path.extension
-import kotlin.io.path.name
-import kotlin.io.path.isRegularFile
-import kotlin.io.path.listDirectoryEntries
-import kotlin.io.path.nameWithoutExtension
 
 class IconPackConversionViewModel(
-    private val inMemorySettings: InMemorySettings
+    private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
@@ -79,7 +79,7 @@ class IconPackConversionViewModel(
                             } else {
                                 icon
                             }
-                        }
+                        },
                     )
                 }
             }
@@ -99,8 +99,8 @@ class IconPackConversionViewModel(
                     packageName = icon.iconPack.iconPackage,
                     packName = valkyriesSettings.value.iconPackName,
                     nestedPackName = icon.iconPack.currentNestedPack,
-                    generatePreview = valkyriesSettings.value.generatePreview
-                )
+                    generatePreview = valkyriesSettings.value.generatePreview,
+                ),
             )
         }.getOrDefault(ImageVectorSpecOutput.empty)
 
@@ -126,14 +126,14 @@ class IconPackConversionViewModel(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,
                                     nestedPackName = iconPack.currentNestedPack,
-                                    generatePreview = valkyriesSettings.value.generatePreview
-                                )
+                                    generatePreview = valkyriesSettings.value.generatePreview,
+                                ),
                             )
 
                             FileWriter.writeToFile(
                                 content = vectorSpecOutput.content,
                                 outDirectory = "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}",
-                                fileName = vectorSpecOutput.name
+                                fileName = vectorSpecOutput.name,
                             )
                         }
                         is IconPack.Single -> {
@@ -145,14 +145,14 @@ class IconPackConversionViewModel(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,
                                     nestedPackName = "",
-                                    generatePreview = valkyriesSettings.value.generatePreview
-                                )
+                                    generatePreview = valkyriesSettings.value.generatePreview,
+                                ),
                             )
 
                             FileWriter.writeToFile(
                                 content = vectorSpecOutput.content,
                                 outDirectory = settings.iconPackDestination,
-                                fileName = vectorSpecOutput.name
+                                fileName = vectorSpecOutput.name,
                             )
                         }
                     }
@@ -180,7 +180,7 @@ class IconPackConversionViewModel(
                             } else {
                                 icon
                             }
-                        }
+                        },
                     )
                 }
             }
@@ -203,17 +203,17 @@ class IconPackConversionViewModel(
                             when (val painter = path.toPainterOrNull()) {
                                 null -> BatchIcon.Broken(
                                     iconName = IconName(path.nameWithoutExtension),
-                                    extension = path.extension
+                                    extension = path.extension,
                                 )
                                 else -> BatchIcon.Valid(
                                     iconName = IconName(IconParser.getIconName(path.name)),
                                     extension = path.extension,
                                     iconPack = inMemorySettings.current.buildDefaultIconPack(),
                                     path = path,
-                                    painter = painter
+                                    painter = painter,
                                 )
                             }
-                        }
+                        },
                 )
             }
         }
@@ -224,14 +224,14 @@ class IconPackConversionViewModel(
             nestedPacks.isEmpty() -> {
                 IconPack.Single(
                     iconPackName = iconPackName,
-                    iconPackage = packageName
+                    iconPackage = packageName,
                 )
             }
             else -> IconPack.Nested(
                 iconPackName = iconPackName,
                 iconPackage = packageName,
                 currentNestedPack = nestedPacks.first(),
-                nestedPacks = nestedPacks
+                nestedPacks = nestedPacks,
             )
         }
     }

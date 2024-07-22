@@ -58,21 +58,21 @@ fun BatchProcessingState(
     onDeleteIcon: (IconName) -> Unit,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreviewClick: (IconName) -> Unit,
-    onRenameIcon: (BatchIcon, IconName) -> Unit
+    onRenameIcon: (BatchIcon, IconName) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
         columns = GridCells.Adaptive(300.dp),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(items = icons, key = { it.iconName }) { batchIcon ->
             when (batchIcon) {
                 is BatchIcon.Broken -> BrokenIconItem(
                     modifier = Modifier.animateItemPlacement(),
                     broken = batchIcon,
-                    onDelete = onDeleteIcon
+                    onDelete = onDeleteIcon,
                 )
                 is BatchIcon.Valid -> ValidIconItem(
                     modifier = Modifier.animateItemPlacement(),
@@ -80,7 +80,7 @@ fun BatchProcessingState(
                     onUpdatePack = onUpdatePack,
                     onDeleteIcon = onDeleteIcon,
                     onPreview = onPreviewClick,
-                    onRenameIcon = onRenameIcon
+                    onRenameIcon = onRenameIcon,
                 )
             }
         }
@@ -94,7 +94,7 @@ private fun ValidIconItem(
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreview: (IconName) -> Unit,
     onDeleteIcon: (IconName) -> Unit,
-    onRenameIcon: (BatchIcon, IconName) -> Unit
+    onRenameIcon: (BatchIcon, IconName) -> Unit,
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
         Box {
@@ -103,14 +103,14 @@ private fun ValidIconItem(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(top = 2.dp, end = 2.dp),
-                    extension = icon.extension
+                    extension = icon.extension,
                 )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     IconPreviewBox(painter = icon.painter)
                     IconNameField(
@@ -120,7 +120,7 @@ private fun ValidIconItem(
                         value = icon.iconName.value,
                         onValueChange = {
                             onRenameIcon(icon, IconName(it))
-                        }
+                        },
                     )
                 }
                 when (icon.iconPack) {
@@ -131,7 +131,7 @@ private fun ValidIconItem(
                             nestedPacks = icon.iconPack.nestedPacks,
                             onSelectPack = {
                                 onUpdatePack(icon, it)
-                            }
+                            },
                         )
                     }
                     is IconPack.Single -> {
@@ -139,7 +139,7 @@ private fun ValidIconItem(
                             modifier = Modifier.padding(16.dp),
                             text = "IconPack: ${icon.iconPack.iconPackName}",
                             style = MaterialTheme.typography.bodySmall,
-                            maxLines = 1
+                            maxLines = 1,
                         )
                     }
                 }
@@ -153,7 +153,7 @@ private fun ValidIconItem(
 
                 IconButton(
                     imageVector = Icons.Default.MoreVert,
-                    onClick = { isExpanded = true }
+                    onClick = { isExpanded = true },
                 )
                 IconActionsDropdown(
                     isExpanded = isExpanded,
@@ -165,7 +165,7 @@ private fun ValidIconItem(
                     onPreview = {
                         isExpanded = false
                         onPreview(icon.iconName)
-                    }
+                    },
                 )
             }
         }
@@ -176,14 +176,14 @@ private fun ValidIconItem(
 private fun BrokenIconItem(
     modifier: Modifier = Modifier,
     broken: BatchIcon.Broken,
-    onDelete: (IconName) -> Unit
+    onDelete: (IconName) -> Unit,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors().copy(
             containerColor = MaterialTheme.colorScheme.error,
             contentColor = MaterialTheme.colorScheme.onError,
-        )
+        ),
     ) {
         Column {
             Row(
@@ -196,14 +196,14 @@ private fun BrokenIconItem(
                     modifier = Modifier
                         .weight(1f)
                         .padding(vertical = 8.dp),
-                    text = "Failed to parse icon: ${broken.iconName.value}.${broken.extension}"
+                    text = "Failed to parse icon: ${broken.iconName.value}.${broken.extension}",
                 )
                 IconButton(
                     imageVector = Icons.Default.Delete,
                     iconSize = 18.dp,
                     onClick = {
                         onDelete(broken.iconName)
-                    }
+                    },
                 )
             }
         }
@@ -215,35 +215,35 @@ private fun IconActionsDropdown(
     isExpanded: Boolean,
     onDismissRequest: () -> Unit,
     onDelete: () -> Unit,
-    onPreview: () -> Unit
+    onPreview: () -> Unit,
 ) {
     DropdownMenu(
         expanded = isExpanded,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
     ) {
         DropdownMenuItem(
             text = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = null)
                     Text(text = "Delete")
                 }
             },
-            onClick = onDelete
+            onClick = onDelete,
         )
         DropdownMenuItem(
             text = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Icon(imageVector = ValkyrieIcons.Visibility, contentDescription = null)
                     Text(text = "Preview")
                 }
             },
-            onClick = onPreview
+            onClick = onPreview,
         )
     }
 }
@@ -264,26 +264,26 @@ private fun PacksDropdown(
                 .clickable { dropdownVisible = true }
                 .padding(horizontal = 12.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             val rotation by animateFloatAsState(if (dropdownVisible) -180f else 0f)
             Text(
-                text = "${iconPackName}.${currentNestedPack}",
+                text = "$iconPackName.$currentNestedPack",
                 style = MaterialTheme.typography.bodySmall,
-                maxLines = 1
+                maxLines = 1,
             )
             Icon(
                 modifier = Modifier.graphicsLayer {
                     rotationZ = rotation
                 },
                 imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = null
+                contentDescription = null,
             )
         }
 
         DropdownMenu(
             expanded = dropdownVisible,
-            onDismissRequest = { dropdownVisible = false }
+            onDismissRequest = { dropdownVisible = false },
         ) {
             nestedPacks.forEach {
                 DropdownMenuItem(
@@ -293,7 +293,7 @@ private fun PacksDropdown(
                     onClick = {
                         dropdownVisible = false
                         onSelectPack(it)
-                    }
+                    },
                 )
             }
         }
@@ -311,13 +311,13 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 path = Path(""),
                 iconPack = IconPack.Single(
                     iconPackage = "package",
-                    iconPackName = "ValkyrieIcons"
+                    iconPackName = "ValkyrieIcons",
                 ),
                 painter = painterResource("META-INF/pluginIcon.svg"),
             ),
             BatchIcon.Broken(
                 iconName = IconName("ic_all_path_params_3"),
-                extension = "svg"
+                extension = "svg",
             ),
             BatchIcon.Valid(
                 iconName = IconName(IconParser.getIconName("ic_all_path")),
@@ -327,7 +327,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                     iconPackName = "ValkyrieIcons",
                     iconPackage = "package",
                     currentNestedPack = "Kek",
-                    nestedPacks = listOf("Lol", "Kek")
+                    nestedPacks = listOf("Lol", "Kek"),
                 ),
                 painter = painterResource("META-INF/pluginIcon.svg"),
             ),
@@ -335,6 +335,6 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
         onDeleteIcon = {},
         onUpdatePack = { _, _ -> },
         onPreviewClick = {},
-        onRenameIcon = { _, _ -> }
+        onRenameIcon = { _, _ -> },
     )
 }

@@ -13,9 +13,9 @@ import io.github.composegears.valkyrie.ui.extension.isSvg
 import io.github.composegears.valkyrie.ui.extension.isXml
 import io.github.composegears.valkyrie.ui.extension.toPath
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.nio.file.Path
 
 @Composable
 fun rememberFilePicker(): Picker<Path?> {
@@ -30,7 +30,7 @@ fun rememberFilePicker(): Picker<Path?> {
                 val extension = path.extension
 
                 extension != null && (extension.isSvg() || extension.isXml())
-            }
+            },
         )
     }
 }
@@ -41,16 +41,22 @@ private object StubFilePicker : Picker<Path?> {
 
 private class FilePicker(
     private val project: Project,
-    filterCondition: Condition<VirtualFile> = Condition { true }
+    filterCondition: Condition<VirtualFile> = Condition { true },
 ) : Picker<Path?> {
 
     private val fileChooserDescriptor = FileChooserDescriptor(
-        /* chooseFiles = */ true,
-        /* chooseFolders = */ false,
-        /* chooseJars = */ false,
-        /* chooseJarsAsFiles = */ false,
-        /* chooseJarContents = */ false,
-        /* chooseMultiple = */ false
+        /* chooseFiles = */
+        true,
+        /* chooseFolders = */
+        false,
+        /* chooseJars = */
+        false,
+        /* chooseJarsAsFiles = */
+        false,
+        /* chooseJarContents = */
+        false,
+        /* chooseMultiple = */
+        false,
     ).withFileFilter(filterCondition)
 
     override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {

@@ -30,16 +30,16 @@ fun Tooltip(text: AnnotatedString) {
                     Text(
                         modifier = Modifier.padding(vertical = 8.dp),
                         text = text,
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
                     )
                 },
                 colors = TooltipDefaults.richTooltipColors().copy(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                ),
             )
         },
-        state = rememberTooltipState(isPersistent = true)
+        state = rememberTooltipState(isPersistent = true),
     ) {
         Icon(
             modifier = Modifier.size(18.dp),

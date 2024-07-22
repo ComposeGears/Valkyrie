@@ -5,7 +5,7 @@ import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 
 class SettingsViewModel(
-    private val inMemorySettings: InMemorySettings
+    private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
     val settings = inMemorySettings.settings

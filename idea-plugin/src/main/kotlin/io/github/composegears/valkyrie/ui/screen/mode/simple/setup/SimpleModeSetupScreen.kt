@@ -49,9 +49,9 @@ val SimpleModeSetupScreen by navDestination<Unit> {
             viewModel.saveSettings()
             navController.navigate(
                 dest = SimpleConversionScreen,
-                transition = navigationSlideInOut(true)
+                transition = navigationSlideInOut(true),
             )
-        }
+        },
     )
 }
 
@@ -60,7 +60,7 @@ private fun SimpleModeSetupScreenUI(
     state: SimpleModeSetupState,
     onValueChange: (SimpleModeInputChange) -> Unit,
     onBack: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
 ) {
     Column {
         TopAppBar {
@@ -73,7 +73,7 @@ private fun SimpleModeSetupScreenUI(
                 .widthIn(max = 420.dp)
                 .padding(horizontal = 16.dp)
                 .align(Alignment.CenterHorizontally),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val packageName = state.packageName
             InputField(
@@ -92,12 +92,12 @@ private fun SimpleModeSetupScreenUI(
                                 ErrorCriteria.EMPTY -> "Value can't be empty"
                                 ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid package"
                                 ErrorCriteria.FIRST_LETTER_LOWER_CASE -> error("not possible")
-                            }
+                            },
                         )
                     }
                 } else {
                     null
-                }
+                },
             )
             VerticalSpacer(24.dp)
             Button(
@@ -119,11 +119,11 @@ private fun SimpleModeSetupScreenPreview() = PreviewTheme {
         SimpleModeSetupScreenUI(
             state = SimpleModeSetupState(
                 packageName = InputState(text = "com.example"),
-                nextAvailable = true
+                nextAvailable = true,
             ),
             onValueChange = {},
             onBack = {},
-            onNext = {}
+            onNext = {},
         )
     }
 }

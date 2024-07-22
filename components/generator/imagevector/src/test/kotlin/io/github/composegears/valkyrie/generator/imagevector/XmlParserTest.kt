@@ -17,8 +17,8 @@ class XmlParserTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
-                generatePreview = false
-            )
+                generatePreview = false,
+            ),
         ).content
 
         val expectedOutput = """
@@ -60,8 +60,8 @@ class XmlParserTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
                 nestedPackName = "Colored",
-                generatePreview = false
-            )
+                generatePreview = false,
+            ),
         ).content
 
         val expectedOutput = """
@@ -100,7 +100,7 @@ class XmlParserTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = DEFAULT_CONFIG
+            config = DEFAULT_CONFIG,
         ).content
 
         val expectedOutput = """
@@ -138,7 +138,7 @@ class XmlParserTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = DEFAULT_CONFIG
+            config = DEFAULT_CONFIG,
         ).content
 
         val expectedOutput = """
@@ -188,7 +188,7 @@ class XmlParserTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = DEFAULT_CONFIG
+            config = DEFAULT_CONFIG,
         ).content
 
         val expectedOutput = """
@@ -243,7 +243,7 @@ class XmlParserTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = DEFAULT_CONFIG
+            config = DEFAULT_CONFIG,
         ).content
 
         val expectedOutput = """
@@ -308,7 +308,7 @@ class XmlParserTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = DEFAULT_CONFIG
+            config = DEFAULT_CONFIG,
         ).content
 
         val expectedOutput = """
@@ -370,7 +370,7 @@ class XmlParserTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = DEFAULT_CONFIG
+            config = DEFAULT_CONFIG,
         ).content
 
         val expectedOutput = """

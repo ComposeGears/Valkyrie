@@ -60,7 +60,7 @@ val SettingsScreen by navDestination<Unit> {
         },
         onClearSettings = {
             showClearSettingsDialog = true
-        }
+        },
     )
 
     if (showClearSettingsDialog) {
@@ -71,7 +71,7 @@ val SettingsScreen by navDestination<Unit> {
                 navController.editBackStack { clear() }
                 navController.replace(IntroScreen)
             },
-            onCancel = { showClearSettingsDialog = false }
+            onCancel = { showClearSettingsDialog = false },
         )
     }
 }
@@ -97,15 +97,15 @@ private fun SettingsUI(
         }
         SectionTitle(
             name = "Plugin mode: $modeName",
-            paddingValues = PaddingValues(start = 24.dp)
+            paddingValues = PaddingValues(start = 24.dp),
         )
         TextButton(
             modifier = Modifier.padding(start = 12.dp),
-            onClick = onChangeMode
+            onClick = onChangeMode,
         ) {
             Text(
                 text = "Change mode",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
 
@@ -116,31 +116,30 @@ private fun SettingsUI(
                 .height(48.dp)
                 .toggleable(
                     value = settings.generatePreview,
-                    onValueChange = onGeneratePreviewChanged
+                    onValueChange = onGeneratePreviewChanged,
                 )
                 .padding(start = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Checkbox(
                 colors = CheckboxDefaults.colors(
-                    uncheckedColor = MaterialTheme.colorScheme.onSurface
+                    uncheckedColor = MaterialTheme.colorScheme.onSurface,
                 ),
                 checked = settings.generatePreview,
-                onCheckedChange = onGeneratePreviewChanged
+                onCheckedChange = onGeneratePreviewChanged,
             )
             Text(
                 text = "Generate Preview",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
         SectionTitle(name = "Danger zone")
         TextButton(
             modifier = Modifier.padding(horizontal = 16.dp),
             colors = ButtonDefaults.textButtonColors().copy(
-                contentColor = MaterialTheme.colorScheme.error
+                contentColor = MaterialTheme.colorScheme.error,
             ),
-            onClick = onClearSettings
+            onClick = onClearSettings,
         ) {
             Text(text = "Clear all plugin settings")
         }
@@ -150,7 +149,7 @@ private fun SettingsUI(
 @Composable
 private fun ClearSettingsDialog(
     onClear: () -> Unit,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onCancel,
@@ -170,14 +169,14 @@ private fun ClearSettingsDialog(
             TextButton(onClick = onCancel) {
                 Text("Cancel")
             }
-        }
+        },
     )
 }
 
 @Composable
 private fun SectionTitle(
     name: String,
-    paddingValues: PaddingValues = PaddingValues(start = 24.dp, top = 32.dp)
+    paddingValues: PaddingValues = PaddingValues(start = 24.dp, top = 32.dp),
 ) {
     Text(
         modifier = Modifier
@@ -185,7 +184,7 @@ private fun SectionTitle(
             .height(40.dp),
         text = name,
         color = MaterialTheme.colorScheme.onSurface,
-        style = MaterialTheme.typography.titleMedium
+        style = MaterialTheme.typography.titleMedium,
     )
 }
 
@@ -201,12 +200,11 @@ private fun SettingsScreenPreview() = PreviewTheme {
 
             nestedPacks = emptyList(),
 
-            generatePreview = false
+            generatePreview = false,
         ),
         onGeneratePreviewChanged = {},
         onClearSettings = {},
         onChangeMode = {},
-        onBack = {}
+        onBack = {},
     )
 }
-

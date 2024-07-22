@@ -23,19 +23,19 @@ fun ValkyrieTheme(
         Theme.DARK -> IntellijDarkTheme(
             background = intelliJTheme.background,
             onBackground = intelliJTheme.onBackground,
-            primary = intelliJTheme.primary
+            primary = intelliJTheme.primary,
         ) {
             CompositionLocalProvider(
                 LocalProject provides project,
                 LocalComponent provides currentComponent,
-                content = content
+                content = content,
             )
         }
         Theme.LIGHT -> IntellijLightTheme {
             CompositionLocalProvider(
                 LocalProject provides project,
                 LocalComponent provides currentComponent,
-                content = content
+                content = content,
             )
         }
     }
@@ -44,7 +44,7 @@ fun ValkyrieTheme(
 @Composable
 fun PreviewTheme(
     isDark: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     PreviewWrapper {
         if (isDark) {
@@ -75,8 +75,8 @@ private fun IntellijDarkTheme(
             surfaceVariant = Color(0xFF4B4C4F),
             onSurfaceVariant = onBackground,
             error = Color(0xFFA63B39),
-            onError = Color.White
-        )
+            onError = Color.White,
+        ),
     ) {
         Surface(content = content)
     }
@@ -87,7 +87,7 @@ private fun IntellijLightTheme(
     background: Color = Color(0xFFF7F8FA),
     onBackground: Color = Color.Black,
     primary: Color = Color(0xFF315FBD),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MaterialTheme(
         colorScheme = darkColorScheme(
@@ -103,7 +103,7 @@ private fun IntellijLightTheme(
             onSurfaceVariant = Color.Black,
             error = Color(0xFFF5090A),
             onError = Color.White,
-        )
+        ),
     ) {
         Surface(content = content)
     }
@@ -113,6 +113,6 @@ private fun IntellijLightTheme(
 private fun PreviewWrapper(content: @Composable () -> Unit) {
     CompositionLocalProvider(
         value = LocalInspectionMode provides true,
-        content = content
+        content = content,
     )
 }

@@ -14,7 +14,7 @@ fun FileSpec.removeDeadCode(): String = toString()
 
 inline fun objectBuilder(
     name: String,
-    builderAction: TypeSpec.Builder.() -> Unit = {}
+    builderAction: TypeSpec.Builder.() -> Unit = {},
 ) = TypeSpec.objectBuilder(name)
     .apply(builderAction)
     .build()
@@ -22,7 +22,7 @@ inline fun objectBuilder(
 inline fun fileSpecBuilder(
     packageName: String,
     fileName: String,
-    builderAction: FileSpec.Builder.() -> Unit
+    builderAction: FileSpec.Builder.() -> Unit,
 ) = FileSpec
     .builder(packageName = packageName, fileName = fileName)
     .apply(builderAction)
@@ -30,13 +30,13 @@ inline fun fileSpecBuilder(
 
 inline fun funSpecBuilder(
     name: String,
-    builderAction: FunSpec.Builder.() -> Unit
+    builderAction: FunSpec.Builder.() -> Unit,
 ) = FunSpec.builder(name)
     .apply(builderAction)
     .build()
 
 inline fun getterFunSpecBuilder(
-    builderAction: FunSpec.Builder.() -> Unit
+    builderAction: FunSpec.Builder.() -> Unit,
 ) = FunSpec.getterBuilder()
     .apply(builderAction)
     .build()
@@ -44,7 +44,7 @@ inline fun getterFunSpecBuilder(
 inline fun propertySpecBuilder(
     name: String,
     type: TypeName,
-    builderAction: PropertySpec.Builder.() -> Unit
+    builderAction: PropertySpec.Builder.() -> Unit,
 ) = PropertySpec
     .builder(name = name, type = type)
     .apply(builderAction)
