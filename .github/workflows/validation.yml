@@ -30,3 +30,34 @@ jobs:
 
       - name: Run build
         run: ./gradlew build
+
+  nightly-release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.repository == 'ComposeGears/Valkyrie' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
+      - name: Sign and Verify IntelliJ Plugin
+        uses: ./.github/actions/sign-and-verify-intellij-plugin
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+      - name: Delete release if exist then create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view "Nightly" && gh release delete "Nightly" -y --cleanup-tag
+          gh release create "Nightly" idea-plugin/build/distributions/*-signed.zip -p --generate-notes
