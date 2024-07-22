@@ -10,20 +10,21 @@ import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.nio.file.Path
 
 @Composable
-fun rememberDirectoryPicker(): Picker<String?> {
+fun rememberDirectoryPicker(): Picker<Path?> {
     if (LocalInspectionMode.current) return StubDirectoryPicker
 
     val project = LocalProject.current
     return remember { DirectoryPicker(project = project) }
 }
 
-private object StubDirectoryPicker : Picker<String?> {
-    override suspend fun launch(): String? = null
+private object StubDirectoryPicker : Picker<Path?> {
+    override suspend fun launch(): Path? = null
 }
 
-private class DirectoryPicker(private val project: Project) : Picker<String?> {
+private class DirectoryPicker(private val project: Project) : Picker<Path?> {
 
     private val fileChooserDescriptor = FileChooserDescriptor(
         /* chooseFiles = */ false,
@@ -34,7 +35,7 @@ private class DirectoryPicker(private val project: Project) : Picker<String?> {
         /* chooseMultiple = */ false
     )
 
-    override suspend fun launch(): String? = withContext(Dispatchers.EDT) {
-        FileChooser.chooseFile(fileChooserDescriptor, project, null)?.path
+    override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {
+        FileChooser.chooseFile(fileChooserDescriptor, project, null)?.toNioPath()
     }
 }

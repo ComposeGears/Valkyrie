@@ -11,14 +11,14 @@ import com.intellij.openapi.util.Condition
 import com.intellij.openapi.vfs.VirtualFile
 import io.github.composegears.valkyrie.ui.extension.isSvg
 import io.github.composegears.valkyrie.ui.extension.isXml
-import io.github.composegears.valkyrie.ui.extension.toFile
+import io.github.composegears.valkyrie.ui.extension.toPath
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
+import java.nio.file.Path
 
 @Composable
-fun rememberFilePicker(): Picker<File?> {
+fun rememberFilePicker(): Picker<Path?> {
     if (LocalInspectionMode.current) return StubFilePicker
 
     val project = LocalProject.current
@@ -26,8 +26,8 @@ fun rememberFilePicker(): Picker<File?> {
     return remember {
         FilePicker(
             project = project,
-            filterCondition = { file ->
-                val extension = file.extension
+            filterCondition = { path ->
+                val extension = path.extension
 
                 extension != null && (extension.isSvg() || extension.isXml())
             }
@@ -35,14 +35,14 @@ fun rememberFilePicker(): Picker<File?> {
     }
 }
 
-private object StubFilePicker : Picker<File?> {
-    override suspend fun launch(): File? = null
+private object StubFilePicker : Picker<Path?> {
+    override suspend fun launch(): Path? = null
 }
 
 private class FilePicker(
     private val project: Project,
     filterCondition: Condition<VirtualFile> = Condition { true }
-) : Picker<File?> {
+) : Picker<Path?> {
 
     private val fileChooserDescriptor = FileChooserDescriptor(
         /* chooseFiles = */ true,
@@ -53,9 +53,9 @@ private class FilePicker(
         /* chooseMultiple = */ false
     ).withFileFilter(filterCondition)
 
-    override suspend fun launch() = withContext(Dispatchers.EDT) {
+    override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {
         FileChooser
             .chooseFile(fileChooserDescriptor, project, null)
-            ?.toFile()
+            ?.toPath()
     }
 }

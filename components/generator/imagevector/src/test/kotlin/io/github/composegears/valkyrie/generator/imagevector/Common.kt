@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
-import java.io.File
+import kotlin.io.path.Path
 
 val DEFAULT_CONFIG = ImageVectorGeneratorConfig(
     packageName = "io.github.composegears.valkyrie.icons",
@@ -9,4 +9,4 @@ val DEFAULT_CONFIG = ImageVectorGeneratorConfig(
     generatePreview = false
 )
 
-fun loadIcon(name: String) = File("src/test/resources/${name}")
+fun loadIcon(name: String) = Path("src/test/resources/${name}")

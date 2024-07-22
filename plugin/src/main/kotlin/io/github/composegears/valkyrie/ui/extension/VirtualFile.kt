@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.extension
 
 import com.intellij.openapi.vfs.VirtualFile
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.Path
 
-fun VirtualFile.toFile() = File(path)
+fun VirtualFile.toPath(): Path = Path(path)

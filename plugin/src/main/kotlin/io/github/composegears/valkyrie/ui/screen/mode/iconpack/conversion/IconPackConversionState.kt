@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
 import androidx.compose.ui.graphics.painter.Painter
-import java.io.File
+import java.nio.file.Path
 
 sealed interface IconPackConversionState {
 
@@ -35,7 +35,7 @@ sealed interface BatchIcon {
         override val iconName: IconName,
         override val extension: String,
         val painter: Painter,
-        val file: File
+        val path: Path
     ) : BatchIcon
 }
 

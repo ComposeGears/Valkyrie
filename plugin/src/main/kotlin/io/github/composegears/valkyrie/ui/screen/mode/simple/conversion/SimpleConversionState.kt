@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
-import java.io.File
+import java.nio.file.Path
 
 data class SimpleConversionState(
-    val lastFile: File? = null,
+    val lastPath: Path? = null,
     val iconContent: String? = null
 )

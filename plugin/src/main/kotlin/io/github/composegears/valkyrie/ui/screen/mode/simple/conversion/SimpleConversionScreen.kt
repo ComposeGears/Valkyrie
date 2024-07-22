@@ -38,7 +38,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.launch
 import java.awt.datatransfer.StringSelection
-import java.io.File
+import java.nio.file.Path
 
 val SimpleConversionScreen by navDestination<Unit> {
     val navController = navController()
@@ -48,7 +48,7 @@ val SimpleConversionScreen by navDestination<Unit> {
 
     ConversionUi(
         state = state,
-        onSelectFile = viewModel::selectFile,
+        onSelectPath = viewModel::selectPath,
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
@@ -62,7 +62,7 @@ val SimpleConversionScreen by navDestination<Unit> {
 @Composable
 private fun ConversionUi(
     state: SimpleConversionState,
-    onSelectFile: (File) -> Unit,
+    onSelectPath: (Path) -> Unit,
     openSettings: () -> Unit,
     resetIconContent: () -> Unit
 ) {
@@ -72,12 +72,12 @@ private fun ConversionUi(
 
     PluginUI(
         content = state.iconContent,
-        onChooseFile = {
+        onChoosePath = {
             scope.launch {
-                val file = filePicker.launch()
+                val path = filePicker.launch()
 
-                if (file != null) {
-                    onSelectFile(file)
+                if (path != null) {
+                    onSelectPath(path)
                 }
             }
         },
@@ -87,7 +87,7 @@ private fun ConversionUi(
             CopyPasteManager.getInstance().setContents(StringSelection(text))
             notificationManager.show("Copied in clipboard")
         },
-        onSelectFile = onSelectFile,
+        onSelectPath = onSelectPath,
         openSettings = openSettings
     )
 }
@@ -95,10 +95,10 @@ private fun ConversionUi(
 @Composable
 private fun PluginUI(
     content: String?,
-    onChooseFile: () -> Unit,
+    onChoosePath: () -> Unit,
     onClear: () -> Unit,
     onCopy: () -> Unit,
-    onSelectFile: (File) -> Unit,
+    onSelectPath: (Path) -> Unit,
     openSettings: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -123,8 +123,8 @@ private fun PluginUI(
                 contentAlignment = Alignment.Center
             ) {
                 SelectableState(
-                    onSelectFile = onSelectFile,
-                    onChooseFile = onChooseFile
+                    onSelectPath = onSelectPath,
+                    onChoosePath = onChoosePath
                 )
             }
         }
@@ -133,15 +133,15 @@ private fun PluginUI(
 
 @Composable
 private fun SelectableState(
-    onChooseFile: () -> Unit,
-    onSelectFile: (File) -> Unit
+    onChoosePath: () -> Unit,
+    onSelectPath: (Path) -> Unit
 ) {
-    val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectFile)
+    val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectPath)
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
     DragAndDropBox(
         isDragging = isDragging,
-        onChoose = onChooseFile
+        onChoose = onChoosePath
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
@@ -166,7 +166,7 @@ private fun SelectableState(
 private fun SimpleConversionScreenPreview() = PreviewTheme {
     ConversionUi(
         state = SimpleConversionState(),
-        onSelectFile = {},
+        onSelectPath = {},
         openSettings = {},
         resetIconContent = {}
     )

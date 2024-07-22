@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import java.io.File
+import java.nio.file.Path
 
 class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatViewModel() {
 
@@ -21,16 +21,16 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
     init {
         _state
             .combine(inMemorySettings.settings) { state, settings ->
-                if (state.lastFile != null) {
-                    updateIcon(state.lastFile, settings)
+                if (state.lastPath != null) {
+                    updateIcon(state.lastPath, settings)
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    private fun updateIcon(file: File, valkyriesSettings: ValkyriesSettings) {
+    private fun updateIcon(path: Path, valkyriesSettings: ValkyriesSettings) {
         val output = runCatching {
-            val parserOutput = IconParser.toVector(file)
+            val parserOutput = IconParser.toVector(path)
             ImageVectorGenerator.convert(
                 vector = parserOutput.vector,
                 kotlinName = parserOutput.kotlinName,
@@ -48,11 +48,11 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
         _state.updateState { copy(iconContent = output) }
     }
 
-    fun selectFile(file: File) {
-        _state.updateState { copy(lastFile = file) }
+    fun selectPath(path: Path) {
+        _state.updateState { copy(lastPath = path) }
     }
 
     fun reset() {
-        _state.updateState { copy(iconContent = null, lastFile = null) }
+        _state.updateState { copy(iconContent = null, lastPath = null) }
     }
 }
