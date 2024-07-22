@@ -23,7 +23,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "valkyrie"
 
-include("plugin")
+include("idea-plugin")
 
 include("components:google")
 include("components:generator:common")

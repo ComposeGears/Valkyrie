@@ -59,7 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          plugin-location: plugin/build/distributions/*-signed.zip
+          plugin-location: idea-plugin/build/distributions/*-signed.zip
           ide-versions: |
             ideaIC:2024.1
             ideaIC:2024.1.1
@@ -102,4 +102,4 @@ jobs:
       - name: Upload release asset
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ env.artifactName }} ./plugin/build/distributions/*-signed.zip
+        run: gh release upload ${{ env.artifactName }} ./idea-plugin/build/distributions/*-signed.zip
