@@ -2,13 +2,13 @@
 kotlin = "2.0.0"
 
 [libraries]
-android-build-tools = "com.android.tools:sdk-common:31.5.0"
+android-build-tools = "com.android.tools:sdk-common:31.5.1"
 
 koin-compose = "io.insert-koin:koin-compose:1.1.5"
 
-kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.4.0"
+kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.5.1"
 
-kotlinpoet = "com.squareup:kotlinpoet:1.18.0"
+kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 tiamat = "io.github.composegears:tiamat:1.1.0-rc02"
@@ -17,8 +17,7 @@ tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0-rc02"
 xpp3 = "org.ogce:xpp3:1.1.6"
 
 [plugins]
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-gradle-dependency-check = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version = "1.6.11" }
 jetbrains-intellij = "org.jetbrains.intellij:1.17.4"
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

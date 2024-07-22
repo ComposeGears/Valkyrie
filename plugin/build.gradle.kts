@@ -3,10 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.jetbrains.intellij)
-    alias(libs.plugins.kotlin.jvm)
 }
 
 val pluginProperties = Properties().apply {
@@ -16,10 +16,18 @@ val pluginProperties = Properties().apply {
 group = "io.github.composegears"
 version = pluginProperties.getProperty("version")
 
+/**
+ * Could not reuse repositories in settings.gradle.kts, seems this is a bug of Intellij plugin.
+ */
 repositories {
+    google {
+        mavenContent {
+            includeGroupAndSubgroups("androidx")
+            includeGroupAndSubgroups("com.android")
+            includeGroupAndSubgroups("com.google")
+        }
+    }
     mavenCentral()
-    google()
-    maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 dependencies {
@@ -89,16 +97,16 @@ tasks {
 
     signPlugin {
         // chain.crt content (base64 ci)
-        certificateChain = System.getenv("CERTIFICATE_CHAIN")
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
 
         // private.pem content (base64 ci)
-        privateKey = System.getenv("PRIVATE_KEY")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
 
         // PEM pass phrase
-        password = System.getenv("PRIVATE_KEY_PASSWORD")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
 
     publishPlugin {
-        token = System.getenv("PUBLISH_TOKEN")
+        token = providers.environmentVariable("PUBLISH_TOKEN")
     }
 }
