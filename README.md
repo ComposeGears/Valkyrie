@@ -225,9 +225,11 @@ other available gradle commands:
 
 - run plugin in IDE: `./gradlew runIde`
 
-- check dependencies: `./gradlew dependencyUpdates`
-
 - run tests: `./gradlew test`
+
+- check code style: `./gradlew spotlessCheck`
+
+- apply formatting: `./gradlew spotlessApply`
 
 ## License
 
