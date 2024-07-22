@@ -5,7 +5,7 @@
 [![Downloads][badge:downloads]][plugin-homepage]
 
 <div align="center">
-    <img alt="Icon" src="plugin/src/main/resources/META-INF/pluginIcon.svg" width="200" />
+    <img alt="Icon" src="idea-plugin/src/main/resources/META-INF/pluginIcon.svg" width="200" />
 </div>
 
 <h1 align="center">Valkyrie</h1>
@@ -219,7 +219,7 @@ public val Add: ImageVector
 
 ## Building
 
-Use `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `plugin/build/distributions/` path
+Use `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `idea-plugin/build/distributions/` path
 
 other available gradle commands:
 
