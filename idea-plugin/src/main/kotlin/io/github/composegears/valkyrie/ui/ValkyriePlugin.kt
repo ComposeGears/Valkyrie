@@ -20,7 +20,9 @@ import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import org.koin.compose.koinInject
 
 @Composable
-fun ValkyriePlugin() {
+fun ValkyriePlugin(
+    modifier: Modifier = Modifier,
+) {
     val inMemorySettings = koinInject<InMemorySettings>()
 
     val navController = rememberNavController(
@@ -52,7 +54,7 @@ fun ValkyriePlugin() {
     )
 
     Navigation(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         navController = navController,
     )
 }

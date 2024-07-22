@@ -54,11 +54,11 @@ import kotlin.io.path.Path
 @Composable
 fun BatchProcessingState(
     icons: List<BatchIcon>,
-    modifier: Modifier = Modifier,
     onDeleteIcon: (IconName) -> Unit,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreviewClick: (IconName) -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
@@ -89,12 +89,12 @@ fun BatchProcessingState(
 
 @Composable
 private fun ValidIconItem(
-    modifier: Modifier = Modifier,
     icon: BatchIcon.Valid,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreview: (IconName) -> Unit,
     onDeleteIcon: (IconName) -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
         Box {
@@ -174,8 +174,8 @@ private fun ValidIconItem(
 
 @Composable
 private fun BrokenIconItem(
-    modifier: Modifier = Modifier,
     broken: BatchIcon.Broken,
+    modifier: Modifier = Modifier,
     onDelete: (IconName) -> Unit,
 ) {
     Card(

@@ -54,7 +54,7 @@ val SettingsScreen by navDestination<Unit> {
             navController.editBackStack { clear() }
             navController.replace(IntroScreen)
         },
-        onGeneratePreviewChanged = settingsViewModel::updateGeneratePreview,
+        onGeneratePreviewChange = settingsViewModel::updateGeneratePreview,
         onBack = {
             navController.back(transition = navigationSlideInOut(false))
         },
@@ -80,13 +80,13 @@ val SettingsScreen by navDestination<Unit> {
 private fun SettingsUI(
     settings: ValkyriesSettings,
     onChangeMode: () -> Unit,
-    onGeneratePreviewChanged: (Boolean) -> Unit,
+    onGeneratePreviewChange: (Boolean) -> Unit,
     onClearSettings: () -> Unit,
     onBack: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar {
-            BackAction(onBack)
+            BackAction(onBack = onBack)
             AppBarTitle("Settings")
         }
         VerticalSpacer(16.dp)
@@ -116,7 +116,7 @@ private fun SettingsUI(
                 .height(48.dp)
                 .toggleable(
                     value = settings.generatePreview,
-                    onValueChange = onGeneratePreviewChanged,
+                    onValueChange = onGeneratePreviewChange,
                 )
                 .padding(start = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -126,7 +126,7 @@ private fun SettingsUI(
                     uncheckedColor = MaterialTheme.colorScheme.onSurface,
                 ),
                 checked = settings.generatePreview,
-                onCheckedChange = onGeneratePreviewChanged,
+                onCheckedChange = onGeneratePreviewChange,
             )
             Text(
                 text = "Generate Preview",
@@ -202,7 +202,7 @@ private fun SettingsScreenPreview() = PreviewTheme {
 
             generatePreview = false,
         ),
-        onGeneratePreviewChanged = {},
+        onGeneratePreviewChange = {},
         onClearSettings = {},
         onChangeMode = {},
         onBack = {},

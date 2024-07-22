@@ -23,9 +23,12 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
-fun TopAppBar(content: @Composable RowScope.() -> Unit) {
+fun TopAppBar(
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit,
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
             .padding(horizontal = 8.dp),
@@ -36,17 +39,24 @@ fun TopAppBar(content: @Composable RowScope.() -> Unit) {
 }
 
 @Composable
-fun BackAction(onBack: () -> Unit) {
+fun BackAction(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit,
+) {
     IconButton(
+        modifier = modifier,
         onClick = onBack,
         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
     )
 }
 
 @Composable
-fun AppBarTitle(title: String) {
+fun AppBarTitle(
+    title: String,
+    modifier: Modifier = Modifier,
+) {
     Text(
-        modifier = Modifier.padding(horizontal = 8.dp),
+        modifier = modifier.padding(horizontal = 8.dp),
         text = title,
         maxLines = 1,
         style = MaterialTheme.typography.titleSmall,
@@ -54,16 +64,24 @@ fun AppBarTitle(title: String) {
 }
 
 @Composable
-fun ClearAction(onClear: () -> Unit) {
+fun ClearAction(
+    modifier: Modifier = Modifier,
+    onClear: () -> Unit,
+) {
     IconButton(
+        modifier = modifier,
         imageVector = Icons.Default.Clear,
         onClick = onClear,
     )
 }
 
 @Composable
-fun CopyAction(onCopy: () -> Unit) {
+fun CopyAction(
+    modifier: Modifier = Modifier,
+    onCopy: () -> Unit,
+) {
     IconButton(
+        modifier = modifier,
         imageVector = ValkyrieIcons.ContentCopy,
         onClick = onCopy,
         iconSize = 18.dp,
@@ -71,8 +89,12 @@ fun CopyAction(onCopy: () -> Unit) {
 }
 
 @Composable
-fun SettingsAction(openSettings: () -> Unit) {
+fun SettingsAction(
+    modifier: Modifier = Modifier,
+    openSettings: () -> Unit,
+) {
     IconButton(
+        modifier = modifier,
         imageVector = Icons.Default.Settings,
         onClick = openSettings,
     )

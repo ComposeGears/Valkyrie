@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.foundation.dnd
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalInspectionMode
 import io.github.composegears.valkyrie.ui.foundation.dnd.DragAndDropHandlerState.Companion.dragging
@@ -46,10 +47,11 @@ fun rememberMultiSelectDragAndDropHandler(onDrop: (List<Path>) -> Unit): DragAnd
     } else {
         val localComponent = LocalComponent.current
         var state by rememberMutableState { DragAndDropHandlerState() }
+        val latestOnDrop by rememberUpdatedState(onDrop)
 
         DisposableEffect(Unit) {
             val listener = SimpleDropTargetListener(
-                onDrop = onDrop,
+                onDrop = latestOnDrop,
                 onDragEnter = { state = state.dragging() },
                 onDragExit = { state = state.notDragging() },
             )

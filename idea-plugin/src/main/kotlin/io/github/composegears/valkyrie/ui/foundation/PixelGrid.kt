@@ -14,8 +14,8 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
 fun PixelGrid(
-    gridSize: Dp = 8.dp,
     modifier: Modifier = Modifier,
+    gridSize: Dp = 8.dp,
 ) {
     Canvas(modifier = modifier) {
         val canvasWidth = size.width

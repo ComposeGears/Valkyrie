@@ -17,6 +17,7 @@ tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0-rc02"
 xpp3 = "org.ogce:xpp3:1.1.6"
 
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.3.1"
+composeRules = "io.nlopez.compose.rules:ktlint:0.4.5"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

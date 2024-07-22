@@ -64,7 +64,7 @@ private fun SimpleModeSetupScreenUI(
 ) {
     Column {
         TopAppBar {
-            BackAction(onBack)
+            BackAction(onBack = onBack)
             AppBarTitle(title = "Simple mode setup")
         }
         VerticalSpacer(36.dp)

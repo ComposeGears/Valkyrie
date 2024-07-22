@@ -20,8 +20,12 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Tooltip(text: AnnotatedString) {
+fun Tooltip(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+) {
     TooltipBox(
+        modifier = modifier,
         positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
         tooltip = {
             RichTooltip(
