@@ -20,7 +20,7 @@ object IconParser {
 
     @Throws(IllegalStateException::class)
     fun toVector(path: Path): IconParserOutput {
-        val iconType = IconTypeParser.getIconType(path.extension) ?: error("File not SVG or XML")
+        val iconType = IconType.from(path.extension) ?: error("File not SVG or XML")
 
         val fileName = getIconName(fileName = path.name)
         val icon = when (iconType) {
