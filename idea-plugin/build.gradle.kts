@@ -55,6 +55,7 @@ dependencies {
     intellijPlatform {
         intellijIdeaCommunity("2024.1")
         instrumentationTools()
+        zipSigner()
     }
 }
 
