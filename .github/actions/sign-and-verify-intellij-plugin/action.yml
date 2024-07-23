@@ -14,7 +14,7 @@ runs:
       run: ./gradlew signPlugin
     - name: Verify IntelliJ plugin
       # https://www.jetbrains.com/idea/download/other.html
-      uses: ChrisCarini/intellij-platform-plugin-verifier-action@v2.0.1
+      uses: ChrisCarini/intellij-platform-plugin-verifier-action@v2.0.2
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       with:
