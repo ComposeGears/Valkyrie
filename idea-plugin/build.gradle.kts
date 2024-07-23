@@ -16,9 +16,7 @@ val pluginProperties = Properties().apply {
 group = "io.github.composegears"
 version = pluginProperties.getProperty("version")
 
-/**
- * Could not reuse repositories in settings.gradle.kts, seems this is a bug of Intellij plugin.
- */
+// https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#configuration.repositories
 repositories {
     google {
         mavenContent {
@@ -28,6 +26,10 @@ repositories {
         }
     }
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
@@ -48,6 +50,12 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.tiamat)
     implementation(libs.tiamat.koin)
+
+    // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
+    intellijPlatform {
+        intellijIdeaCommunity("2024.1")
+        instrumentationTools()
+    }
 }
 
 compose.resources {
@@ -58,10 +66,21 @@ composeCompiler {
     stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version = "2024.1"
+intellijPlatform {
+    buildSearchableOptions = false
+    pluginConfiguration.ideaVersion {
+        sinceBuild = "241"
+        untilBuild = "242.*"
+    }
+    signing {
+        // chain.crt content (base64 ci)
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        // private.pem content (base64 ci)
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        // PEM pass phrase
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+    }
+    publishing.token = providers.environmentVariable("PUBLISH_TOKEN")
 }
 
 tasks {
@@ -84,29 +103,5 @@ tasks {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
         }
-    }
-
-    buildSearchableOptions {
-        enabled = false
-    }
-
-    patchPluginXml {
-        sinceBuild = "241"
-        untilBuild = "242.*"
-    }
-
-    signPlugin {
-        // chain.crt content (base64 ci)
-        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
-
-        // private.pem content (base64 ci)
-        privateKey = providers.environmentVariable("PRIVATE_KEY")
-
-        // PEM pass phrase
-        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
-    }
-
-    publishPlugin {
-        token = providers.environmentVariable("PUBLISH_TOKEN")
     }
 }
