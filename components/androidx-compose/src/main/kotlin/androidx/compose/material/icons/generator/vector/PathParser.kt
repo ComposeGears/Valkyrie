@@ -66,7 +66,8 @@ internal object PathParser {
             // Therefore, when searching for next command, we should ignore 'e'
             // and 'E'.
             if (((c - 'A') * (c - 'Z') <= 0 || (c - 'a') * (c - 'z') <= 0) &&
-                c != 'e' && c != 'E'
+                c != 'e' &&
+                c != 'E'
             ) {
                 return index
             }
@@ -98,7 +99,7 @@ internal object PathParser {
 
             if (startPosition < endPosition) {
                 results[count++] = java.lang.Float.parseFloat(
-                    s.substring(startPosition, endPosition)
+                    s.substring(startPosition, endPosition),
                 )
             }
 
@@ -169,6 +170,6 @@ internal object PathParser {
         // We need to return the position of the next separator and whether the
         // next float starts with a '-' or a '.'.
         var endPosition: Int = 0,
-        var endWithNegativeOrDot: Boolean = false
+        var endWithNegativeOrDot: Boolean = false,
     )
 }

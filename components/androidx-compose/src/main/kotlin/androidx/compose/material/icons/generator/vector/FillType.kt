@@ -24,5 +24,5 @@ package androidx.compose.material.icons.generator.vector
  */
 enum class FillType {
     NonZero,
-    EvenOdd
+    EvenOdd,
 }
