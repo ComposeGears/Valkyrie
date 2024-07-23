@@ -25,7 +25,7 @@ rootProject.name = "valkyrie"
 
 include("idea-plugin")
 
-include("components:google")
+include("components:androidx-compose")
 include("components:generator:common")
 include("components:generator:iconpack")
 include("components:generator:imagevector")
