@@ -5,6 +5,8 @@ import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerato
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
 import io.github.composegears.valkyrie.parser.IconParser
+import io.github.composegears.valkyrie.parser.isSvg
+import io.github.composegears.valkyrie.parser.isXml
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
@@ -192,7 +194,7 @@ class IconPackConversionViewModel(
     }
 
     private fun List<Path>.processFiles() {
-        val paths = filter { it.isRegularFile() && (it.extension == "xml" || it.extension == "svg") }
+        val paths = filter { it.isRegularFile() && (it.isXml || it.isSvg) }
 
         if (paths.isNotEmpty()) {
             _state.updateState {

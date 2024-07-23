@@ -9,8 +9,8 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Condition
 import com.intellij.openapi.vfs.VirtualFile
-import io.github.composegears.valkyrie.ui.extension.isSvg
-import io.github.composegears.valkyrie.ui.extension.isXml
+import io.github.composegears.valkyrie.parser.isSvg
+import io.github.composegears.valkyrie.parser.isXml
 import io.github.composegears.valkyrie.ui.extension.toPath
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import java.nio.file.Path
@@ -26,10 +26,9 @@ fun rememberFilePicker(): Picker<Path?> {
     return remember {
         FilePicker(
             project = project,
-            filterCondition = { path ->
-                val extension = path.extension
-
-                extension != null && (extension.isSvg() || extension.isXml())
+            filterCondition = { vf ->
+                val extension = vf.extension
+                extension.isSvg || extension.isXml
             },
         )
     }
