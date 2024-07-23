@@ -1,0 +1,3 @@
+[*.kt]
+# Disable ktlint rules that conflict with the AndroidX code style.
+ktlint_standard_property-naming = disabled

@@ -64,7 +64,7 @@ class IconParser(private val icon: Icon) {
                         PATH -> {
                             val pathData = parser.getAttributeValue(
                                 null,
-                                PATH_DATA
+                                PATH_DATA,
                             )
                             val fillAlpha = parser.getValueAsFloat(FILL_ALPHA)
                             val strokeAlpha = parser.getValueAsFloat(STROKE_ALPHA)
@@ -108,7 +108,7 @@ class IconParser(private val icon: Icon) {
                                 strokeLineJoin = strokeJoin ?: StrokeJoin.Miter,
                                 strokeLineMiter = strokeMiterLimit ?: 4.0f,
                                 fillType = fillType,
-                                nodes = PathParser.parsePathString(pathData)
+                                nodes = PathParser.parsePathString(pathData),
                             )
                             if (currentGroup != null) {
                                 currentGroup.paths.add(path)
@@ -122,7 +122,8 @@ class IconParser(private val icon: Icon) {
                             currentGroup = group
                             nodes.add(group)
                         }
-                        CLIP_PATH -> { /* TODO: b/147418351 - parse clipping paths */
+                        CLIP_PATH -> {
+                            /* TODO: b/147418351 - parse clipping paths */
                         }
                         GRADIENT -> {
                             val gradient = when (parser.getAttributeValue(null, TYPE)) {
@@ -135,7 +136,7 @@ class IconParser(private val icon: Icon) {
                                         startY = startY,
                                         startX = startX,
                                         endX = endX,
-                                        endY = endY
+                                        endY = endY,
                                     )
                                 }
                                 RADIAL -> {
@@ -145,7 +146,7 @@ class IconParser(private val icon: Icon) {
                                     Fill.RadialGradient(
                                         gradientRadius = gradientRadius,
                                         centerX = centerX,
-                                        centerY = centerY
+                                        centerY = centerY,
                                     )
                                 }
                                 else -> null
@@ -184,7 +185,7 @@ class IconParser(private val icon: Icon) {
             height,
             viewportWidth,
             viewportHeight,
-            nodes
+            nodes,
         )
     }
 }
@@ -216,8 +217,11 @@ private fun String.toHexColor(): String {
     return removePrefix("#")
         .let {
             if (hexRegex.matches(it)) {
-                if (it.length > 6) it
-                else "FF$it"
+                if (it.length > 6) {
+                    it
+                } else {
+                    "FF$it"
+                }
             } else {
                 "FF000000"
             }

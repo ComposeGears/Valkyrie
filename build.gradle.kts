@@ -13,8 +13,6 @@ allprojects {
     extensions.configure<SpotlessExtension> {
         kotlin {
             target("src/**/*.kt")
-            // Sources copied from AndroidX Compose
-            targetExclude("src/main/kotlin/androidx/**")
             ktlint(rootProject.libs.ktlint.get().version)
                 .customRuleSets(
                     listOf(
