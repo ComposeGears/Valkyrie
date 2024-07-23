@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(projects.components.generator.common)
-    implementation(projects.components.google)
+    implementation(projects.components.androidxCompose)
 
     implementation(libs.kotlinpoet)
 

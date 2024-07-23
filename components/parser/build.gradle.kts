@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api(projects.components.google)
+    api(projects.components.androidxCompose)
 
     // https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
     compileOnly(libs.kotlin.stdlib)
