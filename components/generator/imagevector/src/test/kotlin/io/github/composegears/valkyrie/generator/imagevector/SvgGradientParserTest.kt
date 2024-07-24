@@ -31,6 +31,7 @@ class SvgGradientParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val LinearGradient: ImageVector
                 get() {
@@ -199,6 +200,7 @@ class SvgGradientParserTest {
                     return _LinearGradient!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _LinearGradient: ImageVector? = null
 
         """.trimIndent()
@@ -229,6 +231,7 @@ class SvgGradientParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val RadialGradient: ImageVector
                 get() {
@@ -265,6 +268,7 @@ class SvgGradientParserTest {
                     return _RadialGradient!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _RadialGradient: ImageVector? = null
 
         """.trimIndent()
@@ -296,6 +300,7 @@ class SvgGradientParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val LinearGradientWithStroke: ImageVector
                 get() {
@@ -375,6 +380,7 @@ class SvgGradientParserTest {
                     return _LinearGradientWithStroke!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _LinearGradientWithStroke: ImageVector? = null
 
         """.trimIndent()

@@ -26,6 +26,7 @@ class XmlParserTest {
 
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val WithoutPath: ImageVector
                 get() {
@@ -43,6 +44,7 @@ class XmlParserTest {
                     return _WithoutPath!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _WithoutPath: ImageVector? = null
 
         """.trimIndent()
@@ -70,6 +72,7 @@ class XmlParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.unit.dp
             import io.github.composegears.valkyrie.icons.ValkyrieIcons
+            import kotlin.Suppress
 
             val ValkyrieIcons.Colored.WithoutPath: ImageVector
                 get() {
@@ -87,6 +90,7 @@ class XmlParserTest {
                     return _WithoutPath!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _WithoutPath: ImageVector? = null
 
         """.trimIndent()
@@ -108,6 +112,7 @@ class XmlParserTest {
 
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val ValkyrieIcons.WithoutPath: ImageVector
                 get() {
@@ -125,6 +130,7 @@ class XmlParserTest {
                     return _WithoutPath!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _WithoutPath: ImageVector? = null
 
         """.trimIndent()
@@ -147,6 +153,7 @@ class XmlParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val ValkyrieIcons.OnlyPath: ImageVector
                 get() {
@@ -175,6 +182,7 @@ class XmlParserTest {
                     return _OnlyPath!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _OnlyPath: ImageVector? = null
 
         """.trimIndent()
@@ -199,6 +207,7 @@ class XmlParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val ValkyrieIcons.FillColorStroke: ImageVector
                 get() {
@@ -230,6 +239,7 @@ class XmlParserTest {
                     return _FillColorStroke!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _FillColorStroke: ImageVector? = null
 
         """.trimIndent()
@@ -248,7 +258,7 @@ class XmlParserTest {
 
         val expectedOutput = """
            package io.github.composegears.valkyrie.icons
-           
+
            import androidx.compose.ui.graphics.Color
            import androidx.compose.ui.graphics.PathFillType
            import androidx.compose.ui.graphics.SolidColor
@@ -257,6 +267,7 @@ class XmlParserTest {
            import androidx.compose.ui.graphics.vector.ImageVector
            import androidx.compose.ui.graphics.vector.path
            import androidx.compose.ui.unit.dp
+           import kotlin.Suppress
 
            val ValkyrieIcons.AllPathParams: ImageVector
                get() {
@@ -295,6 +306,7 @@ class XmlParserTest {
                    return _AllPathParams!!
                }
 
+           @Suppress("ObjectPropertyName")
            private var _AllPathParams: ImageVector? = null
 
         """.trimIndent()
@@ -319,6 +331,7 @@ class XmlParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val ValkyrieIcons.SeveralPath: ImageVector
                 get() {
@@ -357,6 +370,7 @@ class XmlParserTest {
                     return _SeveralPath!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _SeveralPath: ImageVector? = null
 
         """.trimIndent()
@@ -382,6 +396,7 @@ class XmlParserTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.graphics.vector.path
             import androidx.compose.ui.unit.dp
+            import kotlin.Suppress
 
             val ValkyrieIcons.TransparentFillColor: ImageVector
                 get() {
@@ -424,6 +439,7 @@ class XmlParserTest {
                     return _TransparentFillColor!!
                 }
 
+            @Suppress("ObjectPropertyName")
             private var _TransparentFillColor: ImageVector? = null
 
         """.trimIndent()
