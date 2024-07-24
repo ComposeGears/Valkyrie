@@ -13,7 +13,7 @@ import io.github.composegears.valkyrie.generator.ext.funSpecBuilder
 internal fun iconPreviewSpecForNestedPack(
     iconName: String,
     iconPackClassName: ClassName,
-): FunSpec = funSpecBuilder("${iconName}Preview") {
+): FunSpec = funSpecBuilder("Preview$iconName") {
     addModifiers(KModifier.PRIVATE)
     addAnnotation(previewAnnotation)
     addAnnotation(composableAnnotation)
@@ -39,7 +39,7 @@ internal fun iconPreviewSpecForNestedPack(
 internal fun iconPreviewSpec(
     iconPackage: String,
     iconName: String,
-): FunSpec = funSpecBuilder("${iconName}Preview") {
+): FunSpec = funSpecBuilder("Preview$iconName") {
     addModifiers(KModifier.PRIVATE)
     addAnnotation(previewAnnotation)
     addAnnotation(composableAnnotation)

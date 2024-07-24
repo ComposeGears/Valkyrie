@@ -53,7 +53,7 @@ class PreviewGenerationTest {
 
             @Preview(showBackground = true)
             @Composable
-            private fun WithoutPathPreview() {
+            private fun PreviewWithoutPath() {
                 Box(modifier = Modifier.padding(12.dp)) {
                     Image(imageVector = WithoutPath, contentDescription = null)
                 }
@@ -110,7 +110,7 @@ class PreviewGenerationTest {
 
             @Preview(showBackground = true)
             @Composable
-            private fun WithoutPathPreview() {
+            private fun PreviewWithoutPath() {
                 Box(modifier = Modifier.padding(12.dp)) {
                     Image(imageVector = ValkyrieIcons.WithoutPath, contentDescription = null)
                 }
@@ -168,7 +168,7 @@ class PreviewGenerationTest {
 
             @Preview(showBackground = true)
             @Composable
-            private fun WithoutPathPreview() {
+            private fun PreviewWithoutPath() {
                 Box(modifier = Modifier.padding(12.dp)) {
                     Image(imageVector = ValkyrieIcons.Filled.WithoutPath, contentDescription = null)
                 }
