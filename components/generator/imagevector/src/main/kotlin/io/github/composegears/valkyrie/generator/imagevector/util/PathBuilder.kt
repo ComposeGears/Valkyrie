@@ -9,8 +9,10 @@ import androidx.compose.material.icons.generator.vector.StrokeJoin
 import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import io.github.composegears.valkyrie.generator.ext.argumentBlock
 import io.github.composegears.valkyrie.generator.ext.formatFloat
 import io.github.composegears.valkyrie.generator.ext.indention
+import io.github.composegears.valkyrie.generator.ext.newLine
 import io.github.composegears.valkyrie.generator.ext.toColorHex
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillParam
@@ -38,7 +40,7 @@ internal fun CodeBlock.Builder.addPath(
             add(
                 codeBlock = buildCodeBlock {
                     add("%M(", MemberNames.Path)
-                    fillPathArgs(pathParams.first())
+                    fillPathArgs(param = pathParams.first(), handleMultiline = true)
                     beginControlFlow(")")
                     pathBody()
                     endControlFlow()
@@ -69,10 +71,13 @@ internal fun CodeBlock.Builder.addPath(
     }
 }
 
-private fun CodeBlock.Builder.fillPathArgs(param: PathParams) {
+private fun CodeBlock.Builder.fillPathArgs(
+    param: PathParams,
+    handleMultiline: Boolean = false,
+) {
     // TODO: arg "name" missing
     when (param) {
-        is FillParam -> fillArg(param)
+        is FillParam -> fillArg(param, handleMultiline)
         is FillAlphaParam -> fillAlphaArg(param)
         is FillTypeParam -> pathFillTypeArg(param)
         is StrokeAlphaParam -> strokeAlphaArg(param)
@@ -84,62 +89,77 @@ private fun CodeBlock.Builder.fillPathArgs(param: PathParams) {
     }
 }
 
-private fun CodeBlock.Builder.fillArg(path: FillParam) {
+private fun CodeBlock.Builder.fillArg(
+    path: FillParam,
+    handleMultiline: Boolean,
+) {
     when (val fill = path.fill) {
         is Fill.Color -> {
             add("fill = %M(%M(${fill.colorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
         }
         is Fill.LinearGradient -> {
-            add("\n")
-            indention {
-                add("fill = %T.linearGradient(\n", ClassNames.Brush)
+            if (handleMultiline) {
+                newLine()
                 indention {
-                    add("colorStops = arrayOf(\n")
-                    indention {
-                        add(
-                            fill.colorStops.joinToString(separator = ",\n") { stop ->
-                                "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
-                            },
-                            *Array(fill.colorStops.size) { MemberNames.Color },
-                        )
-                    }
-                    add("\n),\n")
-                    add(
-                        "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),\n",
-                        MemberNames.Offset,
-                    )
-                    add(
-                        "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})\n",
-                        MemberNames.Offset,
-                    )
+                    addLinearGradient(fill)
                 }
-                add(")\n")
+                newLine()
+            } else {
+                addLinearGradient(fill)
             }
         }
         is Fill.RadialGradient -> {
-            add("\n")
-            indention {
-                add("fill = %T.radialGradient(\n", ClassNames.Brush)
+            if (handleMultiline) {
+                newLine()
                 indention {
-                    add("colorStops = arrayOf(\n")
-                    indention {
-                        add(
-                            fill.colorStops.joinToString(separator = ",\n") { stop ->
-                                "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
-                            },
-                            *Array(fill.colorStops.size) { MemberNames.Color },
-                        )
-                    }
-                    add("\n),\n")
-                    add(
-                        "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),\n",
-                        MemberNames.Offset,
-                    )
-                    add("radius = ${fill.gradientRadius.formatFloat()}\n")
+                    addRadialGradient(fill)
                 }
-                add(")\n")
+                newLine()
+            } else {
+                addRadialGradient(fill)
             }
         }
+    }
+}
+
+private fun CodeBlock.Builder.addLinearGradient(fill: Fill.LinearGradient) {
+    argumentBlock("fill = %T.linearGradient(", ClassNames.Brush) {
+        argumentBlock("colorStops = arrayOf(", isNested = true) {
+            add(
+                fill.colorStops.joinToString(separator = ",\n") { stop ->
+                    "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
+                },
+                *Array(fill.colorStops.size) { MemberNames.Color },
+            )
+        }
+        add(
+            "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),",
+            MemberNames.Offset,
+        )
+        newLine()
+        add(
+            "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})",
+            MemberNames.Offset,
+        )
+    }
+}
+
+private fun CodeBlock.Builder.addRadialGradient(fill: Fill.RadialGradient) {
+    argumentBlock("fill = %T.radialGradient(", ClassNames.Brush) {
+        argumentBlock("colorStops = arrayOf(", isNested = true) {
+            add(
+                fill.colorStops.joinToString(separator = ",\n") { stop ->
+                    "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
+                },
+                *Array(fill.colorStops.size) { MemberNames.Color },
+            )
+        }
+        add(
+            "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),",
+            MemberNames.Offset,
+        )
+        newLine()
+        add("radius = ${fill.gradientRadius.formatFloat()}")
     }
 }
 
