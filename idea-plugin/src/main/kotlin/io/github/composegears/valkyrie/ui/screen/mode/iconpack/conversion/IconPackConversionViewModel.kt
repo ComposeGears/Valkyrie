@@ -163,7 +163,7 @@ class IconPackConversionViewModel(
                             val parserOutput = IconParser.toVector(icon.path)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
                                 vector = parserOutput.vector,
-                                kotlinName = parserOutput.kotlinName,
+                                kotlinName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,
