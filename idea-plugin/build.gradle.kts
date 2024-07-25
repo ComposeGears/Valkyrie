@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -8,13 +7,6 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.jetbrains.intellij)
 }
-
-val pluginProperties = Properties().apply {
-    load(file("$rootDir/plugin.properties").reader())
-}
-
-group = "io.github.composegears"
-version = pluginProperties.getProperty("version")
 
 // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#configuration.repositories
 repositories {
