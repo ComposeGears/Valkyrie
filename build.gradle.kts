@@ -9,6 +9,9 @@ plugins {
 }
 
 allprojects {
+    group = rootProject.providers.gradleProperty("GROUP").get()
+    version = rootProject.providers.gradleProperty("VERSION_NAME").get()
+
     plugins.apply(rootProject.libs.plugins.spotless.get().pluginId)
     extensions.configure<SpotlessExtension> {
         kotlin {
