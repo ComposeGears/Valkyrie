@@ -78,5 +78,5 @@ jobs:
 
       - name: Delete release if exist then create a new one
         run: |
-          gh release view env.RELEASE_NAME && gh release delete env.RELEASE_NAME -y --cleanup-tag
-          gh release create env.RELEASE_NAME idea-plugin/build/distributions/*-signed.zip -p --generate-notes
+          gh release view ${{ env.RELEASE_NAME }} && gh release delete ${{ env.RELEASE_NAME }} -y --cleanup-tag
+          gh release create ${{ env.RELEASE_NAME }} idea-plugin/build/distributions/*-signed.zip -p --generate-notes
