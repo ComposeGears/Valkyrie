@@ -1,10 +1,15 @@
 package io.github.composegears.valkyrie.ui.foundation.theme
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.intellij.openapi.project.Project
@@ -19,38 +24,45 @@ fun ValkyrieTheme(
 ) {
     val intelliJTheme = rememberIntelliJTheme()
 
+    val rootContent = @Composable {
+        CompositionLocalProvider(
+            LocalProject provides project,
+            LocalComponent provides currentComponent,
+            content = content,
+        )
+    }
+
     when (intelliJTheme.theme) {
         Theme.DARK -> IntellijDarkTheme(
             background = intelliJTheme.background,
             onBackground = intelliJTheme.onBackground,
             primary = intelliJTheme.primary,
-        ) {
-            CompositionLocalProvider(
-                LocalProject provides project,
-                LocalComponent provides currentComponent,
-                content = content,
-            )
-        }
-        Theme.LIGHT -> IntellijLightTheme {
-            CompositionLocalProvider(
-                LocalProject provides project,
-                LocalComponent provides currentComponent,
-                content = content,
-            )
-        }
+            content = rootContent,
+        )
+        Theme.LIGHT -> IntellijLightTheme(content = rootContent)
     }
 }
 
 @Composable
 fun PreviewTheme(
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.Center,
     isDark: Boolean = true,
-    content: @Composable () -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
+    val contentWrapper = @Composable {
+        Box(
+            modifier = modifier.fillMaxSize(),
+            content = content,
+            contentAlignment = alignment,
+        )
+    }
+
     PreviewWrapper {
         if (isDark) {
-            IntellijDarkTheme(content = content)
+            IntellijDarkTheme(content = contentWrapper)
         } else {
-            IntellijLightTheme(content = content)
+            IntellijLightTheme(content = contentWrapper)
         }
     }
 }

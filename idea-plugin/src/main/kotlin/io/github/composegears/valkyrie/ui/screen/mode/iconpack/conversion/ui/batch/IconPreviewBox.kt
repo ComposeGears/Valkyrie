@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -105,7 +104,5 @@ private enum class BgType {
 @Preview
 @Composable
 private fun IconPreviewBoxPreview() = PreviewTheme {
-    Box(modifier = Modifier.fillMaxSize()) {
-        IconPreviewBox(path = Path("META-INF/pluginIcon.svg"))
-    }
+    IconPreviewBox(path = Path("META-INF/pluginIcon.svg"))
 }
