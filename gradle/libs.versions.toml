@@ -23,5 +23,5 @@ composeRules = "io.nlopez.compose.rules:ktlint:0.4.5"
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version = "1.6.11" }
-jetbrains-intellij = "org.jetbrains.intellij.platform:2.0.0-rc1"
+jetbrains-intellij = "org.jetbrains.intellij.platform:2.0.0-rc2"
 spotless = "com.diffplug.spotless:7.0.0.BETA1"
