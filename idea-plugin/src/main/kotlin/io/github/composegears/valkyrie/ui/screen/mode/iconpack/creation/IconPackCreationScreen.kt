@@ -2,10 +2,8 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -251,31 +249,29 @@ private fun NestedPacks(
 @Preview
 @Composable
 private fun IconPackModeSetupUIPreview() = PreviewTheme {
-    Box(modifier = Modifier.fillMaxSize()) {
-        IconPackModeSetupUI(
-            state = IconPackModeState(
-                inputFieldState = InputFieldState(
-                    iconPackName = InputState(text = "IconPackName"),
-                    packageName = InputState(text = "com.example.iconpack"),
-                    nestedPacks = emptyList(),
+    IconPackModeSetupUI(
+        state = IconPackModeState(
+            inputFieldState = InputFieldState(
+                iconPackName = InputState(text = "IconPackName"),
+                packageName = InputState(text = "com.example.iconpack"),
+                nestedPacks = emptyList(),
+            ),
+            nestedPacks = listOf(
+                NestedPack(
+                    id = "0",
+                    inputFieldState = InputState("Outlined", ValidationResult.Success),
                 ),
-                nestedPacks = listOf(
-                    NestedPack(
-                        id = "0",
-                        inputFieldState = InputState("Outlined", ValidationResult.Success),
-                    ),
-                    NestedPack(
-                        id = "1",
-                        inputFieldState = InputState("", ValidationResult.Error(ErrorCriteria.EMPTY)),
-                    ),
+                NestedPack(
+                    id = "1",
+                    inputFieldState = InputState("", ValidationResult.Error(ErrorCriteria.EMPTY)),
                 ),
             ),
-            onValueChange = {},
-            onBack = {},
-            onAddNestedPack = {},
-            onRemoveNestedPack = {},
-            onPreviewPack = {},
-            onNext = {},
-        )
-    }
+        ),
+        onValueChange = {},
+        onBack = {},
+        onAddNestedPack = {},
+        onRemoveNestedPack = {},
+        onPreviewPack = {},
+        onNext = {},
+    )
 }

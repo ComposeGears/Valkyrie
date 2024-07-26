@@ -5,8 +5,6 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -21,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -112,14 +109,9 @@ fun IconNameField(
 @Preview
 @Composable
 private fun IconNameFieldPreview() = PreviewTheme {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        IconNameField(
-            modifier = Modifier.width(300.dp),
-            value = "IconName",
-            onValueChange = {},
-        )
-    }
+    IconNameField(
+        modifier = Modifier.width(300.dp),
+        value = "IconName",
+        onValueChange = {},
+    )
 }

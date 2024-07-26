@@ -4,7 +4,6 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -100,11 +99,7 @@ fun InputTextField(
 @Preview
 @Composable
 private fun InputTextFieldPreview() = PreviewTheme {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         InputTextField(
             modifier = Modifier.width(300.dp),
             value = "Hello, World!",

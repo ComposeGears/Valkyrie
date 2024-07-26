@@ -2,7 +2,10 @@ package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -43,5 +46,16 @@ fun PixelGrid(
 @Preview
 @Composable
 private fun PixelGridPreview() = PreviewTheme {
-    PixelGrid(modifier = Modifier.fillMaxSize())
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        val gridSizes = listOf(8.dp, 4.dp, 2.dp)
+
+        gridSizes.forEach { gridSize ->
+            PixelGrid(
+                modifier = Modifier
+                    .fillMaxWidth(0.7f)
+                    .height(200.dp),
+                gridSize = gridSize,
+            )
+        }
+    }
 }

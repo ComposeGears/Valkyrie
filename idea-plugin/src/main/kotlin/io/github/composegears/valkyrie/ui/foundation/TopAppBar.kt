@@ -1,10 +1,8 @@
 package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -102,15 +100,13 @@ fun SettingsAction(
 
 @Preview
 @Composable
-private fun TopAppBarPreview() = PreviewTheme {
-    Box(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
-            BackAction {}
-            AppBarTitle(title = "Page title")
-            WeightSpacer()
-            ClearAction {}
-            CopyAction {}
-            SettingsAction {}
-        }
+private fun TopAppBarPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+    TopAppBar {
+        BackAction {}
+        AppBarTitle(title = "Page title")
+        WeightSpacer()
+        ClearAction {}
+        CopyAction {}
+        SettingsAction {}
     }
 }
