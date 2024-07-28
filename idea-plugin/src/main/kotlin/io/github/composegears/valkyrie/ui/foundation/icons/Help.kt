@@ -1,8 +1,15 @@
 package io.github.composegears.valkyrie.ui.foundation.icons
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.Help: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     materialIcon(name = "Help", autoMirror = true) {
@@ -35,5 +42,13 @@ val ValkyrieIcons.Help: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             curveToRelative(0.0f, 0.88f, -0.36f, 1.68f, -0.93f, 2.25f)
             close()
         }
+    }
+}
+
+@Preview
+@Composable
+private fun HelpPreview() {
+    Box(modifier = Modifier.padding(12.dp)) {
+        Image(imageVector = ValkyrieIcons.Help, contentDescription = null)
     }
 }

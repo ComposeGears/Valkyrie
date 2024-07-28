@@ -1,5 +1,11 @@
 package io.github.composegears.valkyrie.ui.foundation.icons
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -793,4 +799,12 @@ val ValkyrieIcons.BatchProcessing: ImageVector by lazy(LazyThreadSafetyMode.NONE
             close()
         }
     }.build()
+}
+
+@Preview
+@Composable
+private fun BatchProcessingPreview() {
+    Box(modifier = Modifier.padding(12.dp)) {
+        Image(imageVector = ValkyrieIcons.BatchProcessing, contentDescription = null)
+    }
 }

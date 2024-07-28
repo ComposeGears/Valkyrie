@@ -1,8 +1,15 @@
 package io.github.composegears.valkyrie.ui.foundation.icons
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.Visibility: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     materialIcon(name = "Filled.Visibility") {
@@ -26,5 +33,13 @@ val ValkyrieIcons.Visibility: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             reflectiveCurveToRelative(-1.34f, -3.0f, -3.0f, -3.0f)
             close()
         }
+    }
+}
+
+@Preview
+@Composable
+private fun VisibilityPreview() {
+    Box(modifier = Modifier.padding(12.dp)) {
+        Image(imageVector = ValkyrieIcons.Visibility, contentDescription = null)
     }
 }
