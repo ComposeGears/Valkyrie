@@ -1,0 +1,130 @@
+package io.github.composegears.valkyrie.ui.screen.settings.ui
+
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.ui.foundation.Tooltip
+import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+
+@Composable
+fun OutputFormatSection(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(horizontal = 24.dp),
+) {
+    var isSelected by rememberMutableState { true }
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(paddingValues),
+    ) {
+        Text(text = "Output format", style = MaterialTheme.typography.bodyMedium)
+        VerticalSpacer(12.dp)
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            SelectableCard(
+                modifier = Modifier.weight(1f).fillMaxHeight(),
+                text = "Backing property",
+                hint = buildAnnotatedString { append(backingPropertyFormat) },
+                isSelected = isSelected,
+                onSelected = { isSelected = !isSelected },
+            )
+            SelectableCard(
+                modifier = Modifier.weight(1f).fillMaxHeight(),
+                text = "Lazy delegate property",
+                hint = buildAnnotatedString { append(lazyPropertyFormat) },
+                isSelected = !isSelected,
+                onSelected = { isSelected = !isSelected },
+            )
+        }
+    }
+}
+
+@Composable
+private fun SelectableCard(
+    text: String,
+    hint: AnnotatedString,
+    isSelected: Boolean,
+    modifier: Modifier = Modifier,
+    onSelected: () -> Unit,
+) {
+    Card(
+        modifier = modifier,
+        onClick = onSelected,
+        border = if (isSelected) {
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        } else null,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .weight(1f),
+                text = text,
+                style = MaterialTheme.typography.bodySmall,
+            )
+            Tooltip(
+                modifier = Modifier.padding(end = 16.dp),
+                text = hint,
+            )
+        }
+    }
+}
+
+val backingPropertyFormat = """
+                val ArrowLeft: ImageVector
+                    get() {
+                        if (_ArrowLeft != null) {
+                            return _ArrowLeft!!
+                        }
+                        _WithoutPath = ImageVector.Builder(
+                            ...
+                        ).build()
+
+                        return _ArrowLeft!!
+                    }
+
+                private var _ArrowLeft: ImageVector? = null
+            """.trimIndent()
+
+val lazyPropertyFormat = """
+                val ArrowLeft by lazy(LazyThreadSafetyMode.NONE) {
+                    ImageVector.Builder(
+                        ...
+                    ).build()
+                }
+            """.trimIndent()
+
+@Preview
+@Composable
+private fun OutputFormatSectionPreview() = PreviewTheme {
+    OutputFormatSection()
+}
