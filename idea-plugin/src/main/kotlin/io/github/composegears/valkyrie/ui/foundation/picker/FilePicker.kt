@@ -18,6 +18,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
+fun rememberKtFilePicker(): Picker<Path?> {
+    if (LocalInspectionMode.current) return StubFilePicker
+
+    val project = LocalProject.current
+
+    return remember {
+        FilePicker(
+            project = project,
+            filterCondition = { vf -> vf.extension.isKt },
+        )
+    }
+}
+
+@Composable
 fun rememberFilePicker(): Picker<Path?> {
     if (LocalInspectionMode.current) return StubFilePicker
 
@@ -64,3 +78,5 @@ private class FilePicker(
             ?.toPath()
     }
 }
+
+private inline val String?.isKt: Boolean get() = equals(other = "kt", ignoreCase = true)

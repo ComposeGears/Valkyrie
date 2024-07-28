@@ -49,8 +49,8 @@ fun ValkyrieTheme(
 @Composable
 fun PreviewTheme(
     modifier: Modifier = Modifier,
-    alignment: Alignment = Alignment.Center,
     isDark: Boolean = true,
+    alignment: Alignment = Alignment.Center,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val contentWrapper = @Composable {

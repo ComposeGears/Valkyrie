@@ -28,6 +28,7 @@ fun InputField(
     value: String,
     tooltipValue: AnnotatedString,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     isError: Boolean = false,
     supportingText: @Composable (() -> Unit)? = null,
     onValueChange: (String) -> Unit,
@@ -40,15 +41,20 @@ fun InputField(
             Text(
                 modifier = Modifier.padding(bottom = 4.dp),
                 text = caption,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = if (enabled) {
+                    MaterialTheme.colorScheme.onSurface
+                } else {
+                    MaterialTheme.colorScheme.onSurface.disabled()
+                },
                 style = MaterialTheme.typography.bodyMedium,
             )
 
-            Tooltip(text = tooltipValue)
+            Tooltip(text = tooltipValue, enabled = enabled)
         }
         InputTextField(
             modifier = Modifier.fillMaxWidth(),
             value = value,
+            enabled = enabled,
             onValueChange = onValueChange,
             isError = isError,
             supportingText = supportingText,
@@ -61,12 +67,14 @@ fun InputTextField(
     value: String,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
+    enabled: Boolean = true,
     supportingText: @Composable (() -> Unit)? = null,
     onValueChange: (String) -> Unit,
 ) {
     TextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
+        enabled = enabled,
         onValueChange = onValueChange,
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.colors().copy(
@@ -79,13 +87,14 @@ fun InputTextField(
             errorTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
             errorIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
         ),
         isError = isError,
         singleLine = true,
         supportingText = supportingText,
         trailingIcon = {
-            if (value.isNotEmpty()) {
+            if (value.isNotEmpty() && enabled) {
                 IconButton(
                     imageVector = ValkyrieIcons.Backspace,
                     iconSize = 18.dp,
@@ -102,17 +111,24 @@ private fun InputTextFieldPreview() = PreviewTheme {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         InputTextField(
             modifier = Modifier.width(300.dp),
-            value = "Hello, World!",
+            value = "Default state",
             onValueChange = {},
         )
         InputTextField(
             modifier = Modifier.width(300.dp),
-            value = "Hello, World!",
+            value = "Error state",
             isError = true,
             onValueChange = {},
             supportingText = {
                 Text("This is an error message")
             },
+        )
+        InputTextField(
+            modifier = Modifier.width(300.dp),
+            value = "Disabled state",
+            enabled = false,
+            isError = false,
+            onValueChange = {},
         )
     }
 }

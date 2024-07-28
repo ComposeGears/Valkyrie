@@ -40,6 +40,7 @@ import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
+import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
@@ -60,6 +61,8 @@ val IconPackConversionScreen by navDestination<Unit> {
 
     val viewModel = koinTiamatViewModel<IconPackConversionViewModel>()
     val state by viewModel.state.collectAsState()
+
+    val settings by viewModel.valkyriesSettings.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.events
@@ -83,6 +86,7 @@ val IconPackConversionScreen by navDestination<Unit> {
 
     IconPackConversionUi(
         state = state,
+        settings = settings,
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
@@ -102,6 +106,7 @@ val IconPackConversionScreen by navDestination<Unit> {
 @Composable
 private fun IconPackConversionUi(
     state: IconPackConversionState,
+    settings: ValkyriesSettings,
     openSettings: () -> Unit,
     onPickEvent: (PickerEvent) -> Unit,
     updatePack: (BatchIcon, String) -> Unit,
@@ -141,7 +146,7 @@ private fun IconPackConversionUi(
                 if (state is BatchProcessing.IconPackCreationState) {
                     ClearAction(onClear = onReset)
                 }
-                AppBarTitle(title = "IconPack generation")
+                AppBarTitle(title = "${settings.iconPackName} generation")
                 WeightSpacer()
                 SettingsAction(openSettings = openSettings)
             }

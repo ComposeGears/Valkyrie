@@ -22,6 +22,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 fun Tooltip(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     TooltipBox(
         modifier = modifier,
@@ -47,6 +48,11 @@ fun Tooltip(
         Icon(
             modifier = Modifier.size(18.dp),
             imageVector = ValkyrieIcons.Help,
+            tint = if (enabled) {
+                MaterialTheme.colorScheme.onSurface
+            } else {
+                MaterialTheme.colorScheme.onSurface.disabled()
+            },
             contentDescription = null,
         )
     }

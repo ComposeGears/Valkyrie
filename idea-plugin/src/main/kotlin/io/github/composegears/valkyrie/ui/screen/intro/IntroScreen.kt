@@ -36,7 +36,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.SimpleConversion
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 
 val IntroScreen: NavDestination<Unit> by navDestination {
@@ -54,7 +54,7 @@ val IntroScreen: NavDestination<Unit> by navDestination {
                 }
                 IconPack -> {
                     navController.navigate(
-                        dest = IconPackDestinationScreen,
+                        dest = IconPackCreationScreen,
                         transition = navigationSlideInOut(true),
                     )
                 }
