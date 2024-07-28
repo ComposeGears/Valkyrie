@@ -9,5 +9,6 @@ dependencies {
     implementation(libs.kotlinpoet)
 
     testImplementation(projects.components.parser)
-    testImplementation(libs.kotlin.test)
+    testImplementation(libs.bundles.test)
+    testRuntimeOnly(libs.junit.launcher)
 }

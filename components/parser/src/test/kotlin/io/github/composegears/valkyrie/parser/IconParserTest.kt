@@ -1,7 +1,8 @@
 package io.github.composegears.valkyrie.parser
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.Test
 
 class IconParserTest {
 
@@ -38,7 +39,7 @@ class IconParserTest {
         fileNames.forEach {
             val iconName = IconParser.getIconName(it.fileName)
 
-            assertEquals(expected = it.expected, actual = iconName)
+            assertThat(iconName).isEqualTo(it.expected)
         }
     }
 }

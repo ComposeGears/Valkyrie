@@ -27,4 +27,8 @@ allprojects {
             ktlint(rootProject.libs.ktlint.get().version)
         }
     }
+
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
 }

@@ -5,5 +5,6 @@ plugins {
 dependencies {
     implementation(libs.kotlinpoet)
 
-    testImplementation(libs.kotlin.test)
+    testImplementation(libs.bundles.test)
+    testRuntimeOnly(libs.junit.launcher)
 }

@@ -1,8 +1,9 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.parser.IconParser
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class XmlParserTest {
 
@@ -48,7 +49,7 @@ class XmlParserTest {
             private var _WithoutPath: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -94,7 +95,7 @@ class XmlParserTest {
             private var _WithoutPath: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -134,7 +135,7 @@ class XmlParserTest {
             private var _WithoutPath: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -186,7 +187,7 @@ class XmlParserTest {
             private var _OnlyPath: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -243,7 +244,7 @@ class XmlParserTest {
             private var _FillColorStroke: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -310,7 +311,7 @@ class XmlParserTest {
            private var _AllPathParams: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -374,7 +375,7 @@ class XmlParserTest {
             private var _SeveralPath: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -444,6 +445,6 @@ class XmlParserTest {
 
         """.trimIndent()
 
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 }
