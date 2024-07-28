@@ -20,12 +20,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.ui.foundation.HighlightColors
 import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.getHighlightedCode
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.foundation.theme.isLight
 
 @Composable
 fun OutputFormatSection(
@@ -39,22 +41,33 @@ fun OutputFormatSection(
             .padding(paddingValues),
     ) {
         Text(text = "Output format", style = MaterialTheme.typography.bodyMedium)
-        VerticalSpacer(12.dp)
+        VerticalSpacer(8.dp)
         Row(
             modifier = Modifier.height(IntrinsicSize.Max),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            val highlightColors = if (MaterialTheme.colorScheme.isLight) {
+                HighlightColors.LIGHT
+            } else {
+                HighlightColors.DARK
+            }
             SelectableCard(
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 text = "Backing property",
-                hint = buildAnnotatedString { append(backingPropertyFormat) },
+                hint = getHighlightedCode(
+                    code = backingPropertyFormat,
+                    colors = highlightColors,
+                ),
                 isSelected = isSelected,
                 onSelected = { isSelected = !isSelected },
             )
             SelectableCard(
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 text = "Lazy delegate property",
-                hint = buildAnnotatedString { append(lazyPropertyFormat) },
+                hint = getHighlightedCode(
+                    code = lazyPropertyFormat,
+                    colors = highlightColors,
+                ),
                 isSelected = !isSelected,
                 onSelected = { isSelected = !isSelected },
             )
@@ -99,29 +112,26 @@ private fun SelectableCard(
     }
 }
 
-val backingPropertyFormat = """
-                val ArrowLeft: ImageVector
-                    get() {
-                        if (_ArrowLeft != null) {
-                            return _ArrowLeft!!
-                        }
-                        _WithoutPath = ImageVector.Builder(
-                            ...
-                        ).build()
+private val backingPropertyFormat = """
+    val ArrowLeft: ImageVector
+        get() {
+            if (_ArrowLeft != null) {
+                return _ArrowLeft!!
+            }
+            _ArrowLeft = ImageVector.Builder(...)
+                .build()
 
-                        return _ArrowLeft!!
-                    }
+            return _ArrowLeft!!
+        }
 
-                private var _ArrowLeft: ImageVector? = null
-            """.trimIndent()
+    private var _ArrowLeft: ImageVector? = null
+""".trimIndent()
 
-val lazyPropertyFormat = """
-                val ArrowLeft by lazy(LazyThreadSafetyMode.NONE) {
-                    ImageVector.Builder(
-                        ...
-                    ).build()
-                }
-            """.trimIndent()
+private val lazyPropertyFormat = """
+    val ArrowLeft by lazy(NONE) {
+        ImageVector.Builder(...).build()
+    }
+    """.trimIndent()
 
 @Preview
 @Composable
