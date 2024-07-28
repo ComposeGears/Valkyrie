@@ -35,12 +35,6 @@ inline fun funSpecBuilder(
     .apply(builderAction)
     .build()
 
-inline fun getterFunSpecBuilder(
-    builderAction: FunSpec.Builder.() -> Unit,
-) = FunSpec.getterBuilder()
-    .apply(builderAction)
-    .build()
-
 inline fun propertySpecBuilder(
     name: String,
     type: TypeName,

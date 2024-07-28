@@ -33,26 +33,17 @@ class PreviewGenerationTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
-            import kotlin.Suppress
+            import kotlin.LazyThreadSafetyMode
 
-            val WithoutPath: ImageVector
-                get() {
-                    if (_WithoutPath != null) {
-                        return _WithoutPath!!
-                    }
-                    _WithoutPath = ImageVector.Builder(
-                        name = "WithoutPath",
-                        defaultWidth = 24.dp,
-                        defaultHeight = 24.dp,
-                        viewportWidth = 18f,
-                        viewportHeight = 18f
-                    ).build()
-
-                    return _WithoutPath!!
-                }
-
-            @Suppress("ObjectPropertyName")
-            private var _WithoutPath: ImageVector? = null
+            val WithoutPath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+                ImageVector.Builder(
+                    name = "WithoutPath",
+                    defaultWidth = 24.dp,
+                    defaultHeight = 24.dp,
+                    viewportWidth = 18f,
+                    viewportHeight = 18f
+                ).build()
+            }
 
             @Preview(showBackground = true)
             @Composable
@@ -92,26 +83,17 @@ class PreviewGenerationTest {
             import androidx.compose.ui.graphics.vector.ImageVector
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
-            import kotlin.Suppress
+            import kotlin.LazyThreadSafetyMode
 
-            val ValkyrieIcons.WithoutPath: ImageVector
-                get() {
-                    if (_WithoutPath != null) {
-                        return _WithoutPath!!
-                    }
-                    _WithoutPath = ImageVector.Builder(
-                        name = "WithoutPath",
-                        defaultWidth = 24.dp,
-                        defaultHeight = 24.dp,
-                        viewportWidth = 18f,
-                        viewportHeight = 18f
-                    ).build()
-
-                    return _WithoutPath!!
-                }
-
-            @Suppress("ObjectPropertyName")
-            private var _WithoutPath: ImageVector? = null
+            val ValkyrieIcons.WithoutPath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+                ImageVector.Builder(
+                    name = "WithoutPath",
+                    defaultWidth = 24.dp,
+                    defaultHeight = 24.dp,
+                    viewportWidth = 18f,
+                    viewportHeight = 18f
+                ).build()
+            }
 
             @Preview(showBackground = true)
             @Composable
@@ -152,26 +134,17 @@ class PreviewGenerationTest {
             import androidx.compose.ui.tooling.preview.Preview
             import androidx.compose.ui.unit.dp
             import io.github.composegears.valkyrie.icons.ValkyrieIcons
-            import kotlin.Suppress
+            import kotlin.LazyThreadSafetyMode
 
-            val ValkyrieIcons.Filled.WithoutPath: ImageVector
-                get() {
-                    if (_WithoutPath != null) {
-                        return _WithoutPath!!
-                    }
-                    _WithoutPath = ImageVector.Builder(
-                        name = "Filled.WithoutPath",
-                        defaultWidth = 24.dp,
-                        defaultHeight = 24.dp,
-                        viewportWidth = 18f,
-                        viewportHeight = 18f
-                    ).build()
-
-                    return _WithoutPath!!
-                }
-
-            @Suppress("ObjectPropertyName")
-            private var _WithoutPath: ImageVector? = null
+            val ValkyrieIcons.Filled.WithoutPath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+                ImageVector.Builder(
+                    name = "Filled.WithoutPath",
+                    defaultWidth = 24.dp,
+                    defaultHeight = 24.dp,
+                    viewportWidth = 18f,
+                    viewportHeight = 18f
+                ).build()
+            }
 
             @Preview(showBackground = true)
             @Composable

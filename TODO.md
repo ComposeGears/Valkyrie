@@ -1,5 +1,4 @@
 - Multi edit icon pack
-- Generated code as val or lazy delegate
 - Rename icon in icon pack
 - Simple mode without package
 - Add version into plugin settings

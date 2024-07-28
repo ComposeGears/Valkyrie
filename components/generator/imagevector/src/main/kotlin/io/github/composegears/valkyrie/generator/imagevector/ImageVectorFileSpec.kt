@@ -6,17 +6,13 @@ import androidx.compose.material.icons.generator.vector.Vector
 import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.fileSpecBuilder
-import io.github.composegears.valkyrie.generator.ext.getterFunSpecBuilder
 import io.github.composegears.valkyrie.generator.ext.propertySpecBuilder
 import io.github.composegears.valkyrie.generator.ext.removeDeadCode
 import io.github.composegears.valkyrie.generator.ext.setIndent
 import io.github.composegears.valkyrie.generator.imagevector.util.addPath
-import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertyName
-import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertySpec
 import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpec
 import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpecForNestedPack
 import io.github.composegears.valkyrie.generator.imagevector.util.imageVectorBuilderSpecs
@@ -32,11 +28,6 @@ internal data class ImageVectorSpecConfig(
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
     fun createFileFor(vector: Vector): ImageVectorSpecOutput {
-        val backingProperty = backingPropertySpec(
-            name = config.iconName.backingPropertyName(),
-            type = ClassNames.ImageVector,
-        )
-
         val iconPackClassName = when {
             config.iconPack.isEmpty() -> null
             else -> {
@@ -67,10 +58,8 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
                 propertySpec = iconProperty(
                     vector = vector,
                     iconPackClassName = iconPackClassName,
-                    backingProperty = backingProperty,
                 ),
             )
-            addProperty(propertySpec = backingProperty)
             apply {
                 if (config.generatePreview) {
                     addFunction(
@@ -99,41 +88,30 @@ internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
     private fun iconProperty(
         vector: Vector,
         iconPackClassName: ClassName?,
-        backingProperty: PropertySpec,
     ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
         receiver(iconPackClassName)
-        getter(iconFun(vector = vector, backingProperty = backingProperty))
-    }
-
-    private fun iconFun(vector: Vector, backingProperty: PropertySpec): FunSpec {
-        return getterFunSpecBuilder {
-            addCode(
-                buildCodeBlock {
-                    beginControlFlow("if (%N != null)", backingProperty)
-                    addStatement("return %N!!", backingProperty)
-                    endControlFlow()
-                },
+        val codeBlock = buildCodeBlock {
+            add(
+                imageVectorBuilderSpecs(
+                    iconName = when {
+                        config.iconNestedPack.isEmpty() -> config.iconName
+                        else -> "${config.iconNestedPack}.${config.iconName}"
+                    },
+                    vector = vector,
+                    path = {
+                        vector.nodes.forEach { node -> addVectorNode(node) }
+                    },
+                ),
             )
-            addCode(
-                buildCodeBlock {
-                    addCode("%N = ", backingProperty)
-                    add(
-                        imageVectorBuilderSpecs(
-                            iconName = when {
-                                config.iconNestedPack.isEmpty() -> config.iconName
-                                else -> "${config.iconNestedPack}.${config.iconName}"
-                            },
-                            vector = vector,
-                            path = {
-                                vector.nodes.forEach { node -> addVectorNode(node) }
-                            },
-                        ),
-                    )
-                },
-            )
-            addStatement("")
-            addStatement("return %N!!", backingProperty)
         }
+
+        delegate(
+            CodeBlock.builder()
+                .beginControlFlow("lazy(%T.NONE)", ClassNames.LazyThreadSafetyMode)
+                .add(codeBlock)
+                .endControlFlow()
+                .build(),
+        )
     }
 
     private fun CodeBlock.Builder.addVectorNode(vectorNode: VectorNode) {
