@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
@@ -38,7 +37,7 @@ fun Tooltip(
                     )
                 },
                 colors = TooltipDefaults.richTooltipColors().copy(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurface,
                 ),
             )

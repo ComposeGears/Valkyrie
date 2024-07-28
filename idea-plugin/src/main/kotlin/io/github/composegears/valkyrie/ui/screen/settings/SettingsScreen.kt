@@ -11,9 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -22,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
@@ -38,6 +38,7 @@ import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
+import io.github.composegears.valkyrie.ui.screen.settings.ui.OutputFormatSection
 
 val SettingsScreen by navDestination<Unit> {
     val navController = navController()
@@ -109,7 +110,10 @@ private fun SettingsUI(
             )
         }
 
-        SectionTitle(name = "Generation settings")
+        SectionTitle(name = "ImageVector export settings")
+        VerticalSpacer(8.dp)
+        OutputFormatSection()
+        VerticalSpacer(8.dp)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -118,19 +122,18 @@ private fun SettingsUI(
                     value = settings.generatePreview,
                     onValueChange = onGeneratePreviewChange,
                 )
-                .padding(start = 12.dp),
+                .padding(start = 24.dp, end = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Checkbox(
-                colors = CheckboxDefaults.colors(
-                    uncheckedColor = MaterialTheme.colorScheme.onSurface,
-                ),
+            Text(
+                modifier = Modifier.weight(1f),
+                text = "Include @Preview",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Switch(
+                modifier = Modifier.scale(0.9f),
                 checked = settings.generatePreview,
                 onCheckedChange = onGeneratePreviewChange,
-            )
-            Text(
-                text = "Generate Preview",
-                style = MaterialTheme.typography.bodyMedium,
             )
         }
         SectionTitle(name = "Danger zone")
