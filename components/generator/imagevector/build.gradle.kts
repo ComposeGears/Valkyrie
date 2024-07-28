@@ -8,8 +8,8 @@ dependencies {
 
     implementation(libs.kotlinpoet)
 
-    testImplementation(projects.components.parser)
     testImplementation(projects.components.extensions)
+    testImplementation(projects.components.parser)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 }

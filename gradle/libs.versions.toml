@@ -7,9 +7,10 @@ android-build-tools = "com.android.tools:sdk-common:31.5.1"
 
 koin-compose = "io.insert-koin:koin-compose:4.0.0-RC1"
 
-kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
-
+kotlin-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+
+kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
 
 tiamat-base = "io.github.composegears:tiamat:1.1.1"
 tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0"

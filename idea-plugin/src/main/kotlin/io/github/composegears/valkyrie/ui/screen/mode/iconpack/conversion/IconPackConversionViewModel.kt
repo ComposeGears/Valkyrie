@@ -24,6 +24,7 @@ import kotlin.io.path.nameWithoutExtension
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -39,7 +40,7 @@ class IconPackConversionViewModel(
     private val _events = MutableSharedFlow<ConversionEvent>()
     val events = _events.asSharedFlow()
 
-    private val valkyriesSettings = inMemorySettings.settings
+    val valkyriesSettings: StateFlow<ValkyriesSettings> = inMemorySettings.settings
 
     fun pickerEvent(events: PickerEvent) {
         when (events) {

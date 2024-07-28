@@ -18,5 +18,6 @@ enum class ErrorCriteria {
 
 data class InputState(
     val text: String = "",
+    val enabled: Boolean = true,
     val validationResult: ValidationResult = ValidationResult.Success,
 )

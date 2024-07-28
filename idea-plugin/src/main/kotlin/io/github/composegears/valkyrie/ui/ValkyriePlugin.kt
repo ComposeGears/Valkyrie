@@ -13,7 +13,6 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
@@ -32,7 +31,6 @@ fun ValkyriePlugin(
             SimpleModeSetupScreen,
             SimpleConversionScreen,
 
-            IconPackDestinationScreen,
             IconPackCreationScreen,
             IconPackConversionScreen,
 

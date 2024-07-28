@@ -1,0 +1,57 @@
+package io.github.composegears.valkyrie.psi
+
+import io.github.composegears.valkyrie.extensions.castOrNull
+import java.nio.file.Path
+import kotlin.io.path.name
+import kotlin.io.path.readText
+import org.jetbrains.kotlin.com.intellij.psi.PsiManager
+import org.jetbrains.kotlin.com.intellij.testFramework.LightVirtualFile
+import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.psi.KtFile
+import org.jetbrains.kotlin.psi.KtObjectDeclaration
+import org.jetbrains.kotlin.psi.KtTreeVisitorVoid
+
+data class IconPackInfo(
+    val packageName: String,
+    val iconPack: String,
+    val nestedPacks: List<String>,
+)
+
+object IconPackPsiParser {
+
+    fun extractIconPack(path: Path): IconPackInfo? {
+        val ktFile = PsiManager.getInstance(project)
+            .findFile(LightVirtualFile(path.name, KotlinFileType.INSTANCE, path.readText()))
+            .castOrNull<KtFile>() ?: return null
+
+        var iconPackName: String? = null
+        val nestedPacks = mutableListOf<String>()
+
+        ktFile.accept(
+            object : KtTreeVisitorVoid() {
+                override fun visitObjectDeclaration(declaration: KtObjectDeclaration) {
+                    super.visitObjectDeclaration(declaration)
+
+                    if (declaration.isTopLevel()) {
+                        iconPackName = declaration.name
+                    } else {
+                        declaration.name?.let {
+                            nestedPacks.add(it)
+                        }
+                    }
+                }
+            },
+        )
+
+        return when {
+            iconPackName != null -> {
+                IconPackInfo(
+                    packageName = ktFile.packageFqName.asString(),
+                    iconPack = iconPackName!!,
+                    nestedPacks = nestedPacks,
+                )
+            }
+            else -> null
+        }
+    }
+}
