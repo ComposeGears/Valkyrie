@@ -1,8 +1,9 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.parser.IconParser
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class PreviewGenerationTest {
 
@@ -62,7 +63,7 @@ class PreviewGenerationTest {
             }
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -121,7 +122,7 @@ class PreviewGenerationTest {
             }
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -181,6 +182,6 @@ class PreviewGenerationTest {
             }
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 }

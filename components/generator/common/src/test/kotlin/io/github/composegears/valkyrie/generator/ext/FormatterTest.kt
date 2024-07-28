@@ -1,20 +1,21 @@
 package io.github.composegears.valkyrie.generator.ext
 
-import kotlin.test.assertEquals
-import org.junit.Test
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.Test
 
 class FormatterTest {
 
     @Test
     fun `formatValue for floats`() {
-        assertEquals(24f.trimTrailingZero(), "24")
-        assertEquals(24.0f.trimTrailingZero(), "24")
-        assertEquals(24.00002f.trimTrailingZero(), "24.00002")
+        assertThat(24f.trimTrailingZero()).isEqualTo("24")
+        assertThat(24.0f.trimTrailingZero()).isEqualTo("24")
+        assertThat(24.00002f.trimTrailingZero()).isEqualTo("24.00002")
 
-        assertEquals(24f.formatFloat(), "24f")
-        assertEquals(24.0f.formatFloat(), "24f")
-        assertEquals(24.00002f.formatFloat(), "24.00002f")
+        assertThat(24f.formatFloat()).isEqualTo("24f")
+        assertThat(24.0f.formatFloat()).isEqualTo("24f")
+        assertThat(24.00002f.formatFloat()).isEqualTo("24.00002f")
 
-        assertEquals("FFe676ff".toColorHex(), "0xFFE676FF")
+        assertThat("FFe676ff".toColorHex()).isEqualTo("0xFFE676FF")
     }
 }

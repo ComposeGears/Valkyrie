@@ -1,8 +1,9 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.parser.IconParser
-import kotlin.test.Test
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Test
 
 class SvgGradientParserTest {
 
@@ -204,7 +205,7 @@ class SvgGradientParserTest {
             private var _LinearGradient: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -272,7 +273,7 @@ class SvgGradientParserTest {
             private var _RadialGradient: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 
     @Test
@@ -384,6 +385,6 @@ class SvgGradientParserTest {
             private var _LinearGradientWithStroke: ImageVector? = null
 
         """.trimIndent()
-        assertEquals(expectedOutput, output)
+        assertThat(output).isEqualTo(expectedOutput)
     }
 }

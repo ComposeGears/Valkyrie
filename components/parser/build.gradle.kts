@@ -10,5 +10,6 @@ dependencies {
 
     implementation(libs.android.build.tools)
 
-    testImplementation(libs.kotlin.test)
+    testImplementation(libs.bundles.test)
+    testRuntimeOnly(libs.junit.launcher)
 }

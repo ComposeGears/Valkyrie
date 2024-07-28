@@ -1,7 +1,8 @@
 package io.github.composegears.valkyrie.generator.iconpack
 
-import kotlin.test.assertEquals
-import org.junit.Test
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.Test
 
 class IconPackGeneratorTest {
 
@@ -17,13 +18,13 @@ class IconPackGeneratorTest {
 
         val expectedContent = """
             package io.github.composegears.valkyrie.icons
-            
+
             object ValkyrieIcons
-            
+
         """.trimIndent()
 
-        assertEquals(result.content, expectedContent)
-        assertEquals(result.name, "ValkyrieIcons")
+        assertThat(result.content).isEqualTo(expectedContent)
+        assertThat(result.name).isEqualTo("ValkyrieIcons")
     }
 
     @Test
@@ -38,16 +39,16 @@ class IconPackGeneratorTest {
 
         val expectedContent = """
             package io.github.composegears.valkyrie.icons
-            
+
             object ValkyrieIcons {
                 object Filled
 
                 object Colored
             }
-            
+
         """.trimIndent()
 
-        assertEquals(result.content, expectedContent)
-        assertEquals(result.name, "ValkyrieIcons")
+        assertThat(result.content).isEqualTo(expectedContent)
+        assertThat(result.name).isEqualTo("ValkyrieIcons")
     }
 }
