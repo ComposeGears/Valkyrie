@@ -116,6 +116,7 @@ class IconPackConversionViewModel(
                         packageName = icon.iconPack.iconPackage,
                         packName = valkyriesSettings.value.iconPackName,
                         nestedPackName = icon.iconPack.currentNestedPack,
+                        outputFormat = valkyriesSettings.value.outputFormat,
                         generatePreview = valkyriesSettings.value.generatePreview,
                     ),
                 )
@@ -149,6 +150,7 @@ class IconPackConversionViewModel(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,
                                     nestedPackName = iconPack.currentNestedPack,
+                                    outputFormat = valkyriesSettings.value.outputFormat,
                                     generatePreview = valkyriesSettings.value.generatePreview,
                                 ),
                             )
@@ -168,6 +170,7 @@ class IconPackConversionViewModel(
                                     packageName = icon.iconPack.iconPackage,
                                     packName = valkyriesSettings.value.iconPackName,
                                     nestedPackName = "",
+                                    outputFormat = valkyriesSettings.value.outputFormat,
                                     generatePreview = valkyriesSettings.value.generatePreview,
                                 ),
                             )

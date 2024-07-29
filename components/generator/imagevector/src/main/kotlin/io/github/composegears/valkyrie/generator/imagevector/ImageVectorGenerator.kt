@@ -1,13 +1,12 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
 import androidx.compose.material.icons.generator.vector.Vector
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
 
 data class ImageVectorGeneratorConfig(
     val packageName: String,
     val packName: String,
     val nestedPackName: String,
-    val outputFormat: OutputFormat = BackingProperty,
+    val outputFormat: OutputFormat,
     val generatePreview: Boolean,
 )
 

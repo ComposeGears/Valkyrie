@@ -1,7 +1,10 @@
-package io.github.composegears.valkyrie.generator.imagevector
+package io.github.composegears.valkyrie.generator.imagevector.backingproperty
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.parser.IconParser
 import org.junit.jupiter.api.Test
 
@@ -18,6 +21,7 @@ class SvgGradientParserTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
+                outputFormat = OutputFormat.BackingProperty,
                 generatePreview = false,
             ),
         ).content
@@ -219,6 +223,7 @@ class SvgGradientParserTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
+                outputFormat = OutputFormat.BackingProperty,
                 generatePreview = false,
             ),
         ).content
@@ -287,6 +292,7 @@ class SvgGradientParserTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
+                outputFormat = OutputFormat.BackingProperty,
                 generatePreview = false,
             ),
         ).content
