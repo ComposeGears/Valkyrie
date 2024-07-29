@@ -14,16 +14,16 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode
 class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(ValkyrieState()) {
 
     class ValkyrieState : BaseState() {
-        var mode by string(Mode.Unspecified.name)
+        var mode: String? by string(Mode.Unspecified.name)
 
-        var packageName by string()
-        var iconPackName by string()
-        var iconPackDestination by string()
+        var packageName: String? by string()
+        var iconPackName: String? by string()
+        var iconPackDestination: String? by string()
 
-        var nestedPacks by string()
+        var nestedPacks: String? by string()
 
-        var generatePreview by property(false)
-        var outputFormat by string()
+        var generatePreview: Boolean by property(false)
+        var outputFormat: String? by string()
     }
 
     companion object {

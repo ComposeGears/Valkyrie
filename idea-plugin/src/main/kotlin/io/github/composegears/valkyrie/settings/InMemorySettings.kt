@@ -43,7 +43,7 @@ class InMemorySettings {
     }
 
     fun updateOutputFormat(outputFormat: OutputFormat) = updateSettings {
-        PersistentSettings.persistentSettings.outputFormat = outputFormat.name
+        PersistentSettings.persistentSettings.outputFormat = outputFormat.key
     }
 
     fun clear() = updateSettings {
@@ -56,7 +56,7 @@ class InMemorySettings {
 
             nestedPacks = ""
 
-            outputFormat = OutputFormat.BackingProperty.name
+            outputFormat = OutputFormat.BackingProperty.key
             generatePreview = false
         }
     }
@@ -78,7 +78,7 @@ class InMemorySettings {
                 .split(",")
                 .filter { it.isNotEmpty() },
 
-            outputFormat = OutputFormat.findValueOf(outputFormat),
+            outputFormat = OutputFormat.from(outputFormat),
             generatePreview = generatePreview,
         )
 }
