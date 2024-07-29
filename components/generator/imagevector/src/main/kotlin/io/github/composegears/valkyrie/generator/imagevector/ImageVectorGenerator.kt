@@ -11,13 +11,15 @@ data class ImageVectorGeneratorConfig(
     val generatePreview: Boolean,
 )
 
-enum class OutputFormat {
-    BackingProperty,
-    LazyDelegateProperty,
+enum class OutputFormat(val key: String) {
+    BackingProperty(key = "backing_property"),
+    LazyDelegateProperty(key = "lazy_delegate_property"),
     ;
 
     companion object {
-        fun findValueOf(name: String?): OutputFormat = entries.find { it.name == name } ?: BackingProperty
+        fun from(key: String?): OutputFormat {
+            return OutputFormat.valueOf(key ?: BackingProperty.key)
+        }
     }
 }
 
