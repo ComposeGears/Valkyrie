@@ -231,6 +231,15 @@ other available gradle commands:
 
 - apply formatting: `./gradlew spotlessApply`
 
+## Contributors
+
+Thank you for your help! ❤️
+
+<a href="https://github.com/ComposeGears/Valkyrie/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ComposeGears/Valkyrie" />
+</a>
+
+
 ## License
 
 ```
