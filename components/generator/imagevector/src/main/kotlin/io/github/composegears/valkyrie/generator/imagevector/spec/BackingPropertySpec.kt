@@ -15,13 +15,8 @@ import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecConf
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
 import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertyName
 import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertySpec
-import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpec
-import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpecForNestedPack
-import io.github.composegears.valkyrie.generator.imagevector.util.imageVectorBuilderSpecs
 
-internal class BackingPropertySpec(
-    private val config: ImageVectorSpecConfig,
-) {
+internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
 
     fun createAsBackingProperty(vector: Vector): ImageVectorSpecOutput {
         val backingProperty = backingPropertySpec(
@@ -29,27 +24,8 @@ internal class BackingPropertySpec(
             type = ClassNames.ImageVector,
         )
 
-        val iconPackClassName = when {
-            config.iconPack.isEmpty() -> null
-            else -> {
-                if (config.iconNestedPack.isEmpty()) {
-                    ClassName(
-                        config.iconPackage,
-                        config.iconPack,
-                    )
-                } else {
-                    ClassName(
-                        config.iconPackage,
-                        config.iconPack,
-                    ).nestedClass(config.iconNestedPack)
-                }
-            }
-        }
-
-        val packageName = when {
-            config.iconNestedPack.isEmpty() -> config.iconPackage
-            else -> "${config.iconPackage}.${config.iconNestedPack.lowercase()}"
-        }
+        val iconPackClassName = config.resolveIconPackClassName()
+        val packageName = config.resolvePackageName()
 
         val fileSpec = fileSpecBuilder(
             packageName = packageName,
@@ -63,22 +39,11 @@ internal class BackingPropertySpec(
                 ),
             )
             addProperty(propertySpec = backingProperty)
-            apply {
-                if (config.generatePreview) {
-                    addFunction(
-                        funSpec = when {
-                            iconPackClassName != null -> iconPreviewSpecForNestedPack(
-                                iconPackClassName = iconPackClassName,
-                                iconName = config.iconName,
-                            )
-                            else -> iconPreviewSpec(
-                                iconPackage = packageName,
-                                iconName = config.iconName,
-                            )
-                        },
-                    )
-                }
-            }
+            addPreview(
+                config = config,
+                iconPackClassName = iconPackClassName,
+                packageName = packageName,
+            )
             setIndent()
         }
 
@@ -109,18 +74,7 @@ internal class BackingPropertySpec(
             addCode(
                 buildCodeBlock {
                     addCode("%N = ", backingProperty)
-                    add(
-                        imageVectorBuilderSpecs(
-                            iconName = when {
-                                config.iconNestedPack.isEmpty() -> config.iconName
-                                else -> "${config.iconNestedPack}.${config.iconName}"
-                            },
-                            vector = vector,
-                            path = {
-                                vector.nodes.forEach { node -> addVectorNode(node) }
-                            },
-                        ),
-                    )
+                    addImageVectorBlock(config = config, vector = vector)
                 },
             )
             addStatement("")
