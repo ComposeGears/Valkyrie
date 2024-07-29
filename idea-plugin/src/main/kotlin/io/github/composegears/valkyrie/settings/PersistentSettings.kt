@@ -23,6 +23,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var nestedPacks by string()
 
         var generatePreview by property(false)
+        var outputFormat by string()
     }
 
     companion object {

@@ -27,6 +27,7 @@ import com.composegears.tiamat.koin.koinTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
@@ -39,6 +40,8 @@ import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.ui.OutputFormatSection
+import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.UpdatePreviewGeneration
 
 val SettingsScreen by navDestination<Unit> {
     val navController = navController()
@@ -55,7 +58,7 @@ val SettingsScreen by navDestination<Unit> {
             navController.editBackStack { clear() }
             navController.replace(IntroScreen)
         },
-        onGeneratePreviewChange = settingsViewModel::updateGeneratePreview,
+        onAction = settingsViewModel::onAction,
         onBack = {
             navController.back(transition = navigationSlideInOut(false))
         },
@@ -80,8 +83,8 @@ val SettingsScreen by navDestination<Unit> {
 @Composable
 private fun SettingsUI(
     settings: ValkyriesSettings,
+    onAction: (SettingsAction) -> Unit,
     onChangeMode: () -> Unit,
-    onGeneratePreviewChange: (Boolean) -> Unit,
     onClearSettings: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -112,7 +115,10 @@ private fun SettingsUI(
 
         SectionTitle(name = "ImageVector export settings")
         VerticalSpacer(8.dp)
-        OutputFormatSection()
+        OutputFormatSection(
+            outputFormat = settings.outputFormat,
+            onAction = onAction,
+        )
         VerticalSpacer(8.dp)
         Row(
             modifier = Modifier
@@ -120,7 +126,7 @@ private fun SettingsUI(
                 .height(48.dp)
                 .toggleable(
                     value = settings.generatePreview,
-                    onValueChange = onGeneratePreviewChange,
+                    onValueChange = { onAction(UpdatePreviewGeneration(it)) },
                 )
                 .padding(start = 24.dp, end = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -133,7 +139,7 @@ private fun SettingsUI(
             Switch(
                 modifier = Modifier.scale(0.9f),
                 checked = settings.generatePreview,
-                onCheckedChange = onGeneratePreviewChange,
+                onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
             )
         }
         SectionTitle(name = "Danger zone")
@@ -203,11 +209,12 @@ private fun SettingsScreenPreview() = PreviewTheme {
 
             nestedPacks = emptyList(),
 
+            outputFormat = OutputFormat.BackingProperty,
             generatePreview = false,
         ),
-        onGeneratePreviewChange = {},
         onClearSettings = {},
         onChangeMode = {},
         onBack = {},
+        onAction = {},
     )
 }

@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.settings
 
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
@@ -41,6 +42,10 @@ class InMemorySettings {
         PersistentSettings.persistentSettings.mode = mode.name
     }
 
+    fun updateOutputFormat(outputFormat: OutputFormat) = updateSettings {
+        PersistentSettings.persistentSettings.outputFormat = outputFormat.name
+    }
+
     fun clear() = updateSettings {
         with(PersistentSettings.persistentSettings) {
             mode = Mode.Unspecified.name
@@ -51,6 +56,7 @@ class InMemorySettings {
 
             nestedPacks = ""
 
+            outputFormat = OutputFormat.BackingProperty.name
             generatePreview = false
         }
     }
@@ -72,6 +78,7 @@ class InMemorySettings {
                 .split(",")
                 .filter { it.isNotEmpty() },
 
+            outputFormat = OutputFormat.findValueOf(outputFormat),
             generatePreview = generatePreview,
         )
 }
@@ -85,5 +92,6 @@ data class ValkyriesSettings(
 
     val nestedPacks: List<String>,
 
+    val outputFormat: OutputFormat,
     val generatePreview: Boolean,
 )

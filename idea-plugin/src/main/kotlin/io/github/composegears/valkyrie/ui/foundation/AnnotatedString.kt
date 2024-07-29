@@ -37,7 +37,6 @@ fun getHighlightedCode(
         val matchedIdentifier = identifiers.find { code.startsWith(it, i) }
         val isBackingProperty = code.startsWith("_", i)
 
-
         when {
             matchedKeyword != null -> {
                 withStyle(style = SpanStyle(color = colors.keywordColor)) {
