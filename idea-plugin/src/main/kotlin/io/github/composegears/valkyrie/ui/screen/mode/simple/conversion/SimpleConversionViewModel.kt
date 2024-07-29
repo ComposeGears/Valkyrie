@@ -38,6 +38,7 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
                     packageName = valkyriesSettings.packageName,
                     packName = "",
                     nestedPackName = "",
+                    outputFormat = valkyriesSettings.outputFormat,
                     generatePreview = valkyriesSettings.generatePreview,
                 ),
             ).content

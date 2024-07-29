@@ -1,7 +1,10 @@
-package io.github.composegears.valkyrie.generator.imagevector
+package io.github.composegears.valkyrie.generator.imagevector.backingproperty
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.parser.IconParser
 import org.junit.jupiter.api.Test
 
@@ -18,6 +21,7 @@ class PreviewGenerationTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "",
                 nestedPackName = "",
+                outputFormat = OutputFormat.BackingProperty,
                 generatePreview = true,
             ),
         ).content
@@ -77,6 +81,7 @@ class PreviewGenerationTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
                 nestedPackName = "",
+                outputFormat = OutputFormat.BackingProperty,
                 generatePreview = true,
             ),
         ).content
@@ -136,6 +141,7 @@ class PreviewGenerationTest {
                 packageName = "io.github.composegears.valkyrie.icons",
                 packName = "ValkyrieIcons",
                 nestedPackName = "Filled",
+                outputFormat = OutputFormat.BackingProperty,
                 generatePreview = true,
             ),
         ).content

@@ -39,16 +39,14 @@ internal enum class PackageNames(val packageName: String) {
  */
 object ClassNames {
     val ImageVector = PackageNames.VectorPackage.className("ImageVector")
-    val PathFillTypeWithCompanion = PackageNames.GraphicsPackage.className("PathFillType", CompanionImportName)
     val PathFillType = PackageNames.GraphicsPackage.className("PathFillType")
-    val StrokeCapWithCompanion = PackageNames.GraphicsPackage.className("StrokeCap", CompanionImportName)
     val StrokeCap = PackageNames.GraphicsPackage.className("StrokeCap")
-    val StrokeJoinWithCompanion = PackageNames.GraphicsPackage.className("StrokeJoin", CompanionImportName)
     val StrokeJoin = PackageNames.GraphicsPackage.className("StrokeJoin")
     val Brush = PackageNames.GraphicsPackage.className("Brush")
     val Preview = PackageNames.PreviewPackage.className("Preview")
     val Composable = PackageNames.RuntimePackage.className("Composable")
     val Suppress = ClassName.bestGuess("kotlin.Suppress")
+    val LazyThreadSafetyMode = ClassName.bestGuess("kotlin.LazyThreadSafetyMode")
 }
 
 /**
@@ -75,5 +73,3 @@ object MemberNames {
  * @return the [ClassName] of the given [classNames] inside this package.
  */
 internal fun PackageNames.className(vararg classNames: String) = ClassName(this.packageName, *classNames)
-
-private const val CompanionImportName = "Companion"
