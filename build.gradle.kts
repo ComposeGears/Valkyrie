@@ -16,6 +16,7 @@ allprojects {
     extensions.configure<SpotlessExtension> {
         kotlin {
             target("src/**/*.kt")
+            targetExclude("src/test/resources/**")
             ktlint(rootProject.libs.ktlint.get().version)
                 .customRuleSets(
                     listOf(
