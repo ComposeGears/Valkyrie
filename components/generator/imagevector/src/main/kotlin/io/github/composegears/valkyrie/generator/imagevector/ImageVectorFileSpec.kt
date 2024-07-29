@@ -14,6 +14,8 @@ import io.github.composegears.valkyrie.generator.ext.getterFunSpecBuilder
 import io.github.composegears.valkyrie.generator.ext.propertySpecBuilder
 import io.github.composegears.valkyrie.generator.ext.removeDeadCode
 import io.github.composegears.valkyrie.generator.ext.setIndent
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyDelegateProperty
 import io.github.composegears.valkyrie.generator.imagevector.util.addPath
 import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertyName
 import io.github.composegears.valkyrie.generator.imagevector.util.backingPropertySpec
@@ -26,12 +28,20 @@ internal data class ImageVectorSpecConfig(
     val iconPack: String,
     val iconNestedPack: String,
     val iconPackage: String,
+    val outputFormat: OutputFormat,
     val generatePreview: Boolean,
 )
 
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
     fun createFileFor(vector: Vector): ImageVectorSpecOutput {
+        return when (config.outputFormat) {
+            BackingProperty -> createAsBackingProperty(vector)
+            LazyDelegateProperty -> TODO("Add Lazy delegate")
+        }
+    }
+
+    private fun createAsBackingProperty(vector: Vector): ImageVectorSpecOutput {
         val backingProperty = backingPropertySpec(
             name = config.iconName.backingPropertyName(),
             type = ClassNames.ImageVector,

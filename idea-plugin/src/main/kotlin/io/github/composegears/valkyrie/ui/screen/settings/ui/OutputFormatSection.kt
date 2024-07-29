@@ -15,26 +15,29 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyDelegateProperty
 import io.github.composegears.valkyrie.ui.foundation.HighlightColors
 import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.getHighlightedCode
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.foundation.theme.isLight
+import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.UpdateOutputFormat
 
 @Composable
 fun OutputFormatSection(
+    outputFormat: OutputFormat,
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(horizontal = 24.dp),
+    onAction: (SettingsAction) -> Unit,
 ) {
-    var isSelected by rememberMutableState { true }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -58,8 +61,8 @@ fun OutputFormatSection(
                     code = backingPropertyFormat,
                     colors = highlightColors,
                 ),
-                isSelected = isSelected,
-                onSelected = { isSelected = !isSelected },
+                isSelected = outputFormat == BackingProperty,
+                onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
             )
             SelectableCard(
                 modifier = Modifier.weight(1f).fillMaxHeight(),
@@ -68,8 +71,8 @@ fun OutputFormatSection(
                     code = lazyPropertyFormat,
                     colors = highlightColors,
                 ),
-                isSelected = !isSelected,
-                onSelected = { isSelected = !isSelected },
+                isSelected = outputFormat == LazyDelegateProperty,
+                onSelect = { onAction(UpdateOutputFormat(LazyDelegateProperty)) },
             )
         }
     }
@@ -81,17 +84,19 @@ private fun SelectableCard(
     hint: AnnotatedString,
     isSelected: Boolean,
     modifier: Modifier = Modifier,
-    onSelected: () -> Unit,
+    onSelect: () -> Unit,
 ) {
     Card(
         modifier = modifier,
-        onClick = onSelected,
+        onClick = onSelect,
         border = if (isSelected) {
             BorderStroke(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.primary,
             )
-        } else null,
+        } else {
+            null
+        },
     ) {
         Row(
             modifier = Modifier.fillMaxHeight(),
@@ -131,10 +136,13 @@ private val lazyPropertyFormat = """
     val ArrowLeft by lazy(NONE) {
         ImageVector.Builder(...).build()
     }
-    """.trimIndent()
+""".trimIndent()
 
 @Preview
 @Composable
 private fun OutputFormatSectionPreview() = PreviewTheme {
-    OutputFormatSection()
+    OutputFormatSection(
+        outputFormat = BackingProperty,
+        onAction = {},
+    )
 }
