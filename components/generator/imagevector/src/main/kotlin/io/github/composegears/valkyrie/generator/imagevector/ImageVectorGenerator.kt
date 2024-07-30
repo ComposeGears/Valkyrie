@@ -16,9 +16,7 @@ enum class OutputFormat(val key: String) {
     ;
 
     companion object {
-        fun from(key: String?): OutputFormat {
-            return OutputFormat.valueOf(key ?: BackingProperty.key)
-        }
+        fun from(key: String?) = OutputFormat.entries.find { it.key == key } ?: BackingProperty
     }
 }
 
