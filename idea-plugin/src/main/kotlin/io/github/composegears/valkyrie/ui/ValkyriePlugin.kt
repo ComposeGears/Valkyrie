@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import com.composegears.tiamat.Navigation
 import com.composegears.tiamat.rememberNavController
@@ -43,6 +44,14 @@ fun ValkyriePlugin(
         configuration = {
             if (current != null) return@rememberNavController
 
+            val uiState = inMemorySettings.uiState
+            if (uiState.isNotEmpty()) {
+                runCatching {
+                    loadFromSavedState(uiState)
+                }
+            }
+            if (current != null) return@rememberNavController
+
             val settings = inMemorySettings.current
             val screen = when (settings.mode) {
                 Simple -> SimpleConversionScreen
@@ -52,6 +61,12 @@ fun ValkyriePlugin(
             navigate(screen)
         },
     )
+
+    DisposableEffect(Unit) {
+        onDispose {
+            inMemorySettings.updateUIState(navController.getSavedState())
+        }
+    }
 
     Navigation(
         modifier = modifier.fillMaxSize(),

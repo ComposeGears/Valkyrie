@@ -11,6 +11,9 @@ class InMemorySettings {
     private val _settings = MutableStateFlow(value = PersistentSettings.persistentSettings.toValkyriesSettings())
     val settings = _settings.asStateFlow()
 
+    var uiState: Map<String, Any?> = emptyMap()
+        private set
+
     val current: ValkyriesSettings
         get() = settings.value
 
@@ -64,6 +67,10 @@ class InMemorySettings {
     private fun updateSettings(function: () -> Unit) {
         function()
         _settings.updateState { PersistentSettings.persistentSettings.toValkyriesSettings() }
+    }
+
+    fun updateUIState(uiState: Map<String, Any?>) {
+        this.uiState = uiState
     }
 
     private fun PersistentSettings.ValkyrieState.toValkyriesSettings() =
