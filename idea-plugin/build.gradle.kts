@@ -40,7 +40,7 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
-    implementation(libs.tiamat)
+    implementation(libs.tiamat.base)
     implementation(libs.tiamat.koin)
 
     // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
