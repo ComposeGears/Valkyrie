@@ -79,7 +79,8 @@ private fun CodeBlock.Builder.addVectorNode(vectorNode: VectorNode) {
         is VectorNode.Path -> {
             addPath(vectorNode) {
                 vectorNode.nodes.forEach { pathNode ->
-                    addStatement(pathNode.asFunctionCall())
+                    // based on https://github.com/square/kotlinpoet/pull/1860#issuecomment-1986825382
+                    addStatement("%L", pathNode.asFunctionCall().replace(' ', '·'))
                 }
             }
         }
