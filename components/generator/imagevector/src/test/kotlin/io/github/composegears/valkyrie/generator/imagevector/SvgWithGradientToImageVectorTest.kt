@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.generator.imagevector
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.generator.imagevector.common.ResourceUtils.getResourcePath
+import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.IconParser
 import org.junit.jupiter.params.ParameterizedTest
