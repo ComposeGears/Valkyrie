@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator.imagevector.common
+package io.github.composegears.valkyrie.extensions
 
 import java.nio.file.Path
 import kotlin.io.path.readText
