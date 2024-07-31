@@ -52,8 +52,8 @@ class XmlToImageVectorTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/Colored.WithoutPath.kt",
-            pathToLazyProperty = "kt/lazy/Colored.WithoutPath.kt",
+            pathToBackingProperty = "kt/backing/WithoutPath.pack.nested.kt",
+            pathToLazyProperty = "kt/lazy/WithoutPath.pack.nested.kt",
         )
         assertThat(output).isEqualTo(expected)
     }
@@ -198,6 +198,30 @@ class XmlToImageVectorTest {
         val expected = outputFormat.toResourceText(
             pathToBackingProperty = "kt/backing/TransparentFillColor.kt",
             pathToLazyProperty = "kt/lazy/TransparentFillColor.kt",
+        )
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = OutputFormat::class)
+    fun `icon with named arguments`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/icon_with_named_args.xml")
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.vector,
+            kotlinName = parserOutput.kotlinName,
+            config = ImageVectorGeneratorConfig(
+                packageName = "io.github.composegears.valkyrie.icons",
+                packName = "ValkyrieIcons",
+                nestedPackName = "",
+                outputFormat = outputFormat,
+                generatePreview = false,
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "kt/backing/IconWithNamedArgs.kt",
+            pathToLazyProperty = "kt/lazy/IconWithNamedArgs.kt",
         )
         assertThat(output).isEqualTo(expected)
     }

@@ -146,7 +146,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val arcStartDx: Float,
         val arcStartDy: Float,
     ) : PathNode() {
-        override fun asFunctionCall() = "arcToRelative(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, $isMoreThanHalf, $isPositiveArc, ${arcStartDx.formatFloat()}, ${arcStartDy.formatFloat()})"
+        override fun asFunctionCall() = "arcToRelative(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartDx.formatFloat()}, ${arcStartDy.formatFloat()})"
     }
 
     data class ArcTo(
@@ -158,7 +158,7 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
         val arcStartX: Float,
         val arcStartY: Float,
     ) : PathNode() {
-        override fun asFunctionCall() = "arcTo(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, $isMoreThanHalf, $isPositiveArc, ${arcStartX.formatFloat()}, ${arcStartY.formatFloat()})"
+        override fun asFunctionCall() = "arcTo(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartX.formatFloat()}, ${arcStartY.formatFloat()})"
     }
 }
 
