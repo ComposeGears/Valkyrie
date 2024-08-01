@@ -5,6 +5,7 @@ import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.parser.PackageExtractor
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
@@ -107,7 +108,9 @@ private class InputHandler(private val inMemorySettings: InMemorySettings) {
     private val _state = MutableStateFlow(
         InputFieldState(
             iconPackName = InputState(text = valkyriesSettings.iconPackName),
-            packageName = InputState(text = valkyriesSettings.packageName),
+            packageName = InputState(
+                text = PackageExtractor.getFrom(path = valkyriesSettings.iconPackDestination) ?: valkyriesSettings.packageName,
+            ),
             nestedPacks = valkyriesSettings.nestedPacks.mapIndexed { index, nestedPack ->
                 NestedPack(
                     id = index.toString(),

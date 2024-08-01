@@ -118,20 +118,39 @@ private fun IconPackDestinationScreenUI(
                 .fillMaxWidth(0.8f)
                 .align(Alignment.CenterHorizontally),
         ) {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+            ) {
                 if (state.iconPackDestination.isNotEmpty()) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Start),
-                        text = "Export path:",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        modifier = Modifier.align(Alignment.Start),
-                        text = state.iconPackDestination,
-                        textDecoration = TextDecoration.Underline,
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    VerticalSpacer(36.dp)
+                    Column {
+                        Text(
+                            modifier = Modifier.align(Alignment.Start),
+                            text = "Export path:",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                        Text(
+                            modifier = Modifier.align(Alignment.Start),
+                            text = state.iconPackDestination,
+                            textDecoration = TextDecoration.Underline,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+                }
+                if (state.predictedPackage.isNotEmpty()) {
+                    Column {
+                        Text(
+                            modifier = Modifier.align(Alignment.Start),
+                            text = "Predicted package:",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                        Text(
+                            modifier = Modifier.align(Alignment.Start),
+                            textDecoration = TextDecoration.Underline,
+                            text = state.predictedPackage,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
                 }
                 Button(
                     modifier = Modifier.align(Alignment.End),
@@ -153,6 +172,7 @@ private fun IconPackDestinationScreenPreview() = PreviewTheme {
         state = IconPackDestinationState(
             nextButtonEnabled = true,
             iconPackDestination = "Users/Downloads/IconPackDestination",
+            predictedPackage = "com.example.iconpack",
         ),
         onChooseDirectory = {},
         isDragging = false,
