@@ -1,6 +1,5 @@
 [versions]
 kotlin = "2.0.0"
-tiamat = "1.1.0"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.5.1"
@@ -11,8 +10,8 @@ kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
-tiamat-base = { module = "io.github.composegears:tiamat", version.ref = "tiamat" }
-tiamat-koin = { module = "io.github.composegears:tiamat-koin", version.ref = "tiamat" }
+tiamat-base = "io.github.composegears:tiamat:1.1.1"
+tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0"
 
 xpp3 = "org.ogce:xpp3:1.1.6"
 
