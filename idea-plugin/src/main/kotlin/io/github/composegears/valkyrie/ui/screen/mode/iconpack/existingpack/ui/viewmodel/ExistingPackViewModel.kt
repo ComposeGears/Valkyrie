@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.
 
 import com.composegears.tiamat.TiamatViewModel
 import com.intellij.openapi.project.Project
-import io.github.composegears.valkyrie.extensions.castOrNull
+import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.psi.iconpack.IconPackInfo
@@ -96,7 +96,7 @@ class ExistingPackViewModel(
     }
 
     private fun previewIconPackObject() = viewModelScope.launch {
-        val editState = currentState.castOrNull<ExistingPackEditState>()?.packEditState ?: return@launch
+        val editState = currentState.safeAs<ExistingPackEditState>()?.packEditState ?: return@launch
         val inputFieldState = editState.inputFieldState
 
         val iconPackCode = IconPackGenerator.create(
@@ -111,7 +111,7 @@ class ExistingPackViewModel(
     }
 
     private fun saveIconPack() {
-        val editState = currentState.castOrNull<ExistingPackEditState>() ?: return
+        val editState = currentState.safeAs<ExistingPackEditState>() ?: return
         val inputFieldState = editState.packEditState.inputFieldState
 
         viewModelScope.launch {

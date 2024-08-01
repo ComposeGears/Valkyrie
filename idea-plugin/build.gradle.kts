@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.components.generator.imagevector)
     implementation(projects.components.parser)
     implementation(projects.components.psi.iconpack)
+    implementation(projects.components.psi.imagevector)
 
     compileOnly(compose.desktop.currentOs)
     implementation(compose.desktop.common)

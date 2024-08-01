@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewmodel
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.extensions.castOrNull
+import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.parser.PackageExtractor
@@ -100,7 +100,7 @@ class NewPackViewModel(
     }
 
     private fun saveDestination() {
-        val directoryState = currentState.castOrNull<ChooseExportDirectoryState>() ?: return
+        val directoryState = currentState.safeAs<ChooseExportDirectoryState>() ?: return
 
         inMemorySettings.updateIconPackDestination(directoryState.iconPackDestination)
     }
@@ -112,7 +112,7 @@ class NewPackViewModel(
     }
 
     private fun previewIconPackObject() = viewModelScope.launch {
-        val editState = currentState.castOrNull<PickedState>()?.packEditState ?: return@launch
+        val editState = currentState.safeAs<PickedState>()?.packEditState ?: return@launch
         val inputFieldState = editState.inputFieldState
 
         val iconPackCode = IconPackGenerator.create(
@@ -126,7 +126,7 @@ class NewPackViewModel(
     }
 
     private fun saveIconPack() {
-        val packEditState = currentState.castOrNull<PickedState>()?.packEditState ?: return
+        val packEditState = currentState.safeAs<PickedState>()?.packEditState ?: return
 
         viewModelScope.launch {
             IconPackWriter.savePack(
