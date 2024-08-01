@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.0.0"
-tiamat = "1.1.0"
+tiamat = "1.1.1"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.5.1"
