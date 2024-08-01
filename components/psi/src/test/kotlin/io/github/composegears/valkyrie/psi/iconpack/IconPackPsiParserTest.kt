@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.psi
+package io.github.composegears.valkyrie.psi.iconpack
 
 import assertk.assertThat
 import assertk.assertions.containsExactly
@@ -11,7 +11,7 @@ class IconPackPsiParserTest {
 
     @Test
     fun `simple icon pack parser`() {
-        val path = getResourcePath("SimpleIconPack.kt")
+        val path = getResourcePath("iconpack/SimpleIconPack.kt")
 
         val iconPackInfo = IconPackPsiParser.extractIconPack(path)
 
@@ -24,7 +24,7 @@ class IconPackPsiParserTest {
 
     @Test
     fun `nested icon pack parser`() {
-        val path = getResourcePath("NestedIconPack.kt")
+        val path = getResourcePath("iconpack/NestedIconPack.kt")
 
         val iconPackInfo = IconPackPsiParser.extractIconPack(path)
 
@@ -38,7 +38,7 @@ class IconPackPsiParserTest {
 
     @Test
     fun `data object icon pack parser`() {
-        val path = getResourcePath("DataObjectIconPack.kt")
+        val path = getResourcePath("iconpack/DataObjectIconPack.kt")
 
         val iconPackInfo = IconPackPsiParser.extractIconPack(path)
 

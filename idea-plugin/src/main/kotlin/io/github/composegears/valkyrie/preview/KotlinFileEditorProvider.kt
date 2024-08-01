@@ -1,0 +1,105 @@
+package io.github.composegears.valkyrie.preview
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposePanel
+import com.intellij.openapi.fileEditor.FileEditor
+import com.intellij.openapi.fileEditor.FileEditorPolicy
+import com.intellij.openapi.fileEditor.FileEditorProvider
+import com.intellij.openapi.fileEditor.FileEditorState
+import com.intellij.openapi.fileEditor.TextEditor
+import com.intellij.openapi.fileEditor.TextEditorWithPreview
+import com.intellij.openapi.fileEditor.impl.text.QuickDefinitionProvider
+import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider
+import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Key
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.util.ui.JBUI
+import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
+import java.awt.Dimension
+import javax.swing.JComponent
+
+class KotlinFileEditorProvider :
+    FileEditorProvider,
+    QuickDefinitionProvider,
+    DumbAware {
+    override fun getEditorTypeId(): String = "KotlinFileEditorWithPreview"
+
+    override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.HIDE_DEFAULT_EDITOR
+
+    override fun accept(project: Project, file: VirtualFile): Boolean {
+        return file.fileType.name == "Kotlin"
+    }
+
+    override fun acceptRequiresReadAction(): Boolean = false
+
+    override fun createEditor(project: Project, file: VirtualFile): FileEditor {
+        return TextEditorWithPreview2(project, file)
+    }
+}
+
+class TextEditorWithPreview2(
+    project: Project,
+    file: VirtualFile,
+) : TextEditorWithPreview(
+    /* editor = */
+    createTextEditor(project, file),
+    /* preview = */
+    createPreviewEditor(project, file),
+) {
+    companion object {
+        private fun createTextEditor(project: Project, file: VirtualFile): TextEditor {
+            return TextEditorProvider.getInstance().createEditor(project, file) as TextEditor
+        }
+
+        private fun createPreviewEditor(project: Project, file: VirtualFile): FileEditor {
+            return KotlinFilePreviewEditor(project, file)
+        }
+    }
+}
+
+class KotlinFilePreviewEditor(private val project: Project, private val file: VirtualFile) : FileEditor {
+
+    private val composePanel = ComposePanel().apply {
+        setContent {
+            ValkyrieTheme(project, this) {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text("Preview of Kotlin File: ${file.name}")
+                    }
+                }
+            }
+        }
+        preferredSize = JBUI.size(Dimension(800, 800))
+    }
+
+    override fun getComponent(): JComponent = composePanel
+
+    override fun getPreferredFocusedComponent(): JComponent = composePanel
+
+    override fun getName(): String = "Kotlin File Preview"
+
+    override fun setState(state: FileEditorState) {}
+
+    override fun isModified(): Boolean = false
+
+    override fun isValid(): Boolean = true
+
+    override fun addPropertyChangeListener(listener: java.beans.PropertyChangeListener) {}
+
+    override fun removePropertyChangeListener(listener: java.beans.PropertyChangeListener) {}
+
+    override fun <T : Any?> getUserData(p0: Key<T>): T? {
+        return null
+    }
+
+    override fun <T : Any?> putUserData(p0: Key<T>, p1: T?) {
+    }
+
+    override fun dispose() {}
+}

@@ -1,6 +1,7 @@
-package io.github.composegears.valkyrie.psi
+package io.github.composegears.valkyrie.psi.iconpack
 
 import io.github.composegears.valkyrie.extensions.castOrNull
+import io.github.composegears.valkyrie.psi.util.project
 import java.nio.file.Path
 import kotlin.io.path.name
 import kotlin.io.path.readText

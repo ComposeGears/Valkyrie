@@ -36,6 +36,7 @@ Allows to create organized icon pack with an extension property of you pack obje
                     icon="icons/ic_logo_tool_window.svg"/>
 
         <notificationGroup id="valkyrie" displayType="BALLOON"/>
-    </extensions>
+      <fileEditorProvider implementation="io.github.composegears.valkyrie.preview.KotlinFileEditorProvider"/>
 
+    </extensions>
 </idea-plugin>

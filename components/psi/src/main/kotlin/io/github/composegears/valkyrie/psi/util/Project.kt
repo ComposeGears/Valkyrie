@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.psi
+package io.github.composegears.valkyrie.psi.util
 
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
