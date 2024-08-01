@@ -3,6 +3,13 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -45,3 +52,4 @@ include("components:generator:common")
 include("components:generator:iconpack")
 include("components:generator:imagevector")
 include("components:parser")
+include("playground:app")
