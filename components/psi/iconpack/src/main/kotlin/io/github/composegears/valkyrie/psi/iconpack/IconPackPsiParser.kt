@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.psi.iconpack
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiManager
 import com.intellij.testFramework.LightVirtualFile
-import io.github.composegears.valkyrie.extensions.castOrNull
+import io.github.composegears.valkyrie.extensions.safeAs
 import java.nio.file.Path
 import kotlin.io.path.name
 import kotlin.io.path.readText
@@ -23,7 +23,7 @@ object IconPackPsiParser {
     fun extractIconPack(path: Path, project: Project): IconPackInfo? {
         val ktFile = PsiManager.getInstance(project)
             .findFile(LightVirtualFile(path.name, KotlinFileType.INSTANCE, path.readText()))
-            .castOrNull<KtFile>() ?: return null
+            .safeAs<KtFile>() ?: return null
 
         var iconPackName: String? = null
         val nestedPacks = mutableListOf<String>()
