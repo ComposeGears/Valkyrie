@@ -1,8 +1,9 @@
 [![Plugin Homepage][badge:plugin-homepage]][plugin-homepage]
-[![License][badge:license]][gh:license]
-[![GitHub releases][badge:release]][gh:releases]
 [![Version][badge:version]][plugin-versions]
+[![GitHub releases][badge:release]][gh:releases]
 [![Downloads][badge:downloads]][plugin-homepage]
+[![License][badge:license]][gh:license]
+[![Downloads][badge:slack]][slack-invite]
 
 <div align="center">
     <img alt="Icon" src="idea-plugin/src/main/resources/META-INF/pluginIcon.svg" width="200" />
@@ -231,6 +232,12 @@ other available gradle commands:
 
 - apply formatting: `./gradlew spotlessApply`
 
+## Join our community
+
+<a href="https://join.slack.com/t/composegears/shared_invite/zt-2noleve52-D~zrFPmC1cdhThsuQUW61A">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg" alt="Slack" title="Slack" width="200">
+</a>
+
 ## Contributors
 
 Thank you for your help! ❤️
@@ -258,15 +265,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[badge:plugin-homepage]: https://img.shields.io/badge/plugin%20homepage-Valkyrie-24786.svg?style=flat-square
+[badge:plugin-homepage]: https://img.shields.io/badge/Jetbrains_Marketplace-Valkyrie-24786.svg
 
-[badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie.svg?style=flat-square
-[badge:release]: https://img.shields.io/github/release/ComposeGears/Valkyrie.svg?sort=semver&style=flat-square&colorB=0097A7
-[badge:version]: https://img.shields.io/jetbrains/plugin/v/24786.svg?style=flat-square&colorB=2196F3
-[badge:downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=flat-square&colorB=5C6BC0
+[badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie.svg
+[badge:release]: https://img.shields.io/github/release/ComposeGears/Valkyrie.svg?sort=semver&colorB=0097A7
+[badge:version]: https://img.shields.io/jetbrains/plugin/v/24786.svg?colorB=2196F3
+[badge:downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?colorB=5C6BC0
+[badge:slack]: https://img.shields.io/badge/slack-Compose_Gears-blue.svg?logo=slack
 
 [gh:releases]: https://github.com/ComposeGears/Valkyrie/releases
 [gh:license]: https://github.com/ComposeGears/Valkyrie/blob/main/LICENSE
 
 [plugin-homepage]: https://plugins.jetbrains.com/plugin/24786-valkyrie
 [plugin-versions]: https://plugins.jetbrains.com/plugin/24786-valkyrie/versions
+[slack-invite]: https://join.slack.com/t/composegears/shared_invite/zt-2noleve52-D~zrFPmC1cdhThsuQUW61A
