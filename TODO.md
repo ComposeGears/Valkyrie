@@ -1,6 +1,5 @@
 - Multi edit icon pack
 - Simple mode without package
-- Add version into plugin settings
 - Optimize current icons (clean up, adding into pack)
 - Generate preview for whole icon pack
 - Add limitations for ImageVector

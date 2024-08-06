@@ -35,6 +35,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
 import io.github.composegears.valkyrie.ui.foundation.icons.SimpleConversion
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.destination.IconPackDestinationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 
@@ -99,6 +100,13 @@ private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
                 description = "Create organized icon pack with batch export into your project",
             )
         }
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = 8.dp),
+            style = MaterialTheme.typography.labelSmall,
+            text = rememberPluginVersion(),
+        )
     }
 }
 
