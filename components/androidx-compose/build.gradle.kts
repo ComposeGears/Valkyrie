@@ -7,4 +7,6 @@ dependencies {
 
     implementation(libs.kotlinpoet)
     implementation(libs.xpp3)
+
+    testImplementation(libs.bundles.test)
 }

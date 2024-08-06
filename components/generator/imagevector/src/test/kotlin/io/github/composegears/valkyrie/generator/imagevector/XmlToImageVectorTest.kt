@@ -225,4 +225,28 @@ class XmlToImageVectorTest {
         )
         assertThat(output).isEqualTo(expected)
     }
+
+    @ParameterizedTest
+    @EnumSource(value = OutputFormat::class)
+    fun `icon with shorthand color`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/icon_with_shorthand_color.xml")
+        val parserOutput = IconParser.toVector(icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.vector,
+            kotlinName = parserOutput.kotlinName,
+            config = ImageVectorGeneratorConfig(
+                packageName = "io.github.composegears.valkyrie.icons",
+                packName = "ValkyrieIcons",
+                nestedPackName = "",
+                outputFormat = outputFormat,
+                generatePreview = false,
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "kt/backing/IconWithShorthandColor.kt",
+            pathToLazyProperty = "kt/lazy/IconWithShorthandColor.kt",
+        )
+        assertThat(output).isEqualTo(expected)
+    }
 }

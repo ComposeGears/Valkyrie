@@ -16,6 +16,7 @@
 
 package androidx.compose.material.icons.generator
 
+import androidx.compose.material.icons.generator.util.toHexColor
 import androidx.compose.material.icons.generator.vector.Fill
 import androidx.compose.material.icons.generator.vector.FillType
 import androidx.compose.material.icons.generator.vector.PathParser
@@ -210,23 +211,6 @@ private fun XmlPullParser.seekToStartTag(): XmlPullParser {
 
 private fun XmlPullParser.isAtEnd() =
     eventType == END_DOCUMENT || (depth < 1 && eventType == END_TAG)
-
-private val hexRegex = "^[0-9a-fA-F]{6,8}".toRegex()
-
-private fun String.toHexColor(): String {
-    return removePrefix("#")
-        .let {
-            if (hexRegex.matches(it)) {
-                if (it.length > 6) {
-                    it
-                } else {
-                    "FF$it"
-                }
-            } else {
-                "FF000000"
-            }
-        }
-}
 
 // XML tag names
 private const val CLIP_PATH = "clip-path"
