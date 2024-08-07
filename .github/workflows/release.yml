@@ -60,7 +60,8 @@ jobs:
             ideaIC:2024.1.2
             ideaIC:2024.1.3
             ideaIC:2024.1.4
-            ideaIC:LATEST-EAP-SNAPSHOT
+            ideaIC:2024.1.5
+            ideaIC:2024.2
           failure-levels: |
             COMPATIBILITY_WARNINGS
             COMPATIBILITY_PROBLEMS
