@@ -50,7 +50,7 @@ intellijPlatform {
     buildSearchableOptions = false
     projectName = "valkyrie-plugin"
     pluginConfiguration.ideaVersion {
-        sinceBuild = "241"
+        sinceBuild = "242"
         untilBuild = provider { null }
     }
     pluginVerification {
@@ -82,8 +82,9 @@ intellijPlatform {
 }
 
 java {
-    // IDEA 2024.1 requires Java 17.
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    // IDEA 2024.2 or above requires Java 21.
+    // https://plugins.jetbrains.com/docs/intellij/api-changes-list-2024.html
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
 tasks {

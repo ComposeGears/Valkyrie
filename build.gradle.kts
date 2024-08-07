@@ -34,7 +34,7 @@ allprojects {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
         dependencies {
             extensions.configure<IntelliJPlatformDependenciesExtension> {
-                intellijIdeaCommunity("2024.1")
+                intellijIdeaCommunity("2024.2")
                 bundledPlugin("org.jetbrains.kotlin")
             }
         }
