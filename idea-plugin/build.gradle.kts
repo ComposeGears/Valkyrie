@@ -32,6 +32,7 @@ dependencies {
     implementation(projects.components.psi)
 
     compileOnly(compose.desktop.currentOs)
+    // These Compose Desktop deps include skiko-awt-runtime, they are still necessary for each OS.
     implementation(compose.desktop.common)
     implementation(compose.desktop.linux_arm64)
     implementation(compose.desktop.linux_x64)
