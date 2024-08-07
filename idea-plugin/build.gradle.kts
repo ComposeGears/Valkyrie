@@ -31,14 +31,13 @@ dependencies {
     implementation(projects.components.parser)
     implementation(projects.components.psi)
 
-    // We don't have to include Compose deps into distributions.
     compileOnly(compose.desktop.currentOs)
-    compileOnly(compose.desktop.common)
-    compileOnly(compose.desktop.linux_arm64)
-    compileOnly(compose.desktop.linux_x64)
-    compileOnly(compose.desktop.macos_arm64)
-    compileOnly(compose.desktop.macos_x64)
-    compileOnly(compose.desktop.windows_x64)
+    implementation(compose.desktop.common)
+    implementation(compose.desktop.linux_arm64)
+    implementation(compose.desktop.linux_x64)
+    implementation(compose.desktop.macos_arm64)
+    implementation(compose.desktop.macos_x64)
+    implementation(compose.desktop.windows_x64)
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
