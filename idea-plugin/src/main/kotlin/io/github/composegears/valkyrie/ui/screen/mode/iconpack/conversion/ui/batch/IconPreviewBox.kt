@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -20,6 +19,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.PixelGrid
+import io.github.composegears.valkyrie.ui.foundation.SizeSpacer
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
@@ -78,7 +78,7 @@ fun IconPreviewBox(
         }
 
         when (val painter = iconPainter) {
-            null -> Spacer(modifier = Modifier.size(36.dp))
+            null -> SizeSpacer(36.dp)
             else -> Image(
                 modifier = Modifier.size(36.dp),
                 painter = painter,
