@@ -1,10 +1,6 @@
 package io.github.composegears.valkyrie.psi.imagevector.block
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.vector.PathNode
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
 import org.jetbrains.kotlin.psi.KtBlockExpression
@@ -41,10 +37,150 @@ fun KtBlockExpression.parseApplyBlock(): List<PathData> {
                     val args = stmt.valueArguments.mapNotNull { arg ->
                         arg.getArgumentExpression()?.text?.toFloatOrNull()
                     }
-                    when (stmt.calleeExpression?.text) {
-                        "moveTo" -> if (args.size == 2) pathInstructions.add(PathNode.MoveTo(args[0], args[1]))
-                        "lineTo" -> if (args.size == 2) pathInstructions.add(PathNode.LineTo(args[0], args[1]))
+                    when (stmt.calleeExpression?.text.also {
+                        println("calleeExpression: $it")
+                    }) {
                         "close" -> pathInstructions.add(PathNode.Close)
+                        "moveToRelative" -> if (args.size == 2) {
+                            pathInstructions.add(
+                                PathNode.RelativeMoveTo(
+                                    args[0],
+                                    args[1]
+                                )
+                            )
+                        }
+                        "moveTo" -> if (args.size == 2) {
+                            pathInstructions.add(PathNode.MoveTo(args[0], args[1]))
+                        }
+                        "lineToRelative" -> if (args.size == 2) {
+                            pathInstructions.add(
+                                PathNode.RelativeLineTo(
+                                    args[0],
+                                    args[1]
+                                )
+                            )
+                        }
+                        "lineTo" -> if (args.size == 2) {
+                            pathInstructions.add(PathNode.LineTo(args[0], args[1]))
+                        }
+                        "horizontalLineToRelative" -> if (args.size == 1) {
+                            pathInstructions.add(PathNode.RelativeHorizontalTo(args[0]))
+                        }
+                        "horizontalLineTo" -> if (args.size == 1) {
+                            pathInstructions.add(PathNode.HorizontalTo(args[0]))
+                        }
+                        "verticalLineToRelative" -> if (args.size == 1) {
+                            pathInstructions.add(PathNode.RelativeVerticalTo(args[0]))
+                        }
+                        "verticalLineTo" -> if (args.size == 1) {
+                            pathInstructions.add(PathNode.VerticalTo(args[0]))
+                        }
+                        "curveToRelative" -> if (args.size == 6) {
+                            pathInstructions.add(
+                                PathNode.RelativeCurveTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    args[3],
+                                    args[4],
+                                    args[5]
+                                )
+                            )
+                        }
+                        "curveTo" -> if (args.size == 6) {
+                            pathInstructions.add(
+                                PathNode.CurveTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    args[3],
+                                    args[4],
+                                    args[5]
+                                )
+                            )
+                        }
+                        "reflectiveCurveToRelative" -> if (args.size == 4) {
+                            pathInstructions.add(
+                                PathNode.RelativeReflectiveCurveTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    args[3]
+                                )
+                            )
+                        }
+                        "reflectiveCurveTo" -> if (args.size == 4) {
+                            pathInstructions.add(
+                                PathNode.ReflectiveCurveTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    args[3]
+                                )
+                            )
+                        }
+                        "quadToRelative" -> if (args.size == 4) {
+                            pathInstructions.add(
+                                PathNode.RelativeQuadTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    args[3]
+                                )
+                            )
+                        }
+                        "quadTo" -> if (args.size == 4) {
+                            pathInstructions.add(
+                                PathNode.QuadTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    args[3]
+                                )
+                            )
+                        }
+                        "reflectiveQuadToRelative" -> if (args.size == 2) {
+                            pathInstructions.add(
+                                PathNode.RelativeReflectiveQuadTo(
+                                    args[0],
+                                    args[1]
+                                )
+                            )
+                        }
+                        "reflectiveQuadTo" -> if (args.size == 2) {
+                            pathInstructions.add(
+                                PathNode.ReflectiveQuadTo(
+                                    args[0],
+                                    args[1]
+                                )
+                            )
+                        }
+                        "arcToRelative" -> if (args.size == 7) {
+                            pathInstructions.add(
+                                PathNode.RelativeArcTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    isMoreThanHalf = args[3] != 0.0f,
+                                    isPositiveArc = args[4] != 0.0f,
+                                    args[5],
+                                    args[6]
+                                )
+                            )
+                        }
+                        "arcTo" -> if (args.size == 7) {
+                            pathInstructions.add(
+                                PathNode.ArcTo(
+                                    args[0],
+                                    args[1],
+                                    args[2],
+                                    isMoreThanHalf = args[3] != 0.0f,
+                                    isPositiveArc = args[4] != 0.0f,
+                                    args[5],
+                                    args[6]
+                                )
+                            )
+                        }
                     }
                 }
             }
