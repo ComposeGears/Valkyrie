@@ -29,7 +29,6 @@ dependencies {
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.imagevector)
     implementation(projects.components.parser)
-    implementation(projects.components.psi)
 
     compileOnly(compose.desktop.currentOs)
     implementation(compose.desktop.common)
@@ -47,9 +46,12 @@ dependencies {
 
     // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
     intellijPlatform {
-        intellijIdeaCommunity("2024.1")
+        intellijIdeaCommunity(libs.versions.idea)
         instrumentationTools()
         zipSigner()
+
+        bundledPlugin("org.jetbrains.kotlin")
+        pluginModule(implementation(projects.components.psi))
     }
 }
 
