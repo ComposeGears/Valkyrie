@@ -30,8 +30,6 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: gradle/actions/setup-gradle@v4
-
       - name: Prepare release name
         run: |
           PLUGIN_NAME=$(grep "^PLUGIN_NAME=" gradle.properties | cut -d '=' -f 2)
@@ -54,12 +52,8 @@ jobs:
         uses: ChrisCarini/intellij-platform-plugin-verifier-action@v2.0.2
         with:
           plugin-location: idea-plugin/build/distributions/*-signed.zip
+          # We can't verify all revisions due to the disk size limitation on GHA.
           ide-versions: |
-            ideaIC:2024.1
-            ideaIC:2024.1.1
-            ideaIC:2024.1.2
-            ideaIC:2024.1.3
-            ideaIC:2024.1.4
             ideaIC:2024.1.5
             ideaIC:2024.2
           failure-levels: |
