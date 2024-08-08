@@ -11,12 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposePanel
 import androidx.compose.ui.unit.dp
-import com.intellij.openapi.fileEditor.FileEditor
-import com.intellij.openapi.fileEditor.FileEditorPolicy
-import com.intellij.openapi.fileEditor.FileEditorProvider
-import com.intellij.openapi.fileEditor.FileEditorState
-import com.intellij.openapi.fileEditor.TextEditor
-import com.intellij.openapi.fileEditor.TextEditorWithPreview
+import com.intellij.openapi.fileEditor.*
 import com.intellij.openapi.fileEditor.impl.text.QuickDefinitionProvider
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider
 import com.intellij.openapi.project.DumbAware
@@ -28,11 +23,11 @@ import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.psi.util.project
 import io.github.composegears.valkyrie.ui.foundation.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
-import java.awt.Dimension
-import javax.swing.JComponent
 import org.jetbrains.kotlin.com.intellij.psi.PsiFileFactory
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtFile
+import java.awt.Dimension
+import javax.swing.JComponent
 
 class KotlinFileEditorProvider :
     FileEditorProvider,
@@ -43,7 +38,14 @@ class KotlinFileEditorProvider :
     override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.HIDE_DEFAULT_EDITOR
 
     override fun accept(project: Project, file: VirtualFile): Boolean {
-        return file.fileType.name == "Kotlin"
+        if (file.extension != "kt") return false
+
+        val content = file.inputStream
+            .bufferedReader()
+            .use { it.readText() }
+
+        return content.contains("androidx.compose.ui.graphics.vector.ImageVector")
+                && content.contains("androidx.compose.ui.graphics.vector.path")
     }
 
     override fun acceptRequiresReadAction(): Boolean = false
@@ -81,6 +83,10 @@ fun VirtualFile.toKtFile(): KtFile? {
 }
 
 class KotlinFilePreviewEditor(private val project: Project, private val file: VirtualFile) : FileEditor {
+    init {
+        System.setProperty("compose.swing.render.on.graphics", "true")
+        System.setProperty("compose.interop.blending", "true")
+    }
 
     private val composePanel = ComposePanel().apply {
         setContent {
@@ -99,7 +105,7 @@ class KotlinFilePreviewEditor(private val project: Project, private val file: Vi
                         if (imageVector == null) {
                             Text("Failed to parse to ImageVector, please submit issue")
                         } else {
-                            Box(modifier = Modifier.size(200.dp)){
+                            Box(modifier = Modifier.size(200.dp)) {
                                 PixelGrid(
                                     modifier = Modifier.matchParentSize(),
                                     gridSize = 2.dp,
