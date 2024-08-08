@@ -1,12 +1,16 @@
 package io.github.composegears.valkyrie.preview
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposePanel
+import androidx.compose.ui.unit.dp
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.FileEditorPolicy
 import com.intellij.openapi.fileEditor.FileEditorProvider
@@ -20,9 +24,15 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.ui.JBUI
+import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
+import io.github.composegears.valkyrie.psi.util.project
+import io.github.composegears.valkyrie.ui.foundation.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import java.awt.Dimension
 import javax.swing.JComponent
+import org.jetbrains.kotlin.com.intellij.psi.PsiFileFactory
+import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.psi.KtFile
 
 class KotlinFileEditorProvider :
     FileEditorProvider,
@@ -63,6 +73,13 @@ class TextEditorWithPreview2(
     }
 }
 
+fun VirtualFile.toKtFile(): KtFile? {
+    val fileContent = contentsToByteArray().toString(Charsets.UTF_8)
+
+    return PsiFileFactory.getInstance(project)
+        .createFileFromText(name, KotlinFileType.INSTANCE, fileContent) as? KtFile
+}
+
 class KotlinFilePreviewEditor(private val project: Project, private val file: VirtualFile) : FileEditor {
 
     private val composePanel = ComposePanel().apply {
@@ -70,7 +87,30 @@ class KotlinFilePreviewEditor(private val project: Project, private val file: Vi
             ValkyrieTheme(project, this) {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("Preview of Kotlin File: ${file.name}")
+                        val imageVector = remember(file) {
+                            val ktFile = file.toKtFile()
+                            if (ktFile == null) {
+                                null
+                            } else {
+                                ImageVectorPsiParser.parseToImageVector(ktFile)
+                            }
+                        }
+
+                        if (imageVector == null) {
+                            Text("Failed to parse to ImageVector, please submit issue")
+                        } else {
+                            Box(modifier = Modifier.size(200.dp)){
+                                PixelGrid(
+                                    modifier = Modifier.matchParentSize(),
+                                    gridSize = 2.dp,
+                                )
+                                Image(
+                                    modifier = Modifier.size(200.dp),
+                                    imageVector = imageVector,
+                                    contentDescription = null,
+                                )
+                            }
+                        }
                     }
                 }
             }

@@ -42,6 +42,7 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.koin.compose)
+    implementation(libs.kotlin.embeddable)
     implementation(libs.tiamat.base)
     implementation(libs.tiamat.koin)
 
