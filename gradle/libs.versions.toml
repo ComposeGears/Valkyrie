@@ -1,4 +1,5 @@
 [versions]
+idea = "2024.1"
 kotlin = "2.0.10"
 
 [libraries]
@@ -7,7 +8,6 @@ android-build-tools = "com.android.tools:sdk-common:31.5.2"
 
 koin-compose = "io.insert-koin:koin-compose:4.0.0-RC1"
 
-kotlin-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
 kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
@@ -19,6 +19,7 @@ xpp3 = "org.ogce:xpp3:1.1.6"
 
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.10.3"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit4 = "junit:junit:4.13.2"
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.3.1"
@@ -31,6 +32,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 jetbrains-compose = "org.jetbrains.compose:1.6.11"
 jetbrains-intellij = "org.jetbrains.intellij.platform:2.0.1"
+jetbrains-intellij-module = "org.jetbrains.intellij.platform.module:2.0.0"
 spotless = "com.diffplug.spotless:7.0.0.BETA1"
 
 [bundles]

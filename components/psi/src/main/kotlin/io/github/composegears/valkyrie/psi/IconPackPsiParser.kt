@@ -1,11 +1,12 @@
 package io.github.composegears.valkyrie.psi
 
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiManager
+import com.intellij.testFramework.LightVirtualFile
 import io.github.composegears.valkyrie.extensions.castOrNull
 import java.nio.file.Path
 import kotlin.io.path.name
 import kotlin.io.path.readText
-import org.jetbrains.kotlin.com.intellij.psi.PsiManager
-import org.jetbrains.kotlin.com.intellij.testFramework.LightVirtualFile
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
@@ -19,7 +20,7 @@ data class IconPackInfo(
 
 object IconPackPsiParser {
 
-    fun extractIconPack(path: Path): IconPackInfo? {
+    fun extractIconPack(path: Path, project: Project): IconPackInfo? {
         val ktFile = PsiManager.getInstance(project)
             .findFile(LightVirtualFile(path.name, KotlinFileType.INSTANCE, path.readText()))
             .castOrNull<KtFile>() ?: return null

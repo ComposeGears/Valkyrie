@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.viewmodel
 
 import com.composegears.tiamat.TiamatViewModel
+import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.extensions.castOrNull
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
@@ -72,7 +73,7 @@ class ExistingPackViewModel(
 
     fun onAction(existingPackAction: ExistingPackAction) {
         when (existingPackAction) {
-            is SelectKotlinFile -> onChooseFile(existingPackAction.path)
+            is SelectKotlinFile -> onChooseFile(existingPackAction.path, existingPackAction.project)
             is AddNestedPack -> inputHandler.addNestedPack()
             is RemoveNestedPack -> inputHandler.removeNestedPack(existingPackAction.nestedPack)
             is PreviewPackObject -> previewIconPackObject()
@@ -80,8 +81,8 @@ class ExistingPackViewModel(
         }
     }
 
-    private fun onChooseFile(path: Path) {
-        val iconPackInfo = IconPackPsiParser.extractIconPack(path) ?: return
+    private fun onChooseFile(path: Path, project: Project) {
+        val iconPackInfo = IconPackPsiParser.extractIconPack(path, project) ?: return
 
         val inputFieldState = iconPackInfo.toInputFieldState()
         inputHandler.updateState(inputFieldState)
