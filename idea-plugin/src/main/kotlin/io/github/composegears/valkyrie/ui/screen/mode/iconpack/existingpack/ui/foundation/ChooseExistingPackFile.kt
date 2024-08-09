@@ -21,6 +21,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.KotlinLogo
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.picker.rememberKtFilePicker
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
 import kotlinx.coroutines.launch
@@ -30,8 +31,17 @@ fun ChooseExistingPackFile(
     modifier: Modifier = Modifier,
     onAction: (ExistingPackAction) -> Unit,
 ) {
+    val project = LocalProject.current
+
     val dragAndDropHandler = rememberFileDragAndDropHandler(
-        onDrop = { onAction(ExistingPackAction.SelectKotlinFile(it)) },
+        onDrop = {
+            onAction(
+                ExistingPackAction.SelectKotlinFile(
+                    path = it,
+                    project = project,
+                ),
+            )
+        },
     )
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
@@ -49,7 +59,12 @@ fun ChooseExistingPackFile(
                     val path = ktFilePicker.launch()
 
                     if (path != null) {
-                        onAction(ExistingPackAction.SelectKotlinFile(path))
+                        onAction(
+                            ExistingPackAction.SelectKotlinFile(
+                                path = path,
+                                project = project,
+                            ),
+                        )
                     }
                 }
             },

@@ -27,6 +27,7 @@ Allows to create organized icon pack with an extension property of you pack obje
 
 ]]></description>
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Valkyrie"
