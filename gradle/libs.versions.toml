@@ -30,7 +30,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 jetbrains-compose = "org.jetbrains.compose:1.6.11"
-jetbrains-intellij = "org.jetbrains.intellij.platform:2.0.0"
+jetbrains-intellij = "org.jetbrains.intellij.platform:2.0.1"
 spotless = "com.diffplug.spotless:7.0.0.BETA1"
 
 [bundles]
