@@ -9,6 +9,14 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -41,3 +49,17 @@ fun Modifier.dashedBorder(
         color = color,
     )
 }
+
+fun Modifier.onPasteEvent(callback: () -> Unit): Modifier {
+    return this
+        .onPreviewKeyEvent { keyEvent ->
+            if (keyEvent.type == KeyEventType.KeyDown && keyEvent.isCtrlV()) {
+                callback()
+                true
+            } else {
+                false
+            }
+        }
+}
+
+private fun KeyEvent.isCtrlV(): Boolean = (isCtrlPressed || isMetaPressed) && key == Key.V

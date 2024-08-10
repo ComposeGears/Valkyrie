@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.dashedBorder
-import io.github.composegears.valkyrie.ui.foundation.icons.Collections
+import io.github.composegears.valkyrie.ui.foundation.icons.AddFile
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -108,7 +108,7 @@ private fun SelectableState(
     DragAndDropBox(isDragging = isDragging) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                imageVector = ValkyrieIcons.Collections,
+                imageVector = ValkyrieIcons.AddFile,
                 contentDescription = null,
             )
             Text(
