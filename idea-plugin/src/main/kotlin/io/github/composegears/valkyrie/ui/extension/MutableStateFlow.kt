@@ -3,6 +3,9 @@ package io.github.composegears.valkyrie.ui.extension
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
-fun <T> MutableStateFlow<T>.updateState(reduce: T.() -> T) {
-    update(reduce)
+/**
+ * This is a variant of [MutableStateFlow.update] but using `this` as receiver in [function].
+ */
+inline fun <T> MutableStateFlow<T>.updateState(function: T.() -> T) {
+    update(function)
 }

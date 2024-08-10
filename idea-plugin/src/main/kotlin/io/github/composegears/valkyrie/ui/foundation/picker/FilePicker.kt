@@ -11,7 +11,6 @@ import com.intellij.openapi.util.Condition
 import com.intellij.openapi.vfs.VirtualFile
 import io.github.composegears.valkyrie.parser.isSvg
 import io.github.composegears.valkyrie.parser.isXml
-import io.github.composegears.valkyrie.ui.extension.toPath
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
@@ -75,7 +74,7 @@ private class FilePicker(
     override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {
         FileChooser
             .chooseFile(fileChooserDescriptor, project, null)
-            ?.toPath()
+            ?.toNioPath()
     }
 }
 
