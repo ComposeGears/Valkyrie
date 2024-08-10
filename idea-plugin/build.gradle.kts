@@ -41,6 +41,7 @@ dependencies {
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
+    implementation(libs.highlights)
     implementation(libs.koin.compose)
     implementation(libs.tiamat.base)
     implementation(libs.tiamat.koin)
