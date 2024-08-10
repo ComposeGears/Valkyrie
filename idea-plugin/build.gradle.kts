@@ -50,8 +50,9 @@ dependencies {
         instrumentationTools()
         zipSigner()
 
-        bundledPlugin("org.jetbrains.kotlin")
-        pluginModule(implementation(projects.components.psi))
+        // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
+        bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
+        localPlugin(projects.components.psi)
     }
 }
 

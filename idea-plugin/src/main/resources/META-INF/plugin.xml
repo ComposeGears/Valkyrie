@@ -27,6 +27,7 @@ Allows to create organized icon pack with an extension property of you pack obje
 
 ]]></description>
     <depends>com.intellij.modules.platform</depends>
+    <!-- dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin -->
     <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
