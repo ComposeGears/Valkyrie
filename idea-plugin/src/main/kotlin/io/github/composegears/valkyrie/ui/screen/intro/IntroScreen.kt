@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -30,6 +32,7 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
 import io.github.composegears.valkyrie.ui.foundation.icons.SimpleConversion
@@ -38,13 +41,20 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
+import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 
 val IntroScreen: NavDestination<Unit> by navDestination {
 
     val navController = navController()
 
     IntroScreenUI(
-        onSelect = {
+        openSettings = {
+            navController.navigate(
+                dest = SettingsScreen,
+                transition = navigationSlideInOut(true),
+            )
+        },
+        onModeChange = {
             when (it) {
                 Simple -> {
                     navController.navigate(
@@ -65,8 +75,18 @@ val IntroScreen: NavDestination<Unit> by navDestination {
 }
 
 @Composable
-private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
+private fun IntroScreenUI(
+    openSettings: () -> Unit,
+    onModeChange: (Mode) -> Unit,
+) {
     Box(modifier = Modifier.fillMaxSize()) {
+        IconButton(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .align(Alignment.TopEnd),
+            imageVector = Icons.Default.Settings,
+            onClick = openSettings,
+        )
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -87,14 +107,14 @@ private fun IntroScreenUI(onSelect: (Mode) -> Unit) {
             VerticalSpacer(8.dp)
 
             SelectableCard(
-                onClick = { onSelect(Simple) },
+                onClick = { onModeChange(Simple) },
                 image = ValkyrieIcons.SimpleConversion,
                 title = "Simple",
                 description = "One-click conversion from SVG/XML into ImageVector",
             )
             VerticalSpacer(16.dp)
             SelectableCard(
-                onClick = { onSelect(IconPack) },
+                onClick = { onModeChange(IconPack) },
                 image = ValkyrieIcons.BatchProcessing,
                 title = "IconPack",
                 description = "Create organized icon pack with batch export into your project",
@@ -154,5 +174,8 @@ private fun SelectableCard(
 @Preview
 @Composable
 private fun IntroScreenUIPreview() = PreviewTheme {
-    IntroScreenUI(onSelect = {})
+    IntroScreenUI(
+        openSettings = {},
+        onModeChange = {},
+    )
 }
