@@ -52,7 +52,7 @@ dependencies {
 
         // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
         bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
-        localPlugin(projects.components.psi)
+        pluginModule(implementation(projects.components.psi))
     }
 }
 
