@@ -11,6 +11,7 @@ import kotlin.io.path.createTempFile
 import kotlin.io.path.extension
 import kotlin.io.path.name
 import kotlin.io.path.readText
+import kotlin.io.path.writeText
 
 data class IconParserOutput(
     val vector: IrImageVector,
@@ -38,4 +39,27 @@ object SvgXmlParser {
             kotlinName = fileName,
         )
     }
+
+    @Throws(IllegalStateException::class)
+    fun toIrImageVector(value: String, kotlinName: String = "TempIconName"): IconParserOutput {
+        val text = when {
+            value.isSvg() -> {
+                val tmpInPath = createTempFile(suffix = "valkyrie/").apply { writeText(value) }
+                val tmpOutPath = createTempFile(suffix = "valkyrie/")
+
+                SvgToXmlParser.parse(tmpInPath, tmpOutPath)
+                tmpOutPath.readText()
+            }
+            value.isXml() -> value
+            else -> error("Unsupported icon type")
+        }
+
+        return IconParserOutput(
+            vector = XmlStringParser.parse(text),
+            kotlinName = kotlinName,
+        )
+    }
+
+    private fun String.isSvg(): Boolean = contains("<svg")
+    private fun String.isXml(): Boolean = contains("<vector")
 }

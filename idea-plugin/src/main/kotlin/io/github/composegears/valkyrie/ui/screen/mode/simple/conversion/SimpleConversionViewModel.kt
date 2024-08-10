@@ -11,19 +11,26 @@ import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.util.getOrNull
 import java.nio.file.Path
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.launch
 
 class SimpleConversionViewModel(
-    inMemorySettings: InMemorySettings,
+    private val inMemorySettings: InMemorySettings,
     private val savedState: SavedState,
 ) : TiamatViewModel(),
     Saveable {
 
     private val _state = MutableStateFlow(initialState())
     val state = _state.asStateFlow()
+
+    private val _events = MutableSharedFlow<String>()
+    val events = _events.asSharedFlow()
 
     init {
         _state
@@ -76,5 +83,35 @@ class SimpleConversionViewModel(
 
     fun reset() {
         _state.updateState { copy(iconContent = null, lastPath = null) }
+    }
+
+    fun pasteFromClipboard(text: String) = viewModelScope.launch(Dispatchers.Default) {
+        val output = runCatching {
+            val valkyriesSettings = inMemorySettings.current
+
+            val parserOutput = SvgXmlParser.toIrImageVector(text)
+
+            ImageVectorGenerator.convert(
+                vector = parserOutput.vector,
+                kotlinName = parserOutput.kotlinName,
+                config = ImageVectorGeneratorConfig(
+                    packageName = valkyriesSettings.packageName,
+                    iconPackPackage = valkyriesSettings.packageName,
+                    packName = "",
+                    nestedPackName = "",
+                    outputFormat = valkyriesSettings.outputFormat,
+                    generatePreview = valkyriesSettings.generatePreview,
+                    useFlatPackage = false,
+                    useExplicitMode = valkyriesSettings.useExplicitMode,
+                    addTrailingComma = valkyriesSettings.addTrailingComma,
+                ),
+            ).content
+        }.getOrNull()
+
+        if (output.isNullOrEmpty()) {
+            _events.emit("Failed to parse icon from clipboard")
+        } else {
+            _state.updateState { copy(iconContent = output) }
+        }
     }
 }
