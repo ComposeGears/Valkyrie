@@ -29,6 +29,7 @@ dependencies {
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.imagevector)
     implementation(projects.components.parser)
+    implementation(projects.components.psi)
 
     compileOnly(compose.desktop.currentOs)
     implementation(compose.desktop.common)
@@ -52,7 +53,6 @@ dependencies {
 
         // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
         bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
-        pluginModule(implementation(projects.components.psi))
     }
 }
 
