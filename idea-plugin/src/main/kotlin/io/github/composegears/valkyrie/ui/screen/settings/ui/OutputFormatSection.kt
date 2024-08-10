@@ -17,17 +17,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyDelegateProperty
-import io.github.composegears.valkyrie.ui.foundation.HighlightColors
 import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.foundation.getHighlightedCode
+import io.github.composegears.valkyrie.ui.foundation.highlights.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.foundation.theme.isLight
 import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.UpdateOutputFormat
 
@@ -49,28 +47,17 @@ fun OutputFormatSection(
             modifier = Modifier.height(IntrinsicSize.Max),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            val highlightColors = if (MaterialTheme.colorScheme.isLight) {
-                HighlightColors.LIGHT
-            } else {
-                HighlightColors.DARK
-            }
             SelectableCard(
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 text = "Backing property",
-                hint = getHighlightedCode(
-                    code = backingPropertyFormat,
-                    colors = highlightColors,
-                ),
+                highlights = rememberCodeHighlight(backingPropertyFormat),
                 isSelected = outputFormat == BackingProperty,
                 onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
             )
             SelectableCard(
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 text = "Lazy delegate property",
-                hint = getHighlightedCode(
-                    code = lazyPropertyFormat,
-                    colors = highlightColors,
-                ),
+                highlights = rememberCodeHighlight(lazyPropertyFormat),
                 isSelected = outputFormat == LazyDelegateProperty,
                 onSelect = { onAction(UpdateOutputFormat(LazyDelegateProperty)) },
             )
@@ -81,7 +68,7 @@ fun OutputFormatSection(
 @Composable
 private fun SelectableCard(
     text: String,
-    hint: AnnotatedString,
+    highlights: Highlights,
     isSelected: Boolean,
     modifier: Modifier = Modifier,
     onSelect: () -> Unit,
@@ -111,7 +98,7 @@ private fun SelectableCard(
             )
             Tooltip(
                 modifier = Modifier.padding(end = 16.dp),
-                text = hint,
+                highlights = highlights,
             )
         }
     }
