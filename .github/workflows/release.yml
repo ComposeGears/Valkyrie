@@ -54,7 +54,7 @@ jobs:
           plugin-location: idea-plugin/build/distributions/*-signed.zip
           # We can't verify all revisions due to the disk size limitation on GHA.
           ide-versions: |
-            ideaIC:2024.1.5
+            ideaIC:2024.1.6
             ideaIC:2024.2
           failure-levels: |
             COMPATIBILITY_WARNINGS
