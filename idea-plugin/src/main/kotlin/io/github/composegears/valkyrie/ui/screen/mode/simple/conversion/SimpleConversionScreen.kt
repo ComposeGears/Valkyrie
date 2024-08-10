@@ -24,8 +24,10 @@ import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.CopyAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
+import io.github.composegears.valkyrie.ui.foundation.SecondaryButton
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
+import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
@@ -36,6 +38,7 @@ import io.github.composegears.valkyrie.ui.platform.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.platform.rememberNotificationManager
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 import java.nio.file.Path
 import kotlinx.coroutines.launch
@@ -134,10 +137,33 @@ private fun PluginUI(
                     onSelectPath = onSelectPath,
                     onChoosePath = onChoosePath,
                 )
+                VerticalSpacer(16.dp)
+                Text(text = "or", style = MaterialTheme.typography.labelMedium)
+                VerticalSpacer(16.dp)
+                SecondaryButton(
+                    onClick = {
+                        val data = getDataFromClipboard()
+
+                        println(data)
+                    },
+                ) {
+                    Text(text = "Paste from clipboard")
+                }
                 WeightSpacer(weight = 0.7f)
             }
         }
     }
+}
+
+
+fun getDataFromClipboard(): String? {
+    val clipboardManager = CopyPasteManager.getInstance()
+
+    val text = clipboardManager.getContents<String>(DataFlavor.stringFlavor)
+    if (text != null) {
+        return text
+    }
+    return null
 }
 
 @Composable
