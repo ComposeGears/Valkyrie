@@ -24,7 +24,8 @@ dependencies {
         intellijIdeaCommunity(libs.versions.idea)
         instrumentationTools()
 
-        bundledPlugin("org.jetbrains.kotlin")
+        // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
+        bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
 
         testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.JUnit5)
