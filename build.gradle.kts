@@ -1,4 +1,6 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
+import org.jetbrains.intellij.platform.gradle.plugins.project.IntelliJPlatformBasePlugin
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 
@@ -28,6 +30,23 @@ allprojects {
         extensions.configure<ComposeCompilerGradlePluginExtension> {
             enableStrongSkippingMode = true
             stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
+        }
+    }
+
+    plugins.withType<IntelliJPlatformBasePlugin>().configureEach {
+        // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#configuration.repositories
+        repositories {
+            google {
+                mavenContent {
+                    includeGroupAndSubgroups("androidx")
+                    includeGroupAndSubgroups("com.android")
+                    includeGroupAndSubgroups("com.google")
+                }
+            }
+            mavenCentral()
+            intellijPlatform {
+                defaultRepositories()
+            }
         }
     }
 

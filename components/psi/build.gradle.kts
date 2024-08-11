@@ -5,13 +5,6 @@ plugins {
     alias(libs.plugins.jetbrains.intellij.module)
 }
 
-repositories {
-    mavenCentral()
-
-    intellijPlatform {
-        defaultRepositories()
-    }
-}
 dependencies {
     implementation(projects.components.extensions)
 

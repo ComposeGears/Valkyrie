@@ -5,22 +5,6 @@ plugins {
     alias(libs.plugins.jetbrains.intellij)
 }
 
-// https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#configuration.repositories
-repositories {
-    google {
-        mavenContent {
-            includeGroupAndSubgroups("androidx")
-            includeGroupAndSubgroups("com.android")
-            includeGroupAndSubgroups("com.google")
-        }
-    }
-    mavenCentral()
-
-    intellijPlatform {
-        defaultRepositories()
-    }
-}
-
 dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
