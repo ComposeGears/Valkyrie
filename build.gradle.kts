@@ -49,7 +49,7 @@ allprojects {
     configurations.configureEach {
         resolutionStrategy.eachDependency {
             if (requested.group == libs.kotlin.stdlib.get().group) {
-                useVersion(libs.kotlin.stdlib.get().version.toString())
+                useVersion(libs.versions.kotlin.get())
             }
         }
     }
