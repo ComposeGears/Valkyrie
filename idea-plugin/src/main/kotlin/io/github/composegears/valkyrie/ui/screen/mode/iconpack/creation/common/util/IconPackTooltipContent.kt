@@ -1,10 +1,16 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util
 
-import androidx.compose.ui.text.AnnotatedString
-import io.github.composegears.valkyrie.ui.util.codeBlockAnnotatedString
+import androidx.compose.runtime.Composable
+import dev.snipme.highlights.Highlights
+import io.github.composegears.valkyrie.ui.foundation.highlights.getEmphasisLocations
+import io.github.composegears.valkyrie.ui.foundation.highlights.rememberCodeHighlight
 
-fun buildPackPackageHint(packageName: String, iconPackName: String): AnnotatedString {
-    val packagePlaceholder = packageName.ifEmpty { "your.package" }
+@Composable
+fun buildPackPackageHighlight(
+    packageName: String,
+    iconPackName: String,
+): Highlights {
+    val packagePlaceholder = packageName.ifEmpty { "com.test.iconpack" }
     val iconPackPlaceholder = iconPackName.ifEmpty { "YourPackName" }
 
     val codeBlock = """
@@ -19,13 +25,17 @@ fun buildPackPackageHint(packageName: String, iconPackName: String): AnnotatedSt
             ...
     """.trimIndent()
 
-    return codeBlockAnnotatedString(
+    return rememberCodeHighlight(
         codeBlock = codeBlock,
-        highlightText = packagePlaceholder,
+        emphasisLocation = getEmphasisLocations(
+            codeBlock = codeBlock,
+            highlightText = packagePlaceholder,
+        ),
     )
 }
 
-fun buildIconPackHint(iconPackName: String): AnnotatedString {
+@Composable
+fun buildIconPackHighlight(iconPackName: String): Highlights {
     val iconPackPlaceholder = iconPackName.ifEmpty { "YourPackName" }
     val codeBlock = """
         object $iconPackPlaceholder
@@ -39,8 +49,11 @@ fun buildIconPackHint(iconPackName: String): AnnotatedString {
             ...
     """.trimIndent()
 
-    return codeBlockAnnotatedString(
+    return rememberCodeHighlight(
         codeBlock = codeBlock,
-        highlightText = iconPackPlaceholder,
+        emphasisLocation = getEmphasisLocations(
+            codeBlock = codeBlock,
+            highlightText = iconPackPlaceholder,
+        ),
     )
 }

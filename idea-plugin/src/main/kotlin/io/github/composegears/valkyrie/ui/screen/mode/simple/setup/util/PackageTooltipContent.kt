@@ -1,13 +1,16 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.setup.util
 
-import androidx.compose.ui.text.AnnotatedString
-import io.github.composegears.valkyrie.ui.util.codeBlockAnnotatedString
+import androidx.compose.runtime.Composable
+import dev.snipme.highlights.Highlights
+import io.github.composegears.valkyrie.ui.foundation.highlights.getEmphasisLocations
+import io.github.composegears.valkyrie.ui.foundation.highlights.rememberCodeHighlight
 
-fun buildPackageHint(packageName: String): AnnotatedString {
-    val packagePlaceholder = packageName.ifEmpty { "your.package" }
+@Composable
+fun buildPackageHighlight(packageName: String): Highlights {
+    val packagePlaceholder = packageName.ifEmpty { "com.test.iconpack" }
     val codeBlock = """
         package $packagePlaceholder
-        
+
         val MyIcon: ImageVector
             get() {
                 if (_MyIcon != null) {
@@ -17,8 +20,11 @@ fun buildPackageHint(packageName: String): AnnotatedString {
         }
     """.trimIndent()
 
-    return codeBlockAnnotatedString(
+    return rememberCodeHighlight(
         codeBlock = codeBlock,
-        highlightText = packagePlaceholder,
+        emphasisLocation = getEmphasisLocations(
+            codeBlock = codeBlock,
+            highlightText = packagePlaceholder,
+        ),
     )
 }

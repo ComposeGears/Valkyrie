@@ -28,7 +28,7 @@ import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeInputChange.PackageName
-import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.util.buildPackageHint
+import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.util.buildPackageHighlight
 import kotlinx.coroutines.Dispatchers
 
 val SimpleModeSetupScreen by navDestination<Unit> {
@@ -79,7 +79,7 @@ private fun SimpleModeSetupScreenUI(
                 caption = "Package",
                 value = packageName.text,
                 isError = packageName.validationResult is ValidationResult.Error,
-                tooltipValue = buildPackageHint(packageName.text),
+                highlights = buildPackageHighlight(packageName.text),
                 onValueChange = {
                     onValueChange(PackageName(it))
                 },
