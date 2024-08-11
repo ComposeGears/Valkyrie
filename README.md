@@ -14,56 +14,189 @@
 
 ## Key features
 
-- built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
-  and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
-- support SVG/XML
-- convenient code formatting for generated icon
-  - remove redundant code
-  - remove unused imports 
-  - skip default ImageVector parameters
-- support drag and drop inside IDE
+- Support conversion from SVG and XML
+- Streamlined code formatting for generated icon:
+  * remove redundant code (e.g. `public` keyword)
+  * remove unused imports
+  * skip default ImageVector parameters
+  * support generation as [Backing field or with Lazy property](https://github.com/ComposeGears/Valkyrie/tree/task/update-readme?tab=readme-ov-file#export-formats)
+- Two conversion modes: [Simple](https://github.com/ComposeGears/Valkyrie/tree/task/update-readme?tab=readme-ov-file#simple-mode) and [IconPack](https://github.com/ComposeGears/Valkyrie/tree/task/update-readme?tab=readme-ov-file#iconpack-mode)
+- Built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
 
-##  Conversion modes:
+## **Simple mode**
 
-### **Simple** - one-click solution to convert SVG/XML to ImageVector
-Allows previewing the generated icon and facilitates copying the result directly to the clipboard for easy integration into your project.
+> [!NOTE]
+> One-click solution to convert SVG/XML to ImageVector (requires only specifying the package).
+> Enables previewing the generated icon and easily copying the result to the clipboard for seamless integration into
+> your project.
 
-<img src="assets/simple_mode_1.png" width="300" /> <img src="assets/simple_mode_2.png" width="300" />
-
-Demo:
-
-
-https://github.com/ComposeGears/Valkyrie/assets/16294951/1c5ca6ef-4240-4916-b523-cf9bb15a7422
-
-
-
-### **IconPack** - create your organized icon pack and auto export icons into your directory
-
-Allows to create organized icon pack with an extension property of you pack object and batch export into your specified directory.
-
-<img src="assets/iconpack_mode_1.png" width="300" /> <img src="assets/iconpack_mode_2.png" width="305" />
-
-Demo:
+<div align="center">
+    <img src="assets/simple_mode_1.png" width="300" />
+    <img src="assets/simple_mode_2.png" width="300" />
+</div>
 
 
+Live demo:
 
-https://github.com/ComposeGears/Valkyrie/assets/16294951/5ad9cb33-cef2-46dd-9f0c-638583a90385
+https://github.com/user-attachments/assets/15ee9356-0db3-4b87-b4fe-23bb6bba70a0
 
+## **IconPack mode**
 
+### **New icon pack**
 
+> [!NOTE]
+> Facilitates creating an organized icon pack with extension properties for your pack `object`, previewing the list of
+> icons, and batch exporting them to your specified directory.
 
-## Comparison
+<div align="center">
+    <img src="assets/iconpack_mode_new_1.png" width="300" />
+    <img src="assets/iconpack_mode_new_2.png" width="300" />
+</div>
 
-Source SVG icon:
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#e8eaed"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-```
+Live demo:
 
-ImageVector output: 
+https://github.com/user-attachments/assets/ccb568a4-bda9-4f2b-bf40-29b1a8e4c854
+
+### **Existing icon pack**
+
+> [!NOTE]
+> Instead of importing icon pack settings, the plugin provides a direct way to import an already created icon pack from
+> a Kotlin file.
+
+<div align="center">
+    <img src="assets/iconpack_mode_existing_1.png" width="300" />
+    <img src="assets/iconpack_mode_existing_2.png" width="300" />
+</div>
+
+> [!IMPORTANT]
+> Currently, editing features are limited; you can only load an existing pack and add more nested packs.
+
+Live demo:
+
+https://github.com/user-attachments/assets/77f449dd-a6d0-44ea-9059-b7b30ee94426
+
+## Export formats
+
+[Original Discussion](https://github.com/ComposeGears/Valkyrie/issues/63)
 
 <table>
 <tr>
-<td> Valkyrie </td> <td> composables.com </td>
+<td>Backing field</td> 
+<td>Lazy property</td>
+</tr>
+<tr>
+<td valign="top"> 
+
+```kotlin
+package io.github.composegears.valkyrie.playground.icons.backing.outlined
+
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.playground.icons.backing.BackingIcons
+
+val BackingIcons.Outlined.Add: ImageVector
+  get() {
+    if (_Add != null) {
+      return _Add!!
+    }
+    _Add = ImageVector.Builder(
+      name = "Outlined.Add",
+      defaultWidth = 24.dp,
+      defaultHeight = 24.dp,
+      viewportWidth = 24f,
+      viewportHeight = 24f,
+    ).apply {
+      path(fill = SolidColor(Color(0xFF232F34))) {
+        moveTo(19f, 13f)
+        lineTo(13f, 13f)
+        lineTo(13f, 19f)
+        lineTo(11f, 19f)
+        lineTo(11f, 13f)
+        lineTo(5f, 13f)
+        lineTo(5f, 11f)
+        lineTo(11f, 11f)
+        lineTo(11f, 5f)
+        lineTo(13f, 5f)
+        lineTo(13f, 11f)
+        lineTo(19f, 11f)
+        lineTo(19f, 13f)
+        close()
+      }
+    }.build()
+
+    return _Add!!
+  }
+
+@Suppress("ObjectPropertyName")
+private var _Add: ImageVector? = null
+```
+
+</td>
+<td valign="top"> 
+
+```kotlin
+package io.github.composegears.valkyrie.playground.icons.lazy.outlined
+
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.playground.icons.lazy.LazyIcons
+import kotlin.LazyThreadSafetyMode
+
+val LazyIcons.Outlined.Add: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+  ImageVector.Builder(
+    name = "Outlined.Add",
+    defaultWidth = 24.dp,
+    defaultHeight = 24.dp,
+    viewportWidth = 24f,
+    viewportHeight = 24f,
+  ).apply {
+    path(fill = SolidColor(Color(0xFF232F34))) {
+      moveTo(19f, 13f)
+      lineTo(13f, 13f)
+      lineTo(13f, 19f)
+      lineTo(11f, 19f)
+      lineTo(11f, 13f)
+      lineTo(5f, 13f)
+      lineTo(5f, 11f)
+      lineTo(11f, 11f)
+      lineTo(11f, 5f)
+      lineTo(13f, 5f)
+      lineTo(13f, 11f)
+      lineTo(19f, 11f)
+      lineTo(19f, 13f)
+      close()
+    }
+  }.build()
+}
+```
+
+</td>
+</tr>
+</table>
+
+## Comparison with other solutions
+
+Source SVG icon:
+
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#e8eaed">
+  <path d="M0 0h24v24H0V0z" fill="none"/>
+  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+</svg>
+```
+
+ImageVector output:
+
+<table>
+<tr>
+<td>Valkyrie</td>
+<td>composables.com</td>
 </tr>
 <tr>
 <td valign="top"> 
@@ -76,6 +209,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import kotlin.Suppress
 
 val Add: ImageVector
   get() {
@@ -110,6 +244,7 @@ val Add: ImageVector
     return _Add!!
   }
 
+@Suppress("ObjectPropertyName")
 private var _Add: ImageVector? = null
 
 ```
@@ -210,7 +345,8 @@ public val Add: ImageVector
 
 - **Find plugin inside IDE**:
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for <b>"Valkyrie"</b></kbd> >
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for <b>"
+  Valkyrie"</b></kbd> >
   <kbd>Install Plugin</kbd>
 
 - **Manually**:
@@ -220,7 +356,8 @@ public val Add: ImageVector
 
 ## Building
 
-Use `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `idea-plugin/build/distributions/` path
+Use `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `idea-plugin/build/distributions/`
+path
 
 other available gradle commands:
 
@@ -246,7 +383,6 @@ Thank you for your help! ❤️
   <img src="https://contrib.rocks/image?repo=ComposeGears/Valkyrie" />
 </a>
 
-
 ## License
 
 ```
@@ -268,14 +404,21 @@ limitations under the License.
 [badge:plugin-homepage]: https://img.shields.io/badge/Jetbrains_Marketplace-Valkyrie-24786.svg
 
 [badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie.svg
+
 [badge:release]: https://img.shields.io/github/release/ComposeGears/Valkyrie.svg?sort=semver&colorB=0097A7
+
 [badge:version]: https://img.shields.io/jetbrains/plugin/v/24786.svg?colorB=2196F3
+
 [badge:downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?colorB=5C6BC0
+
 [badge:slack]: https://img.shields.io/badge/slack-Compose_Gears-blue.svg?logo=slack
 
 [gh:releases]: https://github.com/ComposeGears/Valkyrie/releases
+
 [gh:license]: https://github.com/ComposeGears/Valkyrie/blob/main/LICENSE
 
 [plugin-homepage]: https://plugins.jetbrains.com/plugin/24786-valkyrie
+
 [plugin-versions]: https://plugins.jetbrains.com/plugin/24786-valkyrie/versions
+
 [slack-invite]: https://join.slack.com/t/composegears/shared_invite/zt-2noleve52-D~zrFPmC1cdhThsuQUW61A
