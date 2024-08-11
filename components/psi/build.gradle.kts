@@ -14,12 +14,6 @@ dependencies {
     testRuntimeOnly(libs.junit4)
 
     intellijPlatform {
-        intellijIdeaCommunity(libs.versions.idea)
-        instrumentationTools()
-
-        // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
-        bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
-
         testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.JUnit5)
     }

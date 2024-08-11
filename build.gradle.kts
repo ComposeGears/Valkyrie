@@ -1,4 +1,5 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.intellij.platform.gradle.extensions.IntelliJPlatformDependenciesExtension
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.intellij.platform.gradle.plugins.project.IntelliJPlatformBasePlugin
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
@@ -46,6 +47,15 @@ allprojects {
             mavenCentral()
             intellijPlatform {
                 defaultRepositories()
+            }
+        }
+        // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
+        dependencies {
+            extensions.configure<IntelliJPlatformDependenciesExtension> {
+                intellijIdeaCommunity(libs.versions.idea)
+                instrumentationTools()
+                // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
+                bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
             }
         }
     }

@@ -27,14 +27,8 @@ dependencies {
     implementation(libs.tiamat.base)
     implementation(libs.tiamat.koin)
 
-    // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
     intellijPlatform {
-        intellijIdeaCommunity(libs.versions.idea)
-        instrumentationTools()
         zipSigner()
-
-        // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
-        bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
     }
 }
 
