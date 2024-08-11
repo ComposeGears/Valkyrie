@@ -62,7 +62,7 @@ compose.resources {
 }
 
 composeCompiler {
-    stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
+    stabilityConfigurationFile = layout.projectDirectory.file("stability_config.conf")
 }
 
 intellijPlatform {
@@ -87,7 +87,7 @@ tasks {
         // workaround for https://youtrack.jetbrains.com/issue/IDEA-285839/Classpath-clash-when-using-coroutines-in-an-unbundled-IntelliJ-plugin
         buildPlugin {
             exclude { "coroutines" in it.name }
-            archiveFileName = "${rootProject.name}-$version.zip"
+            archiveFileName = "valkyrie-$version.zip"
         }
         prepareSandbox {
             exclude { "coroutines" in it.name }
