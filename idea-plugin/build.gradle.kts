@@ -1,27 +1,8 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.jetbrains.intellij)
-}
-
-// https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#configuration.repositories
-repositories {
-    google {
-        mavenContent {
-            includeGroupAndSubgroups("androidx")
-            includeGroupAndSubgroups("com.android")
-            includeGroupAndSubgroups("com.google")
-        }
-    }
-    mavenCentral()
-
-    intellijPlatform {
-        defaultRepositories()
-    }
 }
 
 dependencies {
@@ -46,23 +27,13 @@ dependencies {
     implementation(libs.tiamat.base)
     implementation(libs.tiamat.koin)
 
-    // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
     intellijPlatform {
-        intellijIdeaCommunity(libs.versions.idea)
-        instrumentationTools()
         zipSigner()
-
-        // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
-        bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
     }
 }
 
 compose.resources {
     generateResClass = never
-}
-
-composeCompiler {
-    stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
 }
 
 intellijPlatform {
@@ -82,25 +53,18 @@ intellijPlatform {
     publishing.token = providers.environmentVariable("PUBLISH_TOKEN")
 }
 
-tasks {
-    run {
-        // workaround for https://youtrack.jetbrains.com/issue/IDEA-285839/Classpath-clash-when-using-coroutines-in-an-unbundled-IntelliJ-plugin
-        buildPlugin {
-            exclude { "coroutines" in it.name }
-            archiveFileName = "${rootProject.name}-$version.zip"
-        }
-        prepareSandbox {
-            exclude { "coroutines" in it.name }
-        }
-    }
-    withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
-    }
+java {
+    // IDEA 2024.1 requires Java 17.
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
 
-    withType<KotlinCompile> {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
+tasks {
+    // workaround for https://youtrack.jetbrains.com/issue/IDEA-285839/Classpath-clash-when-using-coroutines-in-an-unbundled-IntelliJ-plugin
+    buildPlugin {
+        exclude { "coroutines" in it.name }
+        archiveFileName = "valkyrie-$version.zip"
+    }
+    prepareSandbox {
+        exclude { "coroutines" in it.name }
     }
 }
