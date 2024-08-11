@@ -59,6 +59,7 @@ compose.resources {
 }
 
 composeCompiler {
+    enableStrongSkippingMode = true
     stabilityConfigurationFile = layout.projectDirectory.file("stability_config.conf")
 }
 
