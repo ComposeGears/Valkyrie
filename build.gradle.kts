@@ -1,4 +1,5 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -14,6 +15,13 @@ plugins {
 allprojects {
     group = rootProject.providers.gradleProperty("GROUP").get()
     version = rootProject.providers.gradleProperty("VERSION_NAME").get()
+
+    plugins.withType<KotlinBasePlugin>().configureEach {
+        dependencies {
+            // https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
+            "compileOnly"(rootProject.libs.kotlin.stdlib)
+        }
+    }
 
     plugins.apply(rootProject.libs.plugins.spotless.get().pluginId)
     extensions.configure<SpotlessExtension> {
