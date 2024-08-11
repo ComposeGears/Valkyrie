@@ -16,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.ui.foundation.icons.Backspace
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -26,7 +26,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 fun InputField(
     caption: String,
     value: String,
-    tooltipValue: AnnotatedString,
+    highlights: Highlights,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     isError: Boolean = false,
@@ -49,7 +49,7 @@ fun InputField(
                 style = MaterialTheme.typography.bodyMedium,
             )
 
-            Tooltip(text = tooltipValue, enabled = enabled)
+            Tooltip(highlights = highlights, enabled = enabled)
         }
         InputTextField(
             modifier = Modifier.fillMaxWidth(),

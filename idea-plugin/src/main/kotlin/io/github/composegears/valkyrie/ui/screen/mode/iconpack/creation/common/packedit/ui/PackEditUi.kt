@@ -25,8 +25,8 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.p
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.NestedPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.PackEditState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util.buildIconPackHint
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util.buildPackPackageHint
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util.buildIconPackHighlight
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util.buildPackPackageHighlight
 
 @Composable
 fun PackEditUi(
@@ -51,7 +51,10 @@ fun PackEditUi(
             caption = "Package",
             value = packageName.text,
             isError = packageName.validationResult is ValidationResult.Error,
-            tooltipValue = buildPackPackageHint(packageName.text, iconPackName.text),
+            highlights = buildPackPackageHighlight(
+                packageName = packageName.text,
+                iconPackName = iconPackName.text,
+            ),
             onValueChange = { onValueChange(InputChange.PackageName(it)) },
             supportingText = if (packageName.validationResult is ValidationResult.Error) {
                 {
@@ -74,7 +77,7 @@ fun PackEditUi(
             enabled = iconPackName.enabled,
             caption = "Icon pack name",
             value = iconPackName.text,
-            tooltipValue = buildIconPackHint(iconPackName.text),
+            highlights = buildIconPackHighlight(iconPackName.text),
             isError = iconPackName.validationResult is ValidationResult.Error,
             onValueChange = { onValueChange(InputChange.IconPackName(it)) },
             supportingText = if (iconPackName.validationResult is ValidationResult.Error) {
