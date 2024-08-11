@@ -45,4 +45,12 @@ allprojects {
         // https://docs.gradle.org/8.9/userguide/performance.html#execute_tests_in_parallel
         maxParallelForks = Runtime.getRuntime().availableProcessors()
     }
+
+    configurations.configureEach {
+        resolutionStrategy.eachDependency {
+            if (requested.group == libs.kotlin.stdlib.get().group) {
+                useVersion(libs.kotlin.stdlib.get().version.toString())
+            }
+        }
+    }
 }
