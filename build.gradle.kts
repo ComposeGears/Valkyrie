@@ -19,7 +19,7 @@ allprojects {
     plugins.withType<KotlinBasePlugin>().configureEach {
         dependencies {
             // https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
-            "compileOnly"(rootProject.libs.kotlin.stdlib)
+            "compileOnly"(libs.kotlin.stdlib)
         }
     }
 
@@ -28,15 +28,15 @@ allprojects {
         kotlin {
             target("src/**/*.kt")
             targetExclude("src/test/resources/**")
-            ktlint(rootProject.libs.ktlint.get().version)
+            ktlint(libs.ktlint.get().version)
                 .customRuleSets(
                     listOf(
-                        rootProject.libs.composeRules.get().toString(),
+                        libs.composeRules.get().toString(),
                     ),
                 )
         }
         kotlinGradle {
-            ktlint(rootProject.libs.ktlint.get().version)
+            ktlint(libs.ktlint.get().version)
         }
     }
 
