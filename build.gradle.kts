@@ -1,4 +1,5 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 
 plugins {
@@ -20,6 +21,13 @@ allprojects {
         dependencies {
             // https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
             "compileOnly"(libs.kotlin.stdlib)
+        }
+    }
+
+    plugins.withId(rootProject.libs.plugins.kotlin.compose.get().pluginId) {
+        extensions.configure<ComposeCompilerGradlePluginExtension> {
+            enableStrongSkippingMode = true
+            stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
         }
     }
 

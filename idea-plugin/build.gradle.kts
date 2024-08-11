@@ -58,11 +58,6 @@ compose.resources {
     generateResClass = never
 }
 
-composeCompiler {
-    enableStrongSkippingMode = true
-    stabilityConfigurationFile = layout.projectDirectory.file("stability_config.conf")
-}
-
 intellijPlatform {
     buildSearchableOptions = false
     pluginConfiguration.ideaVersion {
