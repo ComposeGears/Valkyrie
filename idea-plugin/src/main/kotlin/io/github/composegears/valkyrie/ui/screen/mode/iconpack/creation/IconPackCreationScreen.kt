@@ -14,11 +14,7 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -44,7 +40,7 @@ val IconPackCreationScreen by navDestination<Unit> {
     IconPackModeSetupUI(
         nestedNavController = nestedNavController,
         onBack = {
-            if (nestedNavController.canGoBack) {
+            if (nestedNavController.canGoBack && nestedNavController.current != NewPackScreen) {
                 nestedNavController.back()
             } else {
                 nestedNavController.parent?.back(transition = navigationSlideInOut(false))
@@ -73,24 +69,21 @@ private fun IconPackModeSetupUI(
                 .height(IntrinsicSize.Max),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val modes = remember { listOf(PackMode.NEW, PackMode.EXISTING) }
-            var currentPackMode by rememberSaveable { mutableStateOf(PackMode.NEW) }
+            val tabs = remember { listOf(NewPackScreen, ExistingPackScreen) }
 
             SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                modes.forEachIndexed { index, mode ->
+                tabs.forEachIndexed { index, tab ->
                     SegmentedButton(
-                        shape = SegmentedButtonDefaults.itemShape(index = index, count = modes.size),
+                        shape = SegmentedButtonDefaults.itemShape(index = index, count = tabs.size),
                         onClick = {
-                            currentPackMode = mode
-                            val screen = when (mode) {
-                                PackMode.NEW -> NewPackScreen
-                                PackMode.EXISTING -> ExistingPackScreen
-                            }
-                            nestedNavController.popToTop(dest = screen)
+                            nestedNavController.popToTop(dest = tab)
                         },
-                        selected = currentPackMode == mode,
+                        selected = nestedNavController.current == tab,
                         label = {
-                            Text(mode.title)
+                            when (tab) {
+                                NewPackScreen -> Text(text = "Create new")
+                                ExistingPackScreen -> Text(text = "Existing pack")
+                            }
                         },
                     )
                 }
@@ -103,9 +96,4 @@ private fun IconPackModeSetupUI(
             )
         }
     }
-}
-
-enum class PackMode(val title: String) {
-    NEW(title = "Create new"),
-    EXISTING(title = "Existing pack"),
 }
