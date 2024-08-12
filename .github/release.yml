@@ -8,10 +8,18 @@ changelog:
     - title: 🐛 Bugfixes
       labels:
         - bug-fix
-    - title: ✏️ Tasks
+    - title: 🧹 Housekeeping
+      labels:
+        - housekeeping
+    - title: ⬆️ Dependencies
+      labels:
+        - dependencies
+    - title: ✏️ Others
       labels:
         - '*'
       exclude:
         labels:
           - feature
           - bug-fix
+          - housekeeping
+          - dependencies
