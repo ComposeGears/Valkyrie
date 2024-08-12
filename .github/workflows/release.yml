@@ -33,9 +33,17 @@ jobs:
       - name: Prepare release name
         run: |
           VERSION_NAME=$(grep "^VERSION_NAME=" gradle.properties | cut -d '=' -f 2)
+          IS_SNAPSHOT=false
+          if [[ $VERSION_NAME == *-SNAPSHOT ]]; then
+            IS_SNAPSHOT=true
+          else
+            IS_SNAPSHOT=false
+          fi
 
           echo "VERSION_NAME=$VERSION_NAME"
+          echo "IS_SNAPSHOT=$IS_SNAPSHOT"
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "IS_SNAPSHOT=$IS_SNAPSHOT" >> $GITHUB_ENV
 
       - name: Build signed plugin
         run: ./gradlew signPlugin
@@ -61,10 +69,18 @@ jobs:
             NOT_DYNAMIC
 
       - name: Publish to Marketplace
-        if: endsWith(env.VERSION_NAME, '-SNAPSHOT') == false
+        if: env.IS_SNAPSHOT == 'false'
         run: ./gradlew publishPlugin
 
       - name: Delete release if exist then create a new one
         run: |
           gh release view ${{ env.VERSION_NAME }} && gh release delete ${{ env.VERSION_NAME }} -y --cleanup-tag
-          gh release create ${{ env.VERSION_NAME }} idea-plugin/build/distributions/*-signed.zip -p --generate-notes
+
+          # Create a pre-release if it's a snapshot version.
+          if [[ ${{ env.IS_SNAPSHOT }} == "true" ]]; then
+            PRE_RELEASE_FLAG="--prerelease"
+          else
+            PRE_RELEASE_FLAG=""
+          fi
+
+          gh release create ${{ env.VERSION_NAME }} idea-plugin/build/distributions/*-signed.zip --generate-notes $PRE_RELEASE_FLAG
