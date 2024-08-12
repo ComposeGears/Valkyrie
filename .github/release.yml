@@ -1,0 +1,17 @@
+# Release template for GitHub Releases
+
+changelog:
+  categories:
+    - title: ✨ Features
+      labels:
+        - feature
+    - title: 🐛 Bugfixes
+      labels:
+        - bug-fix
+    - title: ✏️ Tasks
+      labels:
+        - '*'
+      exclude:
+        labels:
+          - feature
+          - bug-fix
