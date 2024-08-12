@@ -81,6 +81,8 @@ jobs:
             PRE_RELEASE_FLAG="--prerelease"
           else
             PRE_RELEASE_FLAG=""
+            # Delete last snapshot if it exists to make sure `--generate-notes` works correctly.
+            gh release view ${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete ${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag
           fi
 
           gh release create ${{ env.VERSION_NAME }} idea-plugin/build/distributions/*-signed.zip --generate-notes $PRE_RELEASE_FLAG
