@@ -32,9 +32,7 @@ jobs:
 
       - name: Prepare release name
         run: |
-          PLUGIN_NAME=$(grep "^PLUGIN_NAME=" gradle.properties | cut -d '=' -f 2)
-          VERSION=$(grep "^VERSION_NAME=" gradle.properties | cut -d '=' -f 2)
-          RELEASE_NAME=$PLUGIN_NAME-$VERSION
+          RELEASE_NAME=$(grep "^VERSION_NAME=" gradle.properties | cut -d '=' -f 2)
 
           echo "RELEASE_NAME=$RELEASE_NAME"
           echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
