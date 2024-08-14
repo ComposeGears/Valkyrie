@@ -45,6 +45,7 @@ dependencyResolutionManagement {
 rootProject.name = "valkyrie"
 
 include("idea-plugin")
+include("cli")
 
 include("components:extensions")
 include("components:generator:common")
