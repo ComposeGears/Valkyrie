@@ -20,6 +20,9 @@ tiamat = "io.github.composegears:tiamat:1.2.0"
 
 xpp3 = "org.ogce:xpp3:1.1.6"
 
+clikt = "com.github.ajalt.clikt:clikt:4.4.0"
+r8 = "com.android.tools:r8:8.2.47"
+
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.11.3"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit4 = "junit:junit:4.13.2"
@@ -36,6 +39,8 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 jetbrains-compose = "org.jetbrains.compose:1.7.1"
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
+buildConfig = "com.github.gmazzo.buildconfig:5.4.0"
+shadow = "com.gradleup.shadow:8.3.0"
 spotless = "com.diffplug.spotless:7.0.0.BETA4"
 
 [bundles]

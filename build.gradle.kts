@@ -13,6 +13,8 @@ plugins {
     alias(libs.plugins.jetbrains.compose) apply false
     alias(libs.plugins.jetbrains.intellij) apply false
     alias(libs.plugins.jetbrains.intellij.module) apply false
+    alias(libs.plugins.buildConfig) apply false
+    alias(libs.plugins.shadow) apply false
     alias(libs.plugins.spotless) apply false
 }
 
