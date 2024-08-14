@@ -120,8 +120,9 @@ private val backingPropertyFormat = """
 """.trimIndent()
 
 private val lazyPropertyFormat = """
-    val ArrowLeft by lazy(NONE) {
-        ImageVector.Builder(...).build()
+    val ArrowLeft by lazy(LazyThreadSafetyMode.NONE) {
+        ImageVector.Builder(...)
+            .build()
     }
 """.trimIndent()
 
