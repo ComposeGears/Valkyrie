@@ -3,9 +3,15 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 import com.composegears.tiamat.Saveable
 import com.composegears.tiamat.SavedState
 import com.composegears.tiamat.TiamatViewModel
+import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.extensions.cast
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
+import io.github.composegears.valkyrie.parser.IconParser
+import io.github.composegears.valkyrie.parser.isSvg
+import io.github.composegears.valkyrie.parser.isXml
+import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
@@ -190,13 +196,12 @@ class IconPackConversionViewModel(
                             ),
                         )
 
-                        FileWriter.writeToFile(
-                            content = vectorSpecOutput.content,
-                            outDirectory = when {
+                        vectorSpecOutput.content.writeToKt(
+                            outputDir = when {
                                 settings.flatPackage -> settings.iconPackDestination
                                 else -> "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}"
                             },
-                            fileName = vectorSpecOutput.name,
+                            nameWithoutExtension = vectorSpecOutput.name,
                         )
                     }
                     is IconPack.Single -> {
@@ -217,10 +222,9 @@ class IconPackConversionViewModel(
                             ),
                         )
 
-                        FileWriter.writeToFile(
-                            content = vectorSpecOutput.content,
-                            outDirectory = settings.iconPackDestination,
-                            fileName = vectorSpecOutput.name,
+                            vectorSpecOutput.content.writeToKt(
+                            outputDir = settings.iconPackDestination,
+                            nameWithoutExtension = vectorSpecOutput.name,
                         )
                     }
                 }
