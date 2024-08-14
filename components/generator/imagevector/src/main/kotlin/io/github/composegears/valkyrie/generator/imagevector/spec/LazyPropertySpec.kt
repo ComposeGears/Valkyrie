@@ -13,9 +13,9 @@ import io.github.composegears.valkyrie.generator.ext.setIndent
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
 
-internal class LazyDelegatePropertySpec(private val config: ImageVectorSpecConfig) {
+internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
 
-    fun createAsLazyDelegateProperty(vector: Vector): ImageVectorSpecOutput {
+    fun createAsLazyProperty(vector: Vector): ImageVectorSpecOutput {
         val iconPackClassName = config.resolveIconPackClassName()
         val packageName = config.resolvePackageName()
 
