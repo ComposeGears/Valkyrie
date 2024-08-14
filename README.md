@@ -19,8 +19,8 @@
   * remove redundant code (e.g. `public` keyword)
   * remove unused imports
   * skip default ImageVector parameters
-  * support generation as [Backing property or with Lazy property](https://github.com/ComposeGears/Valkyrie/tree/task/update-readme?tab=readme-ov-file#export-formats)
-- Two conversion modes: [Simple](https://github.com/ComposeGears/Valkyrie/tree/task/update-readme?tab=readme-ov-file#simple-mode) and [IconPack](https://github.com/ComposeGears/Valkyrie/tree/task/update-readme?tab=readme-ov-file#iconpack-mode)
+  * support generation as [Backing property or Lazy property](#export-formats))
+- Two conversion modes: [Simple](#simple-mode) and [IconPack](#iconpack-mode)
 - Built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
 
 ## **Simple mode**
