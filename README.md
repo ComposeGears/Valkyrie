@@ -81,7 +81,7 @@ https://github.com/user-attachments/assets/77f449dd-a6d0-44ea-9059-b7b30ee94426
 
 <table>
 <tr>
-<td>Backing field</td> 
+<td>Backing property</td> 
 <td>Lazy property</td>
 </tr>
 <tr>

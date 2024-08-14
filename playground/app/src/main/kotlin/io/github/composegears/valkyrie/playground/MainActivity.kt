@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 val iconsSet = remember {
                     listOf(
                         IconsSet(
-                            name = "Backing field",
+                            name = "Backing property",
                             icons = listOf(
                                 BackingIcons.Colored.Videocam,
                                 BackingIcons.Outlined.Add,
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                             ),
                         ),
                         IconsSet(
-                            name = "Lazy field",
+                            name = "Lazy property",
                             icons = listOf(
                                 LazyIcons.Colored.Videocam,
                                 LazyIcons.Outlined.Add,
