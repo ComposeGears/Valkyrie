@@ -5,12 +5,15 @@ plugins {
     alias(libs.plugins.jetbrains.intellij)
 }
 
+group = rootProject.providers.gradleProperty("GROUP").get()
+version = rootProject.providers.gradleProperty("VERSION_NAME").get()
+
 dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.imagevector)
     implementation(projects.components.parser)
-    implementation(projects.components.psi.pack)
+    implementation(projects.components.psi.iconpack)
 
     compileOnly(compose.desktop.currentOs)
     implementation(compose.desktop.common)

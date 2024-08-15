@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.psi.pack
+package io.github.composegears.valkyrie.psi.iconpack
 
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiManager

@@ -17,9 +17,6 @@ plugins {
 }
 
 allprojects {
-    group = rootProject.providers.gradleProperty("GROUP").get()
-    version = rootProject.providers.gradleProperty("VERSION_NAME").get()
-
     plugins.withType<KotlinBasePlugin>().configureEach {
         dependencies {
             // https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
