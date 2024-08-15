@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.psi
+package io.github.composegears.valkyrie.psi.pack
 
 import assertk.assertThat
 import assertk.assertions.containsExactly
