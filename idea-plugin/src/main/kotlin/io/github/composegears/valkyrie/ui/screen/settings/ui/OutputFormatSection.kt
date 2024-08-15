@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyDelegateProperty
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.highlights.rememberCodeHighlight
@@ -58,8 +58,8 @@ fun OutputFormatSection(
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 text = "Lazy delegate property",
                 highlights = rememberCodeHighlight(lazyPropertyFormat),
-                isSelected = outputFormat == LazyDelegateProperty,
-                onSelect = { onAction(UpdateOutputFormat(LazyDelegateProperty)) },
+                isSelected = outputFormat == LazyProperty,
+                onSelect = { onAction(UpdateOutputFormat(LazyProperty)) },
             )
         }
     }
@@ -120,8 +120,9 @@ private val backingPropertyFormat = """
 """.trimIndent()
 
 private val lazyPropertyFormat = """
-    val ArrowLeft by lazy(NONE) {
-        ImageVector.Builder(...).build()
+    val ArrowLeft by lazy(LazyThreadSafetyMode.NONE) {
+        ImageVector.Builder(...)
+            .build()
     }
 """.trimIndent()
 

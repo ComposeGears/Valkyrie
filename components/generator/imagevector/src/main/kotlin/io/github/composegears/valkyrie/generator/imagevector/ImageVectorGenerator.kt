@@ -12,7 +12,7 @@ data class ImageVectorGeneratorConfig(
 
 enum class OutputFormat(val key: String) {
     BackingProperty(key = "backing_property"),
-    LazyDelegateProperty(key = "lazy_delegate_property"),
+    LazyProperty(key = "lazy_property"),
     ;
 
     companion object {
