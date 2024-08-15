@@ -5,8 +5,8 @@ import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.extensions.castOrNull
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
-import io.github.composegears.valkyrie.psi.pack.IconPackInfo
-import io.github.composegears.valkyrie.psi.pack.IconPackPsiParser
+import io.github.composegears.valkyrie.psi.iconpack.IconPackInfo
+import io.github.composegears.valkyrie.psi.iconpack.IconPackPsiParser
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.extension.updateState
