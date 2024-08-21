@@ -14,23 +14,23 @@ import org.koin.dsl.module
 
 object Koin {
 
-    fun start() {
-        startKoin {
-            modules(appModule)
-        }
+  fun start() {
+    startKoin {
+      modules(appModule)
     }
+  }
 }
 
 private val appModule = module {
-    tiamatViewModelOf(::IconPackConversionViewModel)
+  tiamatViewModelOf(::IconPackConversionViewModel)
 
-    tiamatViewModelOf(::SimpleModeSetupViewModel)
-    tiamatViewModelOf(::SimpleConversionViewModel)
+  tiamatViewModelOf(::SimpleModeSetupViewModel)
+  tiamatViewModelOf(::SimpleConversionViewModel)
 
-    tiamatViewModelOf(::ExistingPackViewModel)
-    tiamatViewModelOf(::NewPackViewModel)
+  tiamatViewModelOf(::ExistingPackViewModel)
+  tiamatViewModelOf(::NewPackViewModel)
 
-    tiamatViewModelOf(::SettingsViewModel)
+  tiamatViewModelOf(::SettingsViewModel)
 
-    singleOf(::InMemorySettings)
+  singleOf(::InMemorySettings)
 }

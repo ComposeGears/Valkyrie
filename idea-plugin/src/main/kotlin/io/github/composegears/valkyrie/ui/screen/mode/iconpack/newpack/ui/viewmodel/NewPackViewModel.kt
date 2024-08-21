@@ -33,108 +33,108 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class NewPackViewModel(
-    private val inMemorySettings: InMemorySettings,
+  private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
-    private val settings = inMemorySettings.current
-    private var inputHandler = NewPackInputHandler(inMemorySettings.current)
+  private val settings = inMemorySettings.current
+  private var inputHandler = NewPackInputHandler(inMemorySettings.current)
 
-    private val _events = MutableSharedFlow<NewPackEvent>()
-    val events = _events.asSharedFlow()
+  private val _events = MutableSharedFlow<NewPackEvent>()
+  val events = _events.asSharedFlow()
 
-    private val currentState: NewPackModeState
-        get() = state.value
+  private val currentState: NewPackModeState
+    get() = state.value
 
-    private val _state = MutableStateFlow<NewPackModeState>(
-        ChooseExportDirectoryState(
-            iconPackDestination = settings.iconPackDestination,
-            predictedPackage = PackageExtractor.getFrom(path = settings.iconPackDestination).orEmpty(),
-            nextAvailable = settings.iconPackDestination.isNotEmpty(),
-        ),
-    )
-    val state = _state.asStateFlow()
+  private val _state = MutableStateFlow<NewPackModeState>(
+    ChooseExportDirectoryState(
+      iconPackDestination = settings.iconPackDestination,
+      predictedPackage = PackageExtractor.getFrom(path = settings.iconPackDestination).orEmpty(),
+      nextAvailable = settings.iconPackDestination.isNotEmpty(),
+    ),
+  )
+  val state = _state.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            inputHandler.state.collect { inputFieldState ->
-                _state.updateState {
-                    if (this is PickedState) {
-                        copy(
-                            packEditState = packEditState.copy(inputFieldState = inputFieldState),
-                            nextAvailable = inputFieldState.isValid,
-                        )
-                    } else {
-                        this
-                    }
-                }
-            }
-        }
-    }
-
-    fun onAction(action: NewPackAction) {
-        when (action) {
-            is SelectDestinationFolder -> updateDestinationPath(action.path)
-            is SaveDestination -> {
-                saveDestination()
-                initDefaultPack()
-            }
-            is AddNestedPack -> inputHandler.addNestedPack()
-            is RemoveNestedPack -> inputHandler.removeNestedPack(action.nestedPack)
-            is PreviewPackObject -> previewIconPackObject()
-            is SavePack -> saveIconPack()
-        }
-    }
-
-    fun onValueChange(change: InputChange) = viewModelScope.launch {
-        inputHandler.handleInput(change)
-    }
-
-    private fun updateDestinationPath(path: Path) {
+  init {
+    viewModelScope.launch {
+      inputHandler.state.collect { inputFieldState ->
         _state.updateState {
-            ChooseExportDirectoryState(
-                iconPackDestination = path.absolutePathString(),
-                predictedPackage = PackageExtractor.getFrom(path.invariantSeparatorsPathString).orEmpty(),
-                nextAvailable = true,
+          if (this is PickedState) {
+            copy(
+              packEditState = packEditState.copy(inputFieldState = inputFieldState),
+              nextAvailable = inputFieldState.isValid,
             )
+          } else {
+            this
+          }
         }
+      }
     }
+  }
 
-    private fun saveDestination() {
-        val directoryState = currentState.castOrNull<ChooseExportDirectoryState>() ?: return
-
-        inMemorySettings.updateIconPackDestination(directoryState.iconPackDestination)
+  fun onAction(action: NewPackAction) {
+    when (action) {
+      is SelectDestinationFolder -> updateDestinationPath(action.path)
+      is SaveDestination -> {
+        saveDestination()
+        initDefaultPack()
+      }
+      is AddNestedPack -> inputHandler.addNestedPack()
+      is RemoveNestedPack -> inputHandler.removeNestedPack(action.nestedPack)
+      is PreviewPackObject -> previewIconPackObject()
+      is SavePack -> saveIconPack()
     }
+  }
 
-    private fun initDefaultPack() {
-        _state.updateState {
-            PickedState(packEditState = PackEditState(inputFieldState = inputHandler.state.value))
-        }
+  fun onValueChange(change: InputChange) = viewModelScope.launch {
+    inputHandler.handleInput(change)
+  }
+
+  private fun updateDestinationPath(path: Path) {
+    _state.updateState {
+      ChooseExportDirectoryState(
+        iconPackDestination = path.absolutePathString(),
+        predictedPackage = PackageExtractor.getFrom(path.invariantSeparatorsPathString).orEmpty(),
+        nextAvailable = true,
+      )
     }
+  }
 
-    private fun previewIconPackObject() = viewModelScope.launch {
-        val editState = currentState.castOrNull<PickedState>()?.packEditState ?: return@launch
-        val inputFieldState = editState.inputFieldState
+  private fun saveDestination() {
+    val directoryState = currentState.castOrNull<ChooseExportDirectoryState>() ?: return
 
-        val iconPackCode = IconPackGenerator.create(
-            config = IconPackGeneratorConfig(
-                packageName = inputFieldState.packageName.text,
-                iconPackName = inputFieldState.iconPackName.text,
-                subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
-            ),
-        ).content
-        _events.emit(PreviewIconPackObject(code = iconPackCode))
+    inMemorySettings.updateIconPackDestination(directoryState.iconPackDestination)
+  }
+
+  private fun initDefaultPack() {
+    _state.updateState {
+      PickedState(packEditState = PackEditState(inputFieldState = inputHandler.state.value))
     }
+  }
 
-    private fun saveIconPack() {
-        val packEditState = currentState.castOrNull<PickedState>()?.packEditState ?: return
+  private fun previewIconPackObject() = viewModelScope.launch {
+    val editState = currentState.castOrNull<PickedState>()?.packEditState ?: return@launch
+    val inputFieldState = editState.inputFieldState
 
-        viewModelScope.launch {
-            IconPackWriter.savePack(
-                inMemorySettings = inMemorySettings,
-                inputFieldState = packEditState.inputFieldState,
-            )
+    val iconPackCode = IconPackGenerator.create(
+      config = IconPackGeneratorConfig(
+        packageName = inputFieldState.packageName.text,
+        iconPackName = inputFieldState.iconPackName.text,
+        subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
+      ),
+    ).content
+    _events.emit(PreviewIconPackObject(code = iconPackCode))
+  }
 
-            _events.emit(OnSettingsUpdated)
-        }
+  private fun saveIconPack() {
+    val packEditState = currentState.castOrNull<PickedState>()?.packEditState ?: return
+
+    viewModelScope.launch {
+      IconPackWriter.savePack(
+        inMemorySettings = inMemorySettings,
+        inputFieldState = packEditState.inputFieldState,
+      )
+
+      _events.emit(OnSettingsUpdated)
     }
+  }
 }

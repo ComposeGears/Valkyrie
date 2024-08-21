@@ -31,77 +31,77 @@ import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsActio
 
 @Composable
 fun OutputFormatSection(
-    outputFormat: OutputFormat,
-    modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(horizontal = 24.dp),
-    onAction: (SettingsAction) -> Unit,
+  outputFormat: OutputFormat,
+  modifier: Modifier = Modifier,
+  paddingValues: PaddingValues = PaddingValues(horizontal = 24.dp),
+  onAction: (SettingsAction) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(paddingValues),
+  Column(
+    modifier = modifier
+      .fillMaxWidth()
+      .padding(paddingValues),
+  ) {
+    Text(text = "Output format", style = MaterialTheme.typography.bodyMedium)
+    VerticalSpacer(8.dp)
+    Row(
+      modifier = Modifier.height(IntrinsicSize.Max),
+      horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Text(text = "Output format", style = MaterialTheme.typography.bodyMedium)
-        VerticalSpacer(8.dp)
-        Row(
-            modifier = Modifier.height(IntrinsicSize.Max),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            SelectableCard(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-                text = "Backing property",
-                highlights = rememberCodeHighlight(backingPropertyFormat),
-                isSelected = outputFormat == BackingProperty,
-                onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
-            )
-            SelectableCard(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-                text = "Lazy delegate property",
-                highlights = rememberCodeHighlight(lazyPropertyFormat),
-                isSelected = outputFormat == LazyProperty,
-                onSelect = { onAction(UpdateOutputFormat(LazyProperty)) },
-            )
-        }
+      SelectableCard(
+        modifier = Modifier.weight(1f).fillMaxHeight(),
+        text = "Backing property",
+        highlights = rememberCodeHighlight(backingPropertyFormat),
+        isSelected = outputFormat == BackingProperty,
+        onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
+      )
+      SelectableCard(
+        modifier = Modifier.weight(1f).fillMaxHeight(),
+        text = "Lazy delegate property",
+        highlights = rememberCodeHighlight(lazyPropertyFormat),
+        isSelected = outputFormat == LazyProperty,
+        onSelect = { onAction(UpdateOutputFormat(LazyProperty)) },
+      )
     }
+  }
 }
 
 @Composable
 private fun SelectableCard(
-    text: String,
-    highlights: Highlights,
-    isSelected: Boolean,
-    modifier: Modifier = Modifier,
-    onSelect: () -> Unit,
+  text: String,
+  highlights: Highlights,
+  isSelected: Boolean,
+  modifier: Modifier = Modifier,
+  onSelect: () -> Unit,
 ) {
-    Card(
-        modifier = modifier,
-        onClick = onSelect,
-        border = if (isSelected) {
-            BorderStroke(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.primary,
-            )
-        } else {
-            null
-        },
+  Card(
+    modifier = modifier,
+    onClick = onSelect,
+    border = if (isSelected) {
+      BorderStroke(
+        width = 1.dp,
+        color = MaterialTheme.colorScheme.primary,
+      )
+    } else {
+      null
+    },
+  ) {
+    Row(
+      modifier = Modifier.fillMaxHeight(),
+      verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            modifier = Modifier.fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .weight(1f),
-                text = text,
-                style = MaterialTheme.typography.bodySmall,
-            )
-            Tooltip(
-                modifier = Modifier.padding(end = 16.dp),
-                highlights = highlights,
-            )
-        }
+      Text(
+        modifier = Modifier
+          .padding(16.dp)
+          .weight(1f),
+        text = text,
+        style = MaterialTheme.typography.bodySmall,
+      )
+      Tooltip(
+        modifier = Modifier.padding(end = 16.dp),
+        highlights = highlights,
+      )
     }
+  }
 }
 
 private val backingPropertyFormat = """
@@ -129,8 +129,8 @@ private val lazyPropertyFormat = """
 @Preview
 @Composable
 private fun OutputFormatSectionPreview() = PreviewTheme {
-    OutputFormatSection(
-        outputFormat = BackingProperty,
-        onAction = {},
-    )
+  OutputFormatSection(
+    outputFormat = BackingProperty,
+    onAction = {},
+  )
 }

@@ -34,105 +34,105 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ChoosePackDirectory(
-    state: ChooseExportDirectoryState,
-    modifier: Modifier = Modifier,
-    onAction: (NewPackAction) -> Unit,
+  state: ChooseExportDirectoryState,
+  modifier: Modifier = Modifier,
+  onAction: (NewPackAction) -> Unit,
 ) {
-    val dragAndDropHandler = rememberDragAndDropFolderHandler(
-        onDrop = { path ->
+  val dragAndDropHandler = rememberDragAndDropFolderHandler(
+    onDrop = { path ->
+      onAction(SelectDestinationFolder(path))
+    },
+  )
+  val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
+
+  val scope = rememberCoroutineScope()
+  val directoryPicker = rememberDirectoryPicker()
+
+  Column(
+    modifier = modifier,
+    horizontalAlignment = Alignment.CenterHorizontally,
+  ) {
+    DragAndDropBox(
+      modifier = Modifier.fillMaxWidth(),
+      isDragging = isDragging,
+      onChoose = {
+        scope.launch {
+          val path = directoryPicker.launch()
+
+          if (path != null) {
             onAction(SelectDestinationFolder(path))
-        },
-    )
-    val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
-
-    val scope = rememberCoroutineScope()
-    val directoryPicker = rememberDirectoryPicker()
-
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+          }
+        }
+      },
     ) {
-        DragAndDropBox(
-            modifier = Modifier.fillMaxWidth(),
-            isDragging = isDragging,
-            onChoose = {
-                scope.launch {
-                    val path = directoryPicker.launch()
-
-                    if (path != null) {
-                        onAction(SelectDestinationFolder(path))
-                    }
-                }
-            },
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Icon(
-                    imageVector = ValkyrieIcons.Folder,
-                    contentDescription = null,
-                )
-                Text(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    textAlign = TextAlign.Center,
-                    text = "Drag & Drop folder\nor browse",
-                    style = MaterialTheme.typography.titleSmall,
-                )
-            }
-        }
-        VerticalSpacer(36.dp)
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-        ) {
-            if (state.iconPackDestination.isNotEmpty()) {
-                Column {
-                    Text(
-                        text = "Export path:",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        text = state.iconPackDestination,
-                        textDecoration = TextDecoration.Underline,
-                        style = MaterialTheme.typography.labelSmall,
-                    )
-                }
-            }
-            if (state.predictedPackage.isNotEmpty()) {
-                Column {
-                    Text(
-                        text = "Predicted package:",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        textDecoration = TextDecoration.Underline,
-                        text = state.predictedPackage,
-                        style = MaterialTheme.typography.labelSmall,
-                    )
-                }
-            }
-        }
-        Button(
-            modifier = Modifier.align(Alignment.End),
-            enabled = state.nextAvailable,
-            onClick = { onAction(SaveDestination) },
-        ) {
-            Text(text = "Next")
-        }
+      Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+      ) {
+        Icon(
+          imageVector = ValkyrieIcons.Folder,
+          contentDescription = null,
+        )
+        Text(
+          modifier = Modifier.padding(horizontal = 16.dp),
+          textAlign = TextAlign.Center,
+          text = "Drag & Drop folder\nor browse",
+          style = MaterialTheme.typography.titleSmall,
+        )
+      }
     }
+    VerticalSpacer(36.dp)
+    Column(
+      modifier = Modifier.fillMaxWidth(),
+      verticalArrangement = Arrangement.spacedBy(24.dp),
+    ) {
+      if (state.iconPackDestination.isNotEmpty()) {
+        Column {
+          Text(
+            text = "Export path:",
+            style = MaterialTheme.typography.bodyMedium,
+          )
+          Text(
+            text = state.iconPackDestination,
+            textDecoration = TextDecoration.Underline,
+            style = MaterialTheme.typography.labelSmall,
+          )
+        }
+      }
+      if (state.predictedPackage.isNotEmpty()) {
+        Column {
+          Text(
+            text = "Predicted package:",
+            style = MaterialTheme.typography.bodyMedium,
+          )
+          Text(
+            textDecoration = TextDecoration.Underline,
+            text = state.predictedPackage,
+            style = MaterialTheme.typography.labelSmall,
+          )
+        }
+      }
+    }
+    Button(
+      modifier = Modifier.align(Alignment.End),
+      enabled = state.nextAvailable,
+      onClick = { onAction(SaveDestination) },
+    ) {
+      Text(text = "Next")
+    }
+  }
 }
 
 @Preview
 @Composable
 private fun ChoosePackDirectoryPreview() = PreviewTheme {
-    ChoosePackDirectory(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        state = ChooseExportDirectoryState(
-            iconPackDestination = "path/to/export",
-            predictedPackage = "com.example.iconpack",
-            nextAvailable = true,
-        ),
-        onAction = {},
-    )
+  ChoosePackDirectory(
+    modifier = Modifier.fillMaxWidth(0.8f),
+    state = ChooseExportDirectoryState(
+      iconPackDestination = "path/to/export",
+      predictedPackage = "com.example.iconpack",
+      nextAvailable = true,
+    ),
+    onAction = {},
+  )
 }

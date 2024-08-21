@@ -20,39 +20,39 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Tooltip(
-    highlights: Highlights,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+  highlights: Highlights,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true,
 ) {
-    TooltipBox(
-        modifier = modifier,
-        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-        tooltip = {
-            RichTooltip(
-                tonalElevation = 0.dp,
-                text = {
-                    CodeTextView(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        highlights = highlights,
-                    )
-                },
-                colors = TooltipDefaults.richTooltipColors().copy(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                ),
-            )
+  TooltipBox(
+    modifier = modifier,
+    positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+    tooltip = {
+      RichTooltip(
+        tonalElevation = 0.dp,
+        text = {
+          CodeTextView(
+            modifier = Modifier.padding(vertical = 8.dp),
+            highlights = highlights,
+          )
         },
-        state = rememberTooltipState(isPersistent = true),
-    ) {
-        Icon(
-            modifier = Modifier.size(18.dp),
-            imageVector = ValkyrieIcons.Help,
-            tint = if (enabled) {
-                MaterialTheme.colorScheme.onSurface
-            } else {
-                MaterialTheme.colorScheme.onSurface.disabled()
-            },
-            contentDescription = null,
-        )
-    }
+        colors = TooltipDefaults.richTooltipColors().copy(
+          containerColor = MaterialTheme.colorScheme.surfaceVariant,
+          contentColor = MaterialTheme.colorScheme.onSurface,
+        ),
+      )
+    },
+    state = rememberTooltipState(isPersistent = true),
+  ) {
+    Icon(
+      modifier = Modifier.size(18.dp),
+      imageVector = ValkyrieIcons.Help,
+      tint = if (enabled) {
+        MaterialTheme.colorScheme.onSurface
+      } else {
+        MaterialTheme.colorScheme.onSurface.disabled()
+      },
+      contentDescription = null,
+    )
+  }
 }

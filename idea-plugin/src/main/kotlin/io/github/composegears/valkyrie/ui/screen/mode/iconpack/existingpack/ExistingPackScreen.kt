@@ -29,69 +29,69 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 val ExistingPackScreen by navDestination<Unit> {
-    val navController = navController()
+  val navController = navController()
 
-    val viewModel = koinTiamatViewModel<ExistingPackViewModel>()
-    val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
+  val viewModel = koinTiamatViewModel<ExistingPackViewModel>()
+  val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is ExistingPackEvent.OnSettingsUpdated -> {
-                        navController.parent?.navigate(IconPackConversionScreen)
-                    }
-                    is ExistingPackEvent.PreviewIconPackObject -> {
-                        navController.parent?.navigate(
-                            dest = CodePreviewScreen,
-                            navArgs = it.code,
-                        )
-                    }
-                }
-            }
-            .launchIn(this)
-    }
+  LaunchedEffect(Unit) {
+    viewModel.events
+      .onEach {
+        when (it) {
+          is ExistingPackEvent.OnSettingsUpdated -> {
+            navController.parent?.navigate(IconPackConversionScreen)
+          }
+          is ExistingPackEvent.PreviewIconPackObject -> {
+            navController.parent?.navigate(
+              dest = CodePreviewScreen,
+              navArgs = it.code,
+            )
+          }
+        }
+      }
+      .launchIn(this)
+  }
 
-    ExistingPackUi(
-        state = state,
-        onAction = viewModel::onAction,
-        onValueChange = viewModel::onValueChange,
-    )
+  ExistingPackUi(
+    state = state,
+    onAction = viewModel::onAction,
+    onValueChange = viewModel::onValueChange,
+  )
 }
 
 @Composable
 private fun ExistingPackUi(
-    state: ExistingPackModeState,
-    onAction: (ExistingPackAction) -> Unit,
-    onValueChange: (InputChange) -> Unit,
-    modifier: Modifier = Modifier,
+  state: ExistingPackModeState,
+  onAction: (ExistingPackAction) -> Unit,
+  onValueChange: (InputChange) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        when (state) {
-            is ExistingPackModeState.ChooserState -> {
-                ChooseExistingPackFile(onAction = onAction)
-            }
-            is ExistingPackModeState.ExistingPackEditState -> {
-                ExistingPackEditor(
-                    state = state,
-                    onAction = onAction,
-                    onValueChange = onValueChange,
-                )
-            }
-        }
+  Column(
+    modifier = modifier.fillMaxSize(),
+    verticalArrangement = Arrangement.spacedBy(16.dp),
+  ) {
+    when (state) {
+      is ExistingPackModeState.ChooserState -> {
+        ChooseExistingPackFile(onAction = onAction)
+      }
+      is ExistingPackModeState.ExistingPackEditState -> {
+        ExistingPackEditor(
+          state = state,
+          onAction = onAction,
+          onValueChange = onValueChange,
+        )
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 private fun ExistingPackFlowPreview() = PreviewTheme {
-    ExistingPackUi(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        state = ExistingPackModeState.ChooserState,
-        onAction = {},
-        onValueChange = {},
-    )
+  ExistingPackUi(
+    modifier = Modifier.fillMaxWidth(0.8f),
+    state = ExistingPackModeState.ChooserState,
+    onAction = {},
+    onValueChange = {},
+  )
 }

@@ -15,49 +15,49 @@ import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutp
 
 internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
 
-    fun createAsLazyProperty(vector: Vector): ImageVectorSpecOutput {
-        val iconPackClassName = config.resolveIconPackClassName()
-        val packageName = config.resolvePackageName()
+  fun createAsLazyProperty(vector: Vector): ImageVectorSpecOutput {
+    val iconPackClassName = config.resolveIconPackClassName()
+    val packageName = config.resolvePackageName()
 
-        val fileSpec = fileSpecBuilder(
-            packageName = packageName,
-            fileName = config.iconName,
-        ) {
-            addProperty(
-                propertySpec = iconProperty(
-                    vector = vector,
-                    iconPackClassName = iconPackClassName,
-                ),
-            )
-            addPreview(
-                config = config,
-                iconPackClassName = iconPackClassName,
-                packageName = packageName,
-            )
-            setIndent()
-        }
-
-        return ImageVectorSpecOutput(
-            content = fileSpec.removeDeadCode(),
-            name = fileSpec.name,
-        )
+    val fileSpec = fileSpecBuilder(
+      packageName = packageName,
+      fileName = config.iconName,
+    ) {
+      addProperty(
+        propertySpec = iconProperty(
+          vector = vector,
+          iconPackClassName = iconPackClassName,
+        ),
+      )
+      addPreview(
+        config = config,
+        iconPackClassName = iconPackClassName,
+        packageName = packageName,
+      )
+      setIndent()
     }
 
-    private fun iconProperty(
-        vector: Vector,
-        iconPackClassName: ClassName?,
-    ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
-        receiver(iconPackClassName)
-        val codeBlock = buildCodeBlock {
-            addImageVectorBlock(config = config, vector = vector)
-        }
+    return ImageVectorSpecOutput(
+      content = fileSpec.removeDeadCode(),
+      name = fileSpec.name,
+    )
+  }
 
-        delegate(
-            CodeBlock.builder()
-                .beginControlFlow("lazy(%T.NONE)", ClassNames.LazyThreadSafetyMode)
-                .add(codeBlock)
-                .endControlFlow()
-                .build(),
-        )
+  private fun iconProperty(
+    vector: Vector,
+    iconPackClassName: ClassName?,
+  ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
+    receiver(iconPackClassName)
+    val codeBlock = buildCodeBlock {
+      addImageVectorBlock(config = config, vector = vector)
     }
+
+    delegate(
+      CodeBlock.builder()
+        .beginControlFlow("lazy(%T.NONE)", ClassNames.LazyThreadSafetyMode)
+        .add(codeBlock)
+        .endControlFlow()
+        .build(),
+    )
+  }
 }

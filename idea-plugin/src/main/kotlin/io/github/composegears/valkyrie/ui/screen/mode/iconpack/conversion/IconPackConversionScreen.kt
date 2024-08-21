@@ -57,175 +57,175 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 val IconPackConversionScreen by navDestination<Unit> {
-    val navController = navController()
+  val navController = navController()
 
-    val viewModel = koinTiamatViewModel<IconPackConversionViewModel>()
-    val state by viewModel.state.collectAsState()
+  val viewModel = koinTiamatViewModel<IconPackConversionViewModel>()
+  val state by viewModel.state.collectAsState()
 
-    val settings by viewModel.valkyriesSettings.collectAsState()
+  val settings by viewModel.valkyriesSettings.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is ConversionEvent.OpenPreview -> {
-                        navController.navigate(
-                            dest = CodePreviewScreen,
-                            navArgs = it.iconContent,
-                        )
-                    }
-                    is ConversionEvent.ExportCompleted -> {
-                        @Suppress("UnstableApiUsage")
-                        writeAction {
-                            VirtualFileManager.getInstance().syncRefresh()
-                        }
-                    }
-                }
-            }.launchIn(this)
-    }
-
-    IconPackConversionUi(
-        state = state,
-        settings = settings,
-        openSettings = {
+  LaunchedEffect(Unit) {
+    viewModel.events
+      .onEach {
+        when (it) {
+          is ConversionEvent.OpenPreview -> {
             navController.navigate(
-                dest = SettingsScreen,
-                transition = navigationSlideInOut(true),
+              dest = CodePreviewScreen,
+              navArgs = it.iconContent,
             )
-        },
-        onPickEvent = viewModel::pickerEvent,
-        updatePack = viewModel::updateIconPack,
-        onDeleteIcon = viewModel::deleteIcon,
-        onReset = viewModel::reset,
-        onPreviewClick = viewModel::showPreview,
-        onExport = viewModel::export,
-        onRenameIcon = viewModel::renameIcon,
-    )
+          }
+          is ConversionEvent.ExportCompleted -> {
+            @Suppress("UnstableApiUsage")
+            writeAction {
+              VirtualFileManager.getInstance().syncRefresh()
+            }
+          }
+        }
+      }.launchIn(this)
+  }
+
+  IconPackConversionUi(
+    state = state,
+    settings = settings,
+    openSettings = {
+      navController.navigate(
+        dest = SettingsScreen,
+        transition = navigationSlideInOut(true),
+      )
+    },
+    onPickEvent = viewModel::pickerEvent,
+    updatePack = viewModel::updateIconPack,
+    onDeleteIcon = viewModel::deleteIcon,
+    onReset = viewModel::reset,
+    onPreviewClick = viewModel::showPreview,
+    onExport = viewModel::export,
+    onRenameIcon = viewModel::renameIcon,
+  )
 }
 
 @Composable
 private fun IconPackConversionUi(
-    state: IconPackConversionState,
-    settings: ValkyriesSettings,
-    openSettings: () -> Unit,
-    onPickEvent: (PickerEvent) -> Unit,
-    updatePack: (BatchIcon, String) -> Unit,
-    onDeleteIcon: (IconName) -> Unit,
-    onReset: () -> Unit,
-    onPreviewClick: (IconName) -> Unit,
-    onExport: () -> Unit,
-    onRenameIcon: (BatchIcon, IconName) -> Unit,
+  state: IconPackConversionState,
+  settings: ValkyriesSettings,
+  openSettings: () -> Unit,
+  onPickEvent: (PickerEvent) -> Unit,
+  updatePack: (BatchIcon, String) -> Unit,
+  onDeleteIcon: (IconName) -> Unit,
+  onReset: () -> Unit,
+  onPreviewClick: (IconName) -> Unit,
+  onExport: () -> Unit,
+  onRenameIcon: (BatchIcon, IconName) -> Unit,
 ) {
-    var isVisible by rememberSaveable { mutableStateOf(true) }
+  var isVisible by rememberSaveable { mutableStateOf(true) }
 
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                if (available.y < -1) {
-                    isVisible = false
-                }
-                if (available.y > 1) {
-                    isVisible = true
-                }
-
-                return Offset.Zero
-            }
+  val nestedScrollConnection = remember {
+    object : NestedScrollConnection {
+      override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+        if (available.y < -1) {
+          isVisible = false
         }
+        if (available.y > 1) {
+          isVisible = true
+        }
+
+        return Offset.Zero
+      }
     }
+  }
 
-    val focusManager = LocalFocusManager.current
+  val focusManager = LocalFocusManager.current
 
-    Box(
-        modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = { focusManager.clearFocus() })
-            },
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            TopAppBar {
-                if (state is BatchProcessing.IconPackCreationState) {
-                    ClearAction(onClear = onReset)
-                }
-                AppBarTitle(title = "${settings.iconPackName} generation")
-                WeightSpacer()
-                SettingsAction(openSettings = openSettings)
-            }
-            when (state) {
-                is IconsPickering -> {
-                    IconPackPickerStateUi(onPickerEvent = onPickEvent)
-                }
-                BatchProcessing.ExportingState -> {
-                    LoadingStateUi(message = "Exporting icons...")
-                }
-                BatchProcessing.ImportValidationState -> {
-                    LoadingStateUi(message = "Processing icons...")
-                }
-                is BatchProcessing.IconPackCreationState -> {
-                    BatchProcessingStateUi(
-                        modifier = Modifier.nestedScroll(nestedScrollConnection),
-                        state = state,
-                        onDeleteIcon = onDeleteIcon,
-                        onUpdatePack = updatePack,
-                        onPreviewClick = onPreviewClick,
-                        onRenameIcon = onRenameIcon,
-                    )
-                }
-            }
-        }
-
+  Box(
+    modifier = Modifier
+      .pointerInput(Unit) {
+        detectTapGestures(onTap = { focusManager.clearFocus() })
+      },
+  ) {
+    Column(modifier = Modifier.fillMaxSize()) {
+      TopAppBar {
         if (state is BatchProcessing.IconPackCreationState) {
-            AnimatedVisibility(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 16.dp),
-                visible = isVisible,
-                enter = slideInVertically(initialOffsetY = { it * 2 }),
-                exit = slideOutVertically(targetOffsetY = { it * 2 }),
-            ) {
-                Button(
-                    modifier = Modifier.defaultMinSize(minHeight = 36.dp),
-                    enabled = state.exportEnabled,
-                    shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.buttonColors().copy(
-                        disabledContainerColor = Color.Gray,
-                    ),
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 6.dp,
-                        pressedElevation = 6.dp,
-                        focusedElevation = 6.dp,
-                        disabledElevation = 0.dp,
-                    ),
-                    onClick = onExport,
-                ) {
-                    Text(
-                        text = "Export",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                }
-            }
+          ClearAction(onClear = onReset)
         }
+        AppBarTitle(title = "${settings.iconPackName} generation")
+        WeightSpacer()
+        SettingsAction(openSettings = openSettings)
+      }
+      when (state) {
+        is IconsPickering -> {
+          IconPackPickerStateUi(onPickerEvent = onPickEvent)
+        }
+        BatchProcessing.ExportingState -> {
+          LoadingStateUi(message = "Exporting icons...")
+        }
+        BatchProcessing.ImportValidationState -> {
+          LoadingStateUi(message = "Processing icons...")
+        }
+        is BatchProcessing.IconPackCreationState -> {
+          BatchProcessingStateUi(
+            modifier = Modifier.nestedScroll(nestedScrollConnection),
+            state = state,
+            onDeleteIcon = onDeleteIcon,
+            onUpdatePack = updatePack,
+            onPreviewClick = onPreviewClick,
+            onRenameIcon = onRenameIcon,
+          )
+        }
+      }
     }
+
+    if (state is BatchProcessing.IconPackCreationState) {
+      AnimatedVisibility(
+        modifier = Modifier
+          .align(Alignment.BottomCenter)
+          .padding(bottom = 16.dp),
+        visible = isVisible,
+        enter = slideInVertically(initialOffsetY = { it * 2 }),
+        exit = slideOutVertically(targetOffsetY = { it * 2 }),
+      ) {
+        Button(
+          modifier = Modifier.defaultMinSize(minHeight = 36.dp),
+          enabled = state.exportEnabled,
+          shape = MaterialTheme.shapes.large,
+          colors = ButtonDefaults.buttonColors().copy(
+            disabledContainerColor = Color.Gray,
+          ),
+          elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 6.dp,
+            pressedElevation = 6.dp,
+            focusedElevation = 6.dp,
+            disabledElevation = 0.dp,
+          ),
+          onClick = onExport,
+        ) {
+          Text(
+            text = "Export",
+            style = MaterialTheme.typography.bodySmall,
+          )
+        }
+      }
+    }
+  }
 }
 
 @Composable
 private fun LoadingStateUi(message: String) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            CircularProgressIndicator()
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodySmall,
-            )
-        }
+  Box(modifier = Modifier.fillMaxSize()) {
+    Column(
+      modifier = Modifier.align(Alignment.Center),
+      verticalArrangement = Arrangement.spacedBy(16.dp),
+      horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+      CircularProgressIndicator()
+      Text(
+        text = message,
+        style = MaterialTheme.typography.bodySmall,
+      )
     }
+  }
 }
 
 @Preview
 @Composable
 private fun LoadingStateUiPreview() = PreviewTheme {
-    LoadingStateUi(message = "Exporting icons...")
+  LoadingStateUi(message = "Exporting icons...")
 }

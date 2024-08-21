@@ -14,34 +14,34 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun rememberDirectoryPicker(): Picker<Path?> {
-    if (LocalInspectionMode.current) return StubDirectoryPicker
+  if (LocalInspectionMode.current) return StubDirectoryPicker
 
-    val project = LocalProject.current
-    return remember { DirectoryPicker(project = project) }
+  val project = LocalProject.current
+  return remember { DirectoryPicker(project = project) }
 }
 
 private object StubDirectoryPicker : Picker<Path?> {
-    override suspend fun launch(): Path? = null
+  override suspend fun launch(): Path? = null
 }
 
 private class DirectoryPicker(private val project: Project) : Picker<Path?> {
 
-    private val fileChooserDescriptor = FileChooserDescriptor(
-        /* chooseFiles = */
-        false,
-        /* chooseFolders = */
-        true,
-        /* chooseJars = */
-        false,
-        /* chooseJarsAsFiles = */
-        false,
-        /* chooseJarContents = */
-        false,
-        /* chooseMultiple = */
-        false,
-    )
+  private val fileChooserDescriptor = FileChooserDescriptor(
+    /* chooseFiles = */
+    false,
+    /* chooseFolders = */
+    true,
+    /* chooseJars = */
+    false,
+    /* chooseJarsAsFiles = */
+    false,
+    /* chooseJarContents = */
+    false,
+    /* chooseMultiple = */
+    false,
+  )
 
-    override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {
-        FileChooser.chooseFile(fileChooserDescriptor, project, null)?.toNioPath()
-    }
+  override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {
+    FileChooser.chooseFile(fileChooserDescriptor, project, null)?.toNioPath()
+  }
 }

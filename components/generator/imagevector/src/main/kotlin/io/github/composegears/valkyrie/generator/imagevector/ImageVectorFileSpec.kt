@@ -7,24 +7,24 @@ import io.github.composegears.valkyrie.generator.imagevector.spec.BackingPropert
 import io.github.composegears.valkyrie.generator.imagevector.spec.LazyPropertySpec
 
 internal data class ImageVectorSpecConfig(
-    val iconName: String,
-    val iconPack: String,
-    val iconNestedPack: String,
-    val iconPackage: String,
-    val outputFormat: OutputFormat,
-    val generatePreview: Boolean,
+  val iconName: String,
+  val iconPack: String,
+  val iconNestedPack: String,
+  val iconPackage: String,
+  val outputFormat: OutputFormat,
+  val generatePreview: Boolean,
 )
 
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
-    fun createFileFor(vector: Vector): ImageVectorSpecOutput {
-        return when (config.outputFormat) {
-            BackingProperty -> {
-                BackingPropertySpec(config).createAsBackingProperty(vector)
-            }
-            LazyProperty -> {
-                LazyPropertySpec(config).createAsLazyProperty(vector)
-            }
-        }
+  fun createFileFor(vector: Vector): ImageVectorSpecOutput {
+    return when (config.outputFormat) {
+      BackingProperty -> {
+        BackingPropertySpec(config).createAsBackingProperty(vector)
+      }
+      LazyProperty -> {
+        LazyPropertySpec(config).createAsLazyProperty(vector)
+      }
     }
+  }
 }

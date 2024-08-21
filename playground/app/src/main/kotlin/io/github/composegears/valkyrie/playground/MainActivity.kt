@@ -47,93 +47,93 @@ import io.github.composegears.valkyrie.playground.ui.theme.PlaygroundTheme
 
 class MainActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalFoundationApi::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+  @OptIn(ExperimentalFoundationApi::class)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    enableEdgeToEdge()
 
-        setContent {
-            PlaygroundTheme {
-                val iconsSet = remember {
-                    listOf(
-                        IconsSet(
-                            name = "Backing property",
-                            icons = listOf(
-                                BackingIcons.Colored.Videocam,
-                                BackingIcons.Outlined.Add,
-                                BackingIcons.Outlined.Appearance,
-                                BackingIcons.Outlined.Arrow,
-                                BackingIcons.Outlined.ArrowLeft,
-                                BackingIcons.Outlined.ArrowRight,
-                                BackingIcons.Outlined.Brightness,
-                                BackingIcons.Outlined.Car,
-                                BackingIcons.Outlined.Changelog,
-                            ),
-                        ),
-                        IconsSet(
-                            name = "Lazy property",
-                            icons = listOf(
-                                LazyIcons.Colored.Videocam,
-                                LazyIcons.Outlined.Add,
-                                LazyIcons.Outlined.Appearance,
-                                LazyIcons.Outlined.Arrow,
-                                LazyIcons.Outlined.ArrowLeft,
-                                LazyIcons.Outlined.ArrowRight,
-                                LazyIcons.Outlined.Brightness,
-                                LazyIcons.Outlined.Car,
-                                LazyIcons.Outlined.Changelog,
-                            ),
-                        ),
-                    )
-                }
-                Surface(modifier = Modifier.systemBarsPadding()) {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        iconsSet.forEach { (name, icons) ->
-                            stickyHeader {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.primary)
-                                        .padding(vertical = 4.dp),
-                                ) {
-                                    Text(
-                                        modifier = Modifier.padding(horizontal = 8.dp),
-                                        text = name,
-                                        color = MaterialTheme.colorScheme.onPrimary,
-                                    )
-                                }
-                            }
-                            items(icons) { icon ->
-                                Row(
-                                    modifier = Modifier.padding(
-                                        horizontal = 16.dp,
-                                        vertical = 8.dp,
-                                    ),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Image(
-                                        imageVector = icon,
-                                        contentDescription = null,
-                                    )
-                                    Text(
-                                        text = icon.name,
-                                        style = MaterialTheme.typography.bodySmall,
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    setContent {
+      PlaygroundTheme {
+        val iconsSet = remember {
+          listOf(
+            IconsSet(
+              name = "Backing property",
+              icons = listOf(
+                BackingIcons.Colored.Videocam,
+                BackingIcons.Outlined.Add,
+                BackingIcons.Outlined.Appearance,
+                BackingIcons.Outlined.Arrow,
+                BackingIcons.Outlined.ArrowLeft,
+                BackingIcons.Outlined.ArrowRight,
+                BackingIcons.Outlined.Brightness,
+                BackingIcons.Outlined.Car,
+                BackingIcons.Outlined.Changelog,
+              ),
+            ),
+            IconsSet(
+              name = "Lazy property",
+              icons = listOf(
+                LazyIcons.Colored.Videocam,
+                LazyIcons.Outlined.Add,
+                LazyIcons.Outlined.Appearance,
+                LazyIcons.Outlined.Arrow,
+                LazyIcons.Outlined.ArrowLeft,
+                LazyIcons.Outlined.ArrowRight,
+                LazyIcons.Outlined.Brightness,
+                LazyIcons.Outlined.Car,
+                LazyIcons.Outlined.Changelog,
+              ),
+            ),
+          )
         }
+        Surface(modifier = Modifier.systemBarsPadding()) {
+          LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+          ) {
+            iconsSet.forEach { (name, icons) ->
+              stickyHeader {
+                Row(
+                  modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(vertical = 4.dp),
+                ) {
+                  Text(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    text = name,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                  )
+                }
+              }
+              items(icons) { icon ->
+                Row(
+                  modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = 8.dp,
+                  ),
+                  horizontalArrangement = Arrangement.spacedBy(8.dp),
+                  verticalAlignment = Alignment.CenterVertically,
+                ) {
+                  Image(
+                    imageVector = icon,
+                    contentDescription = null,
+                  )
+                  Text(
+                    text = icon.name,
+                    style = MaterialTheme.typography.bodySmall,
+                  )
+                }
+              }
+            }
+          }
+        }
+      }
     }
+  }
 }
 
 data class IconsSet(
-    val name: String,
-    val icons: List<ImageVector>,
+  val name: String,
+  val icons: List<ImageVector>,
 )

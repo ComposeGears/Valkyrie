@@ -5,10 +5,10 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.i
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
 
 class ExistingPackInputHandler :
-    BasicInputHandler(
-        initialState = InputFieldState(
-            iconPackName = InputState(),
-            packageName = InputState(),
-            nestedPacks = emptyList(),
-        ),
-    )
+  BasicInputHandler(
+    initialState = InputFieldState(
+      iconPackName = InputState(),
+      packageName = InputState(),
+      nestedPacks = emptyList(),
+    ),
+  )

@@ -8,97 +8,97 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class InMemorySettings {
-    private val _settings = MutableStateFlow(value = PersistentSettings.persistentSettings.toValkyriesSettings())
-    val settings = _settings.asStateFlow()
+  private val _settings = MutableStateFlow(value = PersistentSettings.persistentSettings.toValkyriesSettings())
+  val settings = _settings.asStateFlow()
 
-    var uiState: Map<String, Any?> = emptyMap()
-        private set
+  var uiState: Map<String, Any?> = emptyMap()
+    private set
 
-    val current: ValkyriesSettings
-        get() = settings.value
+  val current: ValkyriesSettings
+    get() = settings.value
 
-    fun updateGeneratePreview(generatePreview: Boolean) = updateSettings {
-        PersistentSettings.persistentSettings.generatePreview = generatePreview
+  fun updateGeneratePreview(generatePreview: Boolean) = updateSettings {
+    PersistentSettings.persistentSettings.generatePreview = generatePreview
+  }
+
+  fun updateIconPackName(iconPackName: String) = updateSettings {
+    PersistentSettings.persistentSettings.iconPackName = iconPackName
+  }
+
+  fun updateIconPackDestination(iconPackDestination: String) = updateSettings {
+    PersistentSettings.persistentSettings.iconPackDestination = iconPackDestination
+  }
+
+  fun updateNestedPack(nestedPacks: List<String>) = updateSettings {
+    if (nestedPacks.isEmpty()) {
+      PersistentSettings.persistentSettings.nestedPacks = ""
+    } else {
+      PersistentSettings.persistentSettings.nestedPacks = nestedPacks.joinToString(separator = ",")
     }
+  }
 
-    fun updateIconPackName(iconPackName: String) = updateSettings {
-        PersistentSettings.persistentSettings.iconPackName = iconPackName
+  fun updatePackageName(packageName: String) = updateSettings {
+    PersistentSettings.persistentSettings.packageName = packageName
+  }
+
+  fun updateMode(mode: Mode) = updateSettings {
+    PersistentSettings.persistentSettings.mode = mode.name
+  }
+
+  fun updateOutputFormat(outputFormat: OutputFormat) = updateSettings {
+    PersistentSettings.persistentSettings.outputFormat = outputFormat.key
+  }
+
+  fun clear() = updateSettings {
+    with(PersistentSettings.persistentSettings) {
+      mode = Mode.Unspecified.name
+
+      packageName = ""
+      iconPackName = ""
+      iconPackDestination = ""
+
+      nestedPacks = ""
+
+      outputFormat = OutputFormat.BackingProperty.key
+      generatePreview = false
     }
+  }
 
-    fun updateIconPackDestination(iconPackDestination: String) = updateSettings {
-        PersistentSettings.persistentSettings.iconPackDestination = iconPackDestination
-    }
+  private fun updateSettings(function: () -> Unit) {
+    function()
+    _settings.updateState { PersistentSettings.persistentSettings.toValkyriesSettings() }
+  }
 
-    fun updateNestedPack(nestedPacks: List<String>) = updateSettings {
-        if (nestedPacks.isEmpty()) {
-            PersistentSettings.persistentSettings.nestedPacks = ""
-        } else {
-            PersistentSettings.persistentSettings.nestedPacks = nestedPacks.joinToString(separator = ",")
-        }
-    }
+  fun updateUIState(uiState: Map<String, Any?>) {
+    this.uiState = uiState
+  }
 
-    fun updatePackageName(packageName: String) = updateSettings {
-        PersistentSettings.persistentSettings.packageName = packageName
-    }
+  private fun PersistentSettings.ValkyrieState.toValkyriesSettings() =
+    ValkyriesSettings(
+      mode = Mode.valueOf(mode!!),
 
-    fun updateMode(mode: Mode) = updateSettings {
-        PersistentSettings.persistentSettings.mode = mode.name
-    }
+      packageName = packageName.or("io.github.composegears.valkyrie"),
+      iconPackName = iconPackName.or("ValkyrieIcons"),
+      iconPackDestination = iconPackDestination.or(""),
 
-    fun updateOutputFormat(outputFormat: OutputFormat) = updateSettings {
-        PersistentSettings.persistentSettings.outputFormat = outputFormat.key
-    }
+      nestedPacks = nestedPacks.orEmpty()
+        .split(",")
+        .filter { it.isNotEmpty() },
 
-    fun clear() = updateSettings {
-        with(PersistentSettings.persistentSettings) {
-            mode = Mode.Unspecified.name
-
-            packageName = ""
-            iconPackName = ""
-            iconPackDestination = ""
-
-            nestedPacks = ""
-
-            outputFormat = OutputFormat.BackingProperty.key
-            generatePreview = false
-        }
-    }
-
-    private fun updateSettings(function: () -> Unit) {
-        function()
-        _settings.updateState { PersistentSettings.persistentSettings.toValkyriesSettings() }
-    }
-
-    fun updateUIState(uiState: Map<String, Any?>) {
-        this.uiState = uiState
-    }
-
-    private fun PersistentSettings.ValkyrieState.toValkyriesSettings() =
-        ValkyriesSettings(
-            mode = Mode.valueOf(mode!!),
-
-            packageName = packageName.or("io.github.composegears.valkyrie"),
-            iconPackName = iconPackName.or("ValkyrieIcons"),
-            iconPackDestination = iconPackDestination.or(""),
-
-            nestedPacks = nestedPacks.orEmpty()
-                .split(",")
-                .filter { it.isNotEmpty() },
-
-            outputFormat = OutputFormat.from(outputFormat),
-            generatePreview = generatePreview,
-        )
+      outputFormat = OutputFormat.from(outputFormat),
+      generatePreview = generatePreview,
+    )
 }
 
 data class ValkyriesSettings(
-    val mode: Mode,
+  val mode: Mode,
 
-    val packageName: String,
-    val iconPackName: String,
-    val iconPackDestination: String,
+  val packageName: String,
+  val iconPackName: String,
+  val iconPackDestination: String,
 
-    val nestedPacks: List<String>,
+  val nestedPacks: List<String>,
 
-    val outputFormat: OutputFormat,
-    val generatePreview: Boolean,
+  val outputFormat: OutputFormat,
+  val generatePreview: Boolean,
 )

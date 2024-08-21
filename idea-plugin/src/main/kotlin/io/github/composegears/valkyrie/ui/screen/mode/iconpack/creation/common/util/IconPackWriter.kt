@@ -11,33 +11,33 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.p
 
 object IconPackWriter {
 
-    fun savePack(
-        inMemorySettings: InMemorySettings,
-        inputFieldState: InputFieldState,
-    ) {
-        inMemorySettings.updatePackageName(inputFieldState.packageName.text)
-        inMemorySettings.updateIconPackName(inputFieldState.iconPackName.text)
-        inMemorySettings.updateNestedPack(inputFieldState.nestedPacks.map { it.inputFieldState.text })
-        inMemorySettings.updateMode(Mode.IconPack)
+  fun savePack(
+    inMemorySettings: InMemorySettings,
+    inputFieldState: InputFieldState,
+  ) {
+    inMemorySettings.updatePackageName(inputFieldState.packageName.text)
+    inMemorySettings.updateIconPackName(inputFieldState.iconPackName.text)
+    inMemorySettings.updateNestedPack(inputFieldState.nestedPacks.map { it.inputFieldState.text })
+    inMemorySettings.updateMode(Mode.IconPack)
 
-        val currentSettings = inMemorySettings.current
+    val currentSettings = inMemorySettings.current
 
-        val iconPack = IconPackGenerator.create(
-            config = IconPackGeneratorConfig(
-                packageName = currentSettings.packageName,
-                iconPackName = currentSettings.iconPackName,
-                subPacks = currentSettings.nestedPacks,
-            ),
-        )
+    val iconPack = IconPackGenerator.create(
+      config = IconPackGeneratorConfig(
+        packageName = currentSettings.packageName,
+        iconPackName = currentSettings.iconPackName,
+        subPacks = currentSettings.nestedPacks,
+      ),
+    )
 
-        FileWriter.writeToFile(
-            content = iconPack.content,
-            outDirectory = currentSettings.iconPackDestination,
-            fileName = iconPack.name,
-        )
+    FileWriter.writeToFile(
+      content = iconPack.content,
+      outDirectory = currentSettings.iconPackDestination,
+      fileName = iconPack.name,
+    )
 
-        writeAction {
-            VirtualFileManager.getInstance().syncRefresh()
-        }
+    writeAction {
+      VirtualFileManager.getInstance().syncRefresh()
     }
+  }
 }

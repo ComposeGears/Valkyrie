@@ -5,17 +5,17 @@ import kotlin.io.path.extension
 
 @PublishedApi
 internal enum class IconType(val extension: String) {
-    SVG("svg"),
-    XML("xml"),
-    ;
+  SVG("svg"),
+  XML("xml"),
+  ;
 
-    companion object {
-        fun from(extension: String): IconType? = when {
-            extension.isSvg -> SVG
-            extension.isXml -> XML
-            else -> null
-        }
+  companion object {
+    fun from(extension: String): IconType? = when {
+      extension.isSvg -> SVG
+      extension.isXml -> XML
+      else -> null
     }
+  }
 }
 
 inline val String?.isSvg: Boolean get() = equals(other = IconType.SVG.extension, ignoreCase = true)

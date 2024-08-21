@@ -23,50 +23,50 @@ import com.squareup.kotlinpoet.MemberName
  * Package names used for icon generation.
  */
 internal enum class PackageNames(val packageName: String) {
-    UiPackage("androidx.compose.ui"),
-    GraphicsPackage(UiPackage.packageName + ".graphics"),
-    VectorPackage(GraphicsPackage.packageName + ".vector"),
-    GeometryPackage(UiPackage.packageName + ".geometry"),
-    Unit(UiPackage.packageName + ".unit"),
-    FoundationPackage("androidx.compose.foundation"),
-    LayoutPackage(FoundationPackage.packageName + ".layout"),
-    PreviewPackage(UiPackage.packageName + ".tooling.preview"),
-    RuntimePackage("androidx.compose.runtime"),
+  UiPackage("androidx.compose.ui"),
+  GraphicsPackage(UiPackage.packageName + ".graphics"),
+  VectorPackage(GraphicsPackage.packageName + ".vector"),
+  GeometryPackage(UiPackage.packageName + ".geometry"),
+  Unit(UiPackage.packageName + ".unit"),
+  FoundationPackage("androidx.compose.foundation"),
+  LayoutPackage(FoundationPackage.packageName + ".layout"),
+  PreviewPackage(UiPackage.packageName + ".tooling.preview"),
+  RuntimePackage("androidx.compose.runtime"),
 }
 
 /**
  * [ClassName]s used for icon generation.
  */
 object ClassNames {
-    val ImageVector = PackageNames.VectorPackage.className("ImageVector")
-    val PathFillType = PackageNames.GraphicsPackage.className("PathFillType")
-    val StrokeCap = PackageNames.GraphicsPackage.className("StrokeCap")
-    val StrokeJoin = PackageNames.GraphicsPackage.className("StrokeJoin")
-    val Brush = PackageNames.GraphicsPackage.className("Brush")
-    val Preview = PackageNames.PreviewPackage.className("Preview")
-    val Composable = PackageNames.RuntimePackage.className("Composable")
-    val Suppress = ClassName.bestGuess("kotlin.Suppress")
-    val LazyThreadSafetyMode = ClassName.bestGuess("kotlin.LazyThreadSafetyMode")
+  val ImageVector = PackageNames.VectorPackage.className("ImageVector")
+  val PathFillType = PackageNames.GraphicsPackage.className("PathFillType")
+  val StrokeCap = PackageNames.GraphicsPackage.className("StrokeCap")
+  val StrokeJoin = PackageNames.GraphicsPackage.className("StrokeJoin")
+  val Brush = PackageNames.GraphicsPackage.className("Brush")
+  val Preview = PackageNames.PreviewPackage.className("Preview")
+  val Composable = PackageNames.RuntimePackage.className("Composable")
+  val Suppress = ClassName.bestGuess("kotlin.Suppress")
+  val LazyThreadSafetyMode = ClassName.bestGuess("kotlin.LazyThreadSafetyMode")
 }
 
 /**
  * [MemberName]s used for icon generation.
  */
 object MemberNames {
-    val Path = MemberName(PackageNames.VectorPackage.packageName, "path")
+  val Path = MemberName(PackageNames.VectorPackage.packageName, "path")
 
-    val Group = MemberName(PackageNames.VectorPackage.packageName, "group")
+  val Group = MemberName(PackageNames.VectorPackage.packageName, "group")
 
-    val Dp = MemberName(PackageNames.Unit.packageName, "dp")
-    val Modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")
-    val Padding = MemberName(PackageNames.LayoutPackage.packageName, "padding")
-    val Box = MemberName(PackageNames.LayoutPackage.packageName, "Box")
-    val Image = MemberName(PackageNames.FoundationPackage.packageName, "Image")
+  val Dp = MemberName(PackageNames.Unit.packageName, "dp")
+  val Modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")
+  val Padding = MemberName(PackageNames.LayoutPackage.packageName, "padding")
+  val Box = MemberName(PackageNames.LayoutPackage.packageName, "Box")
+  val Image = MemberName(PackageNames.FoundationPackage.packageName, "Image")
 
-    val Color = MemberName(PackageNames.GraphicsPackage.packageName, "Color")
-    val SolidColor = MemberName(PackageNames.GraphicsPackage.packageName, "SolidColor")
+  val Color = MemberName(PackageNames.GraphicsPackage.packageName, "Color")
+  val SolidColor = MemberName(PackageNames.GraphicsPackage.packageName, "SolidColor")
 
-    val Offset = MemberName(PackageNames.GeometryPackage.packageName, "Offset")
+  val Offset = MemberName(PackageNames.GeometryPackage.packageName, "Offset")
 }
 
 /**

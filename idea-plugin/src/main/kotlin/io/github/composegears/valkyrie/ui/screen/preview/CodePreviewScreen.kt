@@ -12,27 +12,27 @@ import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 
 val CodePreviewScreen by navDestination {
-    val navController = navController()
-    val navArgs = navArgs()
+  val navController = navController()
+  val navArgs = navArgs()
 
-    CodePreviewUi(
-        code = navArgs,
-        onBack = navController::back,
-    )
+  CodePreviewUi(
+    code = navArgs,
+    onBack = navController::back,
+  )
 }
 
 @Composable
 private fun CodePreviewUi(
-    code: String,
-    onBack: () -> Unit,
+  code: String,
+  onBack: () -> Unit,
 ) {
-    Column {
-        TopAppBar {
-            BackAction(onBack = onBack)
-        }
-        IntellijEditorTextField(
-            modifier = Modifier.fillMaxSize(),
-            text = code,
-        )
+  Column {
+    TopAppBar {
+      BackAction(onBack = onBack)
     }
+    IntellijEditorTextField(
+      modifier = Modifier.fillMaxSize(),
+      text = code,
+    )
+  }
 }

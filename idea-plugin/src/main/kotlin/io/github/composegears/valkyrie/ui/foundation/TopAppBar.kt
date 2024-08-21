@@ -22,91 +22,91 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
 fun TopAppBar(
-    modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit,
+  modifier: Modifier = Modifier,
+  content: @Composable RowScope.() -> Unit,
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        content()
-    }
+  Row(
+    modifier = modifier
+      .fillMaxWidth()
+      .height(56.dp)
+      .padding(horizontal = 8.dp),
+    verticalAlignment = Alignment.CenterVertically,
+  ) {
+    content()
+  }
 }
 
 @Composable
 fun BackAction(
-    modifier: Modifier = Modifier,
-    onBack: () -> Unit,
+  modifier: Modifier = Modifier,
+  onBack: () -> Unit,
 ) {
-    IconButton(
-        modifier = modifier,
-        onClick = onBack,
-        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-    )
+  IconButton(
+    modifier = modifier,
+    onClick = onBack,
+    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+  )
 }
 
 @Composable
 fun AppBarTitle(
-    title: String,
-    modifier: Modifier = Modifier,
+  title: String,
+  modifier: Modifier = Modifier,
 ) {
-    Text(
-        modifier = modifier.padding(horizontal = 8.dp),
-        text = title,
-        maxLines = 1,
-        style = MaterialTheme.typography.titleSmall,
-    )
+  Text(
+    modifier = modifier.padding(horizontal = 8.dp),
+    text = title,
+    maxLines = 1,
+    style = MaterialTheme.typography.titleSmall,
+  )
 }
 
 @Composable
 fun ClearAction(
-    modifier: Modifier = Modifier,
-    onClear: () -> Unit,
+  modifier: Modifier = Modifier,
+  onClear: () -> Unit,
 ) {
-    IconButton(
-        modifier = modifier,
-        imageVector = Icons.Default.Clear,
-        onClick = onClear,
-    )
+  IconButton(
+    modifier = modifier,
+    imageVector = Icons.Default.Clear,
+    onClick = onClear,
+  )
 }
 
 @Composable
 fun CopyAction(
-    modifier: Modifier = Modifier,
-    onCopy: () -> Unit,
+  modifier: Modifier = Modifier,
+  onCopy: () -> Unit,
 ) {
-    IconButton(
-        modifier = modifier,
-        imageVector = ValkyrieIcons.ContentCopy,
-        onClick = onCopy,
-        iconSize = 18.dp,
-    )
+  IconButton(
+    modifier = modifier,
+    imageVector = ValkyrieIcons.ContentCopy,
+    onClick = onCopy,
+    iconSize = 18.dp,
+  )
 }
 
 @Composable
 fun SettingsAction(
-    modifier: Modifier = Modifier,
-    openSettings: () -> Unit,
+  modifier: Modifier = Modifier,
+  openSettings: () -> Unit,
 ) {
-    IconButton(
-        modifier = modifier,
-        imageVector = Icons.Default.Settings,
-        onClick = openSettings,
-    )
+  IconButton(
+    modifier = modifier,
+    imageVector = Icons.Default.Settings,
+    onClick = openSettings,
+  )
 }
 
 @Preview
 @Composable
 private fun TopAppBarPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
-    TopAppBar {
-        BackAction {}
-        AppBarTitle(title = "Page title")
-        WeightSpacer()
-        ClearAction {}
-        CopyAction {}
-        SettingsAction {}
-    }
+  TopAppBar {
+    BackAction {}
+    AppBarTitle(title = "Page title")
+    WeightSpacer()
+    ClearAction {}
+    CopyAction {}
+    SettingsAction {}
+  }
 }

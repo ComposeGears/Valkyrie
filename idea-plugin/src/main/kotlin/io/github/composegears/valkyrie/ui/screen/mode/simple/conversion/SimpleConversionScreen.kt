@@ -41,133 +41,133 @@ import java.nio.file.Path
 import kotlinx.coroutines.launch
 
 val SimpleConversionScreen by navDestination<Unit> {
-    val navController = navController()
+  val navController = navController()
 
-    val viewModel = koinTiamatViewModel<SimpleConversionViewModel>()
-    val state by viewModel.state.collectAsState()
+  val viewModel = koinTiamatViewModel<SimpleConversionViewModel>()
+  val state by viewModel.state.collectAsState()
 
-    ConversionUi(
-        state = state,
-        onSelectPath = viewModel::selectPath,
-        openSettings = {
-            navController.navigate(
-                dest = SettingsScreen,
-                transition = navigationSlideInOut(true),
-            )
-        },
-        resetIconContent = viewModel::reset,
-    )
+  ConversionUi(
+    state = state,
+    onSelectPath = viewModel::selectPath,
+    openSettings = {
+      navController.navigate(
+        dest = SettingsScreen,
+        transition = navigationSlideInOut(true),
+      )
+    },
+    resetIconContent = viewModel::reset,
+  )
 }
 
 @Composable
 private fun ConversionUi(
-    state: SimpleConversionState,
-    onSelectPath: (Path) -> Unit,
-    openSettings: () -> Unit,
-    resetIconContent: () -> Unit,
+  state: SimpleConversionState,
+  onSelectPath: (Path) -> Unit,
+  openSettings: () -> Unit,
+  resetIconContent: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-    val filePicker = rememberFilePicker()
-    val notificationManager = rememberNotificationManager()
+  val scope = rememberCoroutineScope()
+  val filePicker = rememberFilePicker()
+  val notificationManager = rememberNotificationManager()
 
-    PluginUI(
-        content = state.iconContent,
-        onChoosePath = {
-            scope.launch {
-                val path = filePicker.launch()
+  PluginUI(
+    content = state.iconContent,
+    onChoosePath = {
+      scope.launch {
+        val path = filePicker.launch()
 
-                if (path != null) {
-                    onSelectPath(path)
-                }
-            }
-        },
-        onClear = resetIconContent,
-        onCopy = {
-            val text = state.iconContent ?: return@PluginUI
-            CopyPasteManager.getInstance().setContents(StringSelection(text))
-            notificationManager.show("Copied in clipboard")
-        },
-        onSelectPath = onSelectPath,
-        openSettings = openSettings,
-    )
+        if (path != null) {
+          onSelectPath(path)
+        }
+      }
+    },
+    onClear = resetIconContent,
+    onCopy = {
+      val text = state.iconContent ?: return@PluginUI
+      CopyPasteManager.getInstance().setContents(StringSelection(text))
+      notificationManager.show("Copied in clipboard")
+    },
+    onSelectPath = onSelectPath,
+    openSettings = openSettings,
+  )
 }
 
 @Composable
 private fun PluginUI(
-    content: String?,
-    onChoosePath: () -> Unit,
-    onClear: () -> Unit,
-    onCopy: () -> Unit,
-    onSelectPath: (Path) -> Unit,
-    openSettings: () -> Unit,
+  content: String?,
+  onChoosePath: () -> Unit,
+  onClear: () -> Unit,
+  onCopy: () -> Unit,
+  onSelectPath: (Path) -> Unit,
+  openSettings: () -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
-            AppBarTitle(title = "Simple conversion")
-            WeightSpacer()
-            if (content != null) {
-                ClearAction(onClear = onClear)
-                CopyAction(onCopy = onCopy)
-            }
-            SettingsAction(openSettings = openSettings)
-        }
-
-        if (content != null) {
-            IntellijEditorTextField(
-                modifier = Modifier.fillMaxSize(),
-                text = content,
-            )
-        } else {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                SelectableState(
-                    onSelectPath = onSelectPath,
-                    onChoosePath = onChoosePath,
-                )
-            }
-        }
+  Column(modifier = Modifier.fillMaxSize()) {
+    TopAppBar {
+      AppBarTitle(title = "Simple conversion")
+      WeightSpacer()
+      if (content != null) {
+        ClearAction(onClear = onClear)
+        CopyAction(onCopy = onCopy)
+      }
+      SettingsAction(openSettings = openSettings)
     }
+
+    if (content != null) {
+      IntellijEditorTextField(
+        modifier = Modifier.fillMaxSize(),
+        text = content,
+      )
+    } else {
+      Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+      ) {
+        SelectableState(
+          onSelectPath = onSelectPath,
+          onChoosePath = onChoosePath,
+        )
+      }
+    }
+  }
 }
 
 @Composable
 private fun SelectableState(
-    onChoosePath: () -> Unit,
-    onSelectPath: (Path) -> Unit,
+  onChoosePath: () -> Unit,
+  onSelectPath: (Path) -> Unit,
 ) {
-    val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectPath)
-    val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
+  val dragAndDropHandler = rememberFileDragAndDropHandler(onDrop = onSelectPath)
+  val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
-    DragAndDropBox(
-        isDragging = isDragging,
-        onChoose = onChoosePath,
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                imageVector = ValkyrieIcons.Collections,
-                contentDescription = null,
-            )
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = "Drag & Drop or browse",
-                style = MaterialTheme.typography.titleSmall,
-            )
-            Text(
-                text = "Supports: SVG, XML",
-                style = MaterialTheme.typography.bodySmall,
-            )
-        }
+  DragAndDropBox(
+    isDragging = isDragging,
+    onChoose = onChoosePath,
+  ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+      Icon(
+        imageVector = ValkyrieIcons.Collections,
+        contentDescription = null,
+      )
+      Text(
+        modifier = Modifier.padding(8.dp),
+        text = "Drag & Drop or browse",
+        style = MaterialTheme.typography.titleSmall,
+      )
+      Text(
+        text = "Supports: SVG, XML",
+        style = MaterialTheme.typography.bodySmall,
+      )
     }
+  }
 }
 
 @Preview
 @Composable
 private fun SimpleConversionScreenPreview() = PreviewTheme {
-    ConversionUi(
-        state = SimpleConversionState(),
-        onSelectPath = {},
-        openSettings = {},
-        resetIconContent = {},
-    )
+  ConversionUi(
+    state = SimpleConversionState(),
+    onSelectPath = {},
+    openSettings = {},
+    resetIconContent = {},
+  )
 }

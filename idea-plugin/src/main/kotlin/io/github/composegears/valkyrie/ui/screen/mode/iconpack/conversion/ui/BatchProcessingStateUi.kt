@@ -53,289 +53,289 @@ import kotlin.io.path.Path
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BatchProcessingStateUi(
-    state: IconPackCreationState,
-    onDeleteIcon: (IconName) -> Unit,
-    onUpdatePack: (BatchIcon, String) -> Unit,
-    onPreviewClick: (IconName) -> Unit,
-    onRenameIcon: (BatchIcon, IconName) -> Unit,
-    modifier: Modifier = Modifier,
+  state: IconPackCreationState,
+  onDeleteIcon: (IconName) -> Unit,
+  onUpdatePack: (BatchIcon, String) -> Unit,
+  onPreviewClick: (IconName) -> Unit,
+  onRenameIcon: (BatchIcon, IconName) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    LazyVerticalGrid(
-        modifier = modifier.fillMaxSize(),
-        columns = GridCells.Adaptive(300.dp),
-        contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        items(items = state.icons, key = { it.iconName }) { batchIcon ->
-            when (batchIcon) {
-                is BatchIcon.Broken -> BrokenIconItem(
-                    modifier = Modifier.animateItemPlacement(),
-                    broken = batchIcon,
-                    onDelete = onDeleteIcon,
-                )
-                is BatchIcon.Valid -> ValidIconItem(
-                    modifier = Modifier.animateItemPlacement(),
-                    icon = batchIcon,
-                    onUpdatePack = onUpdatePack,
-                    onDeleteIcon = onDeleteIcon,
-                    onPreview = onPreviewClick,
-                    onRenameIcon = onRenameIcon,
-                )
-            }
-        }
+  LazyVerticalGrid(
+    modifier = modifier.fillMaxSize(),
+    columns = GridCells.Adaptive(300.dp),
+    contentPadding = PaddingValues(16.dp),
+    horizontalArrangement = Arrangement.spacedBy(8.dp),
+    verticalArrangement = Arrangement.spacedBy(8.dp),
+  ) {
+    items(items = state.icons, key = { it.iconName }) { batchIcon ->
+      when (batchIcon) {
+        is BatchIcon.Broken -> BrokenIconItem(
+          modifier = Modifier.animateItemPlacement(),
+          broken = batchIcon,
+          onDelete = onDeleteIcon,
+        )
+        is BatchIcon.Valid -> ValidIconItem(
+          modifier = Modifier.animateItemPlacement(),
+          icon = batchIcon,
+          onUpdatePack = onUpdatePack,
+          onDeleteIcon = onDeleteIcon,
+          onPreview = onPreviewClick,
+          onRenameIcon = onRenameIcon,
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun ValidIconItem(
-    icon: BatchIcon.Valid,
-    onUpdatePack: (BatchIcon, String) -> Unit,
-    onPreview: (IconName) -> Unit,
-    onDeleteIcon: (IconName) -> Unit,
-    onRenameIcon: (BatchIcon, IconName) -> Unit,
-    modifier: Modifier = Modifier,
+  icon: BatchIcon.Valid,
+  onUpdatePack: (BatchIcon, String) -> Unit,
+  onPreview: (IconName) -> Unit,
+  onDeleteIcon: (IconName) -> Unit,
+  onRenameIcon: (BatchIcon, IconName) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Card(modifier = modifier.fillMaxWidth()) {
-        Box {
-            Column {
-                FileTypeBadge(
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(top = 2.dp, end = 2.dp),
-                    extension = icon.extension,
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    IconPreviewBox(path = icon.path)
-                    IconNameField(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 32.dp),
-                        value = icon.iconName.value,
-                        onValueChange = {
-                            onRenameIcon(icon, IconName(it))
-                        },
-                    )
-                }
-                when (icon.iconPack) {
-                    is IconPack.Nested -> {
-                        PacksDropdown(
-                            iconPackName = icon.iconPack.iconPackName,
-                            currentNestedPack = icon.iconPack.currentNestedPack,
-                            nestedPacks = icon.iconPack.nestedPacks,
-                            onSelectPack = {
-                                onUpdatePack(icon, it)
-                            },
-                        )
-                    }
-                    is IconPack.Single -> {
-                        Text(
-                            modifier = Modifier.padding(16.dp),
-                            text = "IconPack: ${icon.iconPack.iconPackName}",
-                            style = MaterialTheme.typography.bodySmall,
-                            maxLines = 1,
-                        )
-                    }
-                }
-            }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 2.dp),
-            ) {
-                var isExpanded by rememberMutableState { false }
-
-                IconButton(
-                    imageVector = Icons.Default.MoreVert,
-                    onClick = { isExpanded = true },
-                )
-                IconActionsDropdown(
-                    isExpanded = isExpanded,
-                    onDismissRequest = { isExpanded = false },
-                    onDelete = {
-                        isExpanded = false
-                        onDeleteIcon(icon.iconName)
-                    },
-                    onPreview = {
-                        isExpanded = false
-                        onPreview(icon.iconName)
-                    },
-                )
-            }
+  Card(modifier = modifier.fillMaxWidth()) {
+    Box {
+      Column {
+        FileTypeBadge(
+          modifier = Modifier
+            .align(Alignment.End)
+            .padding(top = 2.dp, end = 2.dp),
+          extension = icon.extension,
+        )
+        Row(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+          IconPreviewBox(path = icon.path)
+          IconNameField(
+            modifier = Modifier
+              .weight(1f)
+              .padding(end = 32.dp),
+            value = icon.iconName.value,
+            onValueChange = {
+              onRenameIcon(icon, IconName(it))
+            },
+          )
         }
+        when (icon.iconPack) {
+          is IconPack.Nested -> {
+            PacksDropdown(
+              iconPackName = icon.iconPack.iconPackName,
+              currentNestedPack = icon.iconPack.currentNestedPack,
+              nestedPacks = icon.iconPack.nestedPacks,
+              onSelectPack = {
+                onUpdatePack(icon, it)
+              },
+            )
+          }
+          is IconPack.Single -> {
+            Text(
+              modifier = Modifier.padding(16.dp),
+              text = "IconPack: ${icon.iconPack.iconPackName}",
+              style = MaterialTheme.typography.bodySmall,
+              maxLines = 1,
+            )
+          }
+        }
+      }
+      Box(
+        modifier = Modifier
+          .align(Alignment.CenterEnd)
+          .padding(end = 2.dp),
+      ) {
+        var isExpanded by rememberMutableState { false }
+
+        IconButton(
+          imageVector = Icons.Default.MoreVert,
+          onClick = { isExpanded = true },
+        )
+        IconActionsDropdown(
+          isExpanded = isExpanded,
+          onDismissRequest = { isExpanded = false },
+          onDelete = {
+            isExpanded = false
+            onDeleteIcon(icon.iconName)
+          },
+          onPreview = {
+            isExpanded = false
+            onPreview(icon.iconName)
+          },
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun BrokenIconItem(
-    broken: BatchIcon.Broken,
-    modifier: Modifier = Modifier,
-    onDelete: (IconName) -> Unit,
+  broken: BatchIcon.Broken,
+  modifier: Modifier = Modifier,
+  onDelete: (IconName) -> Unit,
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors().copy(
-            containerColor = MaterialTheme.colorScheme.error,
-            contentColor = MaterialTheme.colorScheme.onError,
-        ),
-    ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 8.dp),
-                    text = "Failed to parse icon: ${broken.iconName.value}.${broken.extension}",
-                )
-                IconButton(
-                    imageVector = Icons.Default.Delete,
-                    iconSize = 18.dp,
-                    onClick = {
-                        onDelete(broken.iconName)
-                    },
-                )
-            }
-        }
+  Card(
+    modifier = modifier.fillMaxWidth(),
+    colors = CardDefaults.cardColors().copy(
+      containerColor = MaterialTheme.colorScheme.error,
+      contentColor = MaterialTheme.colorScheme.onError,
+    ),
+  ) {
+    Column {
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(start = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+      ) {
+        Text(
+          modifier = Modifier
+            .weight(1f)
+            .padding(vertical = 8.dp),
+          text = "Failed to parse icon: ${broken.iconName.value}.${broken.extension}",
+        )
+        IconButton(
+          imageVector = Icons.Default.Delete,
+          iconSize = 18.dp,
+          onClick = {
+            onDelete(broken.iconName)
+          },
+        )
+      }
     }
+  }
 }
 
 @Composable
 private fun IconActionsDropdown(
-    isExpanded: Boolean,
-    onDismissRequest: () -> Unit,
-    onDelete: () -> Unit,
-    onPreview: () -> Unit,
+  isExpanded: Boolean,
+  onDismissRequest: () -> Unit,
+  onDelete: () -> Unit,
+  onPreview: () -> Unit,
 ) {
-    DropdownMenu(
-        expanded = isExpanded,
-        onDismissRequest = onDismissRequest,
-    ) {
-        DropdownMenuItem(
-            text = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = null)
-                    Text(text = "Delete")
-                }
-            },
-            onClick = onDelete,
-        )
-        DropdownMenuItem(
-            text = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    Icon(imageVector = ValkyrieIcons.Visibility, contentDescription = null)
-                    Text(text = "Preview")
-                }
-            },
-            onClick = onPreview,
-        )
-    }
+  DropdownMenu(
+    expanded = isExpanded,
+    onDismissRequest = onDismissRequest,
+  ) {
+    DropdownMenuItem(
+      text = {
+        Row(
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+          Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+          Text(text = "Delete")
+        }
+      },
+      onClick = onDelete,
+    )
+    DropdownMenuItem(
+      text = {
+        Row(
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+          Icon(imageVector = ValkyrieIcons.Visibility, contentDescription = null)
+          Text(text = "Preview")
+        }
+      },
+      onClick = onPreview,
+    )
+  }
 }
 
 @Composable
 private fun PacksDropdown(
-    iconPackName: String,
-    currentNestedPack: String,
-    nestedPacks: List<String>,
-    onSelectPack: (String) -> Unit,
+  iconPackName: String,
+  currentNestedPack: String,
+  nestedPacks: List<String>,
+  onSelectPack: (String) -> Unit,
 ) {
-    var dropdownVisible by rememberMutableState { false }
+  var dropdownVisible by rememberMutableState { false }
 
-    Box(modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 8.dp)) {
-        Row(
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
-                .clickable { dropdownVisible = true }
-                .padding(horizontal = 12.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            val rotation by animateFloatAsState(if (dropdownVisible) -180f else 0f)
-            Text(
-                text = "$iconPackName.$currentNestedPack",
-                style = MaterialTheme.typography.bodySmall,
-                maxLines = 1,
-            )
-            Icon(
-                modifier = Modifier.graphicsLayer {
-                    rotationZ = rotation
-                },
-                imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = null,
-            )
-        }
-
-        DropdownMenu(
-            expanded = dropdownVisible,
-            onDismissRequest = { dropdownVisible = false },
-        ) {
-            nestedPacks.forEach {
-                DropdownMenuItem(
-                    text = {
-                        Text(text = it)
-                    },
-                    onClick = {
-                        dropdownVisible = false
-                        onSelectPack(it)
-                    },
-                )
-            }
-        }
+  Box(modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 8.dp)) {
+    Row(
+      modifier = Modifier
+        .clip(RoundedCornerShape(20.dp))
+        .clickable { dropdownVisible = true }
+        .padding(horizontal = 12.dp, vertical = 4.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+      val rotation by animateFloatAsState(if (dropdownVisible) -180f else 0f)
+      Text(
+        text = "$iconPackName.$currentNestedPack",
+        style = MaterialTheme.typography.bodySmall,
+        maxLines = 1,
+      )
+      Icon(
+        modifier = Modifier.graphicsLayer {
+          rotationZ = rotation
+        },
+        imageVector = Icons.Default.ArrowDropDown,
+        contentDescription = null,
+      )
     }
+
+    DropdownMenu(
+      expanded = dropdownVisible,
+      onDismissRequest = { dropdownVisible = false },
+    ) {
+      nestedPacks.forEach {
+        DropdownMenuItem(
+          text = {
+            Text(text = it)
+          },
+          onClick = {
+            dropdownVisible = false
+            onSelectPack(it)
+          },
+        )
+      }
+    }
+  }
 }
 
 @Preview
 @Composable
 private fun BatchProcessingStatePreview() = PreviewTheme {
-    BatchProcessingStateUi(
-        state = IconPackCreationState(
-            exportEnabled = false,
-            icons = listOf(
-                BatchIcon.Valid(
-                    iconName = IconName(IconParser.getIconName("ic_all_path_params_1")),
-                    extension = "xml",
-                    path = Path(""),
-                    iconPack = IconPack.Single(
-                        iconPackage = "package",
-                        iconPackName = "ValkyrieIcons",
-                    ),
-                ),
-                BatchIcon.Broken(
-                    iconName = IconName("ic_all_path_params_3"),
-                    extension = "svg",
-                ),
-                BatchIcon.Valid(
-                    iconName = IconName(IconParser.getIconName("ic_all_path")),
-                    extension = "svg",
-                    path = Path(""),
-                    iconPack = IconPack.Nested(
-                        iconPackName = "ValkyrieIcons",
-                        iconPackage = "package",
-                        currentNestedPack = "Kek",
-                        nestedPacks = listOf("Lol", "Kek"),
-                    ),
-                ),
-            ),
+  BatchProcessingStateUi(
+    state = IconPackCreationState(
+      exportEnabled = false,
+      icons = listOf(
+        BatchIcon.Valid(
+          iconName = IconName(IconParser.getIconName("ic_all_path_params_1")),
+          extension = "xml",
+          path = Path(""),
+          iconPack = IconPack.Single(
+            iconPackage = "package",
+            iconPackName = "ValkyrieIcons",
+          ),
         ),
-        onDeleteIcon = {},
-        onUpdatePack = { _, _ -> },
-        onPreviewClick = {},
-        onRenameIcon = { _, _ -> },
-    )
+        BatchIcon.Broken(
+          iconName = IconName("ic_all_path_params_3"),
+          extension = "svg",
+        ),
+        BatchIcon.Valid(
+          iconName = IconName(IconParser.getIconName("ic_all_path")),
+          extension = "svg",
+          path = Path(""),
+          iconPack = IconPack.Nested(
+            iconPackName = "ValkyrieIcons",
+            iconPackage = "package",
+            currentNestedPack = "Kek",
+            nestedPacks = listOf("Lol", "Kek"),
+          ),
+        ),
+      ),
+    ),
+    onDeleteIcon = {},
+    onUpdatePack = { _, _ -> },
+    onPreviewClick = {},
+    onRenameIcon = { _, _ -> },
+  )
 }

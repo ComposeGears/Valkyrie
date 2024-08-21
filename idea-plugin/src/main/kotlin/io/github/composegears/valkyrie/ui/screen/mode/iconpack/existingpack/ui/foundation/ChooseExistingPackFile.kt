@@ -28,69 +28,69 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ChooseExistingPackFile(
-    modifier: Modifier = Modifier,
-    onAction: (ExistingPackAction) -> Unit,
+  modifier: Modifier = Modifier,
+  onAction: (ExistingPackAction) -> Unit,
 ) {
-    val project = LocalProject.current
+  val project = LocalProject.current
 
-    val dragAndDropHandler = rememberFileDragAndDropHandler(
-        onDrop = {
+  val dragAndDropHandler = rememberFileDragAndDropHandler(
+    onDrop = {
+      onAction(
+        ExistingPackAction.SelectKotlinFile(
+          path = it,
+          project = project,
+        ),
+      )
+    },
+  )
+  val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
+
+  val scope = rememberCoroutineScope()
+  val ktFilePicker = rememberKtFilePicker()
+
+  Column(modifier = modifier) {
+    DragAndDropBox(
+      modifier = Modifier
+        .fillMaxWidth()
+        .align(Alignment.CenterHorizontally),
+      isDragging = isDragging,
+      onChoose = {
+        scope.launch {
+          val path = ktFilePicker.launch()
+
+          if (path != null) {
             onAction(
-                ExistingPackAction.SelectKotlinFile(
-                    path = it,
-                    project = project,
-                ),
+              ExistingPackAction.SelectKotlinFile(
+                path = path,
+                project = project,
+              ),
             )
-        },
-    )
-    val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
-
-    val scope = rememberCoroutineScope()
-    val ktFilePicker = rememberKtFilePicker()
-
-    Column(modifier = modifier) {
-        DragAndDropBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally),
-            isDragging = isDragging,
-            onChoose = {
-                scope.launch {
-                    val path = ktFilePicker.launch()
-
-                    if (path != null) {
-                        onAction(
-                            ExistingPackAction.SelectKotlinFile(
-                                path = path,
-                                project = project,
-                            ),
-                        )
-                    }
-                }
-            },
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                TextWithIcon(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    imageVector = ValkyrieIcons.KotlinLogo,
-                    textAlign = TextAlign.Center,
-                    text = "Drag & drop existing  [icon]  icon pack\nor browse",
-                    style = MaterialTheme.typography.titleSmall,
-                    iconSize = 12.sp,
-                )
-            }
+          }
         }
+      },
+    ) {
+      Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+      ) {
+        TextWithIcon(
+          modifier = Modifier.padding(horizontal = 16.dp),
+          imageVector = ValkyrieIcons.KotlinLogo,
+          textAlign = TextAlign.Center,
+          text = "Drag & drop existing  [icon]  icon pack\nor browse",
+          style = MaterialTheme.typography.titleSmall,
+          iconSize = 12.sp,
+        )
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 private fun ChooseExistingPackFilePreview() = PreviewTheme {
-    ChooseExistingPackFile(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        onAction = {},
-    )
+  ChooseExistingPackFile(
+    modifier = Modifier.fillMaxWidth(0.8f),
+    onAction = {},
+  )
 }

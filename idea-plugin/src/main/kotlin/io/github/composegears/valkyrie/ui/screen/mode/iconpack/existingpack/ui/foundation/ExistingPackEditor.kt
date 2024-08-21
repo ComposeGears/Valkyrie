@@ -27,48 +27,48 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.m
 
 @Composable
 fun ExistingPackEditor(
-    state: ExistingPackEditState,
-    onValueChange: (InputChange) -> Unit,
-    onAction: (ExistingPackAction) -> Unit,
-    modifier: Modifier = Modifier,
+  state: ExistingPackEditState,
+  onValueChange: (InputChange) -> Unit,
+  onAction: (ExistingPackAction) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+  Column(
+    modifier = modifier.fillMaxWidth(),
+    horizontalAlignment = Alignment.CenterHorizontally,
+  ) {
+    PackEditUi(
+      packEditState = state.packEditState,
+      onValueChange = onValueChange,
+      onAddNestedPack = { onAction(AddNestedPack) },
+      onRemoveNestedPack = { onAction(RemoveNestedPack(it)) },
+    )
+    VerticalSpacer(32.dp)
+    Row(
+      modifier = Modifier.fillMaxWidth(),
+      horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
     ) {
-        PackEditUi(
-            packEditState = state.packEditState,
-            onValueChange = onValueChange,
-            onAddNestedPack = { onAction(AddNestedPack) },
-            onRemoveNestedPack = { onAction(RemoveNestedPack(it)) },
-        )
-        VerticalSpacer(32.dp)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
-        ) {
-            IconButton(
-                imageVector = ValkyrieIcons.Visibility,
-                onClick = { onAction(PreviewPackObject) },
-                enabled = state.nextAvailable,
-            )
-            Button(
-                enabled = state.nextAvailable,
-                onClick = { onAction(SavePack) },
-            ) {
-                Text(text = "Update and continue")
-            }
-        }
+      IconButton(
+        imageVector = ValkyrieIcons.Visibility,
+        onClick = { onAction(PreviewPackObject) },
+        enabled = state.nextAvailable,
+      )
+      Button(
+        enabled = state.nextAvailable,
+        onClick = { onAction(SavePack) },
+      ) {
+        Text(text = "Update and continue")
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 private fun ExistingPackEditorPreview() = PreviewTheme {
-    ExistingPackEditor(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        state = ExistingPackEditState(),
-        onValueChange = {},
-        onAction = {},
-    )
+  ExistingPackEditor(
+    modifier = Modifier.fillMaxWidth(0.8f),
+    state = ExistingPackEditState(),
+    onValueChange = {},
+    onAction = {},
+  )
 }

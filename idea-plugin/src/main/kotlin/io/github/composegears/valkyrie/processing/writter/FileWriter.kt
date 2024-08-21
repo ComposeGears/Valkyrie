@@ -9,22 +9,22 @@ import kotlin.io.path.writeText
 
 object FileWriter {
 
-    @Throws(IOException::class)
-    fun writeToFile(
-        content: String,
-        outDirectory: String,
-        fileName: String,
-        deleteIfExists: Boolean = true,
-        createParent: Boolean = true,
-    ) {
-        val outPath = Path(outDirectory, "$fileName.kt")
+  @Throws(IOException::class)
+  fun writeToFile(
+    content: String,
+    outDirectory: String,
+    fileName: String,
+    deleteIfExists: Boolean = true,
+    createParent: Boolean = true,
+  ) {
+    val outPath = Path(outDirectory, "$fileName.kt")
 
-        if (deleteIfExists && outPath.exists()) {
-            outPath.deleteIfExists()
-        }
-        if (createParent) {
-            outPath.createParentDirectories()
-        }
-        outPath.writeText(content)
+    if (deleteIfExists && outPath.exists()) {
+      outPath.deleteIfExists()
     }
+    if (createParent) {
+      outPath.createParentDirectories()
+    }
+    outPath.writeText(content)
+  }
 }

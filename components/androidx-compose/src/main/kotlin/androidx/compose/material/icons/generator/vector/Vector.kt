@@ -25,11 +25,11 @@ import androidx.compose.material.icons.generator.GraphicUnit
  * there are multiple top level declaration.
  */
 class Vector(
-    val width: GraphicUnit,
-    val height: GraphicUnit,
-    val viewportWidth: Float,
-    val viewportHeight: Float,
-    val nodes: List<VectorNode>,
+  val width: GraphicUnit,
+  val height: GraphicUnit,
+  val viewportWidth: Float,
+  val viewportHeight: Float,
+  val nodes: List<VectorNode>,
 )
 
 /**
@@ -37,34 +37,34 @@ class Vector(
  * for Material icons is very limited.
  */
 sealed class VectorNode {
-    class Group(val paths: MutableList<Path> = mutableListOf()) : VectorNode()
-    data class Path(
-        val fill: Fill?,
-        val strokeColorHex: String?,
-        val strokeAlpha: Float,
-        val fillAlpha: Float,
-        val strokeLineWidth: GraphicUnit,
-        val strokeLineCap: StrokeCap,
-        val strokeLineJoin: StrokeJoin,
-        val strokeLineMiter: Float,
-        val fillType: FillType,
-        val nodes: List<PathNode>,
-    ) : VectorNode()
+  class Group(val paths: MutableList<Path> = mutableListOf()) : VectorNode()
+  data class Path(
+    val fill: Fill?,
+    val strokeColorHex: String?,
+    val strokeAlpha: Float,
+    val fillAlpha: Float,
+    val strokeLineWidth: GraphicUnit,
+    val strokeLineCap: StrokeCap,
+    val strokeLineJoin: StrokeJoin,
+    val strokeLineMiter: Float,
+    val fillType: FillType,
+    val nodes: List<PathNode>,
+  ) : VectorNode()
 }
 
 sealed class Fill {
-    data class Color(val colorHex: String) : Fill()
-    data class LinearGradient(
-        val startY: Float,
-        val startX: Float,
-        val endY: Float,
-        val endX: Float,
-        val colorStops: MutableList<Pair<Float, String>> = mutableListOf(),
-    ) : Fill()
-    data class RadialGradient(
-        val gradientRadius: Float,
-        val centerX: Float,
-        val centerY: Float,
-        val colorStops: MutableList<Pair<Float, String>> = mutableListOf(),
-    ) : Fill()
+  data class Color(val colorHex: String) : Fill()
+  data class LinearGradient(
+    val startY: Float,
+    val startX: Float,
+    val endY: Float,
+    val endX: Float,
+    val colorStops: MutableList<Pair<Float, String>> = mutableListOf(),
+  ) : Fill()
+  data class RadialGradient(
+    val gradientRadius: Float,
+    val centerX: Float,
+    val centerY: Float,
+    val colorStops: MutableList<Pair<Float, String>> = mutableListOf(),
+  ) : Fill()
 }

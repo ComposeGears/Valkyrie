@@ -45,137 +45,137 @@ import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 
 val IntroScreen: NavDestination<Unit> by navDestination {
 
-    val navController = navController()
+  val navController = navController()
 
-    IntroScreenUI(
-        openSettings = {
-            navController.navigate(
-                dest = SettingsScreen,
-                transition = navigationSlideInOut(true),
-            )
-        },
-        onModeChange = {
-            when (it) {
-                Simple -> {
-                    navController.navigate(
-                        dest = SimpleModeSetupScreen,
-                        transition = navigationSlideInOut(true),
-                    )
-                }
-                IconPack -> {
-                    navController.navigate(
-                        dest = IconPackCreationScreen,
-                        transition = navigationSlideInOut(true),
-                    )
-                }
-                Unspecified -> {}
-            }
-        },
-    )
+  IntroScreenUI(
+    openSettings = {
+      navController.navigate(
+        dest = SettingsScreen,
+        transition = navigationSlideInOut(true),
+      )
+    },
+    onModeChange = {
+      when (it) {
+        Simple -> {
+          navController.navigate(
+            dest = SimpleModeSetupScreen,
+            transition = navigationSlideInOut(true),
+          )
+        }
+        IconPack -> {
+          navController.navigate(
+            dest = IconPackCreationScreen,
+            transition = navigationSlideInOut(true),
+          )
+        }
+        Unspecified -> {}
+      }
+    },
+  )
 }
 
 @Composable
 private fun IntroScreenUI(
-    openSettings: () -> Unit,
-    onModeChange: (Mode) -> Unit,
+  openSettings: () -> Unit,
+  onModeChange: (Mode) -> Unit,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        IconButton(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .align(Alignment.TopEnd),
-            imageVector = Icons.Default.Settings,
-            onClick = openSettings,
-        )
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text = "Welcome to Valkyrie",
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-            )
-            VerticalSpacer(42.dp)
-            Text(
-                text = "Choose conversion mode",
-                style = MaterialTheme.typography.labelSmall,
-                color = LocalContentColor.current.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center,
-            )
-            VerticalSpacer(8.dp)
+  Box(modifier = Modifier.fillMaxSize()) {
+    IconButton(
+      modifier = Modifier
+        .padding(end = 8.dp)
+        .align(Alignment.TopEnd),
+      imageVector = Icons.Default.Settings,
+      onClick = openSettings,
+    )
+    Column(
+      modifier = Modifier.fillMaxSize(),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center,
+    ) {
+      Text(
+        text = "Welcome to Valkyrie",
+        style = MaterialTheme.typography.titleLarge,
+        textAlign = TextAlign.Center,
+      )
+      VerticalSpacer(42.dp)
+      Text(
+        text = "Choose conversion mode",
+        style = MaterialTheme.typography.labelSmall,
+        color = LocalContentColor.current.copy(alpha = 0.5f),
+        textAlign = TextAlign.Center,
+      )
+      VerticalSpacer(8.dp)
 
-            SelectableCard(
-                onClick = { onModeChange(Simple) },
-                image = ValkyrieIcons.SimpleConversion,
-                title = "Simple",
-                description = "One-click conversion from SVG/XML into ImageVector",
-            )
-            VerticalSpacer(16.dp)
-            SelectableCard(
-                onClick = { onModeChange(IconPack) },
-                image = ValkyrieIcons.BatchProcessing,
-                title = "IconPack",
-                description = "Create organized icon pack with batch export into your project",
-            )
-        }
-        Text(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 8.dp),
-            style = MaterialTheme.typography.labelSmall,
-            text = rememberPluginVersion(),
-        )
+      SelectableCard(
+        onClick = { onModeChange(Simple) },
+        image = ValkyrieIcons.SimpleConversion,
+        title = "Simple",
+        description = "One-click conversion from SVG/XML into ImageVector",
+      )
+      VerticalSpacer(16.dp)
+      SelectableCard(
+        onClick = { onModeChange(IconPack) },
+        image = ValkyrieIcons.BatchProcessing,
+        title = "IconPack",
+        description = "Create organized icon pack with batch export into your project",
+      )
     }
+    Text(
+      modifier = Modifier
+        .align(Alignment.BottomEnd)
+        .padding(end = 16.dp, bottom = 8.dp),
+      style = MaterialTheme.typography.labelSmall,
+      text = rememberPluginVersion(),
+    )
+  }
 }
 
 @Composable
 private fun SelectableCard(
-    onClick: () -> Unit,
-    image: ImageVector,
-    title: String,
-    description: String,
+  onClick: () -> Unit,
+  image: ImageVector,
+  title: String,
+  description: String,
 ) {
-    Card(
-        onClick = onClick,
-        elevation = CardDefaults.elevatedCardElevation(),
+  Card(
+    onClick = onClick,
+    elevation = CardDefaults.elevatedCardElevation(),
+  ) {
+    Row(
+      modifier = Modifier.padding(16.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.Top)
-                    .size(36.dp),
-                imageVector = image,
-                contentDescription = null,
-            )
-            Column(
-                modifier = Modifier.width(250.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                    color = LocalContentColor.current.copy(alpha = 0.5f),
-                )
-            }
-        }
+      Icon(
+        modifier = Modifier
+          .align(Alignment.Top)
+          .size(36.dp),
+        imageVector = image,
+        contentDescription = null,
+      )
+      Column(
+        modifier = Modifier.width(250.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+      ) {
+        Text(
+          text = title,
+          style = MaterialTheme.typography.titleSmall,
+        )
+        Text(
+          text = description,
+          style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+          color = LocalContentColor.current.copy(alpha = 0.5f),
+        )
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 private fun IntroScreenUIPreview() = PreviewTheme {
-    IntroScreenUI(
-        openSettings = {},
-        onModeChange = {},
-    )
+  IntroScreenUI(
+    openSettings = {},
+    onModeChange = {},
+  )
 }

@@ -29,60 +29,60 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DragAndDropBox(
-    isDragging: Boolean,
-    onChoose: () -> Unit,
-    modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit,
+  isDragging: Boolean,
+  onChoose: () -> Unit,
+  modifier: Modifier = Modifier,
+  content: @Composable BoxScope.() -> Unit,
 ) {
-    var isHover by rememberMutableState(isDragging) { isDragging }
+  var isHover by rememberMutableState(isDragging) { isDragging }
 
-    val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-    val border by animateDpAsState(if (isHover) 4.dp else 1.dp)
+  val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+  val border by animateDpAsState(if (isHover) 4.dp else 1.dp)
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth(0.8f)
-            .heightIn(min = 300.dp)
-            .clip(MaterialTheme.shapes.small)
-            .onPointerEvent(PointerEventType.Enter) { isHover = true }
-            .onPointerEvent(PointerEventType.Exit) { isHover = false }
-            .dashedBorder(
-                strokeWidth = border,
-                gapWidth = 8.dp,
-                dashWidth = 8.dp,
-                color = dashColor,
-                shape = MaterialTheme.shapes.small,
-            )
-            .padding(2.dp)
-            .background(
-                color = when {
-                    isHover -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
-                    else -> Color.Transparent
-                },
-                shape = MaterialTheme.shapes.small,
-            )
-            .clickable(
-                onClick = onChoose,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-            ),
-        contentAlignment = Alignment.Center,
-        content = content,
-    )
+  Box(
+    modifier = modifier
+      .fillMaxWidth(0.8f)
+      .heightIn(min = 300.dp)
+      .clip(MaterialTheme.shapes.small)
+      .onPointerEvent(PointerEventType.Enter) { isHover = true }
+      .onPointerEvent(PointerEventType.Exit) { isHover = false }
+      .dashedBorder(
+        strokeWidth = border,
+        gapWidth = 8.dp,
+        dashWidth = 8.dp,
+        color = dashColor,
+        shape = MaterialTheme.shapes.small,
+      )
+      .padding(2.dp)
+      .background(
+        color = when {
+          isHover -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
+          else -> Color.Transparent
+        },
+        shape = MaterialTheme.shapes.small,
+      )
+      .clickable(
+        onClick = onChoose,
+        indication = null,
+        interactionSource = remember { MutableInteractionSource() },
+      ),
+    contentAlignment = Alignment.Center,
+    content = content,
+  )
 }
 
 @Preview
 @Composable
 private fun DragAndDropBoxPreview() = PreviewTheme {
-    DragAndDropBox(
-        isDragging = false,
-        onChoose = {},
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .background(Color.Gray.copy(alpha = 0.3f)),
-        )
-    }
+  DragAndDropBox(
+    isDragging = false,
+    onChoose = {},
+  ) {
+    Box(
+      modifier = Modifier
+        .fillMaxWidth()
+        .height(300.dp)
+        .background(Color.Gray.copy(alpha = 0.3f)),
+    )
+  }
 }

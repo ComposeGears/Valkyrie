@@ -34,84 +34,84 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
 fun IconNameField(
-    value: String,
-    modifier: Modifier = Modifier,
-    onValueChange: (String) -> Unit,
+  value: String,
+  modifier: Modifier = Modifier,
+  onValueChange: (String) -> Unit,
 ) {
-    val focusManager = LocalFocusManager.current
+  val focusManager = LocalFocusManager.current
 
-    var text by rememberMutableState(value) { value }
-    var isFocused by rememberMutableState { false }
+  var text by rememberMutableState(value) { value }
+  var isFocused by rememberMutableState { false }
 
-    val interactionSource = remember { MutableInteractionSource() }
+  val interactionSource = remember { MutableInteractionSource() }
 
-    BaseTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(40.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .indication(interactionSource, LocalIndication.current)
-            .hoverable(interactionSource)
-            .onFocusChanged {
-                isFocused = it.isFocused
-                if (!isFocused) {
-                    onValueChange(text)
-                }
-            }
-            .onKeyEvent {
-                when (it.key) {
-                    Key.Escape -> {
-                        focusManager.clearFocus()
-                        text = value
-                        true
-                    }
-                    Key.Enter -> {
-                        onValueChange(text)
-                        focusManager.clearFocus()
-                        true
-                    }
-                    else -> false
-                }
-            },
-        value = text,
-        onValueChange = { text = it },
-        isError = text.isEmpty() || text.contains(" "),
-        placeholder = if (text.isEmpty()) {
-            {
-                Text(
-                    text = "Could not be empty",
-                    color = MaterialTheme.colorScheme.onError,
-                )
-            }
-        } else {
-            null
-        },
-        trailingIcon = if (isFocused) {
-            {
-                IconButton(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(CircleShape),
-                    imageVector = Icons.Default.Check,
-                    iconSize = 18.dp,
-                    onClick = {
-                        onValueChange(text)
-                        focusManager.clearFocus()
-                    },
-                )
-            }
-        } else {
-            null
-        },
-    )
+  BaseTextField(
+    modifier = modifier
+      .fillMaxWidth()
+      .height(40.dp)
+      .clip(RoundedCornerShape(8.dp))
+      .indication(interactionSource, LocalIndication.current)
+      .hoverable(interactionSource)
+      .onFocusChanged {
+        isFocused = it.isFocused
+        if (!isFocused) {
+          onValueChange(text)
+        }
+      }
+      .onKeyEvent {
+        when (it.key) {
+          Key.Escape -> {
+            focusManager.clearFocus()
+            text = value
+            true
+          }
+          Key.Enter -> {
+            onValueChange(text)
+            focusManager.clearFocus()
+            true
+          }
+          else -> false
+        }
+      },
+    value = text,
+    onValueChange = { text = it },
+    isError = text.isEmpty() || text.contains(" "),
+    placeholder = if (text.isEmpty()) {
+      {
+        Text(
+          text = "Could not be empty",
+          color = MaterialTheme.colorScheme.onError,
+        )
+      }
+    } else {
+      null
+    },
+    trailingIcon = if (isFocused) {
+      {
+        IconButton(
+          modifier = Modifier
+            .size(32.dp)
+            .clip(CircleShape),
+          imageVector = Icons.Default.Check,
+          iconSize = 18.dp,
+          onClick = {
+            onValueChange(text)
+            focusManager.clearFocus()
+          },
+        )
+      }
+    } else {
+      null
+    },
+  )
 }
 
 @Preview
 @Composable
 private fun IconNameFieldPreview() = PreviewTheme {
-    IconNameField(
-        modifier = Modifier.width(300.dp),
-        value = "IconName",
-        onValueChange = {},
-    )
+  IconNameField(
+    modifier = Modifier.width(300.dp),
+    value = "IconName",
+    onValueChange = {},
+  )
 }

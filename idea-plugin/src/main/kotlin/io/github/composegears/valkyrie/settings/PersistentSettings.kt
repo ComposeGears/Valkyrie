@@ -13,22 +13,22 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode
 @State(name = "Valkyrie.Settings", storages = [Storage("valkyrie_settings.xml")])
 class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(ValkyrieState()) {
 
-    class ValkyrieState : BaseState() {
-        var mode: String? by string(Mode.Unspecified.name)
+  class ValkyrieState : BaseState() {
+    var mode: String? by string(Mode.Unspecified.name)
 
-        var packageName: String? by string()
-        var iconPackName: String? by string()
-        var iconPackDestination: String? by string()
+    var packageName: String? by string()
+    var iconPackName: String? by string()
+    var iconPackDestination: String? by string()
 
-        var nestedPacks: String? by string()
+    var nestedPacks: String? by string()
 
-        var generatePreview: Boolean by property(false)
-        var outputFormat: String? by string()
-    }
+    var generatePreview: Boolean by property(false)
+    var outputFormat: String? by string()
+  }
 
-    companion object {
-        @JvmStatic
-        val persistentSettings: ValkyrieState
-            get() = service<PersistentSettings>().state
-    }
+  companion object {
+    @JvmStatic
+    val persistentSettings: ValkyrieState
+      get() = service<PersistentSettings>().state
+  }
 }

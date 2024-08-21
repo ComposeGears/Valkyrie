@@ -30,79 +30,79 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun IconPreviewBox(
-    path: Path,
-    modifier: Modifier = Modifier,
+  path: Path,
+  modifier: Modifier = Modifier,
 ) {
-    var bgType by rememberMutableState { BgType.PixelGrid }
+  var bgType by rememberMutableState { BgType.PixelGrid }
 
-    Box(
-        modifier = modifier
-            .size(56.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        bgType = bgType.next()
-                    },
-                )
-            },
-        contentAlignment = Alignment.Center,
-    ) {
-        when (bgType) {
-            BgType.Black -> {
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(Color.Black),
-                )
-            }
-            BgType.White -> {
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(Color.White),
-                )
-            }
-            BgType.PixelGrid -> {
-                PixelGrid(
-                    modifier = Modifier.matchParentSize(),
-                    gridSize = 2.dp,
-                )
-            }
-        }
-
-        val iconPainter by produceState<Painter?>(initialValue = null) {
-            value = withContext(Dispatchers.Default) {
-                path.toPainterOrNull()
-            }
-        }
-
-        when (val painter = iconPainter) {
-            null -> SizeSpacer(36.dp)
-            else -> Image(
-                modifier = Modifier.size(36.dp),
-                painter = painter,
-                contentDescription = null,
-            )
-        }
+  Box(
+    modifier = modifier
+      .size(56.dp)
+      .clip(RoundedCornerShape(8.dp))
+      .pointerInput(Unit) {
+        detectTapGestures(
+          onTap = {
+            bgType = bgType.next()
+          },
+        )
+      },
+    contentAlignment = Alignment.Center,
+  ) {
+    when (bgType) {
+      BgType.Black -> {
+        Box(
+          modifier = Modifier
+            .matchParentSize()
+            .background(Color.Black),
+        )
+      }
+      BgType.White -> {
+        Box(
+          modifier = Modifier
+            .matchParentSize()
+            .background(Color.White),
+        )
+      }
+      BgType.PixelGrid -> {
+        PixelGrid(
+          modifier = Modifier.matchParentSize(),
+          gridSize = 2.dp,
+        )
+      }
     }
+
+    val iconPainter by produceState<Painter?>(initialValue = null) {
+      value = withContext(Dispatchers.Default) {
+        path.toPainterOrNull()
+      }
+    }
+
+    when (val painter = iconPainter) {
+      null -> SizeSpacer(36.dp)
+      else -> Image(
+        modifier = Modifier.size(36.dp),
+        painter = painter,
+        contentDescription = null,
+      )
+    }
+  }
 }
 
 private enum class BgType {
-    Black,
-    White,
-    PixelGrid,
-    ;
+  Black,
+  White,
+  PixelGrid,
+  ;
 
-    fun next(): BgType = when (this) {
-        Black -> White
-        White -> PixelGrid
-        PixelGrid -> Black
-    }
+  fun next(): BgType = when (this) {
+    Black -> White
+    White -> PixelGrid
+    PixelGrid -> Black
+  }
 }
 
 @Preview
 @Composable
 private fun IconPreviewBoxPreview() = PreviewTheme {
-    IconPreviewBox(path = Path("META-INF/pluginIcon.svg"))
+  IconPreviewBox(path = Path("META-INF/pluginIcon.svg"))
 }

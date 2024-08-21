@@ -10,42 +10,42 @@ private val Indent = " ".repeat(4)
 fun FileSpec.Builder.setIndent() = indent(Indent)
 
 fun FileSpec.removeDeadCode(): String = toString()
-    .replace("public ", "")
+  .replace("public ", "")
 
 inline fun objectBuilder(
-    name: String,
-    builderAction: TypeSpec.Builder.() -> Unit = {},
+  name: String,
+  builderAction: TypeSpec.Builder.() -> Unit = {},
 ) = TypeSpec.objectBuilder(name)
-    .apply(builderAction)
-    .build()
+  .apply(builderAction)
+  .build()
 
 inline fun fileSpecBuilder(
-    packageName: String,
-    fileName: String,
-    builderAction: FileSpec.Builder.() -> Unit,
+  packageName: String,
+  fileName: String,
+  builderAction: FileSpec.Builder.() -> Unit,
 ) = FileSpec
-    .builder(packageName = packageName, fileName = fileName)
-    .apply(builderAction)
-    .build()
+  .builder(packageName = packageName, fileName = fileName)
+  .apply(builderAction)
+  .build()
 
 inline fun funSpecBuilder(
-    name: String,
-    builderAction: FunSpec.Builder.() -> Unit,
+  name: String,
+  builderAction: FunSpec.Builder.() -> Unit,
 ) = FunSpec.builder(name)
-    .apply(builderAction)
-    .build()
+  .apply(builderAction)
+  .build()
 
 inline fun getterFunSpecBuilder(
-    builderAction: FunSpec.Builder.() -> Unit,
+  builderAction: FunSpec.Builder.() -> Unit,
 ) = FunSpec.getterBuilder()
-    .apply(builderAction)
-    .build()
+  .apply(builderAction)
+  .build()
 
 inline fun propertySpecBuilder(
-    name: String,
-    type: TypeName,
-    builderAction: PropertySpec.Builder.() -> Unit,
+  name: String,
+  type: TypeName,
+  builderAction: PropertySpec.Builder.() -> Unit,
 ) = PropertySpec
-    .builder(name = name, type = type)
-    .apply(builderAction)
-    .build()
+  .builder(name = name, type = type)
+  .apply(builderAction)
+  .build()

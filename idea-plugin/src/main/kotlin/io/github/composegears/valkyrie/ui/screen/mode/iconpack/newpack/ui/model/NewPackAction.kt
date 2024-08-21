@@ -4,12 +4,12 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.p
 import java.nio.file.Path
 
 sealed interface NewPackAction {
-    data class SelectDestinationFolder(val path: Path) : NewPackAction
-    data object SaveDestination : NewPackAction
+  data class SelectDestinationFolder(val path: Path) : NewPackAction
+  data object SaveDestination : NewPackAction
 
-    data object AddNestedPack : NewPackAction
-    data class RemoveNestedPack(val nestedPack: NestedPack) : NewPackAction
+  data object AddNestedPack : NewPackAction
+  data class RemoveNestedPack(val nestedPack: NestedPack) : NewPackAction
 
-    data object PreviewPackObject : NewPackAction
-    data object SavePack : NewPackAction
+  data object PreviewPackObject : NewPackAction
+  data object SavePack : NewPackAction
 }

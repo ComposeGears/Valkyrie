@@ -12,23 +12,23 @@ import androidx.compose.ui.unit.Dp
 
 @Composable
 fun IconButton(
-    imageVector: ImageVector,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
-    iconSize: Dp = Dp.Unspecified,
-    onClick: () -> Unit,
+  imageVector: ImageVector,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true,
+  colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
+  iconSize: Dp = Dp.Unspecified,
+  onClick: () -> Unit,
 ) {
-    IconButton(
-        colors = colors,
-        modifier = modifier,
-        onClick = onClick,
-        enabled = enabled,
-    ) {
-        Icon(
-            modifier = Modifier.size(iconSize),
-            imageVector = imageVector,
-            contentDescription = null,
-        )
-    }
+  IconButton(
+    colors = colors,
+    modifier = modifier,
+    onClick = onClick,
+    enabled = enabled,
+  ) {
+    Icon(
+      modifier = Modifier.size(iconSize),
+      imageVector = imageVector,
+      contentDescription = null,
+    )
+  }
 }

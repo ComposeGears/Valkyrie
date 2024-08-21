@@ -5,11 +5,11 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.p
 import java.nio.file.Path
 
 sealed interface ExistingPackAction {
-    data class SelectKotlinFile(val path: Path, val project: Project) : ExistingPackAction
+  data class SelectKotlinFile(val path: Path, val project: Project) : ExistingPackAction
 
-    data object AddNestedPack : ExistingPackAction
-    data class RemoveNestedPack(val nestedPack: NestedPack) : ExistingPackAction
+  data object AddNestedPack : ExistingPackAction
+  data class RemoveNestedPack(val nestedPack: NestedPack) : ExistingPackAction
 
-    data object PreviewPackObject : ExistingPackAction
-    data object SavePack : ExistingPackAction
+  data object PreviewPackObject : ExistingPackAction
+  data object SavePack : ExistingPackAction
 }

@@ -18,48 +18,48 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun rememberMultipleFilesPicker(): Picker<List<Path>> {
-    if (LocalInspectionMode.current) return StubMultipleFilesPicker
+  if (LocalInspectionMode.current) return StubMultipleFilesPicker
 
-    val project = LocalProject.current
+  val project = LocalProject.current
 
-    return remember {
-        MultipleFilesPicker(
-            project = project,
-            filterCondition = { vf ->
-                val extension = vf.extension
-                extension.isSvg || extension.isXml
-            },
-        )
-    }
+  return remember {
+    MultipleFilesPicker(
+      project = project,
+      filterCondition = { vf ->
+        val extension = vf.extension
+        extension.isSvg || extension.isXml
+      },
+    )
+  }
 }
 
 private object StubMultipleFilesPicker : Picker<List<Path>> {
-    override suspend fun launch(): List<Path> = emptyList()
+  override suspend fun launch(): List<Path> = emptyList()
 }
 
 private class MultipleFilesPicker(
-    private val project: Project,
-    filterCondition: Condition<VirtualFile> = Condition { true },
+  private val project: Project,
+  filterCondition: Condition<VirtualFile> = Condition { true },
 ) : Picker<List<Path>> {
 
-    private val fileChooserDescriptor = FileChooserDescriptor(
-        /* chooseFiles = */
-        true,
-        /* chooseFolders = */
-        false,
-        /* chooseJars = */
-        false,
-        /* chooseJarsAsFiles = */
-        false,
-        /* chooseJarContents = */
-        false,
-        /* chooseMultiple = */
-        true,
-    ).withFileFilter(filterCondition)
+  private val fileChooserDescriptor = FileChooserDescriptor(
+    /* chooseFiles = */
+    true,
+    /* chooseFolders = */
+    false,
+    /* chooseJars = */
+    false,
+    /* chooseJarsAsFiles = */
+    false,
+    /* chooseJarContents = */
+    false,
+    /* chooseMultiple = */
+    true,
+  ).withFileFilter(filterCondition)
 
-    override suspend fun launch(): List<Path> = withContext(Dispatchers.EDT) {
-        FileChooser
-            .chooseFiles(fileChooserDescriptor, project, null)
-            .map(VirtualFile::toNioPath)
-    }
+  override suspend fun launch(): List<Path> = withContext(Dispatchers.EDT) {
+    FileChooser
+      .chooseFiles(fileChooserDescriptor, project, null)
+      .map(VirtualFile::toNioPath)
+  }
 }

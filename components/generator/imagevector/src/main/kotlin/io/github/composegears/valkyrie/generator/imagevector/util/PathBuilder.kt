@@ -25,216 +25,216 @@ import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.Str
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeLineWidthParam
 
 internal fun CodeBlock.Builder.addPath(
-    path: VectorNode.Path,
-    pathBody: CodeBlock.Builder.() -> Unit,
+  path: VectorNode.Path,
+  pathBody: CodeBlock.Builder.() -> Unit,
 ) {
-    val pathParams = path.buildPathParams()
+  val pathParams = path.buildPathParams()
 
-    when {
-        pathParams.isEmpty() -> {
-            beginControlFlow("%M", MemberNames.Path)
-            pathBody()
-            endControlFlow()
-        }
-        pathParams.size == 1 -> {
-            add(
-                codeBlock = buildCodeBlock {
-                    add("%M(", MemberNames.Path)
-                    fillPathArgs(param = pathParams.first(), handleMultiline = true)
-                    beginControlFlow(")")
-                    pathBody()
-                    endControlFlow()
-                },
-            )
-        }
-        else -> {
-            add(
-                codeBlock = buildCodeBlock {
-                    add("%M(\n", MemberNames.Path)
-                    indent()
-                    pathParams.forEachIndexed { index, param ->
-                        fillPathArgs(param)
-                        if (index == pathParams.lastIndex) {
-                            add("\n")
-                        } else {
-                            add(",\n")
-                        }
-                    }
-                    unindent()
-                    add(")")
-                    beginControlFlow("")
-                    pathBody()
-                    endControlFlow()
-                },
-            )
-        }
+  when {
+    pathParams.isEmpty() -> {
+      beginControlFlow("%M", MemberNames.Path)
+      pathBody()
+      endControlFlow()
     }
+    pathParams.size == 1 -> {
+      add(
+        codeBlock = buildCodeBlock {
+          add("%M(", MemberNames.Path)
+          fillPathArgs(param = pathParams.first(), handleMultiline = true)
+          beginControlFlow(")")
+          pathBody()
+          endControlFlow()
+        },
+      )
+    }
+    else -> {
+      add(
+        codeBlock = buildCodeBlock {
+          add("%M(\n", MemberNames.Path)
+          indent()
+          pathParams.forEachIndexed { index, param ->
+            fillPathArgs(param)
+            if (index == pathParams.lastIndex) {
+              add("\n")
+            } else {
+              add(",\n")
+            }
+          }
+          unindent()
+          add(")")
+          beginControlFlow("")
+          pathBody()
+          endControlFlow()
+        },
+      )
+    }
+  }
 }
 
 private fun CodeBlock.Builder.fillPathArgs(
-    param: PathParams,
-    handleMultiline: Boolean = false,
+  param: PathParams,
+  handleMultiline: Boolean = false,
 ) {
-    // TODO: arg "name" missing
-    when (param) {
-        is FillParam -> fillArg(param, handleMultiline)
-        is FillAlphaParam -> fillAlphaArg(param)
-        is FillTypeParam -> pathFillTypeArg(param)
-        is StrokeAlphaParam -> strokeAlphaArg(param)
-        is StrokeColorHexParam -> strokeArg(param)
-        is StrokeLineCapParam -> strokeLineCapArg(param)
-        is StrokeLineJoinParam -> strokeLineJoinArg(param)
-        is StrokeLineMiterParam -> strokeLineMiterArg(param)
-        is StrokeLineWidthParam -> strokeLineWidthArg(param)
-    }
+  // TODO: arg "name" missing
+  when (param) {
+    is FillParam -> fillArg(param, handleMultiline)
+    is FillAlphaParam -> fillAlphaArg(param)
+    is FillTypeParam -> pathFillTypeArg(param)
+    is StrokeAlphaParam -> strokeAlphaArg(param)
+    is StrokeColorHexParam -> strokeArg(param)
+    is StrokeLineCapParam -> strokeLineCapArg(param)
+    is StrokeLineJoinParam -> strokeLineJoinArg(param)
+    is StrokeLineMiterParam -> strokeLineMiterArg(param)
+    is StrokeLineWidthParam -> strokeLineWidthArg(param)
+  }
 }
 
 private fun CodeBlock.Builder.fillArg(
-    path: FillParam,
-    handleMultiline: Boolean,
+  path: FillParam,
+  handleMultiline: Boolean,
 ) {
-    when (val fill = path.fill) {
-        is Fill.Color -> {
-            add("fill = %M(%M(${fill.colorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
-        }
-        is Fill.LinearGradient -> {
-            if (handleMultiline) {
-                newLine()
-                indention {
-                    addLinearGradient(fill)
-                }
-                newLine()
-            } else {
-                addLinearGradient(fill)
-            }
-        }
-        is Fill.RadialGradient -> {
-            if (handleMultiline) {
-                newLine()
-                indention {
-                    addRadialGradient(fill)
-                }
-                newLine()
-            } else {
-                addRadialGradient(fill)
-            }
-        }
+  when (val fill = path.fill) {
+    is Fill.Color -> {
+      add("fill = %M(%M(${fill.colorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
     }
+    is Fill.LinearGradient -> {
+      if (handleMultiline) {
+        newLine()
+        indention {
+          addLinearGradient(fill)
+        }
+        newLine()
+      } else {
+        addLinearGradient(fill)
+      }
+    }
+    is Fill.RadialGradient -> {
+      if (handleMultiline) {
+        newLine()
+        indention {
+          addRadialGradient(fill)
+        }
+        newLine()
+      } else {
+        addRadialGradient(fill)
+      }
+    }
+  }
 }
 
 private fun CodeBlock.Builder.addLinearGradient(fill: Fill.LinearGradient) {
-    argumentBlock("fill = %T.linearGradient(", ClassNames.Brush) {
-        argumentBlock("colorStops = arrayOf(", isNested = true) {
-            add(
-                fill.colorStops.joinToString(separator = ",\n") { stop ->
-                    "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
-                },
-                *Array(fill.colorStops.size) { MemberNames.Color },
-            )
-        }
-        add(
-            "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),",
-            MemberNames.Offset,
-        )
-        newLine()
-        add(
-            "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})",
-            MemberNames.Offset,
-        )
+  argumentBlock("fill = %T.linearGradient(", ClassNames.Brush) {
+    argumentBlock("colorStops = arrayOf(", isNested = true) {
+      add(
+        fill.colorStops.joinToString(separator = ",\n") { stop ->
+          "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
+        },
+        *Array(fill.colorStops.size) { MemberNames.Color },
+      )
     }
+    add(
+      "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),",
+      MemberNames.Offset,
+    )
+    newLine()
+    add(
+      "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})",
+      MemberNames.Offset,
+    )
+  }
 }
 
 private fun CodeBlock.Builder.addRadialGradient(fill: Fill.RadialGradient) {
-    argumentBlock("fill = %T.radialGradient(", ClassNames.Brush) {
-        argumentBlock("colorStops = arrayOf(", isNested = true) {
-            add(
-                fill.colorStops.joinToString(separator = ",\n") { stop ->
-                    "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
-                },
-                *Array(fill.colorStops.size) { MemberNames.Color },
-            )
-        }
-        add(
-            "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),",
-            MemberNames.Offset,
-        )
-        newLine()
-        add("radius = ${fill.gradientRadius.formatFloat()}")
+  argumentBlock("fill = %T.radialGradient(", ClassNames.Brush) {
+    argumentBlock("colorStops = arrayOf(", isNested = true) {
+      add(
+        fill.colorStops.joinToString(separator = ",\n") { stop ->
+          "${stop.first.formatFloat()} to %M(${stop.second.toColorHex()})"
+        },
+        *Array(fill.colorStops.size) { MemberNames.Color },
+      )
     }
+    add(
+      "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),",
+      MemberNames.Offset,
+    )
+    newLine()
+    add("radius = ${fill.gradientRadius.formatFloat()}")
+  }
 }
 
 private fun CodeBlock.Builder.fillAlphaArg(param: FillAlphaParam) {
-    add("fillAlpha = ${param.fillAlpha.formatFloat()}")
+  add("fillAlpha = ${param.fillAlpha.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.strokeArg(param: StrokeColorHexParam) {
-    add("stroke = %M(%M(${param.strokeColorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
+  add("stroke = %M(%M(${param.strokeColorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
 }
 
 private fun CodeBlock.Builder.strokeAlphaArg(param: StrokeAlphaParam) {
-    add("strokeAlpha = ${param.strokeAlpha.formatFloat()}")
+  add("strokeAlpha = ${param.strokeAlpha.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.strokeLineWidthArg(param: StrokeLineWidthParam) {
-    add("strokeLineWidth = ${param.strokeLineWidth.formatFloat()}")
+  add("strokeLineWidth = ${param.strokeLineWidth.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.strokeLineCapArg(param: StrokeLineCapParam) {
-    add("strokeLineCap = %T.%L", ClassNames.StrokeCap, param.strokeLineCap.name)
+  add("strokeLineCap = %T.%L", ClassNames.StrokeCap, param.strokeLineCap.name)
 }
 
 private fun CodeBlock.Builder.strokeLineJoinArg(param: StrokeLineJoinParam) {
-    add("strokeLineJoin = %T.%L", ClassNames.StrokeJoin, param.strokeLineJoin.name)
+  add("strokeLineJoin = %T.%L", ClassNames.StrokeJoin, param.strokeLineJoin.name)
 }
 
 private fun CodeBlock.Builder.strokeLineMiterArg(param: StrokeLineMiterParam) {
-    add("strokeLineMiter = ${param.strokeLineMiter.formatFloat()}")
+  add("strokeLineMiter = ${param.strokeLineMiter.formatFloat()}")
 }
 
 private fun CodeBlock.Builder.pathFillTypeArg(param: FillTypeParam) {
-    add("pathFillType = %T.%L", ClassNames.PathFillType, param.fillType.name)
+  add("pathFillType = %T.%L", ClassNames.PathFillType, param.fillType.name)
 }
 
 private fun VectorNode.Path.buildPathParams() = buildList {
-    fill?.takeUnless { it is Fill.Color && it.isTransparent() }?.let {
-        add(FillParam(it))
-    }
-    if (fillAlpha != 1f) {
-        add(FillAlphaParam(fillAlpha))
-    }
-    strokeColorHex?.let {
-        add(StrokeColorHexParam(it))
-    }
-    if (strokeAlpha != 1f) {
-        add(StrokeAlphaParam(strokeAlpha))
-    }
-    if (strokeLineWidth.value != 0f) {
-        add(StrokeLineWidthParam(strokeLineWidth.value))
-    }
-    if (strokeLineCap != StrokeCap.Butt) {
-        add(StrokeLineCapParam(strokeLineCap))
-    }
-    if (strokeLineJoin != StrokeJoin.Miter) {
-        add(StrokeLineJoinParam(strokeLineJoin))
-    }
-    if (strokeLineMiter != 4f) {
-        add(StrokeLineMiterParam(strokeLineMiter))
-    }
-    if (fillType != FillType.NonZero) {
-        add(FillTypeParam(fillType))
-    }
+  fill?.takeUnless { it is Fill.Color && it.isTransparent() }?.let {
+    add(FillParam(it))
+  }
+  if (fillAlpha != 1f) {
+    add(FillAlphaParam(fillAlpha))
+  }
+  strokeColorHex?.let {
+    add(StrokeColorHexParam(it))
+  }
+  if (strokeAlpha != 1f) {
+    add(StrokeAlphaParam(strokeAlpha))
+  }
+  if (strokeLineWidth.value != 0f) {
+    add(StrokeLineWidthParam(strokeLineWidth.value))
+  }
+  if (strokeLineCap != StrokeCap.Butt) {
+    add(StrokeLineCapParam(strokeLineCap))
+  }
+  if (strokeLineJoin != StrokeJoin.Miter) {
+    add(StrokeLineJoinParam(strokeLineJoin))
+  }
+  if (strokeLineMiter != 4f) {
+    add(StrokeLineMiterParam(strokeLineMiter))
+  }
+  if (fillType != FillType.NonZero) {
+    add(FillTypeParam(fillType))
+  }
 }
 
 private fun Fill.Color.isTransparent() = colorHex == "00000000" || colorHex == "0000"
 
 internal sealed interface PathParams {
-    data class FillParam(val fill: Fill) : PathParams
-    data class FillAlphaParam(val fillAlpha: Float) : PathParams
-    data class StrokeColorHexParam(val strokeColorHex: String) : PathParams
-    data class StrokeAlphaParam(val strokeAlpha: Float) : PathParams
-    data class StrokeLineWidthParam(val strokeLineWidth: Float) : PathParams
-    data class StrokeLineCapParam(val strokeLineCap: StrokeCap) : PathParams
-    data class StrokeLineJoinParam(val strokeLineJoin: StrokeJoin) : PathParams
-    data class StrokeLineMiterParam(val strokeLineMiter: Float) : PathParams
-    data class FillTypeParam(val fillType: FillType) : PathParams
+  data class FillParam(val fill: Fill) : PathParams
+  data class FillAlphaParam(val fillAlpha: Float) : PathParams
+  data class StrokeColorHexParam(val strokeColorHex: String) : PathParams
+  data class StrokeAlphaParam(val strokeAlpha: Float) : PathParams
+  data class StrokeLineWidthParam(val strokeLineWidth: Float) : PathParams
+  data class StrokeLineCapParam(val strokeLineCap: StrokeCap) : PathParams
+  data class StrokeLineJoinParam(val strokeLineJoin: StrokeJoin) : PathParams
+  data class StrokeLineMiterParam(val strokeLineMiter: Float) : PathParams
+  data class FillTypeParam(val fillType: FillType) : PathParams
 }

@@ -7,8 +7,8 @@ import io.github.composegears.valkyrie.ui.foundation.highlights.rememberCodeHigh
 
 @Composable
 fun buildPackageHighlight(packageName: String): Highlights {
-    val packagePlaceholder = packageName.ifEmpty { "com.test.iconpack" }
-    val codeBlock = """
+  val packagePlaceholder = packageName.ifEmpty { "com.test.iconpack" }
+  val codeBlock = """
         package $packagePlaceholder
 
         val MyIcon: ImageVector
@@ -18,13 +18,13 @@ fun buildPackageHighlight(packageName: String): Highlights {
             }
             ...
         }
-    """.trimIndent()
+  """.trimIndent()
 
-    return rememberCodeHighlight(
-        codeBlock = codeBlock,
-        emphasisLocation = getEmphasisLocations(
-            codeBlock = codeBlock,
-            highlightText = packagePlaceholder,
-        ),
-    )
+  return rememberCodeHighlight(
+    codeBlock = codeBlock,
+    emphasisLocation = getEmphasisLocations(
+      codeBlock = codeBlock,
+      highlightText = packagePlaceholder,
+    ),
+  )
 }

@@ -13,46 +13,46 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtTreeVisitorVoid
 
 data class IconPackInfo(
-    val packageName: String,
-    val iconPack: String,
-    val nestedPacks: List<String>,
+  val packageName: String,
+  val iconPack: String,
+  val nestedPacks: List<String>,
 )
 
 object IconPackPsiParser {
 
-    fun extractIconPack(path: Path, project: Project): IconPackInfo? {
-        val ktFile = PsiManager.getInstance(project)
-            .findFile(LightVirtualFile(path.name, KotlinFileType.INSTANCE, path.readText()))
-            .castOrNull<KtFile>() ?: return null
+  fun extractIconPack(path: Path, project: Project): IconPackInfo? {
+    val ktFile = PsiManager.getInstance(project)
+      .findFile(LightVirtualFile(path.name, KotlinFileType.INSTANCE, path.readText()))
+      .castOrNull<KtFile>() ?: return null
 
-        var iconPackName: String? = null
-        val nestedPacks = mutableListOf<String>()
+    var iconPackName: String? = null
+    val nestedPacks = mutableListOf<String>()
 
-        ktFile.accept(
-            object : KtTreeVisitorVoid() {
-                override fun visitObjectDeclaration(declaration: KtObjectDeclaration) {
-                    super.visitObjectDeclaration(declaration)
+    ktFile.accept(
+      object : KtTreeVisitorVoid() {
+        override fun visitObjectDeclaration(declaration: KtObjectDeclaration) {
+          super.visitObjectDeclaration(declaration)
 
-                    if (declaration.isTopLevel()) {
-                        iconPackName = declaration.name
-                    } else {
-                        declaration.name?.let {
-                            nestedPacks.add(it)
-                        }
-                    }
-                }
-            },
-        )
-
-        return when {
-            iconPackName != null -> {
-                IconPackInfo(
-                    packageName = ktFile.packageFqName.asString(),
-                    iconPack = iconPackName!!,
-                    nestedPacks = nestedPacks,
-                )
+          if (declaration.isTopLevel()) {
+            iconPackName = declaration.name
+          } else {
+            declaration.name?.let {
+              nestedPacks.add(it)
             }
-            else -> null
+          }
         }
+      },
+    )
+
+    return when {
+      iconPackName != null -> {
+        IconPackInfo(
+          packageName = ktFile.packageFqName.asString(),
+          iconPack = iconPackName!!,
+          nestedPacks = nestedPacks,
+        )
+      }
+      else -> null
     }
+  }
 }

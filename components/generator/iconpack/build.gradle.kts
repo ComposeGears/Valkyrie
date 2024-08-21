@@ -1,12 +1,12 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
-    implementation(projects.components.generator.common)
+  implementation(projects.components.generator.common)
 
-    implementation(libs.kotlinpoet)
+  implementation(libs.kotlinpoet)
 
-    testImplementation(libs.bundles.test)
-    testRuntimeOnly(libs.junit.launcher)
+  testImplementation(libs.bundles.test)
+  testRuntimeOnly(libs.junit.launcher)
 }

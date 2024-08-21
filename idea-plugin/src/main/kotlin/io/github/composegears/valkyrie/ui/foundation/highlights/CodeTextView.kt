@@ -18,50 +18,50 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
 fun CodeTextView(
-    highlights: Highlights,
-    modifier: Modifier = Modifier,
+  highlights: Highlights,
+  modifier: Modifier = Modifier,
 ) {
-    Text(
-        modifier = modifier,
-        style = MaterialTheme.typography.bodySmall,
-        text = buildAnnotatedString {
-            append(highlights.getCode())
+  Text(
+    modifier = modifier,
+    style = MaterialTheme.typography.bodySmall,
+    text = buildAnnotatedString {
+      append(highlights.getCode())
 
-            highlights.getHighlights()
-                .filterIsInstance<ColorHighlight>()
-                .forEach { highlight ->
-                    val location = highlight.location
+      highlights.getHighlights()
+        .filterIsInstance<ColorHighlight>()
+        .forEach { highlight ->
+          val location = highlight.location
 
-                    if (location.end - location.start != 1) {
-                        addStyle(
-                            style = SpanStyle(color = Color(highlight.rgb).copy(alpha = 1f)),
-                            start = location.start,
-                            end = location.end,
-                        )
-                    }
-                }
+          if (location.end - location.start != 1) {
+            addStyle(
+              style = SpanStyle(color = Color(highlight.rgb).copy(alpha = 1f)),
+              start = location.start,
+              end = location.end,
+            )
+          }
+        }
 
-            highlights.getHighlights()
-                .filterIsInstance<BoldHighlight>()
-                .forEach {
-                    addStyle(
-                        SpanStyle(
-                            fontWeight = FontWeight.Bold,
-                            textDecoration = TextDecoration.Underline,
-                        ),
-                        start = it.location.start,
-                        end = it.location.end,
-                    )
-                }
-        },
-    )
+      highlights.getHighlights()
+        .filterIsInstance<BoldHighlight>()
+        .forEach {
+          addStyle(
+            SpanStyle(
+              fontWeight = FontWeight.Bold,
+              textDecoration = TextDecoration.Underline,
+            ),
+            start = it.location.start,
+            end = it.location.end,
+          )
+        }
+    },
+  )
 }
 
 @Preview
 @Composable
 private fun CodeTextViewPreview() = PreviewTheme {
-    val highlights = rememberCodeHighlight(
-        codeBlock = """
+  val highlights = rememberCodeHighlight(
+    codeBlock = """
             package io.github.composegears.valkyrie
 
             val Pack.MyIcon: ImageVector
@@ -71,9 +71,9 @@ private fun CodeTextViewPreview() = PreviewTheme {
                 }
                 ...
             }
-        """.trimIndent(),
-        emphasisLocation = arrayOf(PhraseLocation(start = 8, end = 39)),
-    )
+    """.trimIndent(),
+    emphasisLocation = arrayOf(PhraseLocation(start = 8, end = 39)),
+  )
 
-    CodeTextView(highlights)
+  CodeTextView(highlights)
 }

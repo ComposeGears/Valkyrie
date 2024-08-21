@@ -44,177 +44,177 @@ import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsActio
 import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.UpdatePreviewGeneration
 
 val SettingsScreen by navDestination<Unit> {
-    val navController = navController()
-    val settingsViewModel = koinTiamatViewModel<SettingsViewModel>()
+  val navController = navController()
+  val settingsViewModel = koinTiamatViewModel<SettingsViewModel>()
 
-    val settings by settingsViewModel.settings.collectAsState()
+  val settings by settingsViewModel.settings.collectAsState()
 
-    var showClearSettingsDialog by rememberMutableState { false }
+  var showClearSettingsDialog by rememberMutableState { false }
 
-    SettingsUI(
-        settings = settings,
-        onChangeMode = {
-            settingsViewModel.resetMode()
-            navController.editBackStack { clear() }
-            navController.replace(IntroScreen)
-        },
-        onAction = settingsViewModel::onAction,
-        onBack = {
-            navController.back(transition = navigationSlideInOut(false))
-        },
-        onClearSettings = {
-            showClearSettingsDialog = true
-        },
+  SettingsUI(
+    settings = settings,
+    onChangeMode = {
+      settingsViewModel.resetMode()
+      navController.editBackStack { clear() }
+      navController.replace(IntroScreen)
+    },
+    onAction = settingsViewModel::onAction,
+    onBack = {
+      navController.back(transition = navigationSlideInOut(false))
+    },
+    onClearSettings = {
+      showClearSettingsDialog = true
+    },
+  )
+
+  if (showClearSettingsDialog) {
+    ClearSettingsDialog(
+      onClear = {
+        settingsViewModel.clearSettings()
+        showClearSettingsDialog = false
+        navController.editBackStack { clear() }
+        navController.replace(IntroScreen)
+      },
+      onCancel = { showClearSettingsDialog = false },
     )
-
-    if (showClearSettingsDialog) {
-        ClearSettingsDialog(
-            onClear = {
-                settingsViewModel.clearSettings()
-                showClearSettingsDialog = false
-                navController.editBackStack { clear() }
-                navController.replace(IntroScreen)
-            },
-            onCancel = { showClearSettingsDialog = false },
-        )
-    }
+  }
 }
 
 @Composable
 private fun SettingsUI(
-    settings: ValkyriesSettings,
-    onAction: (SettingsAction) -> Unit,
-    onChangeMode: () -> Unit,
-    onClearSettings: () -> Unit,
-    onBack: () -> Unit,
+  settings: ValkyriesSettings,
+  onAction: (SettingsAction) -> Unit,
+  onChangeMode: () -> Unit,
+  onClearSettings: () -> Unit,
+  onBack: () -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
-            BackAction(onBack = onBack)
-            AppBarTitle("Settings")
-        }
-        VerticalSpacer(16.dp)
-        val modeName = when (settings.mode) {
-            Simple -> "Simple"
-            IconPack -> "Icon Pack"
-            Unspecified -> "Unspecified"
-        }
-        SectionTitle(
-            name = "Plugin mode: $modeName",
-            paddingValues = PaddingValues(start = 24.dp),
-        )
-        TextButton(
-            modifier = Modifier.padding(start = 12.dp),
-            onClick = onChangeMode,
-        ) {
-            Text(
-                text = "Change mode",
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
-
-        SectionTitle(name = "ImageVector export settings")
-        VerticalSpacer(8.dp)
-        OutputFormatSection(
-            outputFormat = settings.outputFormat,
-            onAction = onAction,
-        )
-        VerticalSpacer(8.dp)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-                .toggleable(
-                    value = settings.generatePreview,
-                    onValueChange = { onAction(UpdatePreviewGeneration(it)) },
-                )
-                .padding(start = 24.dp, end = 24.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "Include @Preview",
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            Switch(
-                modifier = Modifier.scale(0.9f),
-                checked = settings.generatePreview,
-                onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
-            )
-        }
-        SectionTitle(name = "Danger zone")
-        TextButton(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            colors = ButtonDefaults.textButtonColors().copy(
-                contentColor = MaterialTheme.colorScheme.error,
-            ),
-            onClick = onClearSettings,
-        ) {
-            Text(text = "Clear all plugin settings")
-        }
+  Column(modifier = Modifier.fillMaxSize()) {
+    TopAppBar {
+      BackAction(onBack = onBack)
+      AppBarTitle("Settings")
     }
+    VerticalSpacer(16.dp)
+    val modeName = when (settings.mode) {
+      Simple -> "Simple"
+      IconPack -> "Icon Pack"
+      Unspecified -> "Unspecified"
+    }
+    SectionTitle(
+      name = "Plugin mode: $modeName",
+      paddingValues = PaddingValues(start = 24.dp),
+    )
+    TextButton(
+      modifier = Modifier.padding(start = 12.dp),
+      onClick = onChangeMode,
+    ) {
+      Text(
+        text = "Change mode",
+        style = MaterialTheme.typography.bodyMedium,
+      )
+    }
+
+    SectionTitle(name = "ImageVector export settings")
+    VerticalSpacer(8.dp)
+    OutputFormatSection(
+      outputFormat = settings.outputFormat,
+      onAction = onAction,
+    )
+    VerticalSpacer(8.dp)
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .height(48.dp)
+        .toggleable(
+          value = settings.generatePreview,
+          onValueChange = { onAction(UpdatePreviewGeneration(it)) },
+        )
+        .padding(start = 24.dp, end = 24.dp),
+      verticalAlignment = Alignment.CenterVertically,
+    ) {
+      Text(
+        modifier = Modifier.weight(1f),
+        text = "Include @Preview",
+        style = MaterialTheme.typography.bodyMedium,
+      )
+      Switch(
+        modifier = Modifier.scale(0.9f),
+        checked = settings.generatePreview,
+        onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
+      )
+    }
+    SectionTitle(name = "Danger zone")
+    TextButton(
+      modifier = Modifier.padding(horizontal = 16.dp),
+      colors = ButtonDefaults.textButtonColors().copy(
+        contentColor = MaterialTheme.colorScheme.error,
+      ),
+      onClick = onClearSettings,
+    ) {
+      Text(text = "Clear all plugin settings")
+    }
+  }
 }
 
 @Composable
 private fun ClearSettingsDialog(
-    onClear: () -> Unit,
-    onCancel: () -> Unit,
+  onClear: () -> Unit,
+  onCancel: () -> Unit,
 ) {
-    AlertDialog(
-        onDismissRequest = onCancel,
-        title = {
-            Text("Clear settings?")
-        },
-        text = {
-            Text("It will remove all plugin data and redirect to Intro screen.")
-        },
-        textContentColor = MaterialTheme.colorScheme.onSurface,
-        confirmButton = {
-            TextButton(onClick = onClear) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onCancel) {
-                Text("Cancel")
-            }
-        },
-    )
+  AlertDialog(
+    onDismissRequest = onCancel,
+    title = {
+      Text("Clear settings?")
+    },
+    text = {
+      Text("It will remove all plugin data and redirect to Intro screen.")
+    },
+    textContentColor = MaterialTheme.colorScheme.onSurface,
+    confirmButton = {
+      TextButton(onClick = onClear) {
+        Text("OK")
+      }
+    },
+    dismissButton = {
+      TextButton(onClick = onCancel) {
+        Text("Cancel")
+      }
+    },
+  )
 }
 
 @Composable
 private fun SectionTitle(
-    name: String,
-    paddingValues: PaddingValues = PaddingValues(start = 24.dp, top = 32.dp),
+  name: String,
+  paddingValues: PaddingValues = PaddingValues(start = 24.dp, top = 32.dp),
 ) {
-    Text(
-        modifier = Modifier
-            .padding(paddingValues)
-            .height(40.dp),
-        text = name,
-        color = MaterialTheme.colorScheme.onSurface,
-        style = MaterialTheme.typography.titleMedium,
-    )
+  Text(
+    modifier = Modifier
+      .padding(paddingValues)
+      .height(40.dp),
+    text = name,
+    color = MaterialTheme.colorScheme.onSurface,
+    style = MaterialTheme.typography.titleMedium,
+  )
 }
 
 @Preview
 @Composable
 private fun SettingsScreenPreview() = PreviewTheme {
-    SettingsUI(
-        settings = ValkyriesSettings(
-            mode = Simple,
-            packageName = "",
-            iconPackName = "",
-            iconPackDestination = "",
+  SettingsUI(
+    settings = ValkyriesSettings(
+      mode = Simple,
+      packageName = "",
+      iconPackName = "",
+      iconPackDestination = "",
 
-            nestedPacks = emptyList(),
+      nestedPacks = emptyList(),
 
-            outputFormat = OutputFormat.BackingProperty,
-            generatePreview = false,
-        ),
-        onClearSettings = {},
-        onChangeMode = {},
-        onBack = {},
-        onAction = {},
-    )
+      outputFormat = OutputFormat.BackingProperty,
+      generatePreview = false,
+    ),
+    onClearSettings = {},
+    onChangeMode = {},
+    onBack = {},
+    onAction = {},
+  )
 }

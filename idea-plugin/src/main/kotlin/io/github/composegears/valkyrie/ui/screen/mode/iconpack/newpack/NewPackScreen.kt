@@ -29,73 +29,73 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 val NewPackScreen by navDestination<Unit> {
-    val navController = navController()
+  val navController = navController()
 
-    val viewModel = koinTiamatViewModel<NewPackViewModel>()
-    val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
+  val viewModel = koinTiamatViewModel<NewPackViewModel>()
+  val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is NewPackEvent.OnSettingsUpdated -> {
-                        navController.parent?.navigate(IconPackConversionScreen)
-                    }
-                    is NewPackEvent.PreviewIconPackObject -> {
-                        navController.parent?.navigate(
-                            dest = CodePreviewScreen,
-                            navArgs = it.code,
-                        )
-                    }
-                }
-            }
-            .launchIn(this)
-    }
+  LaunchedEffect(Unit) {
+    viewModel.events
+      .onEach {
+        when (it) {
+          is NewPackEvent.OnSettingsUpdated -> {
+            navController.parent?.navigate(IconPackConversionScreen)
+          }
+          is NewPackEvent.PreviewIconPackObject -> {
+            navController.parent?.navigate(
+              dest = CodePreviewScreen,
+              navArgs = it.code,
+            )
+          }
+        }
+      }
+      .launchIn(this)
+  }
 
-    NewPackUi(
-        state = state,
-        onAction = viewModel::onAction,
-        onValueChange = viewModel::onValueChange,
-    )
+  NewPackUi(
+    state = state,
+    onAction = viewModel::onAction,
+    onValueChange = viewModel::onValueChange,
+  )
 }
 
 @Composable
 private fun NewPackUi(
-    state: NewPackModeState,
-    onAction: (NewPackAction) -> Unit,
-    modifier: Modifier = Modifier,
-    onValueChange: (InputChange) -> Unit,
+  state: NewPackModeState,
+  onAction: (NewPackAction) -> Unit,
+  modifier: Modifier = Modifier,
+  onValueChange: (InputChange) -> Unit,
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
-        when (state) {
-            is ChooseExportDirectoryState -> {
-                ChoosePackDirectory(
-                    state = state,
-                    onAction = onAction,
-                )
-            }
-            is PickedState -> {
-                NewIconPackCreation(
-                    state = state,
-                    onAction = onAction,
-                    onValueChange = onValueChange,
-                )
-            }
-        }
+  Column(modifier = modifier.fillMaxSize()) {
+    when (state) {
+      is ChooseExportDirectoryState -> {
+        ChoosePackDirectory(
+          state = state,
+          onAction = onAction,
+        )
+      }
+      is PickedState -> {
+        NewIconPackCreation(
+          state = state,
+          onAction = onAction,
+          onValueChange = onValueChange,
+        )
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 private fun NewPackFlowPreview() = PreviewTheme {
-    NewPackUi(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        state = ChooseExportDirectoryState(
-            iconPackDestination = "path/to/export",
-            predictedPackage = "com.example.iconpack",
-            nextAvailable = true,
-        ),
-        onValueChange = {},
-        onAction = {},
-    )
+  NewPackUi(
+    modifier = Modifier.fillMaxWidth(0.8f),
+    state = ChooseExportDirectoryState(
+      iconPackDestination = "path/to/export",
+      predictedPackage = "com.example.iconpack",
+      nextAvailable = true,
+    ),
+    onValueChange = {},
+    onAction = {},
+  )
 }

@@ -20,51 +20,51 @@ import javax.swing.ScrollPaneConstants
 
 @Composable
 fun IntellijEditorTextField(
-    text: String,
-    modifier: Modifier = Modifier,
+  text: String,
+  modifier: Modifier = Modifier,
 ) {
-    if (LocalInspectionMode.current) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(text = "EditorTextField")
-        }
-    } else {
-        val project = LocalProject.current
-        val document = remember(text) { EditorFactory.getInstance().createDocument(text) }
-
-        SwingPanel(
-            modifier = modifier,
-            factory = {
-                EditorTextFieldProvider.getInstance().getEditorField(
-                    /* language = */
-                    kotlinLanguage,
-                    /* project = */
-                    project,
-                    /* features = */
-                    listOf(EditorCustomization(true)),
-                ).apply {
-                    setDocument(document)
-                }
-            },
-        )
+  if (LocalInspectionMode.current) {
+    Box(
+      modifier = Modifier.fillMaxSize(),
+      contentAlignment = Alignment.Center,
+    ) {
+      Text(text = "EditorTextField")
     }
+  } else {
+    val project = LocalProject.current
+    val document = remember(text) { EditorFactory.getInstance().createDocument(text) }
+
+    SwingPanel(
+      modifier = modifier,
+      factory = {
+        EditorTextFieldProvider.getInstance().getEditorField(
+          /* language = */
+          kotlinLanguage,
+          /* project = */
+          project,
+          /* features = */
+          listOf(EditorCustomization(true)),
+        ).apply {
+          setDocument(document)
+        }
+      },
+    )
+  }
 }
 
 private class EditorCustomization(enabled: Boolean) : SimpleEditorCustomization(enabled) {
 
-    override fun customize(editor: EditorEx) {
-        val logicalPosition = editor.offsetToLogicalPosition(0)
-        editor.scrollingModel.scrollTo(logicalPosition, ScrollType.RELATIVE)
+  override fun customize(editor: EditorEx) {
+    val logicalPosition = editor.offsetToLogicalPosition(0)
+    editor.scrollingModel.scrollTo(logicalPosition, ScrollType.RELATIVE)
 
-        editor.scrollPane.verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
-        editor.isRendererMode = true
-        editor.settings.isLineNumbersShown = true
-        editor.setHorizontalScrollbarVisible(false)
-        editor.setVerticalScrollbarVisible(true)
-        editor.setBorder(null)
-    }
+    editor.scrollPane.verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
+    editor.isRendererMode = true
+    editor.settings.isLineNumbersShown = true
+    editor.setHorizontalScrollbarVisible(false)
+    editor.setVerticalScrollbarVisible(true)
+    editor.setBorder(null)
+  }
 }
 
 private val kotlinLanguage = Language.findLanguageByID("kotlin")!!

@@ -25,141 +25,141 @@ import io.github.composegears.valkyrie.generator.ext.formatFloat
  * @property isQuad whether this command is a quad command
  */
 sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false) {
-    /**
-     * Maps a [PathNode] to a string representing an invocation of the corresponding PathBuilder
-     * function to add this node to the builder.
-     */
-    abstract fun asFunctionCall(): String
+  /**
+   * Maps a [PathNode] to a string representing an invocation of the corresponding PathBuilder
+   * function to add this node to the builder.
+   */
+  abstract fun asFunctionCall(): String
 
-    // RelativeClose and Close are considered the same internally, so we represent both with Close
-    // for simplicity and to make equals comparisons robust.
-    data object Close : PathNode() {
-        override fun asFunctionCall() = "close()"
-    }
+  // RelativeClose and Close are considered the same internally, so we represent both with Close
+  // for simplicity and to make equals comparisons robust.
+  data object Close : PathNode() {
+    override fun asFunctionCall() = "close()"
+  }
 
-    data class RelativeMoveTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "moveToRelative(${x.formatFloat()}, ${y.formatFloat()})"
-    }
-    data class MoveTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "moveTo(${x.formatFloat()}, ${y.formatFloat()})"
-    }
+  data class RelativeMoveTo(val x: Float, val y: Float) : PathNode() {
+    override fun asFunctionCall() = "moveToRelative(${x.formatFloat()}, ${y.formatFloat()})"
+  }
+  data class MoveTo(val x: Float, val y: Float) : PathNode() {
+    override fun asFunctionCall() = "moveTo(${x.formatFloat()}, ${y.formatFloat()})"
+  }
 
-    data class RelativeLineTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "lineToRelative(${x.formatFloat()}, ${y.formatFloat()})"
-    }
-    data class LineTo(val x: Float, val y: Float) : PathNode() {
-        override fun asFunctionCall() = "lineTo(${x.formatFloat()}, ${y.formatFloat()})"
-    }
+  data class RelativeLineTo(val x: Float, val y: Float) : PathNode() {
+    override fun asFunctionCall() = "lineToRelative(${x.formatFloat()}, ${y.formatFloat()})"
+  }
+  data class LineTo(val x: Float, val y: Float) : PathNode() {
+    override fun asFunctionCall() = "lineTo(${x.formatFloat()}, ${y.formatFloat()})"
+  }
 
-    data class RelativeHorizontalTo(val x: Float) : PathNode() {
-        override fun asFunctionCall() = "horizontalLineToRelative(${x.formatFloat()})"
-    }
-    data class HorizontalTo(val x: Float) : PathNode() {
-        override fun asFunctionCall() = "horizontalLineTo(${x.formatFloat()})"
-    }
+  data class RelativeHorizontalTo(val x: Float) : PathNode() {
+    override fun asFunctionCall() = "horizontalLineToRelative(${x.formatFloat()})"
+  }
+  data class HorizontalTo(val x: Float) : PathNode() {
+    override fun asFunctionCall() = "horizontalLineTo(${x.formatFloat()})"
+  }
 
-    data class RelativeVerticalTo(val y: Float) : PathNode() {
-        override fun asFunctionCall() = "verticalLineToRelative(${y.formatFloat()})"
-    }
-    data class VerticalTo(val y: Float) : PathNode() {
-        override fun asFunctionCall() = "verticalLineTo(${y.formatFloat()})"
-    }
+  data class RelativeVerticalTo(val y: Float) : PathNode() {
+    override fun asFunctionCall() = "verticalLineToRelative(${y.formatFloat()})"
+  }
+  data class VerticalTo(val y: Float) : PathNode() {
+    override fun asFunctionCall() = "verticalLineTo(${y.formatFloat()})"
+  }
 
-    data class RelativeCurveTo(
-        val dx1: Float,
-        val dy1: Float,
-        val dx2: Float,
-        val dy2: Float,
-        val dx3: Float,
-        val dy3: Float,
-    ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "curveToRelative(${dx1.formatFloat()}, ${dy1.formatFloat()}, ${dx2.formatFloat()}, ${dy2.formatFloat()}, ${dx3.formatFloat()}, ${dy3.formatFloat()})"
-    }
+  data class RelativeCurveTo(
+    val dx1: Float,
+    val dy1: Float,
+    val dx2: Float,
+    val dy2: Float,
+    val dx3: Float,
+    val dy3: Float,
+  ) : PathNode(isCurve = true) {
+    override fun asFunctionCall() = "curveToRelative(${dx1.formatFloat()}, ${dy1.formatFloat()}, ${dx2.formatFloat()}, ${dy2.formatFloat()}, ${dx3.formatFloat()}, ${dy3.formatFloat()})"
+  }
 
-    data class CurveTo(
-        val x1: Float,
-        val y1: Float,
-        val x2: Float,
-        val y2: Float,
-        val x3: Float,
-        val y3: Float,
-    ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "curveTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()}, ${x3.formatFloat()}, ${y3.formatFloat()})"
-    }
+  data class CurveTo(
+    val x1: Float,
+    val y1: Float,
+    val x2: Float,
+    val y2: Float,
+    val x3: Float,
+    val y3: Float,
+  ) : PathNode(isCurve = true) {
+    override fun asFunctionCall() = "curveTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()}, ${x3.formatFloat()}, ${y3.formatFloat()})"
+  }
 
-    data class RelativeReflectiveCurveTo(
-        val x1: Float,
-        val y1: Float,
-        val x2: Float,
-        val y2: Float,
-    ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "reflectiveCurveToRelative(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
-    }
+  data class RelativeReflectiveCurveTo(
+    val x1: Float,
+    val y1: Float,
+    val x2: Float,
+    val y2: Float,
+  ) : PathNode(isCurve = true) {
+    override fun asFunctionCall() = "reflectiveCurveToRelative(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
+  }
 
-    data class ReflectiveCurveTo(
-        val x1: Float,
-        val y1: Float,
-        val x2: Float,
-        val y2: Float,
-    ) : PathNode(isCurve = true) {
-        override fun asFunctionCall() = "reflectiveCurveTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
-    }
+  data class ReflectiveCurveTo(
+    val x1: Float,
+    val y1: Float,
+    val x2: Float,
+    val y2: Float,
+  ) : PathNode(isCurve = true) {
+    override fun asFunctionCall() = "reflectiveCurveTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
+  }
 
-    data class RelativeQuadTo(
-        val x1: Float,
-        val y1: Float,
-        val x2: Float,
-        val y2: Float,
-    ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "quadToRelative(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
-    }
+  data class RelativeQuadTo(
+    val x1: Float,
+    val y1: Float,
+    val x2: Float,
+    val y2: Float,
+  ) : PathNode(isQuad = true) {
+    override fun asFunctionCall() = "quadToRelative(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
+  }
 
-    data class QuadTo(
-        val x1: Float,
-        val y1: Float,
-        val x2: Float,
-        val y2: Float,
-    ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "quadTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
-    }
+  data class QuadTo(
+    val x1: Float,
+    val y1: Float,
+    val x2: Float,
+    val y2: Float,
+  ) : PathNode(isQuad = true) {
+    override fun asFunctionCall() = "quadTo(${x1.formatFloat()}, ${y1.formatFloat()}, ${x2.formatFloat()}, ${y2.formatFloat()})"
+  }
 
-    data class RelativeReflectiveQuadTo(
-        val x: Float,
-        val y: Float,
-    ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "reflectiveQuadToRelative(${x.formatFloat()}, ${y.formatFloat()})"
-    }
+  data class RelativeReflectiveQuadTo(
+    val x: Float,
+    val y: Float,
+  ) : PathNode(isQuad = true) {
+    override fun asFunctionCall() = "reflectiveQuadToRelative(${x.formatFloat()}, ${y.formatFloat()})"
+  }
 
-    data class ReflectiveQuadTo(
-        val x: Float,
-        val y: Float,
-    ) : PathNode(isQuad = true) {
-        override fun asFunctionCall() = "reflectiveQuadTo(${x.formatFloat()}, ${y.formatFloat()})"
-    }
+  data class ReflectiveQuadTo(
+    val x: Float,
+    val y: Float,
+  ) : PathNode(isQuad = true) {
+    override fun asFunctionCall() = "reflectiveQuadTo(${x.formatFloat()}, ${y.formatFloat()})"
+  }
 
-    data class RelativeArcTo(
-        val horizontalEllipseRadius: Float,
-        val verticalEllipseRadius: Float,
-        val theta: Float,
-        val isMoreThanHalf: Boolean,
-        val isPositiveArc: Boolean,
-        val arcStartDx: Float,
-        val arcStartDy: Float,
-    ) : PathNode() {
-        override fun asFunctionCall() = "arcToRelative(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartDx.formatFloat()}, ${arcStartDy.formatFloat()})"
-    }
+  data class RelativeArcTo(
+    val horizontalEllipseRadius: Float,
+    val verticalEllipseRadius: Float,
+    val theta: Float,
+    val isMoreThanHalf: Boolean,
+    val isPositiveArc: Boolean,
+    val arcStartDx: Float,
+    val arcStartDy: Float,
+  ) : PathNode() {
+    override fun asFunctionCall() = "arcToRelative(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartDx.formatFloat()}, ${arcStartDy.formatFloat()})"
+  }
 
-    data class ArcTo(
-        val horizontalEllipseRadius: Float,
-        val verticalEllipseRadius: Float,
-        val theta: Float,
-        val isMoreThanHalf: Boolean,
-        val isPositiveArc: Boolean,
-        val arcStartX: Float,
-        val arcStartY: Float,
-    ) : PathNode() {
-        override fun asFunctionCall() = "arcTo(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartX.formatFloat()}, ${arcStartY.formatFloat()})"
-    }
+  data class ArcTo(
+    val horizontalEllipseRadius: Float,
+    val verticalEllipseRadius: Float,
+    val theta: Float,
+    val isMoreThanHalf: Boolean,
+    val isPositiveArc: Boolean,
+    val arcStartX: Float,
+    val arcStartY: Float,
+  ) : PathNode() {
+    override fun asFunctionCall() = "arcTo(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartX.formatFloat()}, ${arcStartY.formatFloat()})"
+  }
 }
 
 /**
@@ -169,231 +169,231 @@ sealed class PathNode(val isCurve: Boolean = false, val isQuad: Boolean = false)
  * @throws IllegalArgumentException
  */
 internal fun Char.toPathNodes(args: FloatArray): List<PathNode> = when (this) {
-    RelativeCloseKey, CloseKey -> listOf(
-        PathNode.Close,
+  RelativeCloseKey, CloseKey -> listOf(
+    PathNode.Close,
+  )
+  RelativeMoveToKey -> pathNodesFromArgs(
+    args,
+    NUM_MOVE_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeMoveTo(
+      x = array[0],
+      y = array[1],
     )
-    RelativeMoveToKey -> pathNodesFromArgs(
-        args,
-        NUM_MOVE_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeMoveTo(
-            x = array[0],
-            y = array[1],
-        )
-    }
+  }
 
-    MoveToKey -> pathNodesFromArgs(
-        args,
-        NUM_MOVE_TO_ARGS,
-    ) { array ->
-        PathNode.MoveTo(
-            x = array[0],
-            y = array[1],
-        )
-    }
+  MoveToKey -> pathNodesFromArgs(
+    args,
+    NUM_MOVE_TO_ARGS,
+  ) { array ->
+    PathNode.MoveTo(
+      x = array[0],
+      y = array[1],
+    )
+  }
 
-    RelativeLineToKey -> pathNodesFromArgs(
-        args,
-        NUM_LINE_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeLineTo(
-            x = array[0],
-            y = array[1],
-        )
-    }
+  RelativeLineToKey -> pathNodesFromArgs(
+    args,
+    NUM_LINE_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeLineTo(
+      x = array[0],
+      y = array[1],
+    )
+  }
 
-    LineToKey -> pathNodesFromArgs(
-        args,
-        NUM_LINE_TO_ARGS,
-    ) { array ->
-        PathNode.LineTo(
-            x = array[0],
-            y = array[1],
-        )
-    }
+  LineToKey -> pathNodesFromArgs(
+    args,
+    NUM_LINE_TO_ARGS,
+  ) { array ->
+    PathNode.LineTo(
+      x = array[0],
+      y = array[1],
+    )
+  }
 
-    RelativeHorizontalToKey -> pathNodesFromArgs(
-        args,
-        NUM_HORIZONTAL_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeHorizontalTo(
-            x = array[0],
-        )
-    }
+  RelativeHorizontalToKey -> pathNodesFromArgs(
+    args,
+    NUM_HORIZONTAL_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeHorizontalTo(
+      x = array[0],
+    )
+  }
 
-    HorizontalToKey -> pathNodesFromArgs(
-        args,
-        NUM_HORIZONTAL_TO_ARGS,
-    ) { array ->
-        PathNode.HorizontalTo(x = array[0])
-    }
+  HorizontalToKey -> pathNodesFromArgs(
+    args,
+    NUM_HORIZONTAL_TO_ARGS,
+  ) { array ->
+    PathNode.HorizontalTo(x = array[0])
+  }
 
-    RelativeVerticalToKey -> pathNodesFromArgs(
-        args,
-        NUM_VERTICAL_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeVerticalTo(y = array[0])
-    }
+  RelativeVerticalToKey -> pathNodesFromArgs(
+    args,
+    NUM_VERTICAL_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeVerticalTo(y = array[0])
+  }
 
-    VerticalToKey -> pathNodesFromArgs(
-        args,
-        NUM_VERTICAL_TO_ARGS,
-    ) { array ->
-        PathNode.VerticalTo(y = array[0])
-    }
+  VerticalToKey -> pathNodesFromArgs(
+    args,
+    NUM_VERTICAL_TO_ARGS,
+  ) { array ->
+    PathNode.VerticalTo(y = array[0])
+  }
 
-    RelativeCurveToKey -> pathNodesFromArgs(
-        args,
-        NUM_CURVE_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeCurveTo(
-            dx1 = array[0],
-            dy1 = array[1],
-            dx2 = array[2],
-            dy2 = array[3],
-            dx3 = array[4],
-            dy3 = array[5],
-        )
-    }
+  RelativeCurveToKey -> pathNodesFromArgs(
+    args,
+    NUM_CURVE_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeCurveTo(
+      dx1 = array[0],
+      dy1 = array[1],
+      dx2 = array[2],
+      dy2 = array[3],
+      dx3 = array[4],
+      dy3 = array[5],
+    )
+  }
 
-    CurveToKey -> pathNodesFromArgs(
-        args,
-        NUM_CURVE_TO_ARGS,
-    ) { array ->
-        PathNode.CurveTo(
-            x1 = array[0],
-            y1 = array[1],
-            x2 = array[2],
-            y2 = array[3],
-            x3 = array[4],
-            y3 = array[5],
-        )
-    }
+  CurveToKey -> pathNodesFromArgs(
+    args,
+    NUM_CURVE_TO_ARGS,
+  ) { array ->
+    PathNode.CurveTo(
+      x1 = array[0],
+      y1 = array[1],
+      x2 = array[2],
+      y2 = array[3],
+      x3 = array[4],
+      y3 = array[5],
+    )
+  }
 
-    RelativeReflectiveCurveToKey -> pathNodesFromArgs(
-        args,
-        NUM_REFLECTIVE_CURVE_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeReflectiveCurveTo(
-            x1 = array[0],
-            y1 = array[1],
-            x2 = array[2],
-            y2 = array[3],
-        )
-    }
+  RelativeReflectiveCurveToKey -> pathNodesFromArgs(
+    args,
+    NUM_REFLECTIVE_CURVE_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeReflectiveCurveTo(
+      x1 = array[0],
+      y1 = array[1],
+      x2 = array[2],
+      y2 = array[3],
+    )
+  }
 
-    ReflectiveCurveToKey -> pathNodesFromArgs(
-        args,
-        NUM_REFLECTIVE_CURVE_TO_ARGS,
-    ) { array ->
-        PathNode.ReflectiveCurveTo(
-            x1 = array[0],
-            y1 = array[1],
-            x2 = array[2],
-            y2 = array[3],
-        )
-    }
+  ReflectiveCurveToKey -> pathNodesFromArgs(
+    args,
+    NUM_REFLECTIVE_CURVE_TO_ARGS,
+  ) { array ->
+    PathNode.ReflectiveCurveTo(
+      x1 = array[0],
+      y1 = array[1],
+      x2 = array[2],
+      y2 = array[3],
+    )
+  }
 
-    RelativeQuadToKey -> pathNodesFromArgs(
-        args,
-        NUM_QUAD_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeQuadTo(
-            x1 = array[0],
-            y1 = array[1],
-            x2 = array[2],
-            y2 = array[3],
-        )
-    }
+  RelativeQuadToKey -> pathNodesFromArgs(
+    args,
+    NUM_QUAD_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeQuadTo(
+      x1 = array[0],
+      y1 = array[1],
+      x2 = array[2],
+      y2 = array[3],
+    )
+  }
 
-    QuadToKey -> pathNodesFromArgs(
-        args,
-        NUM_QUAD_TO_ARGS,
-    ) { array ->
-        PathNode.QuadTo(
-            x1 = array[0],
-            y1 = array[1],
-            x2 = array[2],
-            y2 = array[3],
-        )
-    }
+  QuadToKey -> pathNodesFromArgs(
+    args,
+    NUM_QUAD_TO_ARGS,
+  ) { array ->
+    PathNode.QuadTo(
+      x1 = array[0],
+      y1 = array[1],
+      x2 = array[2],
+      y2 = array[3],
+    )
+  }
 
-    RelativeReflectiveQuadToKey -> pathNodesFromArgs(
-        args,
-        NUM_REFLECTIVE_QUAD_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeReflectiveQuadTo(
-            x = array[0],
-            y = array[1],
-        )
-    }
+  RelativeReflectiveQuadToKey -> pathNodesFromArgs(
+    args,
+    NUM_REFLECTIVE_QUAD_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeReflectiveQuadTo(
+      x = array[0],
+      y = array[1],
+    )
+  }
 
-    ReflectiveQuadToKey -> pathNodesFromArgs(
-        args,
-        NUM_REFLECTIVE_QUAD_TO_ARGS,
-    ) { array ->
-        PathNode.ReflectiveQuadTo(
-            x = array[0],
-            y = array[1],
-        )
-    }
+  ReflectiveQuadToKey -> pathNodesFromArgs(
+    args,
+    NUM_REFLECTIVE_QUAD_TO_ARGS,
+  ) { array ->
+    PathNode.ReflectiveQuadTo(
+      x = array[0],
+      y = array[1],
+    )
+  }
 
-    RelativeArcToKey -> pathNodesFromArgs(
-        args,
-        NUM_ARC_TO_ARGS,
-    ) { array ->
-        PathNode.RelativeArcTo(
-            horizontalEllipseRadius = array[0],
-            verticalEllipseRadius = array[1],
-            theta = array[2],
-            isMoreThanHalf = array[3].compareTo(0.0f) != 0,
-            isPositiveArc = array[4].compareTo(0.0f) != 0,
-            arcStartDx = array[5],
-            arcStartDy = array[6],
-        )
-    }
+  RelativeArcToKey -> pathNodesFromArgs(
+    args,
+    NUM_ARC_TO_ARGS,
+  ) { array ->
+    PathNode.RelativeArcTo(
+      horizontalEllipseRadius = array[0],
+      verticalEllipseRadius = array[1],
+      theta = array[2],
+      isMoreThanHalf = array[3].compareTo(0.0f) != 0,
+      isPositiveArc = array[4].compareTo(0.0f) != 0,
+      arcStartDx = array[5],
+      arcStartDy = array[6],
+    )
+  }
 
-    ArcToKey -> pathNodesFromArgs(
-        args,
-        NUM_ARC_TO_ARGS,
-    ) { array ->
-        PathNode.ArcTo(
-            horizontalEllipseRadius = array[0],
-            verticalEllipseRadius = array[1],
-            theta = array[2],
-            isMoreThanHalf = array[3].compareTo(0.0f) != 0,
-            isPositiveArc = array[4].compareTo(0.0f) != 0,
-            arcStartX = array[5],
-            arcStartY = array[6],
-        )
-    }
+  ArcToKey -> pathNodesFromArgs(
+    args,
+    NUM_ARC_TO_ARGS,
+  ) { array ->
+    PathNode.ArcTo(
+      horizontalEllipseRadius = array[0],
+      verticalEllipseRadius = array[1],
+      theta = array[2],
+      isMoreThanHalf = array[3].compareTo(0.0f) != 0,
+      isPositiveArc = array[4].compareTo(0.0f) != 0,
+      arcStartX = array[5],
+      arcStartY = array[6],
+    )
+  }
 
-    else -> throw IllegalArgumentException("Unknown command for: $this")
+  else -> throw IllegalArgumentException("Unknown command for: $this")
 }
 
 private inline fun pathNodesFromArgs(
-    args: FloatArray,
-    numArgs: Int,
-    nodeFor: (subArray: FloatArray) -> PathNode,
+  args: FloatArray,
+  numArgs: Int,
+  nodeFor: (subArray: FloatArray) -> PathNode,
 ): List<PathNode> {
-    return (0..args.size - numArgs step numArgs).map { index ->
-        val subArray = args.slice(index until index + numArgs).toFloatArray()
-        val node = nodeFor(subArray)
-        when {
-            // According to the spec, if a MoveTo is followed by multiple pairs of coordinates,
-            // the subsequent pairs are treated as implicit corresponding LineTo commands.
-            node is PathNode.MoveTo && index > 0 -> PathNode.LineTo(
-                subArray[0],
-                subArray[1],
-            )
-            node is PathNode.RelativeMoveTo && index > 0 ->
-                PathNode.RelativeLineTo(
-                    subArray[0],
-                    subArray[1],
-                )
-            else -> node
-        }
+  return (0..args.size - numArgs step numArgs).map { index ->
+    val subArray = args.slice(index until index + numArgs).toFloatArray()
+    val node = nodeFor(subArray)
+    when {
+      // According to the spec, if a MoveTo is followed by multiple pairs of coordinates,
+      // the subsequent pairs are treated as implicit corresponding LineTo commands.
+      node is PathNode.MoveTo && index > 0 -> PathNode.LineTo(
+        subArray[0],
+        subArray[1],
+      )
+      node is PathNode.RelativeMoveTo && index > 0 ->
+        PathNode.RelativeLineTo(
+          subArray[0],
+          subArray[1],
+        )
+      else -> node
     }
+  }
 }
 
 /**

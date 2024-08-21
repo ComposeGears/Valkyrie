@@ -8,18 +8,18 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.p
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.NestedPack
 
 class NewPackInputHandler(
-    settings: ValkyriesSettings,
+  settings: ValkyriesSettings,
 ) : BasicInputHandler(
-    InputFieldState(
-        iconPackName = InputState(text = settings.iconPackName),
-        packageName = InputState(
-            text = PackageExtractor.getFrom(path = settings.iconPackDestination) ?: settings.packageName,
-        ),
-        nestedPacks = settings.nestedPacks.mapIndexed { index, nestedPack ->
-            NestedPack(
-                id = index.toString(),
-                inputFieldState = InputState(text = nestedPack),
-            )
-        },
+  InputFieldState(
+    iconPackName = InputState(text = settings.iconPackName),
+    packageName = InputState(
+      text = PackageExtractor.getFrom(path = settings.iconPackDestination) ?: settings.packageName,
     ),
+    nestedPacks = settings.nestedPacks.mapIndexed { index, nestedPack ->
+      NestedPack(
+        id = index.toString(),
+        inputFieldState = InputState(text = nestedPack),
+      )
+    },
+  ),
 )

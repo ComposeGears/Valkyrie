@@ -11,21 +11,21 @@ import androidx.compose.ui.graphics.Shape
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SingleChoiceSegmentedButtonRowScope.SegmentedButton(
-    selected: Boolean,
-    onClick: () -> Unit,
-    shape: Shape,
-    label: @Composable () -> Unit,
+  selected: Boolean,
+  onClick: () -> Unit,
+  shape: Shape,
+  label: @Composable () -> Unit,
 ) {
-    SegmentedButton(
-        shape = shape,
-        onClick = onClick,
-        selected = selected,
-        colors = SegmentedButtonDefaults.colors().copy(
-            activeContainerColor = MaterialTheme.colorScheme.primary,
-            activeContentColor = MaterialTheme.colorScheme.onPrimary,
-            activeBorderColor = MaterialTheme.colorScheme.primary,
-        ),
-        icon = {},
-        label = label,
-    )
+  SegmentedButton(
+    shape = shape,
+    onClick = onClick,
+    selected = selected,
+    colors = SegmentedButtonDefaults.colors().copy(
+      activeContainerColor = MaterialTheme.colorScheme.primary,
+      activeContentColor = MaterialTheme.colorScheme.onPrimary,
+      activeBorderColor = MaterialTheme.colorScheme.primary,
+    ),
+    icon = {},
+    label = label,
+  )
 }

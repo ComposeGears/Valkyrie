@@ -32,94 +32,94 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.util.buildPac
 import kotlinx.coroutines.Dispatchers
 
 val SimpleModeSetupScreen by navDestination<Unit> {
-    val navController = navController()
-    val viewModel = koinTiamatViewModel<SimpleModeSetupViewModel>()
+  val navController = navController()
+  val viewModel = koinTiamatViewModel<SimpleModeSetupViewModel>()
 
-    val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
+  val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
 
-    SimpleModeSetupScreenUI(
-        state = state,
-        onValueChange = viewModel::onValueChange,
-        onBack = {
-            navController.back(transition = navigationSlideInOut(false))
-        },
-        onNext = {
-            viewModel.saveSettings()
-            navController.navigate(
-                dest = SimpleConversionScreen,
-                transition = navigationSlideInOut(true),
-            )
-        },
-    )
+  SimpleModeSetupScreenUI(
+    state = state,
+    onValueChange = viewModel::onValueChange,
+    onBack = {
+      navController.back(transition = navigationSlideInOut(false))
+    },
+    onNext = {
+      viewModel.saveSettings()
+      navController.navigate(
+        dest = SimpleConversionScreen,
+        transition = navigationSlideInOut(true),
+      )
+    },
+  )
 }
 
 @Composable
 private fun SimpleModeSetupScreenUI(
-    state: SimpleModeSetupState,
-    onValueChange: (SimpleModeInputChange) -> Unit,
-    onBack: () -> Unit,
-    onNext: () -> Unit,
+  state: SimpleModeSetupState,
+  onValueChange: (SimpleModeInputChange) -> Unit,
+  onBack: () -> Unit,
+  onNext: () -> Unit,
 ) {
-    Column {
-        TopAppBar {
-            BackAction(onBack = onBack)
-            AppBarTitle(title = "Simple mode setup")
-        }
-        VerticalSpacer(36.dp)
-        Column(
-            modifier = Modifier
-                .widthIn(max = 420.dp)
-                .padding(horizontal = 16.dp)
-                .align(Alignment.CenterHorizontally),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            val packageName = state.packageName
-            InputField(
-                modifier = Modifier.fillMaxWidth(),
-                caption = "Package",
-                value = packageName.text,
-                isError = packageName.validationResult is ValidationResult.Error,
-                highlights = buildPackageHighlight(packageName.text),
-                onValueChange = {
-                    onValueChange(PackageName(it))
-                },
-                supportingText = if (packageName.validationResult is ValidationResult.Error) {
-                    {
-                        Text(
-                            text = when (packageName.validationResult.errorCriteria) {
-                                ErrorCriteria.EMPTY -> "Value can't be empty"
-                                ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid package"
-                                ErrorCriteria.FIRST_LETTER_LOWER_CASE -> error("not possible")
-                            },
-                        )
-                    }
-                } else {
-                    null
-                },
-            )
-            VerticalSpacer(24.dp)
-            Button(
-                modifier = Modifier
-                    .align(Alignment.End),
-                enabled = state.nextAvailable,
-                onClick = onNext,
-            ) {
-                Text(text = "Next")
-            }
-        }
+  Column {
+    TopAppBar {
+      BackAction(onBack = onBack)
+      AppBarTitle(title = "Simple mode setup")
     }
+    VerticalSpacer(36.dp)
+    Column(
+      modifier = Modifier
+        .widthIn(max = 420.dp)
+        .padding(horizontal = 16.dp)
+        .align(Alignment.CenterHorizontally),
+      horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+      val packageName = state.packageName
+      InputField(
+        modifier = Modifier.fillMaxWidth(),
+        caption = "Package",
+        value = packageName.text,
+        isError = packageName.validationResult is ValidationResult.Error,
+        highlights = buildPackageHighlight(packageName.text),
+        onValueChange = {
+          onValueChange(PackageName(it))
+        },
+        supportingText = if (packageName.validationResult is ValidationResult.Error) {
+          {
+            Text(
+              text = when (packageName.validationResult.errorCriteria) {
+                ErrorCriteria.EMPTY -> "Value can't be empty"
+                ErrorCriteria.INCONSISTENT_FORMAT -> "Invalid package"
+                ErrorCriteria.FIRST_LETTER_LOWER_CASE -> error("not possible")
+              },
+            )
+          }
+        } else {
+          null
+        },
+      )
+      VerticalSpacer(24.dp)
+      Button(
+        modifier = Modifier
+          .align(Alignment.End),
+        enabled = state.nextAvailable,
+        onClick = onNext,
+      ) {
+        Text(text = "Next")
+      }
+    }
+  }
 }
 
 @Preview
 @Composable
 private fun SimpleModeSetupScreenPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
-    SimpleModeSetupScreenUI(
-        state = SimpleModeSetupState(
-            packageName = InputState(text = "com.example"),
-            nextAvailable = true,
-        ),
-        onValueChange = {},
-        onBack = {},
-        onNext = {},
-    )
+  SimpleModeSetupScreenUI(
+    state = SimpleModeSetupState(
+      packageName = InputState(text = "com.example"),
+      nextAvailable = true,
+    ),
+    onValueChange = {},
+    onBack = {},
+    onNext = {},
+  )
 }

@@ -9,27 +9,27 @@ import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsActio
 import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.UpdatePreviewGeneration
 
 class SettingsViewModel(
-    private val inMemorySettings: InMemorySettings,
+  private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
-    val settings = inMemorySettings.settings
+  val settings = inMemorySettings.settings
 
-    fun onAction(settingsAction: SettingsAction) {
-        when (settingsAction) {
-            is UpdatePreviewGeneration -> updateGeneratePreview(settingsAction.generate)
-            is UpdateOutputFormat -> updateOutputFormat(settingsAction.outputFormat)
-        }
+  fun onAction(settingsAction: SettingsAction) {
+    when (settingsAction) {
+      is UpdatePreviewGeneration -> updateGeneratePreview(settingsAction.generate)
+      is UpdateOutputFormat -> updateOutputFormat(settingsAction.outputFormat)
     }
+  }
 
-    private fun updateGeneratePreview(generatePreview: Boolean) {
-        inMemorySettings.updateGeneratePreview(generatePreview)
-    }
+  private fun updateGeneratePreview(generatePreview: Boolean) {
+    inMemorySettings.updateGeneratePreview(generatePreview)
+  }
 
-    private fun updateOutputFormat(outputFormat: OutputFormat) {
-        inMemorySettings.updateOutputFormat(outputFormat)
-    }
+  private fun updateOutputFormat(outputFormat: OutputFormat) {
+    inMemorySettings.updateOutputFormat(outputFormat)
+  }
 
-    fun clearSettings() = inMemorySettings.clear()
+  fun clearSettings() = inMemorySettings.clear()
 
-    fun resetMode() = inMemorySettings.updateMode(Unspecified)
+  fun resetMode() = inMemorySettings.updateMode(Unspecified)
 }

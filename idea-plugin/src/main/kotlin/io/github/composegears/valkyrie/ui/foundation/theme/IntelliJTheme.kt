@@ -16,86 +16,86 @@ import javax.swing.UIManager
 
 @Composable
 fun rememberIntelliJTheme(): IntelliJTheme {
-    val themeExtractor = remember<IntelliJThemeExtractor> { IntelliJThemeExtractorImpl() }
-    val messageBus = remember { ApplicationManager.getApplication().messageBus.connect() }
+  val themeExtractor = remember<IntelliJThemeExtractor> { IntelliJThemeExtractorImpl() }
+  val messageBus = remember { ApplicationManager.getApplication().messageBus.connect() }
 
-    DisposableEffect(messageBus) {
-        messageBus.subscribe(
-            LafManagerListener.TOPIC,
-            ThemeChangeListener(themeExtractor::invalidate),
-        )
+  DisposableEffect(messageBus) {
+    messageBus.subscribe(
+      LafManagerListener.TOPIC,
+      ThemeChangeListener(themeExtractor::invalidate),
+    )
 
-        onDispose {
-            messageBus.disconnect()
-        }
+    onDispose {
+      messageBus.disconnect()
     }
+  }
 
-    return themeExtractor.theme
+  return themeExtractor.theme
 }
 
 private class ThemeChangeListener(
-    private val onChanged: () -> Unit,
+  private val onChanged: () -> Unit,
 ) : LafManagerListener {
 
-    override fun lookAndFeelChanged(source: LafManager) = onChanged()
+  override fun lookAndFeelChanged(source: LafManager) = onChanged()
 }
 
 data class IntelliJTheme(
-    val theme: Theme,
-    val primary: Color,
-    val background: Color,
-    val onBackground: Color,
+  val theme: Theme,
+  val primary: Color,
+  val background: Color,
+  val onBackground: Color,
 ) {
-    enum class Theme {
-        LIGHT,
-        DARK,
-    }
+  enum class Theme {
+    LIGHT,
+    DARK,
+  }
 }
 
 private interface IntelliJThemeExtractor {
-    val theme: IntelliJTheme
+  val theme: IntelliJTheme
 
-    fun invalidate()
+  fun invalidate()
 }
 
 private class IntelliJThemeExtractorImpl : IntelliJThemeExtractor {
 
-    override var theme by mutableStateOf(buildIntelliJTheme())
+  override var theme by mutableStateOf(buildIntelliJTheme())
 
-    override fun invalidate() {
-        theme = buildIntelliJTheme()
+  override fun invalidate() {
+    theme = buildIntelliJTheme()
+  }
+
+  private fun buildIntelliJTheme(): IntelliJTheme {
+    val theme = getCurrentTheme()
+    val primary = getColor(PRIMARY)
+    val background = getColor(BACKGROUND_KEY)
+    val onBackground = getColor(ON_BACKGROUND_KEY)
+    return IntelliJTheme(
+      theme = theme,
+      primary = primary,
+      background = background,
+      onBackground = onBackground,
+    )
+  }
+
+  @Suppress("UnstableApiUsage")
+  private fun getCurrentTheme(): Theme {
+    val info = LafManager.getInstance().currentUIThemeLookAndFeel
+
+    return when {
+      info == null || info.isDark -> Theme.DARK
+      else -> Theme.LIGHT
     }
+  }
 
-    private fun buildIntelliJTheme(): IntelliJTheme {
-        val theme = getCurrentTheme()
-        val primary = getColor(PRIMARY)
-        val background = getColor(BACKGROUND_KEY)
-        val onBackground = getColor(ON_BACKGROUND_KEY)
-        return IntelliJTheme(
-            theme = theme,
-            primary = primary,
-            background = background,
-            onBackground = onBackground,
-        )
-    }
+  private fun getColor(key: String): Color = UIManager.getColor(key).toComposeColor()
 
-    @Suppress("UnstableApiUsage")
-    private fun getCurrentTheme(): Theme {
-        val info = LafManager.getInstance().currentUIThemeLookAndFeel
+  companion object {
+    private const val PRIMARY = "Link.activeForeground"
+    private const val BACKGROUND_KEY = "Panel.background"
+    private const val ON_BACKGROUND_KEY = "Panel.foreground"
 
-        return when {
-            info == null || info.isDark -> Theme.DARK
-            else -> Theme.LIGHT
-        }
-    }
-
-    private fun getColor(key: String): Color = UIManager.getColor(key).toComposeColor()
-
-    companion object {
-        private const val PRIMARY = "Link.activeForeground"
-        private const val BACKGROUND_KEY = "Panel.background"
-        private const val ON_BACKGROUND_KEY = "Panel.foreground"
-
-        private fun AwtColor.toComposeColor(): Color = Color(red, green, blue, alpha)
-    }
+    private fun AwtColor.toComposeColor(): Color = Color(red, green, blue, alpha)
+  }
 }

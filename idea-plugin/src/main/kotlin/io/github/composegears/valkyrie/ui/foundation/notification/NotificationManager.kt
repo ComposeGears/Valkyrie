@@ -13,31 +13,31 @@ import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun rememberNotificationManager(): NotificationManager {
-    if (LocalInspectionMode.current) return NoOpNotificationManager
+  if (LocalInspectionMode.current) return NoOpNotificationManager
 
-    val project = LocalProject.current
-    return remember { NotificationManagerImpl(project) }
+  val project = LocalProject.current
+  return remember { NotificationManagerImpl(project) }
 }
 
 interface NotificationManager {
-    fun show(message: String)
+  fun show(message: String)
 }
 
 private object NoOpNotificationManager : NotificationManager {
-    override fun show(message: String) = Unit
+  override fun show(message: String) = Unit
 }
 
 private class NotificationManagerImpl(private val project: Project) : NotificationManager {
 
-    override fun show(message: String) {
-        val notification = NotificationGroupManager.getInstance()
-            .getNotificationGroup("valkyrie")
-            .createNotification(content = message, type = NotificationType.INFORMATION)
+  override fun show(message: String) {
+    val notification = NotificationGroupManager.getInstance()
+      .getNotificationGroup("valkyrie")
+      .createNotification(content = message, type = NotificationType.INFORMATION)
 
-        notification.notify(project)
+    notification.notify(project)
 
-        Timer().schedule(2.seconds.inWholeMilliseconds) {
-            notification.expire()
-        }
+    Timer().schedule(2.seconds.inWholeMilliseconds) {
+      notification.expire()
     }
+  }
 }

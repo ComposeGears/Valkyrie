@@ -15,45 +15,45 @@ import kotlinx.coroutines.flow.launchIn
 
 class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatViewModel() {
 
-    private val _state = MutableStateFlow(SimpleConversionState())
-    val state = _state.asStateFlow()
+  private val _state = MutableStateFlow(SimpleConversionState())
+  val state = _state.asStateFlow()
 
-    init {
-        _state
-            .combine(inMemorySettings.settings) { state, settings ->
-                if (state.lastPath != null) {
-                    updateIcon(state.lastPath, settings)
-                }
-            }
-            .launchIn(viewModelScope)
-    }
-
-    private fun updateIcon(path: Path, valkyriesSettings: ValkyriesSettings) {
-        val output = runCatching {
-            val parserOutput = IconParser.toVector(path)
-            ImageVectorGenerator.convert(
-                vector = parserOutput.vector,
-                kotlinName = parserOutput.kotlinName,
-                config = ImageVectorGeneratorConfig(
-                    packageName = valkyriesSettings.packageName,
-                    packName = "",
-                    nestedPackName = "",
-                    outputFormat = valkyriesSettings.outputFormat,
-                    generatePreview = valkyriesSettings.generatePreview,
-                ),
-            ).content
-        }.getOrElse {
-            it.message.orEmpty()
+  init {
+    _state
+      .combine(inMemorySettings.settings) { state, settings ->
+        if (state.lastPath != null) {
+          updateIcon(state.lastPath, settings)
         }
+      }
+      .launchIn(viewModelScope)
+  }
 
-        _state.updateState { copy(iconContent = output) }
+  private fun updateIcon(path: Path, valkyriesSettings: ValkyriesSettings) {
+    val output = runCatching {
+      val parserOutput = IconParser.toVector(path)
+      ImageVectorGenerator.convert(
+        vector = parserOutput.vector,
+        kotlinName = parserOutput.kotlinName,
+        config = ImageVectorGeneratorConfig(
+          packageName = valkyriesSettings.packageName,
+          packName = "",
+          nestedPackName = "",
+          outputFormat = valkyriesSettings.outputFormat,
+          generatePreview = valkyriesSettings.generatePreview,
+        ),
+      ).content
+    }.getOrElse {
+      it.message.orEmpty()
     }
 
-    fun selectPath(path: Path) {
-        _state.updateState { copy(lastPath = path) }
-    }
+    _state.updateState { copy(iconContent = output) }
+  }
 
-    fun reset() {
-        _state.updateState { copy(iconContent = null, lastPath = null) }
-    }
+  fun selectPath(path: Path) {
+    _state.updateState { copy(lastPath = path) }
+  }
+
+  fun reset() {
+    _state.updateState { copy(iconContent = null, lastPath = null) }
+  }
 }

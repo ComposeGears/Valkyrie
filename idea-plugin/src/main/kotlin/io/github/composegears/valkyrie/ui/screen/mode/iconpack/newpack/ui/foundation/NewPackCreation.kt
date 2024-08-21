@@ -30,71 +30,71 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.
 
 @Composable
 fun NewIconPackCreation(
-    state: NewPackModeState.PickedState,
-    onAction: (NewPackAction) -> Unit,
-    modifier: Modifier = Modifier,
-    onValueChange: (InputChange) -> Unit,
+  state: NewPackModeState.PickedState,
+  onAction: (NewPackAction) -> Unit,
+  modifier: Modifier = Modifier,
+  onValueChange: (InputChange) -> Unit,
 ) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+  Column(
+    modifier = modifier.fillMaxWidth(),
+    horizontalAlignment = Alignment.CenterHorizontally,
+  ) {
+    PackEditUi(
+      packEditState = state.packEditState,
+      onValueChange = onValueChange,
+      onAddNestedPack = { onAction(NewPackAction.AddNestedPack) },
+      onRemoveNestedPack = { onAction(NewPackAction.RemoveNestedPack(it)) },
+    )
+    VerticalSpacer(32.dp)
+    Row(
+      modifier = Modifier.fillMaxWidth(),
+      horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
     ) {
-        PackEditUi(
-            packEditState = state.packEditState,
-            onValueChange = onValueChange,
-            onAddNestedPack = { onAction(NewPackAction.AddNestedPack) },
-            onRemoveNestedPack = { onAction(NewPackAction.RemoveNestedPack(it)) },
-        )
-        VerticalSpacer(32.dp)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
-        ) {
-            IconButton(
-                imageVector = ValkyrieIcons.Visibility,
-                onClick = { onAction(PreviewPackObject) },
-                enabled = state.nextAvailable,
-            )
-            Button(
-                enabled = state.nextAvailable,
-                onClick = { onAction(NewPackAction.SavePack) },
-            ) {
-                Text(text = "Export and continue")
-            }
-        }
+      IconButton(
+        imageVector = ValkyrieIcons.Visibility,
+        onClick = { onAction(PreviewPackObject) },
+        enabled = state.nextAvailable,
+      )
+      Button(
+        enabled = state.nextAvailable,
+        onClick = { onAction(NewPackAction.SavePack) },
+      ) {
+        Text(text = "Export and continue")
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 private fun NewIconPackCreationPreview() = PreviewTheme {
-    NewIconPackCreation(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        state = NewPackModeState.PickedState(
-            packEditState = PackEditState(
-                inputFieldState = InputFieldState(
-                    iconPackName = InputState(text = "IconPackName"),
-                    packageName = InputState(text = "com.example.iconpack"),
-                    nestedPacks = listOf(
-                        NestedPack(
-                            id = "0",
-                            inputFieldState = InputState(
-                                text = "Outlined",
-                                validationResult = ValidationResult.Success,
-                            ),
-                        ),
-                        NestedPack(
-                            id = "1",
-                            inputFieldState = InputState(
-                                text = "",
-                                validationResult = ValidationResult.Error(ErrorCriteria.EMPTY),
-                            ),
-                        ),
-                    ),
-                ),
+  NewIconPackCreation(
+    modifier = Modifier.fillMaxWidth(0.8f),
+    state = NewPackModeState.PickedState(
+      packEditState = PackEditState(
+        inputFieldState = InputFieldState(
+          iconPackName = InputState(text = "IconPackName"),
+          packageName = InputState(text = "com.example.iconpack"),
+          nestedPacks = listOf(
+            NestedPack(
+              id = "0",
+              inputFieldState = InputState(
+                text = "Outlined",
+                validationResult = ValidationResult.Success,
+              ),
             ),
+            NestedPack(
+              id = "1",
+              inputFieldState = InputState(
+                text = "",
+                validationResult = ValidationResult.Error(ErrorCriteria.EMPTY),
+              ),
+            ),
+          ),
         ),
-        onAction = {},
-        onValueChange = {},
-    )
+      ),
+    ),
+    onAction = {},
+    onValueChange = {},
+  )
 }

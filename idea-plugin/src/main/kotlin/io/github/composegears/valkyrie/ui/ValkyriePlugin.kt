@@ -21,53 +21,53 @@ import org.koin.compose.koinInject
 
 @Composable
 fun ValkyriePlugin(
-    modifier: Modifier = Modifier,
+  modifier: Modifier = Modifier,
 ) {
-    val inMemorySettings = koinInject<InMemorySettings>()
+  val inMemorySettings = koinInject<InMemorySettings>()
 
-    val navController = rememberNavController(
-        destinations = arrayOf(
-            IntroScreen,
-            SimpleModeSetupScreen,
-            SimpleConversionScreen,
+  val navController = rememberNavController(
+    destinations = arrayOf(
+      IntroScreen,
+      SimpleModeSetupScreen,
+      SimpleConversionScreen,
 
-            IconPackCreationScreen,
-            IconPackConversionScreen,
+      IconPackCreationScreen,
+      IconPackConversionScreen,
 
-            CodePreviewScreen,
+      CodePreviewScreen,
 
-            SettingsScreen,
-        ),
-        startDestination = null,
-        configuration = {
-            if (current != null) return@rememberNavController
+      SettingsScreen,
+    ),
+    startDestination = null,
+    configuration = {
+      if (current != null) return@rememberNavController
 
-            val uiState = inMemorySettings.uiState
-            if (uiState.isNotEmpty()) {
-                runCatching {
-                    loadFromSavedState(uiState)
-                }
-            }
-            if (current != null) return@rememberNavController
-
-            val settings = inMemorySettings.current
-            val screen = when (settings.mode) {
-                Simple -> SimpleConversionScreen
-                IconPack -> IconPackConversionScreen
-                Unspecified -> IntroScreen
-            }
-            navigate(screen)
-        },
-    )
-
-    DisposableEffect(Unit) {
-        onDispose {
-            inMemorySettings.updateUIState(navController.getSavedState())
+      val uiState = inMemorySettings.uiState
+      if (uiState.isNotEmpty()) {
+        runCatching {
+          loadFromSavedState(uiState)
         }
-    }
+      }
+      if (current != null) return@rememberNavController
 
-    Navigation(
-        modifier = modifier.fillMaxSize(),
-        navController = navController,
-    )
+      val settings = inMemorySettings.current
+      val screen = when (settings.mode) {
+        Simple -> SimpleConversionScreen
+        IconPack -> IconPackConversionScreen
+        Unspecified -> IntroScreen
+      }
+      navigate(screen)
+    },
+  )
+
+  DisposableEffect(Unit) {
+    onDispose {
+      inMemorySettings.updateUIState(navController.getSavedState())
+    }
+  }
+
+  Navigation(
+    modifier = modifier.fillMaxSize(),
+    navController = navController,
+  )
 }

@@ -14,40 +14,40 @@ import androidx.compose.ui.unit.Dp
 
 @Composable
 inline fun VerticalSpacer(
-    dp: Dp,
-    modifier: Modifier = Modifier,
+  dp: Dp,
+  modifier: Modifier = Modifier,
 ) {
-    Spacer(modifier = modifier.height(dp))
+  Spacer(modifier = modifier.height(dp))
 }
 
 @Composable
 inline fun HorizontalSpacer(
-    dp: Dp,
-    modifier: Modifier = Modifier,
+  dp: Dp,
+  modifier: Modifier = Modifier,
 ) {
-    Spacer(modifier = modifier.width(dp))
+  Spacer(modifier = modifier.width(dp))
 }
 
 @Composable
 inline fun SizeSpacer(
-    size: Dp,
-    modifier: Modifier = Modifier,
+  size: Dp,
+  modifier: Modifier = Modifier,
 ) {
-    Spacer(modifier = modifier.size(size))
+  Spacer(modifier = modifier.size(size))
 }
 
 @Composable
 inline fun RowScope.WeightSpacer(
-    modifier: Modifier = Modifier,
-    weight: Float = 1f,
+  modifier: Modifier = Modifier,
+  weight: Float = 1f,
 ) {
-    Spacer(modifier = modifier.weight(weight))
+  Spacer(modifier = modifier.weight(weight))
 }
 
 @Composable
 inline fun ColumnScope.WeightSpacer(
-    modifier: Modifier = Modifier,
-    weight: Float = 1f,
+  modifier: Modifier = Modifier,
+  weight: Float = 1f,
 ) {
-    Spacer(modifier = modifier.weight(weight))
+  Spacer(modifier = modifier.weight(weight))
 }

@@ -10,15 +10,15 @@ import io.github.composegears.valkyrie.generator.ext.propertySpecBuilder
 internal fun String.backingPropertyName() = "_$this"
 
 internal fun backingPropertySpec(
-    name: String,
-    type: TypeName,
+  name: String,
+  type: TypeName,
 ) = propertySpecBuilder(name = name, type = type.nullable()) {
-    addAnnotation(suppressNamingAnnotation)
-    mutable()
-    addModifiers(KModifier.PRIVATE)
-    initializer("null")
+  addAnnotation(suppressNamingAnnotation)
+  mutable()
+  addModifiers(KModifier.PRIVATE)
+  initializer("null")
 }
 
 private val suppressNamingAnnotation = AnnotationSpec.builder(ClassNames.Suppress)
-    .addMember("%S", "ObjectPropertyName")
-    .build()
+  .addMember("%S", "ObjectPropertyName")
+  .build()

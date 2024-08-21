@@ -44,127 +44,127 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun IconPackPickerStateUi(
-    modifier: Modifier = Modifier,
-    onPickerEvent: (PickerEvent) -> Unit,
+  modifier: Modifier = Modifier,
+  onPickerEvent: (PickerEvent) -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
+  val scope = rememberCoroutineScope()
 
-    val multipleFilePicker = rememberMultipleFilesPicker()
-    val directoryPicker = rememberDirectoryPicker()
+  val multipleFilePicker = rememberMultipleFilesPicker()
+  val directoryPicker = rememberDirectoryPicker()
 
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        SelectableState(
-            onSelectPath = { paths ->
-                when {
-                    paths.size == 1 -> {
-                        val path = paths.first()
+  Box(
+    modifier = modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center,
+  ) {
+    SelectableState(
+      onSelectPath = { paths ->
+        when {
+          paths.size == 1 -> {
+            val path = paths.first()
 
-                        when {
-                            path.isDirectory() -> onPickerEvent(PickDirectory(path = path))
-                            path.isRegularFile() -> onPickerEvent(PickFiles(paths = paths))
-                        }
-                    }
-                    else -> onPickerEvent(PickFiles(paths = paths))
-                }
-            },
-            onPickDirectory = {
-                scope.launch {
-                    val path = directoryPicker.launch()
+            when {
+              path.isDirectory() -> onPickerEvent(PickDirectory(path = path))
+              path.isRegularFile() -> onPickerEvent(PickFiles(paths = paths))
+            }
+          }
+          else -> onPickerEvent(PickFiles(paths = paths))
+        }
+      },
+      onPickDirectory = {
+        scope.launch {
+          val path = directoryPicker.launch()
 
-                    if (path != null) {
-                        onPickerEvent(PickDirectory(path = path))
-                    }
-                }
-            },
-            onPickFiles = {
-                scope.launch {
-                    val paths = multipleFilePicker.launch()
+          if (path != null) {
+            onPickerEvent(PickDirectory(path = path))
+          }
+        }
+      },
+      onPickFiles = {
+        scope.launch {
+          val paths = multipleFilePicker.launch()
 
-                    if (paths.isNotEmpty()) {
-                        onPickerEvent(PickFiles(paths = paths))
-                    }
-                }
-            },
-        )
-    }
+          if (paths.isNotEmpty()) {
+            onPickerEvent(PickFiles(paths = paths))
+          }
+        }
+      },
+    )
+  }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SelectableState(
-    onPickDirectory: () -> Unit,
-    onPickFiles: () -> Unit,
-    onSelectPath: (List<Path>) -> Unit,
+  onPickDirectory: () -> Unit,
+  onPickFiles: () -> Unit,
+  onSelectPath: (List<Path>) -> Unit,
 ) {
-    val dragAndDropHandler = rememberMultiSelectDragAndDropHandler(onDrop = onSelectPath)
-    val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
+  val dragAndDropHandler = rememberMultiSelectDragAndDropHandler(onDrop = onSelectPath)
+  val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
-    DragAndDropBox(isDragging = isDragging) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                imageVector = ValkyrieIcons.Collections,
-                contentDescription = null,
-            )
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = "Drag & drop\n\nor",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleSmall,
-            )
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-            ) {
-                TextButton(onClick = onPickDirectory) {
-                    Text(text = "Pick dir")
-                }
-                TextButton(onClick = onPickFiles) {
-                    Text(text = "Pick files")
-                }
-            }
+  DragAndDropBox(isDragging = isDragging) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+      Icon(
+        imageVector = ValkyrieIcons.Collections,
+        contentDescription = null,
+      )
+      Text(
+        modifier = Modifier.padding(8.dp),
+        text = "Drag & drop\n\nor",
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.titleSmall,
+      )
+      FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+      ) {
+        TextButton(onClick = onPickDirectory) {
+          Text(text = "Pick dir")
         }
+        TextButton(onClick = onPickFiles) {
+          Text(text = "Pick files")
+        }
+      }
     }
+  }
 }
 
 @Composable
 private fun DragAndDropBox(
-    isDragging: Boolean,
-    modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit,
+  isDragging: Boolean,
+  modifier: Modifier = Modifier,
+  content: @Composable BoxScope.() -> Unit,
 ) {
-    val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-    val border by animateDpAsState(if (isDragging) 4.dp else 1.dp)
+  val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+  val border by animateDpAsState(if (isDragging) 4.dp else 1.dp)
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth(0.8f)
-            .heightIn(min = 300.dp)
-            .clip(MaterialTheme.shapes.small)
-            .dashedBorder(
-                strokeWidth = border,
-                gapWidth = 8.dp,
-                dashWidth = 8.dp,
-                color = dashColor,
-                shape = MaterialTheme.shapes.small,
-            )
-            .padding(2.dp)
-            .background(
-                color = when {
-                    isDragging -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
-                    else -> Color.Transparent
-                },
-                shape = MaterialTheme.shapes.small,
-            ),
-        contentAlignment = Alignment.Center,
-        content = content,
-    )
+  Box(
+    modifier = modifier
+      .fillMaxWidth(0.8f)
+      .heightIn(min = 300.dp)
+      .clip(MaterialTheme.shapes.small)
+      .dashedBorder(
+        strokeWidth = border,
+        gapWidth = 8.dp,
+        dashWidth = 8.dp,
+        color = dashColor,
+        shape = MaterialTheme.shapes.small,
+      )
+      .padding(2.dp)
+      .background(
+        color = when {
+          isDragging -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
+          else -> Color.Transparent
+        },
+        shape = MaterialTheme.shapes.small,
+      ),
+    contentAlignment = Alignment.Center,
+    content = content,
+  )
 }
 
 @Preview
 @Composable
 private fun PreviewPickerState() = PreviewTheme {
-    IconPackPickerStateUi(onPickerEvent = {})
+  IconPackPickerStateUi(onPickerEvent = {})
 }

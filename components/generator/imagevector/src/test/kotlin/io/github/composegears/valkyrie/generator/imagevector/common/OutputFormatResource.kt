@@ -6,9 +6,9 @@ import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.Backin
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
 
 fun OutputFormat.toResourceText(
-    pathToBackingProperty: String,
-    pathToLazyProperty: String,
+  pathToBackingProperty: String,
+  pathToLazyProperty: String,
 ): String = when (this) {
-    BackingProperty -> getResourceText(pathToBackingProperty)
-    LazyProperty -> getResourceText(pathToLazyProperty)
+  BackingProperty -> getResourceText(pathToBackingProperty)
+  LazyProperty -> getResourceText(pathToLazyProperty)
 }
