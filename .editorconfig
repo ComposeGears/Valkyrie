@@ -22,3 +22,6 @@ ktlint_standard_function-expression-body = disabled
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.xml]
+indent_size = 4
