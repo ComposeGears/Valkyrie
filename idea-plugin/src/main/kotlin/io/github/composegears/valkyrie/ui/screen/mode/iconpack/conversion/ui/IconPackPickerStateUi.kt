@@ -26,6 +26,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
+import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.dnd.rememberMultiSelectDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
@@ -52,10 +54,11 @@ fun IconPackPickerStateUi(
     val multipleFilePicker = rememberMultipleFilesPicker()
     val directoryPicker = rememberDirectoryPicker()
 
-    Box(
+    Column(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        WeightSpacer(weight = 0.3f)
         SelectableState(
             onSelectPath = { paths ->
                 when {
@@ -89,6 +92,7 @@ fun IconPackPickerStateUi(
                 }
             },
         )
+        WeightSpacer(weight = 0.7f)
     }
 }
 
