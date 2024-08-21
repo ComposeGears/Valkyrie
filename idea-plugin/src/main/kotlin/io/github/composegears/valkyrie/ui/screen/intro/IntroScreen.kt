@@ -34,6 +34,7 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
 import io.github.composegears.valkyrie.ui.foundation.icons.SimpleConversion
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
@@ -79,7 +80,7 @@ private fun IntroScreenUI(
     openSettings: () -> Unit,
     onModeChange: (Mode) -> Unit,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box {
         IconButton(
             modifier = Modifier
                 .padding(end = 8.dp)
@@ -90,35 +91,41 @@ private fun IntroScreenUI(
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-                text = "Welcome to Valkyrie",
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-            )
-            VerticalSpacer(42.dp)
-            Text(
-                text = "Choose conversion mode",
-                style = MaterialTheme.typography.labelSmall,
-                color = LocalContentColor.current.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center,
-            )
-            VerticalSpacer(8.dp)
+            WeightSpacer(weight = 0.3f)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = "Welcome to Valkyrie",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                )
+                VerticalSpacer(42.dp)
+                Text(
+                    text = "Choose conversion mode",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = LocalContentColor.current.copy(alpha = 0.5f),
+                    textAlign = TextAlign.Center,
+                )
+                VerticalSpacer(8.dp)
 
-            SelectableCard(
-                onClick = { onModeChange(Simple) },
-                image = ValkyrieIcons.SimpleConversion,
-                title = "Simple",
-                description = "One-click conversion from SVG/XML into ImageVector",
-            )
-            VerticalSpacer(16.dp)
-            SelectableCard(
-                onClick = { onModeChange(IconPack) },
-                image = ValkyrieIcons.BatchProcessing,
-                title = "IconPack",
-                description = "Create organized icon pack with batch export into your project",
-            )
+                SelectableCard(
+                    onClick = { onModeChange(Simple) },
+                    image = ValkyrieIcons.SimpleConversion,
+                    title = "Simple",
+                    description = "One-click conversion from SVG/XML into ImageVector",
+                )
+                VerticalSpacer(16.dp)
+                SelectableCard(
+                    onClick = { onModeChange(IconPack) },
+                    image = ValkyrieIcons.BatchProcessing,
+                    title = "IconPack",
+                    description = "Create organized icon pack with batch export into your project",
+                )
+            }
+            WeightSpacer(weight = 0.7f)
         }
         Text(
             modifier = Modifier

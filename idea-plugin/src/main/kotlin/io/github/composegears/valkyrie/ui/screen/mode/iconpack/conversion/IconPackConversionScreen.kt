@@ -40,8 +40,11 @@ import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
+import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
+import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
@@ -87,6 +90,9 @@ val IconPackConversionScreen by navDestination<Unit> {
     IconPackConversionUi(
         state = state,
         settings = settings,
+        onBack = {
+            navController.back(transition = navigationSlideInOut(false))
+        },
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
@@ -107,6 +113,7 @@ val IconPackConversionScreen by navDestination<Unit> {
 private fun IconPackConversionUi(
     state: IconPackConversionState,
     settings: ValkyriesSettings,
+    onBack: () -> Unit,
     openSettings: () -> Unit,
     onPickEvent: (PickerEvent) -> Unit,
     updatePack: (BatchIcon, String) -> Unit,
@@ -143,6 +150,9 @@ private fun IconPackConversionUi(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar {
+                if (state is IconsPickering) {
+                    BackAction(onBack = onBack)
+                }
                 if (state is BatchProcessing.IconPackCreationState) {
                     ClearAction(onClear = onReset)
                 }
@@ -222,6 +232,32 @@ private fun LoadingStateUi(message: String) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
+    IconPackConversionUi(
+        state = IconsPickering,
+        settings = ValkyriesSettings(
+            mode = Mode.IconPack,
+            iconPackName = "MyPack",
+            packageName = "",
+            iconPackDestination = "",
+            nestedPacks = emptyList(),
+            outputFormat = OutputFormat.BackingProperty,
+            generatePreview = true,
+        ),
+        onBack = {},
+        openSettings = {},
+        onPickEvent = {},
+        updatePack = { _, _ -> },
+        onDeleteIcon = {},
+        onReset = {},
+        onPreviewClick = {},
+        onExport = {},
+        onRenameIcon = { _, _ -> },
+    )
 }
 
 @Preview

@@ -56,6 +56,9 @@ fun ValkyriePlugin(
                 IconPack -> IconPackConversionScreen
                 Unspecified -> IntroScreen
             }
+            editBackStack {
+                add(IntroScreen)
+            }
             navigate(screen)
         },
     )

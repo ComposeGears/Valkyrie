@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,6 +20,7 @@ import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.intellij.openapi.ide.CopyPasteManager
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
+import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
 import io.github.composegears.valkyrie.ui.foundation.CopyAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
@@ -49,6 +49,9 @@ val SimpleConversionScreen by navDestination<Unit> {
     ConversionUi(
         state = state,
         onSelectPath = viewModel::selectPath,
+        onBack = {
+            navController.back(transition = navigationSlideInOut(false))
+        },
         openSettings = {
             navController.navigate(
                 dest = SettingsScreen,
@@ -62,6 +65,7 @@ val SimpleConversionScreen by navDestination<Unit> {
 @Composable
 private fun ConversionUi(
     state: SimpleConversionState,
+    onBack: () -> Unit,
     onSelectPath: (Path) -> Unit,
     openSettings: () -> Unit,
     resetIconContent: () -> Unit,
@@ -72,6 +76,7 @@ private fun ConversionUi(
 
     PluginUI(
         content = state.iconContent,
+        onBack = onBack,
         onChoosePath = {
             scope.launch {
                 val path = filePicker.launch()
@@ -95,6 +100,7 @@ private fun ConversionUi(
 @Composable
 private fun PluginUI(
     content: String?,
+    onBack: () -> Unit,
     onChoosePath: () -> Unit,
     onClear: () -> Unit,
     onCopy: () -> Unit,
@@ -103,6 +109,7 @@ private fun PluginUI(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar {
+            BackAction(onBack = onBack)
             AppBarTitle(title = "Simple conversion")
             WeightSpacer()
             if (content != null) {
@@ -118,14 +125,16 @@ private fun PluginUI(
                 text = content,
             )
         } else {
-            Box(
+            Column(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                WeightSpacer(weight = 0.3f)
                 SelectableState(
                     onSelectPath = onSelectPath,
                     onChoosePath = onChoosePath,
                 )
+                WeightSpacer(weight = 0.7f)
             }
         }
     }
@@ -169,5 +178,6 @@ private fun SimpleConversionScreenPreview() = PreviewTheme {
         onSelectPath = {},
         openSettings = {},
         resetIconContent = {},
+        onBack = {},
     )
 }

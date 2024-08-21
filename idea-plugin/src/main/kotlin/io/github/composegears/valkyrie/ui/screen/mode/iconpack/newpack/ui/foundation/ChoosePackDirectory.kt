@@ -113,6 +113,7 @@ fun ChoosePackDirectory(
                 }
             }
         }
+        VerticalSpacer(16.dp)
         Button(
             modifier = Modifier.align(Alignment.End),
             enabled = state.nextAvailable,
