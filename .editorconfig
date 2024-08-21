@@ -2,12 +2,13 @@ root = true
 
 [*]
 charset = utf-8
-indent_size = 4
+indent_size = 2
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.{kt,kts}]
+indent_size = 4
 ij_kotlin_imports_layout = *
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
@@ -21,3 +22,6 @@ ktlint_standard_function-expression-body = disabled
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.xml]
+indent_size = 4
