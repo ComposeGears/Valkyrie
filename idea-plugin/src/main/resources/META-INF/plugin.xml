@@ -31,13 +31,13 @@ Allows to create organized icon pack with an extension property of you pack obje
     <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-      <toolWindow id="Valkyrie"
-                  anchor="right"
-                  doNotActivateOnStart="false"
-                  factoryClass="io.github.composegears.valkyrie.AppToolWindowFactory"
-                  icon="icons/ic_logo_tool_window.svg"/>
+        <toolWindow id="Valkyrie"
+                    anchor="right"
+                    doNotActivateOnStart="false"
+                    factoryClass="io.github.composegears.valkyrie.AppToolWindowFactory"
+                    icon="icons/ic_logo_tool_window.svg"/>
 
-      <notificationGroup id="valkyrie" displayType="BALLOON"/>
+        <notificationGroup id="valkyrie" displayType="BALLOON"/>
     </extensions>
 
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
