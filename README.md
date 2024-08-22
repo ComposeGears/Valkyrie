@@ -338,7 +338,7 @@ public val Add: ImageVector
 - Android Studio Koala+
 
 > [!IMPORTANT]
-> K2 mode available starting from IntelliJ IDEA 2024.2.1 ([more details](https://kotlin.github.io/analysis-api/migrating-from-k1.html#declaring-compatibility-with-the-k2-kotlin-mode))
+> K2 mode is available starting from IntelliJ IDEA 2024.2.1 ([more details](https://kotlin.github.io/analysis-api/migrating-from-k1.html#declaring-compatibility-with-the-k2-kotlin-mode))
 
 ## Installation
 
