@@ -26,7 +26,6 @@ allprojects {
 
     plugins.withId(rootProject.libs.plugins.kotlin.compose.get().pluginId) {
         extensions.configure<ComposeCompilerGradlePluginExtension> {
-            enableStrongSkippingMode = true
             stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
         }
     }
