@@ -12,9 +12,9 @@ dependencies {
     implementation(projects.components.ir)
     implementation(projects.components.psi.imagevector)
 
+    implementation(compose.material3)
     implementation(compose.ui)
 
-    testImplementation(compose.material3)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
     // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-faq.html#junit5-test-framework-refers-to-junit4

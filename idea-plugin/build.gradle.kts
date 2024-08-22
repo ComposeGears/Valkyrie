@@ -16,6 +16,7 @@ dependencies {
     implementation(projects.components.parser.ktfile)
     implementation(projects.components.parser.svgxml)
     implementation(projects.components.psi.iconpack)
+    implementation(projects.components.psi.imagevector)
 
     compileOnly(compose.desktop.currentOs)
     implementation(compose.desktop.common)

@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrImageVector
@@ -39,11 +40,14 @@ import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode.IrGroup
 import io.github.composegears.valkyrie.ir.IrVectorNode.IrPath
 
-internal fun IrImageVector.toComposeImageVector(): ImageVector {
+fun IrImageVector.toComposeImageVector(
+    defaultWidth: Dp = this.defaultWidth.dp,
+    defaultHeight: Dp = this.defaultHeight.dp,
+): ImageVector {
     return ImageVector.Builder(
         name = name,
-        defaultWidth = defaultWidth.dp,
-        defaultHeight = defaultHeight.dp,
+        defaultWidth = defaultWidth,
+        defaultHeight = defaultHeight,
         viewportWidth = viewportWidth,
         viewportHeight = viewportHeight,
         autoMirror = autoMirror,
