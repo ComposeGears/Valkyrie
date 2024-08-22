@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ba
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -14,12 +13,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ui.foundation.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.SizeSpacer
+import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
+import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
@@ -48,28 +47,10 @@ fun IconPreviewBox(
             },
         contentAlignment = Alignment.Center,
     ) {
-        when (bgType) {
-            BgType.Black -> {
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(Color.Black),
-                )
-            }
-            BgType.White -> {
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(Color.White),
-                )
-            }
-            BgType.PixelGrid -> {
-                PixelGrid(
-                    modifier = Modifier.matchParentSize(),
-                    gridSize = 2.dp,
-                )
-            }
-        }
+        PreviewBackground(
+            bgType = bgType,
+            modifier = Modifier.matchParentSize(),
+        )
 
         val iconPainter by produceState<Painter?>(initialValue = null) {
             value = withContext(Dispatchers.Default) {
@@ -85,19 +66,6 @@ fun IconPreviewBox(
                 contentDescription = null,
             )
         }
-    }
-}
-
-private enum class BgType {
-    Black,
-    White,
-    PixelGrid,
-    ;
-
-    fun next(): BgType = when (this) {
-        Black -> White
-        White -> PixelGrid
-        PixelGrid -> Black
     }
 }
 
