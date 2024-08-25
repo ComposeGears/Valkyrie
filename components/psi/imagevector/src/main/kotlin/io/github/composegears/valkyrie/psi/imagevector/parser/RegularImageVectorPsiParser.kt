@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.psi.imagevector.parser
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.psi.extension.childOfType
@@ -12,7 +11,6 @@ import io.github.composegears.valkyrie.psi.imagevector.common.parseFill
 import io.github.composegears.valkyrie.psi.imagevector.common.parseFloatArg
 import io.github.composegears.valkyrie.psi.imagevector.common.parsePathNodes
 import io.github.composegears.valkyrie.psi.imagevector.common.parseStroke
-import io.github.composegears.valkyrie.psi.imagevector.common.toComposeImageVector
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFile
@@ -20,7 +18,7 @@ import org.jetbrains.kotlin.psi.KtProperty
 
 internal object RegularImageVectorPsiParser {
 
-    fun parse(ktFile: KtFile): ImageVector? {
+    fun parse(ktFile: KtFile): IrImageVector? {
         val property = ktFile.childOfType<KtProperty>() ?: return null
 
         val blockBody = property.getter?.bodyBlockExpression
@@ -36,7 +34,7 @@ internal object RegularImageVectorPsiParser {
             viewportWidth = ktImageVector.viewportWidth,
             viewportHeight = ktImageVector.viewportHeight,
             vectorNodes = blockBody.parseApplyBlock(),
-        ).toComposeImageVector()
+        )
     }
 
     private fun KtBlockExpression.parseImageVectorParams(): IrImageVector? {

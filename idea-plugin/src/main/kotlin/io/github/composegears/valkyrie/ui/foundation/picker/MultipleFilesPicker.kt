@@ -9,8 +9,8 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Condition
 import com.intellij.openapi.vfs.VirtualFile
-import io.github.composegears.valkyrie.parser.isSvg
-import io.github.composegears.valkyrie.parser.isXml
+import io.github.composegears.valkyrie.extensions.isSvg
+import io.github.composegears.valkyrie.extensions.isXml
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
