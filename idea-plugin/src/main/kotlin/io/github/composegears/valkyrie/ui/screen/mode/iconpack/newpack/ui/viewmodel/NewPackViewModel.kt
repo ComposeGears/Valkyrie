@@ -4,7 +4,7 @@ import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
-import io.github.composegears.valkyrie.parser.PackageExtractor
+import io.github.composegears.valkyrie.parser.svgxml.PackageExtractor
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange

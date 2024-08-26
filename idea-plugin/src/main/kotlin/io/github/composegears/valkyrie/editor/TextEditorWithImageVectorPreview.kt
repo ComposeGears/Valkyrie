@@ -21,7 +21,7 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.util.ui.JBUI
-import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
+import io.github.composegears.valkyrie.parser.ktfile.KtFileToImageVectorParser
 import io.github.composegears.valkyrie.ui.foundation.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import java.awt.Dimension
@@ -69,7 +69,7 @@ private class ImageVectorPreviewEditor(
                             if (ktFile == null) {
                                 null
                             } else {
-                                ImageVectorPsiParser.parseToImageVector(ktFile)
+                                KtFileToImageVectorParser.parse(ktFile)
                             }
                         }
 

@@ -35,7 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.parser.IconParser
+import io.github.composegears.valkyrie.parser.svgxml.IconParser
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility

@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.parser.IconParser
+import io.github.composegears.valkyrie.parser.svgxml.IconParser
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState

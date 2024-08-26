@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.psi.imagevector.parser
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrImageVector
@@ -11,7 +10,6 @@ import io.github.composegears.valkyrie.psi.extension.childOfType
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractPathFillType
 import io.github.composegears.valkyrie.psi.imagevector.common.parsePathNodes
-import io.github.composegears.valkyrie.psi.imagevector.common.toComposeImageVector
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFile
@@ -20,7 +18,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 internal object MaterialImageVectorPsiParser {
 
-    fun parse(ktFile: KtFile): ImageVector? {
+    fun parse(ktFile: KtFile): IrImageVector? {
         val property = ktFile.childOfType<KtProperty>() ?: return null
         val blockBody = property.getter?.bodyBlockExpression ?: return null
 
@@ -36,7 +34,7 @@ internal object MaterialImageVectorPsiParser {
             viewportHeight = 24f,
             autoMirror = materialIconCall.extractAutoMirror(),
             vectorNodes = blockBody.parseMaterialPath(),
-        ).toComposeImageVector()
+        )
     }
 
     private fun KtCallExpression.extractIconName(): String {
