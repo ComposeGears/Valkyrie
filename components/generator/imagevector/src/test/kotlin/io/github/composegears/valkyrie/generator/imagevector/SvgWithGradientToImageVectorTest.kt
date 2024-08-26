@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
-import io.github.composegears.valkyrie.parser.svgxml.IconParser
+import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
@@ -14,7 +14,7 @@ class SvgWithGradientToImageVectorTest {
     @EnumSource(value = OutputFormat::class)
     fun `svg linear gradient parsing`(outputFormat: OutputFormat) {
         val icon = getResourcePath("svg/ic_linear_gradient.svg")
-        val parserOutput = IconParser.toVector(icon)
+        val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
@@ -38,7 +38,7 @@ class SvgWithGradientToImageVectorTest {
     @EnumSource(value = OutputFormat::class)
     fun `svg radial gradient parsing`(outputFormat: OutputFormat) {
         val icon = getResourcePath("svg/ic_radial_gradient.svg")
-        val parserOutput = IconParser.toVector(icon)
+        val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
@@ -62,7 +62,7 @@ class SvgWithGradientToImageVectorTest {
     @EnumSource(value = OutputFormat::class)
     fun `svg linear gradient with stroke parsing`(outputFormat: OutputFormat) {
         val icon = getResourcePath("svg/ic_linear_gradient_with_stroke.svg")
-        val parserOutput = IconParser.toVector(icon)
+        val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,

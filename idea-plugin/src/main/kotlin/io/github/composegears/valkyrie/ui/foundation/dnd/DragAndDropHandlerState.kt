@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalInspectionMode
+import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.ui.foundation.dnd.DragAndDropHandlerState.Companion.dragging
 import io.github.composegears.valkyrie.ui.foundation.dnd.DragAndDropHandlerState.Companion.notDragging
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
@@ -94,7 +95,7 @@ private class SimpleDropTargetListener(
         val paths = transferable.transferDataFlavors
             .asSequence()
             .filter { it.isFlavorJavaFileListType }
-            .mapNotNull { transferable.getTransferData(it) as? List<*> }
+            .mapNotNull { transferable.getTransferData(it).safeAs<List<*>>() }
             .flatten()
             .filterIsInstance<File>()
             .map(File::toPath)

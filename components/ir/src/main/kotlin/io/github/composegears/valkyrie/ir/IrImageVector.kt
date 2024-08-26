@@ -7,11 +7,11 @@ data class IrImageVector(
     val defaultHeight: Float,
     val viewportWidth: Float,
     val viewportHeight: Float,
-    val vectorNodes: List<IrVectorNode>,
+    val nodes: List<IrVectorNode>,
 )
 
 sealed interface IrVectorNode {
-    data class IrGroup(val nodes: List<IrPath>) : IrVectorNode
+    data class IrGroup(val paths: MutableList<IrPath>) : IrVectorNode
 
     data class IrPath(
         val name: String = "",
@@ -24,7 +24,7 @@ sealed interface IrVectorNode {
         val strokeLineJoin: IrStrokeLineJoin = IrStrokeLineJoin.Miter,
         val strokeLineMiter: Float = 4f,
         val pathFillType: IrPathFillType = IrPathFillType.NonZero,
-        val nodes: List<IrPathNode>,
+        val paths: List<IrPathNode>,
     ) : IrVectorNode
 }
 
@@ -53,14 +53,14 @@ sealed interface IrFill {
         val startX: Float,
         val endY: Float,
         val endX: Float,
-        val colorStops: List<ColorStop> = listOf(),
+        val colorStops: MutableList<ColorStop> = mutableListOf(),
     ) : IrFill
 
     data class RadialGradient(
         val radius: Float,
         val centerX: Float,
         val centerY: Float,
-        val colorStops: List<ColorStop> = listOf(),
+        val colorStops: MutableList<ColorStop> = mutableListOf(),
     ) : IrFill
 
     data class ColorStop(

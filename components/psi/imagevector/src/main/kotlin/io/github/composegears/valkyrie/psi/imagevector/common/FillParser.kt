@@ -40,7 +40,7 @@ private fun KtCallExpression.parseCallExpression(): IrFill? {
 }
 
 private fun KtCallExpression.parseLinearGradient(): IrFill.LinearGradient? {
-    var colorStops = listOf<IrFill.ColorStop>()
+    var colorStops = mutableListOf<IrFill.ColorStop>()
     var startX = 0f
     var startY = 0f
     var endX = 0f
@@ -52,7 +52,7 @@ private fun KtCallExpression.parseLinearGradient(): IrFill.LinearGradient? {
 
         when (argName) {
             "colorStops" -> {
-                colorStops = argValue.safeAs<KtCallExpression>()?.parseColorStops().orEmpty()
+                colorStops = argValue.safeAs<KtCallExpression>()?.parseColorStops().orEmpty().toMutableList()
             }
             "start" -> {
                 val startExpr = argValue.safeAs<KtCallExpression>()
@@ -80,7 +80,7 @@ private fun KtCallExpression.parseLinearGradient(): IrFill.LinearGradient? {
 }
 
 private fun KtCallExpression.parseRadialGradient(): IrFill.RadialGradient? {
-    var colorStops = listOf<IrFill.ColorStop>()
+    var colorStops = mutableListOf<IrFill.ColorStop>()
     var centerX = 0f
     var centerY = 0f
     var gradientRadius = 0f
@@ -91,7 +91,7 @@ private fun KtCallExpression.parseRadialGradient(): IrFill.RadialGradient? {
 
         when (argName) {
             "colorStops" -> {
-                colorStops = argValue.safeAs<KtCallExpression>()?.parseColorStops().orEmpty()
+                colorStops = argValue.safeAs<KtCallExpression>()?.parseColorStops().orEmpty().toMutableList()
             }
             "center" -> {
                 val centerExpr = argValue.safeAs<KtCallExpression>()

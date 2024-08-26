@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
-import androidx.compose.material.icons.generator.vector.Vector
+import io.github.composegears.valkyrie.ir.IrImageVector
 
 data class ImageVectorGeneratorConfig(
     val packageName: String,
@@ -35,7 +35,7 @@ data class ImageVectorSpecOutput(
 object ImageVectorGenerator {
 
     fun convert(
-        vector: Vector,
+        vector: IrImageVector,
         kotlinName: String,
         config: ImageVectorGeneratorConfig,
     ): ImageVectorSpecOutput = ImageVectorFileSpec(

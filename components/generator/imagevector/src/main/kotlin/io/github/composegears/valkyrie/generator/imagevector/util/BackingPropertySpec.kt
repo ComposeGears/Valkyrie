@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.generator.imagevector.util
 
-import androidx.compose.material.icons.generator.ClassNames
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName

@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.parser.svgxml.IconParser
+import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
@@ -30,7 +30,7 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
 
     private fun updateIcon(path: Path, valkyriesSettings: ValkyriesSettings) {
         val output = runCatching {
-            val parserOutput = IconParser.toVector(path)
+            val parserOutput = SvgXmlParser.toIrImageVector(path)
             ImageVectorGenerator.convert(
                 vector = parserOutput.vector,
                 kotlinName = parserOutput.kotlinName,
