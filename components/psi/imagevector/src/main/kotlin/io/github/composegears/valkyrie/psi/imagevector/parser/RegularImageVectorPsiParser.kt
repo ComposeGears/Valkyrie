@@ -33,7 +33,7 @@ internal object RegularImageVectorPsiParser {
             defaultHeight = ktImageVector.defaultHeight,
             viewportWidth = ktImageVector.viewportWidth,
             viewportHeight = ktImageVector.viewportHeight,
-            vectorNodes = blockBody.parseApplyBlock(),
+            nodes = blockBody.parseApplyBlock(),
         )
     }
 
@@ -68,7 +68,7 @@ internal object RegularImageVectorPsiParser {
             defaultHeight = defaultHeight,
             viewportWidth = viewportWidth,
             viewportHeight = viewportHeight,
-            vectorNodes = emptyList(),
+            nodes = emptyList(),
         )
     }
 
@@ -99,10 +99,11 @@ internal object RegularImageVectorPsiParser {
                 val groupBlock = groupLambda?.bodyExpression
 
                 vectorNodes += IrVectorNode.IrGroup(
-                    nodes = groupBlock?.statements
+                    paths = groupBlock?.statements
                         ?.filterIsInstance<KtCallExpression>()
                         ?.map { it.parsePath() }
-                        .orEmpty(),
+                        .orEmpty()
+                        .toMutableList(),
                 )
             }
         }
@@ -124,7 +125,7 @@ internal object RegularImageVectorPsiParser {
             strokeLineJoin = extractStrokeJoin(),
             strokeLineMiter = parseFloatArg("strokeLineMiter") ?: 4f,
             pathFillType = extractPathFillType(),
-            nodes = pathBody?.parsePathNodes().orEmpty(),
+            paths = pathBody?.parsePathNodes().orEmpty(),
         )
     }
 }

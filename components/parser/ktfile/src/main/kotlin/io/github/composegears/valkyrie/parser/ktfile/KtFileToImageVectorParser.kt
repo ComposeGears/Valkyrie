@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.parser.ktfile
 
 import androidx.compose.ui.graphics.vector.ImageVector
+import io.github.composegears.valkyrie.parser.ktfile.util.toComposeImageVector
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import org.jetbrains.kotlin.psi.KtFile
 

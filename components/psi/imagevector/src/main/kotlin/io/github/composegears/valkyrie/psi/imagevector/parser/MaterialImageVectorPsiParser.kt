@@ -33,7 +33,7 @@ internal object MaterialImageVectorPsiParser {
             viewportWidth = 24f,
             viewportHeight = 24f,
             autoMirror = materialIconCall.extractAutoMirror(),
-            vectorNodes = blockBody.parseMaterialPath(),
+            nodes = blockBody.parseMaterialPath(),
         )
     }
 
@@ -73,7 +73,7 @@ internal object MaterialImageVectorPsiParser {
                 strokeLineJoin = IrStrokeLineJoin.Bevel,
                 strokeLineMiter = 1f,
                 pathFillType = materialPathCall.extractPathFillType(),
-                nodes = pathBody.parsePathNodes(),
+                paths = pathBody.parsePathNodes(),
             ),
         )
     }

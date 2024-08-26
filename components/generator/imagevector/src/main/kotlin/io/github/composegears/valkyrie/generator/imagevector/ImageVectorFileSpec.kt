@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
-import androidx.compose.material.icons.generator.vector.Vector
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.generator.imagevector.spec.BackingPropertySpec
 import io.github.composegears.valkyrie.generator.imagevector.spec.LazyPropertySpec
+import io.github.composegears.valkyrie.ir.IrImageVector
 
 internal data class ImageVectorSpecConfig(
     val iconName: String,
@@ -17,7 +17,7 @@ internal data class ImageVectorSpecConfig(
 
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
 
-    fun createFileFor(vector: Vector): ImageVectorSpecOutput {
+    fun createFileFor(vector: IrImageVector): ImageVectorSpecOutput {
         return when (config.outputFormat) {
             BackingProperty -> {
                 BackingPropertySpec(config).createAsBackingProperty(vector)

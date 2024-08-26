@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.parser.svgxml
 
-import io.github.composegears.valkyrie.extensions.removePrefix
+import io.github.composegears.valkyrie.parser.svgxml.util.removePrefix
 import java.nio.file.Paths
 import kotlin.io.path.invariantSeparatorsPathString
 

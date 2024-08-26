@@ -3,9 +3,9 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toPainter
 import com.android.ide.common.vectordrawable.VdPreview
-import io.github.composegears.valkyrie.extensions.isSvg
-import io.github.composegears.valkyrie.extensions.isXml
-import io.github.composegears.valkyrie.parser.svgxml.SvgToXmlParser
+import io.github.composegears.valkyrie.parser.svgxml.svg.SvgToXmlParser
+import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
+import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import java.nio.file.Path
 import kotlin.io.path.createTempFile
 import kotlin.io.path.extension

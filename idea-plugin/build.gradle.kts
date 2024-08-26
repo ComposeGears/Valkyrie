@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.imagevector)
+    implementation(projects.components.ir)
     implementation(projects.components.parser.ktfile)
     implementation(projects.components.parser.svgxml)
     implementation(projects.components.psi.iconpack)

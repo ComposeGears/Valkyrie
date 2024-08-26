@@ -1,16 +1,16 @@
 package io.github.composegears.valkyrie.generator.imagevector.spec
 
-import androidx.compose.material.icons.generator.MemberNames
-import androidx.compose.material.icons.generator.vector.Vector
-import androidx.compose.material.icons.generator.vector.VectorNode
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecConfig
+import io.github.composegears.valkyrie.generator.imagevector.util.MemberNames
 import io.github.composegears.valkyrie.generator.imagevector.util.addPath
 import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpec
 import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpecForNestedPack
 import io.github.composegears.valkyrie.generator.imagevector.util.imageVectorBuilderSpecs
+import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.ir.IrVectorNode
 
 internal fun ImageVectorSpecConfig.resolvePackageName(): String = when {
     iconNestedPack.isEmpty() -> iconPackage
@@ -30,7 +30,7 @@ internal fun ImageVectorSpecConfig.resolveIconPackClassName() = when {
 
 internal fun CodeBlock.Builder.addImageVectorBlock(
     config: ImageVectorSpecConfig,
-    vector: Vector,
+    irVector: IrImageVector,
 ) {
     add(
         imageVectorBuilderSpecs(
@@ -38,9 +38,9 @@ internal fun CodeBlock.Builder.addImageVectorBlock(
                 config.iconNestedPack.isEmpty() -> config.iconName
                 else -> "${config.iconNestedPack}.${config.iconName}"
             },
-            vector = vector,
+            irVector = irVector,
             path = {
-                vector.nodes.forEach { node -> addVectorNode(node) }
+                irVector.nodes.forEach { node -> addVectorNode(node) }
             },
         ),
     )
@@ -67,20 +67,20 @@ internal fun FileSpec.Builder.addPreview(
     }
 }
 
-private fun CodeBlock.Builder.addVectorNode(vectorNode: VectorNode) {
-    when (vectorNode) {
-        is VectorNode.Group -> {
+private fun CodeBlock.Builder.addVectorNode(irVectorNode: IrVectorNode) {
+    when (irVectorNode) {
+        is IrVectorNode.IrGroup -> {
             beginControlFlow("%M", MemberNames.Group)
-            vectorNode.paths.forEach { path ->
+            irVectorNode.paths.forEach { path ->
                 addVectorNode(path)
             }
             endControlFlow()
         }
-        is VectorNode.Path -> {
-            addPath(vectorNode) {
-                vectorNode.nodes.forEach { pathNode ->
+        is IrVectorNode.IrPath -> {
+            addPath(irVectorNode) {
+                irVectorNode.paths.forEach { pathNode ->
                     // based on https://github.com/square/kotlinpoet/pull/1860#issuecomment-1986825382
-                    addStatement("%L", pathNode.asFunctionCall().replace(' ', '·'))
+                    addStatement("%L", pathNode.asStatement().replace(' ', '·'))
                 }
             }
         }

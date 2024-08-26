@@ -46,7 +46,6 @@ rootProject.name = "valkyrie"
 
 include("idea-plugin")
 
-include("components:androidx-compose")
 include("components:extensions")
 include("components:generator:common")
 include("components:generator:iconpack")

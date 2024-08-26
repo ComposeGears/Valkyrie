@@ -21,6 +21,7 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.util.ui.JBUI
+import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.parser.ktfile.KtFileToImageVectorParser
 import io.github.composegears.valkyrie.ui.foundation.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
@@ -122,5 +123,6 @@ private fun VirtualFile.toKtFile(project: Project): KtFile? {
     val fileContent = contentsToByteArray().toString(Charsets.UTF_8)
 
     return PsiFileFactory.getInstance(project)
-        .createFileFromText(name, KotlinFileType.INSTANCE, fileContent) as? KtFile
+        .createFileFromText(name, KotlinFileType.INSTANCE, fileContent)
+        .safeAs<KtFile>()
 }

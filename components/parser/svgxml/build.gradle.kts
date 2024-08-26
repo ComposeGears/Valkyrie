@@ -3,10 +3,10 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.components.extensions)
-    api(projects.components.androidxCompose)
+    implementation(projects.components.ir)
 
     implementation(libs.android.build.tools)
+    implementation(libs.xpp3)
 
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)

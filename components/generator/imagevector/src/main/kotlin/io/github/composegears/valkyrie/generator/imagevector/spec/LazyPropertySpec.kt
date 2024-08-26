@@ -1,7 +1,5 @@
 package io.github.composegears.valkyrie.generator.imagevector.spec
 
-import androidx.compose.material.icons.generator.ClassNames
-import androidx.compose.material.icons.generator.vector.Vector
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.PropertySpec
@@ -12,10 +10,12 @@ import io.github.composegears.valkyrie.generator.ext.removeDeadCode
 import io.github.composegears.valkyrie.generator.ext.setIndent
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
+import io.github.composegears.valkyrie.generator.imagevector.util.ClassNames
+import io.github.composegears.valkyrie.ir.IrImageVector
 
 internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
 
-    fun createAsLazyProperty(vector: Vector): ImageVectorSpecOutput {
+    fun createAsLazyProperty(irVector: IrImageVector): ImageVectorSpecOutput {
         val iconPackClassName = config.resolveIconPackClassName()
         val packageName = config.resolvePackageName()
 
@@ -25,7 +25,7 @@ internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
         ) {
             addProperty(
                 propertySpec = iconProperty(
-                    vector = vector,
+                    irVector = irVector,
                     iconPackClassName = iconPackClassName,
                 ),
             )
@@ -44,12 +44,12 @@ internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
     }
 
     private fun iconProperty(
-        vector: Vector,
+        irVector: IrImageVector,
         iconPackClassName: ClassName?,
     ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
         receiver(iconPackClassName)
         val codeBlock = buildCodeBlock {
-            addImageVectorBlock(config = config, vector = vector)
+            addImageVectorBlock(config = config, irVector = irVector)
         }
 
         delegate(

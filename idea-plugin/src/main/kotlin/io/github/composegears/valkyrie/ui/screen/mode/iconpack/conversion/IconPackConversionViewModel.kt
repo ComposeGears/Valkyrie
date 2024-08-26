@@ -1,12 +1,13 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.extensions.isSvg
-import io.github.composegears.valkyrie.extensions.isXml
+import io.github.composegears.valkyrie.extensions.cast
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
-import io.github.composegears.valkyrie.parser.svgxml.IconParser
+import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
+import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
+import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
@@ -105,10 +106,10 @@ class IconPackConversionViewModel(
                 else -> return@withContext
             }
 
-            val icon = icons.first { it.iconName == iconName } as BatchIcon.Valid
+            val icon = icons.first { it.iconName == iconName }.cast<BatchIcon.Valid>()
 
             val iconResult = runCatching {
-                val parserOutput = IconParser.toVector(icon.path)
+                val parserOutput = SvgXmlParser.toIrImageVector(icon.path)
 
                 ImageVectorGenerator.convert(
                     vector = parserOutput.vector,
@@ -143,7 +144,7 @@ class IconPackConversionViewModel(
                 .forEach { icon ->
                     when (val iconPack = icon.iconPack) {
                         is IconPack.Nested -> {
-                            val parserOutput = IconParser.toVector(icon.path)
+                            val parserOutput = SvgXmlParser.toIrImageVector(icon.path)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
                                 vector = parserOutput.vector,
                                 kotlinName = icon.iconName.value,
@@ -163,7 +164,7 @@ class IconPackConversionViewModel(
                             )
                         }
                         is IconPack.Single -> {
-                            val parserOutput = IconParser.toVector(icon.path)
+                            val parserOutput = SvgXmlParser.toIrImageVector(icon.path)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
                                 vector = parserOutput.vector,
                                 kotlinName = icon.iconName.value,
@@ -236,7 +237,7 @@ class IconPackConversionViewModel(
                                     extension = path.extension,
                                 )
                                 else -> BatchIcon.Valid(
-                                    iconName = IconName(IconParser.getIconName(path.name)),
+                                    iconName = IconName(SvgXmlParser.getIconName(path.name)),
                                     extension = path.extension,
                                     iconPack = inMemorySettings.current.buildDefaultIconPack(),
                                     path = path,
