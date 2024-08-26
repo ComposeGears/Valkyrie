@@ -2,9 +2,9 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.jetbrains.intellij.module)
-    alias(libs.plugins.kotlin.compose)
 }
 
 dependencies {
