@@ -5,6 +5,7 @@ import io.github.composegears.valkyrie.extensions.cast
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
+import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
@@ -237,7 +238,7 @@ class IconPackConversionViewModel(
                                     extension = path.extension,
                                 )
                                 else -> BatchIcon.Valid(
-                                    iconName = IconName(SvgXmlParser.getIconName(path.name)),
+                                    iconName = IconName(IconNameFormatter.format(path.name)),
                                     extension = path.extension,
                                     iconPack = inMemorySettings.current.buildDefaultIconPack(),
                                     path = path,

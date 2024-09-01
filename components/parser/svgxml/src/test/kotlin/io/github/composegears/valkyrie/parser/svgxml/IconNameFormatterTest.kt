@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 
-class XmlStringParserTest {
+class IconNameFormatterTest {
 
     private data class IconTest(
         val fileName: String,
@@ -12,8 +12,9 @@ class XmlStringParserTest {
     )
 
     @Test
-    fun `test icon name`() {
+    fun `check icon name formatting`() {
         val fileNames = listOf(
+            IconTest(fileName = "_ic_test_icon.svg", expected = "TestIcon"),
             IconTest(fileName = "ic_test_icon.svg", expected = "TestIcon"),
             IconTest(fileName = "ic_test_icon.xml", expected = "TestIcon"),
             IconTest(fileName = "test_icon.svg", expected = "TestIcon"),
@@ -21,12 +22,12 @@ class XmlStringParserTest {
             IconTest(fileName = "ic_test_icon_name.svg", expected = "TestIconName"),
             IconTest(fileName = "ic_testicon.svg", expected = "Testicon"),
             IconTest(fileName = "ic_test_icon_name_with_underscores.svg", expected = "TestIconNameWithUnderscores"),
-            IconTest(fileName = "ic_TESTIcon.svg", expected = "Testicon"),
+            IconTest(fileName = "ic_SVGIcon.svg", expected = "SVGIcon"),
             IconTest(fileName = "ic-test-icon.svg", expected = "TestIcon"),
             IconTest(fileName = "ic_test@icon!.svg", expected = "TestIcon"),
             IconTest(fileName = "ic_test_icon123.xml", expected = "TestIcon123"),
             IconTest(fileName = "my_icon.xml", expected = "MyIcon"),
-            IconTest(fileName = "Ic_TeSt123Icon.svg", expected = "Test123icon"),
+            IconTest(fileName = "Ic_TeSt123Icon.svg", expected = "TeSt123Icon"),
             IconTest(fileName = "ic_special@#\$%^&*()icon.svg", expected = "SpecialIcon"),
             IconTest(fileName = "ic--test__icon---name.svg", expected = "TestIconName"),
             IconTest(fileName = "@#$%.svg", expected = ""),
@@ -34,10 +35,14 @@ class XmlStringParserTest {
             IconTest(fileName = "-_ic_test_icon_-.svg", expected = "TestIcon"),
             IconTest(fileName = "pos_1", expected = "Pos1"),
             IconTest(fileName = "1", expected = "1"),
+            IconTest(fileName = "Ic_TempSvg123Icon.svg", expected = "TempSvg123Icon"),
+            IconTest(fileName = "fitContent", expected = "FitContent"),
+            IconTest(fileName = "fitContent_dark", expected = "FitContentDark"),
+            IconTest(fileName = "stub@20x20", expected = "Stub20X20"),
         )
 
         fileNames.forEach {
-            val iconName = SvgXmlParser.getIconName(it.fileName)
+            val iconName = IconNameFormatter.format(it.fileName)
 
             assertThat(iconName).isEqualTo(it.expected)
         }
