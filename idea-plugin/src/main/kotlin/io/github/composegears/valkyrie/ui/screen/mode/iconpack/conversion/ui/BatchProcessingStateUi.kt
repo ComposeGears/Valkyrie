@@ -35,7 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
+import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
@@ -308,7 +308,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
             exportEnabled = false,
             icons = listOf(
                 BatchIcon.Valid(
-                    iconName = IconName(SvgXmlParser.getIconName("ic_all_path_params_1")),
+                    iconName = IconName(IconNameFormatter.format("ic_all_path_params_1")),
                     extension = "xml",
                     path = Path(""),
                     iconPack = IconPack.Single(
@@ -321,7 +321,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                     extension = "svg",
                 ),
                 BatchIcon.Valid(
-                    iconName = IconName(SvgXmlParser.getIconName("ic_all_path")),
+                    iconName = IconName(IconNameFormatter.format("ic_all_path")),
                     extension = "svg",
                     path = Path(""),
                     iconPack = IconPack.Nested(

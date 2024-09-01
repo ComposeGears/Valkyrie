@@ -5,8 +5,6 @@ import io.github.composegears.valkyrie.parser.svgxml.svg.SvgToXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
-import io.github.composegears.valkyrie.parser.svgxml.util.capitalized
-import io.github.composegears.valkyrie.parser.svgxml.util.removePrefix
 import io.github.composegears.valkyrie.parser.svgxml.xml.XmlStringParser
 import java.nio.file.Path
 import kotlin.io.path.createTempFile
@@ -25,7 +23,7 @@ object SvgXmlParser {
     fun toIrImageVector(path: Path): IconParserOutput {
         val iconType = IconType.from(path.extension) ?: error("File not SVG or XML")
 
-        val fileName = getIconName(fileName = path.name)
+        val fileName = IconNameFormatter.format(name = path.name)
         val text = when (iconType) {
             SVG -> {
                 val tmpPath = createTempFile(suffix = "valkyrie/")
@@ -40,16 +38,4 @@ object SvgXmlParser {
             kotlinName = fileName,
         )
     }
-
-    // TODO: extract into separate class
-    fun getIconName(fileName: String) = fileName
-        .removePrefix("-")
-        .removePrefix("_")
-        .removeSuffix(".svg")
-        .removeSuffix(".xml")
-        .removePrefix("ic_")
-        .removePrefix("ic-")
-        .replace("[^a-zA-Z0-9\\-_ ]".toRegex(), "_")
-        .split("_", "-")
-        .joinToString(separator = "") { it.lowercase().capitalized() }
 }
