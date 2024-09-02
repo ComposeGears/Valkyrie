@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,7 +34,9 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
+import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
+import io.github.composegears.valkyrie.ui.foundation.icons.Settings
 import io.github.composegears.valkyrie.ui.foundation.icons.SimpleConversion
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -85,7 +86,8 @@ private fun IntroScreenUI(
             modifier = Modifier
                 .padding(end = 8.dp)
                 .align(Alignment.TopEnd),
-            imageVector = Icons.Default.Settings,
+            imageVector = ValkyrieIcons.Settings,
+            iconSize = 24.dp,
             onClick = openSettings,
         )
         Column(
@@ -171,7 +173,7 @@ private fun SelectableCard(
                 Text(
                     text = description,
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                    color = LocalContentColor.current.copy(alpha = 0.5f),
+                    color = LocalContentColor.current.dim(),
                 )
             }
         }
