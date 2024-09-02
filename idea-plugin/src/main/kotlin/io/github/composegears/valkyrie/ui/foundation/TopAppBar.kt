@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.icons.ContentCopy
+import io.github.composegears.valkyrie.ui.foundation.icons.Settings
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
@@ -93,7 +94,8 @@ fun SettingsAction(
 ) {
     IconButton(
         modifier = modifier,
-        imageVector = Icons.Default.Settings,
+        imageVector = ValkyrieIcons.Settings,
+        iconSize = 24.dp,
         onClick = openSettings,
     )
 }

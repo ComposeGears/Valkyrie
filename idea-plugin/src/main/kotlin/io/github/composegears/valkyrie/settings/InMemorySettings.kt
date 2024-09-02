@@ -83,5 +83,5 @@ fun PersistentSettings.ValkyrieState.updateMode(mode: Mode) {
 }
 
 fun PersistentSettings.ValkyrieState.updateOutputFormat(format: OutputFormat) {
-    outputFormat = format.name
+    outputFormat = format.key
 }

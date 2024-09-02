@@ -1,22 +1,22 @@
-package io.github.composegears.valkyrie.ui.screen.settings.ui
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.export
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
@@ -26,8 +26,8 @@ import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.highlights.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction
-import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.UpdateOutputFormat
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
 
 @Composable
 fun OutputFormatSection(
@@ -41,21 +41,23 @@ fun OutputFormatSection(
             .fillMaxWidth()
             .padding(paddingValues),
     ) {
-        Text(text = "Output format", style = MaterialTheme.typography.bodyMedium)
+        Text(
+            text = "Output format",
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
         VerticalSpacer(8.dp)
-        Row(
-            modifier = Modifier.height(IntrinsicSize.Max),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             SelectableCard(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
+                modifier = Modifier.weight(1f),
                 text = "Backing property",
                 highlights = rememberCodeHighlight(backingPropertyFormat),
                 isSelected = outputFormat == BackingProperty,
                 onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
             )
             SelectableCard(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
+                modifier = Modifier.weight(1f),
                 text = "Lazy delegate property",
                 highlights = rememberCodeHighlight(lazyPropertyFormat),
                 isSelected = outputFormat == LazyProperty,
@@ -74,7 +76,7 @@ private fun SelectableCard(
     onSelect: () -> Unit,
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.requiredHeight(72.dp),
         onClick = onSelect,
         border = if (isSelected) {
             BorderStroke(
