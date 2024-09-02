@@ -5,4 +5,5 @@ import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 sealed interface SettingsAction {
     data class UpdateOutputFormat(val outputFormat: OutputFormat) : SettingsAction
     data class UpdatePreviewGeneration(val generate: Boolean) : SettingsAction
+    data class ShowImageVectorPreview(val show: Boolean) : SettingsAction
 }

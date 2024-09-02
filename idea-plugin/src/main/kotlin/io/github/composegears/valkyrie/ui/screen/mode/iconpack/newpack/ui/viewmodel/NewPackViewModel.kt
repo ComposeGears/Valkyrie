@@ -102,7 +102,9 @@ class NewPackViewModel(
     private fun saveDestination() {
         val directoryState = currentState.safeAs<ChooseExportDirectoryState>() ?: return
 
-        inMemorySettings.updateIconPackDestination(directoryState.iconPackDestination)
+        inMemorySettings.update {
+            iconPackDestination = directoryState.iconPackDestination
+        }
     }
 
     private fun initDefaultPack() {

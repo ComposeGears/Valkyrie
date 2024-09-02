@@ -247,6 +247,7 @@ private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
             nestedPacks = emptyList(),
             outputFormat = OutputFormat.BackingProperty,
             generatePreview = true,
+            showImageVectorPreview = true,
         ),
         onBack = {},
         openSettings = {},

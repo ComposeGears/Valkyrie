@@ -24,6 +24,8 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         var generatePreview: Boolean by property(false)
         var outputFormat: String? by string()
+
+        var showImageVectorPreview: Boolean by property(true)
     }
 
     companion object {

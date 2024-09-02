@@ -17,56 +17,20 @@ class InMemorySettings {
     val current: ValkyriesSettings
         get() = settings.value
 
-    fun updateGeneratePreview(generatePreview: Boolean) = updateSettings {
-        PersistentSettings.persistentSettings.generatePreview = generatePreview
-    }
-
-    fun updateIconPackName(iconPackName: String) = updateSettings {
-        PersistentSettings.persistentSettings.iconPackName = iconPackName
-    }
-
-    fun updateIconPackDestination(iconPackDestination: String) = updateSettings {
-        PersistentSettings.persistentSettings.iconPackDestination = iconPackDestination
-    }
-
-    fun updateNestedPack(nestedPacks: List<String>) = updateSettings {
-        if (nestedPacks.isEmpty()) {
-            PersistentSettings.persistentSettings.nestedPacks = ""
-        } else {
-            PersistentSettings.persistentSettings.nestedPacks = nestedPacks.joinToString(separator = ",")
-        }
-    }
-
-    fun updatePackageName(packageName: String) = updateSettings {
-        PersistentSettings.persistentSettings.packageName = packageName
-    }
-
-    fun updateMode(mode: Mode) = updateSettings {
-        PersistentSettings.persistentSettings.mode = mode.name
-    }
-
-    fun updateOutputFormat(outputFormat: OutputFormat) = updateSettings {
-        PersistentSettings.persistentSettings.outputFormat = outputFormat.key
-    }
-
-    fun clear() = updateSettings {
-        with(PersistentSettings.persistentSettings) {
-            mode = Mode.Unspecified.name
-
-            packageName = ""
-            iconPackName = ""
-            iconPackDestination = ""
-
-            nestedPacks = ""
-
-            outputFormat = OutputFormat.BackingProperty.key
-            generatePreview = false
-        }
-    }
-
-    private fun updateSettings(function: () -> Unit) {
-        function()
+    fun update(action: PersistentSettings.ValkyrieState.() -> Unit) {
+        action(PersistentSettings.persistentSettings)
         _settings.updateState { PersistentSettings.persistentSettings.toValkyriesSettings() }
+    }
+
+    fun clear() = update {
+        updateMode(Mode.Unspecified)
+        packageName = ""
+        iconPackName = ""
+        iconPackDestination = ""
+        updateNestedPack(packs = emptyList())
+        updateOutputFormat(OutputFormat.BackingProperty)
+        generatePreview = false
+        showImageVectorPreview = true
     }
 
     fun updateUIState(uiState: Map<String, Any?>) {
@@ -87,6 +51,8 @@ class InMemorySettings {
 
             outputFormat = OutputFormat.from(outputFormat),
             generatePreview = generatePreview,
+
+            showImageVectorPreview = showImageVectorPreview,
         )
 }
 
@@ -101,4 +67,21 @@ data class ValkyriesSettings(
 
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
+
+    val showImageVectorPreview: Boolean,
 )
+
+fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {
+    nestedPacks = when {
+        packs.isEmpty() -> ""
+        else -> packs.joinToString(separator = ",")
+    }
+}
+
+fun PersistentSettings.ValkyrieState.updateMode(mode: Mode) {
+    this.mode = mode.name
+}
+
+fun PersistentSettings.ValkyrieState.updateOutputFormat(format: OutputFormat) {
+    outputFormat = format.name
+}

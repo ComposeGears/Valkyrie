@@ -41,6 +41,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.ui.OutputFormatSection
 import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.ShowImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.ui.model.SettingsAction.UpdatePreviewGeneration
 
 val SettingsScreen by navDestination<Unit> {
@@ -142,6 +143,28 @@ private fun SettingsUI(
                 onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
             )
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .toggleable(
+                    value = settings.generatePreview,
+                    onValueChange = { onAction(UpdatePreviewGeneration(it)) },
+                )
+                .padding(start = 24.dp, end = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = "Show ImageVector preview",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Switch(
+                modifier = Modifier.scale(0.9f),
+                checked = settings.showImageVectorPreview,
+                onCheckedChange = { onAction(ShowImageVectorPreview(it)) },
+            )
+        }
         SectionTitle(name = "Danger zone")
         TextButton(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -211,6 +234,8 @@ private fun SettingsScreenPreview() = PreviewTheme {
 
             outputFormat = OutputFormat.BackingProperty,
             generatePreview = false,
+
+            showImageVectorPreview = true,
         ),
         onClearSettings = {},
         onChangeMode = {},

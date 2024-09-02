@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.simple.setup
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
+import io.github.composegears.valkyrie.settings.updateMode
 import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.PackageValidationUseCase
@@ -47,9 +48,10 @@ class SimpleModeSetupViewModel(
     }
 
     fun saveSettings() {
-        val setupState = state.value
-        inMemorySettings.updatePackageName(setupState.packageName.text)
-        inMemorySettings.updateMode(Mode.Simple)
+        inMemorySettings.update {
+            packageName = state.value.packageName.text
+            updateMode(Mode.Simple)
+        }
     }
 }
 

@@ -115,7 +115,9 @@ class ExistingPackViewModel(
         val inputFieldState = editState.packEditState.inputFieldState
 
         viewModelScope.launch {
-            inMemorySettings.updateIconPackDestination(editState.exportDirectory)
+            inMemorySettings.update {
+                iconPackDestination = editState.exportDirectory
+            }
             IconPackWriter.savePack(
                 inMemorySettings = inMemorySettings,
                 inputFieldState = inputFieldState,
