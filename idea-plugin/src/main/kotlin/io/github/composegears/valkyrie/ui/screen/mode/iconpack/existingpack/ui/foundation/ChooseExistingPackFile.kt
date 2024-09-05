@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.TextWithIcon
-import io.github.composegears.valkyrie.ui.foundation.dnd.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.foundation.icons.KotlinLogo
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.picker.rememberKtFilePicker
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.platform.picker.rememberKtFilePicker
+import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
 import kotlinx.coroutines.launch
 

@@ -8,8 +8,8 @@ import com.composegears.tiamat.navArgs
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
+import io.github.composegears.valkyrie.ui.platform.IntellijEditorTextField
 
 val CodePreviewScreen by navDestination {
     val navController = navController()

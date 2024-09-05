@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.notification
+package io.github.composegears.valkyrie.ui.platform
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

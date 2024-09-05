@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.picker
+package io.github.composegears.valkyrie.ui.platform.picker
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
