@@ -76,8 +76,9 @@ internal object RegularImageVectorPsiParser {
         if (value == null) return 0f
 
         return value
-            .replace("dp", "")
-            .replace("f", "")
+            .removeSuffix(".dp")
+            .removeSuffix("f")
+            .removeSuffix("F")
             .toFloatOrNull() ?: 0f
     }
 

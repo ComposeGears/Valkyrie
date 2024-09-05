@@ -11,10 +11,10 @@ val ValkyrieIcons.EmptyPaths: ImageVector
         }
         _EmptyPaths = ImageVector.Builder(
             name = "EmptyPaths",
-            defaultWidth = 24.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 18f,
-            viewportHeight = 18f,
+            defaultWidth = 24.0.dp,
+            defaultHeight = 24.0.dp,
+            viewportWidth = 18.0f,
+            viewportHeight = 18.0f
         ).apply {
             path { }
             path { }
