@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation
+package io.github.composegears.valkyrie.ui.platform
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

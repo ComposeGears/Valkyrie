@@ -24,8 +24,8 @@ import io.github.composegears.valkyrie.ui.foundation.ClickableText
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.Error
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.platform.rememberBrowser
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.platform.rememberBrowser
 
 @Composable
 fun PreviewParsingError(modifier: Modifier = Modifier) {

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.picker
+package io.github.composegears.valkyrie.ui.platform.picker
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -17,27 +17,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun rememberKtFilePicker(): Picker<Path?> {
-    if (LocalInspectionMode.current) return StubFilePicker
+fun rememberMultipleFilesPicker(): Picker<List<Path>> {
+    if (LocalInspectionMode.current) return StubMultipleFilesPicker
 
     val project = LocalProject.current
 
     return remember {
-        FilePicker(
-            project = project,
-            filterCondition = { vf -> vf.extension.isKt },
-        )
-    }
-}
-
-@Composable
-fun rememberFilePicker(): Picker<Path?> {
-    if (LocalInspectionMode.current) return StubFilePicker
-
-    val project = LocalProject.current
-
-    return remember {
-        FilePicker(
+        MultipleFilesPicker(
             project = project,
             filterCondition = { vf ->
                 val extension = vf.extension
@@ -47,14 +33,14 @@ fun rememberFilePicker(): Picker<Path?> {
     }
 }
 
-private object StubFilePicker : Picker<Path?> {
-    override suspend fun launch(): Path? = null
+private object StubMultipleFilesPicker : Picker<List<Path>> {
+    override suspend fun launch(): List<Path> = emptyList()
 }
 
-private class FilePicker(
+private class MultipleFilesPicker(
     private val project: Project,
     filterCondition: Condition<VirtualFile> = Condition { true },
-) : Picker<Path?> {
+) : Picker<List<Path>> {
 
     private val fileChooserDescriptor = FileChooserDescriptor(
         /* chooseFiles = */
@@ -68,14 +54,12 @@ private class FilePicker(
         /* chooseJarContents = */
         false,
         /* chooseMultiple = */
-        false,
+        true,
     ).withFileFilter(filterCondition)
 
-    override suspend fun launch(): Path? = withContext(Dispatchers.EDT) {
+    override suspend fun launch(): List<Path> = withContext(Dispatchers.EDT) {
         FileChooser
-            .chooseFile(fileChooserDescriptor, project, null)
-            ?.toNioPath()
+            .chooseFiles(fileChooserDescriptor, project, null)
+            .map(VirtualFile::toNioPath)
     }
 }
-
-private inline val String?.isKt: Boolean get() = equals(other = "kt", ignoreCase = true)

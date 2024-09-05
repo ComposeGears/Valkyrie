@@ -1,4 +1,6 @@
-package io.github.composegears.valkyrie.ui.foundation.dnd
+@file:Suppress("ktlint:standard:filename")
+
+package io.github.composegears.valkyrie.ui.platform
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -7,10 +9,10 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalInspectionMode
 import io.github.composegears.valkyrie.extensions.safeAs
-import io.github.composegears.valkyrie.ui.foundation.dnd.DragAndDropHandlerState.Companion.dragging
-import io.github.composegears.valkyrie.ui.foundation.dnd.DragAndDropHandlerState.Companion.notDragging
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalComponent
+import io.github.composegears.valkyrie.ui.platform.DragAndDropHandlerState.Companion.dragging
+import io.github.composegears.valkyrie.ui.platform.DragAndDropHandlerState.Companion.notDragging
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
 import java.awt.dnd.DropTargetDragEvent
