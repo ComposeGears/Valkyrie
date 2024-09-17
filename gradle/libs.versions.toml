@@ -9,7 +9,7 @@ android-build-tools = "com.android.tools:sdk-common:31.6.0"
 
 highlights = "dev.snipme:highlights:0.9.2"
 
-koin-compose = "io.insert-koin:koin-compose:4.0.0-RC2"
+koin-compose = "io.insert-koin:koin-compose:4.0.0"
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
