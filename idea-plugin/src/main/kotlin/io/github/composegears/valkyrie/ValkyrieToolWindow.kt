@@ -11,17 +11,15 @@ import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.Koin
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 
-class AppToolWindowFactory :
+class ValkyrieToolWindow :
     ToolWindowFactory,
     DumbAware {
-
-    init {
-        Koin.start()
-    }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         System.setProperty("compose.swing.render.on.graphics", "true")
         System.setProperty("compose.interop.blending", "true")
+
+        Koin.start(project)
 
         toolWindow.addComposePanel {
             ValkyrieTheme(
@@ -32,6 +30,10 @@ class AppToolWindowFactory :
             }
         }
     }
+
+    companion object {
+        const val ID = "Valkyrie"
+    }
 }
 
 private fun ToolWindow.addComposePanel(
@@ -41,7 +43,7 @@ private fun ToolWindow.addComposePanel(
 ) = PluginWindow(content = content)
     .also { contentManager.addContent(contentManager.factory.createContent(it, displayName, isLockable)) }
 
-private class PluginWindow(
+class PluginWindow(
     height: Int = 800,
     width: Int = 800,
     y: Int = 0,

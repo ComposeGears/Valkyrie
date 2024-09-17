@@ -9,17 +9,25 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.p
 
 class NewPackInputHandler(
     settings: ValkyriesSettings,
-) : BasicInputHandler(
-    InputFieldState(
-        iconPackName = InputState(text = settings.iconPackName),
-        packageName = InputState(
-            text = PackageExtractor.getFrom(path = settings.iconPackDestination) ?: settings.packageName,
-        ),
-        nestedPacks = settings.nestedPacks.mapIndexed { index, nestedPack ->
-            NestedPack(
-                id = index.toString(),
-                inputFieldState = InputState(text = nestedPack),
+) : BasicInputHandler(initialState = settings.newPackInputFieldState) {
+
+    override fun provideInputFieldState(
+        settings: ValkyriesSettings,
+    ): InputFieldState = settings.newPackInputFieldState
+
+    companion object {
+        private val ValkyriesSettings.newPackInputFieldState: InputFieldState
+            get() = InputFieldState(
+                iconPackName = InputState(text = iconPackName),
+                packageName = InputState(
+                    text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
+                ),
+                nestedPacks = nestedPacks.mapIndexed { index, nestedPack ->
+                    NestedPack(
+                        id = index.toString(),
+                        inputFieldState = InputState(text = nestedPack),
+                    )
+                },
             )
-        },
-    ),
-)
+    }
+}

@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.parser.svgxml.PackageExtractor
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.PackEditState
@@ -30,14 +31,16 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class NewPackViewModel(
     private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
-    private val settings = inMemorySettings.current
-    private var inputHandler = NewPackInputHandler(inMemorySettings.current)
+    private val currentSettings = inMemorySettings.current
+    private var inputHandler = NewPackInputHandler(currentSettings)
 
     private val _events = MutableSharedFlow<NewPackEvent>()
     val events = _events.asSharedFlow()
@@ -45,13 +48,7 @@ class NewPackViewModel(
     private val currentState: NewPackModeState
         get() = state.value
 
-    private val _state = MutableStateFlow<NewPackModeState>(
-        ChooseExportDirectoryState(
-            iconPackDestination = settings.iconPackDestination,
-            predictedPackage = PackageExtractor.getFrom(path = settings.iconPackDestination).orEmpty(),
-            nextAvailable = settings.iconPackDestination.isNotEmpty(),
-        ),
-    )
+    private val _state = MutableStateFlow<NewPackModeState>(currentSettings.toChooseDirectoryState())
     val state = _state.asStateFlow()
 
     init {
@@ -69,6 +66,12 @@ class NewPackViewModel(
                 }
             }
         }
+        inMemorySettings.settings
+            .onEach { settings ->
+                _state.updateState { settings.toChooseDirectoryState() }
+                inputHandler.invalidate(settings)
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onAction(action: NewPackAction) {
@@ -139,4 +142,10 @@ class NewPackViewModel(
             _events.emit(OnSettingsUpdated)
         }
     }
+
+    private fun ValkyriesSettings.toChooseDirectoryState() = ChooseExportDirectoryState(
+        iconPackDestination = iconPackDestination,
+        predictedPackage = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
+        nextAvailable = iconPackDestination.isNotEmpty(),
+    )
 }

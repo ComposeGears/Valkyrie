@@ -7,7 +7,7 @@ import com.intellij.openapi.fileEditor.impl.text.QuickDefinitionProvider
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import io.github.composegears.valkyrie.settings.PersistentSettings
+import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 
 class ImageVectorPreviewEditorProvider :
     FileEditorProvider,
@@ -18,7 +18,7 @@ class ImageVectorPreviewEditorProvider :
     override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.HIDE_DEFAULT_EDITOR
 
     override fun accept(project: Project, file: VirtualFile): Boolean {
-        val showImageVectorPreview = PersistentSettings.persistentSettings.showImageVectorPreview
+        val showImageVectorPreview = project.persistentSettings.state.showImageVectorPreview
 
         if (file.extension != "kt" || !showImageVectorPreview) return false
 

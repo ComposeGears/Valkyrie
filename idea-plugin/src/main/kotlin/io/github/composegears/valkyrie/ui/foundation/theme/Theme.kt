@@ -25,8 +25,6 @@ fun ValkyrieTheme(
     currentComponent: Component,
     content: @Composable () -> Unit,
 ) {
-    val intelliJTheme = rememberIntelliJTheme()
-
     val rootContent = @Composable {
         CompositionLocalProvider(
             LocalProject provides project,
@@ -35,14 +33,21 @@ fun ValkyrieTheme(
         )
     }
 
+    ValkyrieTheme(rootContent)
+}
+
+@Composable
+fun ValkyrieTheme(content: @Composable () -> Unit) {
+    val intelliJTheme = rememberIntelliJTheme()
+
     when (intelliJTheme.theme) {
         Theme.DARK -> IntellijDarkTheme(
             background = intelliJTheme.background,
             onBackground = intelliJTheme.onBackground,
             primary = intelliJTheme.primary,
-            content = rootContent,
+            content = content,
         )
-        Theme.LIGHT -> IntellijLightTheme(content = rootContent)
+        Theme.LIGHT -> IntellijLightTheme(content = content)
     }
 }
 

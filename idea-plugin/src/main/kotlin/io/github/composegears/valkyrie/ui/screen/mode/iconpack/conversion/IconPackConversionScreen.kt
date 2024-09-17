@@ -35,6 +35,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.koin.koinTiamatViewModel
+import com.composegears.tiamat.navArgsOrNull
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
@@ -53,13 +54,16 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.Bat
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.IconPackPickerStateUi
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import java.nio.file.Path
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.parameter.parametersOf
 
-val IconPackConversionScreen by navDestination<Unit> {
+val IconPackConversionScreen by navDestination<List<Path>> {
     val navController = navController()
+    val navArgs = navArgsOrNull()
 
-    val viewModel = koinTiamatViewModel<IconPackConversionViewModel>()
+    val viewModel = koinTiamatViewModel<IconPackConversionViewModel> { parametersOf(navArgs.orEmpty()) }
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {

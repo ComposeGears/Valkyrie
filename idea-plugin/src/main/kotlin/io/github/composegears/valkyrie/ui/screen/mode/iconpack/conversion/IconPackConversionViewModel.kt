@@ -19,6 +19,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPa
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
 import java.nio.file.Path
 import kotlin.io.path.extension
+import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.listDirectoryEntries
 import kotlin.io.path.name
@@ -26,7 +27,6 @@ import kotlin.io.path.nameWithoutExtension
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -34,6 +34,7 @@ import kotlinx.coroutines.withContext
 
 class IconPackConversionViewModel(
     private val inMemorySettings: InMemorySettings,
+    paths: List<Path>,
 ) : TiamatViewModel() {
 
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
@@ -42,7 +43,15 @@ class IconPackConversionViewModel(
     private val _events = MutableSharedFlow<ConversionEvent>()
     val events = _events.asSharedFlow()
 
-    private val valkyriesSettings: StateFlow<ValkyriesSettings> = inMemorySettings.settings
+    init {
+        if (paths.isNotEmpty()) {
+            if (paths.size == 1 && paths.first().isDirectory()) {
+                pickerEvent(PickerEvent.PickDirectory(paths.first()))
+            } else {
+                pickerEvent(PickerEvent.PickFiles(paths))
+            }
+        }
+    }
 
     fun pickerEvent(events: PickerEvent) {
         when (events) {
@@ -109,6 +118,7 @@ class IconPackConversionViewModel(
 
             val icon = icons.first { it.iconName == iconName }.cast<BatchIcon.Valid>()
 
+            val settings = inMemorySettings.current
             val iconResult = runCatching {
                 val parserOutput = SvgXmlParser.toIrImageVector(icon.path)
 
@@ -117,10 +127,10 @@ class IconPackConversionViewModel(
                     kotlinName = iconName.value,
                     config = ImageVectorGeneratorConfig(
                         packageName = icon.iconPack.iconPackage,
-                        packName = valkyriesSettings.value.iconPackName,
+                        packName = settings.iconPackName,
                         nestedPackName = icon.iconPack.currentNestedPack,
-                        outputFormat = valkyriesSettings.value.outputFormat,
-                        generatePreview = valkyriesSettings.value.generatePreview,
+                        outputFormat = settings.outputFormat,
+                        generatePreview = settings.generatePreview,
                     ),
                 )
             }.getOrDefault(ImageVectorSpecOutput.empty)
@@ -130,8 +140,6 @@ class IconPackConversionViewModel(
     }
 
     fun export() = viewModelScope.launch {
-        val settings = inMemorySettings.current
-
         withContext(Dispatchers.Default) {
             val icons = when (val state = _state.value) {
                 is BatchProcessing.IconPackCreationState -> state.icons
@@ -139,6 +147,8 @@ class IconPackConversionViewModel(
             }
 
             _state.updateState { BatchProcessing.ExportingState }
+
+            val settings = inMemorySettings.current
 
             icons
                 .filterIsInstance<BatchIcon.Valid>()
@@ -151,10 +161,10 @@ class IconPackConversionViewModel(
                                 kotlinName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
-                                    packName = valkyriesSettings.value.iconPackName,
+                                    packName = settings.iconPackName,
                                     nestedPackName = iconPack.currentNestedPack,
-                                    outputFormat = valkyriesSettings.value.outputFormat,
-                                    generatePreview = valkyriesSettings.value.generatePreview,
+                                    outputFormat = settings.outputFormat,
+                                    generatePreview = settings.generatePreview,
                                 ),
                             )
 
@@ -171,10 +181,10 @@ class IconPackConversionViewModel(
                                 kotlinName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
-                                    packName = valkyriesSettings.value.iconPackName,
+                                    packName = settings.iconPackName,
                                     nestedPackName = "",
-                                    outputFormat = valkyriesSettings.value.outputFormat,
-                                    generatePreview = valkyriesSettings.value.generatePreview,
+                                    outputFormat = settings.outputFormat,
+                                    generatePreview = settings.generatePreview,
                                 ),
                             )
 
