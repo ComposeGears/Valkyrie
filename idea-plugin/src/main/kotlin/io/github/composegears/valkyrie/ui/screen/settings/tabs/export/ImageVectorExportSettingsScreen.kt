@@ -22,23 +22,19 @@ import androidx.compose.ui.unit.sp
 import com.composegears.tiamat.koin.koinSharedTiamatViewModel
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
-import org.koin.compose.koinInject
 
 val ImageVectorExportSettingsScreen by navDestination<Unit> {
-    val inMemorySettings = koinInject<InMemorySettings>()
-    val settings by inMemorySettings.settings.collectAsState()
-
-    val settingsViewModel = koinSharedTiamatViewModel<SettingsViewModel>()
+    val viewModel = koinSharedTiamatViewModel<SettingsViewModel>()
+    val settings by viewModel.settings.collectAsState()
 
     ImageVectorExportSettingsUi(
-        onAction = settingsViewModel::onAction,
+        onAction = viewModel::onAction,
         outputFormat = settings.outputFormat,
         generatePreview = settings.generatePreview,
     )

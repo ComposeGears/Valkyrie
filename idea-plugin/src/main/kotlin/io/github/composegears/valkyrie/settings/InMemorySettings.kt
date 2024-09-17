@@ -1,25 +1,36 @@
 package io.github.composegears.valkyrie.settings
 
+import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
+import io.github.composegears.valkyrie.service.PersistentSettings
+import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class InMemorySettings {
-    private val _settings = MutableStateFlow(value = PersistentSettings.persistentSettings.toValkyriesSettings())
+class InMemorySettings(project: Project) {
+    private val persistentSettings = project.persistentSettings
+
+    init {
+        persistentSettings.addListener {
+            _settings.updateState { persistentSettings.state.toValkyriesSettings() }
+        }
+    }
+
+    private val _settings = MutableStateFlow(persistentSettings.state.toValkyriesSettings())
     val settings = _settings.asStateFlow()
 
     var uiState: Map<String, Any?> = emptyMap()
         private set
 
     val current: ValkyriesSettings
-        get() = settings.value
+        get() = _settings.value
 
     fun update(action: PersistentSettings.ValkyrieState.() -> Unit) {
-        action(PersistentSettings.persistentSettings)
-        _settings.updateState { PersistentSettings.persistentSettings.toValkyriesSettings() }
+        action(persistentSettings.state)
+        _settings.updateState { persistentSettings.state.toValkyriesSettings() }
     }
 
     fun clear() = update {

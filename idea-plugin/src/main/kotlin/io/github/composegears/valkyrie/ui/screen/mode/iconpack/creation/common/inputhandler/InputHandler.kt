@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.inputhandler
 
+import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.validation.IconPackValidationUseCase
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.PackageValidationUseCase
@@ -92,6 +93,12 @@ abstract class BasicInputHandler(initialState: InputFieldState) : InputHandler {
     fun updateState(inputFieldState: InputFieldState) {
         _state.updateState { inputFieldState }
     }
+
+    fun invalidate(settings: ValkyriesSettings) {
+        _state.updateState { provideInputFieldState(settings) }
+    }
+
+    abstract fun provideInputFieldState(settings: ValkyriesSettings): InputFieldState
 
     private suspend fun validate() {
         val inputFieldState = _state.value

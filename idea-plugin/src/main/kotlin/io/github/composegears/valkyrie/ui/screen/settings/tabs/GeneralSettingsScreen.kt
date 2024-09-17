@@ -34,7 +34,6 @@ import com.composegears.tiamat.koin.koinSharedTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
@@ -50,15 +49,12 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
-import org.koin.compose.koinInject
 
 val GeneralSettingsScreen by navDestination<Unit> {
     val navController = navController()
 
-    val inMemorySettings = koinInject<InMemorySettings>()
-    val settings by inMemorySettings.settings.collectAsState()
-
-    val settingsViewModel = koinSharedTiamatViewModel<SettingsViewModel>()
+    val viewModel = koinSharedTiamatViewModel<SettingsViewModel>()
+    val settings by viewModel.settings.collectAsState()
 
     var showClearSettingsDialog by rememberMutableState { false }
 
@@ -68,7 +64,7 @@ val GeneralSettingsScreen by navDestination<Unit> {
             showClearSettingsDialog = true
         },
         onChangeMode = {
-            settingsViewModel.resetMode()
+            viewModel.resetMode()
             openIntro(navController)
         },
     )
@@ -76,7 +72,7 @@ val GeneralSettingsScreen by navDestination<Unit> {
     if (showClearSettingsDialog) {
         ClearSettingsDialog(
             onClear = {
-                settingsViewModel.clearSettings()
+                viewModel.clearSettings()
                 showClearSettingsDialog = false
 
                 openIntro(navController)

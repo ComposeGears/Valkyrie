@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.di
 
 import com.composegears.tiamat.koin.tiamatViewModelOf
+import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionViewModel
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.viewmodel.ExistingPackViewModel
@@ -14,9 +15,12 @@ import org.koin.dsl.module
 
 object Koin {
 
-    fun start() {
+    fun start(project: Project) {
         startKoin {
-            modules(appModule)
+            modules(
+                appModule,
+                provideProjectModule(project),
+            )
         }
     }
 }
@@ -33,4 +37,8 @@ private val appModule = module {
     tiamatViewModelOf(::SettingsViewModel)
 
     singleOf(::InMemorySettings)
+}
+
+private fun provideProjectModule(project: Project) = module {
+    single { project }
 }
