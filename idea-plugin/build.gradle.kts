@@ -46,7 +46,7 @@ intellijPlatform {
     buildSearchableOptions = false
     pluginConfiguration.ideaVersion {
         sinceBuild = "241"
-        untilBuild = "242.*"
+        untilBuild = provider { null }
     }
     signing {
         // chain.crt content (base64 ci)
