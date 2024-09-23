@@ -33,11 +33,13 @@ import com.composegears.tiamat.NavController
 import com.composegears.tiamat.koin.koinSharedTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
+import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.settings.InMemorySettings
-import io.github.composegears.valkyrie.ui.domain.model.Mode
+import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.disabled
@@ -45,6 +47,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.PlayForward
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import org.koin.compose.koinInject
@@ -60,7 +63,7 @@ val GeneralSettingsScreen by navDestination<Unit> {
     var showClearSettingsDialog by rememberMutableState { false }
 
     GeneralSettingsUi(
-        mode = settings.mode,
+        settings = settings,
         onClearSettings = {
             showClearSettingsDialog = true
         },
@@ -92,13 +95,19 @@ private fun openIntro(navController: NavController) {
 
 @Composable
 private fun GeneralSettingsUi(
-    mode: Mode,
+    settings: ValkyriesSettings,
     onClearSettings: () -> Unit,
     modifier: Modifier = Modifier,
     onChangeMode: () -> Unit,
 ) {
+    val mode = settings.mode
     val initialMode = remember { mode }
-    val currentMode = remember(mode) { if (mode == Unspecified) initialMode else mode }
+    val currentMode = remember(mode) {
+        when (mode) {
+            Unspecified -> initialMode
+            else -> mode
+        }
+    }
 
     Column(modifier = modifier.fillMaxWidth()) {
         VerticalSpacer(16.dp)
@@ -116,7 +125,10 @@ private fun GeneralSettingsUi(
                     IconPack -> "IconPack"
                     Unspecified -> "Unspecified"
                 }
-                Text(text = "Current mode: $name")
+                Text(
+                    style = MaterialTheme.typography.bodyMedium,
+                    text = "Current mode: $name",
+                )
             },
             supportingContent = {
                 Text(
@@ -136,6 +148,7 @@ private fun GeneralSettingsUi(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
+                        modifier = Modifier.padding(bottom = 4.dp),
                         text = "Change",
                         color = tint,
                     )
@@ -147,7 +160,23 @@ private fun GeneralSettingsUi(
                 }
             },
         )
-        VerticalSpacer(24.dp)
+        val currentProject = rememberCurrentProject()
+
+        InfoItem(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            title = "Export path",
+            description = when {
+                settings.iconPackDestination.isEmpty() -> "Not specified"
+                else -> "~${settings.iconPackDestination.replace(currentProject.path.orEmpty(), "")}"
+            },
+        )
+        VerticalSpacer(16.dp)
+        InfoItem(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            title = "Package",
+            description = settings.packageName.ifEmpty { "Not specified" },
+        )
+        VerticalSpacer(36.dp)
         SectionTitle(name = "Danger zone")
         TextButton(
             modifier = Modifier.padding(horizontal = 12.dp),
@@ -215,7 +244,16 @@ private fun ClearSettingsDialog(
 @Composable
 private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
     GeneralSettingsUi(
-        mode = Unspecified,
+        settings = ValkyriesSettings(
+            mode = Simple,
+            packageName = "io.github.composegears.valkyrie",
+            iconPackName = "ValkyrieIcons",
+            iconPackDestination = "path/to/export",
+            nestedPacks = emptyList(),
+            outputFormat = OutputFormat.BackingProperty,
+            generatePreview = false,
+            showImageVectorPreview = true,
+        ),
         onChangeMode = {},
         onClearSettings = {},
     )
