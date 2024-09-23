@@ -17,14 +17,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
+import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.Folder
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.picker.rememberDirectoryPicker
+import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.platform.rememberDragAndDropFolderHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SaveDestination
@@ -84,33 +85,21 @@ fun ChoosePackDirectory(
         VerticalSpacer(36.dp)
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             if (state.iconPackDestination.isNotEmpty()) {
-                Column {
-                    Text(
-                        text = "Export path:",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        text = state.iconPackDestination,
-                        textDecoration = TextDecoration.Underline,
-                        style = MaterialTheme.typography.labelSmall,
-                    )
-                }
+                val currentProject = rememberCurrentProject()
+
+                InfoItem(
+                    title = "Export path",
+                    description = "~${state.iconPackDestination.replace(currentProject.path.orEmpty(), "")}",
+                )
             }
             if (state.predictedPackage.isNotEmpty()) {
-                Column {
-                    Text(
-                        text = "Predicted package:",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        textDecoration = TextDecoration.Underline,
-                        text = state.predictedPackage,
-                        style = MaterialTheme.typography.labelSmall,
-                    )
-                }
+                InfoItem(
+                    title = "Predicted package",
+                    description = state.predictedPackage.ifEmpty { "Not found" },
+                )
             }
         }
         VerticalSpacer(16.dp)
