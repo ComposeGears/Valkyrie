@@ -42,7 +42,7 @@ class IconPackConversionViewModel(
     private val _events = MutableSharedFlow<ConversionEvent>()
     val events = _events.asSharedFlow()
 
-    val valkyriesSettings: StateFlow<ValkyriesSettings> = inMemorySettings.settings
+    private val valkyriesSettings: StateFlow<ValkyriesSettings> = inMemorySettings.settings
 
     fun pickerEvent(events: PickerEvent) {
         when (events) {

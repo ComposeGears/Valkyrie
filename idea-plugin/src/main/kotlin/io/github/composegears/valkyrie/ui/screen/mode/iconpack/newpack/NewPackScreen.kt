@@ -39,7 +39,7 @@ val NewPackScreen by navDestination<Unit> {
             .onEach {
                 when (it) {
                     is NewPackEvent.OnSettingsUpdated -> {
-                        navController.parent?.navigate(IconPackConversionScreen)
+                        navController.parent?.replace(IconPackConversionScreen)
                     }
                     is NewPackEvent.PreviewIconPackObject -> {
                         navController.parent?.navigate(

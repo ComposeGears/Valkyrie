@@ -45,7 +45,7 @@ val SimpleModeSetupScreen by navDestination<Unit> {
         },
         onNext = {
             viewModel.saveSettings()
-            navController.navigate(
+            navController.replace(
                 dest = SimpleConversionScreen,
                 transition = navigationSlideInOut(true),
             )
