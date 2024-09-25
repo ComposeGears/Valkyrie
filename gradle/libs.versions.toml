@@ -20,7 +20,7 @@ tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0"
 
 xpp3 = "org.ogce:xpp3:1.1.6"
 
-junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.11.0"
+junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.11.1"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit4 = "junit:junit:4.13.2"
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
