@@ -24,6 +24,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.picker.rememberKtFilePicker
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
+import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
 
 @Composable
@@ -34,10 +35,12 @@ fun ChooseExistingPackFile(
     val project = LocalProject.current
 
     val dragAndDropHandler = rememberFileDragAndDropHandler(
-        onDrop = {
+        onDrop = { path ->
+            if (!path.isRegularFile()) return@rememberFileDragAndDropHandler
+
             onAction(
                 ExistingPackAction.SelectKotlinFile(
-                    path = it,
+                    path = path,
                     project = project,
                 ),
             )
