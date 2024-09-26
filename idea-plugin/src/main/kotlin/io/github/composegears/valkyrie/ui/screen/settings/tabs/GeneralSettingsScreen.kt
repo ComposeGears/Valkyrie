@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -40,6 +42,7 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.icons.PlayForward
@@ -105,7 +108,11 @@ private fun GeneralSettingsUi(
         }
     }
 
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+    ) {
         VerticalSpacer(16.dp)
         ListItem(
             modifier = Modifier
@@ -172,7 +179,8 @@ private fun GeneralSettingsUi(
             title = "Package",
             description = settings.packageName.ifEmpty { "Not specified" },
         )
-        VerticalSpacer(36.dp)
+        VerticalSpacer(16.dp)
+        WeightSpacer()
         SectionTitle(name = "Danger zone")
         TextButton(
             modifier = Modifier.padding(horizontal = 12.dp),
@@ -183,6 +191,7 @@ private fun GeneralSettingsUi(
         ) {
             Text(text = "Clear all plugin settings")
         }
+        VerticalSpacer(16.dp)
     }
 }
 
