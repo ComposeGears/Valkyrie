@@ -56,7 +56,7 @@ jobs:
           # We can't verify all revisions due to the disk size limitation on GHA.
           ide-versions: |
             ideaIC:2024.1.6
-            ideaIC:2024.2.2
+            ideaIC:2024.2.3
           failure-levels: |
             COMPATIBILITY_WARNINGS
             COMPATIBILITY_PROBLEMS
