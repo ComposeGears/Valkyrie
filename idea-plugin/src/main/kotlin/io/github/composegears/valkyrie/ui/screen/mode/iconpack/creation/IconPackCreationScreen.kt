@@ -1,10 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
@@ -63,10 +61,9 @@ private fun IconPackModeSetupUI(
         Column(
             modifier = Modifier
                 .widthIn(max = 420.dp)
-                .padding(16.dp)
                 .align(Alignment.CenterHorizontally)
                 .verticalScroll(rememberScrollState())
-                .height(IntrinsicSize.Max),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val tabs = remember { listOf(NewPackScreen, ExistingPackScreen) }

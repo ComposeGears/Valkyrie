@@ -59,7 +59,7 @@ fun NewIconPackCreation(
                 enabled = state.nextAvailable,
                 onClick = { onAction(NewPackAction.SavePack) },
             ) {
-                Text(text = "Export and continue")
+                Text(text = "Continue")
             }
         }
     }

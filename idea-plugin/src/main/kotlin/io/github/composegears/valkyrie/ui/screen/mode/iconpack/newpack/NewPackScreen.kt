@@ -1,7 +1,11 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -66,17 +70,29 @@ private fun NewPackUi(
     modifier: Modifier = Modifier,
     onValueChange: (InputChange) -> Unit,
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
-        when (state) {
+    AnimatedContent(
+        modifier = modifier.fillMaxSize(),
+        targetState = state,
+        contentKey = {
+            when (it) {
+                is ChooseExportDirectoryState -> 0
+                is PickedState -> 1
+            }
+        },
+        transitionSpec = {
+            fadeIn(tween(220, delayMillis = 90)) togetherWith fadeOut(tween(90))
+        },
+    ) { current ->
+        when (current) {
             is ChooseExportDirectoryState -> {
                 ChoosePackDirectory(
-                    state = state,
+                    state = current,
                     onAction = onAction,
                 )
             }
             is PickedState -> {
                 NewIconPackCreation(
-                    state = state,
+                    state = current,
                     onAction = onAction,
                     onValueChange = onValueChange,
                 )

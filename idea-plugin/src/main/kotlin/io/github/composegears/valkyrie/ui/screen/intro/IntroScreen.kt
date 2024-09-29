@@ -9,7 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -91,7 +92,10 @@ private fun IntroScreenUI(
             onClick = openSettings,
         )
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             WeightSpacer(weight = 0.3f)
@@ -112,8 +116,8 @@ private fun IntroScreenUI(
                     textAlign = TextAlign.Center,
                 )
                 VerticalSpacer(8.dp)
-
                 SelectableCard(
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(Simple) },
                     image = ValkyrieIcons.SimpleConversion,
                     title = "Simple",
@@ -121,6 +125,7 @@ private fun IntroScreenUI(
                 )
                 VerticalSpacer(16.dp)
                 SelectableCard(
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(IconPack) },
                     image = ValkyrieIcons.BatchProcessing,
                     title = "IconPack",
@@ -145,8 +150,10 @@ private fun SelectableCard(
     image: ImageVector,
     title: String,
     description: String,
+    modifier: Modifier = Modifier,
 ) {
     Card(
+        modifier = modifier,
         onClick = onClick,
         elevation = CardDefaults.elevatedCardElevation(),
     ) {
