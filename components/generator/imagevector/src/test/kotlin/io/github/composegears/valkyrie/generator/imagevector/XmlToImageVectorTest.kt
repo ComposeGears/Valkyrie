@@ -24,6 +24,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -48,6 +49,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "Colored",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -72,6 +74,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -96,6 +99,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -120,6 +124,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -144,6 +149,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -168,6 +174,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -192,6 +199,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -216,6 +224,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -240,6 +249,7 @@ class XmlToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 

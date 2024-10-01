@@ -131,6 +131,7 @@ class IconPackConversionViewModel(
                         nestedPackName = icon.iconPack.currentNestedPack,
                         outputFormat = settings.outputFormat,
                         generatePreview = settings.generatePreview,
+                        useFlatPackage = settings.flatPackage,
                     ),
                 )
             }.getOrDefault(ImageVectorSpecOutput.empty)
@@ -165,12 +166,16 @@ class IconPackConversionViewModel(
                                     nestedPackName = iconPack.currentNestedPack,
                                     outputFormat = settings.outputFormat,
                                     generatePreview = settings.generatePreview,
+                                    useFlatPackage = settings.flatPackage,
                                 ),
                             )
 
                             FileWriter.writeToFile(
                                 content = vectorSpecOutput.content,
-                                outDirectory = "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}",
+                                outDirectory = when {
+                                    settings.flatPackage -> settings.iconPackDestination
+                                    else -> "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}"
+                                },
                                 fileName = vectorSpecOutput.name,
                             )
                         }
@@ -185,6 +190,7 @@ class IconPackConversionViewModel(
                                     nestedPackName = "",
                                     outputFormat = settings.outputFormat,
                                     generatePreview = settings.generatePreview,
+                                    useFlatPackage = settings.flatPackage,
                                 ),
                             )
 

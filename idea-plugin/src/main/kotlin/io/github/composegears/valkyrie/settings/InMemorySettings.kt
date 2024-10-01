@@ -41,6 +41,7 @@ class InMemorySettings(project: Project) {
         updateNestedPack(packs = emptyList())
         updateOutputFormat(OutputFormat.BackingProperty)
         generatePreview = false
+        flatPackage = false
         showImageVectorPreview = true
     }
 
@@ -62,6 +63,7 @@ class InMemorySettings(project: Project) {
 
             outputFormat = OutputFormat.from(outputFormat),
             generatePreview = generatePreview,
+            flatPackage = flatPackage,
 
             showImageVectorPreview = showImageVectorPreview,
         )
@@ -78,6 +80,7 @@ data class ValkyriesSettings(
 
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
+    val flatPackage: Boolean,
 
     val showImageVectorPreview: Boolean,
 )

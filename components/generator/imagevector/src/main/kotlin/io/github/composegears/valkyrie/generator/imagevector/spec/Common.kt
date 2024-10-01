@@ -14,7 +14,13 @@ import io.github.composegears.valkyrie.ir.IrVectorNode
 
 internal fun ImageVectorSpecConfig.resolvePackageName(): String = when {
     iconNestedPack.isEmpty() -> iconPackage
-    else -> "$iconPackage.${iconNestedPack.lowercase()}"
+    else -> {
+        if (useFlatPackage) {
+            iconPackage
+        } else {
+            "$iconPackage.${iconNestedPack.lowercase()}"
+        }
+    }
 }
 
 internal fun ImageVectorSpecConfig.resolveIconPackClassName() = when {

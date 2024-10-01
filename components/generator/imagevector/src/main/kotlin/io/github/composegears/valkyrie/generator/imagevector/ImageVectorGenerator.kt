@@ -8,6 +8,7 @@ data class ImageVectorGeneratorConfig(
     val nestedPackName: String,
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
+    val useFlatPackage: Boolean,
 )
 
 enum class OutputFormat(val key: String) {
@@ -46,6 +47,7 @@ object ImageVectorGenerator {
             iconNestedPack = config.nestedPackName,
             outputFormat = config.outputFormat,
             generatePreview = config.generatePreview,
+            useFlatPackage = config.useFlatPackage,
         ),
     ).createFileFor(vector)
 }
