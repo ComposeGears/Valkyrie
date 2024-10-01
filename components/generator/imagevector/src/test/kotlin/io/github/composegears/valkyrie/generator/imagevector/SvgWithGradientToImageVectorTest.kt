@@ -24,6 +24,7 @@ class SvgWithGradientToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -48,6 +49,7 @@ class SvgWithGradientToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 
@@ -72,6 +74,7 @@ class SvgWithGradientToImageVectorTest {
                 nestedPackName = "",
                 outputFormat = outputFormat,
                 generatePreview = false,
+                useFlatPackage = false,
             ),
         ).content
 

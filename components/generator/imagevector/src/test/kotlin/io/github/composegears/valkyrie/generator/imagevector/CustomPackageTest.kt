@@ -8,12 +8,12 @@ import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
-class ImageVectorWithPreviewTest {
+class CustomPackageTest {
 
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
-    fun `preview generation without icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+    fun `flat package without icon pack`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
@@ -23,22 +23,22 @@ class ImageVectorWithPreviewTest {
                 packName = "",
                 nestedPackName = "",
                 outputFormat = outputFormat,
-                generatePreview = true,
-                useFlatPackage = false,
+                generatePreview = false,
+                useFlatPackage = true,
             ),
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.preview.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.preview.kt",
+            pathToBackingProperty = "kt/backing/FlatPackage.kt",
+            pathToLazyProperty = "kt/lazy/FlatPackage.kt",
         )
         assertThat(output).isEqualTo(expected)
     }
 
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
-    fun `preview generation with icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+    fun `flat package with icon pack`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
@@ -48,22 +48,22 @@ class ImageVectorWithPreviewTest {
                 packName = "ValkyrieIcons",
                 nestedPackName = "",
                 outputFormat = outputFormat,
-                generatePreview = true,
-                useFlatPackage = false,
+                generatePreview = false,
+                useFlatPackage = true,
             ),
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.pack.preview.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.pack.preview.kt",
+            pathToBackingProperty = "kt/backing/FlatPackage.pack.kt",
+            pathToLazyProperty = "kt/lazy/FlatPackage.pack.kt",
         )
         assertThat(output).isEqualTo(expected)
     }
 
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
-    fun `preview generation with nested pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+    fun `flat package with nested icon pack`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
@@ -73,14 +73,14 @@ class ImageVectorWithPreviewTest {
                 packName = "ValkyrieIcons",
                 nestedPackName = "Filled",
                 outputFormat = outputFormat,
-                generatePreview = true,
-                useFlatPackage = false,
+                generatePreview = false,
+                useFlatPackage = true,
             ),
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.pack.nested.preview.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.pack.nested.preview.kt",
+            pathToBackingProperty = "kt/backing/FlatPackage.pack.nested.kt",
+            pathToLazyProperty = "kt/lazy/FlatPackage.pack.nested.kt",
         )
         assertThat(output).isEqualTo(expected)
     }

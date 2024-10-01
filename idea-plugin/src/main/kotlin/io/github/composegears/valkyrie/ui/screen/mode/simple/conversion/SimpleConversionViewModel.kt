@@ -40,6 +40,7 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
                     nestedPackName = "",
                     outputFormat = valkyriesSettings.outputFormat,
                     generatePreview = valkyriesSettings.generatePreview,
+                    useFlatPackage = false,
                 ),
             ).content
         }.getOrElse {

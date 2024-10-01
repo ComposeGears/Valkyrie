@@ -6,6 +6,8 @@ import io.github.composegears.valkyrie.settings.updateMode
 import io.github.composegears.valkyrie.settings.updateOutputFormat
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 
@@ -23,8 +25,11 @@ class SettingsViewModel(
             is UpdateOutputFormat -> inMemorySettings.update {
                 updateOutputFormat(settingsAction.outputFormat)
             }
-            is SettingsAction.UpdateImageVectorPreview -> inMemorySettings.update {
+            is UpdateImageVectorPreview -> inMemorySettings.update {
                 showImageVectorPreview = settingsAction.enabled
+            }
+            is UpdateFlatPackage -> inMemorySettings.update {
+                flatPackage = settingsAction.useFlatPackage
             }
         }
     }

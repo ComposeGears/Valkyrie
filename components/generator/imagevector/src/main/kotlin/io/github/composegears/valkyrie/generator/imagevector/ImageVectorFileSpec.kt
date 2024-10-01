@@ -13,6 +13,7 @@ internal data class ImageVectorSpecConfig(
     val iconPackage: String,
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
+    val useFlatPackage: Boolean,
 )
 
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {
