@@ -54,7 +54,7 @@ internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
 
         delegate(
             CodeBlock.builder()
-                .beginControlFlow("lazy(%T.NONE)", ClassNames.LazyThreadSafetyMode)
+                .beginControlFlow("lazy(LazyThreadSafetyMode.NONE)")
                 .add(codeBlock)
                 .endControlFlow()
                 .build(),

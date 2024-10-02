@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.playground.icons.lazy.LazyIcons
-import kotlin.LazyThreadSafetyMode
 
 val LazyIcons.Colored.Videocam: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
