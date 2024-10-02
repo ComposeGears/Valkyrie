@@ -83,14 +83,6 @@ private fun IntroScreenUI(
     onModeChange: (Mode) -> Unit,
 ) {
     Box {
-        IconButton(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .align(Alignment.TopEnd),
-            imageVector = ValkyrieIcons.Settings,
-            iconSize = 24.dp,
-            onClick = openSettings,
-        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -134,6 +126,14 @@ private fun IntroScreenUI(
             }
             WeightSpacer(weight = 0.7f)
         }
+        IconButton(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .align(Alignment.TopEnd),
+            imageVector = ValkyrieIcons.Settings,
+            iconSize = 24.dp,
+            onClick = openSettings,
+        )
         Text(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
