@@ -9,6 +9,7 @@ data class ImageVectorGeneratorConfig(
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
     val useFlatPackage: Boolean,
+    val useExplicitMode: Boolean,
 )
 
 enum class OutputFormat(val key: String) {
@@ -48,6 +49,7 @@ object ImageVectorGenerator {
             outputFormat = config.outputFormat,
             generatePreview = config.generatePreview,
             useFlatPackage = config.useFlatPackage,
+            useExplicitMode = config.useExplicitMode,
         ),
     ).createFileFor(vector)
 }

@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.components.extensions)
     implementation(projects.components.generator.common)
 
     implementation(libs.kotlinpoet)

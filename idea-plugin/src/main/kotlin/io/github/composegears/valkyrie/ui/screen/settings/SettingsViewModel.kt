@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.settings.updateMode
 import io.github.composegears.valkyrie.settings.updateOutputFormat
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
@@ -17,20 +18,13 @@ class SettingsViewModel(
 
     val settings = inMemorySettings.settings
 
-    fun onAction(settingsAction: SettingsAction) {
+    fun onAction(settingsAction: SettingsAction) = inMemorySettings.update {
         when (settingsAction) {
-            is UpdatePreviewGeneration -> inMemorySettings.update {
-                generatePreview = settingsAction.generate
-            }
-            is UpdateOutputFormat -> inMemorySettings.update {
-                updateOutputFormat(settingsAction.outputFormat)
-            }
-            is UpdateImageVectorPreview -> inMemorySettings.update {
-                showImageVectorPreview = settingsAction.enabled
-            }
-            is UpdateFlatPackage -> inMemorySettings.update {
-                flatPackage = settingsAction.useFlatPackage
-            }
+            is UpdatePreviewGeneration -> generatePreview = settingsAction.generate
+            is UpdateOutputFormat -> updateOutputFormat(settingsAction.outputFormat)
+            is UpdateImageVectorPreview -> showImageVectorPreview = settingsAction.enabled
+            is UpdateFlatPackage -> flatPackage = settingsAction.useFlatPackage
+            is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
         }
     }
 

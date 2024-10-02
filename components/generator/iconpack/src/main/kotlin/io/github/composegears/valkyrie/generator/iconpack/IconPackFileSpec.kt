@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.generator.iconpack
 
 import io.github.composegears.valkyrie.generator.ext.fileSpecBuilder
 import io.github.composegears.valkyrie.generator.ext.objectBuilder
-import io.github.composegears.valkyrie.generator.ext.removeDeadCode
+import io.github.composegears.valkyrie.generator.ext.removeExplicitModeCode
 import io.github.composegears.valkyrie.generator.ext.setIndent
 
 internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
@@ -21,7 +21,10 @@ internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
             setIndent()
         }
         return IconPackSpecOutput(
-            content = fileSpec.removeDeadCode(),
+            content = when {
+                config.useExplicitMode -> fileSpec.toString()
+                else -> fileSpec.removeExplicitModeCode()
+            },
             name = fileSpec.name,
         )
     }

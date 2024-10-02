@@ -6,7 +6,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.fileSpecBuilder
 import io.github.composegears.valkyrie.generator.ext.propertySpecBuilder
-import io.github.composegears.valkyrie.generator.ext.removeDeadCode
+import io.github.composegears.valkyrie.generator.ext.removeExplicitModeCode
 import io.github.composegears.valkyrie.generator.ext.setIndent
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
@@ -38,7 +38,10 @@ internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
         }
 
         return ImageVectorSpecOutput(
-            content = fileSpec.removeDeadCode(),
+            content = when {
+                config.useExplicitMode -> fileSpec.toString()
+                else -> fileSpec.removeExplicitModeCode()
+            },
             name = fileSpec.name,
         )
     }

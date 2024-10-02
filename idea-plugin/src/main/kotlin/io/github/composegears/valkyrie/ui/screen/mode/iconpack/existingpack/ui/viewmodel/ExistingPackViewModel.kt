@@ -104,6 +104,7 @@ class ExistingPackViewModel(
                 packageName = inputFieldState.packageName.text,
                 iconPackName = inputFieldState.iconPackName.text,
                 subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
+                useExplicitMode = inMemorySettings.current.useExplicitMode,
             ),
         ).content
 
