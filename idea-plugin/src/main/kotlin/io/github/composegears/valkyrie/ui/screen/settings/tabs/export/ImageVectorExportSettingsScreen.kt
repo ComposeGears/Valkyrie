@@ -29,6 +29,8 @@ import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 
 val ImageVectorExportSettingsScreen by navDestination<Unit> {
@@ -40,6 +42,7 @@ val ImageVectorExportSettingsScreen by navDestination<Unit> {
         outputFormat = settings.outputFormat,
         generatePreview = settings.generatePreview,
         useFlatPackage = settings.flatPackage,
+        useExplicitMode = settings.useExplicitMode,
     )
 }
 
@@ -48,6 +51,7 @@ private fun ImageVectorExportSettingsUi(
     outputFormat: OutputFormat,
     generatePreview: Boolean,
     useFlatPackage: Boolean,
+    useExplicitMode: Boolean,
     onAction: (SettingsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -63,16 +67,22 @@ private fun ImageVectorExportSettingsUi(
         )
         VerticalSpacer(16.dp)
         SwitchOption(
-            title = "Include @Preview block",
-            description = "Deprecated option, please consider to use build-in ImageVector preview feature",
-            checked = generatePreview,
-            onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
-        )
-        SwitchOption(
             title = "Use flat package",
             description = "Export all ImageVector icons into a single package without dividing by nested pack folders",
             checked = useFlatPackage,
-            onCheckedChange = { onAction(SettingsAction.UpdateFlatPackage(it)) },
+            onCheckedChange = { onAction(UpdateFlatPackage(it)) },
+        )
+        SwitchOption(
+            title = "Handle Kotlin explicit mode",
+            description = "Generate ImageVector icons and IconPack with explicit 'public' modifier",
+            checked = useExplicitMode,
+            onCheckedChange = { onAction(UpdateExplicitMode(it)) },
+        )
+        SwitchOption(
+            title = "Include @Preview block",
+            description = "Note: Deprecated option, please consider to use build-in ImageVector preview feature",
+            checked = generatePreview,
+            onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
         )
         VerticalSpacer(16.dp)
     }
@@ -121,5 +131,6 @@ private fun ImageVectorExportSettingsPreview() = PreviewTheme(alignment = Alignm
         outputFormat = OutputFormat.BackingProperty,
         generatePreview = false,
         useFlatPackage = true,
+        useExplicitMode = false,
     )
 }

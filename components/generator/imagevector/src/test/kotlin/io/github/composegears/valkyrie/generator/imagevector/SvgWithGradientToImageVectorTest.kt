@@ -10,6 +10,25 @@ import org.junit.jupiter.params.provider.EnumSource
 
 class SvgWithGradientToImageVectorTest {
 
+    private fun createConfig(
+        packName: String = "",
+        nestedPackName: String = "",
+        outputFormat: OutputFormat,
+        generatePreview: Boolean = false,
+        useFlatPackage: Boolean = false,
+        useExplicitMode: Boolean = false,
+    ): ImageVectorGeneratorConfig {
+        return ImageVectorGeneratorConfig(
+            packageName = "io.github.composegears.valkyrie.icons",
+            packName = packName,
+            nestedPackName = nestedPackName,
+            outputFormat = outputFormat,
+            generatePreview = generatePreview,
+            useFlatPackage = useFlatPackage,
+            useExplicitMode = useExplicitMode,
+        )
+    }
+
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `svg linear gradient parsing`(outputFormat: OutputFormat) {
@@ -18,14 +37,7 @@ class SvgWithGradientToImageVectorTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = ImageVectorGeneratorConfig(
-                packageName = "io.github.composegears.valkyrie.icons",
-                packName = "",
-                nestedPackName = "",
-                outputFormat = outputFormat,
-                generatePreview = false,
-                useFlatPackage = false,
-            ),
+            config = createConfig(outputFormat = outputFormat),
         ).content
 
         val expected = outputFormat.toResourceText(
@@ -43,14 +55,7 @@ class SvgWithGradientToImageVectorTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = ImageVectorGeneratorConfig(
-                packageName = "io.github.composegears.valkyrie.icons",
-                packName = "",
-                nestedPackName = "",
-                outputFormat = outputFormat,
-                generatePreview = false,
-                useFlatPackage = false,
-            ),
+            config = createConfig(outputFormat = outputFormat),
         ).content
 
         val expected = outputFormat.toResourceText(
@@ -68,14 +73,7 @@ class SvgWithGradientToImageVectorTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = ImageVectorGeneratorConfig(
-                packageName = "io.github.composegears.valkyrie.icons",
-                packName = "",
-                nestedPackName = "",
-                outputFormat = outputFormat,
-                generatePreview = false,
-                useFlatPackage = false,
-            ),
+            config = createConfig(outputFormat = outputFormat),
         ).content
 
         val expected = outputFormat.toResourceText(

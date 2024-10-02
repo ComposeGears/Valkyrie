@@ -39,8 +39,7 @@ class NewPackViewModel(
     private val inMemorySettings: InMemorySettings,
 ) : TiamatViewModel() {
 
-    private val currentSettings = inMemorySettings.current
-    private var inputHandler = NewPackInputHandler(currentSettings)
+    private var inputHandler = NewPackInputHandler(inMemorySettings.current)
 
     private val _events = MutableSharedFlow<NewPackEvent>()
     val events = _events.asSharedFlow()
@@ -48,7 +47,7 @@ class NewPackViewModel(
     private val currentState: NewPackModeState
         get() = state.value
 
-    private val _state = MutableStateFlow<NewPackModeState>(currentSettings.toChooseDirectoryState())
+    private val _state = MutableStateFlow<NewPackModeState>(inMemorySettings.current.toChooseDirectoryState())
     val state = _state.asStateFlow()
 
     init {
@@ -125,6 +124,7 @@ class NewPackViewModel(
                 packageName = inputFieldState.packageName.text,
                 iconPackName = inputFieldState.iconPackName.text,
                 subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
+                useExplicitMode = inMemorySettings.current.useExplicitMode,
             ),
         ).content
         _events.emit(PreviewIconPackObject(code = iconPackCode))

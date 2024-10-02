@@ -42,6 +42,7 @@ class InMemorySettings(project: Project) {
         updateOutputFormat(OutputFormat.BackingProperty)
         generatePreview = false
         flatPackage = false
+        useExplicitMode = false
         showImageVectorPreview = true
     }
 
@@ -64,6 +65,7 @@ class InMemorySettings(project: Project) {
             outputFormat = OutputFormat.from(outputFormat),
             generatePreview = generatePreview,
             flatPackage = flatPackage,
+            useExplicitMode = useExplicitMode,
 
             showImageVectorPreview = showImageVectorPreview,
         )
@@ -81,6 +83,7 @@ data class ValkyriesSettings(
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
     val flatPackage: Boolean,
+    val useExplicitMode: Boolean,
 
     val showImageVectorPreview: Boolean,
 )

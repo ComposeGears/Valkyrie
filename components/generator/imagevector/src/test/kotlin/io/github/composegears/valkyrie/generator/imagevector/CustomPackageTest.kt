@@ -10,6 +10,26 @@ import org.junit.jupiter.params.provider.EnumSource
 
 class CustomPackageTest {
 
+    private fun createConfig(
+        packageName: String = "io.github.composegears.valkyrie.icons",
+        packName: String = "",
+        nestedPackName: String = "",
+        outputFormat: OutputFormat,
+        generatePreview: Boolean = false,
+        useFlatPackage: Boolean = true,
+        useExplicitMode: Boolean = false,
+    ): ImageVectorGeneratorConfig {
+        return ImageVectorGeneratorConfig(
+            packageName = packageName,
+            packName = packName,
+            nestedPackName = nestedPackName,
+            outputFormat = outputFormat,
+            generatePreview = generatePreview,
+            useFlatPackage = useFlatPackage,
+            useExplicitMode = useExplicitMode,
+        )
+    }
+
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `flat package without icon pack`(outputFormat: OutputFormat) {
@@ -18,14 +38,7 @@ class CustomPackageTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = ImageVectorGeneratorConfig(
-                packageName = "io.github.composegears.valkyrie.icons",
-                packName = "",
-                nestedPackName = "",
-                outputFormat = outputFormat,
-                generatePreview = false,
-                useFlatPackage = true,
-            ),
+            config = createConfig(outputFormat = outputFormat),
         ).content
 
         val expected = outputFormat.toResourceText(
@@ -43,13 +56,9 @@ class CustomPackageTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = ImageVectorGeneratorConfig(
-                packageName = "io.github.composegears.valkyrie.icons",
+            config = createConfig(
                 packName = "ValkyrieIcons",
-                nestedPackName = "",
                 outputFormat = outputFormat,
-                generatePreview = false,
-                useFlatPackage = true,
             ),
         ).content
 
@@ -68,13 +77,10 @@ class CustomPackageTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = ImageVectorGeneratorConfig(
-                packageName = "io.github.composegears.valkyrie.icons",
+            config = createConfig(
                 packName = "ValkyrieIcons",
                 nestedPackName = "Filled",
                 outputFormat = outputFormat,
-                generatePreview = false,
-                useFlatPackage = true,
             ),
         ).content
 

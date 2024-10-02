@@ -31,6 +31,7 @@ object IconPackWriter {
                 packageName = currentSettings.packageName,
                 iconPackName = currentSettings.iconPackName,
                 subPacks = currentSettings.nestedPacks,
+                useExplicitMode = currentSettings.useExplicitMode,
             ),
         )
 

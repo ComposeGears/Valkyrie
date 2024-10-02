@@ -258,6 +258,7 @@ private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopSta
             outputFormat = OutputFormat.BackingProperty,
             generatePreview = false,
             flatPackage = false,
+            useExplicitMode = false,
             showImageVectorPreview = true,
         ),
         onChangeMode = {},

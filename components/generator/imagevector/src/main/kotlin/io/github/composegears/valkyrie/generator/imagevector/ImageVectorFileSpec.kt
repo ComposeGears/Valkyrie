@@ -14,6 +14,7 @@ internal data class ImageVectorSpecConfig(
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
     val useFlatPackage: Boolean,
+    val useExplicitMode: Boolean,
 )
 
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {

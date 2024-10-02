@@ -9,7 +9,7 @@ import com.squareup.kotlinpoet.TypeSpec
 private val Indent = " ".repeat(4)
 fun FileSpec.Builder.setIndent() = indent(Indent)
 
-fun FileSpec.removeDeadCode(): String = toString()
+fun FileSpec.removeExplicitModeCode(): String = toString()
     .replace("public ", "")
 
 inline fun objectBuilder(

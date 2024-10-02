@@ -132,6 +132,7 @@ class IconPackConversionViewModel(
                         outputFormat = settings.outputFormat,
                         generatePreview = settings.generatePreview,
                         useFlatPackage = settings.flatPackage,
+                        useExplicitMode = settings.useExplicitMode,
                     ),
                 )
             }.getOrDefault(ImageVectorSpecOutput.empty)
@@ -167,6 +168,7 @@ class IconPackConversionViewModel(
                                     outputFormat = settings.outputFormat,
                                     generatePreview = settings.generatePreview,
                                     useFlatPackage = settings.flatPackage,
+                                    useExplicitMode = settings.useExplicitMode,
                                 ),
                             )
 
@@ -191,6 +193,7 @@ class IconPackConversionViewModel(
                                     outputFormat = settings.outputFormat,
                                     generatePreview = settings.generatePreview,
                                     useFlatPackage = settings.flatPackage,
+                                    useExplicitMode = settings.useExplicitMode,
                                 ),
                             )
 
