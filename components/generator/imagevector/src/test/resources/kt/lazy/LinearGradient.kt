@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import kotlin.LazyThreadSafetyMode
 
 val LinearGradient: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(

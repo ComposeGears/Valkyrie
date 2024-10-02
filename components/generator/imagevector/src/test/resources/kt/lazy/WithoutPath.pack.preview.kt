@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlin.LazyThreadSafetyMode
 
 val ValkyrieIcons.WithoutPath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
