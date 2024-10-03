@@ -133,6 +133,7 @@ class IconPackConversionViewModel(
                         generatePreview = settings.generatePreview,
                         useFlatPackage = settings.flatPackage,
                         useExplicitMode = settings.useExplicitMode,
+                        addTrailingComma = settings.addTrailingComma,
                     ),
                 )
             }.getOrDefault(ImageVectorSpecOutput.empty)
@@ -169,6 +170,7 @@ class IconPackConversionViewModel(
                                     generatePreview = settings.generatePreview,
                                     useFlatPackage = settings.flatPackage,
                                     useExplicitMode = settings.useExplicitMode,
+                                    addTrailingComma = settings.addTrailingComma,
                                 ),
                             )
 
@@ -194,6 +196,7 @@ class IconPackConversionViewModel(
                                     generatePreview = settings.generatePreview,
                                     useFlatPackage = settings.flatPackage,
                                     useExplicitMode = settings.useExplicitMode,
+                                    addTrailingComma = settings.addTrailingComma,
                                 ),
                             )
 

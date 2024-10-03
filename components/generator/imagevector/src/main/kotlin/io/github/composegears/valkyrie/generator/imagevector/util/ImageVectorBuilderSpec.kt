@@ -3,6 +3,8 @@ package io.github.composegears.valkyrie.generator.imagevector.util
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.formatFloat
+import io.github.composegears.valkyrie.generator.ext.newLine
+import io.github.composegears.valkyrie.generator.ext.trailingComma
 import io.github.composegears.valkyrie.generator.ext.trimTrailingZero
 import io.github.composegears.valkyrie.ir.IrImageVector
 
@@ -10,6 +12,7 @@ internal fun imageVectorBuilderSpecs(
     iconName: String,
     irVector: IrImageVector,
     path: CodeBlock.Builder.() -> Unit,
+    addTrailingComma: Boolean,
 ): CodeBlock = buildCodeBlock {
     add("%T.Builder(\n", ClassNames.ImageVector)
     indent()
@@ -17,7 +20,12 @@ internal fun imageVectorBuilderSpecs(
     add("defaultWidth = %L.%M,\n", irVector.defaultWidth.trimTrailingZero(), MemberNames.Dp)
     add("defaultHeight = %L.%M,\n", irVector.defaultHeight.trimTrailingZero(), MemberNames.Dp)
     add("viewportWidth = %L,\n", irVector.viewportWidth.formatFloat())
-    add("viewportHeight = %L\n", irVector.viewportHeight.formatFloat())
+    add("viewportHeight = %L", irVector.viewportHeight.formatFloat())
+    if (addTrailingComma) {
+        trailingComma()
+    } else {
+        newLine()
+    }
     unindent()
     add(")")
 

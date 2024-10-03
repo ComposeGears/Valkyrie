@@ -10,6 +10,7 @@ data class ImageVectorGeneratorConfig(
     val generatePreview: Boolean,
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
+    val addTrailingComma: Boolean,
 )
 
 enum class OutputFormat(val key: String) {
@@ -50,6 +51,7 @@ object ImageVectorGenerator {
             generatePreview = config.generatePreview,
             useFlatPackage = config.useFlatPackage,
             useExplicitMode = config.useExplicitMode,
+            addTrailingComma = config.addTrailingComma,
         ),
     ).createFileFor(vector)
 }

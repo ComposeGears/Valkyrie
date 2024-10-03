@@ -3,32 +3,13 @@ package io.github.composegears.valkyrie.generator.imagevector
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
+import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 class CustomPackageTest {
-
-    private fun createConfig(
-        packageName: String = "io.github.composegears.valkyrie.icons",
-        packName: String = "",
-        nestedPackName: String = "",
-        outputFormat: OutputFormat,
-        generatePreview: Boolean = false,
-        useFlatPackage: Boolean = true,
-        useExplicitMode: Boolean = false,
-    ): ImageVectorGeneratorConfig {
-        return ImageVectorGeneratorConfig(
-            packageName = packageName,
-            packName = packName,
-            nestedPackName = nestedPackName,
-            outputFormat = outputFormat,
-            generatePreview = generatePreview,
-            useFlatPackage = useFlatPackage,
-            useExplicitMode = useExplicitMode,
-        )
-    }
 
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
@@ -38,7 +19,10 @@ class CustomPackageTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = createConfig(outputFormat = outputFormat),
+            config = createConfig(
+                outputFormat = outputFormat,
+                useFlatPackage = true,
+            ),
         ).content
 
         val expected = outputFormat.toResourceText(
@@ -59,6 +43,7 @@ class CustomPackageTest {
             config = createConfig(
                 packName = "ValkyrieIcons",
                 outputFormat = outputFormat,
+                useFlatPackage = true,
             ),
         ).content
 
@@ -81,6 +66,7 @@ class CustomPackageTest {
                 packName = "ValkyrieIcons",
                 nestedPackName = "Filled",
                 outputFormat = outputFormat,
+                useFlatPackage = true,
             ),
         ).content
 

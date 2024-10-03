@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.settings.updateMode
 import io.github.composegears.valkyrie.settings.updateOutputFormat
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateAddTrailingComma
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
@@ -25,6 +26,7 @@ class SettingsViewModel(
             is UpdateImageVectorPreview -> showImageVectorPreview = settingsAction.enabled
             is UpdateFlatPackage -> flatPackage = settingsAction.useFlatPackage
             is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
+            is UpdateAddTrailingComma -> addTrailingComma = settingsAction.addTrailingComma
         }
     }
 

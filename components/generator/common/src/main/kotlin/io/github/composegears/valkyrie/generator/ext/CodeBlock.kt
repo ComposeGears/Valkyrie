@@ -27,3 +27,8 @@ fun CodeBlock.Builder.indention(block: CodeBlock.Builder.() -> Unit) {
 fun CodeBlock.Builder.newLine() {
     add("\n")
 }
+
+fun CodeBlock.Builder.trailingComma() {
+    add(",")
+    newLine()
+}
