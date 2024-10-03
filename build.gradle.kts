@@ -62,6 +62,16 @@ allprojects {
             target("src/**/*.kt")
             targetExclude("src/test/resources/**")
             ktlint(libs.ktlint.get().version)
+                .editorConfigOverride(
+                    mapOf(
+                        "ktlint_compose_lambda-param-event-trailing" to "disabled",
+                        "compose_treat_as_lambda" to false,
+                        "compose_disallow_material2" to true,
+                        "compose_allowed_from_m2" to "icons",
+                        "compose_preview_naming_enabled" to true,
+                        "compose_preview_naming_strategy" to "suffix",
+                    ),
+                )
                 .customRuleSets(
                     listOf(
                         libs.composeRules.get().toString(),

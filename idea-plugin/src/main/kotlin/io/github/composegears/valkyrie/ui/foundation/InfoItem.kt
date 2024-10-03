@@ -32,7 +32,7 @@ fun InfoItem(
 
 @Preview
 @Composable
-private fun PreviewInfoItem() = PreviewTheme {
+private fun InfoItemPreview() = PreviewTheme {
     InfoItem(
         title = "Title",
         description = "Description",

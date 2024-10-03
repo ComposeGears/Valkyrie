@@ -168,6 +168,6 @@ private fun DragAndDropBox(
 
 @Preview
 @Composable
-private fun PreviewPickerState() = PreviewTheme {
+private fun PickerStatePreview() = PreviewTheme {
     IconPackPickerStateUi(onPickerEvent = {})
 }
