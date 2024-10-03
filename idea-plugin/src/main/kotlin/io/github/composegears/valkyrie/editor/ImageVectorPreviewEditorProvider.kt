@@ -26,6 +26,10 @@ class ImageVectorPreviewEditorProvider :
             .bufferedReader()
             .use { it.readText() }
 
+        if (content.contains("package androidx.compose.material.icons\n")) {
+            return false
+        }
+
         return content.contains("androidx.compose.ui.graphics.vector.ImageVector") &&
             (
                 content.contains("androidx.compose.ui.graphics.vector.path") ||
