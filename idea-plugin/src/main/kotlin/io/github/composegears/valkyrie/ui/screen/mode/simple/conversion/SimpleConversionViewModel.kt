@@ -42,6 +42,7 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
                     generatePreview = valkyriesSettings.generatePreview,
                     useFlatPackage = false,
                     useExplicitMode = valkyriesSettings.useExplicitMode,
+                    addTrailingComma = valkyriesSettings.addTrailingComma,
                 ),
             ).content
         }.getOrElse {

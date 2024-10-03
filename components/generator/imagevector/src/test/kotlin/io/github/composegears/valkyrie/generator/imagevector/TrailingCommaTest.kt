@@ -9,25 +9,26 @@ import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
-class ExplicitModeTest {
+class TrailingCommaTest {
 
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
-    fun `generation with explicit mode`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+    fun `icon with path and solid color`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/ic_fill_color_stroke.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
             config = createConfig(
+                packName = "ValkyrieIcons",
                 outputFormat = outputFormat,
-                useExplicitMode = true,
+                addTrailingComma = true,
             ),
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.explicit.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.explicit.kt",
+            pathToBackingProperty = "kt/backing/FillColorStroke.trailing.kt",
+            pathToLazyProperty = "kt/lazy/FillColorStroke.trailing.kt",
         )
         assertThat(output).isEqualTo(expected)
     }

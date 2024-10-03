@@ -29,6 +29,7 @@ import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateAddTrailingComma
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
@@ -43,6 +44,7 @@ val ImageVectorExportSettingsScreen by navDestination<Unit> {
         generatePreview = settings.generatePreview,
         useFlatPackage = settings.flatPackage,
         useExplicitMode = settings.useExplicitMode,
+        addTrailingComma = settings.addTrailingComma,
     )
 }
 
@@ -52,6 +54,7 @@ private fun ImageVectorExportSettingsUi(
     generatePreview: Boolean,
     useFlatPackage: Boolean,
     useExplicitMode: Boolean,
+    addTrailingComma: Boolean,
     onAction: (SettingsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -77,6 +80,12 @@ private fun ImageVectorExportSettingsUi(
             description = "Generate ImageVector icons and IconPack with explicit 'public' modifier",
             checked = useExplicitMode,
             onCheckedChange = { onAction(UpdateExplicitMode(it)) },
+        )
+        SwitchOption(
+            title = "Add trailing comma",
+            description = "Insert a comma after the last element of ImageVector.Builder block and path params",
+            checked = addTrailingComma,
+            onCheckedChange = { onAction(UpdateAddTrailingComma(it)) },
         )
         SwitchOption(
             title = "Include @Preview block",
@@ -132,5 +141,6 @@ private fun ImageVectorExportSettingsPreview() = PreviewTheme(alignment = Alignm
         generatePreview = false,
         useFlatPackage = true,
         useExplicitMode = false,
+        addTrailingComma = false,
     )
 }

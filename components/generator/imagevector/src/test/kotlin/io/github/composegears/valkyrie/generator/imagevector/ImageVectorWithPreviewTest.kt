@@ -3,31 +3,13 @@ package io.github.composegears.valkyrie.generator.imagevector
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
+import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 class ImageVectorWithPreviewTest {
-
-    private fun createConfig(
-        packName: String = "",
-        nestedPackName: String = "",
-        outputFormat: OutputFormat,
-        generatePreview: Boolean = true,
-        useFlatPackage: Boolean = false,
-        useExplicitMode: Boolean = false,
-    ): ImageVectorGeneratorConfig {
-        return ImageVectorGeneratorConfig(
-            packageName = "io.github.composegears.valkyrie.icons",
-            packName = packName,
-            nestedPackName = nestedPackName,
-            outputFormat = outputFormat,
-            generatePreview = generatePreview,
-            useFlatPackage = useFlatPackage,
-            useExplicitMode = useExplicitMode,
-        )
-    }
 
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
@@ -37,7 +19,10 @@ class ImageVectorWithPreviewTest {
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.vector,
             kotlinName = parserOutput.kotlinName,
-            config = createConfig(outputFormat = outputFormat),
+            config = createConfig(
+                outputFormat = outputFormat,
+                generatePreview = true,
+            ),
         ).content
 
         val expected = outputFormat.toResourceText(
@@ -58,6 +43,7 @@ class ImageVectorWithPreviewTest {
             config = createConfig(
                 packName = "ValkyrieIcons",
                 outputFormat = outputFormat,
+                generatePreview = true,
             ),
         ).content
 
@@ -80,6 +66,7 @@ class ImageVectorWithPreviewTest {
                 packName = "ValkyrieIcons",
                 nestedPackName = "Filled",
                 outputFormat = outputFormat,
+                generatePreview = true,
             ),
         ).content
 

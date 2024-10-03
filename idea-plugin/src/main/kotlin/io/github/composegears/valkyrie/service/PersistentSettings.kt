@@ -38,6 +38,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var outputFormat: String? by string()
         var flatPackage: Boolean by property(false)
         var useExplicitMode: Boolean by property(false)
+        var addTrailingComma: Boolean by property(false)
 
         var showImageVectorPreview: Boolean by property(true)
     }

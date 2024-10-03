@@ -8,6 +8,7 @@ import io.github.composegears.valkyrie.generator.ext.formatFloat
 import io.github.composegears.valkyrie.generator.ext.indention
 import io.github.composegears.valkyrie.generator.ext.newLine
 import io.github.composegears.valkyrie.generator.ext.toColorHex
+import io.github.composegears.valkyrie.generator.ext.trailingComma
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.PathFillTypeParam
@@ -26,6 +27,7 @@ import io.github.composegears.valkyrie.ir.IrVectorNode
 
 internal fun CodeBlock.Builder.addPath(
     path: IrVectorNode.IrPath,
+    addTrailingComma: Boolean,
     pathBody: CodeBlock.Builder.() -> Unit,
 ) {
     val pathParams = path.buildPathParams()
@@ -55,9 +57,13 @@ internal fun CodeBlock.Builder.addPath(
                     pathParams.forEachIndexed { index, param ->
                         fillPathArgs(param)
                         if (index == pathParams.lastIndex) {
-                            add("\n")
+                            if (addTrailingComma) {
+                                trailingComma()
+                            } else {
+                                newLine()
+                            }
                         } else {
-                            add(",\n")
+                            trailingComma()
                         }
                     }
                     unindent()

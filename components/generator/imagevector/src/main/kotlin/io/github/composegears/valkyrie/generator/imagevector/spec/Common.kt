@@ -46,8 +46,14 @@ internal fun CodeBlock.Builder.addImageVectorBlock(
             },
             irVector = irVector,
             path = {
-                irVector.nodes.forEach { node -> addVectorNode(node) }
+                irVector.nodes.forEach { node ->
+                    addVectorNode(
+                        irVectorNode = node,
+                        addTrailingComma = config.addTrailingComma,
+                    )
+                }
             },
+            addTrailingComma = config.addTrailingComma,
         ),
     )
 }
@@ -73,17 +79,26 @@ internal fun FileSpec.Builder.addPreview(
     }
 }
 
-private fun CodeBlock.Builder.addVectorNode(irVectorNode: IrVectorNode) {
+private fun CodeBlock.Builder.addVectorNode(
+    irVectorNode: IrVectorNode,
+    addTrailingComma: Boolean,
+) {
     when (irVectorNode) {
         is IrVectorNode.IrGroup -> {
             beginControlFlow("%M", MemberNames.Group)
             irVectorNode.paths.forEach { path ->
-                addVectorNode(path)
+                addVectorNode(
+                    irVectorNode = path,
+                    addTrailingComma = addTrailingComma,
+                )
             }
             endControlFlow()
         }
         is IrVectorNode.IrPath -> {
-            addPath(irVectorNode) {
+            addPath(
+                path = irVectorNode,
+                addTrailingComma = addTrailingComma,
+            ) {
                 irVectorNode.paths.forEach { pathNode ->
                     // based on https://github.com/square/kotlinpoet/pull/1860#issuecomment-1986825382
                     addStatement("%L", pathNode.asStatement().replace(' ', '·'))

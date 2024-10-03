@@ -43,6 +43,7 @@ class InMemorySettings(project: Project) {
         generatePreview = false
         flatPackage = false
         useExplicitMode = false
+        addTrailingComma = false
         showImageVectorPreview = true
     }
 
@@ -66,6 +67,7 @@ class InMemorySettings(project: Project) {
             generatePreview = generatePreview,
             flatPackage = flatPackage,
             useExplicitMode = useExplicitMode,
+            addTrailingComma = addTrailingComma,
 
             showImageVectorPreview = showImageVectorPreview,
         )
@@ -84,6 +86,7 @@ data class ValkyriesSettings(
     val generatePreview: Boolean,
     val flatPackage: Boolean,
     val useExplicitMode: Boolean,
+    val addTrailingComma: Boolean,
 
     val showImageVectorPreview: Boolean,
 )
