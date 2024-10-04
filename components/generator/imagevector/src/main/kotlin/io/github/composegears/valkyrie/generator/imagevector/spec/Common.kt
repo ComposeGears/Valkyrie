@@ -27,9 +27,9 @@ internal fun ImageVectorSpecConfig.resolveIconPackClassName() = when {
     iconPack.isEmpty() -> null
     else -> {
         if (iconNestedPack.isEmpty()) {
-            ClassName(iconPackage, iconPack)
+            ClassName(iconPackPackage, iconPack)
         } else {
-            ClassName(iconPackage, iconPack).nestedClass(iconNestedPack)
+            ClassName(iconPackPackage, iconPack).nestedClass(iconNestedPack)
         }
     }
 }

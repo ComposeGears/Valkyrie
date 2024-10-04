@@ -16,30 +16,33 @@ object IconPackWriter {
     fun savePack(
         inMemorySettings: InMemorySettings,
         inputFieldState: InputFieldState,
+        writeToFile: Boolean = true,
     ) {
         inMemorySettings.update {
             packageName = inputFieldState.packageName.text
+            iconPackPackage = inputFieldState.iconPackPackage.text
             iconPackName = inputFieldState.iconPackName.text
             updateNestedPack(inputFieldState.nestedPacks.map { it.inputFieldState.text })
             updateMode(Mode.IconPack)
         }
 
-        val currentSettings = inMemorySettings.current
+        if (writeToFile) {
+            val currentSettings = inMemorySettings.current
 
-        val iconPack = IconPackGenerator.create(
-            config = IconPackGeneratorConfig(
-                packageName = currentSettings.packageName,
-                iconPackName = currentSettings.iconPackName,
-                subPacks = currentSettings.nestedPacks,
-                useExplicitMode = currentSettings.useExplicitMode,
-            ),
-        )
-
-        FileWriter.writeToFile(
-            content = iconPack.content,
-            outDirectory = currentSettings.iconPackDestination,
-            fileName = iconPack.name,
-        )
+            val iconPack = IconPackGenerator.create(
+                config = IconPackGeneratorConfig(
+                    packageName = currentSettings.packageName,
+                    iconPackName = currentSettings.iconPackName,
+                    subPacks = currentSettings.nestedPacks,
+                    useExplicitMode = currentSettings.useExplicitMode,
+                ),
+            )
+            FileWriter.writeToFile(
+                content = iconPack.content,
+                outDirectory = currentSettings.iconPackDestination,
+                fileName = iconPack.name,
+            )
+        }
 
         writeAction {
             VirtualFileManager.getInstance().syncRefresh()

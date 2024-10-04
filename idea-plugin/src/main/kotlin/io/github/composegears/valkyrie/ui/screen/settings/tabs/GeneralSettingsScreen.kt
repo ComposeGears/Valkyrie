@@ -252,6 +252,7 @@ private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopSta
         settings = ValkyriesSettings(
             mode = Simple,
             packageName = "io.github.composegears.valkyrie",
+            iconPackPackage = "io.github.composegears.valkyrie",
             iconPackName = "ValkyrieIcons",
             iconPackDestination = "path/to/export",
             nestedPacks = emptyList(),
@@ -261,6 +262,7 @@ private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopSta
             useExplicitMode = false,
             showImageVectorPreview = true,
             addTrailingComma = true,
+            useMaterialPack = false,
         ),
         onChangeMode = {},
         onClearSettings = {},

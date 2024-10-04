@@ -9,6 +9,7 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 internal data class ImageVectorSpecConfig(
     val iconName: String,
     val iconPack: String,
+    val iconPackPackage: String,
     val iconNestedPack: String,
     val iconPackage: String,
     val outputFormat: OutputFormat,

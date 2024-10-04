@@ -27,8 +27,10 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
     class ValkyrieState : BaseState() {
         var mode: String? by string(Mode.Unspecified.name)
+        var useMaterialPack: Boolean by property(false)
 
         var packageName: String? by string()
+        var iconPackPackage: String? by string()
         var iconPackName: String? by string()
         var iconPackDestination: String? by string()
 

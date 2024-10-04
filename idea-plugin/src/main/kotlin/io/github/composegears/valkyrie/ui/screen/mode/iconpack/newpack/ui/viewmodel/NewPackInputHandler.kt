@@ -17,17 +17,38 @@ class NewPackInputHandler(
 
     companion object {
         private val ValkyriesSettings.newPackInputFieldState: InputFieldState
-            get() = InputFieldState(
-                iconPackName = InputState(text = iconPackName),
-                packageName = InputState(
-                    text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
-                ),
-                nestedPacks = nestedPacks.mapIndexed { index, nestedPack ->
-                    NestedPack(
-                        id = index.toString(),
-                        inputFieldState = InputState(text = nestedPack),
+            get() {
+                return if (useMaterialPack) {
+                    InputFieldState(
+                        packageName = InputState(
+                            text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
+                        ),
+                        iconPackPackage = InputState(text = "androidx.compose.material.icons", enabled = false),
+                        iconPackName = InputState(text = "Icons", enabled = false),
+                        nestedPacks = listOf(
+                            NestedPack(id = "0", inputFieldState = InputState(text = "Filled", enabled = false)),
+                            NestedPack(id = "1", inputFieldState = InputState(text = "Outlined", enabled = false)),
+                            NestedPack(id = "2", inputFieldState = InputState(text = "Rounded", enabled = false)),
+                            NestedPack(id = "3", inputFieldState = InputState(text = "TwoTone", enabled = false)),
+                            NestedPack(id = "4", inputFieldState = InputState(text = "Sharp", enabled = false)),
+                        ),
+                        allowAddNestedPack = false,
                     )
-                },
-            )
+                } else {
+                    InputFieldState(
+                        iconPackName = InputState(text = iconPackName),
+                        packageName = InputState(
+                            text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
+                        ),
+                        iconPackPackage = InputState(text = iconPackPackage),
+                        nestedPacks = nestedPacks.mapIndexed { index, nestedPack ->
+                            NestedPack(
+                                id = index.toString(),
+                                inputFieldState = InputState(text = nestedPack),
+                            )
+                        },
+                    )
+                }
+            }
     }
 }

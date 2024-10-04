@@ -127,6 +127,7 @@ class IconPackConversionViewModel(
                     kotlinName = iconName.value,
                     config = ImageVectorGeneratorConfig(
                         packageName = icon.iconPack.iconPackage,
+                        iconPackPackage = settings.iconPackPackage,
                         packName = settings.iconPackName,
                         nestedPackName = icon.iconPack.currentNestedPack,
                         outputFormat = settings.outputFormat,
@@ -164,6 +165,7 @@ class IconPackConversionViewModel(
                                 kotlinName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
+                                    iconPackPackage = settings.iconPackPackage,
                                     packName = settings.iconPackName,
                                     nestedPackName = iconPack.currentNestedPack,
                                     outputFormat = settings.outputFormat,
@@ -190,6 +192,7 @@ class IconPackConversionViewModel(
                                 kotlinName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
+                                    iconPackPackage = settings.iconPackPackage,
                                     packName = settings.iconPackName,
                                     nestedPackName = "",
                                     outputFormat = settings.outputFormat,

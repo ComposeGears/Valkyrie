@@ -35,7 +35,9 @@ class InMemorySettings(project: Project) {
 
     fun clear() = update {
         updateMode(Mode.Unspecified)
+        useMaterialPack = false
         packageName = ""
+        iconPackPackage = ""
         iconPackName = ""
         iconPackDestination = ""
         updateNestedPack(packs = emptyList())
@@ -54,8 +56,10 @@ class InMemorySettings(project: Project) {
     private fun PersistentSettings.ValkyrieState.toValkyriesSettings() =
         ValkyriesSettings(
             mode = Mode.valueOf(mode!!),
+            useMaterialPack = useMaterialPack,
 
             packageName = packageName.or("io.github.composegears.valkyrie"),
+            iconPackPackage = iconPackPackage.or(packageName.or("io.github.composegears.valkyrie")),
             iconPackName = iconPackName.or("ValkyrieIcons"),
             iconPackDestination = iconPackDestination.or(""),
 
@@ -75,9 +79,11 @@ class InMemorySettings(project: Project) {
 
 data class ValkyriesSettings(
     val mode: Mode,
+    val useMaterialPack: Boolean,
 
     val packageName: String,
     val iconPackName: String,
+    val iconPackPackage: String,
     val iconPackDestination: String,
 
     val nestedPacks: List<String>,

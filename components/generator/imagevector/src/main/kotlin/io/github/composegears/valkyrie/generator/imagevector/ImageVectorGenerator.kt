@@ -4,6 +4,7 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 
 data class ImageVectorGeneratorConfig(
     val packageName: String,
+    val iconPackPackage: String,
     val packName: String,
     val nestedPackName: String,
     val outputFormat: OutputFormat,
@@ -45,6 +46,7 @@ object ImageVectorGenerator {
         config = ImageVectorSpecConfig(
             iconPackage = config.packageName,
             iconPack = config.packName,
+            iconPackPackage = config.iconPackPackage,
             iconName = kotlinName,
             iconNestedPack = config.nestedPackName,
             outputFormat = config.outputFormat,

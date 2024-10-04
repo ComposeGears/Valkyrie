@@ -104,6 +104,7 @@ fun PackEditUi(
         } else {
             NestedPacks(
                 nestedPacks = inputFieldState.nestedPacks,
+                allowAddNestedPack = inputFieldState.allowAddNestedPack,
                 onRemove = onRemoveNestedPack,
                 onValueChange = onValueChange,
                 onAddNestedPack = onAddNestedPack,
@@ -115,6 +116,7 @@ fun PackEditUi(
 @Composable
 private fun NestedPacks(
     nestedPacks: List<NestedPack>,
+    allowAddNestedPack: Boolean,
     onRemove: (NestedPack) -> Unit,
     onAddNestedPack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -165,6 +167,7 @@ private fun NestedPacks(
                 .align(Alignment.Start)
                 .padding(start = 40.dp),
             onClick = onAddNestedPack,
+            enabled = allowAddNestedPack,
         ) {
             Text(text = "+ Add nested pack")
         }
