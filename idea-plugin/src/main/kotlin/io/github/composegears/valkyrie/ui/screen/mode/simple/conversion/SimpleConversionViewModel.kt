@@ -36,6 +36,7 @@ class SimpleConversionViewModel(inMemorySettings: InMemorySettings) : TiamatView
                 kotlinName = parserOutput.kotlinName,
                 config = ImageVectorGeneratorConfig(
                     packageName = valkyriesSettings.packageName,
+                    iconPackPackage = valkyriesSettings.packageName,
                     packName = "",
                     nestedPackName = "",
                     outputFormat = valkyriesSettings.outputFormat,

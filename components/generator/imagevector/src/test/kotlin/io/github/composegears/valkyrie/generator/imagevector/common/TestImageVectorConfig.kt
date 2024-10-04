@@ -4,6 +4,8 @@ import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerato
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 
 internal fun createConfig(
+    packageName: String = "io.github.composegears.valkyrie.icons",
+    iconPackPackage: String = packageName,
     packName: String = "",
     nestedPackName: String = "",
     outputFormat: OutputFormat,
@@ -13,7 +15,8 @@ internal fun createConfig(
     addTrailingComma: Boolean = false,
 ): ImageVectorGeneratorConfig {
     return ImageVectorGeneratorConfig(
-        packageName = "io.github.composegears.valkyrie.icons",
+        packageName = packageName,
+        iconPackPackage = iconPackPackage,
         packName = packName,
         nestedPackName = nestedPackName,
         outputFormat = outputFormat,

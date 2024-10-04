@@ -76,4 +76,29 @@ class CustomPackageTest {
         )
         assertThat(output).isEqualTo(expected)
     }
+
+    @ParameterizedTest
+    @EnumSource(value = OutputFormat::class)
+    fun `different icon pack package`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/ic_without_path.xml")
+        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.vector,
+            kotlinName = parserOutput.kotlinName,
+            config = createConfig(
+                packageName = "io.github.composegears.valkyrie.icons",
+                iconPackPackage = "androidx.compose.material.icons",
+                useFlatPackage = true,
+                packName = "Icons",
+                nestedPackName = "Filled",
+                outputFormat = outputFormat,
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "kt/backing/WithoutPath.pack.package.kt",
+            pathToLazyProperty = "kt/lazy/WithoutPath.pack.package.kt",
+        )
+        assertThat(output).isEqualTo(expected)
+    }
 }
