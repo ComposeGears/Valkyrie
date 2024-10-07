@@ -49,6 +49,7 @@ fun IconPreviewBox(
     ) {
         PreviewBackground(
             bgType = bgType,
+            gridSize = (56f / 11f).dp,
             modifier = Modifier.matchParentSize(),
         )
 
