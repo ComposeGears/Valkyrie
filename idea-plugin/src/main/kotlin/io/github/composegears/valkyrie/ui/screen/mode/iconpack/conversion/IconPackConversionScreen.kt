@@ -39,7 +39,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.koin.koinTiamatViewModel
+import com.composegears.tiamat.koin.koinSaveableTiamatViewModel
 import com.composegears.tiamat.navArgsOrNull
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
@@ -70,7 +70,7 @@ val IconPackConversionScreen by navDestination<List<Path>> {
     val navController = navController()
     val navArgs = navArgsOrNull()
 
-    val viewModel = koinTiamatViewModel<IconPackConversionViewModel> { parametersOf(navArgs.orEmpty()) }
+    val viewModel = koinSaveableTiamatViewModel<IconPackConversionViewModel> { parametersOf(navArgs.orEmpty()) }
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
