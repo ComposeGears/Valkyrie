@@ -1,8 +1,13 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -48,7 +53,9 @@ import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ExportingState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ImportValidationState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.BatchProcessingStateUi
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.IconPackPickerStateUi
@@ -147,40 +154,69 @@ private fun IconPackConversionUi(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar {
-                if (state is IconsPickering) {
-                    BackAction(onBack = onBack)
-                }
-                if (state is BatchProcessing.IconPackCreationState) {
-                    ClearAction(onClear = onReset)
+                AnimatedContent(
+                    targetState = state,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    contentKey = {
+                        when (it) {
+                            is IconsPickering, ExportingState, ImportValidationState -> 0
+                            is IconPackCreationState -> 1
+                        }
+                    },
+                ) { current ->
+                    when (current) {
+                        is IconsPickering, ExportingState, ImportValidationState -> {
+                            BackAction(onBack = onBack)
+                        }
+                        is IconPackCreationState -> {
+                            ClearAction(onClear = onReset)
+                        }
+                    }
                 }
                 AppBarTitle(title = "IconPack generation")
                 WeightSpacer()
                 SettingsAction(openSettings = openSettings)
             }
-            when (state) {
-                is IconsPickering -> {
-                    IconPackPickerStateUi(onPickerEvent = onPickEvent)
-                }
-                BatchProcessing.ExportingState -> {
-                    LoadingStateUi(message = "Exporting icons...")
-                }
-                BatchProcessing.ImportValidationState -> {
-                    LoadingStateUi(message = "Processing icons...")
-                }
-                is BatchProcessing.IconPackCreationState -> {
-                    BatchProcessingStateUi(
-                        modifier = Modifier.nestedScroll(nestedScrollConnection),
-                        state = state,
-                        onDeleteIcon = onDeleteIcon,
-                        onUpdatePack = updatePack,
-                        onPreviewClick = onPreviewClick,
-                        onRenameIcon = onRenameIcon,
-                    )
+            AnimatedContent(
+                modifier = Modifier.fillMaxSize(),
+                targetState = state,
+                contentKey = {
+                    when (it) {
+                        is IconsPickering -> 0
+                        is ExportingState -> 1
+                        is IconPackCreationState -> 2
+                        is ImportValidationState -> 3
+                    }
+                },
+                transitionSpec = {
+                    fadeIn(tween(220, delayMillis = 90)) togetherWith fadeOut(tween(90))
+                },
+            ) { current ->
+                when (current) {
+                    is IconsPickering -> {
+                        IconPackPickerStateUi(onPickerEvent = onPickEvent)
+                    }
+                    ExportingState -> {
+                        LoadingStateUi(message = "Exporting icons...")
+                    }
+                    ImportValidationState -> {
+                        LoadingStateUi(message = "Processing icons...")
+                    }
+                    is IconPackCreationState -> {
+                        BatchProcessingStateUi(
+                            modifier = Modifier.nestedScroll(nestedScrollConnection),
+                            state = current,
+                            onDeleteIcon = onDeleteIcon,
+                            onUpdatePack = updatePack,
+                            onPreviewClick = onPreviewClick,
+                            onRenameIcon = onRenameIcon,
+                        )
+                    }
                 }
             }
         }
 
-        if (state is BatchProcessing.IconPackCreationState) {
+        if (state is IconPackCreationState) {
             AnimatedVisibility(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
