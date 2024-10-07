@@ -1,5 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
+import com.composegears.tiamat.Saveable
+import com.composegears.tiamat.SavedState
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.extensions.cast
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
@@ -17,6 +19,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Conver
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
+import io.github.composegears.valkyrie.util.getOrNull
 import java.nio.file.Path
 import kotlin.io.path.extension
 import kotlin.io.path.isDirectory
@@ -34,8 +37,10 @@ import kotlinx.coroutines.withContext
 
 class IconPackConversionViewModel(
     private val inMemorySettings: InMemorySettings,
+    savedState: SavedState?,
     paths: List<Path>,
-) : TiamatViewModel() {
+) : TiamatViewModel(),
+    Saveable {
 
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()
@@ -44,12 +49,35 @@ class IconPackConversionViewModel(
     val events = _events.asSharedFlow()
 
     init {
-        if (paths.isNotEmpty()) {
-            if (paths.size == 1 && paths.first().isDirectory()) {
-                pickerEvent(PickerEvent.PickDirectory(paths.first()))
-            } else {
-                pickerEvent(PickerEvent.PickFiles(paths))
+        val restoredState = savedState?.getOrNull<List<BatchIcon>>(key = "icons")
+
+        when {
+            restoredState != null -> {
+                if (restoredState.isEmpty()) {
+                    _state.updateState { IconsPickering }
+                } else {
+                    _state.updateState {
+                        BatchProcessing.IconPackCreationState(
+                            icons = restoredState,
+                            exportEnabled = restoredState.isAllIconsValid(),
+                        )
+                    }
+                }
             }
+            paths.isNotEmpty() -> {
+                if (paths.size == 1 && paths.first().isDirectory()) {
+                    pickerEvent(PickerEvent.PickDirectory(paths.first()))
+                } else {
+                    pickerEvent(PickerEvent.PickFiles(paths))
+                }
+            }
+        }
+    }
+
+    override fun saveToSaveState(): SavedState {
+        return when (val state = _state.value) {
+            is BatchProcessing.IconPackCreationState -> mapOf("icons" to state.icons)
+            else -> mapOf("icons" to emptyList<List<BatchIcon>>())
         }
     }
 

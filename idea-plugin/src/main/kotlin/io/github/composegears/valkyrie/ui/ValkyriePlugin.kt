@@ -71,11 +71,15 @@ fun ValkyriePlugin(
     )
 
     LaunchedEffect(Unit) {
-        project.globalEventsHandler
+        val globalEventsHandler = project.globalEventsHandler
+
+        globalEventsHandler
             .events
             .onEach { event ->
                 when (event) {
                     is PluginEvents.ImportIcons -> {
+                        globalEventsHandler.resetCache()
+
                         navController.editBackStack {
                             clear()
                             add(IntroScreen)
