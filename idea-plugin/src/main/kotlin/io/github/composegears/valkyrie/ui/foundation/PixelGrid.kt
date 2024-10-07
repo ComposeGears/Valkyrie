@@ -8,36 +8,50 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @Composable
 fun PixelGrid(
     modifier: Modifier = Modifier,
     gridSize: Dp = 8.dp,
 ) {
-    Canvas(modifier = modifier) {
+    Canvas(modifier = modifier.clipToBounds()) {
         val canvasWidth = size.width
         val canvasHeight = size.height
 
         val squareSize = gridSize.toPx()
 
-        val verticalSquares = (canvasHeight / squareSize).toInt()
-        val horizontalSquares = (canvasWidth / squareSize).toInt()
+        val verticalSquares = (canvasHeight / squareSize).roundToInt()
+        val horizontalSquares = (canvasWidth / squareSize).roundToInt()
 
-        repeat(verticalSquares) { j ->
-            repeat(horizontalSquares) { i ->
-                val color = if ((i + j) % 2 == 0) Color.LightGray else Color.White
-
-                drawRect(
-                    color = color,
-                    topLeft = Offset(x = i * squareSize, y = j * squareSize),
-                    size = Size(width = squareSize, height = squareSize),
-                )
+        drawRect(
+            color = Color.White,
+            topLeft = Offset(x = 0f, y = 0f),
+            size = Size(width = canvasWidth, height = canvasHeight),
+        )
+        translate(
+            left = canvasWidth / 2f + squareSize / 2f,
+            top = canvasHeight / 2f + squareSize / 2f,
+        ) {
+            for (i in -horizontalSquares / 2 - 2..horizontalSquares / 2) {
+                for (j in -verticalSquares / 2 - 2..verticalSquares / 2) {
+                    if (abs(i % 2) == abs(j % 2)) {
+                        drawRect(
+                            color = Color.LightGray,
+                            topLeft = Offset(x = i * squareSize, y = j * squareSize),
+                            size = Size(width = squareSize, height = squareSize),
+                        )
+                    }
+                }
             }
         }
     }
@@ -47,7 +61,7 @@ fun PixelGrid(
 @Composable
 private fun PixelGridPreview() = PreviewTheme {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        val gridSizes = listOf(8.dp, 4.dp, 2.dp)
+        val gridSizes = listOf(64.dp, 32.dp, 13.dp, 8.dp, 4.dp)
 
         gridSizes.forEach { gridSize ->
             PixelGrid(

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -17,6 +18,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 fun PreviewBackground(
     bgType: BgType,
     modifier: Modifier = Modifier,
+    gridSize: Dp = 8.dp,
 ) {
     Box(modifier = modifier) {
         when (bgType) {
@@ -37,7 +39,7 @@ fun PreviewBackground(
             BgType.PixelGrid -> {
                 PixelGrid(
                     modifier = Modifier.matchParentSize(),
-                    gridSize = 2.dp,
+                    gridSize = gridSize,
                 )
             }
         }
