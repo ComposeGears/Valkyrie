@@ -16,7 +16,7 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
 
 tiamat-base = "io.github.composegears:tiamat:1.1.1"
-tiamat-koin = "io.github.composegears:tiamat-koin:1.1.0"
+tiamat-koin = "io.github.composegears:tiamat-koin:1.2.0"
 
 xpp3 = "org.ogce:xpp3:1.1.6"
 
