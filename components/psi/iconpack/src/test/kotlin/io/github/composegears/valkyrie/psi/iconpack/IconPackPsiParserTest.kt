@@ -22,30 +22,46 @@ class IconPackPsiParserTest {
         get() = projectExtension.project
 
     @Test
-    fun `simple icon pack parser`() {
-        val path = getResourcePath("SimpleIconPack.kt")
+    fun `icon pack parser L1`() {
+        val path = getResourcePath("IconPack_L1.kt")
 
         runInEdtAndGet {
             val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack).isEqualTo("SimpleIconPack")
+                assertThat(packInfo.iconPack).isEqualTo("IconPack_L1")
                 assertThat(packInfo.nestedPacks.size).isEqualTo(0)
             }
         }
     }
 
     @Test
-    fun `nested icon pack parser`() {
-        val path = getResourcePath("NestedIconPack.kt")
+    fun `icon pack parser L2`() {
+        val path = getResourcePath("IconPack_L2.kt")
 
         runInEdtAndGet {
             val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack).isEqualTo("NestedIconPack")
+                assertThat(packInfo.iconPack).isEqualTo("IconPack_L2")
+                assertThat(packInfo.nestedPacks.size).isEqualTo(5)
+                assertThat(packInfo.nestedPacks).containsExactly("Filled", "Outlined", "TwoTone", "Sharp", "Round")
+            }
+        }
+    }
+
+    @Test
+    fun `icon pack parser L3`() {
+        val path = getResourcePath("IconPack_L3.kt")
+
+        invokeAndWaitIfNeeded {
+            val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
+
+            assertThat(iconPackInfo).isNotNull().transform { packInfo ->
+                assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
+                assertThat(packInfo.iconPack).isEqualTo("IconPack_L3")
                 assertThat(packInfo.nestedPacks.size).isEqualTo(5)
                 assertThat(packInfo.nestedPacks).containsExactly("Filled", "Outlined", "TwoTone", "Sharp", "Round")
             }

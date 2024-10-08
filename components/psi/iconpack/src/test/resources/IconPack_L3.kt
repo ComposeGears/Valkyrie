@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.psi
 
-object NestedIconPack {
+object IconPack_L3 {
     object Filled
 
     object Outlined
@@ -9,5 +9,10 @@ object NestedIconPack {
 
     object Sharp
 
-    object Round
+    object Round {
+
+        object Low
+
+        object Medium
+    }
 }
