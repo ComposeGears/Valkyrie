@@ -1,3 +1,3 @@
 package io.github.composegears.valkyrie.psi
 
-object SimpleIconPack
+object IconPack_L1
