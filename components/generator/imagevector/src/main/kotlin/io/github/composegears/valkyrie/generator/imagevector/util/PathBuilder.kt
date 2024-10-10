@@ -11,6 +11,7 @@ import io.github.composegears.valkyrie.generator.ext.toColorHex
 import io.github.composegears.valkyrie.generator.ext.trailingComma
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillParam
+import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.NameParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.PathFillTypeParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeAlphaParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeColorHexParam
@@ -81,8 +82,8 @@ private fun CodeBlock.Builder.fillPathArgs(
     param: PathParams,
     handleMultiline: Boolean = false,
 ) {
-    // TODO: arg "name" missing
     when (param) {
+        is NameParam -> nameArg(param)
         is FillParam -> fillArg(param, handleMultiline)
         is FillAlphaParam -> fillAlphaArg(param)
         is PathFillTypeParam -> pathFillTypeArg(param)
@@ -93,6 +94,10 @@ private fun CodeBlock.Builder.fillPathArgs(
         is StrokeLineMiterParam -> strokeLineMiterArg(param)
         is StrokeLineWidthParam -> strokeLineWidthArg(param)
     }
+}
+
+private fun CodeBlock.Builder.nameArg(param: NameParam) {
+    add("name = %S", param.name)
 }
 
 private fun CodeBlock.Builder.fillArg(
@@ -202,6 +207,9 @@ private fun CodeBlock.Builder.pathFillTypeArg(param: PathFillTypeParam) {
 }
 
 private fun IrVectorNode.IrPath.buildPathParams() = buildList {
+    if (name.isNotEmpty()) {
+        add(NameParam(name))
+    }
     fill?.takeUnless { it is IrFill.Color && it.isTransparent() }?.let {
         add(FillParam(it))
     }
@@ -234,6 +242,7 @@ private fun IrVectorNode.IrPath.buildPathParams() = buildList {
 private fun IrFill.Color.isTransparent() = colorHex == "00000000" || colorHex == "0000"
 
 internal sealed interface PathParams {
+    data class NameParam(val name: String) : PathParams
     data class FillParam(val fill: IrFill) : PathParams
     data class FillAlphaParam(val fillAlpha: Float) : PathParams
     data class StrokeColorHexParam(val strokeColorHex: String) : PathParams
