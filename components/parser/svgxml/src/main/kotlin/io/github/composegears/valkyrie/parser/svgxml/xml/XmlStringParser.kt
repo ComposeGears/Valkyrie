@@ -72,7 +72,10 @@ internal object XmlStringParser {
                             val fillColor = parser.getAttributeValue(null, FILL_COLOR)
                                 ?.toHexColor()
 
+                            val name = parser.getAttributeValue(null, NAME).orEmpty()
+
                             val path = IrVectorNode.IrPath(
+                                name = name,
                                 fill = when {
                                     fillColor != null -> IrFill.Color(fillColor)
                                     else -> null
@@ -208,6 +211,7 @@ private const val LINEAR = "linear"
 private const val RADIAL = "radial"
 
 // Path XML attribute names
+private const val NAME = "android:name"
 private const val PATH_DATA = "android:pathData"
 private const val FILL_ALPHA = "android:fillAlpha"
 private const val STROKE_ALPHA = "android:strokeAlpha"

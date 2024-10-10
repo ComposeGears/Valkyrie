@@ -18,6 +18,7 @@ val ValkyrieIcons.AllPathParams: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportHeight = 18f
     ).apply {
         path(
+            name = "path_name",
             fill = SolidColor(Color(0xFF232F34)),
             fillAlpha = 0.5f,
             stroke = SolidColor(Color(0xFF232F34)),
