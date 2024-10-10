@@ -29,6 +29,7 @@ internal object XmlStringParser {
         val height = parser.getAttributeValue(null, HEIGHT).valueToFloat()
         val viewportWidth = parser.getAttributeValue(null, VIEWPORT_WIDTH).toFloat()
         val viewportHeight = parser.getAttributeValue(null, VIEWPORT_HEIGHT).toFloat()
+        val autoMirrored = parser.getAttributeValue(null, AUTO_MIRRORED)?.toBooleanStrictOrNull() ?: false
 
         parser.next()
 
@@ -171,6 +172,7 @@ internal object XmlStringParser {
             defaultHeight = height,
             viewportWidth = viewportWidth,
             viewportHeight = viewportHeight,
+            autoMirror = autoMirrored,
             nodes = nodes,
         )
     }
@@ -242,6 +244,7 @@ private const val WIDTH = "android:width"
 private const val HEIGHT = "android:height"
 private const val VIEWPORT_WIDTH = "android:viewportWidth"
 private const val VIEWPORT_HEIGHT = "android:viewportHeight"
+private const val AUTO_MIRRORED = "android:autoMirrored"
 
 // XML attribute values
 private const val EVEN_ODD = "evenOdd"
