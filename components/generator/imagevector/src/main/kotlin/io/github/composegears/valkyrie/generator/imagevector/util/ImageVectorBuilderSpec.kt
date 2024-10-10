@@ -21,6 +21,10 @@ internal fun imageVectorBuilderSpecs(
     add("defaultHeight = %L.%M,\n", irVector.defaultHeight.trimTrailingZero(), MemberNames.Dp)
     add("viewportWidth = %L,\n", irVector.viewportWidth.formatFloat())
     add("viewportHeight = %L", irVector.viewportHeight.formatFloat())
+    if (irVector.autoMirror) {
+        trailingComma()
+        add("autoMirror = true")
+    }
     if (addTrailingComma) {
         trailingComma()
     } else {

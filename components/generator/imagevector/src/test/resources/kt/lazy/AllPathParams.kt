@@ -15,7 +15,8 @@ val ValkyrieIcons.AllPathParams: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 18f,
-        viewportHeight = 18f
+        viewportHeight = 18f,
+        autoMirror = true
     ).apply {
         path(
             name = "path_name",
