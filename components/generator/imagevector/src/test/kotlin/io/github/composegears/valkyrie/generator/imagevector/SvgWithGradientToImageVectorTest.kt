@@ -1,19 +1,21 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
+import app.cash.burst.Burst
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.api.Test
 
-class SvgWithGradientToImageVectorTest {
+@Burst
+class SvgWithGradientToImageVectorTest(
+    private val outputFormat: OutputFormat,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `svg linear gradient parsing`(outputFormat: OutputFormat) {
+    @Test
+    fun `svg linear gradient parsing`() {
         val icon = getResourcePath("svg/ic_linear_gradient.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -29,9 +31,8 @@ class SvgWithGradientToImageVectorTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `svg radial gradient parsing`(outputFormat: OutputFormat) {
+    @Test
+    fun `svg radial gradient parsing`() {
         val icon = getResourcePath("svg/ic_radial_gradient.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -47,9 +48,8 @@ class SvgWithGradientToImageVectorTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `svg linear gradient with stroke parsing`(outputFormat: OutputFormat) {
+    @Test
+    fun `svg linear gradient with stroke parsing`() {
         val icon = getResourcePath("svg/ic_linear_gradient_with_stroke.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(

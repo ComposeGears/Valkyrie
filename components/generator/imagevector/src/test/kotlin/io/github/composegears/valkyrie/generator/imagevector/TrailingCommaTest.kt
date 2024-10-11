@@ -1,19 +1,21 @@
 package io.github.composegears.valkyrie.generator.imagevector
 
+import app.cash.burst.Burst
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.api.Test
 
-class TrailingCommaTest {
+@Burst
+class TrailingCommaTest(
+    private val outputFormat: OutputFormat,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `icon with path and solid color`(outputFormat: OutputFormat) {
+    @Test
+    fun `icon with path and solid color`() {
         val icon = getResourcePath("xml/ic_fill_color_stroke.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(

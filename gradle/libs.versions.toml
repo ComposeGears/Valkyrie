@@ -36,6 +36,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 jetbrains-compose = "org.jetbrains.compose:1.6.11"
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
+cashapp-burst = "app.cash.burst:0.2.0"
 spotless = "com.diffplug.spotless:7.0.0.BETA2"
 
 [bundles]
