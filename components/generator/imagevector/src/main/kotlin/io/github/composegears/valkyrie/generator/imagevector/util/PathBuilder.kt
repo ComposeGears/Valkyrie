@@ -241,7 +241,7 @@ private fun IrVectorNode.IrPath.buildPathParams() = buildList {
 
 private fun IrFill.Color.isTransparent() = colorHex == "00000000" || colorHex == "0000"
 
-internal sealed interface PathParams {
+private sealed interface PathParams {
     data class NameParam(val name: String) : PathParams
     data class FillParam(val fill: IrFill) : PathParams
     data class FillAlphaParam(val fillAlpha: Float) : PathParams

@@ -102,7 +102,26 @@ internal object XmlStringParser {
                         }
                         // Material icons are simple and don't have nested groups, so this can be simple
                         GROUP -> {
-                            val group = IrVectorNode.IrGroup(paths = mutableListOf())
+                            val name = parser.getAttributeValue(null, NAME).orEmpty()
+                            val rotate = parser.getValueAsFloat(ROTATION) ?: 0f
+                            val pivotX = parser.getValueAsFloat(PIVOT_X) ?: 0f
+                            val pivotY = parser.getValueAsFloat(PIVOT_Y) ?: 0f
+                            val scaleX = parser.getValueAsFloat(SCALE_X) ?: 1f
+                            val scaleY = parser.getValueAsFloat(SCALE_Y) ?: 1f
+                            val translateX = parser.getValueAsFloat(TRANSLATE_X) ?: 0f
+                            val translateY = parser.getValueAsFloat(TRANSLATE_Y) ?: 0f
+
+                            val group = IrVectorNode.IrGroup(
+                                name = name,
+                                rotate = rotate,
+                                pivotX = pivotX,
+                                pivotY = pivotY,
+                                scaleX = scaleX,
+                                scaleY = scaleY,
+                                translationX = translateX,
+                                translationY = translateY,
+                                paths = mutableListOf(),
+                            )
                             currentGroup = group
                             nodes.add(group)
                         }
@@ -211,6 +230,15 @@ private const val ITEM = "item"
 // XML  names
 private const val LINEAR = "linear"
 private const val RADIAL = "radial"
+
+// Group XML attribute names
+const val ROTATION = "android:rotation"
+const val PIVOT_X = "android:pivotX"
+const val PIVOT_Y = "android:pivotY"
+const val SCALE_X = "android:scaleX"
+const val SCALE_Y = "android:scaleY"
+const val TRANSLATE_X = "android:translateX"
+const val TRANSLATE_Y = "android:translateY"
 
 // Path XML attribute names
 private const val NAME = "android:name"

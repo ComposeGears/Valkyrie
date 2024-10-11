@@ -4,7 +4,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecConfig
-import io.github.composegears.valkyrie.generator.imagevector.util.MemberNames
+import io.github.composegears.valkyrie.generator.imagevector.util.addGroup
 import io.github.composegears.valkyrie.generator.imagevector.util.addPath
 import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpec
 import io.github.composegears.valkyrie.generator.imagevector.util.iconPreviewSpecForNestedPack
@@ -84,26 +84,27 @@ private fun CodeBlock.Builder.addVectorNode(
     addTrailingComma: Boolean,
 ) {
     when (irVectorNode) {
-        is IrVectorNode.IrGroup -> {
-            beginControlFlow("%M", MemberNames.Group)
-            irVectorNode.paths.forEach { path ->
-                addVectorNode(
-                    irVectorNode = path,
-                    addTrailingComma = addTrailingComma,
-                )
-            }
-            endControlFlow()
-        }
-        is IrVectorNode.IrPath -> {
-            addPath(
-                path = irVectorNode,
-                addTrailingComma = addTrailingComma,
-            ) {
+        is IrVectorNode.IrGroup -> addGroup(
+            path = irVectorNode,
+            addTrailingComma = addTrailingComma,
+            groupBody = {
+                irVectorNode.paths.forEach { path ->
+                    addVectorNode(
+                        irVectorNode = path,
+                        addTrailingComma = addTrailingComma,
+                    )
+                }
+            },
+        )
+        is IrVectorNode.IrPath -> addPath(
+            path = irVectorNode,
+            addTrailingComma = addTrailingComma,
+            pathBody = {
                 irVectorNode.paths.forEach { pathNode ->
                     // based on https://github.com/square/kotlinpoet/pull/1860#issuecomment-1986825382
                     addStatement("%L", pathNode.asStatement().replace(' ', '·'))
                 }
-            }
-        }
+            },
+        )
     }
 }
