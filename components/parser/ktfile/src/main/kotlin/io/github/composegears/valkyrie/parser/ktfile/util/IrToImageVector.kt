@@ -62,7 +62,16 @@ fun IrImageVector.toComposeImageVector(
 }
 
 private fun ImageVector.Builder.addGroup(group: IrGroup) {
-    group {
+    group(
+        name = group.name,
+        rotate = group.rotate,
+        pivotX = group.pivotX,
+        pivotY = group.pivotY,
+        scaleX = group.scaleX,
+        scaleY = group.scaleY,
+        translationX = group.translationX,
+        translationY = group.translationY,
+    ) {
         group.paths.forEach {
             addPath(it)
         }
@@ -71,6 +80,7 @@ private fun ImageVector.Builder.addGroup(group: IrGroup) {
 
 private fun ImageVector.Builder.addPath(path: IrPath) {
     path(
+        name = path.name,
         fill = path.fill.toFill(),
         fillAlpha = path.fillAlpha,
         stroke = path.stroke.toBrush(),

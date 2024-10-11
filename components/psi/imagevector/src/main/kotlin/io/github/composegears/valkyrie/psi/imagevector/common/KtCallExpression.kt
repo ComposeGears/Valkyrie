@@ -46,6 +46,12 @@ internal fun KtCallExpression.parseFloatArg(name: String): Float? {
     return arg?.getArgumentExpression()?.text?.toFloatOrNull()
 }
 
+internal fun KtCallExpression.parseStringArg(name: String): String? {
+    val arg = valueArguments.find { it.getArgumentName()?.asName?.identifier == name }
+
+    return arg?.getArgumentExpression()?.text?.removeSurrounding("\"")
+}
+
 internal fun KtCallExpression.parseStroke(): IrStroke? {
     val arg = valueArguments.find { it.getArgumentName()?.asName?.identifier == "stroke" }
     val colorCall = arg?.getArgumentExpression().safeAs<KtCallExpression>()
