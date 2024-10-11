@@ -137,6 +137,27 @@ class XmlToImageVectorTest {
 
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
+    fun `icon with all group params`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("xml/ic_all_group_params.xml")
+        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.vector,
+            kotlinName = parserOutput.kotlinName,
+            config = createConfig(
+                packName = "ValkyrieIcons",
+                outputFormat = outputFormat,
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "kt/backing/AllGroupParams.kt",
+            pathToLazyProperty = "kt/lazy/AllGroupParams.kt",
+        )
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = OutputFormat::class)
     fun `icon with several path`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_several_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)

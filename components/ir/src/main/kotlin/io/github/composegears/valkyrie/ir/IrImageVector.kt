@@ -11,7 +11,17 @@ data class IrImageVector(
 )
 
 sealed interface IrVectorNode {
-    data class IrGroup(val paths: MutableList<IrPath>) : IrVectorNode
+    data class IrGroup(
+        val name: String = "",
+        val rotate: Float = 0f,
+        val pivotX: Float = 0f,
+        val pivotY: Float = 0f,
+        val scaleX: Float = 1f,
+        val scaleY: Float = 1f,
+        val translationX: Float = 0f,
+        val translationY: Float = 0f,
+        val paths: MutableList<IrPath>,
+    ) : IrVectorNode
 
     data class IrPath(
         val name: String = "",
