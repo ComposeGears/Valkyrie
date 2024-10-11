@@ -7,15 +7,13 @@ import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 @Burst
-class ExplicitModeTest(
-    private val outputFormat: OutputFormat,
-) {
+class ExplicitModeTest {
 
     @Test
-    fun `generation with explicit mode`() {
+    fun `generation with explicit mode`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(

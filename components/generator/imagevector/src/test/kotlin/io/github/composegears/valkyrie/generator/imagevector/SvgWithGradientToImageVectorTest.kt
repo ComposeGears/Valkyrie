@@ -7,15 +7,13 @@ import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 @Burst
-class SvgWithGradientToImageVectorTest(
-    private val outputFormat: OutputFormat,
-) {
+class SvgWithGradientToImageVectorTest {
 
     @Test
-    fun `svg linear gradient parsing`() {
+    fun `svg linear gradient parsing`(outputFormat: OutputFormat) {
         val icon = getResourcePath("svg/ic_linear_gradient.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -32,7 +30,7 @@ class SvgWithGradientToImageVectorTest(
     }
 
     @Test
-    fun `svg radial gradient parsing`() {
+    fun `svg radial gradient parsing`(outputFormat: OutputFormat) {
         val icon = getResourcePath("svg/ic_radial_gradient.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -49,7 +47,7 @@ class SvgWithGradientToImageVectorTest(
     }
 
     @Test
-    fun `svg linear gradient with stroke parsing`() {
+    fun `svg linear gradient with stroke parsing`(outputFormat: OutputFormat) {
         val icon = getResourcePath("svg/ic_linear_gradient_with_stroke.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(

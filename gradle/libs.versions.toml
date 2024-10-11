@@ -22,6 +22,7 @@ xpp3 = "org.ogce:xpp3:1.1.6"
 
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.11.2"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine" }
 junit4 = "junit:junit:4.13.2"
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 

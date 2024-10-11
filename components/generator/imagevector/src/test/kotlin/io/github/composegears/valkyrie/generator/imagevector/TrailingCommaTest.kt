@@ -7,15 +7,13 @@ import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 @Burst
-class TrailingCommaTest(
-    private val outputFormat: OutputFormat,
-) {
+class TrailingCommaTest {
 
     @Test
-    fun `icon with path and solid color`() {
+    fun `icon with path and solid color`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_fill_color_stroke.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(

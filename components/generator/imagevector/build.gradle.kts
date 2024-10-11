@@ -12,5 +12,7 @@ dependencies {
 
     testImplementation(projects.components.parser.svgxml)
     testImplementation(libs.bundles.test)
+    testImplementation(libs.junit4)
     testRuntimeOnly(libs.junit.launcher)
+    testRuntimeOnly(libs.junit.vintage.engine)
 }

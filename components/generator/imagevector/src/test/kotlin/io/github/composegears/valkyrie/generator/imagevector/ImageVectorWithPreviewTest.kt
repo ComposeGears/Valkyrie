@@ -7,15 +7,13 @@ import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 @Burst
-class ImageVectorWithPreviewTest(
-    private val outputFormat: OutputFormat,
-) {
+class ImageVectorWithPreviewTest {
 
     @Test
-    fun `preview generation without icon pack`() {
+    fun `preview generation without icon pack`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -35,7 +33,7 @@ class ImageVectorWithPreviewTest(
     }
 
     @Test
-    fun `preview generation with icon pack`() {
+    fun `preview generation with icon pack`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -56,7 +54,7 @@ class ImageVectorWithPreviewTest(
     }
 
     @Test
-    fun `preview generation with nested pack`() {
+    fun `preview generation with nested pack`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(

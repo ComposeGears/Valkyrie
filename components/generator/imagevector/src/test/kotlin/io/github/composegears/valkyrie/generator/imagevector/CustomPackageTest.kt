@@ -7,15 +7,13 @@ import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 @Burst
-class CustomPackageTest(
-    private val outputFormat: OutputFormat,
-) {
+class CustomPackageTest {
 
     @Test
-    fun `flat package without icon pack`() {
+    fun `flat package without icon pack`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -35,7 +33,7 @@ class CustomPackageTest(
     }
 
     @Test
-    fun `flat package with icon pack`() {
+    fun `flat package with icon pack`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -56,7 +54,7 @@ class CustomPackageTest(
     }
 
     @Test
-    fun `flat package with nested icon pack`() {
+    fun `flat package with nested icon pack`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
@@ -78,7 +76,7 @@ class CustomPackageTest(
     }
 
     @Test
-    fun `different icon pack package`() {
+    fun `different icon pack package`(outputFormat: OutputFormat) {
         val icon = getResourcePath("xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
