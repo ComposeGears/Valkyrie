@@ -10,6 +10,7 @@ import io.github.composegears.valkyrie.psi.imagevector.common.extractStrokeJoin
 import io.github.composegears.valkyrie.psi.imagevector.common.parseFill
 import io.github.composegears.valkyrie.psi.imagevector.common.parseFloatArg
 import io.github.composegears.valkyrie.psi.imagevector.common.parsePathNodes
+import io.github.composegears.valkyrie.psi.imagevector.common.parseStringArg
 import io.github.composegears.valkyrie.psi.imagevector.common.parseStroke
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -100,6 +101,14 @@ internal object RegularImageVectorPsiParser {
                 val groupBlock = groupLambda?.bodyExpression
 
                 vectorNodes += IrVectorNode.IrGroup(
+                    name = expression.parseStringArg("name").orEmpty(),
+                    rotate = expression.parseFloatArg("rotate") ?: 0f,
+                    pivotX = expression.parseFloatArg("pivotX") ?: 0f,
+                    pivotY = expression.parseFloatArg("pivotY") ?: 0f,
+                    scaleX = expression.parseFloatArg("scaleX") ?: 1f,
+                    scaleY = expression.parseFloatArg("scaleY") ?: 1f,
+                    translationX = expression.parseFloatArg("translationX") ?: 0f,
+                    translationY = expression.parseFloatArg("translationY") ?: 0f,
                     paths = groupBlock?.statements
                         ?.filterIsInstance<KtCallExpression>()
                         ?.map { it.parsePath() }
@@ -117,6 +126,7 @@ internal object RegularImageVectorPsiParser {
         val pathBody = pathLambda?.bodyExpression
 
         return IrVectorNode.IrPath(
+            name = parseStringArg("name").orEmpty(),
             fill = parseFill(),
             fillAlpha = parseFloatArg("fillAlpha") ?: 1f,
             stroke = parseStroke(),

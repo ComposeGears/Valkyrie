@@ -17,17 +17,14 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.intellij.openapi.application.invokeAndWaitIfNeeded
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiManager
-import com.intellij.testFramework.LightVirtualFile
 import com.intellij.testFramework.ProjectExtension
-import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourceText
-import io.github.composegears.valkyrie.extensions.cast
-import io.github.composegears.valkyrie.parser.ktfile.util.toComposeImageVector
-import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
-import org.jetbrains.kotlin.idea.KotlinFileType
-import org.jetbrains.kotlin.psi.KtFile
+import io.github.composegears.valkyrie.parser.ktfile.common.ParseType
+import io.github.composegears.valkyrie.parser.ktfile.common.createKtFile
+import io.github.composegears.valkyrie.parser.ktfile.common.toKtFile
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 @Suppress("UnstableApiUsage")
 class KtFileToImageVectorParserTest {
@@ -40,16 +37,16 @@ class KtFileToImageVectorParserTest {
     private val project: Project
         get() = projectExtension.project
 
-    private fun createKtFile(from: String): KtFile {
-        return PsiManager.getInstance(project)
-            .findFile(LightVirtualFile("", KotlinFileType.INSTANCE, getResourceText(from)))
-            .cast<KtFile>()
-    }
+    @ParameterizedTest
+    @EnumSource(value = ParseType::class)
+    fun `empty image vector`(parseType: ParseType) = invokeAndWaitIfNeeded {
+        val ktFile = parseType.toKtFile(
+            project = project,
+            pathToLazy = "lazy/EmptyImageVector.kt",
+            pathToBacking = "backing/EmptyImageVector.kt",
+        )
 
-    @Test
-    fun `empty image vector`() = invokeAndWaitIfNeeded {
-        val ktFile = createKtFile(from = "EmptyImageVector.kt")
-        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
 
         val expected = ImageVector.Builder(
             name = "EmptyImageVector",
@@ -62,10 +59,15 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(expected)
     }
 
-    @Test
-    fun `empty paths`() = invokeAndWaitIfNeeded {
-        val ktFile = createKtFile(from = "EmptyPaths.kt")
-        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+    @ParameterizedTest
+    @EnumSource(value = ParseType::class)
+    fun `empty paths`(parseType: ParseType) = invokeAndWaitIfNeeded {
+        val ktFile = parseType.toKtFile(
+            project = project,
+            pathToLazy = "lazy/EmptyPaths.kt",
+            pathToBacking = "backing/EmptyPaths.kt",
+        )
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
 
         val expected = ImageVector.Builder(
             name = "EmptyPaths",
@@ -82,10 +84,15 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(expected)
     }
 
-    @Test
-    fun `parse all path params`() = invokeAndWaitIfNeeded {
-        val ktFile = createKtFile(from = "AllPathParams.kt")
-        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+    @ParameterizedTest
+    @EnumSource(value = ParseType::class)
+    fun `parse all path params`(parseType: ParseType) = invokeAndWaitIfNeeded {
+        val ktFile = parseType.toKtFile(
+            project = project,
+            pathToLazy = "lazy/AllPathParams.kt",
+            pathToBacking = "backing/AllPathParams.kt",
+        )
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
 
         val expected = ImageVector.Builder(
             name = "AllPathParams",
@@ -95,6 +102,7 @@ class KtFileToImageVectorParserTest {
             viewportHeight = 18f,
         ).apply {
             path(
+                name = "path_name",
                 fill = SolidColor(Color(0xFF232F34)),
                 fillAlpha = 0.5f,
                 stroke = SolidColor(Color(0xFF232F34)),
@@ -134,8 +142,8 @@ class KtFileToImageVectorParserTest {
 
     @Test
     fun `parse material icon`() = invokeAndWaitIfNeeded {
-        val ktFile = createKtFile(from = "MaterialIcon.kt")
-        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+        val ktFile = project.createKtFile(from = "backing/MaterialIcon.kt")
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
 
         val expected = materialIcon(name = "Filled.Settings", autoMirror = true) {
             materialPath(
@@ -151,10 +159,15 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(expected)
     }
 
-    @Test
-    fun `parse icon with group`() = invokeAndWaitIfNeeded {
-        val ktFile = createKtFile(from = "IconWithGroup.kt")
-        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+    @ParameterizedTest
+    @EnumSource(value = ParseType::class)
+    fun `parse icon with group`(parseType: ParseType) = invokeAndWaitIfNeeded {
+        val ktFile = parseType.toKtFile(
+            project = project,
+            pathToLazy = "lazy/IconWithGroup.kt",
+            pathToBacking = "backing/IconWithGroup.kt",
+        )
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
 
         val expected = ImageVector.Builder(
             name = "IconWithGroup",
@@ -190,10 +203,15 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(expected)
     }
 
-    @Test
-    fun `parse icon with linear and radial gradient`() = invokeAndWaitIfNeeded {
-        val ktFile = createKtFile(from = "IconWithGradient.kt")
-        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+    @ParameterizedTest
+    @EnumSource(value = ParseType::class)
+    fun `parse icon with linear and radial gradient`(parseType: ParseType) = invokeAndWaitIfNeeded {
+        val ktFile = parseType.toKtFile(
+            project = project,
+            pathToLazy = "lazy/IconWithGradient.kt",
+            pathToBacking = "backing/IconWithGradient.kt",
+        )
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
 
         val expected = ImageVector.Builder(
             name = "IconWithGradient",
@@ -256,13 +274,18 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector.toString()).isEqualTo(expected.toString())
     }
 
-    @Test
-    fun `parse lazy property`() = invokeAndWaitIfNeeded {
-        val ktFile = createKtFile(from = "LazyProperty.kt")
-        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+    @ParameterizedTest
+    @EnumSource(value = ParseType::class)
+    fun `parse single path property`(parseType: ParseType) = invokeAndWaitIfNeeded {
+        val ktFile = parseType.toKtFile(
+            project = project,
+            pathToLazy = "lazy/SinglePath.kt",
+            pathToBacking = "backing/SinglePath.kt",
+        )
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
 
         val expected = ImageVector.Builder(
-            name = "LazyProperty",
+            name = "SinglePath",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,
@@ -283,6 +306,76 @@ class KtFileToImageVectorParserTest {
                 lineTo(19f, 11f)
                 lineTo(19f, 13f)
                 close()
+            }
+        }.build()
+
+        assertThat(imageVector).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = ParseType::class)
+    fun `parse all group params`(parseType: ParseType) = invokeAndWaitIfNeeded {
+        val ktFile = parseType.toKtFile(
+            project = project,
+            pathToLazy = "lazy/AllGroupParams.kt",
+            pathToBacking = "backing/AllGroupParams.kt",
+        )
+        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+
+        val expected = ImageVector.Builder(
+            name = "AllGroupParams",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            group(
+                name = "group",
+                rotate = 15f,
+                pivotX = 10f,
+                pivotY = 10f,
+                scaleX = 0.8f,
+                scaleY = 0.8f,
+                translationX = 6f,
+                translationY = 1f,
+            ) {
+                path(
+                    fill = SolidColor(Color(0xFF000000)),
+                    fillAlpha = 0.3f,
+                ) {
+                    moveTo(15.67f, 4f)
+                    horizontalLineTo(14f)
+                    verticalLineTo(2f)
+                    horizontalLineToRelative(-4f)
+                    verticalLineToRelative(2f)
+                    horizontalLineTo(8.33f)
+                    curveTo(7.6f, 4f, 7f, 4.6f, 7f, 5.33f)
+                    verticalLineTo(9f)
+                    horizontalLineToRelative(4.93f)
+                    lineTo(13f, 7f)
+                    verticalLineToRelative(2f)
+                    horizontalLineToRelative(4f)
+                    verticalLineTo(5.33f)
+                    curveTo(17f, 4.6f, 16.4f, 4f, 15.67f, 4f)
+                    close()
+                }
+                path(fill = SolidColor(Color(0xFF000000))) {
+                    moveTo(13f, 12.5f)
+                    horizontalLineToRelative(2f)
+                    lineTo(11f, 20f)
+                    verticalLineToRelative(-5.5f)
+                    horizontalLineTo(9f)
+                    lineTo(11.93f, 9f)
+                    horizontalLineTo(7f)
+                    verticalLineToRelative(11.67f)
+                    curveTo(7f, 21.4f, 7.6f, 22f, 8.33f, 22f)
+                    horizontalLineToRelative(7.33f)
+                    curveToRelative(0.74f, 0f, 1.34f, -0.6f, 1.34f, -1.33f)
+                    verticalLineTo(9f)
+                    horizontalLineToRelative(-4f)
+                    verticalLineToRelative(3.5f)
+                    close()
+                }
             }
         }.build()
 

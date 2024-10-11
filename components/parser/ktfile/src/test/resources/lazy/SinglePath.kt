@@ -4,9 +4,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Outlined.LazyProperty: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val Outlined.SinglePath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "LazyProperty",
+        name = "SinglePath",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 24f,
