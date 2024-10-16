@@ -4,7 +4,7 @@ intellij = "2.1.0"
 kotlin = "2.0.21"
 
 [libraries]
-androidx-activity-compose = "androidx.activity:activity-compose:1.9.2"
+androidx-activity-compose = "androidx.activity:activity-compose:1.9.3"
 android-build-tools = "com.android.tools:sdk-common:31.7.1"
 
 highlights = "dev.snipme:highlights:0.9.3"
