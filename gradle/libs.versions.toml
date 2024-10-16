@@ -33,7 +33,7 @@ android-application = "com.android.application:8.5.2"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-jetbrains-compose = "org.jetbrains.compose:1.6.11"
+jetbrains-compose = "org.jetbrains.compose:1.7.0"
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
 spotless = "com.diffplug.spotless:7.0.0.BETA3"
