@@ -12,15 +12,18 @@ import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import org.koin.mp.KoinPlatformTools
 
 object Koin {
 
     fun start(project: Project) {
-        startKoin {
-            modules(
-                appModule,
-                provideProjectModule(project),
-            )
+        if (KoinPlatformTools.defaultContext().getOrNull() == null) {
+            startKoin {
+                modules(
+                    appModule,
+                    provideProjectModule(project),
+                )
+            }
         }
     }
 }
