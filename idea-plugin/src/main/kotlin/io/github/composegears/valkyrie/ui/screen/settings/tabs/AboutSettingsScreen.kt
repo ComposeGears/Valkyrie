@@ -8,24 +8,29 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.LinkAnnotation.Url
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withAnnotation
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.navDestination
-import io.github.composegears.valkyrie.ui.foundation.ClickableText
+import io.github.composegears.valkyrie.extensions.cast
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.disabled
@@ -94,7 +99,6 @@ private fun AboutSettingsUi() {
     }
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 private fun ClickableUrl(
     link: String,
@@ -110,23 +114,44 @@ private fun ClickableUrl(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         val annotatedString = buildAnnotatedString {
-            withAnnotation(UrlAnnotation(link)) {
-                append(
-                    AnnotatedString(
-                        text = text,
-                        spanStyle = SpanStyle(color = linkColor),
-                    ),
-                )
-            }
+            withLink(
+                link = Url(
+                    url = link,
+                    linkInteractionListener = { onUrlClick(it.cast<Url>().url) },
+                ),
+                block = {
+                    append(
+                        AnnotatedString(
+                            text = text,
+                            spanStyle = SpanStyle(color = linkColor),
+                        ),
+                    )
+                },
+            )
+            append(" ")
+            appendInlineContent(id = "icon")
         }
-        ClickableText(
-            annotatedString = annotatedString,
-            onClick = onUrlClick,
-        )
-        Icon(
-            imageVector = ValkyrieIcons.ExternalLink,
-            contentDescription = null,
-            tint = linkColor,
+
+        val inlineTextContent = InlineTextContent(
+            placeholder = Placeholder(
+                width = LocalTextStyle.current.fontSize,
+                height = LocalTextStyle.current.fontSize,
+                placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter,
+            ),
+        ) {
+            Icon(
+                imageVector = ValkyrieIcons.ExternalLink,
+                contentDescription = null,
+                tint = linkColor,
+            )
+        }
+
+        BasicText(
+            text = annotatedString,
+            style = MaterialTheme.typography.bodySmall.copy(
+                color = MaterialTheme.colorScheme.onSurface,
+            ),
+            inlineContent = mapOf("icon" to inlineTextContent),
         )
     }
 }

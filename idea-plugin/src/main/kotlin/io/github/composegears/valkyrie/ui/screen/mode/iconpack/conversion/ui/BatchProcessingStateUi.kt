@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,7 +49,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.bat
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconPreviewBox
 import kotlin.io.path.Path
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BatchProcessingStateUi(
     state: IconPackCreationState,
@@ -70,12 +68,12 @@ fun BatchProcessingStateUi(
         items(items = state.icons, key = { it.iconName }) { batchIcon ->
             when (batchIcon) {
                 is BatchIcon.Broken -> BrokenIconItem(
-                    modifier = Modifier.animateItemPlacement(),
+                    modifier = Modifier.animateItem(),
                     broken = batchIcon,
                     onDelete = onDeleteIcon,
                 )
                 is BatchIcon.Valid -> ValidIconItem(
-                    modifier = Modifier.animateItemPlacement(),
+                    modifier = Modifier.animateItem(),
                     icon = batchIcon,
                     onUpdatePack = onUpdatePack,
                     onDeleteIcon = onDeleteIcon,

@@ -7,6 +7,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
@@ -89,6 +90,9 @@ private fun IntellijDarkTheme(
             background = background,
             onBackground = onBackground,
             surface = background,
+            surfaceContainerHigh = Color(0xFF3A3A3C),
+            surfaceContainerHighest = Color(0xFF4B4C4F),
+            surfaceContainer = Color(0xFF3A3A3C),
             onSurface = onBackground,
             inverseSurface = onBackground,
             inverseOnSurface = background,
@@ -110,12 +114,15 @@ private fun IntellijLightTheme(
     content: @Composable () -> Unit,
 ) {
     MaterialTheme(
-        colorScheme = darkColorScheme(
+        colorScheme = lightColorScheme(
             primary = primary,
             onPrimary = Color.White,
             background = background,
             onBackground = onBackground,
             surface = background,
+            surfaceContainerHigh = Color(0xFFEDEDED),
+            surfaceContainerHighest = Color.White,
+            surfaceContainer = Color(0xFFEDEDED),
             onSurface = onBackground,
             inverseSurface = onBackground,
             inverseOnSurface = background,

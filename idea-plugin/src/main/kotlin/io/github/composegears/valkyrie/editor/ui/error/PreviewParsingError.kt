@@ -8,19 +8,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.LinkAnnotation.Url
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withAnnotation
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ui.foundation.ClickableText
+import io.github.composegears.valkyrie.extensions.cast
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.Error
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
@@ -50,7 +50,6 @@ fun PreviewParsingError(modifier: Modifier = Modifier) {
     }
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 private fun ErrorMessage() {
     val browser = rememberBrowser()
@@ -59,22 +58,31 @@ private fun ErrorMessage() {
     val annotatedString = buildAnnotatedString {
         append("Failed to preview ImageVector, please ")
 
-        withAnnotation(UrlAnnotation("https://github.com/ComposeGears/Valkyrie/issues")) {
-            append(
-                AnnotatedString(
-                    "submit issue",
-                    spanStyle = SpanStyle(
-                        color = underlineColor,
-                        textDecoration = TextDecoration.Underline,
+        withLink(
+            link = Url(
+                url = "https://github.com/ComposeGears/Valkyrie/issues",
+                linkInteractionListener = { browser.open(it.cast<Url>().url) },
+            ),
+            block = {
+                append(
+                    AnnotatedString(
+                        text = "submit issue",
+                        spanStyle = SpanStyle(
+                            color = underlineColor,
+                            textDecoration = TextDecoration.Underline,
+                        ),
                     ),
-                ),
-            )
-        }
+                )
+            },
+        )
         append(" with reproducer.")
     }
-    ClickableText(
-        annotatedString = annotatedString,
-        onClick = browser::open,
+
+    BasicText(
+        text = annotatedString,
+        style = MaterialTheme.typography.bodySmall.copy(
+            color = MaterialTheme.colorScheme.onSurface,
+        ),
     )
 }
 
