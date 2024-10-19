@@ -22,8 +22,11 @@ class GlobalEventsHandler {
     }
 
     sealed interface PluginEvents {
-        data class ImportIcons(val paths: List<Path>) : PluginEvents
+        data class ImportIcons(val pathData: PendingPathData) : PluginEvents
+        data class SetupIconPackMode(val pathData: PendingPathData) : PluginEvents
     }
+
+    data class PendingPathData(val paths: List<Path> = emptyList())
 
     companion object {
         @JvmStatic

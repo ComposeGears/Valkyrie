@@ -6,10 +6,10 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import com.intellij.util.ui.components.BorderLayoutPanel
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.Koin
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
+import io.github.composegears.valkyrie.ui.platform.buildComposePanel
 
 class ValkyrieToolWindow :
     ToolWindowFactory,
@@ -40,25 +40,5 @@ private fun ToolWindow.addComposePanel(
     displayName: String = "",
     isLockable: Boolean = true,
     content: @Composable ComposePanel.() -> Unit,
-) = PluginWindow(content = content)
+) = buildComposePanel(content = content)
     .also { contentManager.addContent(contentManager.factory.createContent(it, displayName, isLockable)) }
-
-class PluginWindow(
-    height: Int = 800,
-    width: Int = 800,
-    y: Int = 0,
-    x: Int = 0,
-    content: @Composable ComposePanel.() -> Unit,
-) : BorderLayoutPanel() {
-
-    init {
-        add(
-            ComposePanel().apply {
-                setBounds(x = x, y = y, width = width, height = height)
-                setContent {
-                    content()
-                }
-            },
-        )
-    }
-}

@@ -46,6 +46,7 @@ import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
@@ -61,16 +62,17 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.Bat
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.IconPackPickerStateUi
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import java.nio.file.Path
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
-val IconPackConversionScreen by navDestination<List<Path>> {
+val IconPackConversionScreen by navDestination<PendingPathData> {
     val navController = navController()
-    val navArgs = navArgsOrNull()
+    val pendingData = navArgsOrNull()
 
-    val viewModel = koinSaveableTiamatViewModel<IconPackConversionViewModel> { parametersOf(navArgs.orEmpty()) }
+    val viewModel = koinSaveableTiamatViewModel<IconPackConversionViewModel> {
+        parametersOf(pendingData?.paths.orEmpty())
+    }
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
