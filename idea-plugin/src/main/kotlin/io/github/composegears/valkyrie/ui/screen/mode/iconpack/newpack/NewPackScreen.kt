@@ -14,8 +14,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.composegears.tiamat.koin.koinTiamatViewModel
+import com.composegears.tiamat.navArgsOrNull
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange
@@ -32,8 +34,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-val NewPackScreen by navDestination<Unit> {
+val NewPackScreen by navDestination<PendingPathData> {
     val navController = navController()
+    val pendingData = navArgsOrNull()
 
     val viewModel = koinTiamatViewModel<NewPackViewModel>()
     val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
@@ -43,7 +46,10 @@ val NewPackScreen by navDestination<Unit> {
             .onEach {
                 when (it) {
                     is NewPackEvent.OnSettingsUpdated -> {
-                        navController.parent?.replace(IconPackConversionScreen)
+                        navController.parent?.replace(
+                            dest = IconPackConversionScreen,
+                            navArgs = pendingData,
+                        )
                     }
                     is NewPackEvent.PreviewIconPackObject -> {
                         navController.parent?.navigate(

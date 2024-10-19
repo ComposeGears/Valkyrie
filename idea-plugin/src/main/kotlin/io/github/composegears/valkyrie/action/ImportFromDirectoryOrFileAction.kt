@@ -11,9 +11,10 @@ import io.github.composegears.valkyrie.action.dialog.RequiredIconPackModeDialog
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
-import io.github.composegears.valkyrie.ui.domain.model.Mode
 
 class ImportFromDirectoryOrFileAction : AnAction() {
 
@@ -26,18 +27,25 @@ class ImportFromDirectoryOrFileAction : AnAction() {
             .getInstance(project)
             .getToolWindow(ValkyrieToolWindow.ID) ?: return
 
-        val files = event
+        val paths = event
             .getData(CommonDataKeys.VIRTUAL_FILE_ARRAY)
-            ?.filterNotNull() ?: return
+            ?.filterNotNull()
+            ?.map(VirtualFile::toNioPath) ?: return
 
         val settings = project.persistentSettings.state
         val eventsHandler = project.globalEventsHandler
 
-        if (settings.mode == Mode.Unspecified.name || settings.mode == Mode.Simple.name) {
-            RequiredIconPackModeDialog(onOk = toolWindow::show).showAndGet()
+        if (settings.isIconPackRequired) {
+            RequiredIconPackModeDialog(
+                message = "This action requires an IconPack mode to be setup",
+                onContinue = {
+                    toolWindow.show()
+                    eventsHandler.send(SetupIconPackMode(pathData = PendingPathData(paths)))
+                },
+            ).showAndGet()
         } else {
             toolWindow.show()
-            eventsHandler.send(ImportIcons(paths = files.map(VirtualFile::toNioPath)))
+            eventsHandler.send(ImportIcons(pathData = PendingPathData(paths)))
         }
     }
 

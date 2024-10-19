@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
@@ -18,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.NavController
 import com.composegears.tiamat.Navigation
+import com.composegears.tiamat.navArgsOrNull
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.composegears.tiamat.rememberNavController
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.SegmentedButton
@@ -29,14 +30,18 @@ import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ExistingPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.NewPackScreen
 
-val IconPackCreationScreen by navDestination<Unit> {
+val IconPackCreationScreen by navDestination<PendingPathData> {
+    val pendingData = navArgsOrNull()
+
     val nestedNavController = rememberNavController(
         startDestination = NewPackScreen,
         destinations = arrayOf(NewPackScreen, ExistingPackScreen),
+        startDestinationNavArgs = pendingData,
     )
 
     IconPackModeSetupUI(
-        nestedNavController = nestedNavController,
+        tabsNavController = nestedNavController,
+        pendingPathData = pendingData,
         onBack = {
             if (nestedNavController.canGoBack && nestedNavController.current != NewPackScreen) {
                 nestedNavController.back()
@@ -47,10 +52,10 @@ val IconPackCreationScreen by navDestination<Unit> {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun IconPackModeSetupUI(
-    nestedNavController: NavController,
+    tabsNavController: NavController,
+    pendingPathData: PendingPathData?,
     onBack: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -73,9 +78,14 @@ private fun IconPackModeSetupUI(
                     SegmentedButton(
                         shape = SegmentedButtonDefaults.itemShape(index = index, count = tabs.size),
                         onClick = {
-                            nestedNavController.popToTop(dest = tab)
+                            tabsNavController.popToTop(
+                                dest = tab,
+                                orElse = {
+                                    navigate(dest = tab, navArgs = pendingPathData)
+                                },
+                            )
                         },
-                        selected = nestedNavController.current == tab,
+                        selected = tabsNavController.current == tab,
                         label = {
                             when (tab) {
                                 NewPackScreen -> Text(text = "Create new")
@@ -89,7 +99,7 @@ private fun IconPackModeSetupUI(
 
             Navigation(
                 modifier = Modifier.fillMaxSize(),
-                navController = nestedNavController,
+                navController = tabsNavController,
             )
         }
     }

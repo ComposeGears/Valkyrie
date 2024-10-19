@@ -5,10 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import com.composegears.tiamat.NavController
 import com.composegears.tiamat.Navigation
+import com.composegears.tiamat.navigationNone
 import com.composegears.tiamat.rememberNavController
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
-import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
@@ -76,19 +79,11 @@ fun ValkyriePlugin(
         globalEventsHandler
             .events
             .onEach { event ->
-                when (event) {
-                    is PluginEvents.ImportIcons -> {
-                        globalEventsHandler.resetCache()
+                globalEventsHandler.resetCache()
 
-                        navController.editBackStack {
-                            clear()
-                            add(IntroScreen)
-                        }
-                        navController.replace(
-                            dest = IconPackConversionScreen,
-                            navArgs = event.paths,
-                        )
-                    }
+                when (event) {
+                    is ImportIcons -> navController.openConversionFlow(event)
+                    is SetupIconPackMode -> navController.openSetupIconPackWithPendingData(event)
                 }
             }
             .launchIn(this)
@@ -104,4 +99,48 @@ fun ValkyriePlugin(
         modifier = modifier.fillMaxSize(),
         navController = navController,
     )
+}
+
+private fun NavController.openConversionFlow(event: ImportIcons) {
+    when (current) {
+        IconPackConversionScreen -> {
+            replace(
+                dest = IconPackConversionScreen,
+                navArgs = event.pathData,
+                transition = navigationNone(),
+            )
+        }
+        else -> {
+            editBackStack {
+                clear()
+                add(IntroScreen)
+            }
+            replace(
+                dest = IconPackConversionScreen,
+                navArgs = event.pathData,
+            )
+        }
+    }
+}
+
+private fun NavController.openSetupIconPackWithPendingData(event: SetupIconPackMode) {
+    when (current) {
+        IconPackCreationScreen -> {
+            replace(
+                dest = IconPackCreationScreen,
+                navArgs = event.pathData,
+                transition = navigationNone(),
+            )
+        }
+        else -> {
+            editBackStack {
+                clear()
+                add(IntroScreen)
+            }
+            replace(
+                dest = IconPackCreationScreen,
+                navArgs = event.pathData,
+            )
+        }
+    }
 }
