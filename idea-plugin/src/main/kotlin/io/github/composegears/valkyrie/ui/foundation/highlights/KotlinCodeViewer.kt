@@ -1,0 +1,79 @@
+package io.github.composegears.valkyrie.ui.foundation.highlights
+
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
+import dev.snipme.highlights.Highlights
+import dev.snipme.highlights.model.SyntaxLanguage
+import dev.snipme.highlights.model.SyntaxThemes
+import io.github.composegears.valkyrie.ui.foundation.highlights.core.CodeEditor
+import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.foundation.theme.isLight
+
+@Composable
+fun KotlinCodeViewer(
+    text: String,
+    modifier: Modifier = Modifier,
+    onChange: (String) -> Unit = {},
+) {
+    val isLight = MaterialTheme.colorScheme.isLight
+
+    var highlights by rememberMutableState(isLight, text) {
+        Highlights.Builder()
+            .code(text)
+            .language(SyntaxLanguage.KOTLIN)
+            .theme(SyntaxThemes.darcula(darkMode = !isLight))
+            .build()
+    }
+    CodeEditor(
+        modifier = modifier,
+        highlights = highlights,
+        onValueChange = {
+            highlights = highlights.getBuilder()
+                .code(it)
+                .build()
+
+            onChange(it)
+        },
+        textStyle = MaterialTheme.typography.bodyMedium.copy(lineHeight = 21.sp),
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color.Transparent,
+            focusedContainerColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+        ),
+    )
+}
+
+@Preview
+@Composable
+private fun CodePreview() = PreviewTheme {
+    KotlinCodeViewer(
+        text = """
+        val ValkyrieIcons.EmptyImageVector: ImageVector
+            get() {
+                if (_EmptyImageVector != null) {
+                    return _EmptyImageVector!!
+                }
+                _EmptyImageVector = ImageVector.Builder(
+                    name = "EmptyImageVector",
+                    defaultWidth = 24.dp,
+                    defaultHeight = 24.dp,
+                    viewportWidth = 18f,
+                    viewportHeight = 18f,
+                ).build()
+
+                return _EmptyImageVector!!
+            }
+        """.trimIndent(),
+    )
+}

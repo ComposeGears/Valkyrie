@@ -9,7 +9,7 @@ import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.platform.IntellijEditorTextField
+import io.github.composegears.valkyrie.ui.foundation.highlights.KotlinCodeViewer
 
 val CodePreviewScreen by navDestination {
     val navController = navController()
@@ -30,7 +30,7 @@ private fun CodePreviewUi(
         TopAppBar {
             BackAction(onBack = onBack)
         }
-        IntellijEditorTextField(
+        KotlinCodeViewer(
             modifier = Modifier.fillMaxSize(),
             text = code,
         )
