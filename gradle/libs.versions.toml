@@ -13,7 +13,7 @@ koin-compose = "io.insert-koin:koin-compose:4.0.0"
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
-kotlinpoet = "com.squareup:kotlinpoet:1.18.1"
+kotlinpoet = "com.squareup:kotlinpoet:2.0.0"
 
 tiamat-base = "io.github.composegears:tiamat:1.2.0"
 tiamat-koin = "io.github.composegears:tiamat-koin:1.2.0"
