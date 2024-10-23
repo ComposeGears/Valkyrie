@@ -22,6 +22,11 @@ internal object RegularImageVectorPsiParser {
     fun parse(ktFile: KtFile): IrImageVector? {
         val property = ktFile.childOfType<KtProperty>() ?: return null
 
+        return parse(property)
+    }
+
+    fun parse(property: KtProperty): IrImageVector? {
+
         val blockBody = property.getter?.bodyBlockExpression
             ?: property.delegateExpression?.childrenOfType<KtBlockExpression>()?.firstOrNull()
             ?: return null

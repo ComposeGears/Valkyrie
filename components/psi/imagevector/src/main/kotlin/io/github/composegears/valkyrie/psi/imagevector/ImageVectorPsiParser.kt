@@ -5,6 +5,7 @@ import io.github.composegears.valkyrie.psi.imagevector.parser.MaterialImageVecto
 import io.github.composegears.valkyrie.psi.imagevector.parser.RegularImageVectorPsiParser
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtImportList
+import org.jetbrains.kotlin.psi.KtProperty
 
 object ImageVectorPsiParser {
 
@@ -15,6 +16,10 @@ object ImageVectorPsiParser {
             isMaterial -> MaterialImageVectorPsiParser.parse(ktFile)
             else -> RegularImageVectorPsiParser.parse(ktFile)
         }
+    }
+
+    fun parseToIrImageVector(property: KtProperty): IrImageVector? {
+         return RegularImageVectorPsiParser.parse(property)
     }
 
     private fun KtImportList.isMaterial(): Boolean {
