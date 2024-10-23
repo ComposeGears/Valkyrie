@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,11 +28,11 @@ import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
+import io.github.composegears.valkyrie.ui.foundation.highlights.KotlinCodeViewer
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.platform.IntellijEditorTextField
 import io.github.composegears.valkyrie.ui.platform.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.platform.rememberNotificationManager
@@ -88,8 +89,7 @@ private fun ConversionUi(
         },
         onClear = resetIconContent,
         onCopy = {
-            val text = state.iconContent ?: return@PluginUI
-            CopyPasteManager.getInstance().setContents(StringSelection(text))
+            CopyPasteManager.getInstance().setContents(StringSelection(it))
             notificationManager.show("Copied in clipboard")
         },
         onSelectPath = onSelectPath,
@@ -103,10 +103,12 @@ private fun PluginUI(
     onBack: () -> Unit,
     onChoosePath: () -> Unit,
     onClear: () -> Unit,
-    onCopy: () -> Unit,
+    onCopy: (String) -> Unit,
     onSelectPath: (Path) -> Unit,
     openSettings: () -> Unit,
 ) {
+    var codePreview by rememberMutableState(content) { content.orEmpty() }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar {
             BackAction(onBack = onBack)
@@ -114,15 +116,18 @@ private fun PluginUI(
             WeightSpacer()
             if (content != null) {
                 ClearAction(onClear = onClear)
-                CopyAction(onCopy = onCopy)
+                CopyAction(onCopy = { onCopy(codePreview) })
             }
             SettingsAction(openSettings = openSettings)
         }
 
         if (content != null) {
-            IntellijEditorTextField(
+            KotlinCodeViewer(
                 modifier = Modifier.fillMaxSize(),
                 text = content,
+                onChange = {
+                    codePreview = it
+                },
             )
         } else {
             Column(

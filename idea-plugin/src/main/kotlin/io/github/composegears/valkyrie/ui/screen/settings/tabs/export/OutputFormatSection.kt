@@ -24,7 +24,7 @@ import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.Backin
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.foundation.highlights.rememberCodeHighlight
+import io.github.composegears.valkyrie.ui.foundation.highlights.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat

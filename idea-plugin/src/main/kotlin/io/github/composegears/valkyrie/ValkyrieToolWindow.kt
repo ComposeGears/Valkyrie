@@ -17,7 +17,6 @@ class ValkyrieToolWindow :
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         System.setProperty("compose.swing.render.on.graphics", "true")
-        System.setProperty("compose.interop.blending", "true")
 
         Koin.start(project)
 
