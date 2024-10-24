@@ -1,5 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -121,25 +126,36 @@ private fun PluginUI(
             SettingsAction(openSettings = openSettings)
         }
 
-        if (content != null) {
-            KotlinCodeViewer(
-                modifier = Modifier.fillMaxSize(),
-                text = content,
-                onChange = {
-                    codePreview = it
-                },
-            )
-        } else {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                WeightSpacer(weight = 0.3f)
-                SelectableState(
-                    onSelectPath = onSelectPath,
-                    onChoosePath = onChoosePath,
-                )
-                WeightSpacer(weight = 0.7f)
+        AnimatedContent(
+            modifier = Modifier.weight(1f),
+            targetState = content,
+            transitionSpec = {
+                fadeIn(tween(220, delayMillis = 90)) togetherWith fadeOut(tween(90))
+            },
+        ) { current ->
+            when (current) {
+                null -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        WeightSpacer(weight = 0.3f)
+                        SelectableState(
+                            onSelectPath = onSelectPath,
+                            onChoosePath = onChoosePath,
+                        )
+                        WeightSpacer(weight = 0.7f)
+                    }
+                }
+                else -> {
+                    KotlinCodeViewer(
+                        modifier = Modifier.fillMaxSize(),
+                        text = current,
+                        onChange = {
+                            codePreview = it
+                        },
+                    )
+                }
             }
         }
     }
