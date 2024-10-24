@@ -29,9 +29,9 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.highlights)
-    implementation(libs.koin.compose)
-    implementation(libs.tiamat.base)
-    implementation(libs.tiamat.koin)
+    implementation(libs.leviathan)
+    implementation(libs.leviathan.compose)
+    implementation(libs.tiamat)
 
     intellijPlatform {
         zipSigner()

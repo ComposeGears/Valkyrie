@@ -7,7 +7,7 @@ import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.psi.iconpack.IconPackInfo
 import io.github.composegears.valkyrie.psi.iconpack.IconPackPsiParser
-import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange
@@ -35,9 +35,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ExistingPackViewModel(
-    private val inMemorySettings: InMemorySettings,
-) : TiamatViewModel() {
+class ExistingPackViewModel : TiamatViewModel() {
+
+    private val inMemorySettings by DI.core.inMemorySettings
 
     private val inputHandler = ExistingPackInputHandler()
 

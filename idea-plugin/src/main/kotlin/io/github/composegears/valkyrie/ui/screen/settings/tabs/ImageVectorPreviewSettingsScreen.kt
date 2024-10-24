@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composegears.tiamat.koin.koinSharedTiamatViewModel
 import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.rememberSharedViewModel
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -29,7 +29,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 
 val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
-    val viewModel = koinSharedTiamatViewModel<SettingsViewModel>()
+    val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
     val settings by viewModel.settings.collectAsState()
 
     ImageVectorPreviewSettingsUi(

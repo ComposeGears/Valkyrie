@@ -12,8 +12,8 @@ import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import io.github.composegears.valkyrie.processing.writter.FileWriter
-import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
@@ -36,11 +36,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class IconPackConversionViewModel(
-    private val inMemorySettings: InMemorySettings,
     savedState: SavedState?,
     paths: List<Path>,
 ) : TiamatViewModel(),
     Saveable {
+
+    private val inMemorySettings by DI.core.inMemorySettings
 
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()

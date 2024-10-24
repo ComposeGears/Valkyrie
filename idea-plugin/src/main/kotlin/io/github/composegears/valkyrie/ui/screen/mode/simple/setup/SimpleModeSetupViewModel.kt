@@ -4,6 +4,7 @@ import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.settings.updateMode
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.PackageValidationUseCase
@@ -13,9 +14,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SimpleModeSetupViewModel(
-    private val inMemorySettings: InMemorySettings,
-) : TiamatViewModel() {
+class SimpleModeSetupViewModel : TiamatViewModel() {
+
+    private val inMemorySettings by DI.core.inMemorySettings
 
     private val inputHandler = SimpleModeInputHandler(inMemorySettings)
 

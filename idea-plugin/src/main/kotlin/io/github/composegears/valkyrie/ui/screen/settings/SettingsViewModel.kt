@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.settings
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.updateMode
 import io.github.composegears.valkyrie.settings.updateOutputFormat
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateAddTrailingComma
@@ -13,9 +13,9 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 
-class SettingsViewModel(
-    private val inMemorySettings: InMemorySettings,
-) : TiamatViewModel() {
+class SettingsViewModel : TiamatViewModel() {
+
+    private val inMemorySettings by DI.core.inMemorySettings
 
     val settings = inMemorySettings.settings
 
