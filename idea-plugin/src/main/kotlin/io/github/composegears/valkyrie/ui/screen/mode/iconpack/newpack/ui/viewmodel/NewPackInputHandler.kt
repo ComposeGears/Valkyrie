@@ -40,7 +40,6 @@ class NewPackInputHandler(
                         packageName = InputState(
                             text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
                         ),
-                        iconPackPackage = InputState(text = iconPackPackage),
                         nestedPacks = nestedPacks.mapIndexed { index, nestedPack ->
                             NestedPack(
                                 id = index.toString(),
