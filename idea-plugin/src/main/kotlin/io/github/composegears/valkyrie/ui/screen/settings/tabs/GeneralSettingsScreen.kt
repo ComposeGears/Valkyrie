@@ -32,9 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composegears.tiamat.NavController
-import com.composegears.tiamat.koin.koinSharedTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.rememberSharedViewModel
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
@@ -56,7 +56,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 val GeneralSettingsScreen by navDestination<Unit> {
     val navController = navController()
 
-    val viewModel = koinSharedTiamatViewModel<SettingsViewModel>()
+    val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
     val settings by viewModel.settings.collectAsState()
 
     var showClearSettingsDialog by rememberMutableState { false }

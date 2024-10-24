@@ -9,7 +9,7 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import io.github.composegears.valkyrie.action.RefreshPluginAction
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
-import io.github.composegears.valkyrie.ui.di.Koin
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbarState
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
@@ -22,7 +22,7 @@ class ValkyrieToolWindow :
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         System.setProperty("compose.swing.render.on.graphics", "true")
 
-        Koin.start(project)
+        DI.initWith(project)
 
         toolWindow.apply {
             setTitleActions(listOf(RefreshPluginAction()))

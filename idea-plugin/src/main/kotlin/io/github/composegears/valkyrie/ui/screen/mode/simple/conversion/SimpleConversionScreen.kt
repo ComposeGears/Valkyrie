@@ -34,10 +34,10 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.koin.koinSaveableTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
+import com.composegears.tiamat.rememberSaveableViewModel
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.ClearAction
@@ -69,7 +69,7 @@ import kotlinx.coroutines.launch
 val SimpleConversionScreen by navDestination<Unit> {
     val navController = navController()
 
-    val viewModel = koinSaveableTiamatViewModel<SimpleConversionViewModel>()
+    val viewModel = rememberSaveableViewModel(::SimpleConversionViewModel)
     val state by viewModel.state.collectAsState()
 
     val scope = rememberCoroutineScope()

@@ -8,6 +8,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.composegears.leviathan.compose.leviathanInject
 import com.composegears.tiamat.NavController
 import com.composegears.tiamat.Navigation
 import com.composegears.tiamat.navigationNone
@@ -17,6 +18,7 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
@@ -31,13 +33,13 @@ import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.compose.koinInject
 
 @Composable
 fun ValkyriePlugin(
     modifier: Modifier = Modifier,
 ) {
-    val inMemorySettings = koinInject<InMemorySettings>()
+    val inMemorySettings = leviathanInject { DI.core.inMemorySettings }
+
     val project = LocalProject.current
 
     val navController = rememberNavController(
@@ -92,7 +94,7 @@ fun ValkyriePlugin(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         Navigation(
             modifier = Modifier.matchParentSize(),
             navController = navController,

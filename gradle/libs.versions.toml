@@ -9,14 +9,14 @@ android-build-tools = "com.android.tools:sdk-common:31.7.1"
 
 highlights = "dev.snipme:highlights:0.9.3"
 
-koin-compose = "io.insert-koin:koin-compose:4.0.0"
-
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
 kotlinpoet = "com.squareup:kotlinpoet:2.0.0"
 
-tiamat-base = "io.github.composegears:tiamat:1.2.0"
-tiamat-koin = "io.github.composegears:tiamat-koin:1.2.0"
+leviathan = "io.github.composegears:leviathan:2.0.0"
+leviathan-compose = "io.github.composegears:leviathan-compose:2.0.0"
+
+tiamat = "io.github.composegears:tiamat:1.2.0"
 
 xpp3 = "org.ogce:xpp3:1.1.6"
 
