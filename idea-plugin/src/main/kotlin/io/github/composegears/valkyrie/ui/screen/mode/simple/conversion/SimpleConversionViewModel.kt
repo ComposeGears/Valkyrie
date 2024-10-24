@@ -18,11 +18,11 @@ import kotlinx.coroutines.flow.launchIn
 
 class SimpleConversionViewModel(
     inMemorySettings: InMemorySettings,
-    savedState: SavedState?,
+    private val savedState: SavedState,
 ) : TiamatViewModel(),
     Saveable {
 
-    private val _state = MutableStateFlow(SimpleConversionState())
+    private val _state = MutableStateFlow(initialState())
     val state = _state.asStateFlow()
 
     init {
@@ -33,15 +33,16 @@ class SimpleConversionViewModel(
                 }
             }
             .launchIn(viewModelScope)
-
-        val restoredPath = savedState?.getOrNull<Path>(key = "last_path")
-        if (restoredPath != null) {
-            selectPath(restoredPath)
-        }
     }
 
     override fun saveToSaveState(): SavedState {
         return mapOf("last_path" to _state.value.lastPath)
+    }
+
+    private fun initialState(): SimpleConversionState {
+        val restoredPath = savedState.getOrNull<Path>(key = "last_path")
+
+        return SimpleConversionState(lastPath = restoredPath)
     }
 
     private fun updateIcon(path: Path, valkyriesSettings: ValkyriesSettings) {
