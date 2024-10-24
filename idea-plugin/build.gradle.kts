@@ -1,3 +1,5 @@
+import org.jetbrains.intellij.platform.gradle.utils.rootProjectPath
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.compose)
@@ -8,6 +10,9 @@ plugins {
 group = rootProject.providers.gradleProperty("GROUP").get()
 version = rootProject.providers.gradleProperty("VERSION_NAME").get()
 
+repositories {
+    maven(url = file("$rootProjectPath/m2"))
+}
 dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
