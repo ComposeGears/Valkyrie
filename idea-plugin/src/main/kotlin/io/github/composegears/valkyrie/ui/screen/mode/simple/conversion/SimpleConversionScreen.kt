@@ -15,7 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.koin.koinTiamatViewModel
+import com.composegears.tiamat.koin.koinSaveableTiamatViewModel
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 val SimpleConversionScreen by navDestination<Unit> {
     val navController = navController()
 
-    val viewModel = koinTiamatViewModel<SimpleConversionViewModel>()
+    val viewModel = koinSaveableTiamatViewModel<SimpleConversionViewModel>()
     val state by viewModel.state.collectAsState()
 
     ConversionUi(
