@@ -39,11 +39,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.koin.koinSaveableTiamatViewModel
 import com.composegears.tiamat.navArgsOrNull
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
+import com.composegears.tiamat.rememberSaveableViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
@@ -64,14 +64,16 @@ import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.core.parameter.parametersOf
 
 val IconPackConversionScreen by navDestination<PendingPathData> {
     val navController = navController()
     val pendingData = navArgsOrNull()
 
-    val viewModel = koinSaveableTiamatViewModel<IconPackConversionViewModel> {
-        parametersOf(pendingData?.paths.orEmpty())
+    val viewModel = rememberSaveableViewModel {
+        IconPackConversionViewModel(
+            savedState = it,
+            paths = pendingData?.paths.orEmpty(),
+        )
     }
     val state by viewModel.state.collectAsState()
 

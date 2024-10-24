@@ -12,7 +12,8 @@ import com.composegears.tiamat.rememberNavController
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
-import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.ui.di.CoreModule
+import io.github.composegears.valkyrie.ui.di.leviathanInject
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
@@ -26,13 +27,13 @@ import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.compose.koinInject
 
 @Composable
 fun ValkyriePlugin(
     modifier: Modifier = Modifier,
 ) {
-    val inMemorySettings = koinInject<InMemorySettings>()
+    val inMemorySettings = CoreModule.inMemorySettings.leviathanInject()
+
     val project = LocalProject.current
 
     val navController = rememberNavController(

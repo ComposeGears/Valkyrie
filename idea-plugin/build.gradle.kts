@@ -34,7 +34,7 @@ dependencies {
 
     implementation(libs.android.build.tools)
     implementation(libs.highlights)
-    implementation(libs.koin.compose)
+    implementation(libs.leviathan)
     implementation(libs.tiamat.base)
     implementation(libs.tiamat.koin)
 
