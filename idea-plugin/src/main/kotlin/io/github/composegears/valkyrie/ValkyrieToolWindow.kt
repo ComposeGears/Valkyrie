@@ -7,7 +7,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
-import io.github.composegears.valkyrie.ui.di.Koin
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import io.github.composegears.valkyrie.ui.platform.buildComposePanel
 
@@ -18,7 +18,7 @@ class ValkyrieToolWindow :
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         System.setProperty("compose.swing.render.on.graphics", "true")
 
-        Koin.start(project)
+        DI.initLeviathan(project)
 
         toolWindow.addComposePanel {
             ValkyrieTheme(
