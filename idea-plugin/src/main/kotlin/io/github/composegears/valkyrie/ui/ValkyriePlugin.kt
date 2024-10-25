@@ -11,6 +11,7 @@ import com.composegears.tiamat.navigationNone
 import com.composegears.tiamat.rememberNavController
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
+import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
@@ -60,16 +61,7 @@ fun ValkyriePlugin(
             }
             if (current != null) return@rememberNavController
 
-            val settings = inMemorySettings.current
-            val screen = when (settings.mode) {
-                Simple -> SimpleConversionScreen
-                IconPack -> IconPackConversionScreen
-                Unspecified -> IntroScreen
-            }
-            editBackStack {
-                add(IntroScreen)
-            }
-            navigate(screen)
+            initialFlow(inMemorySettings)
         },
     )
 
@@ -79,11 +71,12 @@ fun ValkyriePlugin(
         globalEventsHandler
             .events
             .onEach { event ->
-                globalEventsHandler.resetCache()
-
                 when (event) {
                     is ImportIcons -> navController.openConversionFlow(event)
                     is SetupIconPackMode -> navController.openSetupIconPackWithPendingData(event)
+                    is RefreshPlugin -> navController.initialFlow(inMemorySettings)
+                }.also {
+                    globalEventsHandler.resetCache()
                 }
             }
             .launchIn(this)
@@ -99,6 +92,22 @@ fun ValkyriePlugin(
         modifier = modifier.fillMaxSize(),
         navController = navController,
     )
+}
+
+private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
+    val settings = inMemorySettings.current
+    val screen = when (settings.mode) {
+        Simple -> SimpleConversionScreen
+        IconPack -> IconPackConversionScreen
+        Unspecified -> IntroScreen
+    }
+
+    if (current != screen) {
+        editBackStack {
+            add(IntroScreen)
+        }
+        replace(screen)
+    }
 }
 
 private fun NavController.openConversionFlow(event: ImportIcons) {
