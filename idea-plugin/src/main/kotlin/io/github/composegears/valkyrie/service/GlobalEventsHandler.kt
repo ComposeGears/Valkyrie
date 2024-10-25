@@ -22,6 +22,7 @@ class GlobalEventsHandler {
     }
 
     sealed interface PluginEvents {
+        data object RefreshPlugin : PluginEvents
         data class ImportIcons(val pathData: PendingPathData) : PluginEvents
         data class SetupIconPackMode(val pathData: PendingPathData) : PluginEvents
     }

@@ -6,6 +6,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
+import io.github.composegears.valkyrie.action.RefreshPluginAction
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.Koin
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
@@ -20,12 +21,15 @@ class ValkyrieToolWindow :
 
         Koin.start(project)
 
-        toolWindow.addComposePanel {
-            ValkyrieTheme(
-                project = project,
-                currentComponent = this,
-            ) {
-                ValkyriePlugin()
+        toolWindow.apply {
+            setTitleActions(listOf(RefreshPluginAction()))
+            addComposePanel {
+                ValkyrieTheme(
+                    project = project,
+                    currentComponent = this,
+                ) {
+                    ValkyriePlugin()
+                }
             }
         }
     }
