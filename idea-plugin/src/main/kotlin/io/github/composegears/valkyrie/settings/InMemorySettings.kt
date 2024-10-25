@@ -53,8 +53,8 @@ class InMemorySettings(project: Project) {
         this.uiState = uiState
     }
 
-    private fun PersistentSettings.ValkyrieState.toValkyriesSettings() =
-        ValkyriesSettings(
+    private fun PersistentSettings.ValkyrieState.toValkyriesSettings(): ValkyriesSettings {
+        return ValkyriesSettings(
             mode = Mode.valueOf(mode!!),
             useMaterialPack = useMaterialPack,
 
@@ -75,6 +75,7 @@ class InMemorySettings(project: Project) {
 
             showImageVectorPreview = showImageVectorPreview,
         )
+    }
 }
 
 data class ValkyriesSettings(
