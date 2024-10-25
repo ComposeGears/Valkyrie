@@ -168,8 +168,8 @@ fun CodeEditor(
 private const val TAB_LENGTH = 4
 private const val TAB_CHAR = "\t"
 
-private fun TextFieldValue.calculateFieldPhraseUpdate(translateTabToSpaces: Boolean) =
-    if (translateTabToSpaces && text.contains(TAB_CHAR)) {
+private fun TextFieldValue.calculateFieldPhraseUpdate(translateTabToSpaces: Boolean): TextFieldValue {
+    return if (translateTabToSpaces && text.contains(TAB_CHAR)) {
         copy(
             text = text.replace(TAB_CHAR, " ".repeat(TAB_LENGTH)),
             selection = TextRange(index = selection.start + TAB_LENGTH - 1),
@@ -177,3 +177,4 @@ private fun TextFieldValue.calculateFieldPhraseUpdate(translateTabToSpaces: Bool
     } else {
         this
     }
+}

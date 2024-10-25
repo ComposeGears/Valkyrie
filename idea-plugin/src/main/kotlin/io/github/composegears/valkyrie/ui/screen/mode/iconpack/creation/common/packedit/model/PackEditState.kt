@@ -25,8 +25,8 @@ data class InputFieldState(
 
     private fun InputState.isValid() = validationResult !is ValidationResult.Error
 
-    private fun NestedPack.isValid() =
-        inputFieldState.validationResult !is ValidationResult.Error && inputFieldState.text.isNotEmpty()
+    private fun NestedPack.isValid() = inputFieldState.validationResult !is ValidationResult.Error &&
+        inputFieldState.text.isNotEmpty()
 
     private fun hasDuplicateNestedPacks(): Boolean {
         val packs = nestedPacks.map { it.inputFieldState.text }

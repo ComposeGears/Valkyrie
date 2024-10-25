@@ -202,8 +202,7 @@ private fun String.valueToFloat() = removeSuffix("dp").toFloat()
 /**
  * @return the float value for the attribute [name], or null if it couldn't be found
  */
-private fun XmlPullParser.getValueAsFloat(name: String) =
-    getAttributeValue(null, name)?.toFloatOrNull()
+private fun XmlPullParser.getValueAsFloat(name: String) = getAttributeValue(null, name)?.toFloatOrNull()
 
 private fun XmlPullParser.seekToStartTag(): XmlPullParser {
     var type = next()
@@ -217,8 +216,7 @@ private fun XmlPullParser.seekToStartTag(): XmlPullParser {
     return this
 }
 
-private fun XmlPullParser.isAtEnd() =
-    eventType == END_DOCUMENT || (depth < 1 && eventType == END_TAG)
+private fun XmlPullParser.isAtEnd() = eventType == END_DOCUMENT || (depth < 1 && eventType == END_TAG)
 
 // XML tag names
 private const val CLIP_PATH = "clip-path"
