@@ -73,5 +73,5 @@ val ValkyrieIcons.Chessboard: ImageVector
         return _Chessboard!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Chessboard: ImageVector? = null

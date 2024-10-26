@@ -679,5 +679,5 @@ val ValkyrieIcons.SimpleConversion: ImageVector
         return _SimpleConversion!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _SimpleConversion: ImageVector? = null

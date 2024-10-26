@@ -45,5 +45,5 @@ val BackingIcons.Colored.Videocam: ImageVector
         return _Videocam!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Videocam: ImageVector? = null

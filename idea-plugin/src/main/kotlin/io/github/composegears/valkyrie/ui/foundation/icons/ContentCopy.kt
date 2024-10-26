@@ -41,5 +41,5 @@ val ValkyrieIcons.ContentCopy: ImageVector
         return _contentCopy!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _contentCopy: ImageVector? = null

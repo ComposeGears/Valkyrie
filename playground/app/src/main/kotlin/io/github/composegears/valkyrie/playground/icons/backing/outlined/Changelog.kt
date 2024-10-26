@@ -58,5 +58,5 @@ val BackingIcons.Outlined.Changelog: ImageVector
         return _Changelog!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Changelog: ImageVector? = null

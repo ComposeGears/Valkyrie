@@ -45,5 +45,5 @@ val ValkyrieIcons.KotlinLogo: ImageVector
         return _KotlinLogo!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _KotlinLogo: ImageVector? = null

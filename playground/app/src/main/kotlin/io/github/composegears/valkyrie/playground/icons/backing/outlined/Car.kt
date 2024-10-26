@@ -86,5 +86,5 @@ val BackingIcons.Outlined.Car: ImageVector
         return _Car!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Car: ImageVector? = null

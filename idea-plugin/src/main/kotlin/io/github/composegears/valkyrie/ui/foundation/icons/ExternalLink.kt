@@ -44,5 +44,5 @@ val ValkyrieIcons.ExternalLink: ImageVector
         return _ExternalLink!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _ExternalLink: ImageVector? = null

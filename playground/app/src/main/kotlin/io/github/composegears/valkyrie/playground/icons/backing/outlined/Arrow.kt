@@ -35,5 +35,5 @@ val BackingIcons.Outlined.Arrow: ImageVector
         return _Arrow!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Arrow: ImageVector? = null

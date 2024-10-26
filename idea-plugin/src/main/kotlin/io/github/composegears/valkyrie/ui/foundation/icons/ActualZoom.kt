@@ -63,5 +63,5 @@ val ValkyrieIcons.ActualZoom: ImageVector
         return _ActualZoom!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _ActualZoom: ImageVector? = null
