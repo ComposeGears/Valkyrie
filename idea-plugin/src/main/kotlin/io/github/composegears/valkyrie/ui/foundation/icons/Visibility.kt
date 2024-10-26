@@ -34,5 +34,5 @@ val ValkyrieIcons.Visibility: ImageVector
         return _visibility!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _visibility: ImageVector? = null

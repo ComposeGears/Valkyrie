@@ -801,5 +801,5 @@ val ValkyrieIcons.BatchProcessing: ImageVector
         return _BatchProcessing!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _BatchProcessing: ImageVector? = null

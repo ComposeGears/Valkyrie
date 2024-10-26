@@ -206,5 +206,5 @@ val ValkyrieIcons.PluginIcon: ImageVector
         return _PluginIcon!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _PluginIcon: ImageVector? = null

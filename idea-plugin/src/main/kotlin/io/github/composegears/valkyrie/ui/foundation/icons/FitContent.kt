@@ -86,5 +86,5 @@ val ValkyrieIcons.FitContent: ImageVector
         return _FitContent!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _FitContent: ImageVector? = null

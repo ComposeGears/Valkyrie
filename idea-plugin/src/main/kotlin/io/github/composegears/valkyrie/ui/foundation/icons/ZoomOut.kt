@@ -44,5 +44,5 @@ val ValkyrieIcons.ZoomOut: ImageVector
         return _ZoomOut!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _ZoomOut: ImageVector? = null

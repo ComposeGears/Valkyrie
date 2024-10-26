@@ -56,5 +56,5 @@ val BackingIcons.Outlined.Brightness: ImageVector
         return _Brightness!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Brightness: ImageVector? = null

@@ -34,5 +34,5 @@ val ValkyrieIcons.PlayForward: ImageVector
         return _PlayForward!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _PlayForward: ImageVector? = null

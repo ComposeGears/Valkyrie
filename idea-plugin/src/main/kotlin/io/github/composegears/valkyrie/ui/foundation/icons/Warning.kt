@@ -48,5 +48,5 @@ val ValkyrieIcons.Warning: ImageVector
         return _Warning!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Warning: ImageVector? = null

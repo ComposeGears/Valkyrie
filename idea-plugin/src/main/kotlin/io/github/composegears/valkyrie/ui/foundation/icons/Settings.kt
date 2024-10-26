@@ -109,5 +109,5 @@ val ValkyrieIcons.Settings: ImageVector
         return _Settings!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Settings: ImageVector? = null

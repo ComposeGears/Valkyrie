@@ -39,5 +39,5 @@ val ValkyrieIcons.BlackCircle: ImageVector
         return _BlackCircle!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _BlackCircle: ImageVector? = null

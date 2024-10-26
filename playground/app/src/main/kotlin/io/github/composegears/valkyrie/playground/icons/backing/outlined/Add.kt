@@ -40,5 +40,5 @@ val BackingIcons.Outlined.Add: ImageVector
         return _Add!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _Add: ImageVector? = null

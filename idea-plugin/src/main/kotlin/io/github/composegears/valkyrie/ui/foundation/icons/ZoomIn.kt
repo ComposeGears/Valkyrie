@@ -56,5 +56,5 @@ val ValkyrieIcons.ZoomIn: ImageVector
         return _ZoomIn!!
     }
 
-@Suppress("ObjectPropertyName", "ktlint:standard:backing-property-naming")
+@Suppress("ObjectPropertyName")
 private var _ZoomIn: ImageVector? = null
