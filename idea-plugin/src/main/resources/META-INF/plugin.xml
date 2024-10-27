@@ -62,7 +62,6 @@ Allows to create organized icon pack with an extension property of you pack obje
                     factoryClass="io.github.composegears.valkyrie.ValkyrieToolWindow"
                     icon="icons/ic_logo_tool_window.svg"/>
 
-        <notificationGroup id="valkyrie" displayType="BALLOON"/>
         <fileEditorProvider implementation="io.github.composegears.valkyrie.editor.ImageVectorPreviewEditorProvider"/>
 
         <projectService serviceImplementation="io.github.composegears.valkyrie.service.PersistentSettings"/>

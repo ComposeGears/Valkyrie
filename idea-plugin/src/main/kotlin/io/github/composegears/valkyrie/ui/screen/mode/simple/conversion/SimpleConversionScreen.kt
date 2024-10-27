@@ -37,10 +37,10 @@ import io.github.composegears.valkyrie.ui.foundation.highlights.KotlinCodeViewer
 import io.github.composegears.valkyrie.ui.foundation.icons.Collections
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
-import io.github.composegears.valkyrie.ui.platform.rememberNotificationManager
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import java.awt.datatransfer.StringSelection
 import java.nio.file.Path
@@ -78,7 +78,7 @@ private fun ConversionUi(
 ) {
     val scope = rememberCoroutineScope()
     val filePicker = rememberFilePicker()
-    val notificationManager = rememberNotificationManager()
+    val snackbar = rememberSnackbar()
 
     PluginUI(
         content = state.iconContent,
@@ -95,7 +95,7 @@ private fun ConversionUi(
         onClear = resetIconContent,
         onCopy = {
             CopyPasteManager.getInstance().setContents(StringSelection(it))
-            notificationManager.show("Copied in clipboard")
+            snackbar.show(message = "Copied in clipboard")
         },
         onSelectPath = onSelectPath,
         openSettings = openSettings,
