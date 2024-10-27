@@ -1,9 +1,12 @@
 package io.github.composegears.valkyrie.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.composegears.tiamat.NavController
 import com.composegears.tiamat.Navigation
@@ -17,6 +20,7 @@ import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
@@ -88,10 +92,16 @@ fun ValkyriePlugin(
         }
     }
 
-    Navigation(
-        modifier = modifier.fillMaxSize(),
-        navController = navController,
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Navigation(
+            modifier = Modifier.matchParentSize(),
+            navController = navController,
+        )
+        SnackbarHost(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            hostState = LocalSnackBar.current,
+        )
+    }
 }
 
 private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {

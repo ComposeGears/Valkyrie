@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.awt.ComposePanel
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
@@ -9,6 +10,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import io.github.composegears.valkyrie.action.RefreshPluginAction
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.Koin
+import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
+import io.github.composegears.valkyrie.ui.foundation.rememberSnackbarState
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import io.github.composegears.valkyrie.ui.platform.buildComposePanel
 
@@ -28,7 +31,9 @@ class ValkyrieToolWindow :
                     project = project,
                     currentComponent = this,
                 ) {
-                    ValkyriePlugin()
+                    CompositionLocalProvider(LocalSnackBar provides rememberSnackbarState()) {
+                        ValkyriePlugin()
+                    }
                 }
             }
         }
