@@ -8,13 +8,13 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.wm.ToolWindowManager
 import io.github.composegears.valkyrie.ValkyrieToolWindow
 import io.github.composegears.valkyrie.action.dialog.RequiredIconPackModeDialog
-import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
-import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
+import io.github.composegears.valkyrie.util.extension.isSvg
+import io.github.composegears.valkyrie.util.extension.isXml
 
 class ImportFromDirectoryOrFileAction : AnAction() {
 
@@ -65,12 +65,12 @@ class ImportFromDirectoryOrFileAction : AnAction() {
                     else -> event.presentation.text = "Import Icon"
                 }
                 event.presentation.isEnabled = when {
-                    file.isDirectory -> file.children.any { it.extension.isXml || it.extension.isSvg }
-                    else -> file.extension.isXml || file.extension.isSvg
+                    file.isDirectory -> file.children.any { it.isSvg || it.isXml }
+                    else -> file.isSvg || file.isXml
                 }
             } else {
                 event.presentation.text = "Import All"
-                event.presentation.isEnabled = files.all { it.extension.isXml || it.extension.isSvg }
+                event.presentation.isEnabled = files.all { it.isSvg || it.isXml }
             }
         }
     }

@@ -151,8 +151,8 @@ class IconPackConversionViewModel(
                 val parserOutput = SvgXmlParser.toIrImageVector(icon.path)
 
                 ImageVectorGenerator.convert(
-                    vector = parserOutput.vector,
-                    kotlinName = iconName.value,
+                    vector = parserOutput.irImageVector,
+                    iconName = iconName.value,
                     config = ImageVectorGeneratorConfig(
                         packageName = icon.iconPack.iconPackage,
                         iconPackPackage = settings.iconPackPackage,
@@ -189,8 +189,8 @@ class IconPackConversionViewModel(
                         is IconPack.Nested -> {
                             val parserOutput = SvgXmlParser.toIrImageVector(icon.path)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
-                                vector = parserOutput.vector,
-                                kotlinName = icon.iconName.value,
+                                vector = parserOutput.irImageVector,
+                                iconName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
                                     iconPackPackage = settings.iconPackPackage,
@@ -216,8 +216,8 @@ class IconPackConversionViewModel(
                         is IconPack.Single -> {
                             val parserOutput = SvgXmlParser.toIrImageVector(icon.path)
                             val vectorSpecOutput = ImageVectorGenerator.convert(
-                                vector = parserOutput.vector,
-                                kotlinName = icon.iconName.value,
+                                vector = parserOutput.irImageVector,
+                                iconName = icon.iconName.value,
                                 config = ImageVectorGeneratorConfig(
                                     packageName = icon.iconPack.iconPackage,
                                     iconPackPackage = settings.iconPackPackage,

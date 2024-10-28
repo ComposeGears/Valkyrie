@@ -56,8 +56,8 @@ class SimpleConversionViewModel(
         val output = runCatching {
             val parserOutput = SvgXmlParser.toIrImageVector(path)
             ImageVectorGenerator.convert(
-                vector = parserOutput.vector,
-                kotlinName = parserOutput.kotlinName,
+                vector = parserOutput.irImageVector,
+                iconName = parserOutput.iconName,
                 config = ImageVectorGeneratorConfig(
                     packageName = valkyriesSettings.packageName,
                     iconPackPackage = valkyriesSettings.packageName,
@@ -92,8 +92,8 @@ class SimpleConversionViewModel(
             val parserOutput = SvgXmlParser.toIrImageVector(text)
 
             ImageVectorGenerator.convert(
-                vector = parserOutput.vector,
-                kotlinName = parserOutput.kotlinName,
+                vector = parserOutput.irImageVector,
+                iconName = parserOutput.iconName,
                 config = ImageVectorGeneratorConfig(
                     packageName = valkyriesSettings.packageName,
                     iconPackPackage = valkyriesSettings.packageName,
@@ -105,13 +105,13 @@ class SimpleConversionViewModel(
                     useExplicitMode = valkyriesSettings.useExplicitMode,
                     addTrailingComma = valkyriesSettings.addTrailingComma,
                 ),
-            ).content
+            )
         }.getOrNull()
 
-        if (output.isNullOrEmpty()) {
+        if (output == null) {
             _events.emit("Failed to parse icon from clipboard")
         } else {
-            _state.updateState { copy(iconContent = output) }
+            _state.updateState { copy(iconContent = output.content) }
         }
     }
 }

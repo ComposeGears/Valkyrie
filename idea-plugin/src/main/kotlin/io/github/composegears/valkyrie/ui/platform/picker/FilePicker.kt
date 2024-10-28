@@ -9,9 +9,9 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Condition
 import com.intellij.openapi.vfs.VirtualFile
-import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
-import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import io.github.composegears.valkyrie.util.extension.isSvg
+import io.github.composegears.valkyrie.util.extension.isXml
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -39,9 +39,8 @@ fun rememberFilePicker(): Picker<Path?> {
     return remember {
         FilePicker(
             project = project,
-            filterCondition = { vf ->
-                val extension = vf.extension
-                extension.isSvg || extension.isXml
+            filterCondition = {
+                it.isSvg || it.isXml
             },
         )
     }

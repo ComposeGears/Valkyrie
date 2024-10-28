@@ -40,14 +40,14 @@ object ImageVectorGenerator {
 
     fun convert(
         vector: IrImageVector,
-        kotlinName: String,
+        iconName: String,
         config: ImageVectorGeneratorConfig,
     ): ImageVectorSpecOutput = ImageVectorFileSpec(
         config = ImageVectorSpecConfig(
             iconPackage = config.packageName,
             iconPack = config.packName,
             iconPackPackage = config.iconPackPackage,
-            iconName = kotlinName,
+            iconName = iconName,
             iconNestedPack = config.nestedPackName,
             outputFormat = config.outputFormat,
             generatePreview = config.generatePreview,
