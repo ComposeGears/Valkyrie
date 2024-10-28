@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
+import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
@@ -17,8 +18,8 @@ class CustomPackageTest {
         val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
-            vector = parserOutput.vector,
-            kotlinName = parserOutput.kotlinName,
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
             config = createConfig(
                 outputFormat = outputFormat,
                 useFlatPackage = true,
@@ -29,6 +30,7 @@ class CustomPackageTest {
             pathToBackingProperty = "kt/backing/FlatPackage.kt",
             pathToLazyProperty = "kt/lazy/FlatPackage.kt",
         )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
     }
 
@@ -38,8 +40,8 @@ class CustomPackageTest {
         val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
-            vector = parserOutput.vector,
-            kotlinName = parserOutput.kotlinName,
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
             config = createConfig(
                 packName = "ValkyrieIcons",
                 outputFormat = outputFormat,
@@ -51,6 +53,7 @@ class CustomPackageTest {
             pathToBackingProperty = "kt/backing/FlatPackage.pack.kt",
             pathToLazyProperty = "kt/lazy/FlatPackage.pack.kt",
         )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
     }
 
@@ -60,8 +63,8 @@ class CustomPackageTest {
         val icon = getResourcePath("xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
-            vector = parserOutput.vector,
-            kotlinName = parserOutput.kotlinName,
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
             config = createConfig(
                 packName = "ValkyrieIcons",
                 nestedPackName = "Filled",
@@ -74,6 +77,7 @@ class CustomPackageTest {
             pathToBackingProperty = "kt/backing/FlatPackage.pack.nested.kt",
             pathToLazyProperty = "kt/lazy/FlatPackage.pack.nested.kt",
         )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
     }
 
@@ -83,8 +87,8 @@ class CustomPackageTest {
         val icon = getResourcePath("xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
-            vector = parserOutput.vector,
-            kotlinName = parserOutput.kotlinName,
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
             config = createConfig(
                 packageName = "io.github.composegears.valkyrie.icons",
                 iconPackPackage = "androidx.compose.material.icons",
@@ -99,6 +103,7 @@ class CustomPackageTest {
             pathToBackingProperty = "kt/backing/WithoutPath.pack.package.kt",
             pathToLazyProperty = "kt/lazy/WithoutPath.pack.package.kt",
         )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
     }
 }

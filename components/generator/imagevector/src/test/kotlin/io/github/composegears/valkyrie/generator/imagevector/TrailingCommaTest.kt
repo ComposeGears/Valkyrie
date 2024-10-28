@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.imagevector.common.toResourceText
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
+import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
@@ -17,8 +18,8 @@ class TrailingCommaTest {
         val icon = getResourcePath("xml/ic_fill_color_stroke.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
-            vector = parserOutput.vector,
-            kotlinName = parserOutput.kotlinName,
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
             config = createConfig(
                 packName = "ValkyrieIcons",
                 outputFormat = outputFormat,
@@ -30,6 +31,7 @@ class TrailingCommaTest {
             pathToBackingProperty = "kt/backing/FillColorStroke.trailing.kt",
             pathToLazyProperty = "kt/lazy/FillColorStroke.trailing.kt",
         )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
     }
 }
