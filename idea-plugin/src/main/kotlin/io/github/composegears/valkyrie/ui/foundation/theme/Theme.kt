@@ -87,7 +87,7 @@ private fun IntellijDarkTheme(
         colorScheme = darkColorScheme(
             primary = primary,
             onPrimary = Color.White,
-            background = background,
+            background = Color(0xFF1C1D1F),
             onBackground = onBackground,
             surface = background,
             surfaceContainerHigh = Color(0xFF3A3A3C),
