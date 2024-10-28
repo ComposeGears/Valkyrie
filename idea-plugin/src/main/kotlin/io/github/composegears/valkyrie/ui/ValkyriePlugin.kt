@@ -2,6 +2,8 @@ package io.github.composegears.valkyrie.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -92,7 +94,7 @@ fun ValkyriePlugin(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         Navigation(
             modifier = Modifier.matchParentSize(),
             navController = navController,
@@ -100,6 +102,14 @@ fun ValkyriePlugin(
         SnackbarHost(
             modifier = Modifier.align(Alignment.BottomCenter),
             hostState = LocalSnackBar.current,
+            snackbar = {
+                Snackbar(
+                    snackbarData = it,
+                    shape = MaterialTheme.shapes.small,
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                )
+            },
         )
     }
 }
