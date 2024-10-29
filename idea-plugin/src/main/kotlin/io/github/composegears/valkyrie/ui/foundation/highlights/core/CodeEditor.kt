@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.snipme.highlights.Highlights
+import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableIntState
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 
@@ -81,8 +83,13 @@ fun CodeEditor(
         linesTextScroll.scrollTo(verticalScrollState.value)
     }
 
+    val scrollbarStyle = LocalScrollbarStyle.current.copy(
+        unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+        hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+    )
+
     Box(modifier = modifier) {
-        Row {
+        Row(modifier = Modifier.fillMaxSize()) {
             BasicTextField(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -92,7 +99,7 @@ fun CodeEditor(
                 value = IntRange(1, linesCount).joinToString(separator = "\n"),
                 readOnly = true,
                 textStyle = textStyle.copy(
-                    color = colors.focusedTextColor.copy(alpha = 0.3f),
+                    color = colors.focusedTextColor.disabled(),
                     fontWeight = FontWeight.Light,
                     fontSize = 13.sp,
                     textAlign = TextAlign.End,
@@ -106,62 +113,60 @@ fun CodeEditor(
                     .padding(start = 8.dp),
                 color = colors.focusedTextColor.copy(alpha = 0.1f),
             )
-            TextField(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .horizontalScroll(horizontalScrollState)
-                    .verticalScroll(verticalScrollState),
-                onValueChange = { fieldValue ->
-                    val fieldUpdate = fieldValue.calculateFieldPhraseUpdate(translateTabToSpaces)
-                    currentText = fieldUpdate
+            Box(modifier = Modifier.fillMaxSize()) {
+                TextField(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .horizontalScroll(horizontalScrollState)
+                        .verticalScroll(verticalScrollState),
+                    onValueChange = { fieldValue ->
+                        val fieldUpdate = fieldValue.calculateFieldPhraseUpdate(translateTabToSpaces)
+                        currentText = fieldUpdate
 
-                    onValueChange(fieldUpdate.text)
-                },
-                value = TextFieldValue(
-                    selection = currentText.selection,
-                    composition = currentText.composition,
-                    annotatedString = highlights.buildAnnotatedString(),
-                ),
-                enabled = enabled,
-                readOnly = readOnly,
-                textStyle = textStyle,
-                label = label,
-                placeholder = placeholder,
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon,
-                isError = isError,
-                visualTransformation = visualTransformation,
-                keyboardOptions = keyboardOptions,
-                keyboardActions = keyboardActions,
-                singleLine = singleLine,
-                maxLines = maxLines,
-                minLines = minLines,
-                interactionSource = interactionSource,
-                shape = shape,
-                colors = colors,
-            )
+                        onValueChange(fieldUpdate.text)
+                    },
+                    value = TextFieldValue(
+                        selection = currentText.selection,
+                        composition = currentText.composition,
+                        annotatedString = highlights.buildAnnotatedString(),
+                    ),
+                    enabled = enabled,
+                    readOnly = readOnly,
+                    textStyle = textStyle,
+                    label = label,
+                    placeholder = placeholder,
+                    leadingIcon = leadingIcon,
+                    trailingIcon = trailingIcon,
+                    isError = isError,
+                    visualTransformation = visualTransformation,
+                    keyboardOptions = keyboardOptions,
+                    keyboardActions = keyboardActions,
+                    singleLine = singleLine,
+                    maxLines = maxLines,
+                    minLines = minLines,
+                    interactionSource = interactionSource,
+                    shape = shape,
+                    colors = colors,
+                )
+
+                VerticalScrollbar(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 4.dp, top = 8.dp, bottom = 16.dp),
+                    adapter = rememberScrollbarAdapter(verticalScrollState),
+                    style = scrollbarStyle,
+                )
+                HorizontalScrollbar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp, bottom = 4.dp, end = 16.dp)
+                        .align(Alignment.BottomCenter),
+                    adapter = rememberScrollbarAdapter(horizontalScrollState),
+                    style = scrollbarStyle,
+                )
+            }
         }
-
-        val scrollbarStyle = LocalScrollbarStyle.current.copy(
-            unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-            hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.50f),
-        )
-        VerticalScrollbar(
-            modifier = Modifier
-                .fillMaxHeight()
-                .align(Alignment.CenterEnd),
-            adapter = rememberScrollbarAdapter(verticalScrollState),
-            style = scrollbarStyle,
-        )
-        HorizontalScrollbar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp * linesCount.toString().length + 8.dp)
-                .align(Alignment.BottomCenter),
-            adapter = rememberScrollbarAdapter(horizontalScrollState),
-            style = scrollbarStyle,
-        )
     }
 }
 
