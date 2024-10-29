@@ -32,12 +32,11 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
-import io.github.composegears.valkyrie.ui.foundation.IconButton
+import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
-import io.github.composegears.valkyrie.ui.foundation.icons.Settings
 import io.github.composegears.valkyrie.ui.foundation.icons.SimpleConversion
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -126,13 +125,11 @@ private fun IntroScreenUI(
             }
             WeightSpacer(weight = 0.7f)
         }
-        IconButton(
+        SettingsAction(
             modifier = Modifier
                 .padding(end = 8.dp)
                 .align(Alignment.TopEnd),
-            imageVector = ValkyrieIcons.Settings,
-            iconSize = 24.dp,
-            onClick = openSettings,
+            openSettings = openSettings,
         )
         Text(
             modifier = Modifier

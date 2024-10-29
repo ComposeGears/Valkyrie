@@ -6,16 +6,17 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Clear
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ui.foundation.icons.ContentCopy
+import io.github.composegears.valkyrie.ui.foundation.icons.Back
+import io.github.composegears.valkyrie.ui.foundation.icons.Close
+import io.github.composegears.valkyrie.ui.foundation.icons.Copy
+import io.github.composegears.valkyrie.ui.foundation.icons.Restart
 import io.github.composegears.valkyrie.ui.foundation.icons.Settings
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -28,7 +29,7 @@ fun TopAppBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(40.dp)
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -37,27 +38,28 @@ fun TopAppBar(
 }
 
 @Composable
-fun BackAction(
-    modifier: Modifier = Modifier,
-    onBack: () -> Unit,
-) {
-    IconButton(
-        modifier = modifier,
-        onClick = onBack,
-        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-    )
-}
-
-@Composable
 fun AppBarTitle(
     title: String,
     modifier: Modifier = Modifier,
 ) {
     Text(
-        modifier = modifier.padding(horizontal = 8.dp),
+        modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
         text = title,
         maxLines = 1,
-        style = MaterialTheme.typography.titleSmall,
+        style = MaterialTheme.typography.bodyMedium,
+    )
+}
+
+@Composable
+fun BackAction(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit,
+) {
+    IconButton(
+        modifier = modifier.size(32.dp),
+        onClick = onBack,
+        iconSize = 18.dp,
+        imageVector = ValkyrieIcons.Back,
     )
 }
 
@@ -67,8 +69,20 @@ fun ClearAction(
     onClear: () -> Unit,
 ) {
     IconButton(
-        modifier = modifier,
-        imageVector = Icons.Default.Clear,
+        modifier = modifier.size(32.dp),
+        imageVector = ValkyrieIcons.Close,
+        onClick = onClear,
+    )
+}
+
+@Composable
+fun RestartAction(
+    modifier: Modifier = Modifier,
+    onClear: () -> Unit,
+) {
+    IconButton(
+        modifier = modifier.size(32.dp),
+        imageVector = ValkyrieIcons.Restart,
         onClick = onClear,
     )
 }
@@ -79,10 +93,10 @@ fun CopyAction(
     onCopy: () -> Unit,
 ) {
     IconButton(
-        modifier = modifier,
-        imageVector = ValkyrieIcons.ContentCopy,
-        onClick = onCopy,
+        modifier = modifier.size(32.dp),
+        imageVector = ValkyrieIcons.Copy,
         iconSize = 18.dp,
+        onClick = onCopy,
     )
 }
 
@@ -92,9 +106,9 @@ fun SettingsAction(
     openSettings: () -> Unit,
 ) {
     IconButton(
-        modifier = modifier,
+        modifier = modifier.size(32.dp),
         imageVector = ValkyrieIcons.Settings,
-        iconSize = 24.dp,
+        iconSize = 18.dp,
         onClick = openSettings,
     )
 }
@@ -104,9 +118,10 @@ fun SettingsAction(
 private fun TopAppBarPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
     TopAppBar {
         BackAction {}
-        AppBarTitle(title = "Page title")
+        AppBarTitle(title = "Title")
         WeightSpacer()
         ClearAction {}
+        RestartAction { }
         CopyAction {}
         SettingsAction {}
     }
