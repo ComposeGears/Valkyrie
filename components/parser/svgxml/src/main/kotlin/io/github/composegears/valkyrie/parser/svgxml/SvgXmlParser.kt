@@ -44,7 +44,7 @@ object SvgXmlParser {
     @Throws(IllegalStateException::class)
     fun toIrImageVector(
         value: String,
-        iconName: String = "TempIconName",
+        iconName: String,
     ): IconParserOutput {
         val iconType = IconType.from(value) ?: error("Unsupported icon type")
 

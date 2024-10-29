@@ -117,7 +117,7 @@ private fun IntellijLightTheme(
         colorScheme = lightColorScheme(
             primary = primary,
             onPrimary = Color.White,
-            background = background,
+            background = Color.White,
             onBackground = onBackground,
             surface = background,
             surfaceContainerHigh = Color(0xFFEDEDED),

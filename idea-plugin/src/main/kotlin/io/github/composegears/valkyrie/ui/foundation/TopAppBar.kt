@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.icons.Back
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
 import io.github.composegears.valkyrie.ui.foundation.icons.Copy
-import io.github.composegears.valkyrie.ui.foundation.icons.Restart
 import io.github.composegears.valkyrie.ui.foundation.icons.Settings
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -76,18 +75,6 @@ fun ClearAction(
 }
 
 @Composable
-fun RestartAction(
-    modifier: Modifier = Modifier,
-    onClear: () -> Unit,
-) {
-    IconButton(
-        modifier = modifier.size(32.dp),
-        imageVector = ValkyrieIcons.Restart,
-        onClick = onClear,
-    )
-}
-
-@Composable
 fun CopyAction(
     modifier: Modifier = Modifier,
     onCopy: () -> Unit,
@@ -121,7 +108,6 @@ private fun TopAppBarPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
         AppBarTitle(title = "Title")
         WeightSpacer()
         ClearAction {}
-        RestartAction { }
         CopyAction {}
         SettingsAction {}
     }
