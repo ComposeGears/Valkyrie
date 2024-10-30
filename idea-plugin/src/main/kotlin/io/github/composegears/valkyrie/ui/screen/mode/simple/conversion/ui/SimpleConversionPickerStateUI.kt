@@ -35,6 +35,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.onPasteEvent
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
 import io.github.composegears.valkyrie.ui.platform.Os
 import io.github.composegears.valkyrie.ui.platform.pasteFromClipboard
 import io.github.composegears.valkyrie.ui.platform.rememberCurrentOs
@@ -66,7 +67,11 @@ fun SimpleConversionPickerStateUI(
                 focusRequester.freeFocus()
             }
             .onPasteEvent {
-                pasteFromClipboard()?.let { onAction(OnPasteFromClipboard(it)) }
+                when (val clipboardData = pasteFromClipboard()) {
+                    is ClipboardDataType.Files -> onAction(OnDragAndDropPath(clipboardData.paths.first()))
+                    is ClipboardDataType.Text -> onAction(OnPasteFromClipboard(clipboardData.text))
+                    null -> {}
+                }
             },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
