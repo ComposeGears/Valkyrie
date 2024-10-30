@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.icons.colored
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.icons.ValkyrieIcons
-import kotlin.Suppress
 
 val ValkyrieIcons.Colored.WithoutPath: ImageVector
     get() {

@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.icons.ValkyrieIcons
-import kotlin.Suppress
 
 val ValkyrieIcons.Filled.WithoutPath: ImageVector
     get() {

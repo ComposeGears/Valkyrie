@@ -25,6 +25,7 @@ inline fun fileSpecBuilder(
     builderAction: FileSpec.Builder.() -> Unit,
 ) = FileSpec
     .builder(packageName = packageName, fileName = fileName)
+    .addKotlinDefaultImports()
     .apply(builderAction)
     .build()
 

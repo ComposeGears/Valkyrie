@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.icons
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import kotlin.Suppress
 
 val Icons.Filled.WithoutPath: ImageVector
     get() {
