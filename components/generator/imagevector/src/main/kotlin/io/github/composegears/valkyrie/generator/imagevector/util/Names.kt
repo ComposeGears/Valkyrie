@@ -29,6 +29,7 @@ internal object ClassNames {
     val Brush = PackageNames.GraphicsPackage.className("Brush")
     val Preview = PackageNames.PreviewPackage.className("Preview")
     val Composable = PackageNames.RuntimePackage.className("Composable")
+    val LazyThreadSafetyMode = ClassName.bestGuess("kotlin.LazyThreadSafetyMode")
     val Suppress = ClassName.bestGuess("kotlin.Suppress")
 }
 

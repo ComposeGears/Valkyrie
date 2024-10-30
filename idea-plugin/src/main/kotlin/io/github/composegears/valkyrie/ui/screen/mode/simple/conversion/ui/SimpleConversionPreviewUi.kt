@@ -84,7 +84,6 @@ private fun SimpleConversionPreviewUiPreview() = PreviewTheme {
 
                     import androidx.compose.ui.graphics.vector.ImageVector
                     import androidx.compose.ui.unit.dp
-                    import kotlin.Suppress
 
                     val WithoutPath: ImageVector
                         get() {
