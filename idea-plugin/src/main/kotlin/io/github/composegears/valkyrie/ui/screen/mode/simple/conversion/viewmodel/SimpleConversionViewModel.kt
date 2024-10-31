@@ -177,6 +177,7 @@ class SimpleConversionViewModel(
             IconContent(
                 name = name,
                 code = output.content,
+                iconType = parserOutput.iconType,
             )
         }.getOrNull()
     }
@@ -208,6 +209,7 @@ class SimpleConversionViewModel(
             IconContent(
                 name = iconName,
                 code = output.content,
+                iconType = parserOutput.iconType,
             )
         }.getOrNull()
     }

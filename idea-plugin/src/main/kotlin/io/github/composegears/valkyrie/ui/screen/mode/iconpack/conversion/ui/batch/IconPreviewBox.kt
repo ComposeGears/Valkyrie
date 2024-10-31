@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
+import io.github.composegears.valkyrie.util.PainterConverter
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlinx.coroutines.Dispatchers
@@ -55,7 +55,7 @@ fun IconPreviewBox(
 
         val iconPainter by produceState<Painter?>(initialValue = null) {
             value = withContext(Dispatchers.Default) {
-                path.toPainterOrNull()
+                PainterConverter.from(path = path)
             }
         }
 

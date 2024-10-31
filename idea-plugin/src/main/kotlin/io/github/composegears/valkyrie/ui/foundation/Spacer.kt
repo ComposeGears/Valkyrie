@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
 @Composable
-inline fun VerticalSpacer(
+inline fun ColumnScope.VerticalSpacer(
     dp: Dp,
     modifier: Modifier = Modifier,
 ) {
@@ -21,7 +21,7 @@ inline fun VerticalSpacer(
 }
 
 @Composable
-inline fun HorizontalSpacer(
+inline fun RowScope.HorizontalSpacer(
     dp: Dp,
     modifier: Modifier = Modifier,
 ) {

@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel
 
+import io.github.composegears.valkyrie.parser.svgxml.util.IconType
 import java.nio.file.Path
 
 sealed interface SimpleConversionState {
@@ -19,4 +20,5 @@ sealed interface IconSource {
 data class IconContent(
     val name: String,
     val code: String,
+    val iconType: IconType,
 )

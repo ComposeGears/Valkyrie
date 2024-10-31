@@ -18,7 +18,7 @@ import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.util.toPainterOrNull
+import io.github.composegears.valkyrie.util.PainterConverter
 import io.github.composegears.valkyrie.util.getOrNull
 import java.nio.file.Path
 import kotlin.io.path.extension
@@ -286,7 +286,7 @@ class IconPackConversionViewModel(
                     val icons = paths
                         .sortedBy { it.name }
                         .map { path ->
-                            when (path.toPainterOrNull(imageScale = 0.1)) {
+                            when (PainterConverter.from(path, imageScale = 0.1)) {
                                 null -> BatchIcon.Broken(
                                     iconName = IconName(path.nameWithoutExtension),
                                     extension = path.extension,
