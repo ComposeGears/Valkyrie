@@ -18,18 +18,12 @@ import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.composegears.tiamat.rememberSaveableViewModel
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.ClearAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.platform.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.SimpleConversionPickerStateUI
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.SimpleConversionPreviewStateUi
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.SimpleConversionPreviewStateUi
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.Back
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.ClosePreview
@@ -101,15 +95,6 @@ private fun ConversionUi(
     onAction: (SimpleConversionAction) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
-            when (state) {
-                is PickerState -> BackAction(onBack = { onAction(Back) })
-                is ConversionState -> ClearAction(onClear = { onAction(ClosePreview) })
-            }
-            AppBarTitle(title = "Simple conversion")
-            WeightSpacer()
-            SettingsAction(openSettings = { onAction(OpenSettings) })
-        }
         AnimatedContent(
             modifier = Modifier.fillMaxSize(),
             targetState = state,
