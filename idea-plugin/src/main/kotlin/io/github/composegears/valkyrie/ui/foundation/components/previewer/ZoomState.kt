@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.editor.ui.previewer
+package io.github.composegears.valkyrie.ui.foundation.components.previewer
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.runtime.Composable

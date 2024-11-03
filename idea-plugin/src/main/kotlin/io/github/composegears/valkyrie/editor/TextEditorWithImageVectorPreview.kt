@@ -1,5 +1,7 @@
 package io.github.composegears.valkyrie.editor
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposePanel
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.FileEditorState
@@ -10,7 +12,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.ui.JBUI
-import io.github.composegears.valkyrie.editor.ui.ImageVectorPreviewPanel
+import io.github.composegears.valkyrie.editor.ui.VirtualFileImageVector
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import java.awt.Dimension
 import javax.swing.JComponent
@@ -48,7 +50,10 @@ private class ImageVectorPreviewEditor(
     private val composePanel = ComposePanel().apply {
         setContent {
             ValkyrieTheme(project, this) {
-                ImageVectorPreviewPanel(file)
+                VirtualFileImageVector(
+                    modifier = Modifier.fillMaxSize(),
+                    file = file,
+                )
             }
         }
         preferredSize = JBUI.size(Dimension(800, 800))
