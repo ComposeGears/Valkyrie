@@ -27,7 +27,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
+import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
+import io.github.composegears.valkyrie.ui.foundation.SettingsAction
+import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.icons.AddFile
@@ -41,9 +45,11 @@ import io.github.composegears.valkyrie.ui.platform.pasteFromClipboard
 import io.github.composegears.valkyrie.ui.platform.rememberCurrentOs
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.Back
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.OnDragAndDropPath
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.OnPasteFromClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.OpenFilePicker
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.OpenSettings
 import java.nio.file.Path
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -75,6 +81,12 @@ fun SimpleConversionPickerStateUI(
             },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        TopAppBar {
+            BackAction(onBack = { onAction(Back) })
+            AppBarTitle(title = "Simple conversion")
+            WeightSpacer()
+            SettingsAction(openSettings = { onAction(OpenSettings) })
+        }
         WeightSpacer(weight = 0.3f)
         SelectableState(
             onDragAndDrop = { onAction(OnDragAndDropPath(it)) },

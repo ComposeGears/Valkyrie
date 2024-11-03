@@ -49,7 +49,7 @@ import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.ClearAction
+import io.github.composegears.valkyrie.ui.foundation.CloseAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
@@ -173,7 +173,7 @@ private fun IconPackConversionUi(
                             BackAction(onBack = onBack)
                         }
                         is IconPackCreationState -> {
-                            ClearAction(onClear = onReset)
+                            CloseAction(onClose = onReset)
                         }
                     }
                 }

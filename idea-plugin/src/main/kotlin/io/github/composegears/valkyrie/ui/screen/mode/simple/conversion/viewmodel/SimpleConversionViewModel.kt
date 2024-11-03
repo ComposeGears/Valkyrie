@@ -178,7 +178,7 @@ class SimpleConversionViewModel(
             IconContent(
                 name = name,
                 code = output.content,
-                iconType = parserOutput.iconType,
+                irImageVector = parserOutput.irImageVector,
             )
         }.getOrNull()
     }
@@ -211,7 +211,7 @@ class SimpleConversionViewModel(
             IconContent(
                 name = iconName,
                 code = output.content,
-                iconType = parserOutput.iconType,
+                irImageVector = parserOutput.irImageVector,
             )
         }.getOrNull()
     }

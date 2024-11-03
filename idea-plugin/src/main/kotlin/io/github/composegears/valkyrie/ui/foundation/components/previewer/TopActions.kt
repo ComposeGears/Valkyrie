@@ -46,18 +46,18 @@ fun TopActions(
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         TooltipIconButton(
-            tooltipText = "Show pixel grid",
+            hint = "Show pixel grid",
             icon = ValkyrieIcons.Chessboard,
             onClick = { onBgTypeChange(BgType.PixelGrid) },
         )
         TooltipImageButton(
-            tooltipText = "Show white background",
-            icon = ValkyrieIcons.WhiteCircle,
+            hint = "Show white background",
+            image = ValkyrieIcons.WhiteCircle,
             onClick = { onBgTypeChange(BgType.White) },
         )
         TooltipImageButton(
-            tooltipText = "Show black background",
-            icon = ValkyrieIcons.BlackCircle,
+            hint = "Show black background",
+            image = ValkyrieIcons.BlackCircle,
             onClick = { onBgTypeChange(BgType.Black) },
         )
         VerticalDivider(
@@ -65,22 +65,22 @@ fun TopActions(
             color = MaterialTheme.colorScheme.onSurface.disabled(),
         )
         TooltipIconButton(
-            tooltipText = "Zoom In",
+            hint = "Zoom In",
             icon = ValkyrieIcons.ZoomIn,
             onClick = zoomIn,
         )
         TooltipIconButton(
-            tooltipText = "Zoom Out",
+            hint = "Zoom Out",
             icon = ValkyrieIcons.ZoomOut,
             onClick = zoomOut,
         )
         TooltipIconButton(
-            tooltipText = "Actual Size",
+            hint = "Actual Size",
             icon = ValkyrieIcons.ActualZoom,
             onClick = onActualSize,
         )
         TooltipIconButton(
-            tooltipText = "Fit Zoom to Window",
+            hint = "Fit Zoom to Window",
             icon = ValkyrieIcons.FitContent,
             onClick = fitToWindow,
         )

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -27,13 +26,12 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withLink
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.extensions.cast
+import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
-import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.icons.ExternalLink
 import io.github.composegears.valkyrie.ui.foundation.icons.PluginIcon
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
@@ -74,11 +72,7 @@ private fun AboutSettingsUi() {
             }
         }
         VerticalSpacer(16.dp)
-        HorizontalDivider(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            color = LocalContentColor.current.disabled(),
-            thickness = Dp.Hairline,
-        )
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
         VerticalSpacer(16.dp)
 
         val browser = rememberBrowser()

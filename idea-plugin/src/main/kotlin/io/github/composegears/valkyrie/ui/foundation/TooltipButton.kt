@@ -26,84 +26,82 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.WhiteCircle
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TooltipIconButton(
-    tooltipText: String,
+    hint: String,
     onClick: () -> Unit,
     icon: ImageVector,
     modifier: Modifier = Modifier,
 ) {
-    TooltipArea(
+    TooltipButton(
         modifier = modifier,
-        tooltip = {
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(MaterialTheme.colorScheme.inverseSurface)
-                    .padding(8.dp),
-            ) {
-                Text(
-                    text = tooltipText,
-                    color = MaterialTheme.colorScheme.inverseOnSurface,
-                    style = MaterialTheme.typography.bodySmall,
-                )
-            }
-        },
-        content = {
-            Box(
-                modifier = Modifier.size(24.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .clickable(onClick = onClick),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    imageVector = icon,
-                    contentDescription = null,
-                )
-            }
-        },
-    )
+        hint = hint,
+    ) {
+        Box(
+            modifier = Modifier.size(24.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .clickable(onClick = onClick),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                tint = MaterialTheme.colorScheme.onSurface,
+                imageVector = icon,
+                contentDescription = null,
+            )
+        }
+    }
+}
+
+@Composable
+fun TooltipImageButton(
+    hint: String,
+    image: ImageVector,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TooltipButton(
+        modifier = modifier,
+        hint = hint,
+    ) {
+        Box(
+            modifier = Modifier.size(24.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .clickable(onClick = onClick),
+            contentAlignment = Alignment.Center,
+        ) {
+            Image(
+                imageVector = image,
+                contentDescription = null,
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TooltipImageButton(
-    tooltipText: String,
-    icon: ImageVector,
-    onClick: () -> Unit,
+fun TooltipButton(
+    hint: String,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     TooltipArea(
         modifier = modifier,
+        delayMillis = 1_000,
         tooltip = {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
                     .background(MaterialTheme.colorScheme.inverseSurface)
-                    .padding(8.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Text(
-                    text = tooltipText,
+                    text = hint,
                     color = MaterialTheme.colorScheme.inverseOnSurface,
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
         },
-        content = {
-            Box(
-                modifier = Modifier.size(24.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .clickable(onClick = onClick),
-                contentAlignment = Alignment.Center,
-            ) {
-                Image(
-                    imageVector = icon,
-                    contentDescription = null,
-                )
-            }
-        },
+        content = content,
     )
 }
 
@@ -112,19 +110,22 @@ fun TooltipImageButton(
 private fun TooltipButtonPreview() = PreviewTheme {
     Row {
         TooltipIconButton(
-            tooltipText = "Show pixel grid",
+            hint = "Show pixel grid",
             onClick = {},
             icon = ValkyrieIcons.Chessboard,
         )
         TooltipImageButton(
-            tooltipText = "Show white background",
-            icon = ValkyrieIcons.WhiteCircle,
+            hint = "Show white background",
+            image = ValkyrieIcons.WhiteCircle,
             onClick = {},
         )
         TooltipImageButton(
-            tooltipText = "Show black background",
-            icon = ValkyrieIcons.BlackCircle,
+            hint = "Show black background",
+            image = ValkyrieIcons.BlackCircle,
             onClick = {},
         )
+        TooltipButton(hint = "Test") {
+            Text(text = "Generic content")
+        }
     }
 }
