@@ -263,6 +263,7 @@ private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopSta
             showImageVectorPreview = true,
             addTrailingComma = true,
             useMaterialPack = false,
+            indentSize = 4,
         ),
         onChangeMode = {},
         onClearSettings = {},

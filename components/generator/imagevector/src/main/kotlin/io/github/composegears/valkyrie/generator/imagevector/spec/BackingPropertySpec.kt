@@ -44,7 +44,7 @@ internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
                 iconPackClassName = iconPackClassName,
                 packageName = packageName,
             )
-            setIndent()
+            setIndent(config.indentSize)
         }
 
         return ImageVectorSpecOutput(

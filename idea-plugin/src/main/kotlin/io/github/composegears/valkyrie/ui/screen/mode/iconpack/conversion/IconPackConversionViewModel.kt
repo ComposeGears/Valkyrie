@@ -164,6 +164,7 @@ class IconPackConversionViewModel(
                         useFlatPackage = settings.flatPackage,
                         useExplicitMode = settings.useExplicitMode,
                         addTrailingComma = settings.addTrailingComma,
+                        indentSize = settings.indentSize,
                     ),
                 )
             }.getOrDefault(ImageVectorSpecOutput.empty)
@@ -202,6 +203,7 @@ class IconPackConversionViewModel(
                                     useFlatPackage = settings.flatPackage,
                                     useExplicitMode = settings.useExplicitMode,
                                     addTrailingComma = settings.addTrailingComma,
+                                    indentSize = settings.indentSize,
                                 ),
                             )
 
@@ -229,6 +231,7 @@ class IconPackConversionViewModel(
                                     useFlatPackage = settings.flatPackage,
                                     useExplicitMode = settings.useExplicitMode,
                                     addTrailingComma = settings.addTrailingComma,
+                                    indentSize = settings.indentSize,
                                 ),
                             )
 

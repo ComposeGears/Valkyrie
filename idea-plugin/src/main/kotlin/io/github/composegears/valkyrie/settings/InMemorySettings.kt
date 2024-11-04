@@ -7,10 +7,12 @@ import io.github.composegears.valkyrie.service.PersistentSettings.Companion.pers
 import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
+import java.util.Collections.emptyList
+import java.util.Collections.emptyMap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class InMemorySettings(project: Project) {
+class InMemorySettings(private val project: Project) {
     private val persistentSettings = project.persistentSettings
 
     init {
@@ -47,6 +49,7 @@ class InMemorySettings(project: Project) {
         useExplicitMode = false
         addTrailingComma = false
         showImageVectorPreview = true
+        indentSize = 4
     }
 
     fun updateUIState(uiState: Map<String, Any?>) {
@@ -72,7 +75,7 @@ class InMemorySettings(project: Project) {
             flatPackage = flatPackage,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
-
+            indentSize = indentSize,
             showImageVectorPreview = showImageVectorPreview,
         )
     }
@@ -90,6 +93,7 @@ data class ValkyriesSettings(
     val nestedPacks: List<String>,
 
     val outputFormat: OutputFormat,
+    val indentSize: Int,
     val generatePreview: Boolean,
     val flatPackage: Boolean,
     val useExplicitMode: Boolean,

@@ -33,6 +33,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateindentSize
 
 val ImageVectorExportSettingsScreen by navDestination<Unit> {
     val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
@@ -44,6 +45,7 @@ val ImageVectorExportSettingsScreen by navDestination<Unit> {
         generatePreview = settings.generatePreview,
         useFlatPackage = settings.flatPackage,
         useExplicitMode = settings.useExplicitMode,
+        indentSize = settings.indentSize,
         addTrailingComma = settings.addTrailingComma,
     )
 }
@@ -55,6 +57,7 @@ private fun ImageVectorExportSettingsUi(
     useFlatPackage: Boolean,
     useExplicitMode: Boolean,
     addTrailingComma: Boolean,
+    indentSize: Int,
     onAction: (SettingsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -92,6 +95,10 @@ private fun ImageVectorExportSettingsUi(
             description = "Note: Deprecated option, please consider to use build-in ImageVector preview feature",
             checked = generatePreview,
             onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
+        )
+        IndentSizeSection(
+            indent = indentSize,
+            onValueChange = { onAction(UpdateindentSize(it)) },
         )
         VerticalSpacer(16.dp)
     }
@@ -142,5 +149,6 @@ private fun ImageVectorExportSettingsPreview() = PreviewTheme(alignment = Alignm
         useFlatPackage = true,
         useExplicitMode = false,
         addTrailingComma = false,
+        indentSize = 4,
     )
 }

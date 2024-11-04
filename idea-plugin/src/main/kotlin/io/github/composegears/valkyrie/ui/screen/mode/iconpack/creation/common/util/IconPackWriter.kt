@@ -35,6 +35,7 @@ object IconPackWriter {
                     iconPackName = currentSettings.iconPackName,
                     subPacks = currentSettings.nestedPacks,
                     useExplicitMode = currentSettings.useExplicitMode,
+                    indentSize = currentSettings.indentSize,
                 ),
             )
             FileWriter.writeToFile(

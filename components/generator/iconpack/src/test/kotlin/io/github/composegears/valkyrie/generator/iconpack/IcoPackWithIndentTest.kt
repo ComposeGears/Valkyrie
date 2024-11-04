@@ -5,10 +5,10 @@ import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourceText
 import org.junit.jupiter.api.Test
 
-class IconPackGeneratorTest {
+class IcoPackWithIndentTest {
 
     private fun createConfig(
-        subPacks: List<String> = emptyList(),
+        subPacks: List<String> = listOf("Filled", "Colored"),
         useExplicitMode: Boolean = false,
         indentSize: Int = 4,
     ) = IconPackGeneratorConfig(
@@ -20,49 +20,36 @@ class IconPackGeneratorTest {
     )
 
     @Test
-    fun `generate icon pack`() {
-        val result = IconPackGenerator.create(config = createConfig())
-
-        val expected = getResourceText("kt/IconPack.kt")
-
-        assertThat(result.content).isEqualTo(expected)
-        assertThat(result.name).isEqualTo("ValkyrieIcons")
-    }
-
-    @Test
-    fun `generate icon pack explicit mode`() {
-        val result = IconPackGenerator.create(
-            config = createConfig(useExplicitMode = true),
-        )
-
-        val expected = getResourceText("kt/IconPack.explicit.kt")
+    fun `generate nested indent 1 packs`() {
+        val result = IconPackGenerator.create(config = createConfig(indentSize = 1))
+        val expected = getResourceText("kt/IconPack.nested.indent1.kt")
 
         assertThat(result.content).isEqualTo(expected)
         assertThat(result.name).isEqualTo("ValkyrieIcons")
     }
 
     @Test
-    fun `generate nested packs`() {
-        val result = IconPackGenerator.create(
-            config = createConfig(subPacks = listOf("Filled", "Colored")),
-        )
-
-        val expected = getResourceText("kt/IconPack.nested.kt")
+    fun `generate nested indent 2 packs`() {
+        val result = IconPackGenerator.create(config = createConfig(indentSize = 2))
+        val expected = getResourceText("kt/IconPack.nested.indent2.kt")
 
         assertThat(result.content).isEqualTo(expected)
         assertThat(result.name).isEqualTo("ValkyrieIcons")
     }
 
     @Test
-    fun `generate nested packs explicit`() {
-        val result = IconPackGenerator.create(
-            config = createConfig(
-                subPacks = listOf("Filled", "Colored"),
-                useExplicitMode = true,
-            ),
-        )
+    fun `generate nested indent 3 packs`() {
+        val result = IconPackGenerator.create(config = createConfig(indentSize = 3))
+        val expected = getResourceText("kt/IconPack.nested.indent3.kt")
 
-        val expected = getResourceText("kt/IconPack.nested.explicit.kt")
+        assertThat(result.content).isEqualTo(expected)
+        assertThat(result.name).isEqualTo("ValkyrieIcons")
+    }
+
+    @Test
+    fun `generate nested indent 6 packs`() {
+        val result = IconPackGenerator.create(config = createConfig(indentSize = 6))
+        val expected = getResourceText("kt/IconPack.nested.indent6.kt")
 
         assertThat(result.content).isEqualTo(expected)
         assertThat(result.name).isEqualTo("ValkyrieIcons")

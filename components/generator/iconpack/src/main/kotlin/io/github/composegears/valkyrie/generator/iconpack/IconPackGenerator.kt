@@ -5,6 +5,7 @@ data class IconPackGeneratorConfig(
     val iconPackName: String,
     val subPacks: List<String>,
     val useExplicitMode: Boolean,
+    val indentSize: Int,
 )
 
 data class IconPackSpecOutput(
