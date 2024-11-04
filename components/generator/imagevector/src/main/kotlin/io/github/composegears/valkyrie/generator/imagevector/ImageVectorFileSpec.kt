@@ -17,6 +17,7 @@ internal data class ImageVectorSpecConfig(
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
+    val indentSize: Int,
 )
 
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {

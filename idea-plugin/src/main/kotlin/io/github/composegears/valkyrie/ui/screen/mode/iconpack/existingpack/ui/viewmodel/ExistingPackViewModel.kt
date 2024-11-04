@@ -105,6 +105,7 @@ class ExistingPackViewModel : TiamatViewModel() {
                 iconPackName = inputFieldState.iconPackName.text,
                 subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
+                indentSize = inMemorySettings.current.indentSize,
             ),
         ).content
 

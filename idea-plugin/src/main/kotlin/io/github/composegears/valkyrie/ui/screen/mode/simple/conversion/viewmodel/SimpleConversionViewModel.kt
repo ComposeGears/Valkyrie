@@ -172,6 +172,7 @@ class SimpleConversionViewModel(
                     useFlatPackage = false,
                     useExplicitMode = valkyriesSettings.useExplicitMode,
                     addTrailingComma = valkyriesSettings.addTrailingComma,
+                    indentSize = valkyriesSettings.indentSize,
                 ),
             )
             IconContent(
@@ -204,6 +205,7 @@ class SimpleConversionViewModel(
                     useFlatPackage = false,
                     useExplicitMode = valkyriesSettings.useExplicitMode,
                     addTrailingComma = valkyriesSettings.addTrailingComma,
+                    indentSize = valkyriesSettings.indentSize,
                 ),
             )
             IconContent(

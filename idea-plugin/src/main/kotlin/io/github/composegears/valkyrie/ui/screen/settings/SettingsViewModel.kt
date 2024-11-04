@@ -12,6 +12,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateindentSize
 
 class SettingsViewModel : TiamatViewModel() {
 
@@ -27,6 +28,7 @@ class SettingsViewModel : TiamatViewModel() {
             is UpdateFlatPackage -> flatPackage = settingsAction.useFlatPackage
             is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
             is UpdateAddTrailingComma -> addTrailingComma = settingsAction.addTrailingComma
+            is UpdateindentSize -> indentSize = settingsAction.indent
         }
     }
 

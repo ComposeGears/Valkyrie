@@ -34,7 +34,7 @@ internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
                 iconPackClassName = iconPackClassName,
                 packageName = packageName,
             )
-            setIndent()
+            setIndent(config.indentSize)
         }
 
         return ImageVectorSpecOutput(

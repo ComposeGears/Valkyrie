@@ -18,7 +18,7 @@ internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
             fileName = config.iconPackName,
         ) {
             addType(iconPackSpec)
-            setIndent()
+            setIndent(config.indentSize)
         }
         return IconPackSpecOutput(
             content = when {

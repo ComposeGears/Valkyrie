@@ -13,6 +13,7 @@ internal fun createConfig(
     useFlatPackage: Boolean = false,
     useExplicitMode: Boolean = false,
     addTrailingComma: Boolean = false,
+    indentSize: Int = 4,
 ): ImageVectorGeneratorConfig {
     return ImageVectorGeneratorConfig(
         packageName = packageName,
@@ -24,5 +25,6 @@ internal fun createConfig(
         useFlatPackage = useFlatPackage,
         useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,
+        indentSize = indentSize,
     )
 }
