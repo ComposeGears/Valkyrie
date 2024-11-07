@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.psi.imagevector.parser
 
 import io.github.composegears.valkyrie.extensions.safeAs
+import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
@@ -66,7 +67,7 @@ internal object MaterialImageVectorPsiParser {
 
         return listOf(
             IrPath(
-                fill = IrFill.Color(colorHex = "FF000000"),
+                fill = IrFill.Color(IrColor("#FF000000")),
                 fillAlpha = materialPathCall.extractFloat("fillAlpha", 1f),
                 strokeAlpha = materialPathCall.extractFloat("strokeAlpha", 1f),
                 strokeLineWidth = 1f,

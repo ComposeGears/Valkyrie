@@ -56,7 +56,7 @@ enum class IrStrokeLineJoin {
 }
 
 sealed interface IrFill {
-    data class Color(val colorHex: String) : IrFill
+    data class Color(val irColor: IrColor) : IrFill
 
     data class LinearGradient(
         val startY: Float,
@@ -75,12 +75,12 @@ sealed interface IrFill {
 
     data class ColorStop(
         val offset: Float,
-        val color: String,
+        val irColor: IrColor,
     )
 }
 
 sealed interface IrStroke {
-    data class Color(val colorHex: String) : IrStroke
+    data class Color(val irColor: IrColor) : IrStroke
 }
 
 sealed interface IrPathNode {

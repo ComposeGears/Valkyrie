@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.parser.svgxml.xml
 
+import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrPathFillType
@@ -7,7 +8,6 @@ import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrStrokeLineCap
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode
-import io.github.composegears.valkyrie.parser.svgxml.util.toHexColor
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.END_DOCUMENT
 import org.xmlpull.v1.XmlPullParser.END_TAG
@@ -67,22 +67,19 @@ internal object XmlStringParser {
                                 }
                             val strokeMiterLimit = parser.getValueAsFloat(STROKE_MITER_LIMIT)
 
-                            val strokeColor = parser.getAttributeValue(null, STROKE_COLOR)
-                                ?.toHexColor()
-
-                            val fillColor = parser.getAttributeValue(null, FILL_COLOR)
-                                ?.toHexColor()
+                            val strokeColor = parser.getAttributeValue(null, STROKE_COLOR)?.let { IrColor(it) }
+                            val fillColor = parser.getAttributeValue(null, FILL_COLOR)?.let { IrColor(it) }
 
                             val name = parser.getAttributeValue(null, NAME).orEmpty()
 
                             val path = IrVectorNode.IrPath(
                                 name = name,
                                 fill = when {
-                                    fillColor != null -> IrFill.Color(fillColor)
+                                    fillColor != null && !fillColor.isTransparent() -> IrFill.Color(fillColor)
                                     else -> null
                                 },
                                 stroke = when {
-                                    strokeColor != null -> IrStroke.Color(strokeColor)
+                                    strokeColor != null && !strokeColor.isTransparent() -> IrStroke.Color(strokeColor)
                                     else -> null
                                 },
                                 strokeAlpha = strokeAlpha ?: 1f,
@@ -167,11 +164,11 @@ internal object XmlStringParser {
                         }
                         ITEM -> {
                             val offset = parser.getValueAsFloat(OFFSET) ?: 0f
-                            val colorHex = parser.getAttributeValue(null, COLOR).toHexColor()
+                            val irColor = IrColor(hex = parser.getAttributeValue(null, COLOR))
 
                             val colorStop = IrFill.ColorStop(
                                 offset = offset,
-                                color = colorHex,
+                                irColor = irColor,
                             )
                             val lastPath = (currentGroup?.paths?.last() ?: nodes.last()) as? IrVectorNode.IrPath
                             when (val fill = lastPath?.fill) {

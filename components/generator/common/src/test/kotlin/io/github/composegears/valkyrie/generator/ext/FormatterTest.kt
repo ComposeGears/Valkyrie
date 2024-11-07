@@ -15,7 +15,5 @@ class FormatterTest {
         assertThat(24f.formatFloat()).isEqualTo("24f")
         assertThat(24.0f.formatFloat()).isEqualTo("24f")
         assertThat(24.00002f.formatFloat()).isEqualTo("24.00002f")
-
-        assertThat("FFe676ff".toColorHex()).isEqualTo("0xFFE676FF")
     }
 }

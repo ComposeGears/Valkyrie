@@ -7,18 +7,18 @@ import io.github.composegears.valkyrie.generator.ext.argumentBlock
 import io.github.composegears.valkyrie.generator.ext.formatFloat
 import io.github.composegears.valkyrie.generator.ext.indention
 import io.github.composegears.valkyrie.generator.ext.newLine
-import io.github.composegears.valkyrie.generator.ext.toColorHex
 import io.github.composegears.valkyrie.generator.ext.trailingComma
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.FillParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.NameParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.PathFillTypeParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeAlphaParam
-import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeColorHexParam
+import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeColorParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeLineCapParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeLineJoinParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeLineMiterParam
 import io.github.composegears.valkyrie.generator.imagevector.util.PathParams.StrokeLineWidthParam
+import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrPathFillType
 import io.github.composegears.valkyrie.ir.IrStroke
@@ -88,7 +88,7 @@ private fun CodeBlock.Builder.fillPathArgs(
         is FillAlphaParam -> fillAlphaArg(param)
         is PathFillTypeParam -> pathFillTypeArg(param)
         is StrokeAlphaParam -> strokeAlphaArg(param)
-        is StrokeColorHexParam -> strokeArg(param)
+        is StrokeColorParam -> strokeArg(param)
         is StrokeLineCapParam -> strokeLineCapArg(param)
         is StrokeLineJoinParam -> strokeLineJoinArg(param)
         is StrokeLineMiterParam -> strokeLineMiterArg(param)
@@ -106,7 +106,7 @@ private fun CodeBlock.Builder.fillArg(
 ) {
     when (val fill = path.fill) {
         is IrFill.Color -> {
-            add("fill = %M(%M(${fill.colorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
+            add("fill = %M(%M(${fill.irColor.toHexLiteral()}))", MemberNames.SolidColor, MemberNames.Color)
         }
         is IrFill.LinearGradient -> {
             if (handleMultiline) {
@@ -138,7 +138,7 @@ private fun CodeBlock.Builder.addLinearGradient(fill: IrFill.LinearGradient) {
         argumentBlock("colorStops = arrayOf(", isNested = true) {
             add(
                 fill.colorStops.joinToString(separator = ",\n") { stop ->
-                    "${stop.offset.formatFloat()} to %M(${stop.color.toColorHex()})"
+                    "${stop.offset.formatFloat()} to %M(${stop.irColor.toHexLiteral()})"
                 },
                 *Array(fill.colorStops.size) { MemberNames.Color },
             )
@@ -160,7 +160,7 @@ private fun CodeBlock.Builder.addRadialGradient(fill: IrFill.RadialGradient) {
         argumentBlock("colorStops = arrayOf(", isNested = true) {
             add(
                 fill.colorStops.joinToString(separator = ",\n") { stop ->
-                    "${stop.offset.formatFloat()} to %M(${stop.color.toColorHex()})"
+                    "${stop.offset.formatFloat()} to %M(${stop.irColor.toHexLiteral()})"
                 },
                 *Array(fill.colorStops.size) { MemberNames.Color },
             )
@@ -178,8 +178,8 @@ private fun CodeBlock.Builder.fillAlphaArg(param: FillAlphaParam) {
     add("fillAlpha = ${param.fillAlpha.formatFloat()}")
 }
 
-private fun CodeBlock.Builder.strokeArg(param: StrokeColorHexParam) {
-    add("stroke = %M(%M(${param.strokeColorHex.toColorHex()}))", MemberNames.SolidColor, MemberNames.Color)
+private fun CodeBlock.Builder.strokeArg(param: StrokeColorParam) {
+    add("stroke = %M(%M(${param.strokeColor.toHexLiteral()}))", MemberNames.SolidColor, MemberNames.Color)
 }
 
 private fun CodeBlock.Builder.strokeAlphaArg(param: StrokeAlphaParam) {
@@ -210,14 +210,14 @@ private fun IrVectorNode.IrPath.buildPathParams() = buildList {
     if (name.isNotEmpty()) {
         add(NameParam(name))
     }
-    fill?.takeUnless { it is IrFill.Color && it.isTransparent() }?.let {
+    fill?.takeUnless { it is IrFill.Color && it.irColor.isTransparent() }?.let {
         add(FillParam(it))
     }
     if (fillAlpha != 1f) {
         add(FillAlphaParam(fillAlpha))
     }
-    stroke.safeAs<IrStroke.Color>()?.let {
-        add(StrokeColorHexParam(it.colorHex))
+    stroke.safeAs<IrStroke.Color>()?.takeIf { !it.irColor.isTransparent() }?.let {
+        add(StrokeColorParam(it.irColor))
     }
     if (strokeAlpha != 1f) {
         add(StrokeAlphaParam(strokeAlpha))
@@ -239,13 +239,11 @@ private fun IrVectorNode.IrPath.buildPathParams() = buildList {
     }
 }
 
-private fun IrFill.Color.isTransparent() = colorHex == "00000000" || colorHex == "0000"
-
 private sealed interface PathParams {
     data class NameParam(val name: String) : PathParams
     data class FillParam(val fill: IrFill) : PathParams
     data class FillAlphaParam(val fillAlpha: Float) : PathParams
-    data class StrokeColorHexParam(val strokeColorHex: String) : PathParams
+    data class StrokeColorParam(val strokeColor: IrColor) : PathParams
     data class StrokeAlphaParam(val strokeAlpha: Float) : PathParams
     data class StrokeLineWidthParam(val strokeLineWidth: Float) : PathParams
     data class StrokeLineCapParam(val strokeLineCap: IrStrokeLineCap) : PathParams

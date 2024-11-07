@@ -128,7 +128,7 @@ private fun KtCallExpression.parseColorStops(): List<IrFill.ColorStop> {
         colorStops.add(
             IrFill.ColorStop(
                 offset = offset,
-                color = color.colorHex,
+                irColor = color.irColor,
             ),
         )
     }

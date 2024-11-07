@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.icons
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
@@ -27,8 +26,7 @@ val LinearGradientWithStroke: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
                 ),
                 start = Offset(6.384f, 29.605f),
                 end = Offset(17.723f, 18.267f)
-            ),
-            stroke = SolidColor(Color(0x00000000))
+            )
         ) {
             moveTo(0f, 24f)
             lineTo(12.039f, 11.961f)
@@ -46,8 +44,7 @@ val LinearGradientWithStroke: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
                 ),
                 start = Offset(1.684f, 4.824f),
                 end = Offset(8.269f, -1.762f)
-            ),
-            stroke = SolidColor(Color(0x00000000))
+            )
         ) {
             moveTo(0f, 0f)
             lineTo(12.039f, 0f)
@@ -67,8 +64,7 @@ val LinearGradientWithStroke: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
                 ),
                 start = Offset(-4.041f, 22.066f),
                 end = Offset(18.293f, -0.268f)
-            ),
-            stroke = SolidColor(Color(0x00000000))
+            )
         ) {
             moveTo(12.039f, 0f)
             lineTo(0f, 12.68f)

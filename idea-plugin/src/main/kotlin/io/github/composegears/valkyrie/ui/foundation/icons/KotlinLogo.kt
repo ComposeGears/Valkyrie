@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.ui.foundation.icons
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
@@ -30,7 +29,6 @@ val ValkyrieIcons.KotlinLogo: ImageVector
                     start = Offset(24f, 0f),
                     end = Offset(0f, 24f),
                 ),
-                stroke = SolidColor(Color(0x00000000)),
             ) {
                 moveTo(24f, 24f)
                 lineTo(0f, 24f)
