@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.psi.imagevector.common
 
 import io.github.composegears.valkyrie.extensions.safeAs
+import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrPathFillType
 import io.github.composegears.valkyrie.ir.IrStroke
@@ -58,14 +59,16 @@ internal fun KtCallExpression.parseStroke(): IrStroke? {
 
     return when (val color = colorCall?.parseColor()) {
         null -> null
-        else -> IrStroke.Color(color.colorHex)
+        else -> IrStroke.Color(irColor = color.irColor)
     }
 }
 
 internal fun KtCallExpression.parseColor(): IrFill.Color? {
     val colorArg = valueArguments.firstOrNull()?.getArgumentExpression()?.text
-        ?.removePrefix("Color(0x")
-        ?.removePrefix("0x")
-        ?.removeSuffix(")") ?: return null
-    return IrFill.Color(colorHex = colorArg)
+        ?.removePrefix("Color(")
+        ?.removeSuffix(")")
+        ?.let { IrColor(it) }
+        ?: return null
+
+    return IrFill.Color(irColor = colorArg)
 }

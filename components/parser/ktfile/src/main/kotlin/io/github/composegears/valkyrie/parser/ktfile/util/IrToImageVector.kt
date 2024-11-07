@@ -175,18 +175,18 @@ private fun ImageVector.Builder.addPath(path: IrPath) {
 
 private fun IrStroke?.toBrush(): Brush? {
     return when (this) {
-        is IrStroke.Color -> SolidColor(Color(color = colorHex.toColorInt()))
+        is IrStroke.Color -> SolidColor(Color(color = irColor.argb))
         else -> null
     }
 }
 
 private fun IrFill?.toFill(): Brush? {
     return when (this) {
-        is IrFill.Color -> return SolidColor(Color(color = colorHex.toColorInt()))
+        is IrFill.Color -> return SolidColor(Color(color = irColor.argb))
         is IrFill.LinearGradient -> {
             Brush.linearGradient(
                 colorStops = colorStops.map { colorStop ->
-                    colorStop.offset to Color(colorStop.color.toColorInt())
+                    colorStop.offset to Color(colorStop.irColor.argb)
                 }.toTypedArray(),
                 start = Offset(startX, startY),
                 end = Offset(endX, endY),
@@ -195,7 +195,7 @@ private fun IrFill?.toFill(): Brush? {
         is IrFill.RadialGradient -> {
             Brush.radialGradient(
                 colorStops = colorStops.map { colorStop ->
-                    colorStop.offset to Color(colorStop.color.toColorInt())
+                    colorStop.offset to Color(colorStop.irColor.argb)
                 }.toTypedArray(),
                 center = Offset(centerX, centerY),
                 radius = radius,
