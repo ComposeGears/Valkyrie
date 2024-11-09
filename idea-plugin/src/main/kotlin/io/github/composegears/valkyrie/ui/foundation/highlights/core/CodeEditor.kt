@@ -1,15 +1,11 @@
 package io.github.composegears.valkyrie.ui.foundation.highlights.core
 
-import androidx.compose.foundation.HorizontalScrollbar
-import androidx.compose.foundation.LocalScrollbarStyle
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -19,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
@@ -29,7 +24,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextRange
@@ -41,6 +35,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.snipme.highlights.Highlights
+import io.github.composegears.valkyrie.ui.foundation.HorizontalScrollbar
+import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableIntState
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
@@ -82,11 +78,6 @@ fun CodeEditor(
     LaunchedEffect(verticalScrollState.value) {
         linesTextScroll.scrollTo(verticalScrollState.value)
     }
-
-    val scrollbarStyle = LocalScrollbarStyle.current.copy(
-        unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-        hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-    )
 
     Box(modifier = modifier) {
         Row(modifier = Modifier.fillMaxSize()) {
@@ -149,22 +140,8 @@ fun CodeEditor(
                     colors = colors,
                 )
 
-                VerticalScrollbar(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 4.dp, top = 8.dp, bottom = 16.dp),
-                    adapter = rememberScrollbarAdapter(verticalScrollState),
-                    style = scrollbarStyle,
-                )
-                HorizontalScrollbar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp, bottom = 4.dp, end = 16.dp)
-                        .align(Alignment.BottomCenter),
-                    adapter = rememberScrollbarAdapter(horizontalScrollState),
-                    style = scrollbarStyle,
-                )
+                VerticalScrollbar(adapter = rememberScrollbarAdapter(verticalScrollState))
+                HorizontalScrollbar(adapter = rememberScrollbarAdapter(horizontalScrollState))
             }
         }
     }
