@@ -8,28 +8,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ui.foundation.SizeSpacer
+import io.github.composegears.valkyrie.ir.IR_STUB
+import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.parser.ktfile.util.toComposeImageVector
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.util.PainterConverter
-import java.nio.file.Path
-import kotlin.io.path.Path
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
 fun IconPreviewBox(
-    path: Path,
+    irImageVector: IrImageVector,
     modifier: Modifier = Modifier,
 ) {
     var bgType by rememberMutableState { BgType.PixelGrid }
@@ -53,25 +49,17 @@ fun IconPreviewBox(
             modifier = Modifier.matchParentSize(),
         )
 
-        val iconPainter by produceState<Painter?>(initialValue = null) {
-            value = withContext(Dispatchers.Default) {
-                PainterConverter.from(path = path)
-            }
-        }
-
-        when (val painter = iconPainter) {
-            null -> SizeSpacer(36.dp)
-            else -> Image(
-                modifier = Modifier.size(36.dp),
-                painter = painter,
-                contentDescription = null,
-            )
-        }
+        val imageVector = remember { irImageVector.toComposeImageVector() }
+        Image(
+            modifier = Modifier.size(36.dp),
+            imageVector = imageVector,
+            contentDescription = null,
+        )
     }
 }
 
 @Preview
 @Composable
 private fun IconPreviewBoxPreview() = PreviewTheme {
-    IconPreviewBox(path = Path("META-INF/pluginIcon.svg"))
+    IconPreviewBox(irImageVector = IR_STUB)
 }

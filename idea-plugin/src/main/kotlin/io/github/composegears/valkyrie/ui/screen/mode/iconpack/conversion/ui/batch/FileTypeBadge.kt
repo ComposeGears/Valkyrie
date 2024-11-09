@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun FileTypeBadge(
-    extension: String,
+    text: String,
     modifier: Modifier = Modifier,
 ) {
     Text(
@@ -22,7 +22,7 @@ fun FileTypeBadge(
                 shape = RoundedCornerShape(16.dp),
             )
             .padding(horizontal = 8.dp, vertical = 2.dp),
-        text = extension,
+        text = text,
         color = MaterialTheme.colorScheme.onPrimary,
         style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
     )
