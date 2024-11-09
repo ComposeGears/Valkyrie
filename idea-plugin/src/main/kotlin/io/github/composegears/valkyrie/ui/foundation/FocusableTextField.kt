@@ -75,7 +75,7 @@ fun FocusableTextField(
         derivedStateOf { textFieldValue.text.isEmpty() || textFieldValue.text.contains(" ") }
     }
 
-    Row(
+    CenterVerticalRow(
         modifier = modifier
             .onPointerEvent(PointerEventType.Enter) { isHover = true }
             .onPointerEvent(PointerEventType.Exit) { isHover = false }
@@ -86,7 +86,6 @@ fun FocusableTextField(
             )
             .clip(shape)
             .focusProperties { canFocus = false },
-        verticalAlignment = Alignment.CenterVertically,
     ) {
         BasicTextField(
             modifier = Modifier

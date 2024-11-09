@@ -14,7 +14,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -22,6 +21,7 @@ import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
+import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.highlights.core.rememberCodeHighlight
@@ -87,10 +87,7 @@ private fun SelectableCard(
             null
         },
     ) {
-        Row(
-            modifier = Modifier.fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
+        CenterVerticalRow(modifier = Modifier.fillMaxHeight()) {
             Text(
                 modifier = Modifier
                     .padding(16.dp)
