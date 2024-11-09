@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.LocalIndication

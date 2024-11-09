@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -39,6 +41,7 @@ import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
 import io.github.composegears.valkyrie.ui.foundation.IconButton
+import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
@@ -47,9 +50,9 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchI
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.FileTypeBadge
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconNameField
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconPreviewBox
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.FileTypeBadge
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconNameField
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconPreviewBox
 
 @Composable
 fun BatchProcessingStateUi(
@@ -60,30 +63,34 @@ fun BatchProcessingStateUi(
     onRenameIcon: (BatchIcon, IconName) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyVerticalGrid(
-        modifier = modifier.fillMaxSize(),
-        columns = GridCells.Adaptive(300.dp),
-        contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        items(items = state.icons, key = { it.iconName }) { batchIcon ->
-            when (batchIcon) {
-                is BatchIcon.Broken -> BrokenIconItem(
-                    modifier = Modifier.animateItem(),
-                    broken = batchIcon,
-                    onDelete = onDeleteIcon,
-                )
-                is BatchIcon.Valid -> ValidIconItem(
-                    modifier = Modifier.animateItem(),
-                    icon = batchIcon,
-                    onUpdatePack = onUpdatePack,
-                    onDeleteIcon = onDeleteIcon,
-                    onPreview = onPreviewClick,
-                    onRenameIcon = onRenameIcon,
-                )
+    Box(modifier = modifier) {
+        val lazyGridState = rememberLazyGridState()
+
+        LazyVerticalGrid(
+            state = lazyGridState,
+            modifier = Modifier.fillMaxSize(),
+            columns = GridCells.Adaptive(300.dp),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(items = state.icons, key = { it.iconName }) { batchIcon ->
+                when (batchIcon) {
+                    is BatchIcon.Broken -> BrokenIconItem(
+                        broken = batchIcon,
+                        onDelete = onDeleteIcon,
+                    )
+                    is BatchIcon.Valid -> ValidIconItem(
+                        icon = batchIcon,
+                        onUpdatePack = onUpdatePack,
+                        onDeleteIcon = onDeleteIcon,
+                        onPreview = onPreviewClick,
+                        onRenameIcon = onRenameIcon,
+                    )
+                }
             }
         }
+        VerticalScrollbar(adapter = rememberScrollbarAdapter(lazyGridState))
     }
 }
 

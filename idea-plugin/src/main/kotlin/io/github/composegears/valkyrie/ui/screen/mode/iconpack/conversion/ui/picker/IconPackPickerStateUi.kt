@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.picker
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.desktop.ui.tooling.preview.Preview
