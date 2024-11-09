@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -40,6 +39,7 @@ import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
+import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
@@ -112,11 +112,10 @@ private fun ValidIconItem(
                         .padding(top = 2.dp, end = 2.dp),
                     text = icon.iconType.extension,
                 )
-                Row(
+                CenterVerticalRow(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     IconPreviewBox(irImageVector = icon.irImageVector)
@@ -193,11 +192,10 @@ private fun BrokenIconItem(
         ),
     ) {
         Column {
-            Row(
+            CenterVerticalRow(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     modifier = Modifier
@@ -230,10 +228,7 @@ private fun IconActionsDropdown(
     ) {
         DropdownMenuItem(
             text = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
+                CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = null)
                     Text(text = "Delete")
                 }
@@ -242,10 +237,7 @@ private fun IconActionsDropdown(
         )
         DropdownMenuItem(
             text = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
+                CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Icon(imageVector = ValkyrieIcons.Visibility, contentDescription = null)
                     Text(text = "Preview")
                 }
@@ -265,12 +257,11 @@ private fun PacksDropdown(
     var dropdownVisible by rememberMutableState { false }
 
     Box(modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 8.dp)) {
-        Row(
+        CenterVerticalRow(
             modifier = Modifier
                 .clip(RoundedCornerShape(20.dp))
                 .clickable { dropdownVisible = true }
                 .padding(horizontal = 12.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             val rotation by animateFloatAsState(if (dropdownVisible) -180f else 0f)

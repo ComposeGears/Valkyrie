@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.domain.validation.ErrorCriteria
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
+import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
@@ -107,7 +108,7 @@ private fun AdditionalOptions(
     ) {
         var expanded by rememberMutableState { false }
         val angle by animateFloatAsState(if (expanded) 180f else 0f)
-        Row(
+        CenterVerticalRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(
@@ -118,7 +119,6 @@ private fun AdditionalOptions(
                     },
                 )
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 modifier = Modifier.weight(1f),

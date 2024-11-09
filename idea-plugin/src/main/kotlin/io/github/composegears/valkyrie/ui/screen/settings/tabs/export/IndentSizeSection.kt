@@ -27,7 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.composegears.valkyrie.ui.foundation.CenterRow
+import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
@@ -63,7 +63,7 @@ fun IndentSizeSection(
             )
         },
         trailingContent = {
-            CenterRow(
+            CenterVerticalRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
                     .clickable { expanded = true }

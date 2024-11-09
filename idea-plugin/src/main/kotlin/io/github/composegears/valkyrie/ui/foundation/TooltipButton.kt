@@ -7,7 +7,6 @@ import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -108,7 +107,7 @@ fun TooltipButton(
 @Preview
 @Composable
 private fun TooltipButtonPreview() = PreviewTheme {
-    Row {
+    CenterVerticalRow {
         TooltipIconButton(
             hint = "Show pixel grid",
             onClick = {},
@@ -125,7 +124,10 @@ private fun TooltipButtonPreview() = PreviewTheme {
             onClick = {},
         )
         TooltipButton(hint = "Test") {
-            Text(text = "Generic content")
+            Text(
+                text = "Generic content",
+                style = MaterialTheme.typography.labelSmall,
+            )
         }
     }
 }
