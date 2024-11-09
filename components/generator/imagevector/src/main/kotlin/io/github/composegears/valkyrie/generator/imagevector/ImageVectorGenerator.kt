@@ -28,14 +28,7 @@ enum class OutputFormat(val key: String) {
 data class ImageVectorSpecOutput(
     val content: String,
     val name: String,
-) {
-    companion object {
-        val empty = ImageVectorSpecOutput(
-            content = "",
-            name = "",
-        )
-    }
-}
+)
 
 object ImageVectorGenerator {
 

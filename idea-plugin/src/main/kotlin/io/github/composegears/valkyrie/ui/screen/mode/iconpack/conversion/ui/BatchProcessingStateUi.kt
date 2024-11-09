@@ -34,7 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
+import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
+import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
@@ -47,7 +50,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPa
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconNameField
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.IconPreviewBox
-import kotlin.io.path.Path
 
 @Composable
 fun BatchProcessingStateUi(
@@ -101,7 +103,7 @@ private fun ValidIconItem(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(top = 2.dp, end = 2.dp),
-                    extension = icon.extension,
+                    text = icon.iconType.extension,
                 )
                 Row(
                     modifier = Modifier
@@ -110,7 +112,7 @@ private fun ValidIconItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    IconPreviewBox(path = icon.path)
+                    IconPreviewBox(irImageVector = icon.irImageVector)
                     IconNameField(
                         modifier = Modifier
                             .weight(1f)
@@ -194,7 +196,7 @@ private fun BrokenIconItem(
                     modifier = Modifier
                         .weight(1f)
                         .padding(vertical = 8.dp),
-                    text = "Failed to parse icon: ${broken.iconName.value}.${broken.extension}",
+                    text = "Failed to parse icon: ${broken.iconName.value}",
                 )
                 IconButton(
                     imageVector = Icons.Default.Delete,
@@ -307,21 +309,18 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
             icons = listOf(
                 BatchIcon.Valid(
                     iconName = IconName(IconNameFormatter.format("ic_all_path_params_1")),
-                    extension = "xml",
-                    path = Path(""),
+                    iconType = XML,
+                    irImageVector = IR_STUB,
                     iconPack = IconPack.Single(
                         iconPackage = "package",
                         iconPackName = "ValkyrieIcons",
                     ),
                 ),
-                BatchIcon.Broken(
-                    iconName = IconName("ic_all_path_params_3"),
-                    extension = "svg",
-                ),
+                BatchIcon.Broken(iconName = IconName("ic_all_path_params_3")),
                 BatchIcon.Valid(
                     iconName = IconName(IconNameFormatter.format("ic_all_path")),
-                    extension = "svg",
-                    path = Path(""),
+                    iconType = SVG,
+                    irImageVector = IR_STUB,
                     iconPack = IconPack.Nested(
                         iconPackName = "ValkyrieIcons",
                         iconPackage = "package",
