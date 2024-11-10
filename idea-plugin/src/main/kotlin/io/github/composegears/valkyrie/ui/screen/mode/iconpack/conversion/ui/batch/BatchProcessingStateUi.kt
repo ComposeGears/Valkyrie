@@ -39,9 +39,14 @@ import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
+import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
+import io.github.composegears.valkyrie.ui.foundation.CloseAction
 import io.github.composegears.valkyrie.ui.foundation.IconButton
+import io.github.composegears.valkyrie.ui.foundation.SettingsAction
+import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
+import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
@@ -57,40 +62,50 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.bat
 @Composable
 fun BatchProcessingStateUi(
     state: IconPackCreationState,
+    onClose: () -> Unit,
+    openSettings: () -> Unit,
     onDeleteIcon: (IconName) -> Unit,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreviewClick: (IconName) -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier) {
-        val lazyGridState = rememberLazyGridState()
+    Column(modifier = modifier) {
+        TopAppBar {
+            CloseAction(onClose = onClose)
+            AppBarTitle(title = "IconPack generation")
+            WeightSpacer()
+            SettingsAction(openSettings = openSettings)
+        }
+        Box {
+            val lazyGridState = rememberLazyGridState()
 
-        LazyVerticalGrid(
-            state = lazyGridState,
-            modifier = Modifier.fillMaxSize(),
-            columns = GridCells.Adaptive(300.dp),
-            contentPadding = PaddingValues(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(items = state.icons, key = { it.id }) { batchIcon ->
-                when (batchIcon) {
-                    is BatchIcon.Broken -> BrokenIconItem(
-                        broken = batchIcon,
-                        onDelete = onDeleteIcon,
-                    )
-                    is BatchIcon.Valid -> ValidIconItem(
-                        icon = batchIcon,
-                        onUpdatePack = onUpdatePack,
-                        onDeleteIcon = onDeleteIcon,
-                        onPreview = onPreviewClick,
-                        onRenameIcon = onRenameIcon,
-                    )
+            LazyVerticalGrid(
+                state = lazyGridState,
+                modifier = Modifier.fillMaxSize(),
+                columns = GridCells.Adaptive(300.dp),
+                contentPadding = PaddingValues(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(items = state.icons, key = { it.id }) { batchIcon ->
+                    when (batchIcon) {
+                        is BatchIcon.Broken -> BrokenIconItem(
+                            broken = batchIcon,
+                            onDelete = onDeleteIcon,
+                        )
+                        is BatchIcon.Valid -> ValidIconItem(
+                            icon = batchIcon,
+                            onUpdatePack = onUpdatePack,
+                            onDeleteIcon = onDeleteIcon,
+                            onPreview = onPreviewClick,
+                            onRenameIcon = onRenameIcon,
+                        )
+                    }
                 }
             }
+            VerticalScrollbar(adapter = rememberScrollbarAdapter(lazyGridState))
         }
-        VerticalScrollbar(adapter = rememberScrollbarAdapter(lazyGridState))
     }
 }
 
@@ -328,6 +343,8 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 ),
             ),
         ),
+        onClose = {},
+        openSettings = {},
         onDeleteIcon = {},
         onUpdatePack = { _, _ -> },
         onPreviewClick = {},

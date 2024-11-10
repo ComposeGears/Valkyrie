@@ -80,6 +80,7 @@ class IconPackConversionViewModel(
         when (events) {
             is PickerEvent.PickDirectory -> events.path.listDirectoryEntries().processFiles()
             is PickerEvent.PickFiles -> events.paths.processFiles()
+            is PickerEvent.ClipboardText -> processText(events.text)
         }
     }
 
@@ -257,6 +258,30 @@ class IconPackConversionViewModel(
         _state.updateState { IconsPickering }
     }
 
+    private fun processText(text: String) = viewModelScope.launch(Dispatchers.Default) {
+        val iconName = "IconName"
+
+        val output = runCatching { SvgXmlParser.toIrImageVector(text, iconName) }.getOrNull()
+
+        val icon = when (output) {
+            null -> BatchIcon.Broken(iconName = IconName(iconName))
+            else -> BatchIcon.Valid(
+                iconName = IconName(output.iconName),
+                iconType = output.iconType,
+                iconPack = inMemorySettings.current.buildDefaultIconPack(),
+                irImageVector = output.irImageVector,
+            )
+        }
+        _state.updateState {
+            val icons = listOf(icon)
+
+            BatchProcessing.IconPackCreationState(
+                icons = icons,
+                exportEnabled = icons.isAllIconsValid(),
+            )
+        }
+    }
+
     private fun List<Path>.processFiles() = viewModelScope.launch(Dispatchers.Default) {
         val paths = filter { it.isRegularFile() && (it.isXml || it.isSvg) }
 
@@ -316,4 +341,5 @@ sealed interface ConversionEvent {
 sealed interface PickerEvent {
     data class PickDirectory(val path: Path) : PickerEvent
     data class PickFiles(val paths: List<Path>) : PickerEvent
+    data class ClipboardText(val text: String) : PickerEvent
 }

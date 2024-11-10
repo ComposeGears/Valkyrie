@@ -47,12 +47,6 @@ import com.composegears.tiamat.rememberSaveableViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.CloseAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ExportingState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
@@ -152,35 +146,13 @@ private fun IconPackConversionUi(
 
     Box(
         modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = { focusManager.clearFocus() })
+            .pointerInput(state) {
+                if (state is IconPackCreationState) {
+                    detectTapGestures(onTap = { focusManager.clearFocus() })
+                }
             },
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            TopAppBar {
-                AnimatedContent(
-                    targetState = state,
-                    transitionSpec = { fadeIn() togetherWith fadeOut() },
-                    contentKey = {
-                        when (it) {
-                            is IconsPickering, ExportingState, ImportValidationState -> 0
-                            is IconPackCreationState -> 1
-                        }
-                    },
-                ) { current ->
-                    when (current) {
-                        is IconsPickering, ExportingState, ImportValidationState -> {
-                            BackAction(onBack = onBack)
-                        }
-                        is IconPackCreationState -> {
-                            CloseAction(onClose = onReset)
-                        }
-                    }
-                }
-                AppBarTitle(title = "IconPack generation")
-                WeightSpacer()
-                SettingsAction(openSettings = openSettings)
-            }
             AnimatedContent(
                 modifier = Modifier.fillMaxSize(),
                 targetState = state,
@@ -198,7 +170,11 @@ private fun IconPackConversionUi(
             ) { current ->
                 when (current) {
                     is IconsPickering -> {
-                        IconPackPickerStateUi(onPickerEvent = onPickEvent)
+                        IconPackPickerStateUi(
+                            onPickerEvent = onPickEvent,
+                            onBack = onBack,
+                            openSettings = openSettings,
+                        )
                     }
                     ExportingState -> {
                         LoadingStateUi(message = "Exporting icons...")
@@ -214,6 +190,8 @@ private fun IconPackConversionUi(
                             onUpdatePack = updatePack,
                             onPreviewClick = onPreviewClick,
                             onRenameIcon = onRenameIcon,
+                            onClose = onReset,
+                            openSettings = openSettings,
                         )
                     }
                 }

@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +22,6 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.parser.ktfile.util.toComposeImageVector
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
@@ -28,7 +29,7 @@ fun IconPreviewBox(
     irImageVector: IrImageVector,
     modifier: Modifier = Modifier,
 ) {
-    var bgType by rememberMutableState { BgType.PixelGrid }
+    var bgType by rememberSaveable { mutableStateOf(BgType.PixelGrid) }
 
     Box(
         modifier = modifier
