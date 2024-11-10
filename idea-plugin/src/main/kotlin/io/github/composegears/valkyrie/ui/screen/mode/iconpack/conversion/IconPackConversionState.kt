@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType
+import io.github.composegears.valkyrie.util.extension.Uuid
 
 sealed interface IconPackConversionState {
 
@@ -20,11 +21,16 @@ sealed interface IconPackConversionState {
 }
 
 sealed interface BatchIcon {
+    val id: String
     val iconName: IconName
 
-    data class Broken(override val iconName: IconName) : BatchIcon
+    data class Broken(
+        override val id: String = Uuid.random(),
+        override val iconName: IconName,
+    ) : BatchIcon
 
     data class Valid(
+        override val id: String = Uuid.random(),
         override val iconName: IconName,
         val iconPack: IconPack,
         val iconType: IconType,

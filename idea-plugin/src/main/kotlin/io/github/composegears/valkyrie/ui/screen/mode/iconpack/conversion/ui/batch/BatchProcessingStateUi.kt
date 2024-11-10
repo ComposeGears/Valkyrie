@@ -74,7 +74,7 @@ fun BatchProcessingStateUi(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(items = state.icons, key = { it.iconName }) { batchIcon ->
+            items(items = state.icons, key = { it.id }) { batchIcon ->
                 when (batchIcon) {
                     is BatchIcon.Broken -> BrokenIconItem(
                         broken = batchIcon,
