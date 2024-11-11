@@ -28,18 +28,25 @@
 
 > [!NOTE]
 > One-click solution to convert SVG/XML to ImageVector (requires only specifying the package).
-> Enables previewing the generated icon and easily copying the result to the clipboard for seamless integration into
-> your project.
+
+Available quick actions:
+- Rename icon
+- Preview current ImageVector
+- Copy generated ImageVector to clipboard
 
 <div align="center">
-    <img src="assets/simple_mode_1.png" width="300" />
-    <img src="assets/simple_mode_2.png" width="300" />
+    <img src="assets/simple_mode_1.png" width="252" />
+    <img src="assets/simple_mode_2.png" width="251.2" />
+    <img src="assets/simple_mode_3.png" width="250" />
 </div>
 
 
 Live demo:
 
-https://github.com/user-attachments/assets/15ee9356-0db3-4b87-b4fe-23bb6bba70a0
+https://github.com/user-attachments/assets/f48eb027-ccb2-4194-87bb-868c6be222ae
+
+
+
 
 ## **IconPack mode**
 
