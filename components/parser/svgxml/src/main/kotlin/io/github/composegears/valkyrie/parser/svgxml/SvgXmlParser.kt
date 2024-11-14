@@ -22,7 +22,7 @@ object SvgXmlParser {
 
     @Throws(IllegalStateException::class)
     fun toIrImageVector(path: Path): IconParserOutput {
-        val iconType = IconType.from(path) ?: error("File not SVG or XML")
+        val iconType = IconType.from(path) ?: error("$path must be an SVG or XML file.")
 
         val fileName = IconNameFormatter.format(name = path.name)
         val text = when (iconType) {
