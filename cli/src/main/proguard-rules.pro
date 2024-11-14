@@ -2,7 +2,7 @@
 -dontobfuscate
 -keepattributes SourceFile, LineNumberTable
 
--keep class io.github.composegears.valkyrie.MainKt {
+-keep class io.github.composegears.valkyrie.cli.MainKt {
   public static void main(java.lang.String[]);
 }
 
