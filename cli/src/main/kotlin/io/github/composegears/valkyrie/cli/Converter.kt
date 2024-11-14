@@ -4,9 +4,9 @@ import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.parser.IconParser
-import io.github.composegears.valkyrie.parser.isSvg
-import io.github.composegears.valkyrie.parser.isXml
+import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
+import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
+import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import kotlin.io.path.Path
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.isDirectory
@@ -26,6 +26,10 @@ internal fun res2iv(
     nestedPackName: String,
     generatePreview: Boolean,
     outputFormat: OutputFormat,
+    useFlatPackage: Boolean,
+    useExplicitMode: Boolean,
+    addTrailingComma: Boolean,
+    indentSize: Int,
 ) {
     val outputPath = Path(outputPathString)
     if (outputPath.isRegularFile()) {
@@ -50,17 +54,22 @@ internal fun res2iv(
     }
 
     inputPaths.forEach { path ->
-        val parseOutput = IconParser.toVector(path)
+        val parseOutput = SvgXmlParser.toIrImageVector(path)
         val config = ImageVectorGeneratorConfig(
             packageName = packageName,
+            iconPackPackage = packageName,
             packName = iconPackName,
             nestedPackName = nestedPackName,
             outputFormat = outputFormat,
             generatePreview = generatePreview,
+            useFlatPackage = useFlatPackage,
+            useExplicitMode = useExplicitMode,
+            addTrailingComma = addTrailingComma,
+            indentSize = indentSize,
         )
         val vectorSpecOutput = ImageVectorGenerator.convert(
-            vector = parseOutput.vector,
-            kotlinName = parseOutput.kotlinName,
+            vector = parseOutput.irImageVector,
+            iconName = parseOutput.iconName,
             config = config,
         )
 

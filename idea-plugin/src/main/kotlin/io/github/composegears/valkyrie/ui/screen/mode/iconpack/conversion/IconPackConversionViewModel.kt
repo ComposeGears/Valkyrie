@@ -3,19 +3,13 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 import com.composegears.tiamat.Saveable
 import com.composegears.tiamat.SavedState
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.extensions.cast
+import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.generator.imagevector.ImageVectorSpecOutput
-import io.github.composegears.valkyrie.parser.IconParser
-import io.github.composegears.valkyrie.parser.isSvg
-import io.github.composegears.valkyrie.parser.isXml
-import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
-import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState
@@ -222,7 +216,7 @@ class IconPackConversionViewModel(
                             ),
                         )
 
-                            vectorSpecOutput.content.writeToKt(
+                        vectorSpecOutput.content.writeToKt(
                             outputDir = settings.iconPackDestination,
                             nameWithoutExtension = vectorSpecOutput.name,
                         )
