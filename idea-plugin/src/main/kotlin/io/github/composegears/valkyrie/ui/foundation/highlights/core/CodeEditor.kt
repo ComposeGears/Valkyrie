@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -123,7 +124,7 @@ fun CodeEditor(
                     ),
                     enabled = enabled,
                     readOnly = readOnly,
-                    textStyle = textStyle,
+                    textStyle = textStyle.copy(fontFamily = FontFamily.Monospace),
                     label = label,
                     placeholder = placeholder,
                     leadingIcon = leadingIcon,

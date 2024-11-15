@@ -42,7 +42,7 @@ fun KotlinCodeViewer(
 
             onChange(it)
         },
-        textStyle = MaterialTheme.typography.bodyMedium.copy(lineHeight = 21.sp),
+        textStyle = MaterialTheme.typography.bodyMedium.copy(lineHeight = 21.sp, fontSize = 13.sp),
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Color.Transparent,
             focusedContainerColor = Color.Transparent,
