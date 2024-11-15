@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.settings
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.settings.updateMode
 import io.github.composegears.valkyrie.settings.updateOutputFormat
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
@@ -10,9 +9,9 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIndentSize
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
-import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateindentSize
 
 class SettingsViewModel : TiamatViewModel() {
 
@@ -28,13 +27,13 @@ class SettingsViewModel : TiamatViewModel() {
             is UpdateFlatPackage -> flatPackage = settingsAction.useFlatPackage
             is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
             is UpdateAddTrailingComma -> addTrailingComma = settingsAction.addTrailingComma
-            is UpdateindentSize -> indentSize = settingsAction.indent
+            is UpdateIndentSize -> indentSize = settingsAction.indent
         }
     }
 
     fun clearSettings() = inMemorySettings.clear()
 
     fun resetMode() = inMemorySettings.update {
-        updateMode(Unspecified)
+        mode = Unspecified
     }
 }

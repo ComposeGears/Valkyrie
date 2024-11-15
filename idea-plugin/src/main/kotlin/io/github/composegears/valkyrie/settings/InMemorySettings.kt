@@ -12,7 +12,7 @@ import java.util.Collections.emptyMap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class InMemorySettings(private val project: Project) {
+class InMemorySettings(project: Project) {
     private val persistentSettings = project.persistentSettings
 
     init {
@@ -36,7 +36,7 @@ class InMemorySettings(private val project: Project) {
     }
 
     fun clear() = update {
-        updateMode(Mode.Unspecified)
+        mode = Mode.Unspecified
         useMaterialPack = false
         packageName = ""
         iconPackPackage = ""
@@ -58,7 +58,7 @@ class InMemorySettings(private val project: Project) {
 
     private fun PersistentSettings.ValkyrieState.toValkyriesSettings(): ValkyriesSettings {
         return ValkyriesSettings(
-            mode = Mode.valueOf(mode!!),
+            mode = mode,
             useMaterialPack = useMaterialPack,
 
             packageName = packageName.or("io.github.composegears.valkyrie"),
@@ -107,10 +107,6 @@ fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {
         packs.isEmpty() -> ""
         else -> packs.joinToString(separator = ",")
     }
-}
-
-fun PersistentSettings.ValkyrieState.updateMode(mode: Mode) {
-    this.mode = mode.name
 }
 
 fun PersistentSettings.ValkyrieState.updateOutputFormat(format: OutputFormat) {
