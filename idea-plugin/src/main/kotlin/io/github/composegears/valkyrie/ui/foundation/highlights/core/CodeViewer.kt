@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.PhraseLocation
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -16,7 +17,7 @@ fun CodeViewer(
 ) {
     Text(
         modifier = modifier,
-        style = MaterialTheme.typography.bodySmall,
+        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
         text = highlights.buildAnnotatedString(),
     )
 }
