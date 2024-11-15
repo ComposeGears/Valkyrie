@@ -6,7 +6,6 @@ import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.processing.writter.FileWriter
 import io.github.composegears.valkyrie.settings.InMemorySettings
-import io.github.composegears.valkyrie.settings.updateMode
 import io.github.composegears.valkyrie.settings.updateNestedPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
@@ -23,7 +22,7 @@ object IconPackWriter {
             iconPackPackage = inputFieldState.iconPackPackage.text
             iconPackName = inputFieldState.iconPackName.text
             updateNestedPack(inputFieldState.nestedPacks.map { it.inputFieldState.text })
-            updateMode(Mode.IconPack)
+            mode = Mode.IconPack
         }
 
         if (writeToFile) {

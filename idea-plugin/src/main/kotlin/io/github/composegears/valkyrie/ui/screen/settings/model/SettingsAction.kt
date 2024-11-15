@@ -9,5 +9,5 @@ sealed interface SettingsAction {
     data class UpdateExplicitMode(val useExplicitMode: Boolean) : SettingsAction
     data class UpdateAddTrailingComma(val addTrailingComma: Boolean) : SettingsAction
     data class UpdateImageVectorPreview(val enabled: Boolean) : SettingsAction
-    data class UpdateindentSize(val indent: Int) : SettingsAction
+    data class UpdateIndentSize(val indent: Int) : SettingsAction
 }

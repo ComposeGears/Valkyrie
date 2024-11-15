@@ -26,7 +26,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
     }
 
     class ValkyrieState : BaseState() {
-        var mode: String? by string(Mode.Unspecified.name)
+        var mode: Mode by enum(Mode.Unspecified)
         var useMaterialPack: Boolean by property(false)
 
         var packageName: String? by string()

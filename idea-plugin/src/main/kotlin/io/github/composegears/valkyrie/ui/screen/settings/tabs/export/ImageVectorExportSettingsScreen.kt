@@ -32,8 +32,8 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateAddTrailingComma
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIndentSize
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
-import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateindentSize
 
 val ImageVectorExportSettingsScreen by navDestination<Unit> {
     val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
@@ -98,7 +98,7 @@ private fun ImageVectorExportSettingsUi(
         )
         IndentSizeSection(
             indent = indentSize,
-            onValueChange = { onAction(UpdateindentSize(it)) },
+            onValueChange = { onAction(UpdateIndentSize(it)) },
         )
         VerticalSpacer(16.dp)
     }
