@@ -1,5 +1,7 @@
 package io.github.composegears.valkyrie.cli
 
+import io.github.composegears.valkyrie.cli.command.SUCCESS_MESSAGE
+
 class CommandLineTestRunner(
     private var commands: List<String>,
 ) : Runnable {

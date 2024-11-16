@@ -378,6 +378,8 @@ other available gradle commands:
 
 - apply formatting: `./gradlew spotlessApply`
 
+- build CLI: `./gradlew :cli:build`
+
 ## Join our community
 
 <a href="https://join.slack.com/t/composegears/shared_invite/zt-2noleve52-D~zrFPmC1cdhThsuQUW61A">
