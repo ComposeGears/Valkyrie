@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.generator.iconpack
 data class IconPackGeneratorConfig(
     val packageName: String,
     val iconPackName: String,
-    val subPacks: List<String>,
+    val nestedPacks: List<String>,
     val useExplicitMode: Boolean,
     val indentSize: Int,
 )

@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 class IcoPackWithIndentTest {
 
     private fun createConfig(
-        subPacks: List<String> = listOf("Filled", "Colored"),
+        nestedPacks: List<String> = listOf("Filled", "Colored"),
         useExplicitMode: Boolean = false,
         indentSize: Int = 4,
     ) = IconPackGeneratorConfig(
         packageName = "io.github.composegears.valkyrie.icons",
         iconPackName = "ValkyrieIcons",
-        subPacks = subPacks,
+        nestedPacks = nestedPacks,
         useExplicitMode = useExplicitMode,
         indentSize = indentSize,
     )

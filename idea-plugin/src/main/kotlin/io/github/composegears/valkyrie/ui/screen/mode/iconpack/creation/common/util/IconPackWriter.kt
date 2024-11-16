@@ -32,7 +32,7 @@ object IconPackWriter {
                 config = IconPackGeneratorConfig(
                     packageName = currentSettings.packageName,
                     iconPackName = currentSettings.iconPackName,
-                    subPacks = currentSettings.nestedPacks,
+                    nestedPacks = currentSettings.nestedPacks,
                     useExplicitMode = currentSettings.useExplicitMode,
                     indentSize = currentSettings.indentSize,
                 ),

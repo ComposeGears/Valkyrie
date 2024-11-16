@@ -142,7 +142,7 @@ class NewPackViewModel : TiamatViewModel() {
             config = IconPackGeneratorConfig(
                 packageName = inputFieldState.packageName.text,
                 iconPackName = inputFieldState.iconPackName.text,
-                subPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
+                nestedPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
                 indentSize = inMemorySettings.current.indentSize,
             ),
