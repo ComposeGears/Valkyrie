@@ -4,16 +4,18 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.MordantHelpFormatter
-import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.options.varargValues
-import com.github.ajalt.clikt.parameters.types.boolean
-import com.github.ajalt.clikt.parameters.types.int
+import io.github.composegears.valkyrie.cli.ext.booleanOption
+import io.github.composegears.valkyrie.cli.ext.intOption
 import io.github.composegears.valkyrie.cli.ext.outputInfo
+import io.github.composegears.valkyrie.cli.ext.requiredPathOption
+import io.github.composegears.valkyrie.cli.ext.requiredStringOption
 import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import java.nio.file.Path
+import kotlin.io.path.absolutePathString
 
 internal class IconPackCommand : CliktCommand(name = "iconpack") {
 
@@ -29,35 +31,36 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
         }
     }
 
-    private val outputPath by option(
+    private val outputPath by requiredPathOption(
         "--output-path",
         help = "Output path",
-    ).required()
+    )
 
-    private val packageName by option(
+    private val packageName by requiredStringOption(
         "--package-name",
         help = "Package name of IconPack object",
-    ).required()
+    )
 
-    private val iconPackName by option(
+    private val iconPackName by requiredStringOption(
         "--iconpack-name",
         help = "IconPack object name",
-    ).required()
+    )
 
     private val nestedPacks by option(
         "--nested-packs",
         help = "Nested packs (e.g. Filled, Colored)",
     ).varargValues()
 
-    private val indentSize by option(
+    private val indentSize by intOption(
         "--indent-size",
         help = "Indent size",
-    ).int().default(4)
+        default = 4,
+    )
 
-    private val useExplicitMode by option(
+    private val useExplicitMode by booleanOption(
         "--use-explicit-mode",
         help = "Use explicit mode",
-    ).boolean().default(false)
+    )
 
     override val printHelpOnEmptyArgs: Boolean = true
 
@@ -76,7 +79,7 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
 }
 
 private fun generateIconPack(
-    outputPath: String,
+    outputPath: Path,
     iconPackName: String,
     nestedPacks: List<String>,
     useExplicitMode: Boolean,
@@ -87,14 +90,14 @@ private fun generateIconPack(
         config = IconPackGeneratorConfig(
             packageName = packageName,
             iconPackName = iconPackName,
-            subPacks = nestedPacks,
+            nestedPacks = nestedPacks,
             useExplicitMode = useExplicitMode,
             indentSize = indentSize,
         ),
     )
 
     iconPack.content.writeToKt(
-        outputDir = outputPath,
+        outputDir = outputPath.absolutePathString(),
         nameWithoutExtension = iconPack.name,
     )
 
