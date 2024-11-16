@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 class IconPackGeneratorTest {
 
     private fun createConfig(
-        subPacks: List<String> = emptyList(),
+        nestedPacks: List<String> = emptyList(),
         useExplicitMode: Boolean = false,
         indentSize: Int = 4,
     ) = IconPackGeneratorConfig(
         packageName = "io.github.composegears.valkyrie.icons",
         iconPackName = "ValkyrieIcons",
-        subPacks = subPacks,
+        nestedPacks = nestedPacks,
         useExplicitMode = useExplicitMode,
         indentSize = indentSize,
     )
@@ -44,7 +44,7 @@ class IconPackGeneratorTest {
     @Test
     fun `generate nested packs`() {
         val result = IconPackGenerator.create(
-            config = createConfig(subPacks = listOf("Filled", "Colored")),
+            config = createConfig(nestedPacks = listOf("Filled", "Colored")),
         )
 
         val expected = getResourceText("kt/IconPack.nested.kt")
@@ -57,7 +57,7 @@ class IconPackGeneratorTest {
     fun `generate nested packs explicit`() {
         val result = IconPackGenerator.create(
             config = createConfig(
-                subPacks = listOf("Filled", "Colored"),
+                nestedPacks = listOf("Filled", "Colored"),
                 useExplicitMode = true,
             ),
         )

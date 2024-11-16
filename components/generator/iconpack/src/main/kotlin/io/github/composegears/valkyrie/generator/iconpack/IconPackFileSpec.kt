@@ -9,7 +9,7 @@ internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
 
     fun createSpec(): IconPackSpecOutput {
         val iconPackSpec = objectBuilder(name = config.iconPackName) {
-            config.subPacks.forEach { icon ->
+            config.nestedPacks.forEach { icon ->
                 addType(objectBuilder(name = icon))
             }
         }
