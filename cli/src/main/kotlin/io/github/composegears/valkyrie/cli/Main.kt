@@ -13,5 +13,8 @@ fun main(vararg args: String) = ValkyrieCli()
     .main(args)
 
 class ValkyrieCli : CliktCommand(name = "valkyrie") {
+
+    override val printHelpOnEmptyArgs: Boolean = true
+
     override fun run() = Unit
 }
