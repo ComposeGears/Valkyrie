@@ -106,7 +106,6 @@ dependencies {
     implementation(projects.components.generator.imagevector)
     implementation(projects.components.ir)
     implementation(projects.components.parser.svgxml)
-    implementation(projects.components.psi.iconpack)
 
     implementation(libs.clikt)
     r8(libs.r8)
