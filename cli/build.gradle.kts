@@ -2,11 +2,11 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.shadow)
+    application
 }
 
 val baseName = "valkyrie"
 val versionName = rootProject.providers.gradleProperty("VERSION_NAME").get()
-version = versionName
 
 buildConfig {
     buildConfigField("VERSION_NAME", versionName)
@@ -22,80 +22,41 @@ tasks.withType<Jar>().configureEach {
         attributes["Implementation-Version"] = versionName
     }
 }
-
-tasks.shadowJar {
-    dependsOn(tasks.jar)
-
-    exclude(
-        "**/*.kotlin_metadata",
-        "**/*.kotlin_builtins",
-        "**/*.kotlin_module",
-        "**/module-info.class",
-        "assets/**",
-        "font_metrics.properties",
-        "META-INF/AL2.0",
-        "META-INF/DEPENDENCIES",
-        "META-INF/jdom-info.xml",
-        "META-INF/LGPL2.1",
-        "META-INF/maven/**",
-        "META-INF/native-image/**",
-        "META-INF/*.version",
-        "**/*.proto",
-        "**/*.dex",
-        "**/LICENSE**",
-        "**/NOTICE**",
-        "r8-version.properties",
-        "migrateToAndroidx/*",
-    )
+application {
+    mainClass = "io.github.composegears.valkyrie.cli.MainKt"
+    applicationName = "valkyrie"
+    version = versionName
 }
 
-val r8File = layout.buildDirectory.file("libs/$baseName-$version-r8.jar").map { it.asFile }
-val rulesFile = project.file("src/main/proguard-rules.pro")
-val r8Jar by tasks.registering(JavaExec::class) {
-    dependsOn(tasks.shadowJar)
+val buildWithR8 by tasks.registering(JavaExec::class) {
+    dependsOn(tasks.installShadowDist)
 
-    val fatJarFile = tasks.shadowJar.get().archiveFile
-    inputs.file(fatJarFile)
-    inputs.file(rulesFile)
-    outputs.file(r8File)
+    val proguardRulesFile = layout.projectDirectory.file("proguard-rules.pro").asFile
+    val jar = layout.buildDirectory.file("install/cli-shadow/lib/$baseName-$version-all.jar").map { it.asFile }
+
+    inputs.file(jar)
+    inputs.file(proguardRulesFile)
+    outputs.file(jar)
 
     classpath(r8)
     mainClass = com.android.tools.r8.R8::class.java.canonicalName
     args(
         "--release",
         "--classfile",
-        "--output", r8File.get().path,
-        "--pg-conf", rulesFile.path,
+        "--output", jar.get().path,
+        "--pg-conf", proguardRulesFile.path,
         "--lib", providers.systemProperty("java.home").get(),
-        fatJarFile.get().toString(),
+        jar.get().toString(),
     )
 }
 
-val binaryFile = layout.buildDirectory.file("libs/$baseName-$version-binary.jar").map { it.asFile }
-val binaryJar by tasks.registering {
-    dependsOn(r8Jar)
+val buildCLI by tasks.registering(Zip::class) {
+    dependsOn(buildWithR8)
 
-    val r8FileProvider = layout.file(r8File)
-    val binaryFileProvider = layout.file(binaryFile)
-    inputs.files(r8FileProvider)
-    outputs.file(binaryFileProvider)
+    from(layout.buildDirectory.file("install/cli-shadow"))
 
-    doLast {
-        val r8File = r8FileProvider.get().asFile
-        val binaryFile = binaryFileProvider.get().asFile
-
-        binaryFile.parentFile.mkdirs()
-        binaryFile.delete()
-        binaryFile.writeText("#!/bin/sh\n\nexec java \$JAVA_OPTS -jar \$0 \"\$@\"\n\n")
-        binaryFile.appendBytes(r8File.readBytes())
-
-        binaryFile.setExecutable(true, false)
-    }
-}
-
-tasks.test {
-    dependsOn(binaryJar)
-    systemProperty("CLI_PATH", binaryFile.get().absolutePath)
+    archiveFileName.set("$baseName-cli-$version.zip")
+    destinationDirectory.set(layout.buildDirectory.dir("distributions/"))
 }
 
 val r8: Configuration by configurations.creating
