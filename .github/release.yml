@@ -2,12 +2,24 @@
 
 changelog:
   categories:
+    - title: 🖥️✨ CLI features
+      labels:
+        - feature-cli
+    - title: 🖥️🐛 CLI bugfixes
+      labels:
+        - bugfix-cli
+    - title: 🔌✨ Plugin features
+      labels:
+        - feature-plugin
+    - title: 🔌🐛 Plugin bugfixes
+      labels:
+        - bugfix-plugin
     - title: ✨ Features
       labels:
         - feature
     - title: 🐛 Bugfixes
       labels:
-        - bug-fix
+        - bugfix
     - title: 🧹 Housekeeping
       labels:
         - housekeeping
@@ -19,7 +31,11 @@ changelog:
         - '*'
       exclude:
         labels:
+          - bugfix-cli
+          - bugfix-plugin
+          - bugfix
+          - feature-cli
+          - feature-plugin
           - feature
-          - bug-fix
           - housekeeping
           - dependencies
