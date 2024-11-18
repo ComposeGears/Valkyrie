@@ -378,7 +378,7 @@ other available gradle commands:
 
 - apply formatting: `./gradlew spotlessApply`
 
-- build CLI: `./gradlew :cli:build`
+- build CLI: `./gradlew buildCLI`
 
 ## Join our community
 
