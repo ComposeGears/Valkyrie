@@ -73,6 +73,9 @@ jobs:
         if: env.IS_SNAPSHOT == 'false'
         run: ./gradlew publishPlugin
 
+      - name: Build CLI
+        run: ./gradlew buildCLI
+
       - name: Delete release if exist then create a new one
         run: |
           gh release view ${{ env.VERSION_NAME }} && gh release delete ${{ env.VERSION_NAME }} -y --cleanup-tag
@@ -86,4 +89,4 @@ jobs:
             gh release view ${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete ${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag
           fi
 
-          gh release create ${{ env.VERSION_NAME }} idea-plugin/build/distributions/*-signed.zip --generate-notes $PRE_RELEASE_FLAG
+          gh release create ${{ env.VERSION_NAME }} idea-plugin/build/distributions/*-signed.zip cli/build/distributions/*.zip --generate-notes $PRE_RELEASE_FLAG
