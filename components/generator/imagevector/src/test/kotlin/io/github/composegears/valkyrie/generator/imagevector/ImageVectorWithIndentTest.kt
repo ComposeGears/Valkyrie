@@ -15,7 +15,7 @@ class ImageVectorWithIndentTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `generation without icon pack with indent 1`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -27,8 +27,8 @@ class ImageVectorWithIndentTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.indent1.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.indent1.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.indent1.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.indent1.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -37,7 +37,7 @@ class ImageVectorWithIndentTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `generation without icon pack with indent 2`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -49,8 +49,8 @@ class ImageVectorWithIndentTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.indent2.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.indent2.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.indent2.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.indent2.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -59,7 +59,7 @@ class ImageVectorWithIndentTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `generation without icon pack with indent 3`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -71,8 +71,8 @@ class ImageVectorWithIndentTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.indent3.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.indent3.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.indent3.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.indent3.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -81,7 +81,7 @@ class ImageVectorWithIndentTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `generation without icon pack with indent 6`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -93,8 +93,8 @@ class ImageVectorWithIndentTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.indent6.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.indent6.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.indent6.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.indent6.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)

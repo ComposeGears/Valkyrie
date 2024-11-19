@@ -15,7 +15,7 @@ class ExplicitModeTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `generation with explicit mode`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -27,8 +27,8 @@ class ExplicitModeTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.explicit.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.explicit.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.explicit.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.explicit.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)

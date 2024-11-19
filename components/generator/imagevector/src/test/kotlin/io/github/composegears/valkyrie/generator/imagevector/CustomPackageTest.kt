@@ -15,7 +15,7 @@ class CustomPackageTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `flat package without icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_flat_package.xml")
+        val icon = getResourcePath("imagevector/xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -27,8 +27,8 @@ class CustomPackageTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/FlatPackage.kt",
-            pathToLazyProperty = "kt/lazy/FlatPackage.kt",
+            pathToBackingProperty = "imagevector/kt/backing/FlatPackage.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/FlatPackage.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -37,7 +37,7 @@ class CustomPackageTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `flat package with icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_flat_package.xml")
+        val icon = getResourcePath("imagevector/xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -50,8 +50,8 @@ class CustomPackageTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/FlatPackage.pack.kt",
-            pathToLazyProperty = "kt/lazy/FlatPackage.pack.kt",
+            pathToBackingProperty = "imagevector/kt/backing/FlatPackage.pack.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/FlatPackage.pack.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -60,7 +60,7 @@ class CustomPackageTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `flat package with nested icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_flat_package.xml")
+        val icon = getResourcePath("imagevector/xml/ic_flat_package.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -74,8 +74,8 @@ class CustomPackageTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/FlatPackage.pack.nested.kt",
-            pathToLazyProperty = "kt/lazy/FlatPackage.pack.nested.kt",
+            pathToBackingProperty = "imagevector/kt/backing/FlatPackage.pack.nested.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/FlatPackage.pack.nested.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -84,7 +84,7 @@ class CustomPackageTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `different icon pack package`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -100,8 +100,8 @@ class CustomPackageTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.pack.package.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.pack.package.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.package.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.package.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
