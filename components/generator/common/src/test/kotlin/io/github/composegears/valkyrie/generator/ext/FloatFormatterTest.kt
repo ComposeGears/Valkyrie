@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 
-class FormatterTest {
+class FloatFormatterTest {
 
     @Test
     fun `formatValue for floats`() {

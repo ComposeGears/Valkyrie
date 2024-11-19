@@ -15,7 +15,7 @@ class TrailingCommaTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with path and solid color`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_fill_color_stroke.xml")
+        val icon = getResourcePath("imagevector/xml/ic_fill_color_stroke.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -28,8 +28,8 @@ class TrailingCommaTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/FillColorStroke.trailing.kt",
-            pathToLazyProperty = "kt/lazy/FillColorStroke.trailing.kt",
+            pathToBackingProperty = "imagevector/kt/backing/FillColorStroke.trailing.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/FillColorStroke.trailing.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)

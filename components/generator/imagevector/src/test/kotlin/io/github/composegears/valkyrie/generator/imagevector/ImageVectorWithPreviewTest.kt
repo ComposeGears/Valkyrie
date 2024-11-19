@@ -15,7 +15,7 @@ class ImageVectorWithPreviewTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `preview generation without icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -27,8 +27,8 @@ class ImageVectorWithPreviewTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.preview.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.preview.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.preview.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.preview.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -37,7 +37,7 @@ class ImageVectorWithPreviewTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `preview generation with icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -50,8 +50,8 @@ class ImageVectorWithPreviewTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.pack.preview.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.pack.preview.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.preview.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.preview.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
@@ -60,7 +60,7 @@ class ImageVectorWithPreviewTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `preview generation with nested pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("xml/ic_without_path.xml")
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -74,8 +74,8 @@ class ImageVectorWithPreviewTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/WithoutPath.pack.nested.preview.kt",
-            pathToLazyProperty = "kt/lazy/WithoutPath.pack.nested.preview.kt",
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.nested.preview.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.nested.preview.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)

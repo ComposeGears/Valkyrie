@@ -15,7 +15,7 @@ class SvgWithGradientToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `svg linear gradient parsing`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("svg/ic_linear_gradient.svg")
+        val icon = getResourcePath("imagevector/svg/ic_linear_gradient.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -24,8 +24,8 @@ class SvgWithGradientToImageVectorTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/LinearGradient.kt",
-            pathToLazyProperty = "kt/lazy/LinearGradient.kt",
+            pathToBackingProperty = "imagevector/kt/backing/LinearGradient.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/LinearGradient.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(SVG)
         assertThat(output).isEqualTo(expected)
@@ -34,7 +34,7 @@ class SvgWithGradientToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `svg radial gradient parsing`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("svg/ic_radial_gradient.svg")
+        val icon = getResourcePath("imagevector/svg/ic_radial_gradient.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -43,8 +43,8 @@ class SvgWithGradientToImageVectorTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/RadialGradient.kt",
-            pathToLazyProperty = "kt/lazy/RadialGradient.kt",
+            pathToBackingProperty = "imagevector/kt/backing/RadialGradient.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/RadialGradient.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(SVG)
         assertThat(output).isEqualTo(expected)
@@ -53,7 +53,7 @@ class SvgWithGradientToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `svg linear gradient with stroke parsing`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("svg/ic_linear_gradient_with_stroke.svg")
+        val icon = getResourcePath("imagevector/svg/ic_linear_gradient_with_stroke.svg")
         val parserOutput = SvgXmlParser.toIrImageVector(icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
@@ -62,8 +62,8 @@ class SvgWithGradientToImageVectorTest {
         ).content
 
         val expected = outputFormat.toResourceText(
-            pathToBackingProperty = "kt/backing/LinearGradientWithStroke.kt",
-            pathToLazyProperty = "kt/lazy/LinearGradientWithStroke.kt",
+            pathToBackingProperty = "imagevector/kt/backing/LinearGradientWithStroke.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/LinearGradientWithStroke.kt",
         )
         assertThat(parserOutput.iconType).isEqualTo(SVG)
         assertThat(output).isEqualTo(expected)

@@ -23,7 +23,7 @@ class IconPackGeneratorTest {
     fun `generate icon pack`() {
         val result = IconPackGenerator.create(config = createConfig())
 
-        val expected = getResourceText("kt/IconPack.kt")
+        val expected = getResourceText("iconpack/IconPack.kt")
 
         assertThat(result.content).isEqualTo(expected)
         assertThat(result.name).isEqualTo("ValkyrieIcons")
@@ -35,7 +35,7 @@ class IconPackGeneratorTest {
             config = createConfig(useExplicitMode = true),
         )
 
-        val expected = getResourceText("kt/IconPack.explicit.kt")
+        val expected = getResourceText("iconpack/IconPack.explicit.kt")
 
         assertThat(result.content).isEqualTo(expected)
         assertThat(result.name).isEqualTo("ValkyrieIcons")
@@ -47,7 +47,7 @@ class IconPackGeneratorTest {
             config = createConfig(nestedPacks = listOf("Filled", "Colored")),
         )
 
-        val expected = getResourceText("kt/IconPack.nested.kt")
+        val expected = getResourceText("iconpack/IconPack.nested.kt")
 
         assertThat(result.content).isEqualTo(expected)
         assertThat(result.name).isEqualTo("ValkyrieIcons")
@@ -62,7 +62,7 @@ class IconPackGeneratorTest {
             ),
         )
 
-        val expected = getResourceText("kt/IconPack.nested.explicit.kt")
+        val expected = getResourceText("iconpack/IconPack.nested.explicit.kt")
 
         assertThat(result.content).isEqualTo(expected)
         assertThat(result.name).isEqualTo("ValkyrieIcons")
