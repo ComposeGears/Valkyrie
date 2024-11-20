@@ -5,12 +5,13 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.MordantHelpFormatter
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.varargValues
+import com.github.ajalt.clikt.parameters.options.split
 import io.github.composegears.valkyrie.cli.ext.booleanOption
 import io.github.composegears.valkyrie.cli.ext.intOption
 import io.github.composegears.valkyrie.cli.ext.outputInfo
 import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
+import io.github.composegears.valkyrie.cli.ext.stringOption
 import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
@@ -41,15 +42,16 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
         help = "Package name of IconPack object",
     )
 
-    private val iconPackName by requiredStringOption(
+    private val iconPackName by stringOption(
         "--iconpack-name",
         help = "IconPack object name",
+        default = "",
     )
 
     private val nestedPacks by option(
         "--nested-packs",
         help = "Nested packs (e.g. Filled, Colored)",
-    ).varargValues()
+    ).split(",")
 
     private val indentSize by intOption(
         "--indent-size",
