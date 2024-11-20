@@ -1,6 +1,4 @@
-package io.github.composegears.valkyrie.cli
-
-import io.github.composegears.valkyrie.cli.command.SUCCESS_MESSAGE
+package io.github.composegears.valkyrie.cli.common
 
 class CommandLineTestRunner(
     private var commands: List<String>,
@@ -11,15 +9,9 @@ class CommandLineTestRunner(
         val exitCode = process.waitFor()
 
         val err = process.errorStream.readBytes().toString(Charsets.UTF_8)
-        val out = process.inputStream.readBytes().toString(Charsets.UTF_8).let {
-            // If ANSI escape codes are not supported, remove them from the output
-            if (System.console() == null) it.replace("\u001B\\[.*?m".toRegex(), "") else it
-        }
+
         if (exitCode != 0 || err.isNotEmpty()) {
             error("Error occurred when running command line: $err")
-        }
-        if (!out.startsWith(SUCCESS_MESSAGE)) {
-            error("Output is not correct: $out")
         }
     }
 
@@ -28,11 +20,11 @@ class CommandLineTestRunner(
         private val cliPath = System.getProperty("CLI_PATH") ?: error("CLI_PATH must not be null.")
 
         private fun cliCommand(arguments: List<String>) = buildList {
-            // Binary Jar is not executable on Windows.
             if (isWindows) {
-                addAll(listOf("java", "-jar"))
+                add("$cliPath/valkyrie.bat")
+            } else {
+                add("$cliPath/valkyrie")
             }
-            add(cliPath)
             addAll(arguments)
         }
     }

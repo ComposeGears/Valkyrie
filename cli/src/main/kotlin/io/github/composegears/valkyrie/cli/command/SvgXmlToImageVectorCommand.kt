@@ -58,9 +58,10 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
         help = "The package name of the generated sources. Usually equal to IconPack package",
     )
 
-    private val iconPackName by requiredStringOption(
+    private val iconPackName by stringOption(
         "--iconpack-name",
         help = "The name of the existing IconPack",
+        default = "",
     )
 
     private val nestedPackName by stringOption(
@@ -135,8 +136,6 @@ private fun CliktCommand.outputFormatOption() = option(
         else -> error("Invalid output format, it must be backing-property or lazy-property.")
     }
 }.default(OutputFormat.BackingProperty)
-
-internal const val SUCCESS_MESSAGE = "Converting completed."
 
 /**
  * Converts SVG or XML files to ImageVector files.

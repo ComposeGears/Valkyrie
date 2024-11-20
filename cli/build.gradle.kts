@@ -8,6 +8,20 @@ plugins {
 val baseName = "valkyrie"
 val versionName = rootProject.providers.gradleProperty("VERSION_NAME").get()
 
+application {
+    mainClass = "io.github.composegears.valkyrie.cli.MainKt"
+    applicationName = "valkyrie"
+    version = versionName
+}
+
+sourceSets {
+    test {
+        resources {
+            srcDir("$rootDir/components/sharedTestResources")
+        }
+    }
+}
+
 buildConfig {
     buildConfigField("VERSION_NAME", versionName)
     packageName = "io.github.composegears.valkyrie.cli"
@@ -21,11 +35,6 @@ tasks.withType<Jar>().configureEach {
         attributes["Main-Class"] = "io.github.composegears.valkyrie.cli.MainKt"
         attributes["Implementation-Version"] = versionName
     }
-}
-application {
-    mainClass = "io.github.composegears.valkyrie.cli.MainKt"
-    applicationName = "valkyrie"
-    version = versionName
 }
 
 val buildWithR8 by tasks.registering(JavaExec::class) {
@@ -57,6 +66,11 @@ val buildCLI by tasks.registering(Zip::class) {
 
     archiveFileName.set("$baseName-cli-$version.zip")
     destinationDirectory.set(layout.buildDirectory.dir("distributions/"))
+}
+
+tasks.test {
+    dependsOn(buildWithR8)
+    systemProperty("CLI_PATH", layout.buildDirectory.file("install/cli-shadow/bin").get().asFile.path)
 }
 
 val r8: Configuration by configurations.creating
