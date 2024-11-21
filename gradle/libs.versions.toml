@@ -39,7 +39,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 jetbrains-compose = "org.jetbrains.compose:1.7.1"
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
-buildConfig = "com.github.gmazzo.buildconfig:5.4.0"
+buildConfig = "com.github.gmazzo.buildconfig:5.5.1"
 shadow = "com.gradleup.shadow:8.3.5"
 spotless = "com.diffplug.spotless:7.0.0.BETA4"
 
