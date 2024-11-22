@@ -1,35 +1,99 @@
-[![Plugin Homepage][badge:plugin-homepage]][plugin-homepage]
-[![Version][badge:version]][plugin-versions]
-[![GitHub releases][badge:release]][gh:releases]
-[![Downloads][badge:downloads]][plugin-homepage]
-[![License][badge:license]][gh:license]
-[![Downloads][badge:slack]][slack-invite]
+<h2 align="center">Valkyrie — SVG/XML to Compose ImageVector converter</h2>
 
 <div align="center">
-    <img alt="Icon" src="idea-plugin/src/main/resources/META-INF/pluginIcon.svg" width="200" />
+    <img alt="Icon" src="idea-plugin/src/main/resources/META-INF/pluginIcon.svg" width="150" />
 </div>
 
-<h1 align="center">Valkyrie</h1>
-<h2 align="center">Intellij IDEA / Android Studio plugin to generate Compose ImageVector from SVG/XML</h2>
+<div align="center">
+
+[![Plugin Homepage][badge:plugin-homepage]][plugin-homepage]
+[![Version][badge:version]][plugin-versions]
+[![Downloads][badge:downloads]][plugin-homepage]
+
+[![GitHub releases][badge:release]][gh:releases]
+[![Downloads][badge:slack]][slack-invite]
+[![License][badge:license]][gh:license]
+
+</div>
+
+## Motivation
+
+On one of the projects, during the migration to Jetpack Compose, we needed to convert a large number of icons from XML (
+Android drawable) and SVG (Figma design system) to ImageVector. The existing solutions didn't quite fit our needs due to
+their inconvenient workflow, numerous bugs, poor output code, and in some cases, even being paid (after 5 icons 😄).
+
+Additionally, with the release of Compose 1.7.0,
+Google [discontinued](https://android-review.googlesource.com/c/platform/frameworks/support/+/3109060) support for
+material icons.
+
+## Table of Contents
+
+- [Key features](#key-features)
+- 🔌 [IDEA plugin](#idea-plugin)
+  - [Plugin features](#plugin-features)
+  - [Simple mode](#simple-mode)
+  - [IconPack mode](#iconpack-mode)
+    - [Create new icon pack](#new-icon-pack)
+    - [Update existing icon pack](#existing-icon-pack)
+  - [ImageVector previewer](#imagevector-previewer)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Build plugin](#build-plugin)
+- 🖥️ [CLI tool](#cli-tool)
+  - [Run CLI](#run-cli)
+  - [Available commands](#available-commands)
+    - [`iconpack` command](#iconpack-command)
+    - [`svgxml2imagevector` command](#svgxml2imagevector-command)
+  - [Build CLI](#build-cli)
+- [Other](#other)
+  - [Export formats](#export-formats)
+  - [Comparison with other solutions](#comparison-with-other-solutions)
+  - [Gradle commands](#gradle-commands)
 
 ## Key features
 
-- Support conversion from SVG and XML
-- Streamlined code formatting for generated icon:
-  * remove redundant code (e.g. `public` keyword)
-  * remove unused imports
-  * skip default ImageVector parameters
-  * support generation as [Backing property or Lazy property](#export-formats)
-- Two conversion modes: [Simple](#simple-mode) and [IconPack](#iconpack-mode)
-- Build-in ImageVector previewer with basic zoom and change background actions
-- Built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
+### Core functionality:
 
-## **Simple mode**
+- Support conversion from SVG and XML
+- Custom [kotlinpoet](https://github.com/square/kotlinpoet) generator with streamlined code formatting:
+  * code alignment and formatting
+  * remove redundant code by default (e.g. `public` keyword)
+  * remove unused imports (e.g. `kotlin.*` package)
+  * skip default ImageVector parameters
+  * support generation as [backing property or lazy property](#export-formats)
+  * optional trailing comma and explicit mode
+  * customize code indent
+- Ability to create your unique project icon pack (+nested packs if necessary)
+- High performance (6k icons processing ~5sec)
+
+### Currently we supports:
+
+- IntelliJ IDEA / Android Studio plugin
+- CLI tool
+- Gradle plugin and Web app (🚧 coming soon 🚧)
+
+## IDEA Plugin
+
+### Plugin features
+
+- Two conversion modes: [Simple](#simple-mode) and [IconPack](#iconpack-mode)
+- Support for Drag&Drop files/directories and pasting content from clipboard
+- Easy option to add more icons into existing project icon pack
+- Export generated ImageVector to clipboard or file (depends on the mode)
+- Fully customizable setting for generated icons
+- Build-in [ImageVector previewer](#imagevector-previewer) for any icons without compilation ✨
+- The plugin is completely built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
+  and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
+
+More exclusive features under development, stay tuned 🌚
+
+### **Simple mode**
 
 > [!NOTE]
 > One-click solution to convert SVG/XML to ImageVector (requires only specifying the package).
 
-Available quick actions:
+#### Available quick actions:
+
 - Rename icon
 - Preview current ImageVector
 - Copy generated ImageVector to clipboard
@@ -41,16 +105,13 @@ Available quick actions:
 </div>
 
 
-Live demo:
+Demo:
 
 https://github.com/user-attachments/assets/f48eb027-ccb2-4194-87bb-868c6be222ae
 
+### **IconPack mode**
 
-
-
-## **IconPack mode**
-
-### **New icon pack**
+#### **New icon pack**
 
 > [!NOTE]
 > Facilitates creating an organized icon pack with extension properties for your pack `object`, previewing the list of
@@ -61,11 +122,11 @@ https://github.com/user-attachments/assets/f48eb027-ccb2-4194-87bb-868c6be222ae
     <img src="assets/iconpack_mode_new_2.png" width="300" />
 </div>
 
-Live demo:
+Demo:
 
 https://github.com/user-attachments/assets/ccb568a4-bda9-4f2b-bf40-29b1a8e4c854
 
-### **Existing icon pack**
+#### **Existing icon pack**
 
 > [!NOTE]
 > Instead of importing icon pack settings, the plugin provides a direct way to import an already created icon pack from
@@ -77,13 +138,137 @@ https://github.com/user-attachments/assets/ccb568a4-bda9-4f2b-bf40-29b1a8e4c854
 </div>
 
 > [!IMPORTANT]
-> Currently, editing features are limited; you can only load an existing pack and add more nested packs.
+> Editing features are limited for now; you can only load an existing pack and add more nested packs.
 
-Live demo:
+Demo:
 
 https://github.com/user-attachments/assets/77f449dd-a6d0-44ea-9059-b7b30ee94426
 
-## Export formats
+### ImageVector Previewer
+
+We personally find it very useful to have a previewer for ImageVector (such we have for SVG or XML).
+Previewer available for any ImageVector formats (backing or lazy property, legacy google material icons) without
+compose @Preview annotation and project compilation.
+
+<div align="center">
+    <img src="assets/imagevector_previewer.png" />
+</div>
+
+Previewer actions:
+
+- Change icon background (pixel grid, white, black)
+- Zoom in, zoom out icon without loosing quality
+- Draw as actual size
+- Fit icon to window
+
+Demo:
+
+https://github.com/user-attachments/assets/1047a2b3-81ec-4e10-a118-0ff20bd5227b
+
+### Requirements
+
+- IntelliJ IDEA 2024.1 and later
+- Android Studio Koala and later
+
+> [!IMPORTANT]
+> K2 mode is available starting from IntelliJ IDEA 2024.2.1 ([more details](https://kotlin.github.io/analysis-api/migrating-from-k1.html#declaring-compatibility-with-the-k2-kotlin-mode))
+
+### Installation
+
+<a href="https://plugins.jetbrains.com/plugin/24786-valkyrie" target="_blank">
+    <img src="assets/installation_button.svg" height="40" alt="Get from Marketplace" title="Get from Marketplace">
+</a>
+
+- **Find plugin inside IDE**:
+
+  <kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for <b>"Valkyrie"</b></kbd> >
+  <kbd>Install Plugin</kbd>
+
+- **Manually**:
+  Download the [latest release](https://github.com/ComposeGears/Valkyrie/releases/latest)
+  or [build your self](#building) and install it manually using
+  <kbd>Settings</kbd> -> <kbd>Plugins</kbd> -> <kbd>⚙️</kbd> -> <kbd>Install plugin from disk...</kbd>
+
+### Build plugin
+
+Precondition: IntelliJ IDEA with installed [Plugin DevKit](https://plugins.jetbrains.com/plugin/22851-plugin-devkit)
+
+Run `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `idea-plugin/build/distributions/`
+folder
+
+or run plugin in IDE using: `./gradlew runIde`
+
+## CLI tool
+
+CLI tools can be easily integrated into scripts and automated workflows, allowing you to convert icons from specific
+source with predefined settings.
+
+### Run CLI
+
+Download latest CLI tool from [releases](https://github.com/ComposeGears/Valkyrie/releases) or [build](#build-cli) it by
+yourself.
+
+Unzip the downloaded archive and run the CLI tool from `bin` folder in the terminal
+
+```shell
+  ./valkyrie
+```
+
+<div align="center">
+<img src="assets/cli_structure.png" width="450" />
+</div>
+
+You should see this message
+<div align="center">
+<img src="assets/cli_valkyrie.png" width="550" />
+</div>
+
+### Available commands
+
+#### `iconpack` command
+
+A part of the CLI tool that allows you to create an icon pack with nested packs.
+
+Usage:
+
+```shell
+  ./valkyrie iconpack [<options>]
+```
+
+<div align="center">
+<img src="assets/cli_valkyrie_iconpack.png" width="550" />
+</div>
+
+Demo:
+
+https://github.com/user-attachments/assets/dc56f3e6-6831-4230-a8cc-a0c486d4c288
+
+#### `svgxml2imagevector` command
+
+A part of the CLI tool that allows you to convert SVG/XML files to ImageVector.
+
+Usage:
+
+```shell
+  ./valkyrie svgxml2imagevector [<options>]
+```
+
+<div align="center">
+<img src="assets/cli_valkyrie_svgxml2imagevector.png" width="550" />
+</div>
+
+Demo:
+
+https://github.com/user-attachments/assets/1e1d07bd-080f-4d39-8683-c1c30ef905e8
+
+### Build CLI
+
+Run `./gradlew buildCLI` to build minified version of CLI tool. Artifact will be available in
+`cli/build/distributions/valkyrie-cli-0.11.0-SNAPSHOT.zip`.
+
+## Other
+
+### Export formats
 
 [Original Discussion](https://github.com/ComposeGears/Valkyrie/issues/63)
 
@@ -96,14 +281,14 @@ https://github.com/user-attachments/assets/77f449dd-a6d0-44ea-9059-b7b30ee94426
 <td valign="top"> 
 
 ```kotlin
-package io.github.composegears.valkyrie.playground.icons.backing.outlined
+package io.github.composegears.valkyrie.backing.outlined
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.playground.icons.backing.BackingIcons
+import io.github.composegears.valkyrie.backing.BackingIcons
 
 val BackingIcons.Outlined.Add: ImageVector
   get() {
@@ -146,14 +331,14 @@ private var _Add: ImageVector? = null
 <td valign="top"> 
 
 ```kotlin
-package io.github.composegears.valkyrie.playground.icons.lazy.outlined
+package io.github.composegears.valkyrie.lazy.outlined
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.playground.icons.lazy.LazyIcons
+import io.github.composegears.valkyrie.lazy.LazyIcons
 
 val LazyIcons.Outlined.Add: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
   ImageVector.Builder(
@@ -187,11 +372,12 @@ val LazyIcons.Outlined.Add: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
 </tr>
 </table>
 
-## Comparison with other solutions
+### Comparison with other solutions
 
 Source SVG icon:
 
 ```svg
+
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#e8eaed">
   <path d="M0 0h24v24H0V0z" fill="none"/>
   <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -338,47 +524,15 @@ public val Add: ImageVector
 </tr>
 </table>
 
-## Requirements
-
-- IntelliJ IDEA 2024.1+
-- Android Studio Koala+
-
-> [!IMPORTANT]
-> K2 mode is available starting from IntelliJ IDEA 2024.2.1 ([more details](https://kotlin.github.io/analysis-api/migrating-from-k1.html#declaring-compatibility-with-the-k2-kotlin-mode))
-
-## Installation
-
-<a href="https://plugins.jetbrains.com/plugin/24786-valkyrie" target="_blank">
-    <img src="assets/installation_button.svg" height="40" alt="Get from Marketplace" title="Get from Marketplace">
-</a>
-
-- **Find plugin inside IDE**:
-
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for <b>"
-  Valkyrie"</b></kbd> >
-  <kbd>Install Plugin</kbd>
-
-- **Manually**:
-  Download the [latest release](https://github.com/ComposeGears/Valkyrie/releases/latest)
-  or [build your self](#Building) and install it manually using
-  <kbd>Settings</kbd> -> <kbd>Plugins</kbd> -> <kbd>⚙️</kbd> -> <kbd>Install plugin from disk...</kbd>
-
-## Building
-
-Use `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `idea-plugin/build/distributions/`
-path
+### Gradle commands
 
 other available gradle commands:
-
-- run plugin in IDE: `./gradlew runIde`
 
 - run tests: `./gradlew test`
 
 - check code style: `./gradlew spotlessCheck`
 
 - apply formatting: `./gradlew spotlessApply`
-
-- build CLI: `./gradlew buildCLI`
 
 ## Join our community
 
@@ -412,17 +566,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[badge:plugin-homepage]: https://img.shields.io/badge/Jetbrains_Marketplace-Valkyrie-24786.svg
 
-[badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie.svg
+[badge:plugin-homepage]: https://img.shields.io/badge/Marketplace-Valkyrie-24786.svg?style=for-the-badge&labelColor=000000&color=FFFFFF
 
-[badge:release]: https://img.shields.io/github/release/ComposeGears/Valkyrie.svg?sort=semver&colorB=0097A7
+[badge:version]: https://img.shields.io/jetbrains/plugin/v/24786?style=for-the-badge&labelColor=000000&color=FFFFFF
 
-[badge:version]: https://img.shields.io/jetbrains/plugin/v/24786.svg?colorB=2196F3
+[badge:downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=for-the-badge&labelColor=000000&color=FFFFFF
 
-[badge:downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?colorB=5C6BC0
+[badge:release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?include_prereleases&style=for-the-badge&label=latest%20release&labelColor=000000&color=ffffff
 
-[badge:slack]: https://img.shields.io/badge/slack-Compose_Gears-blue.svg?logo=slack
+[badge:slack]: https://img.shields.io/badge/slack-Compose_Gears-blue.svg?logo=slack&style=for-the-badge&labelColor=000000&color=ffffff
+
+[badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie?style=for-the-badge&labelColor=000000&color=ffffff
 
 [gh:releases]: https://github.com/ComposeGears/Valkyrie/releases
 
