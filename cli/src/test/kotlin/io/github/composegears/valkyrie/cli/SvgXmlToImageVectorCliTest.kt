@@ -203,7 +203,7 @@ class SvgXmlToImageVectorCliTest {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.nested.preview.kt",
-            actualKtName = "WithoutPath.kt",
+            actualKtName = "filled/WithoutPath.kt",
             iconPackName = IconPackName("ValkyrieIcons"),
             nestedPackName = NestedPackName("Filled"),
             generatePreview = GeneratePreview(true),
