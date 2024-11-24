@@ -205,7 +205,10 @@ private fun svgXml2ImageVector(
             )
 
             vectorSpecOutput.content.writeToKt(
-                outputDir = outputPath.absolutePathString(),
+                outputDir = when {
+                    useFlatPackage -> outputPath.absolutePathString()
+                    else -> "${outputPath.absolutePathString()}/${nestedPackName.lowercase()}"
+                },
                 nameWithoutExtension = vectorSpecOutput.name,
             )
         }
