@@ -40,11 +40,11 @@ material icons.
   - [Installation](#installation)
   - [Build plugin](#build-plugin)
 - 🖥️ [CLI tool](#cli-tool)
-  - [Run CLI](#run-cli)
+  - [Install](#install-cli)
   - [Available commands](#available-commands)
     - [`iconpack` command](#iconpack-command)
     - [`svgxml2imagevector` command](#svgxml2imagevector-command)
-  - [Build CLI](#build-cli)
+  - [Build](#build-cli)
 - [Other](#other)
   - [Export formats](#export-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
@@ -171,7 +171,9 @@ https://github.com/user-attachments/assets/1047a2b3-81ec-4e10-a118-0ff20bd5227b
 - Android Studio Koala and later
 
 > [!IMPORTANT]
-> K2 mode is available starting from IntelliJ IDEA 2024.2.1 ([more details](https://kotlin.github.io/analysis-api/migrating-from-k1.html#declaring-compatibility-with-the-k2-kotlin-mode))
+> K2 mode is available starting from IntelliJ IDEA
+>
+2024.2.1 ([more details](https://kotlin.github.io/analysis-api/migrating-from-k1.html#declaring-compatibility-with-the-k2-kotlin-mode))
 
 ### Installation
 
@@ -186,7 +188,7 @@ https://github.com/user-attachments/assets/1047a2b3-81ec-4e10-a118-0ff20bd5227b
 
 - **Manually**:
   Download the [latest release](https://github.com/ComposeGears/Valkyrie/releases/latest)
-  or [build your self](#building) and install it manually using
+  or [build your self](#build-plugin) and install it manually using
   <kbd>Settings</kbd> -> <kbd>Plugins</kbd> -> <kbd>⚙️</kbd> -> <kbd>Install plugin from disk...</kbd>
 
 ### Build plugin
@@ -203,10 +205,17 @@ or run plugin in IDE using: `./gradlew runIde`
 CLI tools can be easily integrated into scripts and automated workflows, allowing you to convert icons from specific
 source with predefined settings.
 
-### Run CLI
+### Install CLI
 
-Download latest CLI tool from [releases](https://github.com/ComposeGears/Valkyrie/releases) or [build](#build-cli) it by
-yourself.
+- #### via brew
+
+```shell
+  brew install ComposeGears/repo/valkyrie
+```
+
+- #### manually via binary release
+
+Download latest CLI tool from [releases](https://github.com/ComposeGears/Valkyrie/releases).
 
 Unzip the downloaded archive and run the CLI tool from `bin` folder in the terminal
 
@@ -214,14 +223,35 @@ Unzip the downloaded archive and run the CLI tool from `bin` folder in the termi
   ./valkyrie
 ```
 
-<div align="center">
-<img src="assets/cli_structure.png" width="450" />
-</div>
-
 You should see this message
 <div align="center">
 <img src="assets/cli_valkyrie.png" width="550" />
 </div>
+
+- #### automatically using bash script
+
+A simple example of how to get the latest version of the CLI tool. It can be executed on CI/CD with predefined
+parameters.
+
+```shell
+
+#!/bin/bash
+
+TARGET_DIR="valkyrie-cli"
+ASSET_NAME="tmp.zip"
+
+LATEST_CLI_RELEASE_URL=$(curl --silent "https://api.github.com/repos/ComposeGears/Valkyrie/releases/latest" \
+  | jq -r '.assets[] | select(.name | startswith("valkyrie-cli")) | .browser_download_url')
+
+curl -L -o "$ASSET_NAME" "$LATEST_CLI_RELEASE_URL"
+mkdir -p "$TARGET_DIR"
+unzip -o "$ASSET_NAME" -d "$TARGET_DIR"
+
+rm "$ASSET_NAME"
+
+cd "$TARGET_DIR/bin" || exit
+./valkyrie svgxml2imagevector -h
+```
 
 ### Available commands
 
@@ -565,7 +595,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
 
 [badge:plugin-homepage]: https://img.shields.io/badge/Marketplace-Valkyrie-24786.svg?style=for-the-badge&labelColor=000000&color=FFFFFF
 
