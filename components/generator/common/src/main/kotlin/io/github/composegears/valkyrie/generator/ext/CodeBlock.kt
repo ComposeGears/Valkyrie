@@ -18,6 +18,16 @@ fun CodeBlock.Builder.argumentBlock(
     }
 }
 
+fun CodeBlock.Builder.builderBlock(
+    argumentFlow: String,
+    vararg args: Any?,
+    block: CodeBlock.Builder.() -> Unit,
+) {
+    add("$argumentFlow\n", *args)
+    indention(block)
+    add("}")
+}
+
 fun CodeBlock.Builder.indention(block: CodeBlock.Builder.() -> Unit) {
     indent()
     block()

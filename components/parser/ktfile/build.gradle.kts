@@ -7,6 +7,14 @@ plugins {
     alias(libs.plugins.jetbrains.intellij.module)
 }
 
+sourceSets {
+    test {
+        resources {
+            srcDir("$rootDir/components/sharedTestResources")
+        }
+    }
+}
+
 dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.ir)

@@ -81,7 +81,7 @@ class SvgXmlToImageVectorCliTest {
         )
 
         val files = tempDir.toFile().listFiles().orEmpty()
-        assertThat(files.size).isEqualTo(3)
+        assertThat(files.size).isEqualTo(4)
     }
 
     @ParameterizedTest
@@ -337,6 +337,15 @@ class SvgXmlToImageVectorCliTest {
         arg.testConversion(
             inputResource = "imagevector/svg/ic_linear_gradient_with_stroke.svg",
             expectedKtName = "LinearGradientWithStroke.kt",
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource("testMatrix")
+    fun `svg with complex gradient`(arg: Pair<CliTestType, OutputFormat>) {
+        arg.testConversion(
+            inputResource = "imagevector/svg/ic_clip_path_gradient.svg",
+            expectedKtName = "ClipPathGradient.kt",
         )
     }
 

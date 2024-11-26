@@ -97,7 +97,6 @@ internal object XmlStringParser {
                                 nodes.add(path)
                             }
                         }
-                        // Material icons are simple and don't have nested groups, so this can be simple
                         GROUP -> {
                             val name = parser.getAttributeValue(null, NAME).orEmpty()
                             val rotate = parser.getValueAsFloat(ROTATION) ?: 0f
@@ -117,13 +116,18 @@ internal object XmlStringParser {
                                 scaleY = scaleY,
                                 translationX = translateX,
                                 translationY = translateY,
+                                clipPathData = mutableListOf(),
                                 paths = mutableListOf(),
                             )
                             currentGroup = group
                             nodes.add(group)
                         }
                         CLIP_PATH -> {
-                            /* TODO: b/147418351 - parse clipping paths */
+                            val pathData = parser.getAttributeValue(null, PATH_DATA)
+
+                            if (pathData != null) {
+                                currentGroup?.clipPathData?.addAll(PathParser.parsePathString(pathData))
+                            }
                         }
                         GRADIENT -> {
                             val gradient = when (parser.getAttributeValue(null, TYPE)) {

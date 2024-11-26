@@ -2,9 +2,13 @@ package io.github.composegears.valkyrie.generator.imagevector.util
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import io.github.composegears.valkyrie.generator.ext.builderBlock
 import io.github.composegears.valkyrie.generator.ext.formatFloat
+import io.github.composegears.valkyrie.generator.ext.indention
 import io.github.composegears.valkyrie.generator.ext.newLine
 import io.github.composegears.valkyrie.generator.ext.trailingComma
+import io.github.composegears.valkyrie.generator.imagevector.spec.asStatement
+import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.ClipPathParam
 import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.NameParam
 import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.PivotXParam
 import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.PivotYParam
@@ -13,6 +17,7 @@ import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.Sc
 import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.ScaleYParam
 import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.TranslationXParam
 import io.github.composegears.valkyrie.generator.imagevector.util.GroupParams.TranslationYParam
+import io.github.composegears.valkyrie.ir.IrPathNode
 import io.github.composegears.valkyrie.ir.IrVectorNode
 
 internal fun CodeBlock.Builder.addGroup(
@@ -77,6 +82,7 @@ private fun CodeBlock.Builder.fillGroupArgs(param: GroupParams) {
         is ScaleYParam -> scaleYArg(param)
         is TranslationXParam -> translationXArg(param)
         is TranslationYParam -> translationYArg(param)
+        is ClipPathParam -> clipPathArg(param)
     }
 }
 
@@ -112,6 +118,18 @@ private fun CodeBlock.Builder.translationYArg(param: TranslationYParam) {
     add("translationY = %L", param.translationY.formatFloat())
 }
 
+private fun CodeBlock.Builder.clipPathArg(param: ClipPathParam) {
+    newLine()
+    indention {
+        builderBlock("clipPathData = %M {", MemberNames.PathData) {
+            param.clipPath.forEach { pathNode ->
+                addStatement("%L", pathNode.asStatement().replace(' ', '·'))
+            }
+        }
+    }
+    newLine()
+}
+
 private fun IrVectorNode.IrGroup.buildGroupParams() = buildList {
     if (name.isNotEmpty()) {
         add(NameParam(name))
@@ -137,6 +155,9 @@ private fun IrVectorNode.IrGroup.buildGroupParams() = buildList {
     if (translationY != 0f) {
         add(TranslationYParam(translationY))
     }
+    if (clipPathData.isNotEmpty()) {
+        add(ClipPathParam(clipPathData))
+    }
 }
 
 private sealed interface GroupParams {
@@ -148,4 +169,5 @@ private sealed interface GroupParams {
     data class ScaleYParam(val scaleY: Float) : GroupParams
     data class TranslationXParam(val translationX: Float) : GroupParams
     data class TranslationYParam(val translationY: Float) : GroupParams
+    data class ClipPathParam(val clipPath: List<IrPathNode>) : GroupParams
 }
