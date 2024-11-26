@@ -7,9 +7,10 @@ import io.github.composegears.valkyrie.psi.extension.childrenOfType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractPathFillType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractStrokeCap
 import io.github.composegears.valkyrie.psi.imagevector.common.extractStrokeJoin
+import io.github.composegears.valkyrie.psi.imagevector.common.parseClipPath
 import io.github.composegears.valkyrie.psi.imagevector.common.parseFill
 import io.github.composegears.valkyrie.psi.imagevector.common.parseFloatArg
-import io.github.composegears.valkyrie.psi.imagevector.common.parsePathNodes
+import io.github.composegears.valkyrie.psi.imagevector.common.parsePath
 import io.github.composegears.valkyrie.psi.imagevector.common.parseStringArg
 import io.github.composegears.valkyrie.psi.imagevector.common.parseStroke
 import org.jetbrains.kotlin.psi.KtBlockExpression
@@ -109,6 +110,7 @@ internal object RegularImageVectorPsiParser {
                     scaleY = expression.parseFloatArg("scaleY") ?: 1f,
                     translationX = expression.parseFloatArg("translationX") ?: 0f,
                     translationY = expression.parseFloatArg("translationY") ?: 0f,
+                    clipPathData = expression.parseClipPath().toMutableList(),
                     paths = groupBlock?.statements
                         ?.filterIsInstance<KtCallExpression>()
                         ?.map { it.parsePath() }
@@ -136,7 +138,7 @@ internal object RegularImageVectorPsiParser {
             strokeLineJoin = extractStrokeJoin(),
             strokeLineMiter = parseFloatArg("strokeLineMiter") ?: 4f,
             pathFillType = extractPathFillType(),
-            paths = pathBody?.parsePathNodes().orEmpty(),
+            paths = pathBody?.parsePath().orEmpty(),
         )
     }
 }

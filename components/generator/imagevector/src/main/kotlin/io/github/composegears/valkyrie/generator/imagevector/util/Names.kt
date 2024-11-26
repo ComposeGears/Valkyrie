@@ -40,6 +40,7 @@ internal object MemberNames {
     val Path = MemberName(PackageNames.VectorPackage.packageName, "path")
 
     val Group = MemberName(PackageNames.VectorPackage.packageName, "group")
+    val PathData = MemberName(PackageNames.VectorPackage.packageName, "PathData")
 
     val Dp = MemberName(PackageNames.Unit.packageName, "dp")
     val Modifier = MemberName(PackageNames.UiPackage.packageName, "Modifier")

@@ -20,13 +20,30 @@ import io.github.composegears.valkyrie.ir.IrPathNode.RelativeReflectiveCurveTo
 import io.github.composegears.valkyrie.ir.IrPathNode.RelativeReflectiveQuadTo
 import io.github.composegears.valkyrie.ir.IrPathNode.RelativeVerticalTo
 import io.github.composegears.valkyrie.ir.IrPathNode.VerticalTo
+import io.github.composegears.valkyrie.psi.extension.childrenOfType
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 
-fun KtBlockExpression.parsePathNodes(): List<IrPathNode> {
+internal fun KtCallExpression.parseClipPath(): List<IrPathNode> {
+    val clipPathArg = valueArguments
+        .find { it.getArgumentName()?.asName?.identifier == "clipPathData" } ?: return emptyList()
+
+    return clipPathArg
+        .childrenOfType<KtCallExpression>()
+        .toList()
+        .parsePathNodes()
+}
+
+internal fun KtBlockExpression.parsePath(): List<IrPathNode> {
+    return statements
+        .filterIsInstance<KtCallExpression>()
+        .parsePathNodes()
+}
+
+private fun List<KtCallExpression>.parsePathNodes(): List<IrPathNode> {
     val pathNodes = mutableListOf<IrPathNode>()
 
-    statements.filterIsInstance<KtCallExpression>().forEach { expression ->
+    forEach { expression ->
         val args = expression.valueArguments.mapNotNull { it.getArgumentExpression()?.text }
         when (expression.calleeExpression?.text) {
             "close" -> pathNodes += Close

@@ -10,7 +10,7 @@ import io.github.composegears.valkyrie.ir.IrVectorNode.IrPath
 import io.github.composegears.valkyrie.psi.extension.childOfType
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractPathFillType
-import io.github.composegears.valkyrie.psi.imagevector.common.parsePathNodes
+import io.github.composegears.valkyrie.psi.imagevector.common.parsePath
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFile
@@ -74,7 +74,7 @@ internal object MaterialImageVectorPsiParser {
                 strokeLineJoin = IrStrokeLineJoin.Bevel,
                 strokeLineMiter = 1f,
                 pathFillType = materialPathCall.extractPathFillType(),
-                paths = pathBody.parsePathNodes(),
+                paths = pathBody.parsePath(),
             ),
         )
     }

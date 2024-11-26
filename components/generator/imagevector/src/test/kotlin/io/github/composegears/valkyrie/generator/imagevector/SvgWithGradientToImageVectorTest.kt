@@ -68,4 +68,23 @@ class SvgWithGradientToImageVectorTest {
         assertThat(parserOutput.iconType).isEqualTo(SVG)
         assertThat(output).isEqualTo(expected)
     }
+
+    @ParameterizedTest
+    @EnumSource(value = OutputFormat::class)
+    fun `svg with complex gradient`(outputFormat: OutputFormat) {
+        val icon = getResourcePath("imagevector/svg/ic_clip_path_gradient.svg")
+        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
+            config = createConfig(outputFormat = outputFormat),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/ClipPathGradient.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/ClipPathGradient.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(SVG)
+        assertThat(output).isEqualTo(expected)
+    }
 }
