@@ -66,7 +66,7 @@ material icons.
 - Ability to create your unique project icon pack (+nested packs if necessary)
 - High performance (6k icons processing ~5sec)
 
-### Currently we supports:
+### Currently supported:
 
 - IntelliJ IDEA / Android Studio plugin
 - CLI tool
