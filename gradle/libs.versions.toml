@@ -21,7 +21,7 @@ tiamat = "io.github.composegears:tiamat:1.2.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
 
 clikt = "com.github.ajalt.clikt:clikt:5.0.1"
-r8 = "com.android.tools:r8:8.5.35"
+r8 = "com.android.tools:r8:8.6.36"
 
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.11.3"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
