@@ -29,7 +29,7 @@ junit4 = "junit:junit:4.13.2"
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.5.0"
-composeRules = "io.nlopez.compose.rules:ktlint:0.4.19"
+composeRules = "io.nlopez.compose.rules:ktlint:0.4.20"
 
 [plugins]
 android-application = "com.android.application:8.7.3"
