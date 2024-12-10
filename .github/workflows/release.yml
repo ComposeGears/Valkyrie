@@ -60,7 +60,7 @@ jobs:
           ide-versions: |
             ideaIC:2024.1.6
             ideaIC:2024.2.4
-            ideaIC:2024.3
+            ideaIC:2024.3.1
           failure-levels: |
             COMPATIBILITY_WARNINGS
             COMPATIBILITY_PROBLEMS
