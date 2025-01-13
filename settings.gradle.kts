@@ -39,8 +39,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        // temporary use new version r8 due to kotlin metadata compatibility
-        maven(url = "https://storage.googleapis.com/r8-releases/raw")
     }
 }
 
