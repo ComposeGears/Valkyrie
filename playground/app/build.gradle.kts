@@ -7,12 +7,11 @@ plugins {
 
 android {
     namespace = "io.github.composegears.valkyrie.playground"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "io.github.composegears.valkyrie.playground"
         minSdk = 24
-        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
