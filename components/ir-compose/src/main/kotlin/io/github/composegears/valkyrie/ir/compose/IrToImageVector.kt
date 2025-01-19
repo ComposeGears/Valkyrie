@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.ktfile.util
+package io.github.composegears.valkyrie.ir.compose
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
