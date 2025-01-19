@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
 import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.parser.ktfile.util.toComposeImageVector
+import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType.PixelGrid
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground

@@ -12,13 +12,15 @@ dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.imagevector)
-    implementation(projects.components.ir)
+    implementation(projects.components.irCompose)
     implementation(projects.components.parser.ktfile)
     implementation(projects.components.parser.svgxml)
     implementation(projects.components.psi.iconpack)
     implementation(projects.components.psi.imagevector)
 
-    compileOnly(compose.desktop.currentOs)
+    compileOnly(compose.desktop.currentOs) {
+        exclude(group = "org.jetbrains.compose.material")
+    }
     implementation(compose.desktop.common)
     implementation(compose.desktop.linux_arm64)
     implementation(compose.desktop.linux_x64)

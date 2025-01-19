@@ -17,7 +17,7 @@ sourceSets {
 
 dependencies {
     implementation(projects.components.extensions)
-    implementation(projects.components.ir)
+    implementation(projects.components.irCompose)
     implementation(projects.components.psi.imagevector)
 
     implementation(compose.material3)
