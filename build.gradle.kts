@@ -28,7 +28,7 @@ allprojects {
 
     plugins.withId(rootProject.libs.plugins.kotlin.compose.get().pluginId) {
         extensions.configure<ComposeCompilerGradlePluginExtension> {
-            stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
+            stabilityConfigurationFiles.addAll(rootProject.layout.projectDirectory.file("stability_config.conf"))
         }
     }
 
