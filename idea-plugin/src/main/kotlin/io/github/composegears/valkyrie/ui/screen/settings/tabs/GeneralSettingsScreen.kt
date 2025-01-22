@@ -39,6 +39,7 @@ import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
@@ -250,6 +251,7 @@ private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopSta
     GeneralSettingsUi(
         settings = ValkyriesSettings(
             mode = Simple,
+            previewType = PreviewType.Auto,
             packageName = "io.github.composegears.valkyrie",
             iconPackPackage = "io.github.composegears.valkyrie",
             iconPackName = "ValkyrieIcons",

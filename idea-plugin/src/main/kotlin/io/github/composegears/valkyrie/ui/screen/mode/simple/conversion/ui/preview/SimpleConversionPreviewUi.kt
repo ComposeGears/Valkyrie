@@ -16,7 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.ir.IR_STUB
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.CloseAction
 import io.github.composegears.valkyrie.ui.foundation.CopyAction
@@ -44,6 +45,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmode
 @Composable
 fun SimpleConversionPreviewStateUi(
     state: ConversionState,
+    previewType: PreviewType,
     onAction: (SimpleConversionAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -98,7 +100,10 @@ fun SimpleConversionPreviewStateUi(
                         onNameChange = { onAction(OnIconNaneChange(it)) },
                     )
                 }
-                ExpandedActions.Preview -> PreviewAction(irImageVector = state.iconContent.irImageVector)
+                ExpandedActions.Preview -> PreviewAction(
+                    irImageVector = state.iconContent.irImageVector,
+                    previewType = previewType,
+                )
                 ExpandedActions.None -> Spacer(modifier = Modifier.fillMaxWidth())
             }
         }
@@ -121,14 +126,7 @@ private fun SimpleConversionPreviewUiPreview() = PreviewTheme {
             iconSource = IconSource.StringBasedIcon(""),
             iconContent = IconContent(
                 name = "IconName",
-                irImageVector = IrImageVector(
-                    name = "WithoutPath",
-                    defaultWidth = 24f,
-                    defaultHeight = 24f,
-                    viewportWidth = 18f,
-                    viewportHeight = 18f,
-                    nodes = emptyList(),
-                ),
+                irImageVector = IR_STUB,
                 code = """
                     package io.github.composegears.valkyrie.icons
 
@@ -157,6 +155,7 @@ private fun SimpleConversionPreviewUiPreview() = PreviewTheme {
                 """.trimIndent(),
             ),
         ),
+        previewType = PreviewType.Auto,
         onAction = {},
     )
 }

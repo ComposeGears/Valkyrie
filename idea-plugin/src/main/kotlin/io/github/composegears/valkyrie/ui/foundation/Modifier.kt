@@ -1,7 +1,9 @@
 package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
@@ -9,6 +11,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
@@ -48,6 +51,21 @@ fun Modifier.dashedBorder(
         style = stroke,
         color = color,
     )
+}
+
+fun Modifier.blendMode(blendMode: BlendMode): Modifier {
+    return this.drawWithCache {
+        val graphicsLayer = obtainGraphicsLayer()
+        graphicsLayer.apply {
+            record {
+                drawContent()
+            }
+            this.blendMode = blendMode
+        }
+        onDrawWithContent {
+            drawLayer(graphicsLayer)
+        }
+    }
 }
 
 fun Modifier.onPasteEvent(callback: () -> Unit): Modifier {

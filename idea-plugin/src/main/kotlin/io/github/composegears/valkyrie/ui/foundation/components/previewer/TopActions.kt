@@ -32,7 +32,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 fun TopActions(
     defaultWidth: Float,
     defaultHeight: Float,
-    onBgTypeChange: (BgType) -> Unit,
+    onBgChange: (BgType) -> Unit,
     zoomIn: () -> Unit,
     zoomOut: () -> Unit,
     onActualSize: () -> Unit,
@@ -46,17 +46,17 @@ fun TopActions(
         TooltipIconButton(
             hint = "Show pixel grid",
             icon = ValkyrieIcons.Chessboard,
-            onClick = { onBgTypeChange(BgType.PixelGrid) },
+            onClick = { onBgChange(BgType.PixelGrid) },
         )
         TooltipImageButton(
             hint = "Show white background",
             image = ValkyrieIcons.WhiteCircle,
-            onClick = { onBgTypeChange(BgType.White) },
+            onClick = { onBgChange(BgType.White) },
         )
         TooltipImageButton(
             hint = "Show black background",
             image = ValkyrieIcons.BlackCircle,
-            onClick = { onBgTypeChange(BgType.Black) },
+            onClick = { onBgChange(BgType.Black) },
         )
         VerticalDivider(
             modifier = Modifier.height(20.dp).padding(horizontal = 2.dp),
@@ -99,7 +99,7 @@ private fun TopActionsPreview() = PreviewTheme {
     TopActions(
         defaultWidth = 100f,
         defaultHeight = 100f,
-        onBgTypeChange = {},
+        onBgChange = {},
         modifier = Modifier.padding(8.dp),
         zoomIn = {},
         zoomOut = {},

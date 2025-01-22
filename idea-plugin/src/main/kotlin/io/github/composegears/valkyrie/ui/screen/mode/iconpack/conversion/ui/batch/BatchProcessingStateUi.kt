@@ -39,6 +39,7 @@ import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.CloseAction
@@ -62,6 +63,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.bat
 @Composable
 fun BatchProcessingStateUi(
     state: IconPackCreationState,
+    previewType: PreviewType,
     onClose: () -> Unit,
     openSettings: () -> Unit,
     onDeleteIcon: (IconName) -> Unit,
@@ -96,6 +98,7 @@ fun BatchProcessingStateUi(
                         )
                         is BatchIcon.Valid -> ValidIconItem(
                             icon = batchIcon,
+                            previewType = previewType,
                             onUpdatePack = onUpdatePack,
                             onDeleteIcon = onDeleteIcon,
                             onPreview = onPreviewClick,
@@ -112,12 +115,15 @@ fun BatchProcessingStateUi(
 @Composable
 private fun ValidIconItem(
     icon: BatchIcon.Valid,
+    previewType: PreviewType,
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreview: (IconName) -> Unit,
     onDeleteIcon: (IconName) -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    println("1previewType=$previewType")
+
     Card(modifier = modifier.fillMaxWidth()) {
         Box {
             Column {
@@ -133,7 +139,10 @@ private fun ValidIconItem(
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    IconPreviewBox(irImageVector = icon.irImageVector)
+                    IconPreviewBox(
+                        irImageVector = icon.irImageVector,
+                        previewType = previewType,
+                    )
                     IconNameField(
                         modifier = Modifier
                             .weight(1f)
@@ -321,6 +330,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
             exportEnabled = false,
             icons = listOf(
                 BatchIcon.Valid(
+                    id = "1",
                     iconName = IconName(IconNameFormatter.format("ic_all_path_params_1")),
                     iconType = XML,
                     irImageVector = IR_STUB,
@@ -329,8 +339,12 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                         iconPackName = "ValkyrieIcons",
                     ),
                 ),
-                BatchIcon.Broken(iconName = IconName("ic_all_path_params_3")),
+                BatchIcon.Broken(
+                    id = "2",
+                    iconName = IconName(value = "ic_all_path_params_3"),
+                ),
                 BatchIcon.Valid(
+                    id = "3",
                     iconName = IconName(IconNameFormatter.format("ic_all_path")),
                     iconType = SVG,
                     irImageVector = IR_STUB,
@@ -343,6 +357,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 ),
             ),
         ),
+        previewType = PreviewType.Auto,
         onClose = {},
         openSettings = {},
         onDeleteIcon = {},

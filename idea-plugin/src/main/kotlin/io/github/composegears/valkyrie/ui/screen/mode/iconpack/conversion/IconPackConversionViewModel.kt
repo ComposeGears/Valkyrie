@@ -35,7 +35,7 @@ class IconPackConversionViewModel(
 ) : TiamatViewModel(),
     Saveable {
 
-    private val inMemorySettings by DI.core.inMemorySettings
+    val inMemorySettings by DI.core.inMemorySettings
 
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()

@@ -5,6 +5,11 @@ value class IrColor(val argb: Int) {
 
     constructor(hex: String) : this(HexParser.toColorInt(hex))
 
+    val alpha: UByte get() = this[0]
+    val red: UByte get() = this[1]
+    val green: UByte get() = this[2]
+    val blue: UByte get() = this[3]
+
     fun toHexLiteral(): String = toHex("0x")
 
     fun toHexColor(): String = toHex("#")
@@ -13,6 +18,11 @@ value class IrColor(val argb: Int) {
 
     private fun toHex(prefix: String): String {
         return "$prefix${argb.toUInt().toString(16).padStart(8, '0').uppercase()}"
+    }
+
+    private operator fun get(channel: Int): UByte {
+        require(channel < 4)
+        return ((argb shr (3 - channel) * 8) and 0xFF).toUByte()
     }
 }
 

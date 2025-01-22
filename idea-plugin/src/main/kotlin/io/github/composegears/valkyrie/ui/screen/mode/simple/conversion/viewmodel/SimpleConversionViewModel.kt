@@ -27,7 +27,7 @@ class SimpleConversionViewModel(
 ) : TiamatViewModel(),
     Saveable {
 
-    private val inMemorySettings by DI.core.inMemorySettings
+    val inMemorySettings by DI.core.inMemorySettings
 
     private val _state = MutableStateFlow(initialState())
     val state = _state.asStateFlow()
