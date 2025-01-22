@@ -1,10 +1,9 @@
-package io.github.composegears.valkyrie.parser.common
+package io.github.composegears.valkyrie.ir
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import io.github.composegears.valkyrie.ir.IrColor
 import org.junit.jupiter.api.Test
 
 class HexParserTest {

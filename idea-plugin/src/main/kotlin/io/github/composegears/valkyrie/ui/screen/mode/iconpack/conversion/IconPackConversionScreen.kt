@@ -47,6 +47,7 @@ import com.composegears.tiamat.rememberSaveableViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ExportingState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
@@ -70,6 +71,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
         )
     }
     val state by viewModel.state.collectAsState()
+    val settings by viewModel.inMemorySettings.settings.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.events
@@ -93,6 +95,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
 
     IconPackConversionUi(
         state = state,
+        previewType = settings.previewType,
         onBack = {
             navController.back(transition = navigationSlideInOut(false))
         },
@@ -115,6 +118,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
 @Composable
 private fun IconPackConversionUi(
     state: IconPackConversionState,
+    previewType: PreviewType,
     onBack: () -> Unit,
     openSettings: () -> Unit,
     onPickEvent: (PickerEvent) -> Unit,
@@ -186,6 +190,7 @@ private fun IconPackConversionUi(
                         BatchProcessingStateUi(
                             modifier = Modifier.nestedScroll(nestedScrollConnection),
                             state = current,
+                            previewType = previewType,
                             onDeleteIcon = onDeleteIcon,
                             onUpdatePack = updatePack,
                             onPreviewClick = onPreviewClick,
@@ -254,6 +259,7 @@ private fun LoadingStateUi(message: String) {
 private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
     IconPackConversionUi(
         state = IconsPickering,
+        previewType = PreviewType.Auto,
         onBack = {},
         openSettings = {},
         onPickEvent = {},

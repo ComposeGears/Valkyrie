@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.preview
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -21,12 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.rememberSharedViewModel
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewType
 
 val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
     val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
@@ -34,6 +36,7 @@ val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
 
     ImageVectorPreviewSettingsUi(
         showImageVectorPreview = settings.showImageVectorPreview,
+        previewType = settings.previewType,
         onAction = viewModel::onAction,
     )
 }
@@ -41,12 +44,12 @@ val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
 @Composable
 private fun ImageVectorPreviewSettingsUi(
     showImageVectorPreview: Boolean,
+    previewType: PreviewType,
     modifier: Modifier = Modifier,
     onAction: (SettingsAction) -> Unit,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         VerticalSpacer(16.dp)
-
         ListItem(
             modifier = Modifier
                 .toggleable(
@@ -73,11 +76,20 @@ private fun ImageVectorPreviewSettingsUi(
                 )
             },
         )
+        VerticalSpacer(16.dp)
+        PreviewBgSection(
+            previewType = previewType,
+            onSelect = { onAction(UpdatePreviewType(it)) },
+        )
     }
 }
 
 @Preview
 @Composable
 private fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
-    ImageVectorPreviewSettingsUi(showImageVectorPreview = true, onAction = {})
+    ImageVectorPreviewSettingsUi(
+        showImageVectorPreview = true,
+        previewType = PreviewType.Auto,
+        onAction = {},
+    )
 }

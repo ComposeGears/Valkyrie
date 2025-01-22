@@ -20,6 +20,10 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
+import io.github.composegears.valkyrie.ir.util.ColorClassification
+import io.github.composegears.valkyrie.ir.util.DominantShade
+import io.github.composegears.valkyrie.ir.util.iconColors
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -27,9 +31,23 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 @Composable
 fun IconPreviewBox(
     irImageVector: IrImageVector,
+    previewType: PreviewType,
     modifier: Modifier = Modifier,
 ) {
-    var bgType by rememberSaveable { mutableStateOf(BgType.PixelGrid) }
+    var bgType by rememberSaveable(key = previewType.name) {
+        mutableStateOf(
+            when (previewType) {
+                PreviewType.Black -> BgType.Black
+                PreviewType.White -> BgType.White
+                PreviewType.Pixel -> BgType.PixelGrid
+                PreviewType.Auto -> when (ColorClassification.from(irImageVector.iconColors())) {
+                    DominantShade.Black -> BgType.White
+                    DominantShade.White -> BgType.Black
+                    DominantShade.Mixed -> BgType.PixelGrid
+                }
+            },
+        )
+    }
 
     Box(
         modifier = modifier
@@ -62,5 +80,8 @@ fun IconPreviewBox(
 @Preview
 @Composable
 private fun IconPreviewBoxPreview() = PreviewTheme {
-    IconPreviewBox(irImageVector = IR_STUB)
+    IconPreviewBox(
+        irImageVector = IR_STUB,
+        previewType = PreviewType.Auto,
+    )
 }

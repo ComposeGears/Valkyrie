@@ -16,8 +16,8 @@ import io.github.composegears.valkyrie.ui.foundation.ScrollableTabRow
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.AboutSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.GeneralSettingsScreen
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.ImageVectorPreviewSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ImageVectorExportSettingsScreen
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.preview.ImageVectorPreviewSettingsScreen
 
 val SettingsScreen by navDestination<Unit> {
     val navController = navController()

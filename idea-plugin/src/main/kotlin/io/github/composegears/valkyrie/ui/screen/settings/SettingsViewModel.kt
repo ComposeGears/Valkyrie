@@ -28,6 +28,7 @@ class SettingsViewModel : TiamatViewModel() {
             is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
             is UpdateAddTrailingComma -> addTrailingComma = settingsAction.addTrailingComma
             is UpdateIndentSize -> indentSize = settingsAction.indent
+            is SettingsAction.UpdatePreviewType -> previewType = settingsAction.previewType
         }
     }
 

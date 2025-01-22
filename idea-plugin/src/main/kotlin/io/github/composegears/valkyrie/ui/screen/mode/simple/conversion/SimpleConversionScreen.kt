@@ -18,6 +18,7 @@ import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.composegears.tiamat.rememberSaveableViewModel
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.copyInClipboard
@@ -47,6 +48,7 @@ val SimpleConversionScreen by navDestination<Unit> {
 
     val viewModel = rememberSaveableViewModel(::SimpleConversionViewModel)
     val state by viewModel.state.collectAsState()
+    val settings by viewModel.inMemorySettings.settings.collectAsState()
 
     val scope = rememberCoroutineScope()
     val filePicker = rememberFilePicker()
@@ -60,6 +62,7 @@ val SimpleConversionScreen by navDestination<Unit> {
 
     ConversionUi(
         state = state,
+        previewType = settings.previewType,
         onAction = {
             when (it) {
                 is Back -> navController.back(transition = navigationSlideInOut(false))
@@ -92,6 +95,7 @@ val SimpleConversionScreen by navDestination<Unit> {
 @Composable
 private fun ConversionUi(
     state: SimpleConversionState,
+    previewType: PreviewType,
     onAction: (SimpleConversionAction) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -112,6 +116,7 @@ private fun ConversionUi(
                 is PickerState -> SimpleConversionPickerStateUI(onAction = onAction)
                 is ConversionState -> SimpleConversionPreviewStateUi(
                     state = current,
+                    previewType = previewType,
                     onAction = onAction,
                 )
             }
@@ -124,6 +129,7 @@ private fun ConversionUi(
 private fun SimpleConversionScreenPreview() = PreviewTheme {
     ConversionUi(
         state = PickerState,
+        previewType = PreviewType.Auto,
         onAction = {},
     )
 }

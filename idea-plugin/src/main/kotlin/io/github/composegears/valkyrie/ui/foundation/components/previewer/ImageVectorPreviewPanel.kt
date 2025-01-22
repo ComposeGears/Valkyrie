@@ -26,8 +26,12 @@ import androidx.compose.ui.unit.times
 import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
+import io.github.composegears.valkyrie.ir.util.ColorClassification
+import io.github.composegears.valkyrie.ir.util.DominantShade
+import io.github.composegears.valkyrie.ir.util.iconColors
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType.PixelGrid
+import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -43,6 +47,7 @@ private sealed interface PanelType {
 @Composable
 fun ImageVectorPreviewPanel(
     irImageVector: IrImageVector?,
+    previewType: PreviewType,
     modifier: Modifier = Modifier,
 ) {
     val density = LocalDensity.current
@@ -53,6 +58,19 @@ fun ImageVectorPreviewPanel(
     val initialHeight by rememberMutableState(irImageVector) { irImageVector?.defaultHeight?.dp ?: Dp.Unspecified }
 
     var panelType by rememberMutableState<PanelType> { PanelType.Initial }
+
+    var bgType by rememberMutableState(irImageVector, previewType) {
+        when (previewType) {
+            PreviewType.Black -> BgType.Black
+            PreviewType.White -> BgType.White
+            PreviewType.Pixel -> BgType.PixelGrid
+            PreviewType.Auto -> when (ColorClassification.from(irImageVector?.iconColors().orEmpty())) {
+                DominantShade.Black -> BgType.White
+                DominantShade.White -> BgType.Black
+                DominantShade.Mixed -> BgType.PixelGrid
+            }
+        }
+    }
 
     LaunchedEffect(irImageVector, zoomState.maxPreviewSize) {
         val maxPreviewSize = zoomState.maxPreviewSize
@@ -86,6 +104,7 @@ fun ImageVectorPreviewPanel(
             is PanelType.Error -> PreviewParsingError()
             is PanelType.Success -> ImageVectorPreviewUi(
                 imageVector = state.imageVector,
+                bgType = bgType,
                 defaultWidth = initialWidth.value,
                 defaultHeight = initialHeight.value,
                 zoomIn = {
@@ -120,6 +139,9 @@ fun ImageVectorPreviewPanel(
                         }
                     }
                 },
+                onBgChange = {
+                    bgType = it
+                },
             )
             else -> {}
         }
@@ -129,11 +151,13 @@ fun ImageVectorPreviewPanel(
 @Composable
 private fun ImageVectorPreviewUi(
     imageVector: ImageVector,
+    bgType: BgType,
     defaultWidth: Float,
     defaultHeight: Float,
     zoomIn: () -> Unit,
     zoomOut: () -> Unit,
     reset: () -> Unit,
+    onBgChange: (BgType) -> Unit,
     modifier: Modifier = Modifier,
     fitToWindow: () -> Unit,
 ) {
@@ -141,17 +165,13 @@ private fun ImageVectorPreviewUi(
         modifier = modifier.padding(vertical = 8.dp),
         verticalArrangement = Arrangement.Center,
     ) {
-        var bgType by rememberMutableState { PixelGrid }
-
         TopActions(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 12.dp),
             defaultWidth = defaultWidth,
             defaultHeight = defaultHeight,
-            onBgTypeChange = {
-                bgType = it
-            },
+            onBgChange = onBgChange,
             zoomIn = zoomIn,
             zoomOut = zoomOut,
             onActualSize = reset,
@@ -184,5 +204,6 @@ private fun ImageVectorPreviewPanelPreview() = PreviewTheme {
     ImageVectorPreviewPanel(
         modifier = Modifier.fillMaxSize(),
         irImageVector = IR_STUB,
+        previewType = PreviewType.Auto,
     )
 }

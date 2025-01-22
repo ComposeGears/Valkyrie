@@ -5,6 +5,7 @@ import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.service.PersistentSettings
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
 import java.util.Collections.emptyList
@@ -37,6 +38,7 @@ class InMemorySettings(project: Project) {
 
     fun clear() = update {
         mode = Mode.Unspecified
+        previewType = PreviewType.Pixel
         useMaterialPack = false
         packageName = ""
         iconPackPackage = ""
@@ -59,6 +61,7 @@ class InMemorySettings(project: Project) {
     private fun PersistentSettings.ValkyrieState.toValkyriesSettings(): ValkyriesSettings {
         return ValkyriesSettings(
             mode = mode,
+            previewType = previewType,
             useMaterialPack = useMaterialPack,
 
             packageName = packageName.or("io.github.composegears.valkyrie"),
@@ -83,6 +86,7 @@ class InMemorySettings(project: Project) {
 
 data class ValkyriesSettings(
     val mode: Mode,
+    val previewType: PreviewType,
     val useMaterialPack: Boolean,
 
     val packageName: String,
