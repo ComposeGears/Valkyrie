@@ -58,8 +58,8 @@ private fun ImageVectorExportSettingsUi(
         )
         VerticalSpacer(16.dp)
         SwitchOption(
-            title = "Use flat package",
-            description = "Export all ImageVector icons into a single package without dividing by nested pack folders",
+            title = stringResource("settings.export.flat.package"),
+            description = stringResource("settings.export.flat.package.description"),
             checked = exportSettings.useFlatPackage,
             onCheckedChange = { onAction(UpdateFlatPackage(it)) },
         )
@@ -70,14 +70,14 @@ private fun ImageVectorExportSettingsUi(
             onCheckedChange = { onAction(UpdateUseComposeColors(it)) },
         )
         SwitchOption(
-            title = "Handle Kotlin explicit mode",
-            description = "Generate ImageVector icons and IconPack with explicit 'public' modifier",
+            title = stringResource("settings.export.explicit.mode"),
+            description = stringResource("settings.export.explicit.mode.description"),
             checked = exportSettings.useExplicitMode,
             onCheckedChange = { onAction(UpdateExplicitMode(it)) },
         )
         SwitchOption(
-            title = "Add trailing comma",
-            description = "Insert a comma after the last element of ImageVector.Builder block and path params",
+            title = stringResource("settings.export.trailing.comma"),
+            description = stringResource("settings.export.trailing.comma.description"),
             checked = exportSettings.addTrailingComma,
             onCheckedChange = { onAction(UpdateAddTrailingComma(it)) },
         )

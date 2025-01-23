@@ -32,6 +32,7 @@ import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.ui.util.dim
 import io.github.composegears.valkyrie.ui.foundation.icons.ArrowDropDown
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.util.stringResource
 
 @Composable
 fun IndentSizeSection(
@@ -53,11 +54,11 @@ fun IndentSizeSection(
             .clickable { expanded = true }
             .padding(horizontal = 8.dp),
         headlineContent = {
-            Text(text = "Indent size")
+            Text(text = stringResource("settings.export.indent"))
         },
         supportingContent = {
             Text(
-                text = "Determines the number of spaces used for each level of indentation in the exported icon",
+                text = stringResource("settings.export.indent.description"),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                 color = LocalContentColor.current.dim(),
             )
