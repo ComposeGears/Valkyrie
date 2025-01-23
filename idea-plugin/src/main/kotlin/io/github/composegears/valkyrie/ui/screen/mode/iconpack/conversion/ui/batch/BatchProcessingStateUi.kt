@@ -28,7 +28,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,10 +54,15 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchIcon
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconId
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconNameField
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconPreviewBox
@@ -64,15 +71,28 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.bat
 fun BatchProcessingStateUi(
     state: IconPackCreationState,
     previewType: PreviewType,
+    onScrollUnavailable: () -> Unit,
+    onPasteEvent: (PickerEvent) -> Unit,
     onClose: () -> Unit,
     openSettings: () -> Unit,
-    onDeleteIcon: (IconName) -> Unit,
+    onDeleteIcon: (IconId) -> Unit,
     onUpdatePack: (BatchIcon, String) -> Unit,
-    onPreviewClick: (IconName) -> Unit,
+    onPreviewClick: (BatchIcon.Valid) -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    val latestOnScrollUnavailable by rememberUpdatedState(onScrollUnavailable)
+
+    ClipboardEventColumn(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        onPaste = { dataType ->
+            when (dataType) {
+                is ClipboardDataType.Files -> onPasteEvent(PickFiles(paths = dataType.paths))
+                is ClipboardDataType.Text -> onPasteEvent(PickerEvent.ClipboardText(dataType.text))
+            }
+        },
+    ) {
         TopAppBar {
             CloseAction(onClose = onClose)
             AppBarTitle(title = "IconPack generation")
@@ -81,6 +101,11 @@ fun BatchProcessingStateUi(
         }
         Box {
             val lazyGridState = rememberLazyGridState()
+
+            LaunchedEffect(lazyGridState.canScrollBackward, lazyGridState.canScrollForward) {
+                val canScroll = lazyGridState.canScrollBackward || lazyGridState.canScrollForward
+                if (!canScroll) latestOnScrollUnavailable()
+            }
 
             LazyVerticalGrid(
                 state = lazyGridState,
@@ -117,13 +142,11 @@ private fun ValidIconItem(
     icon: BatchIcon.Valid,
     previewType: PreviewType,
     onUpdatePack: (BatchIcon, String) -> Unit,
-    onPreview: (IconName) -> Unit,
-    onDeleteIcon: (IconName) -> Unit,
+    onPreview: (BatchIcon.Valid) -> Unit,
+    onDeleteIcon: (IconId) -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    println("1previewType=$previewType")
-
     Card(modifier = modifier.fillMaxWidth()) {
         Box {
             Column {
@@ -190,11 +213,11 @@ private fun ValidIconItem(
                     onDismissRequest = { isExpanded = false },
                     onDelete = {
                         isExpanded = false
-                        onDeleteIcon(icon.iconName)
+                        onDeleteIcon(icon.id)
                     },
                     onPreview = {
                         isExpanded = false
-                        onPreview(icon.iconName)
+                        onPreview(icon)
                     },
                 )
             }
@@ -206,7 +229,7 @@ private fun ValidIconItem(
 private fun BrokenIconItem(
     broken: BatchIcon.Broken,
     modifier: Modifier = Modifier,
-    onDelete: (IconName) -> Unit,
+    onDelete: (IconId) -> Unit,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -231,7 +254,7 @@ private fun BrokenIconItem(
                     imageVector = Icons.Default.Delete,
                     iconSize = 18.dp,
                     onClick = {
-                        onDelete(broken.iconName)
+                        onDelete(broken.id)
                     },
                 )
             }
@@ -330,7 +353,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
             exportEnabled = false,
             icons = listOf(
                 BatchIcon.Valid(
-                    id = "1",
+                    id = IconId("1"),
                     iconName = IconName(IconNameFormatter.format("ic_all_path_params_1")),
                     iconType = XML,
                     irImageVector = IR_STUB,
@@ -340,11 +363,11 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                     ),
                 ),
                 BatchIcon.Broken(
-                    id = "2",
+                    id = IconId("2"),
                     iconName = IconName(value = "ic_all_path_params_3"),
                 ),
                 BatchIcon.Valid(
-                    id = "3",
+                    id = IconId("3"),
                     iconName = IconName(IconNameFormatter.format("ic_all_path")),
                     iconType = SVG,
                     irImageVector = IR_STUB,
@@ -358,6 +381,8 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
             ),
         ),
         previewType = PreviewType.Auto,
+        onScrollUnavailable = {},
+        onPasteEvent = {},
         onClose = {},
         openSettings = {},
         onDeleteIcon = {},

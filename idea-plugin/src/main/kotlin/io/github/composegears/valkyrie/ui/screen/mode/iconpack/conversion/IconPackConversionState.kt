@@ -21,16 +21,16 @@ sealed interface IconPackConversionState {
 }
 
 sealed interface BatchIcon {
-    val id: String
+    val id: IconId
     val iconName: IconName
 
     data class Broken(
-        override val id: String = Uuid.random(),
+        override val id: IconId = IconId(id = Uuid.random()),
         override val iconName: IconName,
     ) : BatchIcon
 
     data class Valid(
-        override val id: String = Uuid.random(),
+        override val id: IconId = IconId(id = Uuid.random()),
         override val iconName: IconName,
         val iconPack: IconPack,
         val iconType: IconType,
@@ -40,6 +40,9 @@ sealed interface BatchIcon {
 
 @JvmInline
 value class IconName(val value: String)
+
+@JvmInline
+value class IconId(val id: String)
 
 sealed interface IconPack {
     val iconPackage: String
