@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType.AndroidX
 import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType.Jetbrains
+import io.github.composegears.valkyrie.stringResource
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.highlights.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -32,8 +33,8 @@ fun PreviewAnnotationSection(
 ) {
     Column(modifier = modifier) {
         SwitchOption(
-            title = "Add @Preview annotation",
-            description = "Note: This option is deprecated. Consider using the built-in ImageVector previewer instead",
+            title = stringResource("settings.export.preview.block"),
+            description = stringResource("settings.export.preview.block.description"),
             checked = generatePreview,
             onCheckedChange = onGeneratePreviewChange,
         )

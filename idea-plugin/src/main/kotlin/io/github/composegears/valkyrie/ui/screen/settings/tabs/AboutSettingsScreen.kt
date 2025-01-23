@@ -28,6 +28,7 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.extensions.cast
+import io.github.composegears.valkyrie.stringResource
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
@@ -79,14 +80,14 @@ private fun AboutSettingsUi() {
         ClickableUrl(
             modifier = Modifier.padding(horizontal = 16.dp),
             link = "https://github.com/ComposeGears/Valkyrie",
-            text = "Source code",
+            text = stringResource("settings.about.sourcecode"),
             onUrlClick = browser::open,
         )
         VerticalSpacer(16.dp)
         ClickableUrl(
             modifier = Modifier.padding(horizontal = 16.dp),
             link = "https://github.com/ComposeGears/Valkyrie/issues",
-            text = "Submit issue or idea",
+            text = stringResource("settings.about.issue"),
             onUrlClick = browser::open,
         )
     }
