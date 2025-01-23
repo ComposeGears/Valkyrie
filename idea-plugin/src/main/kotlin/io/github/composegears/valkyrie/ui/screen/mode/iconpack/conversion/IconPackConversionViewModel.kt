@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 import com.composegears.tiamat.Saveable
 import com.composegears.tiamat.SavedState
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.extensions.cast
+import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
@@ -43,6 +43,8 @@ class IconPackConversionViewModel(
     private val _events = MutableSharedFlow<ConversionEvent>()
     val events = _events.asSharedFlow()
 
+    private var clipboardIconCounter = 0
+
     init {
         val restoredState = savedState?.getOrNull<List<BatchIcon>>(key = "icons")
 
@@ -67,11 +69,16 @@ class IconPackConversionViewModel(
                 }
             }
         }
+
+        savedState?.getOrNull<Int>(key = "clipboardIconCounter")?.also { clipboardIconCounter = it }
     }
 
     override fun saveToSaveState(): SavedState {
         return when (val state = _state.value) {
-            is BatchProcessing.IconPackCreationState -> mapOf("icons" to state.icons)
+            is BatchProcessing.IconPackCreationState -> mapOf(
+                "icons" to state.icons,
+                "clipboardIconCounter" to clipboardIconCounter,
+            )
             else -> mapOf("icons" to emptyList<List<BatchIcon>>())
         }
     }
@@ -84,15 +91,15 @@ class IconPackConversionViewModel(
         }
     }
 
-    fun deleteIcon(iconName: IconName) = viewModelScope.launch(Dispatchers.Default) {
+    fun deleteIcon(iconId: IconId) = viewModelScope.launch(Dispatchers.Default) {
         _state.updateState {
             when (this) {
                 is BatchProcessing.IconPackCreationState -> {
-                    val iconsToProcess = icons.filter { it.iconName != iconName }
+                    val iconsToProcess = icons.filter { it.id != iconId }
 
                     if (iconsToProcess.isEmpty()) {
-                        _state.updateState { IconsPickering }
-                        this
+                        clipboardIconCounter = 0
+                        IconsPickering
                     } else {
                         copy(
                             icons = iconsToProcess,
@@ -111,7 +118,7 @@ class IconPackConversionViewModel(
                 is BatchProcessing.IconPackCreationState -> {
                     copy(
                         icons = icons.map { icon ->
-                            if (icon.iconName == batchIcon.iconName && icon is BatchIcon.Valid) {
+                            if (icon.id == batchIcon.id && icon is BatchIcon.Valid) {
                                 icon.copy(
                                     iconPack = when (icon.iconPack) {
                                         is IconPack.Nested -> icon.iconPack.copy(currentNestedPack = nestedPack)
@@ -129,18 +136,11 @@ class IconPackConversionViewModel(
         }
     }
 
-    fun showPreview(iconName: IconName) = viewModelScope.launch(Dispatchers.Default) {
-        val icons = when (val state = _state.value) {
-            is BatchProcessing.IconPackCreationState -> state.icons
-            else -> return@launch
-        }
-
-        val icon = icons.first { it.iconName == iconName }.cast<BatchIcon.Valid>()
-
+    fun showPreview(icon: BatchIcon.Valid) = viewModelScope.launch(Dispatchers.Default) {
         val settings = inMemorySettings.current
         val output = ImageVectorGenerator.convert(
             vector = icon.irImageVector,
-            iconName = iconName.value,
+            iconName = icon.iconName.value,
             config = ImageVectorGeneratorConfig(
                 packageName = icon.iconPack.iconPackage,
                 iconPackPackage = settings.iconPackPackage,
@@ -233,7 +233,7 @@ class IconPackConversionViewModel(
             when (this) {
                 is BatchProcessing.IconPackCreationState -> {
                     val icons = icons.map { icon ->
-                        if (icon.iconName == batchIcon.iconName) {
+                        if (icon.id == batchIcon.id) {
                             when (icon) {
                                 is BatchIcon.Broken -> icon
                                 is BatchIcon.Valid -> icon.copy(iconName = newName)
@@ -254,10 +254,15 @@ class IconPackConversionViewModel(
 
     fun reset() {
         _state.updateState { IconsPickering }
+        clipboardIconCounter = 0
     }
 
     private fun processText(text: String) = viewModelScope.launch(Dispatchers.Default) {
-        val iconName = "IconName"
+        val iconName = when (clipboardIconCounter) {
+            0 -> "IconName"
+            else -> "IconName_$clipboardIconCounter"
+        }
+        clipboardIconCounter++
 
         val output = runCatching { SvgXmlParser.toIrImageVector(text, iconName) }.getOrNull()
 
@@ -271,7 +276,8 @@ class IconPackConversionViewModel(
             )
         }
         _state.updateState {
-            val icons = listOf(icon)
+            val existingIcons = safeAs<BatchProcessing.IconPackCreationState>()?.icons.orEmpty()
+            val icons = existingIcons + icon
 
             BatchProcessing.IconPackCreationState(
                 icons = icons,
@@ -328,7 +334,10 @@ class IconPackConversionViewModel(
 
     private fun List<BatchIcon>.isAllIconsValid() = isNotEmpty() &&
         all { it is BatchIcon.Valid } &&
-        all { it.iconName.value.isNotEmpty() && !it.iconName.value.contains(" ") }
+        all { it.iconName.value.isNotEmpty() && !it.iconName.value.contains(" ") } &&
+        hasNoDuplicates()
+
+    private fun List<BatchIcon>.hasNoDuplicates() = map { it.iconName.value }.toSet().size == size
 }
 
 sealed interface ConversionEvent {

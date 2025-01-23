@@ -3,14 +3,12 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.pi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -20,20 +18,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
@@ -47,12 +37,10 @@ import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.icons.AddFile
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.onPasteEvent
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
 import io.github.composegears.valkyrie.ui.platform.Os
-import io.github.composegears.valkyrie.ui.platform.pasteFromClipboard
 import io.github.composegears.valkyrie.ui.platform.picker.rememberDirectoryPicker
 import io.github.composegears.valkyrie.ui.platform.picker.rememberMultipleFilesPicker
 import io.github.composegears.valkyrie.ui.platform.rememberCurrentOs
@@ -60,12 +48,12 @@ import io.github.composegears.valkyrie.ui.platform.rememberMultiSelectDragAndDro
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun IconPackPickerStateUi(
     onPickerEvent: (PickerEvent) -> Unit,
@@ -78,32 +66,15 @@ fun IconPackPickerStateUi(
     val multipleFilePicker = rememberMultipleFilesPicker()
     val directoryPicker = rememberDirectoryPicker()
 
-    val focusRequester = remember { FocusRequester() }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .focusRequester(focusRequester)
-            .focusProperties { exit = { focusRequester } }
-            .focusable()
-            .onPointerEvent(PointerEventType.Enter) {
-                focusRequester.requestFocus()
-            }
-            .onPointerEvent(PointerEventType.Exit) {
-                focusRequester.freeFocus()
-            }
-            .onPasteEvent {
-                when (val clipboardData = pasteFromClipboard()) {
-                    is ClipboardDataType.Files -> {
-                        onPickerEvent(PickFiles(paths = clipboardData.paths))
-                    }
-                    is ClipboardDataType.Text -> {
-                        onPickerEvent(PickerEvent.ClipboardText(clipboardData.text))
-                    }
-                    null -> {}
-                }
-            },
+    ClipboardEventColumn(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
+        onPaste = { dataType ->
+            when (dataType) {
+                is ClipboardDataType.Files -> onPickerEvent(PickFiles(paths = dataType.paths))
+                is ClipboardDataType.Text -> onPickerEvent(PickerEvent.ClipboardText(dataType.text))
+            }
+        },
     ) {
         TopAppBar {
             BackAction(onBack = onBack)
@@ -146,10 +117,6 @@ fun IconPackPickerStateUi(
             },
         )
         WeightSpacer(weight = 0.7f)
-    }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
     }
 }
 

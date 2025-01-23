@@ -9,7 +9,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,8 +35,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.navArgsOrNull
 import com.composegears.tiamat.navController
@@ -123,22 +120,22 @@ private fun IconPackConversionUi(
     openSettings: () -> Unit,
     onPickEvent: (PickerEvent) -> Unit,
     updatePack: (BatchIcon, String) -> Unit,
-    onDeleteIcon: (IconName) -> Unit,
+    onDeleteIcon: (IconId) -> Unit,
     onReset: () -> Unit,
-    onPreviewClick: (IconName) -> Unit,
+    onPreviewClick: (BatchIcon.Valid) -> Unit,
     onExport: () -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
 ) {
-    var isVisible by rememberSaveable { mutableStateOf(true) }
+    var isExportButtonVisible by rememberSaveable { mutableStateOf(true) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 if (available.y < -1) {
-                    isVisible = false
+                    isExportButtonVisible = false
                 }
                 if (available.y > 1) {
-                    isVisible = true
+                    isExportButtonVisible = true
                 }
 
                 return Offset.Zero
@@ -146,16 +143,7 @@ private fun IconPackConversionUi(
         }
     }
 
-    val focusManager = LocalFocusManager.current
-
-    Box(
-        modifier = Modifier
-            .pointerInput(state) {
-                if (state is IconPackCreationState) {
-                    detectTapGestures(onTap = { focusManager.clearFocus() })
-                }
-            },
-    ) {
+    Box {
         Column(modifier = Modifier.fillMaxSize()) {
             AnimatedContent(
                 modifier = Modifier.fillMaxSize(),
@@ -191,6 +179,8 @@ private fun IconPackConversionUi(
                             modifier = Modifier.nestedScroll(nestedScrollConnection),
                             state = current,
                             previewType = previewType,
+                            onScrollUnavailable = { isExportButtonVisible = true },
+                            onPasteEvent = onPickEvent,
                             onDeleteIcon = onDeleteIcon,
                             onUpdatePack = updatePack,
                             onPreviewClick = onPreviewClick,
@@ -208,7 +198,7 @@ private fun IconPackConversionUi(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 16.dp),
-                visible = isVisible,
+                visible = isExportButtonVisible,
                 enter = slideInVertically(initialOffsetY = { it * 2 }),
                 exit = slideOutVertically(targetOffsetY = { it * 2 }),
             ) {
