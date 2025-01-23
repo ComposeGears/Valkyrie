@@ -18,8 +18,7 @@
 
 ## Motivation
 
-On one of the projects, during the migration to Jetpack Compose, we needed to convert a large number of icons from XML (
-Android drawable) and SVG (Figma design system) to ImageVector. The existing solutions didn't quite fit our needs due to
+On one of the projects, during the migration to Jetpack Compose, we needed to convert a large number of icons from XML (Android drawable) and SVG (Figma design system) to ImageVector. The existing solutions didn't quite fit our needs due to
 their inconvenient workflow, numerous bugs, poor output code, and in some cases, even being paid (after 5 icons 😄).
 
 Additionally, with the release of Compose 1.7.0,
