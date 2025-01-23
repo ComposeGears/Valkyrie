@@ -38,6 +38,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ExternalLink
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberBrowser
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
+import io.github.composegears.valkyrie.util.stringResource
 
 val AboutSettingsScreen by navDestination<Unit> {
     AboutSettingsUi()
@@ -79,14 +80,14 @@ private fun AboutSettingsUi() {
         ClickableUrl(
             modifier = Modifier.padding(horizontal = 16.dp),
             link = "https://github.com/ComposeGears/Valkyrie",
-            text = "Source code",
+            text = stringResource("settings.about.sourcecode"),
             onUrlClick = browser::open,
         )
         VerticalSpacer(16.dp)
         ClickableUrl(
             modifier = Modifier.padding(horizontal = 16.dp),
             link = "https://github.com/ComposeGears/Valkyrie/issues",
-            text = "Submit issue or idea",
+            text = stringResource("settings.about.issue"),
             onUrlClick = browser::open,
         )
     }
