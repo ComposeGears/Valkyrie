@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.rememberSharedViewModel
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
+import io.github.composegears.valkyrie.stringResource
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -73,26 +74,26 @@ private fun ImageVectorExportSettingsUi(
         )
         VerticalSpacer(16.dp)
         SwitchOption(
-            title = "Use flat package",
-            description = "Export all ImageVector icons into a single package without dividing by nested pack folders",
+            title = stringResource("settings.export.flat.package"),
+            description = stringResource("settings.export.flat.package.description"),
             checked = useFlatPackage,
             onCheckedChange = { onAction(UpdateFlatPackage(it)) },
         )
         SwitchOption(
-            title = "Handle Kotlin explicit mode",
-            description = "Generate ImageVector icons and IconPack with explicit 'public' modifier",
+            title = stringResource("settings.export.explicit.mode"),
+            description = stringResource("settings.export.explicit.mode.description"),
             checked = useExplicitMode,
             onCheckedChange = { onAction(UpdateExplicitMode(it)) },
         )
         SwitchOption(
-            title = "Add trailing comma",
-            description = "Insert a comma after the last element of ImageVector.Builder block and path params",
+            title = stringResource("settings.export.trailing.comma"),
+            description = stringResource("settings.export.trailing.comma.description"),
             checked = addTrailingComma,
             onCheckedChange = { onAction(UpdateAddTrailingComma(it)) },
         )
         SwitchOption(
-            title = "Include @Preview block",
-            description = "Note: Deprecated option, please consider to use build-in ImageVector preview feature",
+            title = stringResource("settings.export.preview.block"),
+            description = stringResource("settings.export.preview.block.description"),
             checked = generatePreview,
             onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
         )

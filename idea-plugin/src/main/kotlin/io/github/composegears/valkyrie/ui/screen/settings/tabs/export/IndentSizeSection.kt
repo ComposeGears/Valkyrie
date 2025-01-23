@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.composegears.valkyrie.stringResource
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
@@ -53,11 +54,11 @@ fun IndentSizeSection(
             .clickable { expanded = true }
             .padding(horizontal = 8.dp),
         headlineContent = {
-            Text(text = "Indent size")
+            Text(text = stringResource("settings.export.indent"))
         },
         supportingContent = {
             Text(
-                text = "Determines the number of spaces used for each level of indentation in the exported icon",
+                text = stringResource("settings.export.indent.description"),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                 color = LocalContentColor.current.dim(),
             )

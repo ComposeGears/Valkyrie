@@ -21,6 +21,7 @@ import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
+import io.github.composegears.valkyrie.stringResource
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
@@ -42,7 +43,7 @@ fun OutputFormatSection(
             .padding(paddingValues),
     ) {
         Text(
-            text = "Output format",
+            text = stringResource("settings.export.output.header"),
             style = MaterialTheme.typography.bodyLarge,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -51,14 +52,14 @@ fun OutputFormatSection(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             SelectableCard(
                 modifier = Modifier.weight(1f),
-                text = "Backing property",
+                text = stringResource("settings.export.output.backing"),
                 highlights = rememberCodeHighlight(backingPropertyFormat),
                 isSelected = outputFormat == BackingProperty,
                 onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
             )
             SelectableCard(
                 modifier = Modifier.weight(1f),
-                text = "Lazy delegate property",
+                text = stringResource("settings.export.output.lazy"),
                 highlights = rememberCodeHighlight(lazyPropertyFormat),
                 isSelected = outputFormat == LazyProperty,
                 onSelect = { onAction(UpdateOutputFormat(LazyProperty)) },
