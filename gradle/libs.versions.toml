@@ -1,7 +1,7 @@
 [versions]
 idea = "2024.1"
 intellij = "2.1.0"
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 
 [libraries]
 androidx-activity-compose = "androidx.activity:activity-compose:1.10.0"
