@@ -2,19 +2,25 @@ package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -48,6 +54,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.Checked
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
 import io.github.composegears.valkyrie.ui.foundation.icons.Edit
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -81,7 +88,15 @@ fun FocusableTextField(
             .onPointerEvent(PointerEventType.Exit) { isHover = false }
             .border(
                 width = Dp.Hairline,
-                color = if (mode == Edit) colors.focusedBorderColor else colors.unfocusedBorderColor,
+                color = when (mode) {
+                    Edit -> {
+                        when {
+                            isError -> colors.errorColor
+                            else -> colors.focusedBorderColor
+                        }
+                    }
+                    else -> colors.unfocusedBorderColor
+                },
                 shape = shape,
             )
             .clip(shape)
@@ -95,7 +110,7 @@ fun FocusableTextField(
                 .focusProperties { canFocus = true }
                 .focusRequester(focusRequester)
                 .focusable()
-                .widthIn(max = 150.dp)
+                .weight(1f)
                 .height(32.dp)
                 .onKeyEvent {
                     when (it.key) {
@@ -139,11 +154,21 @@ fun FocusableTextField(
                     contentAlignment = Alignment.CenterStart,
                 ) {
                     innerTextField()
+                    if (isError && mode == View) {
+                        Text(
+                            text = "icon name required",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = colors.errorColor,
+                        )
+                    }
                 }
             },
         )
 
-        AnimatedContent(targetState = mode) { targetMode ->
+        AnimatedContent(
+            modifier = Modifier.height(32.dp),
+            targetState = mode,
+        ) { targetMode ->
             when (targetMode) {
                 View -> {
                     Icon(
@@ -161,38 +186,48 @@ fun FocusableTextField(
                     )
                 }
                 Edit -> {
-                    Row {
-                        Icon(
-                            imageVector = ValkyrieIcons.Close,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .clip(shape)
-                                .clickable {
-                                    focusRequester.freeFocus()
-                                    mode = View
-                                    textFieldValue = textFieldValue.copy(text = value)
-                                }
-                                .padding(4.dp),
-                        )
-                        Icon(
-                            imageVector = ValkyrieIcons.Checked,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .clip(shape)
-                                .clickable(enabled = !isError) {
-                                    focusRequester.freeFocus()
-                                    mode = View
-                                    onValueChange(textFieldValue.text)
-                                }
-                                .padding(4.dp),
-                            tint = if (isError) {
-                                LocalContentColor.current.disabled()
-                            } else {
-                                LocalContentColor.current
+                    CenterVerticalRow(
+                        modifier = Modifier.padding(end = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    ) {
+                        FilledIconButton(
+                            modifier = Modifier.size(20.dp),
+                            colors = IconButtonDefaults.filledIconButtonColors()
+                                .copy(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                            onClick = {
+                                focusRequester.freeFocus()
+                                mode = View
+                                textFieldValue = textFieldValue.copy(text = value)
                             },
-                        )
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(12.dp),
+                                imageVector = ValkyrieIcons.Close,
+                                contentDescription = null,
+                            )
+                        }
+                        FilledIconButton(
+                            modifier = Modifier.size(20.dp),
+                            colors = IconButtonDefaults.filledIconButtonColors()
+                                .copy(containerColor = MaterialTheme.colorScheme.primary.disabled()),
+                            enabled = !isError,
+                            onClick = {
+                                focusRequester.freeFocus()
+                                mode = View
+                                onValueChange(textFieldValue.text)
+                            },
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(12.dp),
+                                imageVector = ValkyrieIcons.Checked,
+                                contentDescription = null,
+                                tint = if (isError) {
+                                    LocalContentColor.current.disabled()
+                                } else {
+                                    LocalContentColor.current
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -212,9 +247,9 @@ object FocusableTextFieldDefaults {
         return FocusableTextFieldColor(
             focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.dim(),
+            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
             cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
-            unfocusedBorderColor = Color.Transparent,
             errorColor = MaterialTheme.colorScheme.error,
         )
     }
@@ -232,4 +267,21 @@ data class FocusableTextFieldColor(
 private enum class Mode {
     Edit,
     View,
+}
+
+@Preview
+@Composable
+private fun FocusableTextFieldPreview() = PreviewTheme {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        FocusableTextField(
+            modifier = Modifier.width(300.dp),
+            value = "IconName",
+            onValueChange = {},
+        )
+        FocusableTextField(
+            modifier = Modifier.width(150.dp),
+            value = "IconName",
+            onValueChange = {},
+        )
+    }
 }

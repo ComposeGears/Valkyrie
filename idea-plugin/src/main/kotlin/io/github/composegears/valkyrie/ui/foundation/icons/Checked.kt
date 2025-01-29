@@ -22,7 +22,7 @@ val ValkyrieIcons.Checked: ImageVector
         ).apply {
             path(
                 stroke = SolidColor(Color(0xFF6C707E)),
-                strokeLineWidth = 1.5f,
+                strokeLineWidth = 1f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
             ) {

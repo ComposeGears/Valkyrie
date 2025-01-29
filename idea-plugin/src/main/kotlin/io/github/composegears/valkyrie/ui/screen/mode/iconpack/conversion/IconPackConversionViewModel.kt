@@ -43,8 +43,6 @@ class IconPackConversionViewModel(
     private val _events = MutableSharedFlow<ConversionEvent>()
     val events = _events.asSharedFlow()
 
-    private var clipboardIconCounter = 0
-
     init {
         val restoredState = savedState?.getOrNull<List<BatchIcon>>(key = "icons")
 
@@ -69,16 +67,11 @@ class IconPackConversionViewModel(
                 }
             }
         }
-
-        savedState?.getOrNull<Int>(key = "clipboardIconCounter")?.also { clipboardIconCounter = it }
     }
 
     override fun saveToSaveState(): SavedState {
         return when (val state = _state.value) {
-            is BatchProcessing.IconPackCreationState -> mapOf(
-                "icons" to state.icons,
-                "clipboardIconCounter" to clipboardIconCounter,
-            )
+            is BatchProcessing.IconPackCreationState -> mapOf("icons" to state.icons)
             else -> mapOf("icons" to emptyList<List<BatchIcon>>())
         }
     }
@@ -98,7 +91,6 @@ class IconPackConversionViewModel(
                     val iconsToProcess = icons.filter { it.id != iconId }
 
                     if (iconsToProcess.isEmpty()) {
-                        clipboardIconCounter = 0
                         IconsPickering
                     } else {
                         copy(
@@ -140,7 +132,7 @@ class IconPackConversionViewModel(
         val settings = inMemorySettings.current
         val output = ImageVectorGenerator.convert(
             vector = icon.irImageVector,
-            iconName = icon.iconName.value,
+            iconName = icon.iconName.name,
             config = ImageVectorGeneratorConfig(
                 packageName = icon.iconPack.iconPackage,
                 iconPackPackage = settings.iconPackPackage,
@@ -175,7 +167,7 @@ class IconPackConversionViewModel(
                     is IconPack.Nested -> {
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             vector = icon.irImageVector,
-                            iconName = icon.iconName.value,
+                            iconName = icon.iconName.name,
                             config = ImageVectorGeneratorConfig(
                                 packageName = icon.iconPack.iconPackage,
                                 iconPackPackage = settings.iconPackPackage,
@@ -201,7 +193,7 @@ class IconPackConversionViewModel(
                     is IconPack.Single -> {
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             vector = icon.irImageVector,
-                            iconName = icon.iconName.value,
+                            iconName = icon.iconName.name,
                             config = ImageVectorGeneratorConfig(
                                 packageName = icon.iconPack.iconPackage,
                                 iconPackPackage = settings.iconPackPackage,
@@ -254,16 +246,10 @@ class IconPackConversionViewModel(
 
     fun reset() {
         _state.updateState { IconsPickering }
-        clipboardIconCounter = 0
     }
 
     private fun processText(text: String) = viewModelScope.launch(Dispatchers.Default) {
-        val iconName = when (clipboardIconCounter) {
-            0 -> "IconName"
-            else -> "IconName_$clipboardIconCounter"
-        }
-        clipboardIconCounter++
-
+        val iconName = ""
         val output = runCatching { SvgXmlParser.toIrImageVector(text, iconName) }.getOrNull()
 
         val icon = when (output) {
@@ -334,10 +320,10 @@ class IconPackConversionViewModel(
 
     private fun List<BatchIcon>.isAllIconsValid() = isNotEmpty() &&
         all { it is BatchIcon.Valid } &&
-        all { it.iconName.value.isNotEmpty() && !it.iconName.value.contains(" ") } &&
+        all { it.iconName.name.isNotEmpty() && !it.iconName.name.contains(" ") } &&
         hasNoDuplicates()
 
-    private fun List<BatchIcon>.hasNoDuplicates() = map { it.iconName.value }.toSet().size == size
+    private fun List<BatchIcon>.hasNoDuplicates() = map { it.iconName.name }.toSet().size == size
 }
 
 sealed interface ConversionEvent {
