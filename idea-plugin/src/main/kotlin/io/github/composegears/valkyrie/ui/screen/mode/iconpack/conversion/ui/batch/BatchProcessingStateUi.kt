@@ -45,6 +45,7 @@ import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.CloseAction
+import io.github.composegears.valkyrie.ui.foundation.FocusableTextField
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
@@ -64,7 +65,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Picker
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.FileTypeBadge
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconNameField
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconPreviewBox
 
 @Composable
@@ -166,11 +166,13 @@ private fun ValidIconItem(
                         irImageVector = icon.irImageVector,
                         previewType = previewType,
                     )
-                    IconNameField(
+
+                    val name = icon.iconName.name
+                    FocusableTextField(
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 32.dp),
-                        value = icon.iconName.value,
+                        value = name,
                         onValueChange = {
                             onRenameIcon(icon, IconName(it))
                         },
@@ -248,7 +250,10 @@ private fun BrokenIconItem(
                     modifier = Modifier
                         .weight(1f)
                         .padding(vertical = 8.dp),
-                    text = "Failed to parse icon: ${broken.iconName.value}",
+                    text = when {
+                        broken.iconName.name.isEmpty() -> "Failed to parse icon"
+                        else -> "Failed to parse icon: ${broken.iconName.name}"
+                    },
                 )
                 IconButton(
                     imageVector = Icons.Default.Delete,
@@ -364,7 +369,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 ),
                 BatchIcon.Broken(
                     id = IconId("2"),
-                    iconName = IconName(value = "ic_all_path_params_3"),
+                    iconName = IconName(name = "ic_all_path_params_3"),
                 ),
                 BatchIcon.Valid(
                     id = IconId("3"),

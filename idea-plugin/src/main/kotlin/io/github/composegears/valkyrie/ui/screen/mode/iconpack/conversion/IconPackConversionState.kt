@@ -39,7 +39,7 @@ sealed interface BatchIcon {
 }
 
 @JvmInline
-value class IconName(val value: String)
+value class IconName(val name: String)
 
 @JvmInline
 value class IconId(val id: String)
