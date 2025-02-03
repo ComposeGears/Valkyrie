@@ -87,7 +87,7 @@ private fun IntellijDarkTheme(
         colorScheme = darkColorScheme(
             primary = primary,
             onPrimary = Color.White,
-            background = Color(0xFF1C1D1F),
+            background = background,
             onBackground = onBackground,
             surface = background,
             surfaceContainerHigh = Color(0xFF3A3A3C),
@@ -117,7 +117,7 @@ private fun IntellijLightTheme(
         colorScheme = lightColorScheme(
             primary = primary,
             onPrimary = Color.White,
-            background = Color.White,
+            background = background,
             onBackground = onBackground,
             surface = background,
             surfaceContainerHigh = Color(0xFFEDEDED),

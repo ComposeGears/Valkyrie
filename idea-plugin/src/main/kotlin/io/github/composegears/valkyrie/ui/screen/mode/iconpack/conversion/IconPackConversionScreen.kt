@@ -46,14 +46,20 @@ import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.platform.rememberMultiSelectDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ExportingState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ImportValidationState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickDirectory
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.DragAndDropOverlay
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.BatchProcessingStateUi
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.picker.IconPackPickerStateUi
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import kotlin.io.path.isDirectory
+import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -223,6 +229,22 @@ private fun IconPackConversionUi(
                     )
                 }
             }
+            val dragAndDropHandler = rememberMultiSelectDragAndDropHandler(
+                onDrop = { paths ->
+                    when {
+                        paths.size == 1 -> {
+                            val path = paths.first()
+
+                            when {
+                                path.isDirectory() -> onPickEvent(PickDirectory(path = path))
+                                path.isRegularFile() -> onPickEvent(PickFiles(paths = paths))
+                            }
+                        }
+                        else -> onPickEvent(PickFiles(paths = paths))
+                    }
+                },
+            )
+            DragAndDropOverlay(isDragging = dragAndDropHandler.isDragging)
         }
     }
 }
