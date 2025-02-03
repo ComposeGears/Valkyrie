@@ -288,11 +288,12 @@ class IconPackConversionViewModel(
 
     private fun List<Path>.processFiles() = viewModelScope.launch(Dispatchers.Default) {
         val paths = filter { it.isRegularFile() && (it.isXml || it.isSvg) }
+        val lastIcons = _state.value.safeAs<BatchProcessing.IconPackCreationState>()?.icons.orEmpty()
 
         if (paths.isNotEmpty()) {
             _state.updateState { BatchProcessing.ImportValidationState }
             _state.updateState {
-                val icons = paths
+                val newIcons = paths
                     .sortedBy { it.name }
                     .map { path ->
                         val output = runCatching { SvgXmlParser.toIrImageVector(path) }.getOrNull()
@@ -307,6 +308,7 @@ class IconPackConversionViewModel(
                             )
                         }
                     }
+                val icons = lastIcons + newIcons
                 BatchProcessing.IconPackCreationState(
                     icons = icons,
                     exportEnabled = icons.isAllIconsValid(),
