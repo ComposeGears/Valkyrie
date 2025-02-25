@@ -11,7 +11,7 @@ highlights = "dev.snipme:highlights:1.0.0"
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
-kotlinpoet = "com.squareup:kotlinpoet:2.0.0"
+kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 
 leviathan = "io.github.composegears:leviathan:2.0.0"
 leviathan-compose = "io.github.composegears:leviathan-compose:2.0.0"
