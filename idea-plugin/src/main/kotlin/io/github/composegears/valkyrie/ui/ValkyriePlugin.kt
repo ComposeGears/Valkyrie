@@ -13,8 +13,11 @@ import androidx.compose.ui.Modifier
 import com.composegears.leviathan.compose.leviathanInject
 import com.composegears.tiamat.NavController
 import com.composegears.tiamat.Navigation
+import com.composegears.tiamat.Route
+import com.composegears.tiamat.TiamatExperimentalApi
 import com.composegears.tiamat.navigationNone
 import com.composegears.tiamat.rememberNavController
+import com.composegears.tiamat.toNavEntry
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
@@ -116,6 +119,7 @@ fun ValkyriePlugin(
     }
 }
 
+@OptIn(TiamatExperimentalApi::class)
 private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     val settings = inMemorySettings.current
     val screen = when (settings.mode) {
@@ -125,13 +129,11 @@ private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     }
 
     if (current != screen) {
-        editBackStack {
-            add(IntroScreen)
-        }
-        replace(screen)
+        route(Route.build(IntroScreen, screen))
     }
 }
 
+@OptIn(TiamatExperimentalApi::class)
 private fun NavController.openConversionFlow(event: ImportIcons) {
     when (current) {
         IconPackConversionScreen -> {
@@ -142,18 +144,17 @@ private fun NavController.openConversionFlow(event: ImportIcons) {
             )
         }
         else -> {
-            editBackStack {
-                clear()
-                add(IntroScreen)
-            }
-            replace(
-                dest = IconPackConversionScreen,
-                navArgs = event.pathData,
+            route(
+                Route.build(
+                    IntroScreen,
+                    IconPackConversionScreen.toNavEntry(navArgs = event.pathData),
+                ),
             )
         }
     }
 }
 
+@OptIn(TiamatExperimentalApi::class)
 private fun NavController.openSetupIconPackWithPendingData(event: SetupIconPackMode) {
     when (current) {
         IconPackCreationScreen -> {
@@ -164,13 +165,11 @@ private fun NavController.openSetupIconPackWithPendingData(event: SetupIconPackM
             )
         }
         else -> {
-            editBackStack {
-                clear()
-                add(IntroScreen)
-            }
-            replace(
-                dest = IconPackCreationScreen,
-                navArgs = event.pathData,
+            route(
+                Route.build(
+                    IntroScreen,
+                    IconPackCreationScreen.toNavEntry(navArgs = event.pathData),
+                ),
             )
         }
     }
