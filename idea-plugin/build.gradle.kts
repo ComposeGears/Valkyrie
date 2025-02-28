@@ -46,6 +46,7 @@ compose.resources {
 
 intellijPlatform {
     buildSearchableOptions = false
+    projectName = "valkyrie-plugin"
     pluginConfiguration.ideaVersion {
         sinceBuild = "241"
         untilBuild = provider { null }
