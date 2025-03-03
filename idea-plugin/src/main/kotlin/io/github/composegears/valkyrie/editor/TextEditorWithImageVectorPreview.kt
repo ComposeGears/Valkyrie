@@ -13,6 +13,7 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.ui.JBUI
 import io.github.composegears.valkyrie.editor.ui.VirtualFileImageVector
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import java.awt.Dimension
 import javax.swing.JComponent
@@ -45,6 +46,8 @@ private class ImageVectorPreviewEditor(
     init {
         System.setProperty("compose.swing.render.on.graphics", "true")
         System.setProperty("compose.interop.blending", "true")
+
+        DI.initWith(project)
     }
 
     private val composePanel = ComposePanel().apply {
