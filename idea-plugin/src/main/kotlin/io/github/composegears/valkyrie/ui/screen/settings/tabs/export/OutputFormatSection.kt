@@ -22,8 +22,8 @@ import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
-import io.github.composegears.valkyrie.ui.foundation.Tooltip
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
+import io.github.composegears.valkyrie.ui.foundation.highlights.CodeViewerTooltip
 import io.github.composegears.valkyrie.ui.foundation.highlights.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
@@ -95,7 +95,7 @@ private fun SelectableCard(
                 text = text,
                 style = MaterialTheme.typography.bodySmall,
             )
-            Tooltip(
+            CodeViewerTooltip(
                 modifier = Modifier.padding(end = 16.dp),
                 highlights = highlights,
             )
