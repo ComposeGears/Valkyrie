@@ -34,12 +34,9 @@ import com.composegears.tiamat.NavController
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.rememberSharedViewModel
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
-import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
@@ -52,18 +49,19 @@ import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
+import io.github.composegears.valkyrie.ui.screen.settings.GeneralSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 
 val GeneralSettingsScreen by navDestination<Unit> {
     val navController = navController()
 
     val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
-    val settings by viewModel.settings.collectAsState()
+    val generalSettings by viewModel.generalSettings.collectAsState()
 
     var showClearSettingsDialog by rememberMutableState { false }
 
     GeneralSettingsUi(
-        settings = settings,
+        generalSettings = generalSettings,
         onClearSettings = {
             showClearSettingsDialog = true
         },
@@ -95,12 +93,12 @@ private fun openIntro(navController: NavController) {
 
 @Composable
 private fun GeneralSettingsUi(
-    settings: ValkyriesSettings,
+    generalSettings: GeneralSettings,
     onClearSettings: () -> Unit,
     modifier: Modifier = Modifier,
     onChangeMode: () -> Unit,
 ) {
-    val mode = settings.mode
+    val mode = generalSettings.mode
     val initialMode = remember { mode }
     val currentMode = remember(mode) {
         when (mode) {
@@ -169,15 +167,15 @@ private fun GeneralSettingsUi(
             modifier = Modifier.padding(horizontal = 24.dp),
             title = "Export path",
             description = when {
-                settings.iconPackDestination.isEmpty() -> "Not specified"
-                else -> "~${settings.iconPackDestination.replace(currentProject.path.orEmpty(), "")}"
+                generalSettings.iconPackDestination.isEmpty() -> "Not specified"
+                else -> "~${generalSettings.iconPackDestination.replace(currentProject.path.orEmpty(), "")}"
             },
         )
         VerticalSpacer(16.dp)
         InfoItem(
             modifier = Modifier.padding(horizontal = 24.dp),
             title = "Package",
-            description = settings.packageName.ifEmpty { "Not specified" },
+            description = generalSettings.packageName.ifEmpty { "Not specified" },
         )
         VerticalSpacer(16.dp)
         WeightSpacer()
@@ -249,22 +247,10 @@ private fun ClearSettingsDialog(
 @Composable
 private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
     GeneralSettingsUi(
-        settings = ValkyriesSettings(
+        generalSettings = GeneralSettings(
             mode = Simple,
-            previewType = PreviewType.Auto,
             packageName = "io.github.composegears.valkyrie",
-            iconPackPackage = "io.github.composegears.valkyrie",
-            iconPackName = "ValkyrieIcons",
             iconPackDestination = "path/to/export",
-            nestedPacks = emptyList(),
-            outputFormat = OutputFormat.BackingProperty,
-            generatePreview = false,
-            flatPackage = false,
-            useExplicitMode = false,
-            showImageVectorPreview = true,
-            addTrailingComma = true,
-            useMaterialPack = false,
-            indentSize = 4,
         ),
         onChangeMode = {},
         onClearSettings = {},

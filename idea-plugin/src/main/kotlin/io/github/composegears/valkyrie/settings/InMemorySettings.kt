@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.settings
 
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.service.PersistentSettings
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 import io.github.composegears.valkyrie.ui.domain.model.Mode
@@ -47,6 +48,7 @@ class InMemorySettings(project: Project) {
         updateNestedPack(packs = emptyList())
         updateOutputFormat(OutputFormat.BackingProperty)
         generatePreview = false
+        updatePreviewAnnotationType(PreviewAnnotationType.AndroidX)
         flatPackage = false
         useExplicitMode = false
         addTrailingComma = false
@@ -74,7 +76,10 @@ class InMemorySettings(project: Project) {
                 .filter { it.isNotEmpty() },
 
             outputFormat = OutputFormat.from(outputFormat),
+
             generatePreview = generatePreview,
+            previewAnnotationType = PreviewAnnotationType.from(previewAnnotationType),
+
             flatPackage = flatPackage,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
@@ -96,9 +101,11 @@ data class ValkyriesSettings(
 
     val nestedPacks: List<String>,
 
+    val generatePreview: Boolean,
+    val previewAnnotationType: PreviewAnnotationType,
+
     val outputFormat: OutputFormat,
     val indentSize: Int,
-    val generatePreview: Boolean,
     val flatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
@@ -115,4 +122,8 @@ fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {
 
 fun PersistentSettings.ValkyrieState.updateOutputFormat(format: OutputFormat) {
     outputFormat = format.key
+}
+
+fun PersistentSettings.ValkyrieState.updatePreviewAnnotationType(type: PreviewAnnotationType) {
+    previewAnnotationType = type.key
 }
