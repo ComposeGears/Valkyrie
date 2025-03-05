@@ -25,6 +25,7 @@ import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.settings.PreviewSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
@@ -32,19 +33,17 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 
 val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
     val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
-    val settings by viewModel.settings.collectAsState()
+    val previewSettings by viewModel.previewSettings.collectAsState()
 
     ImageVectorPreviewSettingsUi(
-        showImageVectorPreview = settings.showImageVectorPreview,
-        previewType = settings.previewType,
+        previewSettings = previewSettings,
         onAction = viewModel::onAction,
     )
 }
 
 @Composable
 private fun ImageVectorPreviewSettingsUi(
-    showImageVectorPreview: Boolean,
-    previewType: PreviewType,
+    previewSettings: PreviewSettings,
     modifier: Modifier = Modifier,
     onAction: (SettingsAction) -> Unit,
 ) {
@@ -53,7 +52,7 @@ private fun ImageVectorPreviewSettingsUi(
         ListItem(
             modifier = Modifier
                 .toggleable(
-                    value = showImageVectorPreview,
+                    value = previewSettings.showImageVectorPreview,
                     onValueChange = { onAction(UpdateImageVectorPreview(it)) },
                 )
                 .padding(horizontal = 8.dp)
@@ -71,14 +70,14 @@ private fun ImageVectorPreviewSettingsUi(
             trailingContent = {
                 Switch(
                     modifier = Modifier.scale(0.9f),
-                    checked = showImageVectorPreview,
+                    checked = previewSettings.showImageVectorPreview,
                     onCheckedChange = { onAction(UpdateImageVectorPreview(it)) },
                 )
             },
         )
         VerticalSpacer(16.dp)
         PreviewBgSection(
-            previewType = previewType,
+            previewType = previewSettings.previewType,
             onSelect = { onAction(UpdatePreviewType(it)) },
         )
     }
@@ -88,8 +87,10 @@ private fun ImageVectorPreviewSettingsUi(
 @Composable
 private fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
     ImageVectorPreviewSettingsUi(
-        showImageVectorPreview = true,
-        previewType = PreviewType.Auto,
+        previewSettings = PreviewSettings(
+            showImageVectorPreview = true,
+            previewType = PreviewType.Auto,
+        ),
         onAction = {},
     )
 }

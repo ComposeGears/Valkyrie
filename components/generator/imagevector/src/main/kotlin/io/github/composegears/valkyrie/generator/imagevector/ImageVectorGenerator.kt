@@ -15,6 +15,16 @@ data class ImageVectorGeneratorConfig(
     val indentSize: Int,
 )
 
+enum class PreviewAnnotationType(val key: String) {
+    AndroidX("androidx"),
+    Jetbrains("jetbrains"),
+    ;
+
+    companion object {
+        fun from(key: String?) = PreviewAnnotationType.entries.find { it.key == key } ?: AndroidX
+    }
+}
+
 enum class OutputFormat(val key: String) {
     BackingProperty(key = "backing_property"),
     LazyProperty(key = "lazy_property"),
