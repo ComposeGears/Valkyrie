@@ -19,6 +19,7 @@ import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
@@ -55,7 +56,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
 
     private val packageName by requiredStringOption(
         "--package-name",
-        help = "The package name of the generated sources. Usually equal to IconPack package",
+        help = "The package name of the generated sources (usually equal to IconPack package)",
     )
 
     private val iconPackName by stringOption(
@@ -76,6 +77,8 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
         "--generate-preview",
         help = "Generate @Preview",
     )
+
+    private val previewAnnotationType by previewAnnotationType()
 
     private val useFlatPackage by booleanOption(
         "--flatpackage",
@@ -116,6 +119,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
             iconPackName = iconPackName,
             nestedPackName = nestedPackName,
             generatePreview = generatePreview,
+            previewAnnotationType = previewAnnotationType,
             outputFormat = outputFormat,
             useFlatPackage = useFlatPackage,
             useExplicitMode = useExplicitMode,
@@ -128,14 +132,25 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
 
 private fun CliktCommand.outputFormatOption() = option(
     "--output-format",
-    help = "ImageVector output format, it must be backing-property or lazy-property.",
+    help = "ImageVector output format, must be 'backing-property' or 'lazy-property'",
 ).convert {
     when (it.lowercase()) {
         "backing-property" -> OutputFormat.BackingProperty
         "lazy-property" -> OutputFormat.LazyProperty
-        else -> error("Invalid output format, it must be backing-property or lazy-property.")
+        else -> error("Invalid output format, must be backing-property or lazy-property")
     }
 }.default(OutputFormat.BackingProperty)
+
+private fun CliktCommand.previewAnnotationType() = option(
+    "--preview-annotation-type",
+    help = "Specifies the type of Preview annotation, must be 'androidx' or 'jetbrains'",
+).convert {
+    when (it.lowercase()) {
+        "androidx" -> PreviewAnnotationType.AndroidX
+        "jetbrains" -> PreviewAnnotationType.Jetbrains
+        else -> error("Invalid preview annotation type, must be 'androidx' or 'jetbrains'")
+    }
+}.default(PreviewAnnotationType.AndroidX)
 
 /**
  * Converts SVG or XML files to ImageVector files.
@@ -147,6 +162,7 @@ private fun svgXml2ImageVector(
     iconPackName: String,
     nestedPackName: String,
     generatePreview: Boolean,
+    previewAnnotationType: PreviewAnnotationType,
     outputFormat: OutputFormat,
     useFlatPackage: Boolean,
     useExplicitMode: Boolean,
@@ -193,6 +209,7 @@ private fun svgXml2ImageVector(
                 nestedPackName = nestedPackName,
                 outputFormat = outputFormat,
                 generatePreview = generatePreview,
+                previewAnnotationType = previewAnnotationType,
                 useFlatPackage = useFlatPackage,
                 useExplicitMode = useExplicitMode,
                 addTrailingComma = addTrailingComma,

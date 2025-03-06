@@ -7,14 +7,16 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.ext.funSpecBuilder
+import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
 
 internal fun iconPreviewSpecForNestedPack(
     iconName: String,
     iconPackClassName: ClassName,
+    previewAnnotationType: PreviewAnnotationType,
 ): FunSpec = funSpecBuilder("${iconName}Preview") {
     addModifiers(KModifier.PRIVATE)
-    addAnnotation(previewAnnotation)
-    addAnnotation(composableAnnotation)
+    addPreviewAnnotation(previewAnnotationType)
+    addComposableAnnotation()
     addCode(
         codeBlock = buildCodeBlock {
             beginControlFlow(
@@ -37,10 +39,11 @@ internal fun iconPreviewSpecForNestedPack(
 internal fun iconPreviewSpec(
     iconPackage: String,
     iconName: String,
+    previewAnnotationType: PreviewAnnotationType,
 ): FunSpec = funSpecBuilder("${iconName}Preview") {
     addModifiers(KModifier.PRIVATE)
-    addAnnotation(previewAnnotation)
-    addAnnotation(composableAnnotation)
+    addPreviewAnnotation(previewAnnotationType)
+    addComposableAnnotation()
     addCode(
         codeBlock = buildCodeBlock {
             beginControlFlow(
@@ -63,9 +66,14 @@ internal fun iconPreviewSpec(
     )
 }
 
-private val composableAnnotation: AnnotationSpec = AnnotationSpec.builder(ClassNames.Composable).build()
+private fun FunSpec.Builder.addPreviewAnnotation(annotationType: PreviewAnnotationType) {
+    val previewClassName = when (annotationType) {
+        PreviewAnnotationType.AndroidX -> ClassNames.AndroidXPreview
+        PreviewAnnotationType.Jetbrains -> ClassNames.JetbrainsPreview
+    }
+    addAnnotation(AnnotationSpec.builder(previewClassName).build())
+}
 
-private val previewAnnotation = AnnotationSpec
-    .builder(ClassNames.Preview)
-    .addMember("showBackground = %L", true)
-    .build()
+private fun FunSpec.Builder.addComposableAnnotation() {
+    addAnnotation(AnnotationSpec.builder(ClassNames.Composable).build())
+}

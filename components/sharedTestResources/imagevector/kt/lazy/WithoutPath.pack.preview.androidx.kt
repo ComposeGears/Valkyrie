@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-val WithoutPath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val ValkyrieIcons.WithoutPath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
         name = "WithoutPath",
         defaultWidth = 24.dp,
@@ -19,10 +19,10 @@ val WithoutPath: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ).build()
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun WithoutPathPreview() {
     Box(modifier = Modifier.padding(12.dp)) {
-        Image(imageVector = WithoutPath, contentDescription = null)
+        Image(imageVector = ValkyrieIcons.WithoutPath, contentDescription = null)
     }
 }

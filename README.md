@@ -293,7 +293,7 @@ https://github.com/user-attachments/assets/1e1d07bd-080f-4d39-8683-c1c30ef905e8
 ### Build CLI
 
 Run `./gradlew buildCLI` to build minified version of CLI tool. Artifact will be available in
-`cli/build/distributions/valkyrie-cli-0.11.0-SNAPSHOT.zip`.
+`cli/build/distributions/valkyrie-cli-*.**.*-SNAPSHOT.zip`.
 
 ## Other
 

@@ -69,10 +69,12 @@ internal fun FileSpec.Builder.addPreview(
                 iconPackClassName != null -> iconPreviewSpecForNestedPack(
                     iconPackClassName = iconPackClassName,
                     iconName = config.iconName,
+                    previewAnnotationType = config.previewAnnotationType,
                 )
                 else -> iconPreviewSpec(
                     iconPackage = packageName,
                     iconName = config.iconName,
+                    previewAnnotationType = config.previewAnnotationType,
                 )
             },
         )

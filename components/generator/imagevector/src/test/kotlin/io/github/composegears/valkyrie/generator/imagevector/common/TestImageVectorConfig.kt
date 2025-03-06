@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.generator.imagevector.common
 
 import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
 
 internal fun createConfig(
     packageName: String = "io.github.composegears.valkyrie.icons",
@@ -10,6 +11,7 @@ internal fun createConfig(
     nestedPackName: String = "",
     outputFormat: OutputFormat,
     generatePreview: Boolean = false,
+    previewAnnotationType: PreviewAnnotationType = PreviewAnnotationType.AndroidX,
     useFlatPackage: Boolean = false,
     useExplicitMode: Boolean = false,
     addTrailingComma: Boolean = false,
@@ -22,6 +24,7 @@ internal fun createConfig(
         nestedPackName = nestedPackName,
         outputFormat = outputFormat,
         generatePreview = generatePreview,
+        previewAnnotationType = previewAnnotationType,
         useFlatPackage = useFlatPackage,
         useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,
