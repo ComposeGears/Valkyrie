@@ -14,6 +14,7 @@ internal data class ImageVectorSpecConfig(
     val iconPackage: String,
     val outputFormat: OutputFormat,
     val generatePreview: Boolean,
+    val previewAnnotationType: PreviewAnnotationType,
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
