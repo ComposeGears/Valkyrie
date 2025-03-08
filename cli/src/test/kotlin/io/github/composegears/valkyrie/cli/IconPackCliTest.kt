@@ -49,7 +49,7 @@ class IconPackCliTest {
     fun `generate nested packs`(cliTestType: CliTestType) {
         testIconPack(
             cliTestType = cliTestType,
-            expectedResource = "iconpack/IconPack.nested.kt",
+            expectedResource = "iconpack/IconPack.nested.L2.kt",
             nestedPacks = NestedPacks(listOf("Filled", "Colored")),
         )
     }

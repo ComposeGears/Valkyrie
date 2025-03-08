@@ -4,6 +4,7 @@ import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.generator.model.IconPack
 import io.github.composegears.valkyrie.parser.svgxml.PackageExtractor
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.di.DI
@@ -141,8 +142,10 @@ class NewPackViewModel : TiamatViewModel() {
         val iconPackCode = IconPackGenerator.create(
             config = IconPackGeneratorConfig(
                 packageName = inputFieldState.packageName.text,
-                iconPackName = inputFieldState.iconPackName.text,
-                nestedPacks = inputFieldState.nestedPacks.map { it.inputFieldState.text },
+                iconPack = IconPack(
+                    name = inputFieldState.iconPackName.text,
+                    nested = inputFieldState.nestedPacks.map { IconPack(it.inputFieldState.text) },
+                ),
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
                 indentSize = inMemorySettings.current.indentSize,
             ),

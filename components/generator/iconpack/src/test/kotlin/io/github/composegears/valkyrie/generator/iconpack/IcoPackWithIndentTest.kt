@@ -3,18 +3,20 @@ package io.github.composegears.valkyrie.generator.iconpack
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourceText
+import io.github.composegears.valkyrie.generator.model.iconpack
 import org.junit.jupiter.api.Test
 
 class IcoPackWithIndentTest {
 
     private fun createConfig(
-        nestedPacks: List<String> = listOf("Filled", "Colored"),
         useExplicitMode: Boolean = false,
         indentSize: Int = 4,
     ) = IconPackGeneratorConfig(
         packageName = "io.github.composegears.valkyrie.icons",
-        iconPackName = "ValkyrieIcons",
-        nestedPacks = nestedPacks,
+        iconPack = iconpack(name = "ValkyrieIcons") {
+            pack(name = "Filled")
+            pack(name = "Colored")
+        },
         useExplicitMode = useExplicitMode,
         indentSize = indentSize,
     )
