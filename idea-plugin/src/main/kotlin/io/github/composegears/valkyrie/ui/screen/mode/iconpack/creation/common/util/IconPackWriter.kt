@@ -5,6 +5,7 @@ import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.generator.model.IconPack
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.updateNestedPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode
@@ -31,8 +32,10 @@ object IconPackWriter {
             val iconPack = IconPackGenerator.create(
                 config = IconPackGeneratorConfig(
                     packageName = currentSettings.packageName,
-                    iconPackName = currentSettings.iconPackName,
-                    nestedPacks = currentSettings.nestedPacks,
+                    iconPack = IconPack(
+                        name = currentSettings.iconPackName,
+                        nested = currentSettings.nestedPacks.map(::IconPack),
+                    ),
                     useExplicitMode = currentSettings.useExplicitMode,
                     indentSize = currentSettings.indentSize,
                 ),

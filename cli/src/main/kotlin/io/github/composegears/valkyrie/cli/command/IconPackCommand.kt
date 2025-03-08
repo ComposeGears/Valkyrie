@@ -15,6 +15,7 @@ import io.github.composegears.valkyrie.cli.ext.stringOption
 import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.generator.model.IconPack
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 
@@ -91,8 +92,10 @@ private fun generateIconPack(
     val iconPack = IconPackGenerator.create(
         config = IconPackGeneratorConfig(
             packageName = packageName,
-            iconPackName = iconPackName,
-            nestedPacks = nestedPacks,
+            iconPack = IconPack(
+                name = iconPackName,
+                nested = nestedPacks.map(::IconPack),
+            ),
             useExplicitMode = useExplicitMode,
             indentSize = indentSize,
         ),

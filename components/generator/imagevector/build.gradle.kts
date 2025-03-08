@@ -12,7 +12,7 @@ sourceSets {
 
 dependencies {
     implementation(projects.components.extensions)
-    implementation(projects.components.generator.common)
+    api(projects.components.generator.common)
     implementation(projects.components.ir)
 
     implementation(libs.kotlinpoet)

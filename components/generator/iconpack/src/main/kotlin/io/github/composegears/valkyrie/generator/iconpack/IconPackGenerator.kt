@@ -1,9 +1,10 @@
 package io.github.composegears.valkyrie.generator.iconpack
 
+import io.github.composegears.valkyrie.generator.model.IconPack
+
 data class IconPackGeneratorConfig(
     val packageName: String,
-    val iconPackName: String,
-    val nestedPacks: List<String>,
+    val iconPack: IconPack,
     val useExplicitMode: Boolean,
     val indentSize: Int,
 )
