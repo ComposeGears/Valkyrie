@@ -2,9 +2,8 @@ package io.github.composegears.valkyrie.cli
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.cli.IconPackCommand.IconPackName
+import io.github.composegears.valkyrie.cli.IconPackCommand.IconPackStructure
 import io.github.composegears.valkyrie.cli.IconPackCommand.IndentSize
-import io.github.composegears.valkyrie.cli.IconPackCommand.NestedPacks
 import io.github.composegears.valkyrie.cli.IconPackCommand.OutputPath
 import io.github.composegears.valkyrie.cli.IconPackCommand.PackageName
 import io.github.composegears.valkyrie.cli.IconPackCommand.UseExplicitMode
@@ -31,6 +30,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.kt",
+            iconPack = IconPackStructure("ValkyrieIcons"),
         )
     }
 
@@ -40,6 +40,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.explicit.kt",
+            iconPack = IconPackStructure("ValkyrieIcons"),
             useExplicitMode = UseExplicitMode(true),
         )
     }
@@ -50,7 +51,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.L2.kt",
-            nestedPacks = NestedPacks(listOf("Filled", "Colored")),
+            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
         )
     }
 
@@ -60,7 +61,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.explicit.kt",
-            nestedPacks = NestedPacks(listOf("Filled", "Colored")),
+            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             useExplicitMode = UseExplicitMode(true),
         )
     }
@@ -71,7 +72,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent1.kt",
-            nestedPacks = NestedPacks(listOf("Filled", "Colored")),
+            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(1),
         )
     }
@@ -82,7 +83,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent2.kt",
-            nestedPacks = NestedPacks(listOf("Filled", "Colored")),
+            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(2),
         )
     }
@@ -93,7 +94,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent3.kt",
-            nestedPacks = NestedPacks(listOf("Filled", "Colored")),
+            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(3),
         )
     }
@@ -104,7 +105,7 @@ class IconPackCliTest {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent6.kt",
-            nestedPacks = NestedPacks(listOf("Filled", "Colored")),
+            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(6),
         )
     }
@@ -112,8 +113,8 @@ class IconPackCliTest {
     private fun testIconPack(
         cliTestType: CliTestType,
         expectedResource: String,
+        iconPack: IconPackStructure,
         useExplicitMode: UseExplicitMode? = null,
-        nestedPacks: NestedPacks? = null,
         indentSize: IndentSize? = null,
     ) {
         generateIconPack(
@@ -121,9 +122,8 @@ class IconPackCliTest {
             packCommands = listOfNotNull(
                 OutputPath(tempDir.absolutePathString()),
                 PackageName(name = "io.github.composegears.valkyrie.icons"),
-                IconPackName(name = "ValkyrieIcons"),
+                iconPack,
                 useExplicitMode,
-                nestedPacks,
                 indentSize,
             ),
         )
@@ -175,12 +175,8 @@ private sealed interface IconPackCommand {
         override val command: String = "--package-name=$name"
     }
 
-    data class IconPackName(val name: String) : IconPackCommand {
-        override val command: String = "--iconpack-name=$name"
-    }
-
-    data class NestedPacks(val packs: List<String>) : IconPackCommand {
-        override val command: String = "--nested-packs=${packs.joinToString(separator = ",")}"
+    data class IconPackStructure(val value: String) : IconPackCommand {
+        override val command: String = "--iconpack=$value"
     }
 
     data class IndentSize(val size: Int) : IconPackCommand {

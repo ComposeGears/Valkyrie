@@ -18,7 +18,8 @@
 
 ## Motivation
 
-On one of the projects, during the migration to Jetpack Compose, we needed to convert a large number of icons from XML (Android drawable) and SVG (Figma design system) to ImageVector. The existing solutions didn't quite fit our needs due to
+On one of the projects, during the migration to Jetpack Compose, we needed to convert a large number of icons from XML (
+Android drawable) and SVG (Figma design system) to ImageVector. The existing solutions didn't quite fit our needs due to
 their inconvenient workflow, numerous bugs, poor output code, and in some cases, even being paid (after 5 icons 😄).
 
 Additionally, with the release of Compose 1.7.0,
@@ -48,6 +49,7 @@ material icons.
   - [Export formats](#export-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
   - [Gradle commands](#gradle-commands)
+  - [Migration guide](#migration-guide)
 
 ## Key features
 
@@ -562,6 +564,32 @@ other available gradle commands:
 - check code style: `./gradlew spotlessCheck`
 
 - apply formatting: `./gradlew spotlessApply`
+
+### Migration guide
+
+#### v0.13.0 -> v0.14.0
+
+CLI options `--iconpack-name` and `--nested-packs` removed in favour of `--iconpack`
+
+Single pack
+
+```
+❌ ./valkyrie --iconpack-name=ValkyrieIcons
+```
+
+```
+✅ ./valkyrie --iconpack=ValkyrieIcons
+```
+
+Nested packs
+
+```
+❌ ./valkyrie --iconpack-name=ValkyrieIcons --nested-packs=Colored,Filled
+```
+
+```
+✅ ./valkyrie --iconpack=ValkyrieIcons.Colored,ValkyrieIcons.Filled
+```
 
 ## Join our community
 
