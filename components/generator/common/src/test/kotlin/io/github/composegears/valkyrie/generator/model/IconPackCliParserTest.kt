@@ -18,6 +18,8 @@ class IconPackCliParserTest {
 
         assertThat(result.name).isEqualTo("")
         assertThat(result.nested).isEmpty()
+
+        assertThat(IconPack.toRawString(result)).isEqualTo(input)
     }
 
     @Test
@@ -36,6 +38,8 @@ class IconPackCliParserTest {
 
         assertThat(result.name).isEqualTo("Root")
         assertThat(result.nested).isEmpty()
+
+        assertThat(IconPack.toRawString(result)).isEqualTo(input)
     }
 
     @Test
@@ -49,6 +53,8 @@ class IconPackCliParserTest {
         assertThat(result.nested[0].nested).isEmpty()
         assertThat(result.nested[1].name).isEqualTo("Child2")
         assertThat(result.nested[1].nested).isEmpty()
+
+        assertThat(IconPack.toRawString(result)).isEqualTo(input)
     }
 
     @Test
@@ -67,6 +73,8 @@ class IconPackCliParserTest {
         assertThat(child1.nested[0].nested).isEmpty()
 
         assertThat(child2.nested).isEmpty()
+
+        assertThat(IconPack.toRawString(result)).isEqualTo("Root.Child1.GrandChild1,Root.Child2")
     }
 
     @Test
@@ -84,6 +92,8 @@ class IconPackCliParserTest {
         assertThat(grandChild1.name).isEqualTo("GrandChild1")
         assertThat(greatGrandChild1.name).isEqualTo("GreatGrandChild1")
         assertThat(greatGrandChild1.nested).isEmpty()
+
+        assertThat(IconPack.toRawString(result)).isEqualTo("Root.Child1.GrandChild1.GreatGrandChild1,Root.Child2")
     }
 
     @Test
@@ -111,6 +121,8 @@ class IconPackCliParserTest {
         val childV = childW.nested[0]
         assertThat(childV.name).isEqualTo("V")
         assertThat(childV.nested).isEmpty()
+
+        assertThat(IconPack.toRawString(result)).isEqualTo(input)
     }
 
     @Test
@@ -137,5 +149,7 @@ class IconPackCliParserTest {
 
         assertThat(childCC.nested).hasSize(1)
         assertThat(childCC.nested[0].name).isEqualTo("BB")
+
+        assertThat(IconPack.toRawString(result)).isEqualTo("AAA.BB.FF.CC.AAA,AAA.CC.BB")
     }
 }
