@@ -28,7 +28,7 @@ import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
-import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
@@ -77,7 +77,7 @@ fun ValkyriePlugin(
     )
 
     LaunchedEffect(Unit) {
-        val globalEventsHandler = project.globalEventsHandler
+        val globalEventsHandler = project.current.globalEventsHandler
 
         globalEventsHandler
             .events

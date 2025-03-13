@@ -17,6 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.intellij.openapi.project.Project
+import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.compositionlocal.ProjectWrapper
 import io.github.composegears.valkyrie.ui.foundation.theme.IntelliJTheme.Theme
 import java.awt.Component
 
@@ -28,7 +30,7 @@ fun ValkyrieTheme(
 ) {
     val rootContent = @Composable {
         CompositionLocalProvider(
-            LocalProject provides project,
+            LocalProject provides ProjectWrapper.Platform(project),
             LocalComponent provides currentComponent,
             content = content,
         )
