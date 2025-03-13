@@ -7,7 +7,7 @@ import com.intellij.openapi.application.EDT
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.project.Project
-import io.github.composegears.valkyrie.ui.foundation.theme.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +17,8 @@ fun rememberDirectoryPicker(): Picker<Path?> {
     if (LocalInspectionMode.current) return StubDirectoryPicker
 
     val project = LocalProject.current
-    return remember { DirectoryPicker(project = project) }
+
+    return remember { DirectoryPicker(project = project.current) }
 }
 
 private object StubDirectoryPicker : Picker<Path?> {
