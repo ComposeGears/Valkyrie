@@ -13,9 +13,7 @@ data class IconPack(
                 val nextPrefix = prefix + if (isLastChild) "\t" else "│\t"
 
                 appendLine()
-                append(prefix)
-                append(branchChar)
-                append(iconPack.name)
+                append("$prefix$branchChar${iconPack.name}")
 
                 if (iconPack.nested.isNotEmpty()) {
                     buildNestedTree(prefix = nextPrefix, items = iconPack.nested)
@@ -64,6 +62,29 @@ data class IconPack(
                 name = rootNames.first(),
                 nested = buildHierarchy(paths.map { it.drop(1) }),
             )
+        }
+
+        fun toRawString(iconPack: IconPack): String {
+            if (iconPack.name.isEmpty()) {
+                return ""
+            }
+
+            val paths = mutableListOf<String>()
+
+            fun traverse(node: IconPack, parentPath: String = "") {
+                val currentPath = if (parentPath.isEmpty()) node.name else "$parentPath.${node.name}"
+
+                if (node.nested.isEmpty()) {
+                    paths.add(currentPath)
+                } else {
+                    node.nested.forEach { child ->
+                        traverse(child, currentPath)
+                    }
+                }
+            }
+
+            traverse(iconPack)
+            return paths.joinToString(separator = ",")
         }
     }
 }
