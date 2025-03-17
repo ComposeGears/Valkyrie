@@ -19,8 +19,12 @@ dependencies {
     implementation(projects.components.irCompose)
     implementation(projects.components.psi.imagevector)
 
-    implementation(compose.material3)
-    implementation(compose.ui)
+    implementation(compose.material) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.ui) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
 
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
