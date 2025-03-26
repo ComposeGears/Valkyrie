@@ -1,5 +1,4 @@
 [versions]
-idea = "2024.1"
 intellij = "2.3.0"
 kotlin = "2.1.20"
 
@@ -9,7 +8,8 @@ android-build-tools = "com.android.tools:sdk-common:31.9.1"
 
 highlights = "dev.snipme:highlights:1.0.0"
 
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+# https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#stdlib-miscellaneous
+intellij-bundle-kotlin = "org.jetbrains.kotlin:kotlin-stdlib:1.9.24"
 
 kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 
