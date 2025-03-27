@@ -16,7 +16,7 @@ kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 leviathan = "io.github.composegears:leviathan:2.0.0"
 leviathan-compose = "io.github.composegears:leviathan-compose:2.0.0"
 
-tiamat = "io.github.composegears:tiamat:1.3.0"
+tiamat = "io.github.composegears:tiamat:1.5.0"
 
 xpp3 = "org.ogce:xpp3:1.1.6"
 
