@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
+    compileOnly(libs.intellij.bundle.kotlin)
+
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 }
