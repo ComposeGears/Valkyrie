@@ -1,6 +1,6 @@
 [versions]
 idea = "2024.1"
-intellij = "2.3.0"
+intellij = "2.5.0"
 kotlin = "2.1.20"
 
 [libraries]
