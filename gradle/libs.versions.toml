@@ -23,7 +23,7 @@ xpp3 = "org.ogce:xpp3:1.1.6"
 clikt = "com.github.ajalt.clikt:clikt:5.0.3"
 r8 = "com.android.tools:r8:8.7.18"
 
-junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.12.1"
+junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.12.2"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit4 = "junit:junit:4.13.2"
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
