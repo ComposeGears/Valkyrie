@@ -7,6 +7,12 @@ plugins {
 dependencies {
     api(projects.components.ir)
 
-    implementation(compose.material3)
-    implementation(compose.ui)
+    compileOnly(libs.intellij.bundle.kotlin)
+
+    implementation(compose.material3) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.ui) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
 }

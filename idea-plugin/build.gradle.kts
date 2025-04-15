@@ -20,17 +20,34 @@ dependencies {
 
     compileOnly(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
+        exclude(group = "org.jetbrains.kotlinx")
     }
-    implementation(compose.desktop.common)
-    implementation(compose.desktop.linux_arm64)
-    implementation(compose.desktop.linux_x64)
-    implementation(compose.desktop.macos_arm64)
-    implementation(compose.desktop.macos_x64)
-    implementation(compose.desktop.windows_x64)
-    implementation(compose.material3)
+    implementation(compose.desktop.common) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.desktop.linux_arm64) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.desktop.linux_x64) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.desktop.macos_arm64) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.desktop.macos_x64) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.desktop.windows_x64) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+    implementation(compose.material3) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
 
     implementation(libs.android.build.tools)
-    implementation(libs.highlights)
+    implementation(libs.highlights) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
     implementation(libs.leviathan)
     implementation(libs.leviathan.compose)
     implementation(libs.tiamat)
@@ -48,7 +65,7 @@ intellijPlatform {
     buildSearchableOptions = false
     projectName = "valkyrie-plugin"
     pluginConfiguration.ideaVersion {
-        sinceBuild = "241"
+        sinceBuild = "242"
         untilBuild = provider { null }
     }
     signing {
@@ -63,8 +80,10 @@ intellijPlatform {
 }
 
 java {
-    // IDEA 2024.1 requires Java 17.
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    // IDEA 2024.2 or above requires Java 21.
+    // https://plugins.jetbrains.com/docs/intellij/api-changes-list-2024.html
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks {
