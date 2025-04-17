@@ -6,13 +6,13 @@
 
 <div align="center">
 
-[![Plugin Homepage][badge:plugin-homepage]][plugin-homepage]
-[![Version][badge:version]][plugin-versions]
-[![Downloads][badge:downloads]][plugin-homepage]
+[![Marketplace version][badge:marketplace-version]][url:plugin-homepage]
+[![GitHub releases][badge:gh-release]][url:gh-releases]
+[![Downloads][badge:marketplace-downloads]][url:plugin-homepage]
 
-[![GitHub releases][badge:release]][gh:releases]
-[![Downloads][badge:slack]][slack-invite]
-[![License][badge:license]][gh:license]
+[![Telegram][badge:telegram-invite]][url:telegram-invite]
+[![Slack][badge:slack-invite]][url:slack-invite]
+[![License][badge:license]][url:gh-license]
 
 </div>
 
@@ -322,37 +322,37 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.backing.BackingIcons
 
 val BackingIcons.Outlined.Add: ImageVector
-  get() {
-    if (_Add != null) {
-      return _Add!!
-    }
-    _Add = ImageVector.Builder(
-      name = "Outlined.Add",
-      defaultWidth = 24.dp,
-      defaultHeight = 24.dp,
-      viewportWidth = 24f,
-      viewportHeight = 24f,
-    ).apply {
-      path(fill = SolidColor(Color(0xFF232F34))) {
-        moveTo(19f, 13f)
-        lineTo(13f, 13f)
-        lineTo(13f, 19f)
-        lineTo(11f, 19f)
-        lineTo(11f, 13f)
-        lineTo(5f, 13f)
-        lineTo(5f, 11f)
-        lineTo(11f, 11f)
-        lineTo(11f, 5f)
-        lineTo(13f, 5f)
-        lineTo(13f, 11f)
-        lineTo(19f, 11f)
-        lineTo(19f, 13f)
-        close()
-      }
-    }.build()
-
+get() {
+  if (_Add != null) {
     return _Add!!
   }
+  _Add = ImageVector.Builder(
+    name = "Outlined.Add",
+    defaultWidth = 24.dp,
+    defaultHeight = 24.dp,
+    viewportWidth = 24f,
+    viewportHeight = 24f,
+  ).apply {
+    path(fill = SolidColor(Color(0xFF232F34))) {
+      moveTo(19f, 13f)
+      lineTo(13f, 13f)
+      lineTo(13f, 19f)
+      lineTo(11f, 19f)
+      lineTo(11f, 13f)
+      lineTo(5f, 13f)
+      lineTo(5f, 11f)
+      lineTo(11f, 11f)
+      lineTo(11f, 5f)
+      lineTo(13f, 5f)
+      lineTo(13f, 11f)
+      lineTo(19f, 11f)
+      lineTo(19f, 13f)
+      close()
+    }
+  }.build()
+
+  return _Add!!
+}
 
 @Suppress("ObjectPropertyName")
 private var _Add: ImageVector? = null
@@ -435,37 +435,37 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
 val Add: ImageVector
-  get() {
-    if (_Add != null) {
-      return _Add!!
-    }
-    _Add = ImageVector.Builder(
-      name = "Add",
-      defaultWidth = 24.dp,
-      defaultHeight = 24.dp,
-      viewportWidth = 24f,
-      viewportHeight = 24f
-    ).apply {
-      path(fill = SolidColor(Color(0xFFE8EAED))) {
-        moveTo(19f, 13f)
-        horizontalLineToRelative(-6f)
-        verticalLineToRelative(6f)
-        horizontalLineToRelative(-2f)
-        verticalLineToRelative(-6f)
-        horizontalLineTo(5f)
-        verticalLineToRelative(-2f)
-        horizontalLineToRelative(6f)
-        verticalLineTo(5f)
-        horizontalLineToRelative(2f)
-        verticalLineToRelative(6f)
-        horizontalLineToRelative(6f)
-        verticalLineToRelative(2f)
-        close()
-      }
-    }.build()
-
+get() {
+  if (_Add != null) {
     return _Add!!
   }
+  _Add = ImageVector.Builder(
+    name = "Add",
+    defaultWidth = 24.dp,
+    defaultHeight = 24.dp,
+    viewportWidth = 24f,
+    viewportHeight = 24f
+  ).apply {
+    path(fill = SolidColor(Color(0xFFE8EAED))) {
+      moveTo(19f, 13f)
+      horizontalLineToRelative(-6f)
+      verticalLineToRelative(6f)
+      horizontalLineToRelative(-2f)
+      verticalLineToRelative(-6f)
+      horizontalLineTo(5f)
+      verticalLineToRelative(-2f)
+      horizontalLineToRelative(6f)
+      verticalLineTo(5f)
+      horizontalLineToRelative(2f)
+      verticalLineToRelative(6f)
+      horizontalLineToRelative(6f)
+      verticalLineToRelative(2f)
+      close()
+    }
+  }.build()
+
+  return _Add!!
+}
 
 @Suppress("ObjectPropertyName")
 private var _Add: ImageVector? = null
@@ -490,64 +490,64 @@ import androidx.compose.ui.unit.dp
 private var _Add: ImageVector? = null
 
 public val Add: ImageVector
-  get() {
-    if (_Add != null) {
-      return _Add!!
-    }
-    _Add = ImageVector.Builder(
-      name = "Add",
-      defaultWidth = 24.dp,
-      defaultHeight = 24.dp,
-      viewportWidth = 24f,
-      viewportHeight = 24f
-    ).apply {
-      path(
-        fill = null,
-        fillAlpha = 1.0f,
-        stroke = null,
-        strokeAlpha = 1.0f,
-        strokeLineWidth = 1.0f,
-        strokeLineCap = StrokeCap.Butt,
-        strokeLineJoin = StrokeJoin.Miter,
-        strokeLineMiter = 1.0f,
-        pathFillType = PathFillType.NonZero
-      ) {
-        moveTo(0f, 0f)
-        horizontalLineToRelative(24f)
-        verticalLineToRelative(24f)
-        horizontalLineTo(0f)
-        verticalLineTo(0f)
-        close()
-      }
-      path(
-        fill = SolidColor(Color(0xFFE8EAED)),
-        fillAlpha = 1.0f,
-        stroke = null,
-        strokeAlpha = 1.0f,
-        strokeLineWidth = 1.0f,
-        strokeLineCap = StrokeCap.Butt,
-        strokeLineJoin = StrokeJoin.Miter,
-        strokeLineMiter = 1.0f,
-        pathFillType = PathFillType.NonZero
-      ) {
-        moveTo(19f, 13f)
-        horizontalLineToRelative(-6f)
-        verticalLineToRelative(6f)
-        horizontalLineToRelative(-2f)
-        verticalLineToRelative(-6f)
-        horizontalLineTo(5f)
-        verticalLineToRelative(-2f)
-        horizontalLineToRelative(6f)
-        verticalLineTo(5f)
-        horizontalLineToRelative(2f)
-        verticalLineToRelative(6f)
-        horizontalLineToRelative(6f)
-        verticalLineToRelative(2f)
-        close()
-      }
-    }.build()
+get() {
+  if (_Add != null) {
     return _Add!!
   }
+  _Add = ImageVector.Builder(
+    name = "Add",
+    defaultWidth = 24.dp,
+    defaultHeight = 24.dp,
+    viewportWidth = 24f,
+    viewportHeight = 24f
+  ).apply {
+    path(
+      fill = null,
+      fillAlpha = 1.0f,
+      stroke = null,
+      strokeAlpha = 1.0f,
+      strokeLineWidth = 1.0f,
+      strokeLineCap = StrokeCap.Butt,
+      strokeLineJoin = StrokeJoin.Miter,
+      strokeLineMiter = 1.0f,
+      pathFillType = PathFillType.NonZero
+    ) {
+      moveTo(0f, 0f)
+      horizontalLineToRelative(24f)
+      verticalLineToRelative(24f)
+      horizontalLineTo(0f)
+      verticalLineTo(0f)
+      close()
+    }
+    path(
+      fill = SolidColor(Color(0xFFE8EAED)),
+      fillAlpha = 1.0f,
+      stroke = null,
+      strokeAlpha = 1.0f,
+      strokeLineWidth = 1.0f,
+      strokeLineCap = StrokeCap.Butt,
+      strokeLineJoin = StrokeJoin.Miter,
+      strokeLineMiter = 1.0f,
+      pathFillType = PathFillType.NonZero
+    ) {
+      moveTo(19f, 13f)
+      horizontalLineToRelative(-6f)
+      verticalLineToRelative(6f)
+      horizontalLineToRelative(-2f)
+      verticalLineToRelative(-6f)
+      horizontalLineTo(5f)
+      verticalLineToRelative(-2f)
+      horizontalLineToRelative(6f)
+      verticalLineTo(5f)
+      horizontalLineToRelative(2f)
+      verticalLineToRelative(6f)
+      horizontalLineToRelative(6f)
+      verticalLineToRelative(2f)
+      close()
+    }
+  }.build()
+  return _Add!!
+}
 
 ```
 
@@ -623,24 +623,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[badge:plugin-homepage]: https://img.shields.io/badge/Marketplace-Valkyrie-24786.svg?style=for-the-badge&labelColor=000000&color=FFFFFF
+[badge:marketplace-version]: https://img.shields.io/jetbrains/plugin/v/24786?label=JB%20Marketplace&style=for-the-badge&labelColor=black&color=white
 
-[badge:version]: https://img.shields.io/jetbrains/plugin/v/24786?style=for-the-badge&labelColor=000000&color=FFFFFF
+[badge:gh-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?include_prereleases&style=for-the-badge&label=github%20release&labelColor=black&color=white
 
-[badge:downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=for-the-badge&labelColor=000000&color=FFFFFF
+[badge:marketplace-downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=for-the-badge&labelColor=black&color=white
 
-[badge:release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?include_prereleases&style=for-the-badge&label=latest%20release&labelColor=000000&color=ffffff
+[badge:slack-invite]: https://img.shields.io/badge/slack-blue.svg?logo=slack&style=for-the-badge&labelColor=black&color=white
 
-[badge:slack]: https://img.shields.io/badge/slack-Compose_Gears-blue.svg?logo=slack&style=for-the-badge&labelColor=000000&color=ffffff
+[badge:telegram-invite]: https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&style=for-the-badge&labelColor=black&color=white&logoColor=white
 
-[badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie?style=for-the-badge&labelColor=000000&color=ffffff
+[badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie?style=for-the-badge&labelColor=black&color=white
 
-[gh:releases]: https://github.com/ComposeGears/Valkyrie/releases
+[url:plugin-homepage]: https://plugins.jetbrains.com/plugin/24786-valkyrie
 
-[gh:license]: https://github.com/ComposeGears/Valkyrie/blob/main/LICENSE
+[url:gh-releases]: https://github.com/ComposeGears/Valkyrie/releases
 
-[plugin-homepage]: https://plugins.jetbrains.com/plugin/24786-valkyrie
+[url:telegram-invite]: https://t.me/composegears
 
-[plugin-versions]: https://plugins.jetbrains.com/plugin/24786-valkyrie/versions
+[url:slack-invite]: https://join.slack.com/t/composegears/shared_invite/zt-2noleve52-D~zrFPmC1cdhThsuQUW61A
 
-[slack-invite]: https://join.slack.com/t/composegears/shared_invite/zt-2noleve52-D~zrFPmC1cdhThsuQUW61A
+[url:gh-license]: https://github.com/ComposeGears/Valkyrie/blob/main/LICENSE
