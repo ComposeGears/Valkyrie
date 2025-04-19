@@ -44,6 +44,7 @@ import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersio
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.util.stringResource
 
 val IntroScreen: NavDestination<Unit> by navDestination {
 
@@ -95,13 +96,13 @@ private fun IntroScreenUI(
                 verticalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = "Welcome to Valkyrie",
+                    text = stringResource("intro.header"),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
                 )
                 VerticalSpacer(42.dp)
                 Text(
-                    text = "Choose conversion mode",
+                    text = stringResource("intro.subheader"),
                     style = MaterialTheme.typography.labelSmall,
                     color = LocalContentColor.current.copy(alpha = 0.5f),
                     textAlign = TextAlign.Center,
@@ -111,16 +112,16 @@ private fun IntroScreenUI(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(Simple) },
                     image = ValkyrieIcons.SimpleConversion,
-                    title = "Simple",
-                    description = "One-click conversion from SVG/XML into ImageVector",
+                    title = stringResource("intro.card.simple.title"),
+                    description = stringResource("intro.card.simple.description"),
                 )
                 VerticalSpacer(16.dp)
                 SelectableCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(IconPack) },
                     image = ValkyrieIcons.BatchProcessing,
-                    title = "IconPack",
-                    description = "Create organized icon pack with batch export into your project",
+                    title = stringResource("intro.card.iconpack.title"),
+                    description = stringResource("intro.card.iconpack.description"),
                 )
             }
             WeightSpacer(weight = 0.7f)
