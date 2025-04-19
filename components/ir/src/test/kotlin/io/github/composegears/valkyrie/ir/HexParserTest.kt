@@ -50,6 +50,26 @@ class HexParserTest {
             assertThat(it.actual).isEqualTo(it.expected)
         }
     }
+
+    @Test
+    fun `parse to color names`() {
+        listOf(
+            IrColor("000000") to "Black",
+            IrColor("444444") to "DarkGray",
+            IrColor("888888") to "Gray",
+            IrColor("CCCCCC") to "LightGray",
+            IrColor("FFFFFF") to "White",
+            IrColor("FF0000") to "Red",
+            IrColor("00FF00") to "Green",
+            IrColor("0000FF") to "Blue",
+            IrColor("FFFF00") to "Yellow",
+            IrColor("00FFFF") to "Cyan",
+            IrColor("FF00FF") to "Magenta",
+            IrColor("00000000") to "Transparent",
+        ).forEach { (color, name) ->
+            assertThat(color.toName()).isEqualTo(name)
+        }
+    }
 }
 
 private data class ColorHex(
