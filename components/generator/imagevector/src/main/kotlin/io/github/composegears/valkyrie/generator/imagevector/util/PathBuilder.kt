@@ -106,7 +106,9 @@ private fun CodeBlock.Builder.fillArg(
 ) {
     when (val fill = path.fill) {
         is IrFill.Color -> {
-            add("fill = %M(%M(${fill.irColor.toHexLiteral()}))", MemberNames.SolidColor, MemberNames.Color)
+            add("fill = %M(", MemberNames.SolidColor)
+            addColor(fill.irColor)
+            add(")")
         }
         is IrFill.LinearGradient -> {
             if (handleMultiline) {
@@ -136,12 +138,7 @@ private fun CodeBlock.Builder.fillArg(
 private fun CodeBlock.Builder.addLinearGradient(fill: IrFill.LinearGradient) {
     argumentBlock("fill = %T.linearGradient(", ClassNames.Brush) {
         argumentBlock("colorStops = arrayOf(", isNested = true) {
-            add(
-                fill.colorStops.joinToString(separator = ",\n") { stop ->
-                    "${stop.offset.formatFloat()} to %M(${stop.irColor.toHexLiteral()})"
-                },
-                *Array(fill.colorStops.size) { MemberNames.Color },
-            )
+            addColorStops(fill.colorStops)
         }
         add(
             "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),",
@@ -158,12 +155,7 @@ private fun CodeBlock.Builder.addLinearGradient(fill: IrFill.LinearGradient) {
 private fun CodeBlock.Builder.addRadialGradient(fill: IrFill.RadialGradient) {
     argumentBlock("fill = %T.radialGradient(", ClassNames.Brush) {
         argumentBlock("colorStops = arrayOf(", isNested = true) {
-            add(
-                fill.colorStops.joinToString(separator = ",\n") { stop ->
-                    "${stop.offset.formatFloat()} to %M(${stop.irColor.toHexLiteral()})"
-                },
-                *Array(fill.colorStops.size) { MemberNames.Color },
-            )
+            addColorStops(fill.colorStops)
         }
         add(
             "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),",
@@ -179,7 +171,9 @@ private fun CodeBlock.Builder.fillAlphaArg(param: FillAlphaParam) {
 }
 
 private fun CodeBlock.Builder.strokeArg(param: StrokeColorParam) {
-    add("stroke = %M(%M(${param.strokeColor.toHexLiteral()}))", MemberNames.SolidColor, MemberNames.Color)
+    add("stroke = %M(", MemberNames.SolidColor)
+    addColor(param.strokeColor)
+    add(")")
 }
 
 private fun CodeBlock.Builder.strokeAlphaArg(param: StrokeAlphaParam) {
@@ -204,6 +198,30 @@ private fun CodeBlock.Builder.strokeLineMiterArg(param: StrokeLineMiterParam) {
 
 private fun CodeBlock.Builder.pathFillTypeArg(param: PathFillTypeParam) {
     add("pathFillType = %T.%L", ClassNames.PathFillType, param.pathFillType.name)
+}
+
+private fun CodeBlock.Builder.addColor(color: IrColor) {
+    add("%M", MemberNames.Color)
+    val name = color.toName()
+    if (name != null) {
+        val alphaValue = color.alpha.toFloat() / 0xFF
+        if (alphaValue < 1f) {
+            add(".$name.copy(alpha = ${alphaValue.formatFloat()})")
+        } else {
+            add(".$name")
+        }
+    } else {
+        add("(${color.toHexLiteral()})")
+    }
+}
+
+private fun CodeBlock.Builder.addColorStops(stops: List<IrFill.ColorStop>) {
+    val lastIndex = stops.lastIndex
+    stops.forEachIndexed { index, stop ->
+        add("${stop.offset.formatFloat()} to ")
+        addColor(stop.irColor)
+        if (index != lastIndex) add(",\n")
+    }
 }
 
 private fun IrVectorNode.IrPath.buildPathParams() = buildList {
