@@ -12,6 +12,7 @@ import io.github.composegears.valkyrie.cli.SvgXmlCommand.InputPath
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.NestedPackName
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.OutputPath
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.PackageName
+import io.github.composegears.valkyrie.cli.SvgXmlCommand.UseComposeColors
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.UseExplicitMode
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.UseFlatPackage
 import io.github.composegears.valkyrie.cli.common.CliTestType
@@ -65,7 +66,7 @@ class SvgXmlToImageVectorCliTest {
         )
 
         val files = tempDir.toFile().listFiles().orEmpty()
-        assertThat(files.size).isEqualTo(10)
+        assertThat(files.size).isEqualTo(11)
     }
 
     @ParameterizedTest
@@ -316,6 +317,7 @@ class SvgXmlToImageVectorCliTest {
             inputResource = "imagevector/xml/ic_all_group_params.xml",
             expectedKtName = "AllGroupParams.kt",
             iconPackName = IconPackName("ValkyrieIcons"),
+            useComposeColors = UseComposeColors(false),
         )
     }
 
@@ -326,6 +328,18 @@ class SvgXmlToImageVectorCliTest {
             inputResource = "imagevector/xml/ic_several_path.xml",
             expectedKtName = "SeveralPath.kt",
             iconPackName = IconPackName("ValkyrieIcons"),
+            useComposeColors = UseComposeColors(false),
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource("testMatrix")
+    fun `icon with compose colors enabled`(arg: Pair<CliTestType, OutputFormat>) {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_compose_color.xml",
+            expectedKtName = "ComposeColor.kt",
+            iconPackName = IconPackName("ValkyrieIcons"),
+            useComposeColors = UseComposeColors(true),
         )
     }
 
@@ -365,6 +379,7 @@ class SvgXmlToImageVectorCliTest {
         arg.testConversion(
             inputResource = "imagevector/svg/ic_linear_gradient.svg",
             expectedKtName = "LinearGradient.kt",
+            useComposeColors = UseComposeColors(false),
         )
     }
 
@@ -401,6 +416,7 @@ class SvgXmlToImageVectorCliTest {
         actualKtName: String = expectedKtName,
         iconPackName: IconPackName? = null,
         useExplicitMode: UseExplicitMode? = null,
+        useComposeColors: UseComposeColors? = null,
         nestedPackName: NestedPackName? = null,
         useFlatPackage: UseFlatPackage? = null,
         indentSize: IndentSize? = null,
@@ -426,6 +442,7 @@ class SvgXmlToImageVectorCliTest {
                 useExplicitMode,
                 addTrailingComma,
                 indentSize,
+                useComposeColors,
             ),
         )
 
@@ -519,6 +536,10 @@ private sealed interface SvgXmlCommand {
 
     data class UseExplicitMode(val value: Boolean) : SvgXmlCommand {
         override val command: String = "--explicit-mode=$value"
+    }
+
+    data class UseComposeColors(val value: Boolean) : SvgXmlCommand {
+        override val command: String = "--use-compose-colors=$value"
     }
 
     data class AddTrailingComma(val value: Boolean) : SvgXmlCommand {

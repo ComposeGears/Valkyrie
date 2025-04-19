@@ -50,6 +50,7 @@ internal fun CodeBlock.Builder.addImageVectorBlock(
                     addVectorNode(
                         irVectorNode = node,
                         addTrailingComma = config.addTrailingComma,
+                        useComposeColors = config.useComposeColors,
                     )
                 }
             },
@@ -84,6 +85,7 @@ internal fun FileSpec.Builder.addPreview(
 private fun CodeBlock.Builder.addVectorNode(
     irVectorNode: IrVectorNode,
     addTrailingComma: Boolean,
+    useComposeColors: Boolean,
 ) {
     when (irVectorNode) {
         is IrVectorNode.IrGroup -> addGroup(
@@ -94,6 +96,7 @@ private fun CodeBlock.Builder.addVectorNode(
                     addVectorNode(
                         irVectorNode = path,
                         addTrailingComma = addTrailingComma,
+                        useComposeColors = useComposeColors,
                     )
                 }
             },
@@ -101,6 +104,7 @@ private fun CodeBlock.Builder.addVectorNode(
         is IrVectorNode.IrPath -> addPath(
             path = irVectorNode,
             addTrailingComma = addTrailingComma,
+            useComposeColor = useComposeColors,
             pathBody = {
                 irVectorNode.paths.forEach { pathNode ->
                     // based on https://github.com/square/kotlinpoet/pull/1860#issuecomment-1986825382

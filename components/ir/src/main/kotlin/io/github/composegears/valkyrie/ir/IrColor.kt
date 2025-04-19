@@ -1,5 +1,19 @@
 package io.github.composegears.valkyrie.ir
 
+private val rgbToName = mapOf(
+    0x000000 to "Black",
+    0x444444 to "DarkGray",
+    0x888888 to "Gray",
+    0xCCCCCC to "LightGray",
+    0xFFFFFF to "White",
+    0xFF0000 to "Red",
+    0x00FF00 to "Green",
+    0x0000FF to "Blue",
+    0xFFFF00 to "Yellow",
+    0x00FFFF to "Cyan",
+    0xFF00FF to "Magenta",
+)
+
 @JvmInline
 value class IrColor(val argb: Int) {
 
@@ -11,6 +25,9 @@ value class IrColor(val argb: Int) {
     val blue: UByte get() = this[3]
 
     fun toHexLiteral(): String = toHex("0x")
+
+    fun toName(): String? = rgbToName[argb and 0xFFFFFF]
+        ?.let { if (argb == 0) "Transparent" else it }
 
     fun toHexColor(): String = toHex("#")
 
