@@ -212,6 +212,7 @@ private fun ValidIconItem(
                 )
                 IconActionsDropdown(
                     isExpanded = isExpanded,
+                    previewEnabled = { icon.iconName.name.isNotEmpty() },
                     onDismissRequest = { isExpanded = false },
                     onDelete = {
                         isExpanded = false
@@ -270,6 +271,7 @@ private fun BrokenIconItem(
 @Composable
 private fun IconActionsDropdown(
     isExpanded: Boolean,
+    previewEnabled: () -> Boolean,
     onDismissRequest: () -> Unit,
     onDelete: () -> Unit,
     onPreview: () -> Unit,
@@ -287,15 +289,17 @@ private fun IconActionsDropdown(
             },
             onClick = onDelete,
         )
-        DropdownMenuItem(
-            text = {
-                CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Icon(imageVector = ValkyrieIcons.Visibility, contentDescription = null)
-                    Text(text = "Preview")
-                }
-            },
-            onClick = onPreview,
-        )
+        if (previewEnabled()) {
+            DropdownMenuItem(
+                text = {
+                    CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Icon(imageVector = ValkyrieIcons.Visibility, contentDescription = null)
+                        Text(text = "Preview")
+                    }
+                },
+                onClick = onPreview,
+            )
+        }
     }
 }
 
