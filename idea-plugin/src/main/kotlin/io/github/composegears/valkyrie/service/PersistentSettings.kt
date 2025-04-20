@@ -42,6 +42,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var previewAnnotationType by string()
 
         var outputFormat: String? by string()
+        var useComposeColors: Boolean by property(true)
         var flatPackage: Boolean by property(false)
         var useExplicitMode: Boolean by property(false)
         var addTrailingComma: Boolean by property(false)

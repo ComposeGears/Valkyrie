@@ -13,6 +13,7 @@ internal data class ImageVectorSpecConfig(
     val iconNestedPack: String,
     val iconPackage: String,
     val outputFormat: OutputFormat,
+    val useComposeColors: Boolean,
     val generatePreview: Boolean,
     val previewAnnotationType: PreviewAnnotationType,
     val useFlatPackage: Boolean,

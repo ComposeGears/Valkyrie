@@ -26,7 +26,9 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIndentSize
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ui.SwitchOption
+import io.github.composegears.valkyrie.util.stringResource
 
 val ImageVectorExportSettingsScreen by navDestination<Unit> {
     val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
@@ -62,6 +64,12 @@ private fun ImageVectorExportSettingsUi(
             onCheckedChange = { onAction(UpdateFlatPackage(it)) },
         )
         SwitchOption(
+            title = stringResource("settings.export.composecolor"),
+            description = stringResource("settings.export.composecolor.description"),
+            checked = exportSettings.useComposeColors,
+            onCheckedChange = { onAction(UpdateUseComposeColors(it)) },
+        )
+        SwitchOption(
             title = "Handle Kotlin explicit mode",
             description = "Generate ImageVector icons and IconPack with explicit 'public' modifier",
             checked = exportSettings.useExplicitMode,
@@ -73,14 +81,12 @@ private fun ImageVectorExportSettingsUi(
             checked = exportSettings.addTrailingComma,
             onCheckedChange = { onAction(UpdateAddTrailingComma(it)) },
         )
-        VerticalSpacer(16.dp)
         PreviewAnnotationSection(
             generatePreview = exportSettings.generatePreview,
             previewAnnotationType = exportSettings.previewAnnotationType,
             onGeneratePreviewChange = { onAction(UpdatePreviewGeneration(it)) },
             onAnnotationTypeChange = { onAction(UpdatePreviewAnnotationType(it)) },
         )
-        VerticalSpacer(16.dp)
         IndentSizeSection(
             indent = exportSettings.indentSize,
             onValueChange = { onAction(UpdateIndentSize(it)) },
@@ -96,6 +102,7 @@ private fun ImageVectorExportSettingsPreview() = PreviewTheme(alignment = Alignm
         onAction = {},
         exportSettings = ExportSettings(
             outputFormat = OutputFormat.BackingProperty,
+            useComposeColors = true,
             generatePreview = true,
             useFlatPackage = true,
             useExplicitMode = false,

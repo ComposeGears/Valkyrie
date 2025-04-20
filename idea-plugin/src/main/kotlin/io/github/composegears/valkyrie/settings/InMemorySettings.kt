@@ -47,6 +47,7 @@ class InMemorySettings(project: Project) {
         iconPackDestination = ""
         updateNestedPack(packs = emptyList())
         updateOutputFormat(OutputFormat.BackingProperty)
+        useComposeColors = true
         generatePreview = false
         updatePreviewAnnotationType(PreviewAnnotationType.AndroidX)
         flatPackage = false
@@ -81,6 +82,7 @@ class InMemorySettings(project: Project) {
             previewAnnotationType = PreviewAnnotationType.from(previewAnnotationType),
 
             flatPackage = flatPackage,
+            useComposeColors = useComposeColors,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
             indentSize = indentSize,
@@ -105,6 +107,7 @@ data class ValkyriesSettings(
     val previewAnnotationType: PreviewAnnotationType,
 
     val outputFormat: OutputFormat,
+    val useComposeColors: Boolean,
     val indentSize: Int,
     val flatPackage: Boolean,
     val useExplicitMode: Boolean,
