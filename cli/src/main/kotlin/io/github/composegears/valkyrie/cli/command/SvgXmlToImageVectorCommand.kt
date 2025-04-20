@@ -73,6 +73,12 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
 
     private val outputFormat by outputFormatOption()
 
+    private val useComposeColors by booleanOption(
+        "--use-compose-colors",
+        default = true,
+        help = "Use predefined Compose colors instead of hex color codes (e.g. Color.Black instead of Color(0xFF000000))",
+    )
+
     private val generatePreview by booleanOption(
         "--generate-preview",
         help = "Generate @Preview",
@@ -121,6 +127,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
             generatePreview = generatePreview,
             previewAnnotationType = previewAnnotationType,
             outputFormat = outputFormat,
+            useComposeColors = useComposeColors,
             useFlatPackage = useFlatPackage,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
@@ -164,6 +171,7 @@ private fun svgXml2ImageVector(
     generatePreview: Boolean,
     previewAnnotationType: PreviewAnnotationType,
     outputFormat: OutputFormat,
+    useComposeColors: Boolean,
     useFlatPackage: Boolean,
     useExplicitMode: Boolean,
     addTrailingComma: Boolean,
@@ -208,6 +216,7 @@ private fun svgXml2ImageVector(
                 packName = iconPackName,
                 nestedPackName = nestedPackName,
                 outputFormat = outputFormat,
+                useComposeColors = useComposeColors,
                 generatePreview = generatePreview,
                 previewAnnotationType = previewAnnotationType,
                 useFlatPackage = useFlatPackage,

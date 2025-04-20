@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 
 sealed interface SettingsAction {
     data class UpdateOutputFormat(val outputFormat: OutputFormat) : SettingsAction
+    data class UpdateUseComposeColors(val useComposeColor: Boolean) : SettingsAction
     data class UpdateFlatPackage(val useFlatPackage: Boolean) : SettingsAction
     data class UpdateExplicitMode(val useExplicitMode: Boolean) : SettingsAction
     data class UpdateAddTrailingComma(val addTrailingComma: Boolean) : SettingsAction

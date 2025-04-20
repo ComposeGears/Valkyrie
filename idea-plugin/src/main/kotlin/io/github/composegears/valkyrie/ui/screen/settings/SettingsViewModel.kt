@@ -19,6 +19,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
 
 @Suppress("UnstableApiUsage")
 class SettingsViewModel : TiamatViewModel() {
@@ -28,6 +29,7 @@ class SettingsViewModel : TiamatViewModel() {
     val exportSettings = inMemorySettings.settings.mapState {
         ExportSettings(
             outputFormat = it.outputFormat,
+            useComposeColors = it.useComposeColors,
             generatePreview = it.generatePreview,
             useFlatPackage = it.flatPackage,
             useExplicitMode = it.useExplicitMode,
@@ -55,6 +57,7 @@ class SettingsViewModel : TiamatViewModel() {
     fun onAction(settingsAction: SettingsAction) = inMemorySettings.update {
         when (settingsAction) {
             is UpdatePreviewGeneration -> generatePreview = settingsAction.generate
+            is UpdateUseComposeColors -> useComposeColors = settingsAction.useComposeColor
             is UpdateOutputFormat -> updateOutputFormat(settingsAction.outputFormat)
             is UpdateImageVectorPreview -> showImageVectorPreview = settingsAction.enabled
             is UpdateFlatPackage -> flatPackage = settingsAction.useFlatPackage
@@ -75,6 +78,7 @@ class SettingsViewModel : TiamatViewModel() {
 
 data class ExportSettings(
     val outputFormat: OutputFormat,
+    val useComposeColors: Boolean,
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
