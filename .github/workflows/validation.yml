@@ -45,3 +45,6 @@ jobs:
 
       - name: Run build
         run: ./gradlew build
+
+      - name: Run tests
+        run: ./gradlew test
