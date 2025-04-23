@@ -1,0 +1,4 @@
+<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Missing closing tag for the rect element -->
+  <rect x="10" y="10" width="180" height="80" stroke="black" stroke-width="2" fill="none"
+</svg>
