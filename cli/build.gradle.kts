@@ -48,7 +48,7 @@ val buildWithR8 by tasks.registering(JavaExec::class) {
     outputs.file(jar)
 
     classpath(r8)
-    mainClass = com.android.tools.r8.R8::class.java.canonicalName
+    mainClass = "com.android.tools.r8.R8"
     args(
         "--release",
         "--classfile",
