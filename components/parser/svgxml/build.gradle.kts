@@ -4,9 +4,8 @@ plugins {
 
 dependencies {
     implementation(projects.components.ir)
-
-    implementation(libs.android.build.tools)
-    implementation(libs.xpp3)
+    implementation(projects.components.parser.jvm.svg)
+    implementation(projects.components.parser.jvm.xml)
 
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)

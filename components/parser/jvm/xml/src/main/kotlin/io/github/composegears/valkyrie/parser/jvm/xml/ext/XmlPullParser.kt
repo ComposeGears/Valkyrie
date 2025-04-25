@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.svgxml.xml.ext
+package io.github.composegears.valkyrie.parser.jvm.xml.ext
 
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.END_DOCUMENT

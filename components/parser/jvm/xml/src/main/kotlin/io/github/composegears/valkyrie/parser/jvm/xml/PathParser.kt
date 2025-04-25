@@ -1,6 +1,15 @@
-package io.github.composegears.valkyrie.parser.svgxml.xml
+package io.github.composegears.valkyrie.parser.jvm.xml
 
 import io.github.composegears.valkyrie.ir.IrPathNode
+import java.lang.Float
+import kotlin.Boolean
+import kotlin.Char
+import kotlin.FloatArray
+import kotlin.IllegalArgumentException
+import kotlin.Int
+import kotlin.NumberFormatException
+import kotlin.String
+import kotlin.Throws
 import kotlin.math.min
 
 /**
@@ -83,7 +92,7 @@ internal object PathParser {
             endPosition = result.endPosition
 
             if (startPosition < endPosition) {
-                results[count++] = java.lang.Float.parseFloat(
+                results[count++] = Float.parseFloat(
                     s.substring(startPosition, endPosition),
                 )
             }

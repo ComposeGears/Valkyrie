@@ -1,25 +1,25 @@
-package io.github.composegears.valkyrie.parser.svgxml.xml
+package io.github.composegears.valkyrie.parser.jvm.xml
 
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrVectorNode
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.dpValueAsFloat
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.isAtEnd
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.seekToStartTag
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsBoolean
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsFillType
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsFloat
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsIrColor
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsPathData
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsString
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsStrokeCap
-import io.github.composegears.valkyrie.parser.svgxml.xml.ext.valueAsStrokeLineJoin
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.dpValueAsFloat
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.isAtEnd
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.seekToStartTag
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsBoolean
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsFillType
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsFloat
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsIrColor
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsPathData
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsString
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsStrokeCap
+import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsStrokeLineJoin
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.START_TAG
 import org.xmlpull.v1.XmlPullParserFactory
 
-internal object XmlStringParser {
+object XmlToImageVectorParser {
 
     fun parse(text: String): IrImageVector {
         val parser = prepareParser(text)
