@@ -51,6 +51,10 @@ public final class io/github/composegears/valkyrie/compose/icons/outlined/DarkKt
 	public static final fun getDark (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
+public final class io/github/composegears/valkyrie/compose/icons/outlined/EditorKt {
+	public static final fun getEditor (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/compose/icons/outlined/LightKt {
 	public static final fun getLight (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }

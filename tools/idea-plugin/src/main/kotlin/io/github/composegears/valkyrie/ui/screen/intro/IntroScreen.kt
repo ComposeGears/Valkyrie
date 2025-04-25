@@ -20,18 +20,22 @@ import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
+import io.github.composegears.valkyrie.FeatureFlag
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
+import io.github.composegears.valkyrie.compose.icons.outlined.Editor
 import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.shared.Mode
+import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
@@ -60,6 +64,12 @@ val IntroScreen: NavDestination<Unit> by navDestination {
                 IconPack -> {
                     navController.navigate(
                         dest = IconPackCreationScreen,
+                        transition = navigationSlideInOut(true),
+                    )
+                }
+                Editor -> {
+                    navController.navigate(
+                        dest = EditorSelectScreen,
                         transition = navigationSlideInOut(true),
                     )
                 }
@@ -115,6 +125,16 @@ private fun IntroScreenUI(
                     title = stringResource("intro.card.iconpack.title"),
                     description = stringResource("intro.card.iconpack.description"),
                 )
+                if (FeatureFlag.ICON_EDITOR_FEATURE_ENABLED) {
+                    VerticalSpacer(16.dp)
+                    InfoCard(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        onClick = { onModeChange(Editor) },
+                        image = ValkyrieIcons.Outlined.Editor,
+                        title = stringResource("intro.card.editor.title"),
+                        description = stringResource("intro.card.editor.description"),
+                    )
+                }
             }
             WeightSpacer(weight = 0.7f)
         }

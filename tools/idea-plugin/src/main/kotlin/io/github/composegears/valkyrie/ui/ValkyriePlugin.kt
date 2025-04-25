@@ -23,12 +23,15 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
+import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
+import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
@@ -59,6 +62,9 @@ fun ValkyriePlugin(
             CodePreviewScreen,
 
             SettingsScreen,
+
+            EditorSelectScreen,
+            EditScreen,
         ),
         startDestination = null,
         configuration = {
@@ -125,7 +131,7 @@ private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     val screen = when (settings.mode) {
         Simple -> SimpleConversionScreen
         IconPack -> IconPackConversionScreen
-        Unspecified -> IntroScreen
+        Unspecified, Editor -> IntroScreen
     }
 
     if (current != screen) {
