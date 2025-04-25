@@ -64,11 +64,28 @@ internal fun KtCallExpression.parseStroke(): IrStroke? {
 }
 
 internal fun KtCallExpression.parseColor(): IrFill.Color? {
-    val colorArg = valueArguments.firstOrNull()?.getArgumentExpression()?.text
-        ?.removePrefix("Color(")
-        ?.removeSuffix(")")
-        ?.let { IrColor(it) }
-        ?: return null
-
+    val colorFunction = valueArguments.firstOrNull()?.getArgumentExpression()?.text ?: return null
+    val colorArg = if (colorFunction.startsWith("Color.")) {
+        getIrColor(colorFunction.removePrefix("Color.")) ?: return null
+    } else {
+        IrColor(colorFunction.removeSurrounding(prefix = "Color(", suffix = ")"))
+    }
     return IrFill.Color(irColor = colorArg)
+}
+
+private const val ALPHA_MOD = ".copy(alpha = "
+
+internal fun getIrColor(colorName: String): IrColor? {
+    val color = IrColor.nameToArgb[colorName]
+    if (color != null) return color
+    if (colorName.contains(ALPHA_MOD)) return parseColorWithAlpha(colorName)
+    return null
+}
+
+private fun parseColorWithAlpha(value: String): IrColor? {
+    val parts = value.split(ALPHA_MOD)
+    val baseColorArgb = IrColor.nameToArgb[parts.first()] ?: return null
+    val alpha = parts.getOrNull(1)?.removeSuffix("f)")?.toFloatOrNull() ?: return null
+    val argb = ((alpha * 0xFF).toInt() shl 24) or (baseColorArgb.argb and 0xFFFFFF)
+    return IrColor(argb = argb)
 }

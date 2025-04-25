@@ -6,4 +6,6 @@ plugins {
 dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.ir)
+    testImplementation(libs.bundles.test)
+    testRuntimeOnly(libs.junit.launcher)
 }
