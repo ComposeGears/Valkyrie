@@ -7,6 +7,7 @@
 
 // Library unique name: <valkyrie:shared>
 final enum class io.github.composegears.valkyrie.shared/Mode : kotlin/Enum<io.github.composegears.valkyrie.shared/Mode> { // io.github.composegears.valkyrie.shared/Mode|null[0]
+    enum entry Editor // io.github.composegears.valkyrie.shared/Mode.Editor|null[0]
     enum entry IconPack // io.github.composegears.valkyrie.shared/Mode.IconPack|null[0]
     enum entry Simple // io.github.composegears.valkyrie.shared/Mode.Simple|null[0]
     enum entry Unspecified // io.github.composegears.valkyrie.shared/Mode.Unspecified|null[0]

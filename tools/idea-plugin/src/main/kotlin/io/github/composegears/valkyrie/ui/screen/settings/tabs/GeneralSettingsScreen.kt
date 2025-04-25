@@ -41,6 +41,7 @@ import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
@@ -125,6 +126,7 @@ private fun GeneralSettingsUi(
                 val name = when (currentMode) {
                     Simple -> "Simple"
                     IconPack -> "IconPack"
+                    Editor -> "Editor"
                     Unspecified -> "Unspecified"
                 }
                 Text(

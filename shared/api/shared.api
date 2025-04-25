@@ -1,4 +1,5 @@
 public final class io/github/composegears/valkyrie/shared/Mode : java/lang/Enum {
+	public static final field Editor Lio/github/composegears/valkyrie/shared/Mode;
 	public static final field IconPack Lio/github/composegears/valkyrie/shared/Mode;
 	public static final field Simple Lio/github/composegears/valkyrie/shared/Mode;
 	public static final field Unspecified Lio/github/composegears/valkyrie/shared/Mode;
