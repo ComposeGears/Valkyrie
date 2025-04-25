@@ -1,23 +1,29 @@
 package io.github.composegears.valkyrie.ir
 
-private val rgbToName = mapOf(
-    0x000000 to "Black",
-    0x444444 to "DarkGray",
-    0x888888 to "Gray",
-    0xCCCCCC to "LightGray",
-    0xFFFFFF to "White",
-    0xFF0000 to "Red",
-    0x00FF00 to "Green",
-    0x0000FF to "Blue",
-    0xFFFF00 to "Yellow",
-    0x00FFFF to "Cyan",
-    0xFF00FF to "Magenta",
-)
-
 @JvmInline
 value class IrColor(val argb: Int) {
 
+    companion object {
+        val nameToArgb = mapOf(
+            "Black" to IrColor(0xFF000000),
+            "DarkGray" to IrColor(0xFF444444),
+            "Gray" to IrColor(0xFF888888),
+            "LightGray" to IrColor(0xFFCCCCCC),
+            "White" to IrColor(0xFFFFFFFF),
+            "Red" to IrColor(0xFFFF0000),
+            "Green" to IrColor(0xFF00FF00),
+            "Blue" to IrColor(0xFF0000FF),
+            "Yellow" to IrColor(0xFFFFFF00),
+            "Cyan" to IrColor(0xFF00FFFF),
+            "Magenta" to IrColor(0xFFFF00FF),
+            "Transparent" to IrColor(0x00000000),
+        )
+
+        private val argbToName = nameToArgb.entries.associate { (name, value) -> value to name }
+    }
+
     constructor(hex: String) : this(HexParser.toColorInt(hex))
+    constructor(long: Long) : this(long.toUInt().toInt())
 
     val alpha: UByte get() = this[0]
     val red: UByte get() = this[1]
@@ -26,8 +32,10 @@ value class IrColor(val argb: Int) {
 
     fun toHexLiteral(): String = toHex("0x")
 
-    fun toName(): String? = rgbToName[argb and 0xFFFFFF]
-        ?.let { if (argb == 0) "Transparent" else it }
+    // NOTE: IrColor could be a named color with an alpha value less than 0xff.
+    //       If no color is found in the first try, look for the same color with full alpha.
+    fun toName(): String? = argbToName[this]
+        ?: argbToName[IrColor(0xFF000000 or (argb.toLong() and 0x00FFFFFF))]
 
     fun toHexColor(): String = toHex("#")
 

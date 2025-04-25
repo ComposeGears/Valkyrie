@@ -66,6 +66,9 @@ class HexParserTest {
             IrColor("00FFFF") to "Cyan",
             IrColor("FF00FF") to "Magenta",
             IrColor("00000000") to "Transparent",
+            IrColor("12345678") to null,
+            // Transparent case, but not value of Transparent
+            IrColor("00123456") to null,
         ).forEach { (color, name) ->
             assertThat(color.toName()).isEqualTo(name)
         }
