@@ -34,6 +34,7 @@ import com.composegears.tiamat.NavController
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.rememberSharedViewModel
+import io.github.composegears.valkyrie.ui.domain.model.Mode.Editor
 import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
 import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
@@ -125,6 +126,7 @@ private fun GeneralSettingsUi(
                 val name = when (currentMode) {
                     Simple -> "Simple"
                     IconPack -> "IconPack"
+                    Editor -> "Editor"
                     Unspecified -> "Unspecified"
                 }
                 Text(
