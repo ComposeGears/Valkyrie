@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.svgxml.xml
+package io.github.composegears.valkyrie.parser.jvm.xml
 
 import io.github.composegears.valkyrie.ir.IrPathNode
 import io.github.composegears.valkyrie.ir.IrPathNode.ArcTo
