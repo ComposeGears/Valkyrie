@@ -1,3 +1,6 @@
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.compose)
@@ -50,6 +53,23 @@ intellijPlatform {
     pluginConfiguration.ideaVersion {
         sinceBuild = "241"
         untilBuild = provider { null }
+    }
+    pluginVerification {
+        failureLevel = listOf(
+            FailureLevel.COMPATIBILITY_WARNINGS,
+            FailureLevel.COMPATIBILITY_PROBLEMS,
+            FailureLevel.DEPRECATED_API_USAGES,
+            FailureLevel.OVERRIDE_ONLY_API_USAGES,
+            FailureLevel.NON_EXTENDABLE_API_USAGES,
+            FailureLevel.PLUGIN_STRUCTURE_WARNINGS,
+            FailureLevel.MISSING_DEPENDENCIES,
+            FailureLevel.INVALID_PLUGIN,
+            FailureLevel.NOT_DYNAMIC,
+        )
+        ides {
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.1.6")
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2025.1")
+        }
     }
     signing {
         // chain.crt content (base64 ci)
