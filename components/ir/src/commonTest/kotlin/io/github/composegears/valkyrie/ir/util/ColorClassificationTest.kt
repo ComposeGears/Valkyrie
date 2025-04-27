@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ir.util
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.ir.IrColor
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 class ColorClassificationTest {
 

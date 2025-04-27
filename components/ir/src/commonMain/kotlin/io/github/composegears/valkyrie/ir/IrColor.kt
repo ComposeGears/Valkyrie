@@ -1,5 +1,7 @@
 package io.github.composegears.valkyrie.ir
 
+import kotlin.jvm.JvmInline
+
 @JvmInline
 value class IrColor(val argb: Int) {
 

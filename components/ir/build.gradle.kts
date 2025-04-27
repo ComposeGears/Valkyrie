@@ -1,8 +1,22 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
-dependencies {
-    testImplementation(libs.bundles.test)
-    testRuntimeOnly(libs.junit.launcher)
+kotlin {
+    jvm()
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    sourceSets {
+        commonTest.dependencies {
+            implementation(libs.assertk)
+            implementation(libs.kotlin.test)
+        }
+    }
 }
