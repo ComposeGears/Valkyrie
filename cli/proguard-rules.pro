@@ -11,10 +11,10 @@
     public static ** valueOf(java.lang.String);
 }
 
--keep class org.xmlpull.v1.** { *; }
--keep class org.xmlpull.mxp1.** { *; }
+-keep class org.xmlpull.v1.XmlPullParser { *; }
+-keep class * extends org.xmlpull.v1.XmlPullParser {
+    <init>(...);
+    <methods>;
+}
 
--dontwarn com.google.j2objc.annotations.**
--dontwarn org.graalvm.nativeimage.**
--dontwarn org.graalvm.word.**
--dontwarn com.oracle.svm.core.annotate.**
+-dontwarn org.xmlpull.mxp1.**

@@ -43,8 +43,7 @@ val buildWithR8 by tasks.registering(JavaExec::class) {
     val proguardRulesFile = layout.projectDirectory.file("proguard-rules.pro").asFile
     val jar = layout.buildDirectory.file("install/cli-shadow/lib/$baseName-$version-all.jar").map { it.asFile }
 
-    inputs.file(jar)
-    inputs.file(proguardRulesFile)
+    inputs.files(jar, proguardRulesFile)
     outputs.file(jar)
 
     classpath(r8)
