@@ -239,5 +239,7 @@ private fun svgXml2ImageVector(
             )
         }
 
-    outputInfo("Successfully converted ${iconPaths.size} icons")
+    val count = iconPaths.size
+    val noun = if (count == 1) "icon" else "icons"
+    outputInfo("Successfully converted $count $noun")
 }
