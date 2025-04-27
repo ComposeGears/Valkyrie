@@ -52,24 +52,7 @@ jobs:
         run: ./gradlew signPlugin
 
       - name: Verify IntelliJ plugin
-        # https://www.jetbrains.com/idea/download/other.html
-        uses: ChrisCarini/intellij-platform-plugin-verifier-action@v2.0.2
-        with:
-          plugin-location: idea-plugin/build/distributions/*-signed.zip
-          # We can't verify all revisions due to the disk size limitation on GHA.
-          ide-versions: |
-            ideaIC:2024.1.6
-            ideaIC:2025.1
-          failure-levels: |
-            COMPATIBILITY_WARNINGS
-            COMPATIBILITY_PROBLEMS
-            DEPRECATED_API_USAGES
-            OVERRIDE_ONLY_API_USAGES
-            NON_EXTENDABLE_API_USAGES
-            PLUGIN_STRUCTURE_WARNINGS
-            MISSING_DEPENDENCIES
-            INVALID_PLUGIN
-            NOT_DYNAMIC
+        run: ./gradlew verifyPlugin
 
       - name: Publish to Marketplace
         if: env.IS_SNAPSHOT == 'false'
