@@ -3,7 +3,6 @@ import org.jetbrains.intellij.platform.gradle.extensions.IntelliJPlatformDepende
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.intellij.platform.gradle.plugins.project.IntelliJPlatformBasePlugin
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 
 plugins {
     alias(libs.plugins.kotlin.android) apply false
@@ -18,13 +17,6 @@ plugins {
 }
 
 allprojects {
-    plugins.withType<KotlinBasePlugin>().configureEach {
-        dependencies {
-            // https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#kotlin-standard-library
-            "compileOnly"(libs.kotlin.stdlib)
-        }
-    }
-
     plugins.withId(rootProject.libs.plugins.kotlin.compose.get().pluginId) {
         extensions.configure<ComposeCompilerGradlePluginExtension> {
             stabilityConfigurationFiles.addAll(rootProject.layout.projectDirectory.file("stability_config.conf"))
@@ -49,10 +41,8 @@ allprojects {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
         dependencies {
             extensions.configure<IntelliJPlatformDependenciesExtension> {
-                intellijIdeaCommunity(libs.versions.idea)
-                instrumentationTools()
-                // dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin
-                bundledPlugin(libs.kotlin.stdlib.map(Dependency::getGroup))
+                intellijIdeaCommunity("2024.1")
+                bundledPlugin("org.jetbrains.kotlin")
             }
         }
     }
@@ -88,13 +78,5 @@ allprojects {
         useJUnitPlatform()
         // https://docs.gradle.org/8.9/userguide/performance.html#execute_tests_in_parallel
         maxParallelForks = Runtime.getRuntime().availableProcessors()
-    }
-
-    configurations.configureEach {
-        resolutionStrategy.eachDependency {
-            if (requested.group == libs.kotlin.stdlib.get().group) {
-                useVersion(libs.versions.kotlin.get())
-            }
-        }
     }
 }
