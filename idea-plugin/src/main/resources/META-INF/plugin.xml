@@ -38,7 +38,7 @@ Allows to create organized icon pack with an extension property of you pack obje
             popup="true">
 
             <separator/>
-            <group>
+            <group id="valkyrie.SubGroup">
                 <action id="valkyrie.ImportFromAction"
                         icon="com.intellij.icons.AllIcons.ToolbarDecorator.Import"
                         class="io.github.composegears.valkyrie.action.ImportFromDirectoryOrFileAction"
