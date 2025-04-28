@@ -2,7 +2,6 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.intellij.platform.gradle.extensions.IntelliJPlatformDependenciesExtension
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.intellij.platform.gradle.plugins.project.IntelliJPlatformBasePlugin
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
@@ -17,12 +16,6 @@ plugins {
 }
 
 allprojects {
-    plugins.withId(rootProject.libs.plugins.kotlin.compose.get().pluginId) {
-        extensions.configure<ComposeCompilerGradlePluginExtension> {
-            stabilityConfigurationFiles.addAll(rootProject.layout.projectDirectory.file("stability_config.conf"))
-        }
-    }
-
     plugins.withType<IntelliJPlatformBasePlugin>().configureEach {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#configuration.repositories
         repositories {
