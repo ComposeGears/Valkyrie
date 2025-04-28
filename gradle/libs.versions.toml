@@ -28,6 +28,10 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.5.0"
 composeRules = "io.nlopez.compose.rules:ktlint:0.4.22"
 
+# Dependencies for build-logic module
+kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
 [plugins]
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -38,6 +42,10 @@ jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", ver
 buildConfig = "com.github.gmazzo.buildconfig:5.6.4"
 shadow = "com.gradleup.shadow:8.3.6"
 spotless = "com.diffplug.spotless:7.0.3"
+
+# Project conventional plugins
+valkyrie-kmp = { id = "valkyrie.kmp" }
+valkyrie-compose = { id = "valkyrie.compose" }
 
 [bundles]
 test = ["junit5-jupiter", "assertk"]

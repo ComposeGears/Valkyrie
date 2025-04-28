@@ -3,8 +3,7 @@ import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLeve
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.valkyrie.compose)
     alias(libs.plugins.jetbrains.intellij)
 }
 
