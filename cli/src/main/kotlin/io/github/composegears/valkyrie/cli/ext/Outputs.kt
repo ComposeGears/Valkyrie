@@ -8,10 +8,6 @@ internal fun outputInfo(message: Any) {
     output(message.toString(), TextColors.green)
 }
 
-internal fun outputWarn(message: Any) {
-    output("Warning: $message", TextColors.yellow)
-}
-
 internal fun outputError(message: Any): Nothing {
     output("Error: $message", TextColors.red, true)
     exitProcess(1)

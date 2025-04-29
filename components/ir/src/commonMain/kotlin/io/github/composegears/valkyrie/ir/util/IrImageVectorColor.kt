@@ -34,10 +34,10 @@ private fun visitPath(
         is IrFill.Color -> colors += fill.irColor
         is IrFill.LinearGradient -> colors += fill.colorStops.map { it.irColor }
         is IrFill.RadialGradient -> colors += fill.colorStops.map { it.irColor }
-        null -> Unit
+        null -> {}
     }
     when (val stroke = node.stroke) {
         is IrStroke.Color -> colors += stroke.irColor
-        null -> Unit
+        null -> {}
     }
 }

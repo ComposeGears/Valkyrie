@@ -33,6 +33,7 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kover = "org.jetbrains.kotlinx.kover:0.9.1"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.valkyrie.compose)
     alias(libs.plugins.jetbrains.intellij.module)
+    alias(libs.plugins.kover)
 }
 
 sourceSets {
