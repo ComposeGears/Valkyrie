@@ -13,7 +13,7 @@ fun FileSpec.removeExplicitModeCode(): String = toString()
 
 inline fun objectBuilder(
     name: String,
-    builderAction: TypeSpec.Builder.() -> Unit = {},
+    builderAction: TypeSpec.Builder.() -> Unit,
 ) = TypeSpec.objectBuilder(name)
     .apply(builderAction)
     .build()

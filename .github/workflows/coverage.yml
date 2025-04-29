@@ -17,4 +17,23 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
+
+      - name: Generate test coverage
+        shell: bash
+        run: |
+          COVERAGE=$(./gradlew components:test:coverage:koverLog | grep "application line coverage:" | tail -n1 | cut -d ":" -f 2 | tr -d '[:space:]%')
+          echo "COVERAGE=$COVERAGE"
+          echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+
+      - name: Update dynamic badge gist
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ae91ef6fa6f1837ef39b4f4ac21e91d2
+          filename: valkyrie-coverage.json
+          label: coverage
+          message: ${{ env.COVERAGE }}%
+          valColorRange: ${{ env.COVERAGE }}
+          minColorRange: 0
+          maxColorRange: 100

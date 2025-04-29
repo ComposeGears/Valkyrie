@@ -9,6 +9,7 @@
 [![Marketplace version][badge:marketplace-version]][url:plugin-homepage]
 [![GitHub releases][badge:gh-release]][url:gh-releases]
 [![Downloads][badge:marketplace-downloads]][url:plugin-homepage]
+![Coverage][badge:coverage]
 
 [![Telegram][badge:telegram-invite]][url:telegram-invite]
 [![Slack][badge:slack-invite]][url:slack-invite]
@@ -564,6 +565,10 @@ other available gradle commands:
 
 - apply formatting: `./gradlew spotlessApply`
 
+- create html test report: `./gradlew components:test:coverage:koverHtmlReport`
+
+- print test coverage: `./gradlew components:test:coverage:koverLog`
+
 ### Migration guide
 
 #### v0.13.0 -> v0.14.0
@@ -633,6 +638,8 @@ limitations under the License.
 [badge:telegram-invite]: https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&style=for-the-badge&labelColor=black&color=white&logoColor=white
 
 [badge:license]: https://img.shields.io/github/license/ComposeGears/Valkyrie?style=for-the-badge&labelColor=black&color=white
+
+[badge:coverage]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/egorikftp/ae91ef6fa6f1837ef39b4f4ac21e91d2/raw/valkyrie-coverage.json&style=for-the-badge&labelColor=black&color=white&label=Test%20Coverage
 
 [url:plugin-homepage]: https://plugins.jetbrains.com/plugin/24786-valkyrie
 
