@@ -22,34 +22,17 @@ dependencies {
 
     compileOnly(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
-        exclude(group = "org.jetbrains.kotlinx")
     }
-    implementation(compose.desktop.common) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-    implementation(compose.desktop.linux_arm64) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-    implementation(compose.desktop.linux_x64) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-    implementation(compose.desktop.macos_arm64) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-    implementation(compose.desktop.macos_x64) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-    implementation(compose.desktop.windows_x64) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-    implementation(compose.material3) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
+    implementation(compose.desktop.common)
+    implementation(compose.desktop.linux_arm64)
+    implementation(compose.desktop.linux_x64)
+    implementation(compose.desktop.macos_arm64)
+    implementation(compose.desktop.macos_x64)
+    implementation(compose.desktop.windows_x64)
+    implementation(compose.material3)
 
     implementation(libs.android.build.tools)
-    implementation(libs.highlights) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
+    implementation(libs.highlights)
     implementation(libs.leviathan)
     implementation(libs.leviathan.compose)
     implementation(libs.tiamat)
@@ -83,7 +66,7 @@ intellijPlatform {
             FailureLevel.NOT_DYNAMIC,
         )
         ides {
-            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.1.6")
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2.4")
             ide(IntelliJPlatformType.IntellijIdeaCommunity, "2025.1")
         }
     }

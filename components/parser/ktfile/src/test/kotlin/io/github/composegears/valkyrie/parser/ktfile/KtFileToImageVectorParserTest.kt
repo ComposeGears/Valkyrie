@@ -527,7 +527,7 @@ class KtFileToImageVectorParserTest {
 
     @ParameterizedTest
     @EnumSource(value = ParseType::class)
-    fun `parse compose color`(parseType: ParseType) = invokeAndWaitIfNeeded {
+    fun `parse compose color`(parseType: ParseType) = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "imagevector/kt/lazy/ComposeColor.kt",

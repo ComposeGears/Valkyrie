@@ -9,6 +9,4 @@ dependencies {
 
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
-
-    compileOnly(libs.intellij.bundle.kotlin)
 }
