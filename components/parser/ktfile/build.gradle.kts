@@ -14,13 +14,19 @@ sourceSets {
     }
 }
 
+configurations {
+    implementation {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+}
+
 dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.irCompose)
     implementation(projects.components.psi.imagevector)
 
-    implementation(compose.material3)
     implementation(compose.ui)
+    implementation(libs.material.icons.core)
 
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
