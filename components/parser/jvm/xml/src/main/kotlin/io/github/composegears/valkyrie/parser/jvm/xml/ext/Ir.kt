@@ -5,7 +5,7 @@ import io.github.composegears.valkyrie.ir.IrPathFillType
 import io.github.composegears.valkyrie.ir.IrPathNode
 import io.github.composegears.valkyrie.ir.IrStrokeLineCap
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
-import io.github.composegears.valkyrie.parser.jvm.xml.PathParser
+import io.github.composegears.valkyrie.parser.common.PathParser
 import org.xmlpull.v1.XmlPullParser
 
 internal fun XmlPullParser.valueAsPathData(): List<IrPathNode> {

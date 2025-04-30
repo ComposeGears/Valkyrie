@@ -1,7 +1,6 @@
-package io.github.composegears.valkyrie.parser.jvm.xml
+package io.github.composegears.valkyrie.parser.common
 
 import io.github.composegears.valkyrie.ir.IrPathNode
-import java.lang.Float
 import kotlin.Boolean
 import kotlin.Char
 import kotlin.FloatArray
@@ -16,7 +15,7 @@ import kotlin.math.min
  * Trimmed down copy of PathParser that doesn't handle interacting with Paths, and only is
  * responsible for parsing path strings.
  */
-internal object PathParser {
+object PathParser {
     /**
      * Parses the path string to create a collection of PathNode instances with their corresponding
      * arguments
@@ -92,9 +91,7 @@ internal object PathParser {
             endPosition = result.endPosition
 
             if (startPosition < endPosition) {
-                results[count++] = Float.parseFloat(
-                    s.substring(startPosition, endPosition),
-                )
+                results[count++] = s.substring(startPosition, endPosition).toFloat()
             }
 
             startPosition = if (result.endWithNegativeOrDot) {
@@ -113,7 +110,7 @@ internal object PathParser {
         }
         val originalLength = original.size
         if (start < 0 || start > originalLength) {
-            throw ArrayIndexOutOfBoundsException()
+            throw IndexOutOfBoundsException()
         }
         val resultLength = end - start
         val copyLength = min(resultLength, originalLength - start)
