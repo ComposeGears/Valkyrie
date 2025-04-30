@@ -6,6 +6,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.components.ir)
             implementation(libs.xmlutil)
         }
         commonTest.dependencies {
