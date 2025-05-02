@@ -2,40 +2,27 @@ package io.github.composegears.valkyrie.parser.ktfile
 
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.PathData
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.intellij.openapi.project.Project
-import com.intellij.testFramework.ProjectExtension
 import com.intellij.testFramework.runInEdtAndGet
+import io.github.composegears.valkyrie.parser.ktfile.common.BaseKtParserTest
 import io.github.composegears.valkyrie.parser.ktfile.common.ParseType
 import io.github.composegears.valkyrie.parser.ktfile.common.createKtFile
 import io.github.composegears.valkyrie.parser.ktfile.common.toKtFile
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
-class KtFileToImageVectorParserTest {
-
-    companion object {
-        @RegisterExtension
-        val projectExtension = ProjectExtension()
-    }
-
-    private val project: Project
-        get() = projectExtension.project
+class KtFileToImageVectorParserTest : BaseKtParserTest() {
 
     @ParameterizedTest
     @EnumSource(value = ParseType::class)
@@ -205,77 +192,6 @@ class KtFileToImageVectorParserTest {
 
     @ParameterizedTest
     @EnumSource(value = ParseType::class)
-    fun `parse icon with linear and radial gradient`(parseType: ParseType) = runInEdtAndGet {
-        val ktFile = parseType.toKtFile(
-            project = project,
-            pathToLazy = "lazy/IconWithGradient.kt",
-            pathToBacking = "backing/IconWithGradient.kt",
-        )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
-
-        val expected = ImageVector.Builder(
-            name = "IconWithGradient",
-            defaultWidth = 51.dp,
-            defaultHeight = 63.dp,
-            viewportWidth = 51f,
-            viewportHeight = 63f,
-        ).apply {
-            path(
-                fill = Brush.radialGradient(
-                    colorStops = arrayOf(
-                        0.19f to Color(0xFFD53A42),
-                        0.39f to Color(0xFFDF7A40),
-                        0.59f to Color(0xFFF0A941),
-                        1f to Color(0xFFFFFFF0),
-                    ),
-                    center = Offset(0f, 10f),
-                    radius = 100f,
-                ),
-                stroke = SolidColor(Color(0x00000000)),
-            ) {
-                moveTo(0f, 0f)
-                horizontalLineToRelative(100f)
-                verticalLineToRelative(20f)
-                horizontalLineToRelative(-100f)
-                close()
-            }
-            path(
-                fill = Brush.linearGradient(
-                    colorStops = arrayOf(
-                        0.126f to Color(0xFFE7BD76),
-                        0.13f to Color(0xFFE6BB74),
-                        0.247f to Color(0xFFD48E4E),
-                        0.334f to Color(0xFFCC753B),
-                        0.38f to Color(0xFFC96C35),
-                        0.891f to Color(0xFFC96D34),
-                        0.908f to Color(0xFFCC7439),
-                        0.937f to Color(0xFFD28647),
-                        0.973f to Color(0xFFDEA763),
-                        0.989f to Color(0xFFE5B972),
-                    ),
-                    start = Offset(46.778f, 40.493f),
-                    end = Offset(24.105f, 63.166f),
-                ),
-            ) {
-                moveTo(51f, 44.716f)
-                reflectiveCurveToRelative(-6.586f, 6.584f, -9.823f, 6.805f)
-                curveToRelative(-3.235f, 0.224f, -7.032f, 0f, -7.032f, 0f)
-                reflectiveCurveToRelative(-7.024f, 1.732f, -7.024f, 7.368f)
-                verticalLineTo(63f)
-                lineToRelative(-3.195f, -0.014f)
-                verticalLineToRelative(-5.571f)
-                curveToRelative(0f, -6.857f, 10.052f, -7.567f, 10.052f, -7.567f)
-                reflectiveCurveTo(39.057f, 41.979f, 51f, 44.716f)
-            }
-        }.build()
-
-        // assertKt error due usage arrayList inside ImageVector:
-        // "did not compare equal to the same type with the same string representation"
-        assertThat(imageVector.toString()).isEqualTo(expected.toString())
-    }
-
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
     fun `parse single path property`(parseType: ParseType) = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
@@ -380,149 +296,6 @@ class KtFileToImageVectorParserTest {
         }.build()
 
         assertThat(imageVector).isEqualTo(expected)
-    }
-
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse gradient with clip path`(parseType: ParseType) = runInEdtAndGet {
-        val ktFile = parseType.toKtFile(
-            project = project,
-            pathToLazy = "imagevector/kt//lazy/ClipPathGradient.kt",
-            pathToBacking = "imagevector/kt/backing/ClipPathGradient.kt",
-        )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
-
-        val expected = ImageVector.Builder(
-            name = "ClipPathGradient",
-            defaultWidth = 5000.dp,
-            defaultHeight = 2916.dp,
-            viewportWidth = 5000f,
-            viewportHeight = 2916f,
-        ).apply {
-            group(
-                clipPathData = PathData {
-                    moveTo(1026f, 918f)
-                    curveTo(1877f, 1321.7f, 2427f, 602.7f, 2721.6f, 0f)
-                    horizontalLineTo(0f)
-                    verticalLineToRelative(698.6f)
-                    curveToRelative(264.3f, -29.7f, 602.1f, 18.2f, 1026f, 219.3f)
-                },
-            ) {
-                path(
-                    fill = Brush.linearGradient(
-                        colorStops = arrayOf(
-                            0f to Color(0xFF00CCFF),
-                            1f to Color(0xFF000066),
-                        ),
-                        start = Offset(413f, 1501.2f),
-                        end = Offset(2500.6f, -349.7f),
-                    ),
-                ) {
-                    moveTo(0f, 0f)
-                    horizontalLineToRelative(2721.6f)
-                    verticalLineToRelative(1321.7f)
-                    horizontalLineToRelative(-2721.6f)
-                    close()
-                }
-            }
-            group(
-                clipPathData = PathData {
-                    moveTo(2721.6f, 0f)
-                    curveToRelative(-294.6f, 602.7f, -844.7f, 1321.7f, -1695.6f, 918f)
-                    curveTo(602.1f, 716.9f, 264.3f, 668.9f, 0f, 698.6f)
-                    verticalLineToRelative(573.2f)
-                    curveToRelative(331f, -133.9f, 782.3f, -132.4f, 1266f, 406.1f)
-                    curveToRelative(1219.8f, 1358.1f, 2464f, -1169f, 3734f, -1120.8f)
-                    verticalLineTo(0f)
-                    horizontalLineToRelative(-2278.4f)
-                    close()
-                },
-            ) {
-                path(
-                    fill = Brush.linearGradient(
-                        colorStops = arrayOf(
-                            0f to Color(0xFF00CCFF),
-                            1f to Color(0xFF000066),
-                        ),
-                        start = Offset(717.4f, 2963.9f),
-                        end = Offset(4849.2f, -387.4f),
-                    ),
-                ) {
-                    moveTo(0f, 0f)
-                    horizontalLineToRelative(5000f)
-                    verticalLineToRelative(3036.1f)
-                    horizontalLineToRelative(-5000f)
-                    close()
-                }
-            }
-            group(
-                clipPathData = PathData {
-                    moveTo(5000f, 557.2f)
-                    curveToRelative(-1270f, -48.2f, -2514.2f, 2478.9f, -3734f, 1120.8f)
-                    curveTo(782.3f, 1139.5f, 331f, 1138f, 0f, 1271.9f)
-                    verticalLineToRelative(566.4f)
-                    curveToRelative(354f, -194.6f, 925.2f, -246.3f, 1626f, 629.7f)
-                    curveToRelative(157.9f, 197.4f, 309.2f, 344f, 455f, 448f)
-                    horizontalLineToRelative(1220.8f)
-                    curveToRelative(566.6f, -357.5f, 1094.3f, -1069.6f, 1698.3f, -1323.7f)
-                    verticalLineTo(557.2f)
-                    close()
-                },
-            ) {
-                path(
-                    fill = Brush.linearGradient(
-                        colorStops = arrayOf(
-                            0f to Color(0xFF00CCFF),
-                            1f to Color(0xFF000066),
-                        ),
-                        start = Offset(304.5f, 3342f),
-                        end = Offset(4838.1f, 101.2f),
-                    ),
-                ) {
-                    moveTo(0f, 509f)
-                    horizontalLineToRelative(5000f)
-                    verticalLineToRelative(2527.1f)
-                    horizontalLineToRelative(-5000f)
-                    close()
-                }
-            }
-            group(
-                clipPathData = PathData {
-                    moveTo(5000f, 1592.3f)
-                    curveToRelative(-604f, 254.1f, -1131.7f, 966.3f, -1698.3f, 1323.7f)
-                    horizontalLineToRelative(1698.3f)
-                    verticalLineToRelative(-1323.7f)
-                    close()
-                    moveTo(1626f, 2468f)
-                    curveTo(925.2f, 1592f, 354f, 1643.7f, 0f, 1838.3f)
-                    verticalLineToRelative(1077.7f)
-                    horizontalLineToRelative(2081f)
-                    curveToRelative(-145.8f, -104.1f, -297f, -250.6f, -455f, -448f)
-                    close()
-                },
-            ) {
-                path(
-                    fill = Brush.linearGradient(
-                        colorStops = arrayOf(
-                            0f to Color(0xFF00CCFF),
-                            1f to Color(0xFF000066),
-                        ),
-                        start = Offset(1225.5f, 3877.8f),
-                        end = Offset(3836.7f, 550.9f),
-                    ),
-                ) {
-                    moveTo(0f, 1592f)
-                    horizontalLineToRelative(5000f)
-                    verticalLineToRelative(1324f)
-                    horizontalLineToRelative(-5000f)
-                    close()
-                }
-            }
-        }.build()
-
-        // assertKt error due usage arrayList inside ImageVector:
-        // "did not compare equal to the same type with the same string representation"
-        assertThat(imageVector.toString()).isEqualTo(expected.toString())
     }
 
     @ParameterizedTest
