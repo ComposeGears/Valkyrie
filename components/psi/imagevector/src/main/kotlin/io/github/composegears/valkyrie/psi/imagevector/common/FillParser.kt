@@ -70,10 +70,10 @@ private fun KtCallExpression.parseLinearGradient(): IrFill.LinearGradient? {
     return when {
         colorStops.isEmpty() -> null
         else -> IrFill.LinearGradient(
-            startY = startX,
-            startX = startY,
-            endY = endX,
-            endX = endY,
+            startX = startX,
+            startY = startY,
+            endX = endX,
+            endY = endY,
             colorStops = colorStops,
         )
     }

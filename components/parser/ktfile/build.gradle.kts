@@ -15,6 +15,12 @@ sourceSets {
     }
 }
 
+// IntelliJ Platform tests must run sequentially to avoid file access conflicts.
+// Error: "storage /idea-sandbox/IC-2024.2/system-test/caches/content.dat] is already opened (and not yet closed) -- can't open same file more than once"
+tasks.test {
+    maxParallelForks = 1
+}
+
 configurations {
     implementation {
         exclude(group = "org.jetbrains.kotlinx")
