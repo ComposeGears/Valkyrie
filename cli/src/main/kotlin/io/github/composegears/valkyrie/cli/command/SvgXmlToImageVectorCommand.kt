@@ -144,7 +144,7 @@ private fun CliktCommand.outputFormatOption() = option(
     when (it.lowercase()) {
         "backing-property" -> OutputFormat.BackingProperty
         "lazy-property" -> OutputFormat.LazyProperty
-        else -> error("Invalid output format, must be backing-property or lazy-property")
+        else -> outputError("Invalid output format, must be backing-property or lazy-property")
     }
 }.default(OutputFormat.BackingProperty)
 
@@ -155,7 +155,7 @@ private fun CliktCommand.previewAnnotationType() = option(
     when (it.lowercase()) {
         "androidx" -> PreviewAnnotationType.AndroidX
         "jetbrains" -> PreviewAnnotationType.Jetbrains
-        else -> error("Invalid preview annotation type, must be 'androidx' or 'jetbrains'")
+        else -> outputError("Invalid preview annotation type, must be 'androidx' or 'jetbrains'")
     }
 }.default(PreviewAnnotationType.AndroidX)
 

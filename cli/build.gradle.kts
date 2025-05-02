@@ -93,5 +93,7 @@ dependencies {
     testImplementation(projects.components.extensions)
     testImplementation(projects.components.generator.imagevector)
     testImplementation(libs.bundles.test)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
     testRuntimeOnly(libs.junit.launcher)
 }
