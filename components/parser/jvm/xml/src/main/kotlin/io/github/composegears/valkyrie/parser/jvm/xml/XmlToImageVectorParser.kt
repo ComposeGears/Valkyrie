@@ -157,23 +157,43 @@ private fun parseGradient(parser: XmlPullParser): IrFill? {
             val startY = parser.valueAsFloat(START_Y) ?: 0f
             val endX = parser.valueAsFloat(END_X) ?: 0f
             val endY = parser.valueAsFloat(END_Y) ?: 0f
+            val startColor = parser.valueAsIrColor(START_COLOR)
+            val endColor = parser.valueAsIrColor(END_COLOR)
 
             IrFill.LinearGradient(
                 startY = startY,
                 startX = startX,
                 endY = endY,
                 endX = endX,
+                colorStops = if (startColor != null && endColor != null) {
+                    mutableListOf(
+                        IrFill.ColorStop(0f, startColor),
+                        IrFill.ColorStop(1f, endColor),
+                    )
+                } else {
+                    mutableListOf()
+                },
             )
         }
         RADIAL -> {
             val radius = parser.valueAsFloat(GRADIENT_RADIUS) ?: 0f
             val centerX = parser.valueAsFloat(CENTER_X) ?: 0f
             val centerY = parser.valueAsFloat(CENTER_Y) ?: 0f
+            val startColor = parser.valueAsIrColor(START_COLOR)
+            val endColor = parser.valueAsIrColor(END_COLOR)
 
             IrFill.RadialGradient(
                 radius = radius,
                 centerX = centerX,
                 centerY = centerY,
+                colorStops = if (startColor != null && endColor != null) {
+                    mutableListOf(
+                        IrFill.ColorStop(0f, startColor),
+                        IrFill.ColorStop(1f, endColor),
+                    )
+                } else {
+                    mutableListOf()
+                },
             )
         }
         else -> null
@@ -235,6 +255,8 @@ private const val CENTER_Y = "android:centerY"
 // Item XML attribute names
 private const val OFFSET = "android:offset"
 private const val COLOR = "android:color"
+private const val START_COLOR = "android:startColor"
+private const val END_COLOR = "android:endColor"
 
 // Vector XML attribute names
 private const val WIDTH = "android:width"

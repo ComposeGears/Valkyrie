@@ -65,8 +65,9 @@ class SvgXmlToImageVectorCliTest {
             ),
         )
 
-        val files = tempDir.toFile().listFiles().orEmpty()
-        assertThat(files.size).isEqualTo(11)
+        val resultFiles = tempDir.toFile().listFiles().orEmpty().size
+        val inputFiles = input.toFile().listFiles().orEmpty().size
+        assertThat(resultFiles).isEqualTo(inputFiles)
     }
 
     @ParameterizedTest
@@ -339,6 +340,28 @@ class SvgXmlToImageVectorCliTest {
             inputResource = "imagevector/xml/ic_compose_color.xml",
             expectedKtName = "ComposeColor.kt",
             iconPackName = IconPackName("ValkyrieIcons"),
+            useComposeColors = UseComposeColors(true),
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource("testMatrix")
+    fun `icon with compose colors and linear gradient`(arg: Pair<CliTestType, OutputFormat>) {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_compose_color_linear_gradient.xml",
+            expectedKtName = "ComposeColor.linear.gradient.kt",
+            actualKtName = "ComposeColorLinearGradient.kt",
+            useComposeColors = UseComposeColors(true),
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource("testMatrix")
+    fun `icon with compose colors and radial gradient`(arg: Pair<CliTestType, OutputFormat>) {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_compose_color_radial_gradient.xml",
+            expectedKtName = "ComposeColor.radial.gradient.kt",
+            actualKtName = "ComposeColorRadialGradient.kt",
             useComposeColors = UseComposeColors(true),
         )
     }
