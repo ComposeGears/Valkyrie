@@ -7,6 +7,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.components.ir)
+            implementation(projects.components.parser.common)
             implementation(libs.xmlutil)
         }
         commonTest.dependencies {
