@@ -8,7 +8,7 @@ data class ImageVectorGeneratorConfig(
     val packName: String,
     val nestedPackName: String,
     val outputFormat: OutputFormat,
-    val useComposeColors: Boolean = false,
+    val useComposeColors: Boolean,
     val generatePreview: Boolean,
     val previewAnnotationType: PreviewAnnotationType,
     val useFlatPackage: Boolean,
