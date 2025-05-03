@@ -73,6 +73,17 @@ class HexParserTest {
             assertThat(color.toName()).isEqualTo(name)
         }
     }
+
+    @Test
+    fun `alpha channel extraction test`() {
+        val colorWithFullAlpha = IrColor(0xFFFFFFFF)
+        val colorWithHalfAlpha = IrColor(0x80FFFFFF)
+        val colorWithNoAlpha = IrColor(0x00FFFFFF)
+
+        assertThat(colorWithFullAlpha.alpha).isEqualTo(0xFF.toUByte())
+        assertThat(colorWithHalfAlpha.alpha).isEqualTo(0x80.toUByte())
+        assertThat(colorWithNoAlpha.alpha).isEqualTo(0x00.toUByte())
+    }
 }
 
 private data class ColorHex(

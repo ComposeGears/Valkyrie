@@ -7,7 +7,7 @@ import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrVectorNode
 
 fun IrImageVector.iconColors(): List<IrColor> {
-    val colors = mutableListOf<IrColor>()
+    val colors = mutableSetOf<IrColor>()
 
     nodes.onEach { node ->
         when (node) {
@@ -23,12 +23,12 @@ fun IrImageVector.iconColors(): List<IrColor> {
         }
     }
 
-    return colors
+    return colors.toList()
 }
 
 private fun visitPath(
     node: IrVectorNode.IrPath,
-    colors: MutableList<IrColor>,
+    colors: MutableSet<IrColor>,
 ) {
     when (val fill = node.fill) {
         is IrFill.Color -> colors += fill.irColor
