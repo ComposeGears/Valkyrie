@@ -22,13 +22,13 @@ data class IconPack(
         }
 
         return buildString {
-            appendLine()
-            append(name)
             if (name.isNotEmpty()) {
+                appendLine()
+                append(name)
                 append(":")
+                buildNestedTree(prefix = "", items = nested)
+                appendLine()
             }
-            buildNestedTree(prefix = "", items = nested)
-            appendLine()
         }
     }
 

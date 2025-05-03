@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
-import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
 import io.github.composegears.valkyrie.ir.util.ColorClassification
@@ -35,6 +34,7 @@ import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.util.IR_STUB
 import kotlin.math.min
 import kotlinx.coroutines.launch
 

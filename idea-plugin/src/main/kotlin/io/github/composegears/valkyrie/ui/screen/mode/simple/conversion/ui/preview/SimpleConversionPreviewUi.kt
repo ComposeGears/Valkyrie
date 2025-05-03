@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.CloseAction
@@ -41,6 +40,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmode
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.OnIconNaneChange
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.OpenSettings
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.ConversionState
+import io.github.composegears.valkyrie.util.IR_STUB
 
 @Composable
 fun SimpleConversionPreviewStateUi(

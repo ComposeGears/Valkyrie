@@ -37,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
@@ -66,6 +65,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Picker
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconPreviewBox
+import io.github.composegears.valkyrie.util.IR_STUB
 
 @Composable
 fun BatchProcessingStateUi(

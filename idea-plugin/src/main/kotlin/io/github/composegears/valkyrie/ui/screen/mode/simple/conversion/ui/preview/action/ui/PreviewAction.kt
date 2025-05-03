@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ir.IR_STUB
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.components.previewer.ImageVectorPreviewPanel
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.util.IR_STUB
 
 @Composable
 fun PreviewAction(
