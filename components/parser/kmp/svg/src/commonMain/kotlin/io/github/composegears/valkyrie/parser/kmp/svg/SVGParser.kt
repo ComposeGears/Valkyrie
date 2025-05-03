@@ -107,20 +107,29 @@ object SVGParser : ImageVectorParser {
     }
 
     private fun SVG.Polygon.toVectorPath(): IrVectorNode.IrPath {
+        val stroke = getSVGStrokeWithDefaults()
         return IrVectorNode.IrPath(
             name = id,
-            fill = this.fill?.let { SvgColorParser.parse(it) }?.let { IrFill.Color(it) },
-            fillAlpha = alpha?.toFloat() ?: 1f,
-//            stroke =,
-//            strokeAlpha = 1f,
-//            strokeLineWidth = strokeWidth?.toFloat() ?: 0f,
-//            strokeLineCap =,
-//            strokeLineJoin =,
-//            strokeLineMiter =,
-//            pathFillType =,
+            fill = if (fill != null) SvgColorParser.parse(fill)?.let { IrFill.Color(it) } else IrFill.Color(Black),
+            fillAlpha = fillAlpha?.toFloat() ?: 1f,
+            stroke = stroke.color?.let { IrStroke.Color(it) },
+            strokeAlpha = stroke.alpha,
+            strokeLineWidth = stroke.width,
+            strokeLineCap = stroke.cap.toIrStrokeLineCap(),
+            strokeLineJoin = stroke.join.toIrStrokeLineJoin(),
+            strokeLineMiter = stroke.miter,
+            pathFillType = fillType?.getPathFillType() ?: IrPathFillType.NonZero,
             paths = points.takeIf { it.isNotEmpty() }
                 ?.split(" ")
-                ?.map { it.split(",").let { (x, y) -> IrPathNode.MoveTo(x = x.toFloat(), y = y.toFloat()) } }
+                ?.mapIndexed { i, pair ->
+                    pair.split(",").let { (x, y) ->
+                        if (i == 0) {
+                            IrPathNode.MoveTo(x = x.toFloat(), y = y.toFloat())
+                        } else {
+                            IrPathNode.LineTo(x = x.toFloat(), y = y.toFloat())
+                        }
+                    }
+                }
                 ?.let { it + listOf(IrPathNode.Close) }
                 .orEmpty()
         )

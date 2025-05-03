@@ -343,7 +343,7 @@ internal class SVGParserTest {
     @Test
     fun parse_polygon_from_SVG() {
         val svg = svg {
-            """<polygon points="0,0 10,10, 0,10" fill="none" fill-rule="evenodd" opacity="0.5" stroke="black" stroke-width="3" />"""
+            """<polygon points="0,0 10,10, 0,10" fill="none" fill-rule="evenodd" fill-opacity="0.5" stroke="black" stroke-width="3" />"""
         }
         assertEquals(
             actual = SVGParser.parse(svg).getOrThrow(),

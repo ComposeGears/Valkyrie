@@ -141,7 +141,7 @@ internal data class SVG(
         @SerialName("points") val points: String = "",
         @SerialName("fill") val fill: String? = null,
         @SerialName("fill-rule") val fillType: String? = null,
-        @SerialName("opacity") val alpha: String? = null,
+        @SerialName("fill-opacity") val fillAlpha: String? = null,
 
         @SerialName("stroke") override val strokeColor: String? = null,
         @SerialName("stroke-width") override val strokeWidth: String? = null,
