@@ -30,7 +30,15 @@ internal data class SVG(
         const val POLYGON = "polygon"
     }
 
-    sealed interface Child
+    sealed interface Child {
+        // Stroke related values
+        val strokeColor: String?
+        val strokeWidth: String?
+        val strokeLineCap: String?
+        val strokeLineJoin: String?
+        val strokeAlpha: String?
+        val strokeMiter: String?
+    }
 
     @Serializable
     @SerialName(GROUP)
@@ -39,7 +47,14 @@ internal data class SVG(
         @SerialName("id") val name: String? = null,
         @SerialName("transform") val transform: String? = null,
         @XmlPolyChildren([GROUP, PATH, CIRCLE, RECTANGLE, ELLIPSE, POLYGON])
-        val children: List<@Polymorphic Child> = emptyList()
+        val children: List<@Polymorphic Child> = emptyList(),
+
+        @SerialName("stroke") override val strokeColor: String? = null,
+        @SerialName("stroke-width") override val strokeWidth: String? = null,
+        @SerialName("stroke-linecap") override val strokeLineCap: String? = null,
+        @SerialName("stroke-linejoin") override val strokeLineJoin: String? = null,
+        @SerialName("stroke-opacity") override val strokeAlpha: String? = null,
+        @SerialName("stroke-miterlimit") override val strokeMiter: String? = null,
     ) : Child
 
     @Serializable
@@ -48,15 +63,16 @@ internal data class SVG(
     data class Path(
         @SerialName("id") val id: String = "",
         @SerialName("d") val pathData: String,
-        @SerialName("fill-rule") val fillRule: String = "nonzero",
         @SerialName("fill") val fill: String? = null,
+        @SerialName("fill-rule") val fillRule: String = "nonzero",
         @SerialName("fill-opacity") val fillOpacity: Float = 1.0f,
-        @SerialName("stroke") val strokeColor: String? = null,
-        @SerialName("stroke-width") val strokeWidth: String? = null,
-        @SerialName("stroke-linecap") val strokeLinecap: String? = null,
-        @SerialName("stroke-linejoin") val strokeLinejoin: String? = null,
-        @SerialName("stroke-opacity") val strokeAlpha: String? = null,
-        @SerialName("stroke-miterlimit") val strokeMiter: String? = null
+
+        @SerialName("stroke") override val strokeColor: String? = null,
+        @SerialName("stroke-width") override val strokeWidth: String? = null,
+        @SerialName("stroke-linecap") override val strokeLineCap: String? = null,
+        @SerialName("stroke-linejoin") override val strokeLineJoin: String? = null,
+        @SerialName("stroke-opacity") override val strokeAlpha: String? = null,
+        @SerialName("stroke-miterlimit") override val strokeMiter: String? = null,
     ) : Child
 
     @Serializable
@@ -68,9 +84,15 @@ internal data class SVG(
         @SerialName("r") val radius: String,
         @SerialName("id") val id: String? = null,
         @SerialName("fill") val fill: String? = null,
-        @SerialName("stroke") val stroke: String? = null,
-        @SerialName("stroke-width") val strokeWidth: String? = null,
-        @SerialName("opacity") val opacity: String = "1"
+        @SerialName("fill-rule") val fillRule: String? = null,
+        @SerialName("fill-opacity") val fillAlpha: String = "1",
+
+        @SerialName("stroke") override val strokeColor: String? = null,
+        @SerialName("stroke-width") override val strokeWidth: String? = null,
+        @SerialName("stroke-linecap") override val strokeLineCap: String? = null,
+        @SerialName("stroke-linejoin") override val strokeLineJoin: String? = null,
+        @SerialName("stroke-opacity") override val strokeAlpha: String? = null,
+        @SerialName("stroke-miterlimit") override val strokeMiter: String? = null,
     ) : Child
 
     @Serializable
@@ -83,7 +105,14 @@ internal data class SVG(
         @SerialName("y") val y: String = "0",
         @SerialName("rx") val horizontalCornerRadius: String? = null,
         @SerialName("ry") val verticalCornerRadius: String? = null,
-        @SerialName("fill") val fill: String? = null
+        @SerialName("fill") val fill: String? = null,
+
+        @SerialName("stroke") override val strokeColor: String? = null,
+        @SerialName("stroke-width") override val strokeWidth: String? = null,
+        @SerialName("stroke-linecap") override val strokeLineCap: String? = null,
+        @SerialName("stroke-linejoin") override val strokeLineJoin: String? = null,
+        @SerialName("stroke-opacity") override val strokeAlpha: String? = null,
+        @SerialName("stroke-miterlimit") override val strokeMiter: String? = null,
     ) : Child
 
     @Serializable
@@ -95,22 +124,30 @@ internal data class SVG(
         @SerialName("rx") val radiusX: String? = null,
         @SerialName("ry") val radiusY: String? = null,
         @SerialName("fill") val fill: String? = null,
-        @SerialName("stroke") val stroke: String? = null,
-        @SerialName("stroke-width") val strokeWidth: String? = null,
-        @SerialName("stroke-linecap") val strokeLineCap: String? = null,
-        @SerialName("stroke-linejoin") val strokeLineJoin: String? = null,
-        @SerialName("stroke-miterlimit") val strokeMiterLimit: String? = null
+
+        @SerialName("stroke") override val strokeColor: String? = null,
+        @SerialName("stroke-width") override val strokeWidth: String? = null,
+        @SerialName("stroke-linecap") override val strokeLineCap: String? = null,
+        @SerialName("stroke-linejoin") override val strokeLineJoin: String? = null,
+        @SerialName("stroke-opacity") override val strokeAlpha: String? = null,
+        @SerialName("stroke-miterlimit") override val strokeMiter: String? = null,
     ) : Child
 
     @Serializable
     @SerialName(POLYGON)
     @XmlSerialName(POLYGON)
     data class Polygon(
+        @SerialName("id") val id: String = "",
         @SerialName("points") val points: String = "",
         @SerialName("fill") val fill: String? = null,
         @SerialName("fill-rule") val fillType: String? = null,
-        @SerialName("stroke") val stroke: String? = null,
-        @SerialName("stroke-width") val strokeWidth: String? = null,
-        @SerialName("opacity") val alpha: String? = null
+        @SerialName("opacity") val alpha: String? = null,
+
+        @SerialName("stroke") override val strokeColor: String? = null,
+        @SerialName("stroke-width") override val strokeWidth: String? = null,
+        @SerialName("stroke-linecap") override val strokeLineCap: String? = null,
+        @SerialName("stroke-linejoin") override val strokeLineJoin: String? = null,
+        @SerialName("stroke-opacity") override val strokeAlpha: String? = null,
+        @SerialName("stroke-miterlimit") override val strokeMiter: String? = null,
     ) : Child
 }

@@ -1,24 +1,20 @@
 package io.github.composegears.valkyrie.parser.kmp.svg
 
-import io.github.composegears.valkyrie.ir.IrColor
-import io.github.composegears.valkyrie.ir.IrFill
-import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.ir.IrStroke
-import io.github.composegears.valkyrie.ir.IrStrokeLineCap
-import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
-import io.github.composegears.valkyrie.ir.IrVectorNode
+import io.github.composegears.valkyrie.ir.*
+import io.github.composegears.valkyrie.parser.common.PathParser
 
-fun interface ImageVectorParser {
+interface ImageVectorParser {
     fun parse(content: String): Result<IrImageVector>
 }
 
-interface ColorParser {
-    fun parse(color: String): IrColor?
+object SvgColorParser {
+    fun parse(colorValue: String): IrColor? {
+        if (colorValue == "none") return null
+        return KeywordColorParser.parse(colorValue) ?: IrColor(colorValue)
+    }
 }
 
-// fun svgImageVectorParser(): ImageVectorParser = SVGParser()
-
-internal class SVGParser(private val colorParser: ColorParser) : ImageVectorParser {
+object SVGParser : ImageVectorParser {
 
     override fun parse(content: String): Result<IrImageVector> =
         runCatching { SVGDeserializer.deserialize(content).toImageVector() }
@@ -41,84 +37,80 @@ internal class SVGParser(private val colorParser: ColorParser) : ImageVectorPars
     private fun SVG.Child.toIrVectorNode(): IrVectorNode = when (this) {
         is SVG.Path -> toVectorPath()
         is SVG.Circle -> toVectorPath()
-        is SVG.Group -> toVectorGroup()
-        is SVG.Rectangle -> toVectorPath()
-        is SVG.Ellipse -> toVectorPath()
         is SVG.Polygon -> toVectorPath()
+        is SVG.Group -> TODO()
+        is SVG.Rectangle -> TODO()
+        is SVG.Ellipse -> TODO()
     }
 
     private fun SVG.Path.toVectorPath(): IrVectorNode.IrPath {
-        var fillColor: IrColor? = fill?.let(colorParser::parse)
+        var fillColor: IrColor? = fill?.let(SvgColorParser::parse)
         // NOTE: Only when fill and strokeColor is null use black FillColor as default color as
         //       fill can be none resulting to null.
         fillColor = if (fill == null && strokeColor == null) Black else fillColor
+        val stroke = getSVGStrokeWithDefaults()
         return IrVectorNode.IrPath(
             name = id,
             fill = fillColor?.let { IrFill.Color(it) },
             fillAlpha = fillOpacity,
-            stroke = strokeColor?.let(colorParser::parse)?.let(IrStroke::Color),
-            strokeAlpha = strokeAlpha?.toFloat() ?: 1f,
-            strokeLineWidth = strokeWidth?.toFloat() ?: 0f,
-            strokeLineCap = strokeLinecap?.let(IrStrokeLineCap::valueOf) ?: IrStrokeLineCap.Butt,
-            strokeLineJoin = strokeLinejoin?.let(IrStrokeLineJoin::valueOf) ?: IrStrokeLineJoin.Miter,
-            strokeLineMiter = strokeMiter?.toFloat() ?: 4f,
-            pathFillType =,
-            paths = pathData,
+            stroke = stroke.color?.let(IrStroke::Color),
+            strokeAlpha = stroke.alpha,
+            strokeLineWidth = stroke.width,
+            strokeLineCap = stroke.cap.toIrStrokeLineCap(),
+            strokeLineJoin = stroke.join.toIrStrokeLineJoin(),
+            strokeLineMiter = stroke.miter,
+            pathFillType = fillRule.getPathFillType(),
+            paths = PathParser.parsePathString(pathData),
         )
     }
 
-//    private fun SVG.Circle.toVectorPath(): IrVectorNode.IrPath {
-//        val cx = centerX.toFloat()
-//        val cy = centerY.toFloat()
-//        val r = radius.toFloat()
-//        val color = fill?.let(colorParser::parse) ?: Black
-//
-//        return IrVectorNode.IrPath(
-//            name = id.orEmpty(),
-//                fill = IrFill,
-//                fillAlpha = ,
-//                stroke = ,
-//                strokeAlpha = ,
-//                strokeLineWidth = ,
-//                strokeLineCap = ,
-//                strokeLineJoin = ,
-//                strokeLineMiter = ,
-//                pathFillType = ,
-//                paths = ,
-//
-//            fillColor = color,
-//            commands = listOf(
-//                MoveTo(x = cx - r, y = cy),
-//                ArcTo(
-//                    horizontalEllipseRadius = r,
-//                    verticalEllipseRadius = r,
-//                    theta = 0f,
-//                    isMoreThanHalf = false,
-//                    isPositiveArc = true,
-//                    x1 = cx + r,
-//                    y1 = cy,
-//                ),
-//                ArcTo(
-//                    horizontalEllipseRadius = r,
-//                    verticalEllipseRadius = r,
-//                    theta = 0f,
-//                    isMoreThanHalf = false,
-//                    isPositiveArc = true,
-//                    x1 = cx - r,
-//                    y1 = cy,
-//                ),
-//                Close(),
-//            ),
-//            alpha = opacity.toFloat(),
-//            stroke = Stroke(),
-//        )
-//    }
-//
-//    private fun SVG.Polygon.toVectorPath(): IrVectorNode.IrPath {
-//        return IrVectorNode.IrPath(
-//            name = "",
-//            fill = IrFill.Color(irColor =),
-//            fillAlpha = alpha?.toFloatOrNull() ?: 1f,
+    private fun SVG.Circle.toVectorPath(): IrVectorNode.IrPath {
+        val cx = centerX.toFloat()
+        val cy = centerY.toFloat()
+        val r = radius.toFloat()
+        val color = fill?.let(SvgColorParser::parse) ?: Black
+        val stroke = getSVGStrokeWithDefaults()
+        return IrVectorNode.IrPath(
+            name = id.orEmpty(),
+            fill = IrFill.Color(color),
+            fillAlpha = fillAlpha.toFloat(),
+            stroke = stroke.color?.let { IrStroke.Color(it) },
+            strokeAlpha = stroke.alpha,
+            strokeLineWidth = stroke.width,
+            strokeLineCap = stroke.cap.toIrStrokeLineCap(),
+            strokeLineJoin = stroke.join.toIrStrokeLineJoin(),
+            strokeLineMiter = stroke.miter,
+            pathFillType = fillRule?.getPathFillType() ?: IrPathFillType.NonZero,
+            paths = listOf(
+                IrPathNode.MoveTo(x = cx - r, y = cy),
+                IrPathNode.ArcTo(
+                    horizontalEllipseRadius = r,
+                    verticalEllipseRadius = r,
+                    theta = 0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = true,
+                    arcStartX = cx + r,
+                    arcStartY = cy,
+                ),
+                IrPathNode.ArcTo(
+                    horizontalEllipseRadius = r,
+                    verticalEllipseRadius = r,
+                    theta = 0f,
+                    isMoreThanHalf = false,
+                    isPositiveArc = true,
+                    arcStartX = cx - r,
+                    arcStartY = cy,
+                ),
+                IrPathNode.Close,
+            ),
+        )
+    }
+
+    private fun SVG.Polygon.toVectorPath(): IrVectorNode.IrPath {
+        return IrVectorNode.IrPath(
+            name = id,
+            fill = this.fill?.let { SvgColorParser.parse(it) }?.let { IrFill.Color(it) },
+            fillAlpha = alpha?.toFloat() ?: 1f,
 //            stroke =,
 //            strokeAlpha = 1f,
 //            strokeLineWidth = strokeWidth?.toFloat() ?: 0f,
@@ -126,11 +118,14 @@ internal class SVGParser(private val colorParser: ColorParser) : ImageVectorPars
 //            strokeLineJoin =,
 //            strokeLineMiter =,
 //            pathFillType =,
-//            paths = points.takeIf { it.isNotEmpty() }?.split(" ")
-//                ?.let { listOf(IrPathNode.MoveTo(it), IrPathNode.Close) }.orEmpty(),
-//        )
-//    }
-//
+            paths = points.takeIf { it.isNotEmpty() }
+                ?.split(" ")
+                ?.map { it.split(",").let { (x, y) -> IrPathNode.MoveTo(x = x.toFloat(), y = y.toFloat()) } }
+                ?.let { it + listOf(IrPathNode.Close) }
+                .orEmpty()
+        )
+    }
+
 //    private fun SVG.Group.toVectorGroup(): IrVectorNode.IrGroup {
 //        return IrVectorNode.IrGroup(
 //            name = name.orEmpty(),
@@ -239,4 +234,32 @@ internal class SVGParser(private val colorParser: ColorParser) : ImageVectorPars
 
     @Suppress("PrivatePropertyName")
     private val Black: IrColor = IrColor(0xff000000)
+}
+
+internal fun SVG.Child.getSVGStrokeWithDefaults(): SVGStroke {
+    return SVGStroke(
+        color = strokeColor?.let { SvgColorParser.parse(it) },
+        alpha = strokeAlpha?.toFloat() ?: 1f,
+        width = strokeWidth?.toFloat() ?: 0f,
+        cap = strokeLineCap?.let { SVGStroke.Cap(it) } ?: SVGStroke.Cap.Butt,
+        join = strokeLineJoin?.let { SVGStroke.Join(it) } ?: SVGStroke.Join.Miter,
+        miter = strokeMiter?.toFloat() ?: 4f,
+    )
+}
+
+internal fun SVGStroke.Cap.toIrStrokeLineCap(): IrStrokeLineCap = when (this) {
+    SVGStroke.Cap.Butt -> IrStrokeLineCap.Butt
+    SVGStroke.Cap.Round -> IrStrokeLineCap.Round
+    SVGStroke.Cap.Square -> IrStrokeLineCap.Square
+}
+
+internal fun SVGStroke.Join.toIrStrokeLineJoin(): IrStrokeLineJoin = when (this) {
+    SVGStroke.Join.Bevel -> IrStrokeLineJoin.Bevel
+    SVGStroke.Join.Miter -> IrStrokeLineJoin.Miter
+    SVGStroke.Join.Round -> IrStrokeLineJoin.Round
+}
+
+internal fun String.getPathFillType(): IrPathFillType = when (this.lowercase()) {
+    "evenodd" -> IrPathFillType.EvenOdd
+    else -> IrPathFillType.NonZero
 }

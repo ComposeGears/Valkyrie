@@ -101,8 +101,8 @@ internal class SVGDeserializerTest {
                 children = listOf(
                     SVG.Path(
                         pathData = "M12.5 12V7.5",
-                        strokeLinecap = "butt",
-                        strokeLinejoin = "round",
+                        strokeLineCap = "butt",
+                        strokeLineJoin = "round",
                         strokeWidth = "1.5",
                         strokeColor = "#888888",
                         strokeAlpha = "0.5",
@@ -115,7 +115,7 @@ internal class SVGDeserializerTest {
 
     @Test
     fun `parse svg with circle`() {
-        val svg = svg { """<circle cx="50" cy="50" r="30" fill="green" stroke="yellow" stroke-width="10"/>""" }
+        val svg = svg { """<circle cx="50" cy="50" r="30" fill="green" fill-opacity="0.5" stroke="yellow" stroke-width="10"/>""" }
         assertEquals(
             actual = SVGDeserializer.deserialize(svg),
             expected = testSVG(
@@ -125,7 +125,8 @@ internal class SVGDeserializerTest {
                         centerY = "50",
                         radius = "30",
                         fill = "green",
-                        stroke = "yellow",
+                        fillAlpha = "0.5",
+                        strokeColor = "yellow",
                         strokeWidth = "10"
                     )
                 )
