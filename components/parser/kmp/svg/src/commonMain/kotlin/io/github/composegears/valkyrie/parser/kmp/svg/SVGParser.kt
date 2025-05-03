@@ -3,10 +3,6 @@ package io.github.composegears.valkyrie.parser.kmp.svg
 import io.github.composegears.valkyrie.ir.*
 import io.github.composegears.valkyrie.parser.common.PathParser
 
-interface ImageVectorParser {
-    fun parse(content: String): Result<IrImageVector>
-}
-
 object SvgColorParser {
     fun parse(colorValue: String): IrColor? {
         if (colorValue == "none") return null
@@ -14,9 +10,9 @@ object SvgColorParser {
     }
 }
 
-object SVGParser : ImageVectorParser {
+object SVGParser {
 
-    override fun parse(content: String): Result<IrImageVector> =
+    fun parse(content: String): Result<IrImageVector> =
         runCatching { SVGDeserializer.deserialize(content).toImageVector() }
 
     private fun SVG.toImageVector(): IrImageVector {
@@ -38,7 +34,7 @@ object SVGParser : ImageVectorParser {
         is SVG.Path -> toVectorPath()
         is SVG.Circle -> toVectorPath()
         is SVG.Polygon -> toVectorPath()
-        is SVG.Group -> TODO()
+        is SVG.Group -> toVectorGroup()
         is SVG.Rectangle -> TODO()
         is SVG.Ellipse -> TODO()
     }
@@ -135,18 +131,26 @@ object SVGParser : ImageVectorParser {
         )
     }
 
-//    private fun SVG.Group.toVectorGroup(): IrVectorNode.IrGroup {
-//        return IrVectorNode.IrGroup(
-//            name = name.orEmpty(),
-//            paths = children.map { it.toNode() },
-//            rotate = transform?.getRotation() ?: 0f,
-//            pivot = transform?.getPivot() ?: Translation(0f, 0f),
-//            translation = transform?.getTranslation() ?: Translation(0f, 0f),
-//            scale = transform?.getScale() ?: Scale(1f, 1f),
-//        )
-//    }
-//
-//    private fun SVG.Ellipse.toVectorPath(): IrVectorNode.IrPath {
+    private fun SVG.Group.toVectorGroup(): IrVectorNode.IrGroup {
+        val pivot = transform?.getPivot() ?: Translation.Default
+        val translation = transform?.getTranslation() ?: Translation.Default
+        val scale = transform?.getScale() ?: Scale.Default
+        return IrVectorNode.IrGroup(
+            name = name.orEmpty(),
+            paths = children.map { it.toIrVectorNode() }.filterIsInstance<IrVectorNode.IrPath>().toMutableList(),
+            rotate = transform?.getRotation() ?: 0f,
+            pivotX = pivot.x,
+            pivotY = pivot.y,
+            translationX = translation.x,
+            translationY = translation.y,
+            scaleX = scale.x,
+            scaleY = scale.y,
+            // TODO: Add missing clip path data
+            clipPathData = mutableListOf()
+        )
+    }
+
+    //    private fun SVG.Ellipse.toVectorPath(): IrVectorNode.IrPath {
 //        val cx = centerX.toFloat()
 //        val cy = centerY.toFloat()
 //        val radiusX = radiusX?.toFloat() ?: radiusY?.toFloat()
@@ -210,65 +214,31 @@ object SVGParser : ImageVectorParser {
 //        )
 //    }
 //
-//    private fun String.getRotation(): Float {
-//        return getFunction("rotate")
-//            ?.let { (a, _, _) -> a }
-//            ?: 0f
-//    }
-//
-//    private fun String.getPivot(): Translation {
-//        return getFunction("rotate")
-//            ?.let { (_, x, y) -> Translation(x = x, y = y) }
-//            ?: Translation(0f, 0f)
-//    }
-//
-//    private fun String.getTranslation(): Translation {
-//        return getFunction("translate")
-//            ?.let { (x, y) -> Translation(x = x, y = y) }
-//            ?: Translation(0f, 0f)
-//    }
-//
-//    private fun String.getScale(): Scale {
-//        return getFunction("scale")
-//            ?.let { (x, y) -> Scale(x = x, y = y) }
-//            ?: Scale(1f, 1f)
-//    }
-//
-//    private fun String.getFunction(key: String): List<Float>? {
-//        val startIndex = indexOf(key).takeIf { it != -1 } ?: return null
-//        val functionStart = substring(startIndex + key.length)
-//        val endIndex = functionStart.indexOfFirst { it == ')' }
-//        return functionStart.substring(1 until endIndex).split(" ").map { it.toFloat() }
-//    }
+    private fun String.getRotation(): Float {
+        return getFunction("rotate")
+            ?.let { (a, _, _) -> a }
+            ?: 0f
+    }
+
+    private fun String.getPivot(): Translation {
+        return getFunction("rotate")?.let { Translation(it.drop(1)) } ?: Translation(listOf(0f, 0f))
+    }
+
+    private fun String.getTranslation(): Translation {
+        return getFunction("translate")?.let { Translation(it) } ?: Translation(listOf(0f, 0f))
+    }
+
+    private fun String.getScale(): Scale {
+        return getFunction("scale")?.let { Scale(args = it) } ?: Scale(listOf(1f, 1f))
+    }
+
+    private fun String.getFunction(key: String): List<Float>? {
+        val startIndex = indexOf(key).takeIf { it != -1 } ?: return null
+        val functionStart = substring(startIndex + key.length)
+        val endIndex = functionStart.indexOfFirst { it == ')' }
+        return functionStart.substring(1 until endIndex).split(" ").map { it.toFloat() }
+    }
 
     @Suppress("PrivatePropertyName")
     private val Black: IrColor = IrColor(0xff000000)
-}
-
-internal fun SVG.Child.getSVGStrokeWithDefaults(): SVGStroke {
-    return SVGStroke(
-        color = strokeColor?.let { SvgColorParser.parse(it) },
-        alpha = strokeAlpha?.toFloat() ?: 1f,
-        width = strokeWidth?.toFloat() ?: 0f,
-        cap = strokeLineCap?.let { SVGStroke.Cap(it) } ?: SVGStroke.Cap.Butt,
-        join = strokeLineJoin?.let { SVGStroke.Join(it) } ?: SVGStroke.Join.Miter,
-        miter = strokeMiter?.toFloat() ?: 4f,
-    )
-}
-
-internal fun SVGStroke.Cap.toIrStrokeLineCap(): IrStrokeLineCap = when (this) {
-    SVGStroke.Cap.Butt -> IrStrokeLineCap.Butt
-    SVGStroke.Cap.Round -> IrStrokeLineCap.Round
-    SVGStroke.Cap.Square -> IrStrokeLineCap.Square
-}
-
-internal fun SVGStroke.Join.toIrStrokeLineJoin(): IrStrokeLineJoin = when (this) {
-    SVGStroke.Join.Bevel -> IrStrokeLineJoin.Bevel
-    SVGStroke.Join.Miter -> IrStrokeLineJoin.Miter
-    SVGStroke.Join.Round -> IrStrokeLineJoin.Round
-}
-
-internal fun String.getPathFillType(): IrPathFillType = when (this.lowercase()) {
-    "evenodd" -> IrPathFillType.EvenOdd
-    else -> IrPathFillType.NonZero
 }
