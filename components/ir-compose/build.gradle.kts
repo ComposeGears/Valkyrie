@@ -8,7 +8,6 @@ kotlin {
         commonMain.dependencies {
             api(projects.components.ir)
 
-            implementation(compose.material3)
             implementation(compose.ui)
         }
     }
