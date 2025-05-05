@@ -33,7 +33,6 @@ dependencies {
     implementation(projects.components.psi.imagevector)
 
     implementation(compose.ui)
-    implementation(libs.material.icons.core)
 
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)

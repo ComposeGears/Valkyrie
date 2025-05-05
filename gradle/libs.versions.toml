@@ -9,7 +9,6 @@ highlights = "dev.snipme:highlights:1.0.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 leviathan = "io.github.composegears:leviathan:2.0.0"
 leviathan-compose = "io.github.composegears:leviathan-compose:2.0.0"
-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "compose" }
 tiamat = "io.github.composegears:tiamat:1.5.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
 
