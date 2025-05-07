@@ -11,6 +11,7 @@ import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
+import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
@@ -337,10 +338,4 @@ class IconPackConversionViewModel(
 sealed interface ConversionEvent {
     data class OpenPreview(val iconContent: String) : ConversionEvent
     data object ExportCompleted : ConversionEvent
-}
-
-sealed interface PickerEvent {
-    data class PickDirectory(val path: Path) : PickerEvent
-    data class PickFiles(val paths: List<Path>) : PickerEvent
-    data class ClipboardText(val text: String) : PickerEvent
 }
