@@ -40,6 +40,9 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
 import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
+import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
+import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.ClipboardText
+import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
@@ -60,8 +63,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconId
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconPreviewBox
@@ -89,7 +90,7 @@ fun BatchProcessingStateUi(
         onPaste = { dataType ->
             when (dataType) {
                 is ClipboardDataType.Files -> onPasteEvent(PickFiles(paths = dataType.paths))
-                is ClipboardDataType.Text -> onPasteEvent(PickerEvent.ClipboardText(dataType.text))
+                is ClipboardDataType.Text -> onPasteEvent(ClipboardText(dataType.text))
             }
         },
     ) {
