@@ -1,26 +1,26 @@
-package io.github.composegears.valkyrie.parser.ktfile
+package io.github.composegears.valkyrie.psi.imagevector
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.ProjectExtension
 import com.intellij.testFramework.runInEdtAndGet
-import io.github.composegears.valkyrie.parser.ktfile.common.ParseType
-import io.github.composegears.valkyrie.parser.ktfile.common.createKtFile
-import io.github.composegears.valkyrie.parser.ktfile.common.toKtFile
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedAllGroupParams
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedAllPathParams
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedClipPathGradient
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedComposeColor
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedEmptyImageVector
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedEmptyPaths
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedIconWithGroup
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedLinearGradient
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedLinearGradientWithStroke
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedMaterialIcon
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedRadialGradient
-import io.github.composegears.valkyrie.parser.ktfile.expected.ExpectedSinglePath
-import org.junit.jupiter.api.Test
+import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
+import io.github.composegears.valkyrie.psi.imagevector.common.ParseType
+import io.github.composegears.valkyrie.psi.imagevector.common.createKtFile
+import io.github.composegears.valkyrie.psi.imagevector.common.toKtFile
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedAllGroupParams
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedAllPathParams
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedClipPathGradient
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedComposeColor
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedEmptyImageVector
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedEmptyPaths
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedIconWithGroup
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGradient
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGradientWithStroke
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIcon
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedRadialGradient
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedSinglePath
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -44,7 +44,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "lazy/EmptyImageVector.kt",
             pathToBacking = "backing/EmptyImageVector.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedEmptyImageVector)
     }
@@ -57,7 +57,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "lazy/EmptyPaths.kt",
             pathToBacking = "backing/EmptyPaths.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedEmptyPaths)
     }
@@ -70,15 +70,15 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "lazy/AllPathParams.kt",
             pathToBacking = "backing/AllPathParams.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedAllPathParams)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun `parse material icon`() = runInEdtAndGet {
         val ktFile = project.createKtFile(from = "backing/MaterialIcon.kt")
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIcon)
     }
@@ -91,7 +91,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "lazy/IconWithGroup.kt",
             pathToBacking = "backing/IconWithGroup.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedIconWithGroup)
     }
@@ -104,7 +104,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "lazy/SinglePath.kt",
             pathToBacking = "backing/SinglePath.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedSinglePath)
     }
@@ -117,7 +117,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "imagevector/kt/lazy/AllGroupParams.kt",
             pathToBacking = "imagevector/kt/backing/AllGroupParams.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedAllGroupParams)
     }
@@ -130,7 +130,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "imagevector/kt/lazy/ComposeColor.kt",
             pathToBacking = "imagevector/kt/backing/ComposeColor.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedComposeColor)
     }
@@ -143,7 +143,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "imagevector/kt/backing/LinearGradient.kt",
             pathToBacking = "imagevector/kt/lazy/LinearGradient.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedLinearGradient)
     }
@@ -156,7 +156,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "imagevector/kt/backing/LinearGradientWithStroke.kt",
             pathToBacking = "imagevector/kt/lazy/LinearGradientWithStroke.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedLinearGradientWithStroke)
     }
@@ -169,7 +169,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "imagevector/kt/lazy/ClipPathGradient.kt",
             pathToBacking = "imagevector/kt/backing/ClipPathGradient.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedClipPathGradient)
     }
@@ -182,7 +182,7 @@ class KtFileToImageVectorParserTest {
             pathToLazy = "imagevector/kt/backing/RadialGradient.kt",
             pathToBacking = "imagevector/kt/lazy/RadialGradient.kt",
         )
-        val imageVector = KtFileToImageVectorParser.parse(ktFile)
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedRadialGradient)
     }

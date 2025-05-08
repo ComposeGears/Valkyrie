@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.ktfile.expected
+package io.github.composegears.valkyrie.psi.imagevector.expected
 
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath

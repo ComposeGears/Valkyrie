@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.ktfile.common
+package io.github.composegears.valkyrie.psi.imagevector.common
 
 import com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.psi.KtFile
