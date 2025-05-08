@@ -2,8 +2,6 @@ enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    includeBuild("build-logic")
-
     repositories {
         google {
             content {
@@ -45,6 +43,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "valkyrie"
+
+includeBuild("build-logic")
 
 include("idea-plugin")
 include("cli")
