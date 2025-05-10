@@ -92,9 +92,9 @@ private fun CodeBlock.Builder.addVectorNode(
             path = irVectorNode,
             addTrailingComma = addTrailingComma,
             groupBody = {
-                irVectorNode.paths.forEach { path ->
+                irVectorNode.nodes.forEach { node ->
                     addVectorNode(
-                        irVectorNode = path,
+                        irVectorNode = node,
                         addTrailingComma = addTrailingComma,
                         useComposeColors = useComposeColors,
                     )

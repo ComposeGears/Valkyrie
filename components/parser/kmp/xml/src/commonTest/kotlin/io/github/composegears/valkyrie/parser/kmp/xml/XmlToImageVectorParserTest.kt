@@ -99,7 +99,7 @@ class XmlToImageVectorParserTest {
                     scaleX = 30f,
                     scaleY = 31f,
                     clipPathData = mutableListOf(),
-                    paths = mutableListOf(),
+                    nodes = mutableListOf(),
                 ),
             ),
             actual = result.nodes,

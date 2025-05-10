@@ -69,7 +69,7 @@ private fun parseNodes(parser: XmlPullParser): List<IrVectorNode> {
                     PATH -> {
                         val path = parsePath(parser)
                         if (currentGroup != null) {
-                            currentGroup.paths.add(path)
+                            currentGroup.nodes.add(path)
                         } else {
                             nodes.add(path)
                         }
@@ -127,7 +127,7 @@ private fun parseGroup(parser: XmlPullParser): IrVectorNode.IrGroup {
         scaleY = parser.valueAsFloat(SCALE_Y) ?: 1f,
         translationX = parser.valueAsFloat(TRANSLATE_X) ?: 0f,
         translationY = parser.valueAsFloat(TRANSLATE_Y) ?: 0f,
-        paths = mutableListOf(),
+        nodes = mutableListOf(),
         clipPathData = mutableListOf(),
     )
 }
@@ -139,11 +139,11 @@ private fun handleGradient(
 ) {
     val gradient = parseGradient(parser) ?: return
 
-    val lastPath = currentGroup?.paths?.removeLastOrNull() ?: nodes.removeLastOrNull() ?: return
+    val lastPath = currentGroup?.nodes?.removeLastOrNull() ?: nodes.removeLastOrNull() ?: return
     if (lastPath is IrVectorNode.IrPath && lastPath.fill == null) {
         val gradientPath = lastPath.copy(fill = gradient)
         if (currentGroup != null) {
-            currentGroup.paths.add(gradientPath)
+            currentGroup.nodes.add(gradientPath)
         } else {
             nodes.add(gradientPath)
         }
@@ -205,7 +205,7 @@ private fun handleItem(parser: XmlPullParser, currentGroup: IrVectorNode.IrGroup
     val color = parser.valueAsIrColor(COLOR) ?: return
     val colorStop = IrFill.ColorStop(offset, color)
 
-    val lastPath = (currentGroup?.paths?.last() ?: nodes.last()) as? IrVectorNode.IrPath
+    val lastPath = (currentGroup?.nodes?.last() ?: nodes.last()) as? IrVectorNode.IrPath
     when (val fill = lastPath?.fill) {
         is IrFill.LinearGradient -> fill.colorStops.add(colorStop)
         is IrFill.RadialGradient -> fill.colorStops.add(colorStop)

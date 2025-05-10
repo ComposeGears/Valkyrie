@@ -94,33 +94,46 @@ internal object RegularImageVectorPsiParser {
         val applyBlock = lambdaExpression?.bodyExpression ?: return vectorNodes
 
         applyBlock.statements.filterIsInstance<KtCallExpression>().forEach { expression ->
-            if (expression.calleeExpression?.text == "path") {
-                vectorNodes += expression.parsePath()
-            }
-            if (expression.calleeExpression?.text == "group") {
-                val groupLambda = expression.lambdaArguments.firstOrNull()?.getLambdaExpression()
-                val groupBlock = groupLambda?.bodyExpression
-
-                vectorNodes += IrVectorNode.IrGroup(
-                    name = expression.parseStringArg("name").orEmpty(),
-                    rotate = expression.parseFloatArg("rotate") ?: 0f,
-                    pivotX = expression.parseFloatArg("pivotX") ?: 0f,
-                    pivotY = expression.parseFloatArg("pivotY") ?: 0f,
-                    scaleX = expression.parseFloatArg("scaleX") ?: 1f,
-                    scaleY = expression.parseFloatArg("scaleY") ?: 1f,
-                    translationX = expression.parseFloatArg("translationX") ?: 0f,
-                    translationY = expression.parseFloatArg("translationY") ?: 0f,
-                    clipPathData = expression.parseClipPath().toMutableList(),
-                    paths = groupBlock?.statements
-                        ?.filterIsInstance<KtCallExpression>()
-                        ?.map { it.parsePath() }
-                        .orEmpty()
-                        .toMutableList(),
-                )
+            val node = expression.parseVectorNode()
+            if (node != null) {
+                vectorNodes += node
             }
         }
 
         return vectorNodes
+    }
+
+    private fun KtCallExpression.parseVectorNode(): IrVectorNode? {
+        var node: IrVectorNode? = null
+        if (calleeExpression?.text == "path") {
+            node = parsePath()
+        }
+        if (calleeExpression?.text == "group") {
+            node = parseGroup()
+        }
+        return node
+    }
+
+    private fun KtCallExpression.parseGroup(): IrVectorNode.IrGroup {
+        val groupLambda = lambdaArguments.firstOrNull()?.getLambdaExpression()
+        val groupBlock = groupLambda?.bodyExpression
+
+        return IrVectorNode.IrGroup(
+            name = parseStringArg("name").orEmpty(),
+            rotate = parseFloatArg("rotate") ?: 0f,
+            pivotX = parseFloatArg("pivotX") ?: 0f,
+            pivotY = parseFloatArg("pivotY") ?: 0f,
+            scaleX = parseFloatArg("scaleX") ?: 1f,
+            scaleY = parseFloatArg("scaleY") ?: 1f,
+            translationX = parseFloatArg("translationX") ?: 0f,
+            translationY = parseFloatArg("translationY") ?: 0f,
+            clipPathData = parseClipPath().toMutableList(),
+            nodes = groupBlock?.statements
+                ?.filterIsInstance<KtCallExpression>()
+                ?.mapNotNull { it.parseVectorNode() }
+                .orEmpty()
+                .toMutableList(),
+        )
     }
 
     private fun KtCallExpression.parsePath(): IrVectorNode.IrPath {

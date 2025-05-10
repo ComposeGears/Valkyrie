@@ -61,8 +61,7 @@ object XmlToImageVectorParser {
             translationX = translateX ?: 0f,
             translationY = translateY ?: 0f,
             clipPathData = mutableListOf(),
-            // TODO: Add support for nested groups
-            paths = children.filterIsInstance<VectorDrawable.Path>().map { it.toIrPath() }.toMutableList(),
+            nodes = children.map { it.toNode() }.toMutableList(),
         )
     }
 
