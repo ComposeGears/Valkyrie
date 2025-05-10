@@ -10,20 +10,21 @@ fun IrImageVector.iconColors(): List<IrColor> {
     val colors = mutableSetOf<IrColor>()
 
     nodes.onEach { node ->
-        when (node) {
-            is IrVectorNode.IrGroup -> {
-                node.paths.forEach {
-                    visitPath(
-                        node = it,
-                        colors = colors,
-                    )
-                }
-            }
-            is IrVectorNode.IrPath -> visitPath(node, colors)
-        }
+        visitNode(node = node, colors = colors)
     }
 
     return colors.toList()
+}
+
+private fun visitNode(node: IrVectorNode, colors: MutableSet<IrColor>) {
+    when (node) {
+        is IrVectorNode.IrGroup -> {
+            node.nodes.forEach {
+                visitNode(node = it, colors = colors)
+            }
+        }
+        is IrVectorNode.IrPath -> visitPath(node, colors)
+    }
 }
 
 private fun visitPath(

@@ -31,7 +31,7 @@ class IrImageVectorColorTest {
                     paths = emptyList(),
                 ),
                 IrVectorNode.IrGroup(
-                    paths = mutableListOf(
+                    nodes = mutableListOf(
                         IrVectorNode.IrPath(
                             fill = IrFill.LinearGradient(
                                 startX = 0f,

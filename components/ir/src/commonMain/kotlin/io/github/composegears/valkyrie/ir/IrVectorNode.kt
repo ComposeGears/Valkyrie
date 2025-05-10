@@ -11,7 +11,7 @@ sealed interface IrVectorNode {
         val translationX: Float = 0f,
         val translationY: Float = 0f,
         val clipPathData: MutableList<IrPathNode>,
-        val paths: MutableList<IrPath>,
+        val nodes: MutableList<IrVectorNode>,
     ) : IrVectorNode
 
     data class IrPath(

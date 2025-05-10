@@ -77,8 +77,11 @@ private fun ImageVector.Builder.addGroup(group: IrGroup) {
         translationY = group.translationY,
         clipPathData = group.clipPathData.buildClipPath(),
     ) {
-        group.paths.forEach {
-            addPath(it)
+        group.nodes.forEach {
+            when (it) {
+                is IrGroup -> addGroup(it)
+                is IrPath -> addPath(it)
+            }
         }
     }
 }
