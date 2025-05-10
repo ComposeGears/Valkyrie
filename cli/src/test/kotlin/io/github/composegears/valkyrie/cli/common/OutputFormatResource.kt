@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie.cli.common
 
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourceText
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.BackingProperty
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat.LazyProperty
+import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.BackingProperty
+import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.LazyProperty
 
 fun OutputFormat.toResourceText(
     pathToBackingProperty: String,

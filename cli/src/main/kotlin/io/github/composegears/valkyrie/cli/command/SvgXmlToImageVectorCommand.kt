@@ -16,10 +16,10 @@ import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
 import io.github.composegears.valkyrie.cli.ext.stringOption
 import io.github.composegears.valkyrie.extensions.writeToKt
-import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
+import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
 import io.github.composegears.valkyrie.parser.svgxml.util.isXml
