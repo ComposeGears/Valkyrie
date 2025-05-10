@@ -2,8 +2,8 @@ package io.github.composegears.valkyrie.ui.screen.settings
 
 import com.composegears.tiamat.TiamatViewModel
 import com.intellij.collaboration.async.mapState
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
+import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.settings.updateOutputFormat
 import io.github.composegears.valkyrie.settings.updatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.di.DI
