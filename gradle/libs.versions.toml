@@ -11,6 +11,7 @@ leviathan = "io.github.composegears:leviathan:2.0.0"
 leviathan-compose = "io.github.composegears:leviathan-compose:2.0.0"
 tiamat = "io.github.composegears:tiamat:1.5.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
+xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.90.2"
 
 clikt = "com.github.ajalt.clikt:clikt:5.0.3"
 r8 = "com.android.tools:r8:8.7.18"
@@ -33,6 +34,7 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = "org.jetbrains.kotlinx.kover:0.9.1"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
