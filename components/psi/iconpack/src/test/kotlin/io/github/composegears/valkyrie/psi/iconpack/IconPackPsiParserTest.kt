@@ -4,13 +4,11 @@ import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
-import com.intellij.openapi.application.EDT
+import com.intellij.openapi.application.runInEdt
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.ProjectExtension
+import com.intellij.testFramework.runInEdtAndGet
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
@@ -24,17 +22,10 @@ class IconPackPsiParserTest {
     private val project: Project
         get() = projectExtension.project
 
-    fun check(suspend: () -> Unit) = runBlocking {
-        withContext(Dispatchers.EDT) {
-            suspend()
-        }
-    }
-
     @Test
-    fun `simple icon pack parser`() = check {
+    fun `simple icon pack parser`() {
         val path = getResourcePath("SimpleIconPack.kt")
-
-        val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
+        val iconPackInfo = runInEdtAndGet { IconPackPsiParser.extractIconPack(path, project) }
 
         assertThat(iconPackInfo).isNotNull().transform { packInfo ->
             assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
@@ -44,10 +35,9 @@ class IconPackPsiParserTest {
     }
 
     @Test
-    fun `nested icon pack parser`() = check {
+    fun `nested icon pack parser`() {
         val path = getResourcePath("NestedIconPack.kt")
-
-        val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
+        val iconPackInfo = runInEdtAndGet { IconPackPsiParser.extractIconPack(path, project) }
 
         assertThat(iconPackInfo).isNotNull().transform { packInfo ->
             assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
@@ -58,10 +48,9 @@ class IconPackPsiParserTest {
     }
 
     @Test
-    fun `data object icon pack parser`() = check {
+    fun `data object icon pack parser`() = runInEdt {
         val path = getResourcePath("DataObjectIconPack.kt")
-
-        val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
+        val iconPackInfo = runInEdtAndGet { IconPackPsiParser.extractIconPack(path, project) }
 
         assertThat(iconPackInfo).isNotNull().transform { packInfo ->
             assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
