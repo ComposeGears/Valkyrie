@@ -4,8 +4,8 @@ import com.composegears.tiamat.Saveable
 import com.composegears.tiamat.SavedState
 import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.extensions.safeAs
-import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState

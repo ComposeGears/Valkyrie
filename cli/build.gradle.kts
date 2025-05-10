@@ -82,16 +82,14 @@ val r8: Configuration by configurations.creating
 
 dependencies {
     implementation(projects.components.extensions)
-    implementation(projects.components.generator.iconpack)
-    implementation(projects.components.generator.imagevector)
+    implementation(projects.components.generator.jvm.iconpack)
+    implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.ir)
     implementation(projects.components.parser.svgxml)
 
     implementation(libs.clikt)
     r8(libs.r8)
 
-    testImplementation(projects.components.extensions)
-    testImplementation(projects.components.generator.imagevector)
     testImplementation(libs.bundles.test)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.mockk)

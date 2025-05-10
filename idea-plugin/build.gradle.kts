@@ -12,8 +12,8 @@ version = rootProject.providers.gradleProperty("VERSION_NAME").get()
 
 dependencies {
     implementation(projects.components.extensions)
-    implementation(projects.components.generator.iconpack)
-    implementation(projects.components.generator.imagevector)
+    implementation(projects.components.generator.jvm.iconpack)
+    implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.irCompose)
     implementation(projects.components.parser.svgxml)
     implementation(projects.components.psi.iconpack)

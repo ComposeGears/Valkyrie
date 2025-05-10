@@ -21,10 +21,10 @@ import io.github.composegears.valkyrie.cli.common.CliTestType.JarTerminal
 import io.github.composegears.valkyrie.cli.common.CommandLineTestRunner
 import io.github.composegears.valkyrie.cli.common.toResourceText
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
-import io.github.composegears.valkyrie.generator.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType
-import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType.AndroidX
-import io.github.composegears.valkyrie.generator.imagevector.PreviewAnnotationType.Jetbrains
+import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
+import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.AndroidX
+import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.Jetbrains
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.createTempDirectory
