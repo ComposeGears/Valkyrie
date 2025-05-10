@@ -6,7 +6,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.ProjectExtension
-import com.intellij.testFramework.runInEdtAndGet
+import com.intellij.testFramework.runInEdtAndWait
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -25,7 +25,7 @@ class IconPackPsiParserTest {
     fun `simple icon pack parser`() {
         val path = getResourcePath("SimpleIconPack.kt")
 
-        runInEdtAndGet {
+        runInEdtAndWait {
             val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
@@ -40,7 +40,7 @@ class IconPackPsiParserTest {
     fun `nested icon pack parser`() {
         val path = getResourcePath("NestedIconPack.kt")
 
-        runInEdtAndGet {
+        runInEdtAndWait {
             val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
@@ -56,7 +56,7 @@ class IconPackPsiParserTest {
     fun `data object icon pack parser`() {
         val path = getResourcePath("DataObjectIconPack.kt")
 
-        runInEdtAndGet {
+        runInEdtAndWait {
             val iconPackInfo = IconPackPsiParser.extractIconPack(path, project)
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
