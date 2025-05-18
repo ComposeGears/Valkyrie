@@ -2,9 +2,9 @@ package io.github.composegears.valkyrie.parser.unified
 
 import assertk.assertFailure
 import assertk.assertThat
-import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
+import assertk.assertions.messageContains
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType
 import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
@@ -21,13 +21,13 @@ class XmlToImageVectorTest {
 
         assertFailure {
             SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = brokenIconPath)
-        }.isInstanceOf(IllegalStateException::class)
-            .hasMessage(" must be an SVG or XML file.")
+        }.isInstanceOf(IllegalArgumentException::class)
+            .messageContains("is not a file")
 
         assertFailure {
             SvgXmlParser.toIrImageVector(parser = ParserType.Kmp, path = brokenIconPath)
-        }.isInstanceOf(IllegalStateException::class)
-            .hasMessage(" must be an SVG or XML file.")
+        }.isInstanceOf(IllegalArgumentException::class)
+            .messageContains("is not a file")
     }
 
     @Test

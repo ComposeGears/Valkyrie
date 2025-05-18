@@ -11,6 +11,8 @@ import io.github.composegears.valkyrie.parser.unified.model.IconType
 import io.github.composegears.valkyrie.parser.unified.model.IconType.SVG
 import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
+import kotlin.io.path.exists
+import kotlin.io.path.isRegularFile
 import kotlinx.io.files.Path
 
 actual object SvgXmlParser {
@@ -22,13 +24,16 @@ actual object SvgXmlParser {
         parser: ParserType,
         path: Path,
     ): IconParserOutput {
+        val jvmPath = path.toJvmPath()
+        require(jvmPath.exists()) { "$path does not exist" }
+        require(jvmPath.isRegularFile()) { "$path is not a file" }
         val iconType = IconType.from(path) ?: error("$path must be an SVG or XML file.")
         val fileName = IconNameFormatter.format(name = path.name)
 
         val irImageVector = when (parser) {
             ParserType.Jvm -> {
                 val text = when (iconType) {
-                    SVG -> SvgToXmlParser.parse(path.toJvmPath())
+                    SVG -> SvgToXmlParser.parse(jvmPath)
                     XML -> path.readText()
                 }
                 XmlToImageVectorParserJvm.parse(text)
