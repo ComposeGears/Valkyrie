@@ -2,9 +2,9 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector
 
 import assertk.assertFailure
 import assertk.assertThat
-import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
+import assertk.assertions.messageContains
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.jvm.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.common.toResourceText
@@ -23,8 +23,18 @@ class XmlToImageVectorTest {
 
         assertFailure {
             SvgXmlParser.toIrImageVector(brokenIconPath)
-        }.isInstanceOf(IllegalStateException::class)
-            .hasMessage(" must be an SVG or XML file.")
+        }.isInstanceOf(IllegalArgumentException::class)
+            .messageContains("is not a file")
+    }
+
+    @Test
+    fun `nen existing file should throw exception`() {
+        val brokenIconPath = Path("r4nd0m.svg")
+
+        assertFailure {
+            SvgXmlParser.toIrImageVector(brokenIconPath)
+        }.isInstanceOf(IllegalArgumentException::class)
+            .messageContains("does not exist")
     }
 
     @ParameterizedTest
