@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewmodel
 
-import io.github.composegears.valkyrie.parser.svgxml.PackageExtractor
+import io.github.composegears.valkyrie.parser.unified.util.PackageExtractor
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.inputhandler.BasicInputHandler

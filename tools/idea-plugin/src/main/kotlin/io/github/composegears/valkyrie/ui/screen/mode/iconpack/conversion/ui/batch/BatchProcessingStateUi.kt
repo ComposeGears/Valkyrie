@@ -37,9 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.parser.svgxml.IconNameFormatter
-import io.github.composegears.valkyrie.parser.svgxml.util.IconType.SVG
-import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
+import io.github.composegears.valkyrie.parser.unified.model.IconType
+import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.ClipboardText
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
@@ -365,7 +364,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 BatchIcon.Valid(
                     id = IconId("1"),
                     iconName = IconName(IconNameFormatter.format("ic_all_path_params_1")),
-                    iconType = XML,
+                    iconType = IconType.XML,
                     irImageVector = IR_STUB,
                     iconPack = IconPack.Single(
                         iconPackage = "package",
@@ -379,7 +378,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 BatchIcon.Valid(
                     id = IconId("3"),
                     iconName = IconName(IconNameFormatter.format("ic_all_path")),
-                    iconType = SVG,
+                    iconType = IconType.SVG,
                     irImageVector = IR_STUB,
                     iconPack = IconPack.Nested(
                         iconPackName = "ValkyrieIcons",

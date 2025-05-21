@@ -83,7 +83,7 @@ dependencies {
     implementation(projects.components.generator.jvm.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.ir)
-    implementation(projects.components.parser.svgxml)
+    implementation(projects.components.parser.unified)
 
     implementation(libs.clikt)
     r8(libs.r8)

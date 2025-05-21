@@ -16,7 +16,7 @@ dependencies {
 
     implementation(libs.kotlinpoet)
 
-    testImplementation(projects.components.parser.svgxml)
+    testImplementation(projects.components.parser.unified)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 }

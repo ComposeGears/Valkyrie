@@ -7,9 +7,11 @@ import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
-import io.github.composegears.valkyrie.parser.svgxml.util.isXml
+import io.github.composegears.valkyrie.parser.unified.ParserType
+import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.ext.isSvg
+import io.github.composegears.valkyrie.parser.unified.ext.isXml
+import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.di.DI
@@ -257,7 +259,8 @@ class IconPackConversionViewModel(
 
     private fun processText(text: String) = viewModelScope.launch(Dispatchers.Default) {
         val iconName = ""
-        val output = runCatching { SvgXmlParser.toIrImageVector(text, iconName) }.getOrNull()
+        val output =
+            runCatching { SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, text, iconName) }.getOrNull()
 
         val icon = when (output) {
             null -> BatchIcon.Broken(iconName = IconName(iconName))
@@ -280,7 +283,7 @@ class IconPackConversionViewModel(
     }
 
     private fun List<Path>.processFiles() = viewModelScope.launch(Dispatchers.Default) {
-        val paths = filter { it.isRegularFile() && (it.isXml || it.isSvg) }
+        val paths = filter { it.isRegularFile() && (it.toIOPath().isXml || it.toIOPath().isSvg) }
         val lastIcons = _state.value.safeAs<BatchProcessing.IconPackCreationState>()?.icons.orEmpty()
 
         if (paths.isNotEmpty()) {
@@ -289,7 +292,12 @@ class IconPackConversionViewModel(
                 val newIcons = paths
                     .sortedBy { it.name }
                     .map { path ->
-                        val output = runCatching { SvgXmlParser.toIrImageVector(path) }.getOrNull()
+                        val output = runCatching {
+                            SvgXmlParser.toIrImageVector(
+                                parser = ParserType.Jvm,
+                                path = path.toIOPath(),
+                            )
+                        }.getOrNull()
 
                         when (output) {
                             null -> BatchIcon.Broken(iconName = IconName(path.name))
