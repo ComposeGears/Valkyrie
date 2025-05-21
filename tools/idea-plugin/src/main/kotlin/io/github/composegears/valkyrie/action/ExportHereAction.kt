@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.wm.ToolWindowManager
 import io.github.composegears.valkyrie.ValkyrieToolWindow
 import io.github.composegears.valkyrie.action.dialog.RequiredIconPackModeDialog
-import io.github.composegears.valkyrie.parser.svgxml.PackageExtractor
+import io.github.composegears.valkyrie.parser.unified.util.PackageExtractor
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons

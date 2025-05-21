@@ -8,8 +8,10 @@ import assertk.assertions.isInstanceOf
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.generator.jvm.imagevector.common.createConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.common.toResourceText
-import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import io.github.composegears.valkyrie.parser.svgxml.util.IconType.XML
+import io.github.composegears.valkyrie.parser.unified.ParserType
+import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
+import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
 import kotlin.io.path.Path
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -19,10 +21,10 @@ class XmlToImageVectorTest {
 
     @Test
     fun `broken icon path should throw exception`() {
-        val brokenIconPath = Path("")
+        val brokenIconPath = Path("").toIOPath()
 
         assertFailure {
-            SvgXmlParser.toIrImageVector(brokenIconPath)
+            SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = brokenIconPath)
         }.isInstanceOf(IllegalStateException::class)
             .hasMessage(" must be an SVG or XML file.")
     }
@@ -30,8 +32,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `generation without icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -49,8 +51,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `generation with nested icon pack`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -72,8 +74,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `empty path xml`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_without_path.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -94,8 +96,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon only with path`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_only_path.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_only_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -116,8 +118,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with path and solid color`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_fill_color_stroke.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_fill_color_stroke.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -138,8 +140,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with all path params`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_all_path_params.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_all_path_params.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -160,8 +162,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with all group params`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_all_group_params.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_all_group_params.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -182,8 +184,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with several path`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_several_path.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_several_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -204,8 +206,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with compose colors enabled`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_compose_color.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_compose_color.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -227,8 +229,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with compose colors and linear gradient`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_compose_color_linear_gradient.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_compose_color_linear_gradient.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -250,8 +252,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with compose colors and radial gradient`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_compose_color_radial_gradient.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_compose_color_radial_gradient.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -273,8 +275,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with transparent fill color`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/ic_transparent_fill_color.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/ic_transparent_fill_color.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -295,8 +297,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with named arguments`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/icon_with_named_args.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/icon_with_named_args.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,
@@ -317,8 +319,8 @@ class XmlToImageVectorTest {
     @ParameterizedTest
     @EnumSource(value = OutputFormat::class)
     fun `icon with shorthand color`(outputFormat: OutputFormat) {
-        val icon = getResourcePath("imagevector/xml/icon_with_shorthand_color.xml")
-        val parserOutput = SvgXmlParser.toIrImageVector(icon)
+        val icon = getResourcePath("imagevector/xml/icon_with_shorthand_color.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
             vector = parserOutput.irImageVector,
             iconName = parserOutput.iconName,

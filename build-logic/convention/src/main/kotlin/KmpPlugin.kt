@@ -15,6 +15,7 @@ class KmpPlugin : Plugin<Project> {
 
             compilerOptions {
                 extraWarnings.set(true)
+                freeCompilerArgs.add("-Xexpect-actual-classes")
             }
         }
     }

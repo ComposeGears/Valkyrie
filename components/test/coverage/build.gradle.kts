@@ -13,7 +13,7 @@ dependencies {
     kover(projects.components.parser.jvm.svg)
     kover(projects.components.parser.jvm.xml)
     kover(projects.components.parser.kmp.xml)
-    kover(projects.components.parser.svgxml)
+    kover(projects.components.parser.unified)
     kover(projects.components.psi.iconpack)
     kover(projects.components.psi.imagevector)
 }

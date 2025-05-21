@@ -20,9 +20,11 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGene
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
-import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
-import io.github.composegears.valkyrie.parser.svgxml.util.isSvg
-import io.github.composegears.valkyrie.parser.svgxml.util.isXml
+import io.github.composegears.valkyrie.parser.unified.ParserType
+import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.ext.isSvg
+import io.github.composegears.valkyrie.parser.unified.ext.isXml
+import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.isDirectory
@@ -185,7 +187,7 @@ private fun svgXml2ImageVector(
                 .filter { it.isRegularFile() }
         }
         inputPath.isRegularFile() -> {
-            if (!inputPath.isSvg && !inputPath.isXml) {
+            if (!inputPath.toIOPath().isSvg && !inputPath.toIOPath().isXml) {
                 outputError("The input file must be an SVG or XML file.")
             }
             listOf(inputPath)
@@ -209,7 +211,7 @@ private fun svgXml2ImageVector(
             if (verbose) {
                 outputInfo("process = $path")
             }
-            val parseOutput = SvgXmlParser.toIrImageVector(path)
+            val parseOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = path.toIOPath())
             val config = ImageVectorGeneratorConfig(
                 packageName = packageName,
                 iconPackPackage = packageName,
