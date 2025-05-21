@@ -6,7 +6,9 @@ import com.composegears.tiamat.TiamatViewModel
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.parser.svgxml.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.ParserType
+import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.ConversionState
@@ -156,7 +158,7 @@ class SimpleConversionViewModel(
         val valkyriesSettings = inMemorySettings.current
 
         return runCatching {
-            val parserOutput = SvgXmlParser.toIrImageVector(path)
+            val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path.toIOPath())
             val name = iconName ?: parserOutput.iconName
 
             val output = ImageVectorGenerator.convert(
@@ -192,7 +194,7 @@ class SimpleConversionViewModel(
         val valkyriesSettings = inMemorySettings.current
 
         return runCatching {
-            val parserOutput = SvgXmlParser.toIrImageVector(text, iconName)
+            val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, text, iconName)
 
             val output = ImageVectorGenerator.convert(
                 vector = parserOutput.irImageVector,
