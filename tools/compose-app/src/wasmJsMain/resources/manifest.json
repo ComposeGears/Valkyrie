@@ -1,0 +1,25 @@
+{
+  "name": "Valkyrie",
+  "short_name": "Valkyrie",
+  "description": "SVG/XML to Compose ImageVector converter",
+  "start_url": "/Valkyrie",
+  "display": "standalone",
+  "background_color": "white",
+  "icons": [
+    {
+      "src": "images/logo_114.png",
+      "sizes": "114x114",
+      "type": "image/png"
+    },
+    {
+      "src": "images/logo_256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "images/logo_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
