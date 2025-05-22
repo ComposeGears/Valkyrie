@@ -9,6 +9,5 @@ fun KotlinMultiplatformExtension.applyTargets() {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
-        binaries.executable()
     }
 }
