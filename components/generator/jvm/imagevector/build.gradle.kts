@@ -5,9 +5,7 @@ plugins {
 
 sourceSets {
     test {
-        resources {
-            srcDir("$rootDir/components/sharedTestResources")
-        }
+        resources.srcDir("$rootDir/components/test/sharedTestResources")
     }
 }
 
