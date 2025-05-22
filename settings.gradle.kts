@@ -48,6 +48,7 @@ includeBuild("build-logic")
 
 include("idea-plugin")
 include("tools:cli")
+include("tools:compose-app")
 
 include("components:extensions")
 include("components:generator:jvm:common")

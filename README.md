@@ -569,6 +569,8 @@ other available gradle commands:
 
 - print test coverage: `./gradlew components:test:coverage:koverLog`
 
+- WASM app: `./gradlew tools:compose-app:wasmJsBrowserDevelopmentRun`
+
 ### Migration guide
 
 #### v0.13.0 -> v0.14.0
