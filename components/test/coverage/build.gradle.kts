@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     // include only necessary dependencies for the test coverage
-    kover(projects.cli)
+    kover(projects.tools.cli)
     kover(projects.components.generator.jvm.common)
     kover(projects.components.generator.jvm.iconpack)
     kover(projects.components.generator.jvm.imagevector)
