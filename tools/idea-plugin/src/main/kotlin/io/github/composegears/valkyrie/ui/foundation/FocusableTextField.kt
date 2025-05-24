@@ -48,6 +48,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.Mode.Edit
 import io.github.composegears.valkyrie.ui.foundation.Mode.View
 import io.github.composegears.valkyrie.ui.foundation.icons.Checked
