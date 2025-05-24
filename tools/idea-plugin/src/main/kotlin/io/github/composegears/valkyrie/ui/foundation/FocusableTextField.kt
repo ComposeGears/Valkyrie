@@ -49,12 +49,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.Mode.Edit
 import io.github.composegears.valkyrie.ui.foundation.Mode.View
 import io.github.composegears.valkyrie.ui.foundation.icons.Checked
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
 import io.github.composegears.valkyrie.ui.foundation.icons.Edit
-import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @OptIn(ExperimentalComposeUiApi::class)

@@ -67,3 +67,4 @@ include("components:psi:imagevector")
 include("components:test:coverage")
 
 include("compose:core")
+include("compose:icons")
