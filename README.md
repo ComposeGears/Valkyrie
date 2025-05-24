@@ -1,7 +1,7 @@
 <h2 align="center">Valkyrie — SVG/XML to Compose ImageVector converter</h2>
 
 <div align="center">
-    <img alt="Icon" src="idea-plugin/src/main/resources/META-INF/pluginIcon.svg" width="150" />
+    <img alt="Icon" src="tools/idea-plugin/src/main/resources/META-INF/pluginIcon.svg" width="150" />
 </div>
 
 <div align="center">
@@ -196,7 +196,7 @@ https://github.com/user-attachments/assets/1047a2b3-81ec-4e10-a118-0ff20bd5227b
 
 Precondition: IntelliJ IDEA with installed [Plugin DevKit](https://plugins.jetbrains.com/plugin/22851-plugin-devkit)
 
-Run `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `idea-plugin/build/distributions/`
+Run `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `tools/idea-plugin/build/distributions/`
 folder
 
 or run plugin in IDE using: `./gradlew runIde`

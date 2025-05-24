@@ -46,9 +46,9 @@ rootProject.name = "valkyrie"
 
 includeBuild("build-logic")
 
-include("idea-plugin")
 include("tools:cli")
 include("tools:compose-app")
+include("tools:idea-plugin")
 
 include("components:extensions")
 include("components:generator:jvm:common")

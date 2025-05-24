@@ -71,7 +71,7 @@ jobs:
             gh release view ${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete ${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag
           fi
 
-          gh release create ${{ env.VERSION_NAME }} idea-plugin/build/distributions/*-signed.zip tools/cli/build/distributions/*.zip --generate-notes $PRE_RELEASE_FLAG
+          gh release create ${{ env.VERSION_NAME }} tools/idea-plugin/build/distributions/*-signed.zip tools/cli/build/distributions/*.zip --generate-notes $PRE_RELEASE_FLAG
 
       - uses: mislav/bump-homebrew-formula-action@v3
         if: env.IS_SNAPSHOT == 'false'
