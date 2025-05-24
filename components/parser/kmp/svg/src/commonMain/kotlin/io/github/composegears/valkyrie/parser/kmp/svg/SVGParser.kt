@@ -39,11 +39,11 @@ object SVGParser {
             defaultHeight = height ?: DEFAULT_HEIGHT,
             viewportWidth = rect?.width ?: width ?: DEFAULT_WIDTH,
             viewportHeight = rect?.height ?: height ?: DEFAULT_HEIGHT,
-            nodes = children.map { it.toIrVectorNode() },
+            nodes = children.mapNotNull { it.toIrVectorNode() },
         )
     }
 
-    private fun SVG.Child.toIrVectorNode(): IrVectorNode = when (this) {
+    private fun SVG.Child.toIrVectorNode(): IrVectorNode? = when (this) {
         is SVG.Path -> toVectorPath()
         is SVG.Circle -> toVectorPath()
         is SVG.Polygon -> toVectorPath()
@@ -150,7 +150,7 @@ object SVGParser {
         val scale = transform?.getScale() ?: Scale.Default
         return IrVectorNode.IrGroup(
             name = id.orEmpty(),
-            nodes = children.map { it.toIrVectorNode() }.toMutableList(),
+            nodes = children.mapNotNull { it.toIrVectorNode() }.toMutableList(),
             rotate = transform?.getRotation() ?: 0f,
             pivotX = pivot.x,
             pivotY = pivot.y,
@@ -163,11 +163,13 @@ object SVGParser {
         )
     }
 
-    private fun SVG.Rectangle.toVectorPath(): IrVectorNode.IrPath {
+    private fun SVG.Rectangle.toVectorPath(): IrVectorNode.IrPath? {
         val x = x.toFloat()
         val y = y.toFloat()
-        val width = width?.toFloat() ?: 0f
-        val height = height?.toFloat() ?: 0f
+        val width = width?.toFloat() ?: return null
+        val height = height?.toFloat() ?: return null
+        if (width == 0f || height == 0f) return null
+
         val stroke = getSVGStrokeWithDefaults()
         return IrVectorNode.IrPath(
             name = id.orEmpty(),
