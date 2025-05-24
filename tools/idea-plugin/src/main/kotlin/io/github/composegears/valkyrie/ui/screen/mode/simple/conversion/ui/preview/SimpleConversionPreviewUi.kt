@@ -27,7 +27,7 @@ import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.highlights.KotlinCodeViewer
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.action.ExpandedActions
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.action.ui.EditAction

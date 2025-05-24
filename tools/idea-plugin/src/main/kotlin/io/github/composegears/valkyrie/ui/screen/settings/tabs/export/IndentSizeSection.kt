@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable

@@ -35,7 +35,7 @@ import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.icons.AddFile
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
 import io.github.composegears.valkyrie.ui.platform.Os
