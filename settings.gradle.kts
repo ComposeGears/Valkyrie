@@ -65,3 +65,5 @@ include("components:parser:unified")
 include("components:psi:iconpack")
 include("components:psi:imagevector")
 include("components:test:coverage")
+
+include("compose:core")

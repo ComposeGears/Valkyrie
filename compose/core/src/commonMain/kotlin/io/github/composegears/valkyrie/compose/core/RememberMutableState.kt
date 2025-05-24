@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation
+package io.github.composegears.valkyrie.compose.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisallowComposableCalls

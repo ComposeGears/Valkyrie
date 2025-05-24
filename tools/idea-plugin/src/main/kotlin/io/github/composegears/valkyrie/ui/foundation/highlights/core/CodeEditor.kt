@@ -39,8 +39,8 @@ import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.ui.foundation.HorizontalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.disabled
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableIntState
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.compose.core.rememberMutableIntState
+import io.github.composegears.valkyrie.compose.core.rememberMutableState
 
 @Composable
 fun CodeEditor(

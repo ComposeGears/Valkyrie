@@ -19,7 +19,7 @@ import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.foundation.components.previewer.ImageVectorPreviewPanel
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
+import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import org.jetbrains.kotlin.psi.KtFile
 
 @Composable
