@@ -5,6 +5,7 @@ import assertk.assertThat
 import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
+import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.parser.unified.model.IconType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -74,11 +75,10 @@ class SvgXmlParserTest {
         assertThat(kmpOutput.iconName).isEqualTo(iconName)
         assertThat(kmpOutput.irImageVector.name).isEqualTo("")
 
-        // TODO: Fix test
-       /* assertEquals(
+        assertEquals(
             (jvmOutput.irImageVector.nodes[0] as IrVectorNode.IrPath).paths,
             (kmpOutput.irImageVector.nodes[0] as IrVectorNode.IrPath).paths,
-        )*/
+        )
     }
 
     @Test
