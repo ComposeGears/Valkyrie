@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.TextWithIcon
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.icons.KotlinLogo
 import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.picker.rememberKtFilePicker
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
