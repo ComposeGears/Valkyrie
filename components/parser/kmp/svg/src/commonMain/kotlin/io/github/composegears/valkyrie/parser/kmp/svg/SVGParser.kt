@@ -182,9 +182,9 @@ object SVGParser {
             strokeLineWidth = stroke.width,
             paths = listOf(
                 IrPathNode.MoveTo(x = x, y = y),
-                IrPathNode.LineTo(x = x + width, y = y),
-                IrPathNode.LineTo(x = x + width, y = y + height),
-                IrPathNode.LineTo(x = x, y = y + height),
+                IrPathNode.RelativeHorizontalTo(x = width),
+                IrPathNode.RelativeVerticalTo(y = height),
+                IrPathNode.RelativeHorizontalTo(x = -width),
                 IrPathNode.Close,
             ),
         )
