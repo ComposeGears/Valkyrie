@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.ui.foundation.icons.ActualZoom
 import io.github.composegears.valkyrie.ui.foundation.icons.BlackCircle
 import io.github.composegears.valkyrie.ui.foundation.icons.Chessboard
 import io.github.composegears.valkyrie.ui.foundation.icons.FitContent
-import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.WhiteCircle
 import io.github.composegears.valkyrie.ui.foundation.icons.ZoomIn
 import io.github.composegears.valkyrie.ui.foundation.icons.ZoomOut

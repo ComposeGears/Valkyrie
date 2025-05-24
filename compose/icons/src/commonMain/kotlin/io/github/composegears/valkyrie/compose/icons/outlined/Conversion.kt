@@ -1,18 +1,19 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.compose.icons.outlined
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.SimpleConversion: ImageVector
+val ValkyrieIcons.Outlined.Conversion: ImageVector
     get() {
-        if (_SimpleConversion != null) {
-            return _SimpleConversion!!
+        if (_Conversion != null) {
+            return _Conversion!!
         }
-        _SimpleConversion = ImageVector.Builder(
-            name = "SimpleConversion",
+        _Conversion = ImageVector.Builder(
+            name = "Outlined.Conversion",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,
@@ -676,8 +677,8 @@ val ValkyrieIcons.SimpleConversion: ImageVector
             }
         }.build()
 
-        return _SimpleConversion!!
+        return _Conversion!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _SimpleConversion: ImageVector? = null
+private var _Conversion: ImageVector? = null

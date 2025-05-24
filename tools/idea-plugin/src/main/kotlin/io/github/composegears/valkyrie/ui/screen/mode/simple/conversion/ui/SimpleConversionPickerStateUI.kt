@@ -25,7 +25,7 @@ import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.icons.AddFile
-import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.ClipboardDataType

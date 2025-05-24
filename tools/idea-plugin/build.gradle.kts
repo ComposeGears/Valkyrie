@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.components.parser.unified)
     implementation(projects.components.psi.iconpack)
     implementation(projects.components.psi.imagevector)
+    implementation(projects.compose.icons)
 
     compileOnly(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")

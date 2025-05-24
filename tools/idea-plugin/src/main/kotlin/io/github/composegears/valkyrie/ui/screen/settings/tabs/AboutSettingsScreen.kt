@@ -34,7 +34,7 @@ import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.icons.ExternalLink
 import io.github.composegears.valkyrie.ui.foundation.icons.PluginIcon
-import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberBrowser
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion

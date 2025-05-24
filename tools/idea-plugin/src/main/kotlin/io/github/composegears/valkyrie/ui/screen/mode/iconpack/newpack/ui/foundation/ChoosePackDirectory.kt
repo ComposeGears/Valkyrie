@@ -22,7 +22,7 @@ import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.icons.Folder
-import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.picker.rememberDirectoryPicker
 import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject

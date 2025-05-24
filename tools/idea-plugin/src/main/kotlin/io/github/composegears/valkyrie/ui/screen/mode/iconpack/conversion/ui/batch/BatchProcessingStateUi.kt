@@ -52,7 +52,7 @@ import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
-import io.github.composegears.valkyrie.ui.foundation.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
