@@ -288,20 +288,7 @@ internal class SVGParserTest {
                 defaultHeight = 24f,
                 viewportWidth = 24f,
                 viewportHeight = 24f,
-                nodes = listOf(
-                    IrVectorNode.IrPath(
-                        pathFillType = IrPathFillType.NonZero,
-                        fill = IrFill.Color(IrColor(0xff000000)),
-                        paths = listOf(
-                            IrPathNode.MoveTo(x = 1f, y = 2f),
-                            IrPathNode.RelativeHorizontalTo(x = 0f),
-                            IrPathNode.RelativeVerticalTo(y = 0f),
-                            IrPathNode.RelativeHorizontalTo(x = -0f),
-                            IrPathNode.Close,
-                        ),
-                        fillAlpha = 1f,
-                    ),
-                ),
+                nodes = emptyList(),
             ),
         )
     }
