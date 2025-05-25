@@ -5,6 +5,7 @@ plugins {
 dependencies {
     // include only necessary dependencies for the test coverage
     kover(projects.tools.cli)
+    kover(projects.tools.gradlePlugin)
     kover(projects.components.generator.jvm.common)
     kover(projects.components.generator.jvm.iconpack)
     kover(projects.components.generator.jvm.imagevector)
