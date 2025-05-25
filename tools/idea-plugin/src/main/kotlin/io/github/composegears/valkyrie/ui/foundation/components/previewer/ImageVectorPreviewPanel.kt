@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
+import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
@@ -30,7 +31,6 @@ import io.github.composegears.valkyrie.ir.util.ColorClassification
 import io.github.composegears.valkyrie.ir.util.DominantShade
 import io.github.composegears.valkyrie.ir.util.iconColors
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme

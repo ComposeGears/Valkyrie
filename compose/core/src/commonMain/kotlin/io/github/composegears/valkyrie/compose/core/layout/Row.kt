@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation
+package io.github.composegears.valkyrie.compose.core.layout
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

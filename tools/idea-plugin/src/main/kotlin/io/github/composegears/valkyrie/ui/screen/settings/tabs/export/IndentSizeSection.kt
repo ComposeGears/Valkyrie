@@ -27,10 +27,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.compose.core.layout.HorizontalSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
-import io.github.composegears.valkyrie.ui.foundation.HorizontalSpacer
-import io.github.composegears.valkyrie.ui.foundation.dim
+import io.github.composegears.valkyrie.compose.ui.util.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable

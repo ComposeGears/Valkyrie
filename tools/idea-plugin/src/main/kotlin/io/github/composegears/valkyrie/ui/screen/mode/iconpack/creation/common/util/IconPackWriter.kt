@@ -8,7 +8,7 @@ import io.github.composegears.valkyrie.generator.jvm.iconpack.IconPackGeneratorC
 import io.github.composegears.valkyrie.generator.jvm.model.IconPack
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.updateNestedPack
-import io.github.composegears.valkyrie.ui.domain.model.Mode
+import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
 
 object IconPackWriter {

@@ -5,7 +5,7 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.service.PersistentSettings
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
-import io.github.composegears.valkyrie.ui.domain.model.Mode
+import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState

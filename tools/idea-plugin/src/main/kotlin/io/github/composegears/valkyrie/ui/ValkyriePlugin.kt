@@ -23,10 +23,10 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.shared.Mode.IconPack
+import io.github.composegears.valkyrie.shared.Mode.Simple
+import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
-import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
-import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
