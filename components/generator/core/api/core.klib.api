@@ -1,0 +1,42 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.components.generator:core>
+open annotation class io.github.composegears.valkyrie.generator.core/IconPackDsl : kotlin/Annotation { // io.github.composegears.valkyrie.generator.core/IconPackDsl|null[0]
+    constructor <init>() // io.github.composegears.valkyrie.generator.core/IconPackDsl.<init>|<init>(){}[0]
+}
+
+final class io.github.composegears.valkyrie.generator.core/IconPack { // io.github.composegears.valkyrie.generator.core/IconPack|null[0]
+    constructor <init>(kotlin/String, kotlin.collections/List<io.github.composegears.valkyrie.generator.core/IconPack> = ...) // io.github.composegears.valkyrie.generator.core/IconPack.<init>|<init>(kotlin.String;kotlin.collections.List<io.github.composegears.valkyrie.generator.core.IconPack>){}[0]
+
+    final val name // io.github.composegears.valkyrie.generator.core/IconPack.name|{}name[0]
+        final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.generator.core/IconPack.name.<get-name>|<get-name>(){}[0]
+    final val nested // io.github.composegears.valkyrie.generator.core/IconPack.nested|{}nested[0]
+        final fun <get-nested>(): kotlin.collections/List<io.github.composegears.valkyrie.generator.core/IconPack> // io.github.composegears.valkyrie.generator.core/IconPack.nested.<get-nested>|<get-nested>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.composegears.valkyrie.generator.core/IconPack.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<io.github.composegears.valkyrie.generator.core/IconPack> // io.github.composegears.valkyrie.generator.core/IconPack.component2|component2(){}[0]
+    final fun copy(kotlin/String = ..., kotlin.collections/List<io.github.composegears.valkyrie.generator.core/IconPack> = ...): io.github.composegears.valkyrie.generator.core/IconPack // io.github.composegears.valkyrie.generator.core/IconPack.copy|copy(kotlin.String;kotlin.collections.List<io.github.composegears.valkyrie.generator.core.IconPack>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.generator.core/IconPack.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.generator.core/IconPack.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.generator.core/IconPack.toString|toString(){}[0]
+
+    final object Companion { // io.github.composegears.valkyrie.generator.core/IconPack.Companion|null[0]
+        final fun fromString(kotlin/String): io.github.composegears.valkyrie.generator.core/IconPack // io.github.composegears.valkyrie.generator.core/IconPack.Companion.fromString|fromString(kotlin.String){}[0]
+        final fun toRawString(io.github.composegears.valkyrie.generator.core/IconPack): kotlin/String // io.github.composegears.valkyrie.generator.core/IconPack.Companion.toRawString|toRawString(io.github.composegears.valkyrie.generator.core.IconPack){}[0]
+    }
+}
+
+final class io.github.composegears.valkyrie.generator.core/PackBuilder { // io.github.composegears.valkyrie.generator.core/PackBuilder|null[0]
+    constructor <init>(kotlin/String) // io.github.composegears.valkyrie.generator.core/PackBuilder.<init>|<init>(kotlin.String){}[0]
+
+    final fun pack(kotlin/String, kotlin/Function1<io.github.composegears.valkyrie.generator.core/PackBuilder, kotlin/Unit> = ...) // io.github.composegears.valkyrie.generator.core/PackBuilder.pack|pack(kotlin.String;kotlin.Function1<io.github.composegears.valkyrie.generator.core.PackBuilder,kotlin.Unit>){}[0]
+}
+
+final fun (kotlin/Float).io.github.composegears.valkyrie.generator.core/formatFloat(): kotlin/String // io.github.composegears.valkyrie.generator.core/formatFloat|formatFloat@kotlin.Float(){}[0]
+final fun (kotlin/Float).io.github.composegears.valkyrie.generator.core/trimTrailingZero(): kotlin/String // io.github.composegears.valkyrie.generator.core/trimTrailingZero|trimTrailingZero@kotlin.Float(){}[0]
+final fun io.github.composegears.valkyrie.generator.core/iconpack(kotlin/String, kotlin/Function1<io.github.composegears.valkyrie.generator.core/PackBuilder, kotlin/Unit> = ...): io.github.composegears.valkyrie.generator.core/IconPack // io.github.composegears.valkyrie.generator.core/iconpack|iconpack(kotlin.String;kotlin.Function1<io.github.composegears.valkyrie.generator.core.PackBuilder,kotlin.Unit>){}[0]

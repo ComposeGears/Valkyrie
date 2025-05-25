@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.generator.jvm.imagevector.spec
 
-import io.github.composegears.valkyrie.generator.jvm.ext.formatFloat
+import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.ir.IrPathNode
 import io.github.composegears.valkyrie.ir.IrPathNode.Close
 import io.github.composegears.valkyrie.ir.IrPathNode.HorizontalTo

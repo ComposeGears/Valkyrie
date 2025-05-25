@@ -2,8 +2,8 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.util
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.jvm.ext.builderBlock
-import io.github.composegears.valkyrie.generator.jvm.ext.formatFloat
 import io.github.composegears.valkyrie.generator.jvm.ext.indention
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma

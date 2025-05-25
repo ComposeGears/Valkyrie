@@ -1,0 +1,39 @@
+public final class io/github/composegears/valkyrie/generator/core/FloatFormatterKt {
+	public static final fun formatFloat (F)Ljava/lang/String;
+	public static final fun trimTrailingZero (F)Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/generator/core/IconPack {
+	public static final field Companion Lio/github/composegears/valkyrie/generator/core/IconPack$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/github/composegears/valkyrie/generator/core/IconPack;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/generator/core/IconPack;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/core/IconPack;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getNested ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/generator/core/IconPack$Companion {
+	public final fun fromString (Ljava/lang/String;)Lio/github/composegears/valkyrie/generator/core/IconPack;
+	public final fun toRawString (Lio/github/composegears/valkyrie/generator/core/IconPack;)Ljava/lang/String;
+}
+
+public abstract interface annotation class io/github/composegears/valkyrie/generator/core/IconPackDsl : java/lang/annotation/Annotation {
+}
+
+public final class io/github/composegears/valkyrie/generator/core/IconPackDslKt {
+	public static final fun iconpack (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/github/composegears/valkyrie/generator/core/IconPack;
+	public static synthetic fun iconpack$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/core/IconPack;
+}
+
+public final class io/github/composegears/valkyrie/generator/core/PackBuilder {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun pack (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun pack$default (Lio/github/composegears/valkyrie/generator/core/PackBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+

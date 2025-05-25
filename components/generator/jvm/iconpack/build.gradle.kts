@@ -11,7 +11,8 @@ sourceSets {
 
 dependencies {
     implementation(projects.components.extensions)
-    implementation(projects.components.generator.jvm.common)
+    implementation(projects.components.generator.jvm.poetExtensions)
+    implementation(projects.components.generator.core)
 
     implementation(libs.kotlinpoet)
 
