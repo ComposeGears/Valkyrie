@@ -45,7 +45,7 @@ open class GenerateSvgImageVectorTask @Inject constructor(objects: ObjectFactory
     fun execute() = with(config.get()) {
         val packageName = packageName.get()
         val outputDirectory = outputDirectory.get().asFile
-        outputDirectory.delete() // make sure nothing is left over from previous run
+        outputDirectory.deleteRecursively() // make sure nothing is left over from previous run
         outputDirectory.mkdirs()
 
         // e.g. "<project-root>/build/generated/sources/valkyrie/main"
