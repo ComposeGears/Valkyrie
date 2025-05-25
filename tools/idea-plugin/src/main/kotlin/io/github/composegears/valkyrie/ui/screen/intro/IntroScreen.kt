@@ -6,38 +6,30 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.composegears.tiamat.NavDestination
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
+import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
+import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
-import io.github.composegears.valkyrie.ui.domain.model.Mode
-import io.github.composegears.valkyrie.ui.domain.model.Mode.IconPack
-import io.github.composegears.valkyrie.ui.domain.model.Mode.Simple
-import io.github.composegears.valkyrie.ui.domain.model.Mode.Unspecified
-import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
+import io.github.composegears.valkyrie.compose.ui.InfoCard
+import io.github.composegears.valkyrie.shared.Mode
+import io.github.composegears.valkyrie.shared.Mode.IconPack
+import io.github.composegears.valkyrie.shared.Mode.Simple
+import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.foundation.WeightSpacer
-import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
@@ -108,7 +100,7 @@ private fun IntroScreenUI(
                     textAlign = TextAlign.Center,
                 )
                 VerticalSpacer(8.dp)
-                SelectableCard(
+                InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(Simple) },
                     image = ValkyrieIcons.Outlined.Conversion,
@@ -116,7 +108,7 @@ private fun IntroScreenUI(
                     description = stringResource("intro.card.simple.description"),
                 )
                 VerticalSpacer(16.dp)
-                SelectableCard(
+                InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(IconPack) },
                     image = ValkyrieIcons.BatchProcessing,
@@ -139,48 +131,6 @@ private fun IntroScreenUI(
             style = MaterialTheme.typography.labelSmall,
             text = rememberPluginVersion(),
         )
-    }
-}
-
-@Composable
-private fun SelectableCard(
-    onClick: () -> Unit,
-    image: ImageVector,
-    title: String,
-    description: String,
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        modifier = modifier,
-        onClick = onClick,
-        elevation = CardDefaults.elevatedCardElevation(),
-    ) {
-        CenterVerticalRow(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.Top)
-                    .size(36.dp),
-                imageVector = image,
-                contentDescription = null,
-            )
-            Column(
-                modifier = Modifier.width(250.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                    color = LocalContentColor.current.dim(),
-                )
-            }
-        }
     }
 }
 

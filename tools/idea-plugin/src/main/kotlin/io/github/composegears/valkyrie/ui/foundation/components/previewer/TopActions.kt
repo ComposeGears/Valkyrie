@@ -13,11 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
+import io.github.composegears.valkyrie.compose.ui.util.disabled
 import io.github.composegears.valkyrie.ui.foundation.TooltipIconButton
 import io.github.composegears.valkyrie.ui.foundation.TooltipImageButton
-import io.github.composegears.valkyrie.ui.foundation.disabled
 import io.github.composegears.valkyrie.ui.foundation.icons.ActualZoom
 import io.github.composegears.valkyrie.ui.foundation.icons.BlackCircle
 import io.github.composegears.valkyrie.ui.foundation.icons.Chessboard

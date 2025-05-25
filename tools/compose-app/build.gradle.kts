@@ -37,11 +37,16 @@ kotlin {
         val desktopMain by getting
 
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
+            implementation(projects.compose.core)
+            implementation(projects.compose.icons)
+            implementation(projects.compose.ui)
+            implementation(projects.shared)
+
             implementation(compose.material3)
-            implementation(compose.ui)
+            implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            implementation(libs.tiamat)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

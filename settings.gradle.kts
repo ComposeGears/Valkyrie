@@ -68,3 +68,6 @@ include("components:test:coverage")
 
 include("compose:core")
 include("compose:icons")
+include("compose:ui")
+
+include("shared")

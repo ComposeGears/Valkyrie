@@ -21,6 +21,8 @@ dependencies {
     implementation(projects.components.psi.imagevector)
     implementation(projects.compose.core)
     implementation(projects.compose.icons)
+    implementation(projects.compose.ui)
+    implementation(projects.shared)
 
     compileOnly(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
