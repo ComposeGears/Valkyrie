@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.generator.jvm.iconpack
 
-import io.github.composegears.valkyrie.generator.jvm.model.IconPack
+import io.github.composegears.valkyrie.generator.core.IconPack
 
 data class IconPackGeneratorConfig(
     val packageName: String,

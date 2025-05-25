@@ -4,15 +4,15 @@ public final class io/github/composegears/valkyrie/generator/jvm/iconpack/IconPa
 }
 
 public final class io/github/composegears/valkyrie/generator/jvm/iconpack/IconPackGeneratorConfig {
-	public fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/model/IconPack;ZI)V
+	public fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/generator/core/IconPack;ZI)V
 	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lio/github/composegears/valkyrie/generator/jvm/model/IconPack;
+	public final fun component2 ()Lio/github/composegears/valkyrie/generator/core/IconPack;
 	public final fun component3 ()Z
 	public final fun component4 ()I
-	public final fun copy (Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/model/IconPack;ZI)Lio/github/composegears/valkyrie/generator/jvm/iconpack/IconPackGeneratorConfig;
-	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/generator/jvm/iconpack/IconPackGeneratorConfig;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/model/IconPack;ZIILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/jvm/iconpack/IconPackGeneratorConfig;
+	public final fun copy (Ljava/lang/String;Lio/github/composegears/valkyrie/generator/core/IconPack;ZI)Lio/github/composegears/valkyrie/generator/jvm/iconpack/IconPackGeneratorConfig;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/generator/jvm/iconpack/IconPackGeneratorConfig;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/core/IconPack;ZIILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/jvm/iconpack/IconPackGeneratorConfig;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIconPack ()Lio/github/composegears/valkyrie/generator/jvm/model/IconPack;
+	public final fun getIconPack ()Lio/github/composegears/valkyrie/generator/core/IconPack;
 	public final fun getIndentSize ()I
 	public final fun getPackageName ()Ljava/lang/String;
 	public final fun getUseExplicitMode ()Z

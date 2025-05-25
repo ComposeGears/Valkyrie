@@ -3,8 +3,8 @@ package io.github.composegears.valkyrie.generator.jvm.iconpack
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourceText
-import io.github.composegears.valkyrie.generator.jvm.model.IconPack
-import io.github.composegears.valkyrie.generator.jvm.model.iconpack
+import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.generator.core.iconpack
 import org.junit.jupiter.api.Test
 
 class IconPackGeneratorTest {

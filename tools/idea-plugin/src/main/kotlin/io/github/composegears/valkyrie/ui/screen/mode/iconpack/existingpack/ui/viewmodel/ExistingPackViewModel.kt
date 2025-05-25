@@ -3,9 +3,9 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.
 import com.composegears.tiamat.TiamatViewModel
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.extensions.safeAs
+import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.jvm.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.jvm.iconpack.IconPackGeneratorConfig
-import io.github.composegears.valkyrie.generator.jvm.model.IconPack
 import io.github.composegears.valkyrie.psi.iconpack.IconPackInfo
 import io.github.composegears.valkyrie.psi.iconpack.IconPackPsiParser
 import io.github.composegears.valkyrie.ui.di.DI

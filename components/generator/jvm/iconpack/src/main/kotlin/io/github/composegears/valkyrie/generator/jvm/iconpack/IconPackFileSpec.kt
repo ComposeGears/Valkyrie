@@ -1,11 +1,11 @@
 package io.github.composegears.valkyrie.generator.jvm.iconpack
 
 import com.squareup.kotlinpoet.TypeSpec
+import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.jvm.ext.fileSpecBuilder
 import io.github.composegears.valkyrie.generator.jvm.ext.objectBuilder
 import io.github.composegears.valkyrie.generator.jvm.ext.removeExplicitModeCode
 import io.github.composegears.valkyrie.generator.jvm.ext.setIndent
-import io.github.composegears.valkyrie.generator.jvm.model.IconPack
 
 internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
 

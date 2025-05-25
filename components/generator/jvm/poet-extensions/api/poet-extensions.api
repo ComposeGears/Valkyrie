@@ -1,0 +1,23 @@
+public final class io/github/composegears/valkyrie/generator/jvm/ext/CodeBlockKt {
+	public static final fun argumentBlock (Lcom/squareup/kotlinpoet/CodeBlock$Builder;Ljava/lang/String;[Ljava/lang/Object;ZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun argumentBlock$default (Lcom/squareup/kotlinpoet/CodeBlock$Builder;Ljava/lang/String;[Ljava/lang/Object;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static final fun builderBlock (Lcom/squareup/kotlinpoet/CodeBlock$Builder;Ljava/lang/String;[Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
+	public static final fun indention (Lcom/squareup/kotlinpoet/CodeBlock$Builder;Lkotlin/jvm/functions/Function1;)V
+	public static final fun newLine (Lcom/squareup/kotlinpoet/CodeBlock$Builder;)V
+	public static final fun trailingComma (Lcom/squareup/kotlinpoet/CodeBlock$Builder;)V
+}
+
+public final class io/github/composegears/valkyrie/generator/jvm/ext/SpecKt {
+	public static final fun fileSpecBuilder (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/squareup/kotlinpoet/FileSpec;
+	public static final fun funSpecBuilder (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/squareup/kotlinpoet/FunSpec;
+	public static final fun getterFunSpecBuilder (Lkotlin/jvm/functions/Function1;)Lcom/squareup/kotlinpoet/FunSpec;
+	public static final fun objectBuilder (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/squareup/kotlinpoet/TypeSpec;
+	public static final fun propertySpecBuilder (Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;Lkotlin/jvm/functions/Function1;)Lcom/squareup/kotlinpoet/PropertySpec;
+	public static final fun removeExplicitModeCode (Lcom/squareup/kotlinpoet/FileSpec;)Ljava/lang/String;
+	public static final fun setIndent (Lcom/squareup/kotlinpoet/FileSpec$Builder;I)Lcom/squareup/kotlinpoet/FileSpec$Builder;
+}
+
+public final class io/github/composegears/valkyrie/generator/jvm/ext/TypeNameKt {
+	public static final fun nullable (Lcom/squareup/kotlinpoet/TypeName;)Lcom/squareup/kotlinpoet/TypeName;
+}
+
