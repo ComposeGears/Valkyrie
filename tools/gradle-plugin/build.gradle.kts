@@ -65,7 +65,6 @@ dependencies {
     testPluginClasspath(libs.gradle.agp.full)
     testPluginClasspath(libs.kotlin.gradle.plugin)
 
-    testImplementation(gradleTestKit())
     testImplementation(libs.gradle.agp.full)
     testImplementation(libs.kotlin.gradle.plugin)
     testImplementation(libs.junit5.jupiter)

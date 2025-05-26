@@ -10,6 +10,7 @@ import org.gradle.api.tasks.SourceSet
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 
+@Suppress("unused") // Registered as a Gradle plugin.
 class ValkyrieGradlePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         val extension = extensions.create("valkyrie", ValkyrieExtension::class.java)
