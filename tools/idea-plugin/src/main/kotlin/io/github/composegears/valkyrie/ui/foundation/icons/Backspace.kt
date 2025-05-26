@@ -1,17 +1,32 @@
 package io.github.composegears.valkyrie.ui.foundation.icons
 
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.materialPath
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
 val ValkyrieIcons.Backspace: ImageVector
     get() {
-        if (_backspace != null) {
-            return _backspace!!
+        if (_Backspace != null) {
+            return _Backspace!!
         }
-        _backspace = materialIcon(name = "AutoMirrored.Filled.Backspace", autoMirror = true) {
-            materialPath {
+        _Backspace = ImageVector.Builder(
+            name = "AutoMirrored.Filled.Backspace",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+            autoMirror = true,
+        ).apply {
+            path(
+                fill = SolidColor(Color.Black),
+                strokeLineWidth = 1f,
+                strokeLineJoin = StrokeJoin.Bevel,
+                strokeLineMiter = 1f,
+            ) {
                 moveTo(22.0f, 3.0f)
                 lineTo(7.0f, 3.0f)
                 curveToRelative(-0.69f, 0.0f, -1.23f, 0.35f, -1.59f, 0.88f)
@@ -38,9 +53,10 @@ val ValkyrieIcons.Backspace: ImageVector
                 lineTo(19.0f, 15.59f)
                 close()
             }
-        }
-        return _backspace!!
+        }.build()
+
+        return _Backspace!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _backspace: ImageVector? = null
+private var _Backspace: ImageVector? = null
