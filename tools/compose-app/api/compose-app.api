@@ -1,0 +1,16 @@
+public final class io/github/composegears/valkyrie/ComposableSingletons$MainKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ComposableSingletons$MainKt;
+	public fun <init> ()V
+	public final fun getLambda$-1184704678$compose_app ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1562354988$compose_app ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/MainKt {
+	public static final fun main ()V
+	public static synthetic fun main ([Ljava/lang/String;)V
+}
+
+public final class io/github/composegears/valkyrie/ValkyrieAppKt {
+	public static final fun ValkyrieApp (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+

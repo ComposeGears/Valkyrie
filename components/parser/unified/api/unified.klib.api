@@ -1,0 +1,85 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.components.parser:unified>
+final enum class io.github.composegears.valkyrie.parser.unified.model/IconType : kotlin/Enum<io.github.composegears.valkyrie.parser.unified.model/IconType> { // io.github.composegears.valkyrie.parser.unified.model/IconType|null[0]
+    enum entry SVG // io.github.composegears.valkyrie.parser.unified.model/IconType.SVG|null[0]
+    enum entry XML // io.github.composegears.valkyrie.parser.unified.model/IconType.XML|null[0]
+
+    final val entries // io.github.composegears.valkyrie.parser.unified.model/IconType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.parser.unified.model/IconType> // io.github.composegears.valkyrie.parser.unified.model/IconType.entries.<get-entries>|<get-entries>#static(){}[0]
+    final val extension // io.github.composegears.valkyrie.parser.unified.model/IconType.extension|{}extension[0]
+        final fun <get-extension>(): kotlin/String // io.github.composegears.valkyrie.parser.unified.model/IconType.extension.<get-extension>|<get-extension>(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.parser.unified.model/IconType // io.github.composegears.valkyrie.parser.unified.model/IconType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.parser.unified.model/IconType> // io.github.composegears.valkyrie.parser.unified.model/IconType.values|values#static(){}[0]
+
+    final object Companion { // io.github.composegears.valkyrie.parser.unified.model/IconType.Companion|null[0]
+        final fun from(kotlin/String): io.github.composegears.valkyrie.parser.unified.model/IconType? // io.github.composegears.valkyrie.parser.unified.model/IconType.Companion.from|from(kotlin.String){}[0]
+        final fun from(kotlinx.io.files/Path): io.github.composegears.valkyrie.parser.unified.model/IconType? // io.github.composegears.valkyrie.parser.unified.model/IconType.Companion.from|from(kotlinx.io.files.Path){}[0]
+    }
+}
+
+final enum class io.github.composegears.valkyrie.parser.unified/ParserType : kotlin/Enum<io.github.composegears.valkyrie.parser.unified/ParserType> { // io.github.composegears.valkyrie.parser.unified/ParserType|null[0]
+    enum entry Jvm // io.github.composegears.valkyrie.parser.unified/ParserType.Jvm|null[0]
+    enum entry Kmp // io.github.composegears.valkyrie.parser.unified/ParserType.Kmp|null[0]
+
+    final val entries // io.github.composegears.valkyrie.parser.unified/ParserType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.parser.unified/ParserType> // io.github.composegears.valkyrie.parser.unified/ParserType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.parser.unified/ParserType // io.github.composegears.valkyrie.parser.unified/ParserType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.parser.unified/ParserType> // io.github.composegears.valkyrie.parser.unified/ParserType.values|values#static(){}[0]
+}
+
+final class io.github.composegears.valkyrie.parser.unified.model/IconParserOutput { // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput|null[0]
+    constructor <init>(io.github.composegears.valkyrie.parser.unified.model/IconType, io.github.composegears.valkyrie.ir/IrImageVector, kotlin/String) // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.<init>|<init>(io.github.composegears.valkyrie.parser.unified.model.IconType;io.github.composegears.valkyrie.ir.IrImageVector;kotlin.String){}[0]
+
+    final val iconName // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.iconName|{}iconName[0]
+        final fun <get-iconName>(): kotlin/String // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.iconName.<get-iconName>|<get-iconName>(){}[0]
+    final val iconType // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.iconType|{}iconType[0]
+        final fun <get-iconType>(): io.github.composegears.valkyrie.parser.unified.model/IconType // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.iconType.<get-iconType>|<get-iconType>(){}[0]
+    final val irImageVector // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.irImageVector|{}irImageVector[0]
+        final fun <get-irImageVector>(): io.github.composegears.valkyrie.ir/IrImageVector // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.irImageVector.<get-irImageVector>|<get-irImageVector>(){}[0]
+
+    final fun component1(): io.github.composegears.valkyrie.parser.unified.model/IconType // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.component1|component1(){}[0]
+    final fun component2(): io.github.composegears.valkyrie.ir/IrImageVector // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.component2|component2(){}[0]
+    final fun component3(): kotlin/String // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.component3|component3(){}[0]
+    final fun copy(io.github.composegears.valkyrie.parser.unified.model/IconType = ..., io.github.composegears.valkyrie.ir/IrImageVector = ..., kotlin/String = ...): io.github.composegears.valkyrie.parser.unified.model/IconParserOutput // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.copy|copy(io.github.composegears.valkyrie.parser.unified.model.IconType;io.github.composegears.valkyrie.ir.IrImageVector;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.parser.unified.model/IconParserOutput.toString|toString(){}[0]
+}
+
+final object io.github.composegears.valkyrie.parser.unified.util/IconNameFormatter { // io.github.composegears.valkyrie.parser.unified.util/IconNameFormatter|null[0]
+    final fun format(kotlin/String): kotlin/String // io.github.composegears.valkyrie.parser.unified.util/IconNameFormatter.format|format(kotlin.String){}[0]
+}
+
+final object io.github.composegears.valkyrie.parser.unified.util/PackageExtractor { // io.github.composegears.valkyrie.parser.unified.util/PackageExtractor|null[0]
+    final fun getFrom(kotlin/String): kotlin/String? // io.github.composegears.valkyrie.parser.unified.util/PackageExtractor.getFrom|getFrom(kotlin.String){}[0]
+}
+
+final object io.github.composegears.valkyrie.parser.unified/SvgXmlParser { // io.github.composegears.valkyrie.parser.unified/SvgXmlParser|null[0]
+    final val availableParsers // io.github.composegears.valkyrie.parser.unified/SvgXmlParser.availableParsers|{}availableParsers[0]
+        final fun <get-availableParsers>(): kotlin.collections/List<io.github.composegears.valkyrie.parser.unified/ParserType> // io.github.composegears.valkyrie.parser.unified/SvgXmlParser.availableParsers.<get-availableParsers>|<get-availableParsers>(){}[0]
+
+    final fun toIrImageVector(io.github.composegears.valkyrie.parser.unified/ParserType, kotlin/String, kotlin/String): io.github.composegears.valkyrie.parser.unified.model/IconParserOutput // io.github.composegears.valkyrie.parser.unified/SvgXmlParser.toIrImageVector|toIrImageVector(io.github.composegears.valkyrie.parser.unified.ParserType;kotlin.String;kotlin.String){}[0]
+    final fun toIrImageVector(io.github.composegears.valkyrie.parser.unified/ParserType, kotlinx.io.files/Path): io.github.composegears.valkyrie.parser.unified.model/IconParserOutput // io.github.composegears.valkyrie.parser.unified/SvgXmlParser.toIrImageVector|toIrImageVector(io.github.composegears.valkyrie.parser.unified.ParserType;kotlinx.io.files.Path){}[0]
+}
+
+final val io.github.composegears.valkyrie.parser.unified.ext/extension // io.github.composegears.valkyrie.parser.unified.ext/extension|@kotlinx.io.files.Path{}extension[0]
+    final fun (kotlinx.io.files/Path).<get-extension>(): kotlin/String // io.github.composegears.valkyrie.parser.unified.ext/extension.<get-extension>|<get-extension>@kotlinx.io.files.Path(){}[0]
+final val io.github.composegears.valkyrie.parser.unified.ext/isSvg // io.github.composegears.valkyrie.parser.unified.ext/isSvg|@kotlinx.io.files.Path{}isSvg[0]
+    final inline fun (kotlinx.io.files/Path).<get-isSvg>(): kotlin/Boolean // io.github.composegears.valkyrie.parser.unified.ext/isSvg.<get-isSvg>|<get-isSvg>@kotlinx.io.files.Path(){}[0]
+final val io.github.composegears.valkyrie.parser.unified.ext/isSvgExtension // io.github.composegears.valkyrie.parser.unified.ext/isSvgExtension|@kotlin.String{}isSvgExtension[0]
+    final inline fun (kotlin/String).<get-isSvgExtension>(): kotlin/Boolean // io.github.composegears.valkyrie.parser.unified.ext/isSvgExtension.<get-isSvgExtension>|<get-isSvgExtension>@kotlin.String(){}[0]
+final val io.github.composegears.valkyrie.parser.unified.ext/isXml // io.github.composegears.valkyrie.parser.unified.ext/isXml|@kotlinx.io.files.Path{}isXml[0]
+    final inline fun (kotlinx.io.files/Path).<get-isXml>(): kotlin/Boolean // io.github.composegears.valkyrie.parser.unified.ext/isXml.<get-isXml>|<get-isXml>@kotlinx.io.files.Path(){}[0]
+final val io.github.composegears.valkyrie.parser.unified.ext/isXmlExtension // io.github.composegears.valkyrie.parser.unified.ext/isXmlExtension|@kotlin.String{}isXmlExtension[0]
+    final inline fun (kotlin/String).<get-isXmlExtension>(): kotlin/Boolean // io.github.composegears.valkyrie.parser.unified.ext/isXmlExtension.<get-isXmlExtension>|<get-isXmlExtension>@kotlin.String(){}[0]
+
+final fun (kotlin/String).io.github.composegears.valkyrie.parser.unified.ext/capitalized(): kotlin/String // io.github.composegears.valkyrie.parser.unified.ext/capitalized|capitalized@kotlin.String(){}[0]
+final fun (kotlin/String).io.github.composegears.valkyrie.parser.unified.ext/removePrefix(kotlin/CharSequence): kotlin/String // io.github.composegears.valkyrie.parser.unified.ext/removePrefix|removePrefix@kotlin.String(kotlin.CharSequence){}[0]

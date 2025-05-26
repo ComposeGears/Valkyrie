@@ -1,0 +1,12 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.compose:core>
+final inline fun <#A: kotlin/Any?> io.github.composegears.valkyrie.compose.core/rememberMutableState(androidx.compose.runtime/SnapshotMutationPolicy<#A>?, crossinline kotlin/Function0<#A>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): androidx.compose.runtime/MutableState<#A> // io.github.composegears.valkyrie.compose.core/rememberMutableState|rememberMutableState(androidx.compose.runtime.SnapshotMutationPolicy<0:0>?;kotlin.Function0<0:0>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final inline fun <#A: kotlin/Any?> io.github.composegears.valkyrie.compose.core/rememberMutableState(kotlin/Any?, androidx.compose.runtime/SnapshotMutationPolicy<#A>?, crossinline kotlin/Function0<#A>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): androidx.compose.runtime/MutableState<#A> // io.github.composegears.valkyrie.compose.core/rememberMutableState|rememberMutableState(kotlin.Any?;androidx.compose.runtime.SnapshotMutationPolicy<0:0>?;kotlin.Function0<0:0>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final inline fun <#A: kotlin/Any?> io.github.composegears.valkyrie.compose.core/rememberMutableState(kotlin/Any?, kotlin/Any?, androidx.compose.runtime/SnapshotMutationPolicy<#A>?, crossinline kotlin/Function0<#A>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): androidx.compose.runtime/MutableState<#A> // io.github.composegears.valkyrie.compose.core/rememberMutableState|rememberMutableState(kotlin.Any?;kotlin.Any?;androidx.compose.runtime.SnapshotMutationPolicy<0:0>?;kotlin.Function0<0:0>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final inline fun io.github.composegears.valkyrie.compose.core/rememberMutableIntState(kotlin/Any?, crossinline kotlin/Function0<kotlin/Int>, androidx.compose.runtime/Composer?, kotlin/Int): androidx.compose.runtime/MutableIntState // io.github.composegears.valkyrie.compose.core/rememberMutableIntState|rememberMutableIntState(kotlin.Any?;kotlin.Function0<kotlin.Int>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]

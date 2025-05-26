@@ -1,0 +1,14 @@
+public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;
+}
+
+public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;
+}
+
+public final class io/github/composegears/valkyrie/compose/icons/outlined/ConversionKt {
+	public static final fun getConversion (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+

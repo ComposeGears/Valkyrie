@@ -1,0 +1,6 @@
+public final class io/github/composegears/valkyrie/psi/imagevector/ImageVectorPsiParser {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/psi/imagevector/ImageVectorPsiParser;
+	public final fun parseToIrImageVector (Lorg/jetbrains/kotlin/psi/KtFile;)Lio/github/composegears/valkyrie/ir/IrImageVector;
+}
+
