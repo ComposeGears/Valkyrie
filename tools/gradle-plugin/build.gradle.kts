@@ -53,7 +53,7 @@ tasks.pluginUnderTestMetadata {
 }
 
 dependencies {
-    compileOnly(libs.gradle.agp.api)
+    compileOnly(libs.agp.api)
     compileOnly(libs.kotlin.gradle.plugin)
 
     api(projects.components.extensions)
@@ -62,10 +62,10 @@ dependencies {
     api(projects.components.ir)
     api(projects.components.parser.unified)
 
-    testPluginClasspath(libs.gradle.agp.full)
+    testPluginClasspath(libs.agp.full)
     testPluginClasspath(libs.kotlin.gradle.plugin)
 
-    testImplementation(libs.gradle.agp.full)
+    testImplementation(libs.agp.full)
     testImplementation(libs.kotlin.gradle.plugin)
     testImplementation(libs.junit5.jupiter)
     testImplementation(libs.kotlin.test)
