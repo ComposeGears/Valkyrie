@@ -1,0 +1,10 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.tools:compose-app>
+final fun io.github.composegears.valkyrie/ValkyrieApp(androidx.compose.ui/Modifier?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.composegears.valkyrie/ValkyrieApp|ValkyrieApp(androidx.compose.ui.Modifier?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun io.github.composegears.valkyrie/main() // io.github.composegears.valkyrie/main|main(){}[0]

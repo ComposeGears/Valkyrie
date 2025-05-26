@@ -1,0 +1,19 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.compose:icons>
+final object io.github.composegears.valkyrie.compose.icons/ValkyrieIcons { // io.github.composegears.valkyrie.compose.icons/ValkyrieIcons|null[0]
+    final object Outlined // io.github.composegears.valkyrie.compose.icons/ValkyrieIcons.Outlined|null[0]
+}
+
+final val io.github.composegears.valkyrie.compose.icons.outlined/Conversion // io.github.composegears.valkyrie.compose.icons.outlined/Conversion|@io.github.composegears.valkyrie.compose.icons.ValkyrieIcons.Outlined{}Conversion[0]
+    final fun (io.github.composegears.valkyrie.compose.icons/ValkyrieIcons.Outlined).<get-Conversion>(): androidx.compose.ui.graphics.vector/ImageVector // io.github.composegears.valkyrie.compose.icons.outlined/Conversion.<get-Conversion>|<get-Conversion>@io.github.composegears.valkyrie.compose.icons.ValkyrieIcons.Outlined(){}[0]
+final val io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons$stableprop // io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons$stableprop|#static{}io_github_composegears_valkyrie_compose_icons_ValkyrieIcons$stableprop[0]
+final val io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons_Outlined$stableprop // io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons_Outlined$stableprop|#static{}io_github_composegears_valkyrie_compose_icons_ValkyrieIcons_Outlined$stableprop[0]
+
+final fun io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons$stableprop_getter(): kotlin/Int // io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons$stableprop_getter|io_github_composegears_valkyrie_compose_icons_ValkyrieIcons$stableprop_getter(){}[0]
+final fun io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons_Outlined$stableprop_getter(): kotlin/Int // io.github.composegears.valkyrie.compose.icons/io_github_composegears_valkyrie_compose_icons_ValkyrieIcons_Outlined$stableprop_getter|io_github_composegears_valkyrie_compose_icons_ValkyrieIcons_Outlined$stableprop_getter(){}[0]

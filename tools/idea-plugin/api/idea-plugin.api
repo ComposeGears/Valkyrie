@@ -1,0 +1,2404 @@
+public final class io/github/composegears/valkyrie/ComposableSingletons$ValkyrieToolWindowKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ComposableSingletons$ValkyrieToolWindowKt;
+	public fun <init> ()V
+	public final fun getLambda$-592502047$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-669837791$idea_plugin ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/composegears/valkyrie/ValkyrieToolWindow : com/intellij/openapi/project/DumbAware, com/intellij/openapi/wm/ToolWindowFactory {
+	public static final field $stable I
+	public static final field Companion Lio/github/composegears/valkyrie/ValkyrieToolWindow$Companion;
+	public static final field ID Ljava/lang/String;
+	public fun <init> ()V
+	public fun createToolWindowContent (Lcom/intellij/openapi/project/Project;Lcom/intellij/openapi/wm/ToolWindow;)V
+}
+
+public final class io/github/composegears/valkyrie/ValkyrieToolWindow$Companion {
+}
+
+public final class io/github/composegears/valkyrie/action/ActionUtilKt {
+	public static final fun isIconPackRequired (Lio/github/composegears/valkyrie/service/PersistentSettings$ValkyrieState;)Z
+}
+
+public final class io/github/composegears/valkyrie/action/ExportHereAction : com/intellij/openapi/actionSystem/AnAction {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun actionPerformed (Lcom/intellij/openapi/actionSystem/AnActionEvent;)V
+	public fun getActionUpdateThread ()Lcom/intellij/openapi/actionSystem/ActionUpdateThread;
+	public fun update (Lcom/intellij/openapi/actionSystem/AnActionEvent;)V
+}
+
+public final class io/github/composegears/valkyrie/action/ImportFromDirectoryOrFileAction : com/intellij/openapi/actionSystem/AnAction {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun actionPerformed (Lcom/intellij/openapi/actionSystem/AnActionEvent;)V
+	public fun getActionUpdateThread ()Lcom/intellij/openapi/actionSystem/ActionUpdateThread;
+	public fun update (Lcom/intellij/openapi/actionSystem/AnActionEvent;)V
+}
+
+public final class io/github/composegears/valkyrie/action/RefreshPluginAction : com/intellij/openapi/actionSystem/AnAction {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun actionPerformed (Lcom/intellij/openapi/actionSystem/AnActionEvent;)V
+}
+
+public final class io/github/composegears/valkyrie/action/dialog/ComposableSingletons$RequiredIconPackModeDialogKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/action/dialog/ComposableSingletons$RequiredIconPackModeDialogKt;
+	public fun <init> ()V
+	public final fun getLambda$202253428$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/action/dialog/RequiredIconPackModeDialog : com/intellij/openapi/ui/DialogWrapper {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
+}
+
+public final class io/github/composegears/valkyrie/editor/ImageVectorPreviewEditorProvider : com/intellij/openapi/fileEditor/FileEditorProvider, com/intellij/openapi/fileEditor/impl/text/QuickDefinitionProvider, com/intellij/openapi/project/DumbAware {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun accept (Lcom/intellij/openapi/project/Project;Lcom/intellij/openapi/vfs/VirtualFile;)Z
+	public fun acceptRequiresReadAction ()Z
+	public fun createEditor (Lcom/intellij/openapi/project/Project;Lcom/intellij/openapi/vfs/VirtualFile;)Lcom/intellij/openapi/fileEditor/FileEditor;
+	public fun getEditorTypeId ()Ljava/lang/String;
+	public fun getPolicy ()Lcom/intellij/openapi/fileEditor/FileEditorPolicy;
+}
+
+public final class io/github/composegears/valkyrie/editor/TextEditorWithImageVectorPreview : com/intellij/openapi/fileEditor/TextEditorWithPreview {
+	public static final field $stable I
+	public static final field Companion Lio/github/composegears/valkyrie/editor/TextEditorWithImageVectorPreview$Companion;
+	public fun <init> (Lcom/intellij/openapi/project/Project;Lcom/intellij/openapi/vfs/VirtualFile;)V
+}
+
+public final class io/github/composegears/valkyrie/editor/TextEditorWithImageVectorPreview$Companion {
+}
+
+public final class io/github/composegears/valkyrie/editor/ui/VirtualFileImageVectorKt {
+	public static final fun VirtualFileImageVector (Lcom/intellij/openapi/vfs/VirtualFile;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/service/GlobalEventsHandler {
+	public static final field $stable I
+	public static final field Companion Lio/github/composegears/valkyrie/service/GlobalEventsHandler$Companion;
+	public fun <init> ()V
+	public final fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
+	public static final fun getGlobalEventsHandler (Lcom/intellij/openapi/project/Project;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler;
+	public final fun resetCache ()V
+	public final fun send (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents;)V
+}
+
+public final class io/github/composegears/valkyrie/service/GlobalEventsHandler$Companion {
+	public final fun getGlobalEventsHandler (Lcom/intellij/openapi/project/Project;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler;
+}
+
+public final class io/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPaths ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents {
+}
+
+public final class io/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$ImportIcons : io/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;
+	public final fun copy (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$ImportIcons;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$ImportIcons;Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;ILjava/lang/Object;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$ImportIcons;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPathData ()Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$RefreshPlugin : io/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$RefreshPlugin;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$SetupIconPackMode : io/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;
+	public final fun copy (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$SetupIconPackMode;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$SetupIconPackMode;Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;ILjava/lang/Object;)Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PluginEvents$SetupIconPackMode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPathData ()Lio/github/composegears/valkyrie/service/GlobalEventsHandler$PendingPathData;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/service/PersistentSettings : com/intellij/openapi/components/SimplePersistentStateComponent {
+	public static final field $stable I
+	public static final field Companion Lio/github/composegears/valkyrie/service/PersistentSettings$Companion;
+	public fun <init> ()V
+	public final fun addListener (Lkotlin/jvm/functions/Function0;)V
+	public static final fun getPersistentSettings (Lcom/intellij/openapi/project/Project;)Lio/github/composegears/valkyrie/service/PersistentSettings;
+	public final fun stateWithNotify (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/github/composegears/valkyrie/service/PersistentSettings$Companion {
+	public final fun getPersistentSettings (Lcom/intellij/openapi/project/Project;)Lio/github/composegears/valkyrie/service/PersistentSettings;
+}
+
+public final class io/github/composegears/valkyrie/service/PersistentSettings$ValkyrieState : com/intellij/openapi/components/BaseState {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getAddTrailingComma ()Z
+	public final fun getFlatPackage ()Z
+	public final fun getGeneratePreview ()Z
+	public final fun getIconPackDestination ()Ljava/lang/String;
+	public final fun getIconPackName ()Ljava/lang/String;
+	public final fun getIconPackPackage ()Ljava/lang/String;
+	public final fun getIndentSize ()I
+	public final fun getMode ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun getNestedPacks ()Ljava/lang/String;
+	public final fun getOutputFormat ()Ljava/lang/String;
+	public final fun getPackageName ()Ljava/lang/String;
+	public final fun getPreviewAnnotationType ()Ljava/lang/String;
+	public final fun getPreviewType ()Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public final fun getShowImageVectorPreview ()Z
+	public final fun getUseComposeColors ()Z
+	public final fun getUseExplicitMode ()Z
+	public final fun getUseMaterialPack ()Z
+	public final fun setAddTrailingComma (Z)V
+	public final fun setFlatPackage (Z)V
+	public final fun setGeneratePreview (Z)V
+	public final fun setIconPackDestination (Ljava/lang/String;)V
+	public final fun setIconPackName (Ljava/lang/String;)V
+	public final fun setIconPackPackage (Ljava/lang/String;)V
+	public final fun setIndentSize (I)V
+	public final fun setMode (Lio/github/composegears/valkyrie/ui/domain/model/Mode;)V
+	public final fun setNestedPacks (Ljava/lang/String;)V
+	public final fun setOutputFormat (Ljava/lang/String;)V
+	public final fun setPackageName (Ljava/lang/String;)V
+	public final fun setPreviewAnnotationType (Ljava/lang/String;)V
+	public final fun setPreviewType (Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;)V
+	public final fun setShowImageVectorPreview (Z)V
+	public final fun setUseComposeColors (Z)V
+	public final fun setUseExplicitMode (Z)V
+	public final fun setUseMaterialPack (Z)V
+}
+
+public final class io/github/composegears/valkyrie/settings/InMemorySettings {
+	public static final field $stable I
+	public fun <init> (Lcom/intellij/openapi/project/Project;)V
+	public final fun clear ()V
+	public final fun getCurrent ()Lio/github/composegears/valkyrie/settings/ValkyriesSettings;
+	public final fun getSettings ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun getUiState ()Ljava/util/Map;
+	public final fun update (Lkotlin/jvm/functions/Function1;)V
+	public final fun updateUIState (Ljava/util/Map;)V
+}
+
+public final class io/github/composegears/valkyrie/settings/InMemorySettingsKt {
+	public static final fun updateNestedPack (Lio/github/composegears/valkyrie/service/PersistentSettings$ValkyrieState;Ljava/util/List;)V
+	public static final fun updateOutputFormat (Lio/github/composegears/valkyrie/service/PersistentSettings$ValkyrieState;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;)V
+	public static final fun updatePreviewAnnotationType (Lio/github/composegears/valkyrie/service/PersistentSettings$ValkyrieState;Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;)V
+}
+
+public final class io/github/composegears/valkyrie/settings/ValkyriesSettings {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZ)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun component10 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
+	public final fun component11 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
+	public final fun component12 ()Z
+	public final fun component13 ()I
+	public final fun component14 ()Z
+	public final fun component15 ()Z
+	public final fun component16 ()Z
+	public final fun component17 ()Z
+	public final fun component2 ()Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public final fun component3 ()Z
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/util/List;
+	public final fun component9 ()Z
+	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZ)Lio/github/composegears/valkyrie/settings/ValkyriesSettings;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;Lio/github/composegears/valkyrie/ui/domain/model/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZILjava/lang/Object;)Lio/github/composegears/valkyrie/settings/ValkyriesSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddTrailingComma ()Z
+	public final fun getFlatPackage ()Z
+	public final fun getGeneratePreview ()Z
+	public final fun getIconPackDestination ()Ljava/lang/String;
+	public final fun getIconPackName ()Ljava/lang/String;
+	public final fun getIconPackPackage ()Ljava/lang/String;
+	public final fun getIndentSize ()I
+	public final fun getMode ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun getNestedPacks ()Ljava/util/List;
+	public final fun getOutputFormat ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
+	public final fun getPackageName ()Ljava/lang/String;
+	public final fun getPreviewAnnotationType ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
+	public final fun getPreviewType ()Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public final fun getShowImageVectorPreview ()Z
+	public final fun getUseComposeColors ()Z
+	public final fun getUseExplicitMode ()Z
+	public final fun getUseMaterialPack ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/ComposableSingletons$ValkyriePluginKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/ComposableSingletons$ValkyriePluginKt;
+	public fun <init> ()V
+	public final fun getLambda$233701156$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/ValkyriePluginKt {
+	public static final fun ValkyriePlugin (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/common/picker/ComposableSingletons$UniversalPickerKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/common/picker/ComposableSingletons$UniversalPickerKt;
+	public fun <init> ()V
+	public final fun getLambda$-305048041$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-679023667$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$199268278$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$231588707$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/common/picker/PickerEvent {
+}
+
+public final class io/github/composegears/valkyrie/ui/common/picker/PickerEvent$ClipboardText : io/github/composegears/valkyrie/ui/common/picker/PickerEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$ClipboardText;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$ClipboardText;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$ClipboardText;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickDirectory : io/github/composegears/valkyrie/ui/common/picker/PickerEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/nio/file/Path;)V
+	public final fun component1 ()Ljava/nio/file/Path;
+	public final fun copy (Ljava/nio/file/Path;)Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickDirectory;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickDirectory;Ljava/nio/file/Path;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickDirectory;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/nio/file/Path;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickFiles : io/github/composegears/valkyrie/ui/common/picker/PickerEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickFiles;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickFiles;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent$PickFiles;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPaths ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/common/picker/UniversalPickerKt {
+	public static final fun UniversalPicker (Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/di/CoreModule {
+	public abstract fun getInMemorySettings ()Lcom/composegears/leviathan/Dependency;
+}
+
+public final class io/github/composegears/valkyrie/ui/di/CoreModuleKt {
+	public static final fun coreModule ()Lio/github/composegears/valkyrie/ui/di/CoreModule;
+}
+
+public final class io/github/composegears/valkyrie/ui/di/DI {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/di/DI;
+	public final fun getCore ()Lio/github/composegears/valkyrie/ui/di/CoreModule;
+	public final fun initWith (Lcom/intellij/openapi/project/Project;)V
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/di/IntellijPlatformModule {
+	public abstract fun getProject ()Lcom/composegears/leviathan/LateInitDependency;
+}
+
+public final class io/github/composegears/valkyrie/ui/di/IntellijPlatformModuleKt {
+	public static final fun intellijPlatformModule ()Lio/github/composegears/valkyrie/ui/di/IntellijPlatformModule;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/domain/ParamUseCase {
+	public abstract fun invoke (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/model/Mode : java/lang/Enum {
+	public static final field IconPack Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public static final field Simple Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public static final field Unspecified Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public static fun values ()[Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/model/PreviewType : java/lang/Enum {
+	public static final field Auto Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public static final field Black Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public static final field Pixel Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public static final field White Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public static fun values ()[Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria : java/lang/Enum {
+	public static final field EMPTY Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;
+	public static final field FIRST_LETTER_LOWER_CASE Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;
+	public static final field INCONSISTENT_FORMAT Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;
+	public static fun values ()[Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/validation/IconPackValidationUseCase : io/github/composegears/valkyrie/ui/domain/validation/ValidationUseCase {
+	public static final field $stable I
+	public fun <init> ()V
+	public synthetic fun invoke (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun invoke (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/validation/InputState {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;ZLio/github/composegears/valkyrie/ui/domain/validation/ValidationResult;)V
+	public synthetic fun <init> (Ljava/lang/String;ZLio/github/composegears/valkyrie/ui/domain/validation/ValidationResult;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun component3 ()Lio/github/composegears/valkyrie/ui/domain/validation/ValidationResult;
+	public final fun copy (Ljava/lang/String;ZLio/github/composegears/valkyrie/ui/domain/validation/ValidationResult;)Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Ljava/lang/String;ZLio/github/composegears/valkyrie/ui/domain/validation/ValidationResult;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnabled ()Z
+	public final fun getText ()Ljava/lang/String;
+	public final fun getValidationResult ()Lio/github/composegears/valkyrie/ui/domain/validation/ValidationResult;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/validation/PackageValidationUseCase : io/github/composegears/valkyrie/ui/domain/validation/ValidationUseCase {
+	public static final field $stable I
+	public fun <init> ()V
+	public synthetic fun invoke (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun invoke (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/domain/validation/ValidationResult {
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/validation/ValidationResult$Error : io/github/composegears/valkyrie/ui/domain/validation/ValidationResult {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;
+	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;)Lio/github/composegears/valkyrie/ui/domain/validation/ValidationResult$Error;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/domain/validation/ValidationResult$Error;Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/domain/validation/ValidationResult$Error;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getErrorCriteria ()Lio/github/composegears/valkyrie/ui/domain/validation/ErrorCriteria;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/validation/ValidationResult$None : io/github/composegears/valkyrie/ui/domain/validation/ValidationResult {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/domain/validation/ValidationResult$None;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/domain/validation/ValidationResult$Success : io/github/composegears/valkyrie/ui/domain/validation/ValidationResult {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/domain/validation/ValidationResult$Success;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/domain/validation/ValidationUseCase : io/github/composegears/valkyrie/ui/domain/ParamUseCase {
+}
+
+public final class io/github/composegears/valkyrie/ui/extension/MutableStateFlowKt {
+	public static final fun updateState (Lkotlinx/coroutines/flow/MutableStateFlow;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/github/composegears/valkyrie/ui/extension/StringKt {
+	public static final fun or (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ColorKt {
+	public static final fun dim-8_81llA (J)J
+	public static final fun disabled-8_81llA (J)J
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$DragAndDropBoxKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$DragAndDropBoxKt;
+	public fun <init> ()V
+	public final fun getLambda$-687016153$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1593411815$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$FocusableTextFieldKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$FocusableTextFieldKt;
+	public fun <init> ()V
+	public final fun getLambda$-652534297$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1078478348$idea_plugin ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$InfoItemKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$InfoItemKt;
+	public fun <init> ()V
+	public final fun getLambda$866519493$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$868403559$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$InputFieldKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$InputFieldKt;
+	public fun <init> ()V
+	public final fun getLambda$-2106256998$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-483229253$idea_plugin ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$PixelGridKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$PixelGridKt;
+	public fun <init> ()V
+	public final fun getLambda$-1828653605$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$ScrollableTabRowKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$ScrollableTabRowKt;
+	public fun <init> ()V
+	public final fun getLambda$-1776754473$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-854305401$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$SegmentedButtonKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$SegmentedButtonKt;
+	public fun <init> ()V
+	public final fun getLambda$601870203$idea_plugin ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$TextWithIconKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$TextWithIconKt;
+	public fun <init> ()V
+	public final fun getLambda$-1251093881$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$TooltipButtonKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$TooltipButtonKt;
+	public fun <init> ()V
+	public final fun getLambda$-1801380469$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1930928759$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$TopAppBarKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/ComposableSingletons$TopAppBarKt;
+	public fun <init> ()V
+	public final fun getLambda$-1900375195$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1429926158$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$146398981$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/DragAndDropBoxKt {
+	public static final fun DragAndDropBox (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/FocusableTextFieldColor {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun copy-tNS2XkQ (JJJJJJ)Lio/github/composegears/valkyrie/ui/foundation/FocusableTextFieldColor;
+	public static synthetic fun copy-tNS2XkQ$default (Lio/github/composegears/valkyrie/ui/foundation/FocusableTextFieldColor;JJJJJJILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/foundation/FocusableTextFieldColor;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCursorColor-0d7_KjU ()J
+	public final fun getErrorColor-0d7_KjU ()J
+	public final fun getFocusedBorderColor-0d7_KjU ()J
+	public final fun getFocusedTextColor-0d7_KjU ()J
+	public final fun getUnfocusedBorderColor-0d7_KjU ()J
+	public final fun getUnfocusedTextColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/FocusableTextFieldDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/FocusableTextFieldDefaults;
+	public final fun colors (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/foundation/FocusableTextFieldColor;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/FocusableTextFieldKt {
+	public static final fun FocusableTextField (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/ui/graphics/Shape;Lio/github/composegears/valkyrie/ui/foundation/FocusableTextFieldColor;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/HorizontalDividerKt {
+	public static final fun HorizontalDivider (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/IconButtonKt {
+	public static final fun IconButton-WH-ejsw (Landroidx/compose/ui/graphics/vector/ImageVector;Landroidx/compose/ui/Modifier;ZLandroidx/compose/material3/IconButtonColors;FLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/InfoItemKt {
+	public static final fun InfoItem (Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun InfoItem (Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/InputFieldKt {
+	public static final fun InputField (Ljava/lang/String;Ljava/lang/String;Ldev/snipme/highlights/Highlights;Landroidx/compose/ui/Modifier;ZZLkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+	public static final fun InputTextField (Ljava/lang/String;Landroidx/compose/ui/Modifier;ZZLkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ModifierKt {
+	public static final fun blendMode-GB0RdKg (Landroidx/compose/ui/Modifier;I)Landroidx/compose/ui/Modifier;
+	public static final fun dashedBorder-c6UQjLI (Landroidx/compose/ui/Modifier;JLandroidx/compose/ui/graphics/Shape;FFFI)Landroidx/compose/ui/Modifier;
+	public static synthetic fun dashedBorder-c6UQjLI$default (Landroidx/compose/ui/Modifier;JLandroidx/compose/ui/graphics/Shape;FFFIILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/PixelGridKt {
+	public static final fun PixelGrid-rAjV9yQ (Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/RowKt {
+	public static final fun CenterVerticalRow (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/Arrangement$Horizontal;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ScrollableTabRowKt {
+	public static final fun ScrollableTabRow (Ljava/util/List;ILandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/ScrollbarKt {
+	public static final fun HorizontalScrollbar (Landroidx/compose/foundation/layout/BoxScope;Landroidx/compose/foundation/v2/ScrollbarAdapter;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun VerticalScrollbar (Landroidx/compose/foundation/layout/BoxScope;Landroidx/compose/foundation/v2/ScrollbarAdapter;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/SegmentedButtonKt {
+	public static final fun SegmentedButton (Landroidx/compose/material3/SingleChoiceSegmentedButtonRowScope;ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/Shape;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/SnackbarKt {
+	public static final fun getLocalSnackBar ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun rememberSnackbar (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/foundation/SnackbarManager;
+	public static final fun rememberSnackbarState (Landroidx/compose/runtime/Composer;I)Landroidx/compose/material3/SnackbarHostState;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/foundation/SnackbarManager {
+	public abstract fun show (Ljava/lang/String;)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/SpacerKt {
+	public static final fun HorizontalSpacer-uFdPcIQ (Landroidx/compose/foundation/layout/RowScope;FLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun SizeSpacer--orJrPs (FLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun VerticalSpacer-uFdPcIQ (Landroidx/compose/foundation/layout/ColumnScope;FLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun WeightSpacer (Landroidx/compose/foundation/layout/ColumnScope;Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)V
+	public static final fun WeightSpacer (Landroidx/compose/foundation/layout/RowScope;Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/TextWithIconKt {
+	public static final fun TextWithIcon-fSSaV34 (Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Landroidx/compose/ui/Modifier;JLandroidx/compose/ui/text/TextStyle;JLandroidx/compose/ui/text/style/TextAlign;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/TooltipButtonKt {
+	public static final fun TooltipButton (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun TooltipIconButton (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun TooltipImageButton (Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/TopAppBarKt {
+	public static final fun AppBarTitle (Ljava/lang/String;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun BackAction (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun CloseAction (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun CopyAction (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun EditAction (ZLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun PreviewAction (ZLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun SettingsAction (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun TopAppBar (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/ComposableSingletons$ImageVectorPreviewPanelKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/components/previewer/ComposableSingletons$ImageVectorPreviewPanelKt;
+	public fun <init> ()V
+	public final fun getLambda$-631250998$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/ComposableSingletons$PreviewParsingErrorKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/components/previewer/ComposableSingletons$PreviewParsingErrorKt;
+	public fun <init> ()V
+	public final fun getLambda$958973322$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/ComposableSingletons$TopActionsKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/components/previewer/ComposableSingletons$TopActionsKt;
+	public fun <init> ()V
+	public final fun getLambda$1257131752$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/ImageVectorPreviewPanelKt {
+	public static final fun ImageVectorPreviewPanel (Lio/github/composegears/valkyrie/ir/IrImageVector;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/PreviewParsingErrorKt {
+	public static final fun PreviewParsingError (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/TopActionsKt {
+	public static final fun TopActions (FFLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/ZoomState {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun animateToScale (FLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getMaxPreviewSize-D9Ej5fM ()F
+	public final fun getScale ()F
+	public final fun reset (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun setMaxPreviewSize-0680j_4 (F)V
+	public final fun setScale (FLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun zoomIn (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun zoomOut (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/components/previewer/ZoomStateKt {
+	public static final fun rememberZoomState (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/foundation/components/previewer/ZoomState;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/compositionlocal/LocalProjectKt {
+	public static final fun getLocalProject ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/foundation/compositionlocal/ProjectWrapper {
+	public abstract fun getCurrent ()Lcom/intellij/openapi/project/Project;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/compositionlocal/ProjectWrapper$Platform : io/github/composegears/valkyrie/ui/foundation/compositionlocal/ProjectWrapper {
+	public static final field $stable I
+	public fun <init> (Lcom/intellij/openapi/project/Project;)V
+	public fun getCurrent ()Lcom/intellij/openapi/project/Project;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/compositionlocal/ProjectWrapper$Stub : io/github/composegears/valkyrie/ui/foundation/compositionlocal/ProjectWrapper {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/compositionlocal/ProjectWrapper$Stub;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCurrent ()Lcom/intellij/openapi/project/Project;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/highlights/CodeViewerTooltipKt {
+	public static final fun CodeViewerTooltip (Ldev/snipme/highlights/Highlights;Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/highlights/ComposableSingletons$KotlinCodeViewerKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/highlights/ComposableSingletons$KotlinCodeViewerKt;
+	public fun <init> ()V
+	public final fun getLambda$1640867273$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/highlights/KotlinCodeViewerKt {
+	public static final fun KotlinCodeViewer (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/highlights/core/CodeEditorKt {
+	public static final fun CodeEditor (Ldev/snipme/highlights/Highlights;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZZZLandroidx/compose/ui/text/TextStyle;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;ZLandroidx/compose/ui/text/input/VisualTransformation;Landroidx/compose/foundation/text/KeyboardOptions;Landroidx/compose/foundation/text/KeyboardActions;ZIILandroidx/compose/foundation/interaction/MutableInteractionSource;Landroidx/compose/ui/graphics/Shape;Landroidx/compose/material3/TextFieldColors;Landroidx/compose/runtime/Composer;IIII)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/highlights/core/CodeViewerKt {
+	public static final fun CodeViewer (Ldev/snipme/highlights/Highlights;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/highlights/core/CommonKt {
+	public static final fun buildAnnotatedString (Ldev/snipme/highlights/Highlights;)Landroidx/compose/ui/text/AnnotatedString;
+	public static final fun getEmphasisLocations (Ljava/lang/String;Ljava/lang/String;)[Ldev/snipme/highlights/model/PhraseLocation;
+	public static final fun rememberCodeHighlight (Ljava/lang/String;[Ldev/snipme/highlights/model/PhraseLocation;Landroidx/compose/runtime/Composer;I)Ldev/snipme/highlights/Highlights;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/highlights/core/ComposableSingletons$CodeViewerKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/highlights/core/ComposableSingletons$CodeViewerKt;
+	public fun <init> ()V
+	public final fun getLambda$-1111771129$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/ActualZoomKt {
+	public static final fun getActualZoom (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/AddFileKt {
+	public static final fun getAddFile (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/BackKt {
+	public static final fun getBack (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/BackspaceKt {
+	public static final fun getBackspace (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/BatchProcessingKt {
+	public static final fun getBatchProcessing (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/BlackCircleKt {
+	public static final fun getBlackCircle (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/CheckedKt {
+	public static final fun getChecked (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/ChessboardKt {
+	public static final fun getChessboard (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/CloseKt {
+	public static final fun getClose (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/CopyKt {
+	public static final fun getCopy (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/EditKt {
+	public static final fun getEdit (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/ErrorKt {
+	public static final fun getError (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/ExternalLinkKt {
+	public static final fun getExternalLink (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/FitContentKt {
+	public static final fun getFitContent (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/FolderKt {
+	public static final fun getFolder (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/HelpKt {
+	public static final fun getHelp (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/KotlinLogoKt {
+	public static final fun getKotlinLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/PlayForwardKt {
+	public static final fun getPlayForward (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/PluginIconKt {
+	public static final fun getPluginIcon (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/SettingsKt {
+	public static final fun getSettings (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/VisibilityKt {
+	public static final fun getVisibility (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/WarningKt {
+	public static final fun getWarning (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/WatchKt {
+	public static final fun getWatch (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/WhiteCircleKt {
+	public static final fun getWhiteCircle (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/ZoomInKt {
+	public static final fun getZoomIn (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/icons/ZoomOutKt {
+	public static final fun getZoomOut (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/previewbg/BgType : java/lang/Enum {
+	public static final field Black Lio/github/composegears/valkyrie/ui/foundation/previewbg/BgType;
+	public static final field PixelGrid Lio/github/composegears/valkyrie/ui/foundation/previewbg/BgType;
+	public static final field White Lio/github/composegears/valkyrie/ui/foundation/previewbg/BgType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun next ()Lio/github/composegears/valkyrie/ui/foundation/previewbg/BgType;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/foundation/previewbg/BgType;
+	public static fun values ()[Lio/github/composegears/valkyrie/ui/foundation/previewbg/BgType;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/previewbg/ComposableSingletons$PreviewBackgroundKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/foundation/previewbg/ComposableSingletons$PreviewBackgroundKt;
+	public fun <init> ()V
+	public final fun getLambda$-580762010$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/previewbg/PreviewBackgroundKt {
+	public static final fun PreviewBackground-6a0pyJM (Lio/github/composegears/valkyrie/ui/foundation/previewbg/BgType;Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/theme/CompositionLocalKt {
+	public static final fun getLocalComponent ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme {
+	public static final field $stable I
+	public synthetic fun <init> (Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun copy-zSO0fhY (Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;JJJ)Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme;
+	public static synthetic fun copy-zSO0fhY$default (Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme;Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;JJJILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackground-0d7_KjU ()J
+	public final fun getOnBackground-0d7_KjU ()J
+	public final fun getPrimary-0d7_KjU ()J
+	public final fun getTheme ()Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme : java/lang/Enum {
+	public static final field DARK Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;
+	public static final field LIGHT Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;
+	public static fun values ()[Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme$Theme;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/theme/IntelliJThemeKt {
+	public static final fun rememberIntelliJTheme (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/foundation/theme/IntelliJTheme;
+}
+
+public final class io/github/composegears/valkyrie/ui/foundation/theme/ThemeKt {
+	public static final fun PreviewTheme (Landroidx/compose/ui/Modifier;ZLandroidx/compose/ui/Alignment;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ValkyrieTheme (Lcom/intellij/openapi/project/Project;Ljava/awt/Component;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun ValkyrieTheme (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun isLight (Landroidx/compose/material3/ColorScheme;Landroidx/compose/runtime/Composer;I)Z
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/platform/Browser {
+	public abstract fun open (Ljava/lang/String;)V
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/BrowserKt {
+	public static final fun rememberBrowser (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/Browser;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/platform/ClipboardDataType {
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/ClipboardDataType$Files : io/github/composegears/valkyrie/ui/platform/ClipboardDataType {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/composegears/valkyrie/ui/platform/ClipboardDataType$Files;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/platform/ClipboardDataType$Files;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/platform/ClipboardDataType$Files;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPaths ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/ClipboardDataType$Text : io/github/composegears/valkyrie/ui/platform/ClipboardDataType {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/platform/ClipboardDataType$Text;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/platform/ClipboardDataType$Text;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/platform/ClipboardDataType$Text;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/CopyPasteManagerKt {
+	public static final fun copyInClipboard (Ljava/lang/String;)V
+	public static final fun pasteFromClipboard ()Lio/github/composegears/valkyrie/ui/platform/ClipboardDataType;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/platform/CurrentProject {
+	public abstract fun getPath ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/CurrentProjectKt {
+	public static final fun rememberCurrentProject (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/CurrentProject;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/DragAndDropHandlerKt {
+	public static final fun rememberDragAndDropFolderHandler (Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;
+	public static final fun rememberFileDragAndDropHandler (Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;
+	public static final fun rememberMultiSelectDragAndDropHandler (Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState {
+	public static final field $stable I
+	public static final field Companion Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState$Companion;
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public final fun isDragging ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState$Companion {
+	public final fun dragging (Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;)Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;
+	public final fun notDragging (Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;)Lio/github/composegears/valkyrie/ui/platform/DragAndDropHandlerState;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/JComponentKt {
+	public static final fun buildComposePanel (IIIILkotlin/jvm/functions/Function3;)Ljavax/swing/JComponent;
+	public static synthetic fun buildComposePanel$default (IIIILkotlin/jvm/functions/Function3;ILjava/lang/Object;)Ljavax/swing/JComponent;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/Os : java/lang/Enum {
+	public static final field Linux Lio/github/composegears/valkyrie/ui/platform/Os;
+	public static final field MacOS Lio/github/composegears/valkyrie/ui/platform/Os;
+	public static final field Unknown Lio/github/composegears/valkyrie/ui/platform/Os;
+	public static final field Windows Lio/github/composegears/valkyrie/ui/platform/Os;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/platform/Os;
+	public static fun values ()[Lio/github/composegears/valkyrie/ui/platform/Os;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/OsKt {
+	public static final fun rememberCurrentOs (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/Os;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/picker/DirectoryPickerKt {
+	public static final fun rememberDirectoryPicker (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/picker/Picker;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/picker/FilePickerKt {
+	public static final fun rememberFilePicker (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/picker/Picker;
+	public static final fun rememberKtFilePicker (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/picker/Picker;
+}
+
+public final class io/github/composegears/valkyrie/ui/platform/picker/MultipleFilesPickerKt {
+	public static final fun rememberMultipleFilesPicker (Landroidx/compose/runtime/Composer;I)Lio/github/composegears/valkyrie/ui/platform/picker/Picker;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/platform/picker/Picker {
+	public abstract fun launch (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/intro/ComposableSingletons$IntroScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/intro/ComposableSingletons$IntroScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$421447206$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$482117151$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/intro/IntroScreenKt {
+	public static final fun getIntroScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/intro/util/PluginVersionKt {
+	public static final fun rememberPluginVersion (Landroidx/compose/runtime/Composer;I)Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon {
+	public abstract fun getIconName-l53YrJk ()Ljava/lang/String;
+	public abstract fun getId-xJlpnp8 ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Broken : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon {
+	public static final field $stable I
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-xJlpnp8 ()Ljava/lang/String;
+	public final fun component2-l53YrJk ()Ljava/lang/String;
+	public final fun copy-vEhnO8Q (Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Broken;
+	public static synthetic fun copy-vEhnO8Q$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Broken;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Broken;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getIconName-l53YrJk ()Ljava/lang/String;
+	public fun getId-xJlpnp8 ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Valid : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon {
+	public static final field $stable I
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack;Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack;Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-xJlpnp8 ()Ljava/lang/String;
+	public final fun component2-l53YrJk ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack;
+	public final fun component4 ()Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public final fun component5 ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public final fun copy-lQO5Uxo (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack;Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Valid;
+	public static synthetic fun copy-lQO5Uxo$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Valid;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack;Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Valid;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getIconName-l53YrJk ()Ljava/lang/String;
+	public final fun getIconPack ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack;
+	public final fun getIconType ()Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public fun getId-xJlpnp8 ()Ljava/lang/String;
+	public final fun getIrImageVector ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ComposableSingletons$IconPackConversionScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ComposableSingletons$IconPackConversionScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1897774934$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-830926354$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1368454375$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1420542552$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent$ExportCompleted : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent$ExportCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent$OpenPreview : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent$OpenPreview;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent$OpenPreview;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ConversionEvent$OpenPreview;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconContent ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconId {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconId;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconName {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconName;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack {
+	public abstract fun getCurrentNestedPack ()Ljava/lang/String;
+	public abstract fun getIconPackage ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Nested : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Nested;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Nested;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Nested;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCurrentNestedPack ()Ljava/lang/String;
+	public final fun getIconPackName ()Ljava/lang/String;
+	public fun getIconPackage ()Ljava/lang/String;
+	public final fun getNestedPacks ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Single : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Single;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Single;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPack$Single;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCurrentNestedPack ()Ljava/lang/String;
+	public final fun getIconPackName ()Ljava/lang/String;
+	public fun getIconPackage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionScreenKt {
+	public static final fun getIconPackConversionScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState {
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$ExportingState : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$ExportingState;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$IconPackCreationState : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Z)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Z
+	public final fun copy (Ljava/util/List;Z)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$IconPackCreationState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$IconPackCreationState;Ljava/util/List;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$IconPackCreationState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExportEnabled ()Z
+	public final fun getIcons ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$ImportValidationState : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$ImportValidationState;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$IconsPickering : io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$IconsPickering;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionViewModel : com/composegears/tiamat/TiamatViewModel, com/composegears/tiamat/Saveable {
+	public static final field $stable I
+	public fun <init> (Ljava/util/Map;Ljava/util/List;)V
+	public final fun deleteIcon-AoZrK14 (Ljava/lang/String;)Lkotlinx/coroutines/Job;
+	public final fun export ()Lkotlinx/coroutines/Job;
+	public final fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
+	public final fun getInMemorySettings ()Lio/github/composegears/valkyrie/settings/InMemorySettings;
+	public final fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun pickerEvent (Lio/github/composegears/valkyrie/ui/common/picker/PickerEvent;)V
+	public final fun renameIcon-_TVsxeM (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon;Ljava/lang/String;)Lkotlinx/coroutines/Job;
+	public final fun reset ()V
+	public fun saveToSaveState ()Ljava/util/Map;
+	public final fun showPreview (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon$Valid;)Lkotlinx/coroutines/Job;
+	public final fun updateIconPack (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/BatchIcon;Ljava/lang/String;)Lkotlinx/coroutines/Job;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/ClipboardEventColumnKt {
+	public static final fun ClipboardEventColumn (Landroidx/compose/ui/Alignment$Horizontal;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/ComposableSingletons$DragAndDropOverlayKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/ComposableSingletons$DragAndDropOverlayKt;
+	public fun <init> ()V
+	public final fun getLambda$2099411841$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$858081042$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/DragAndDropOverlayKt {
+	public static final fun DragAndDropOverlay (ZLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/batch/BatchProcessingStateUiKt {
+	public static final fun BatchProcessingStateUi (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/IconPackConversionState$BatchProcessing$IconPackCreationState;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;III)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/batch/ComposableSingletons$BatchProcessingStateUiKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/batch/ComposableSingletons$BatchProcessingStateUiKt;
+	public fun <init> ()V
+	public final fun getLambda$-2012209087$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$426179944$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$951180899$idea_plugin ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/batch/ui/ComposableSingletons$IconPreviewBoxKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/batch/ui/ComposableSingletons$IconPreviewBoxKt;
+	public fun <init> ()V
+	public final fun getLambda$-713508549$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/batch/ui/FileTypeBadgeKt {
+	public static final fun FileTypeBadge (Ljava/lang/String;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/batch/ui/IconPreviewBoxKt {
+	public static final fun IconPreviewBox (Lio/github/composegears/valkyrie/ir/IrImageVector;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/picker/ComposableSingletons$IconPackPickerStateUiKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/picker/ComposableSingletons$IconPackPickerStateUiKt;
+	public fun <init> ()V
+	public final fun getLambda$1340063356$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/conversion/ui/picker/IconPackPickerStateUiKt {
+	public static final fun IconPackPickerStateUi (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/ComposableSingletons$IconPackCreationScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/ComposableSingletons$IconPackCreationScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$1340927183$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/IconPackCreationScreenKt {
+	public static final fun getIconPackCreationScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public abstract class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/inputhandler/BasicInputHandler : io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/inputhandler/InputHandler {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;)V
+	public fun addNestedPack ()V
+	public fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public fun handleInput (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun invalidate (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;)V
+	public abstract fun provideInputFieldState (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;
+	public fun removeNestedPack (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;)V
+	public final fun updateState (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;)V
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/inputhandler/InputHandler {
+	public abstract fun addNestedPack ()V
+	public abstract fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public abstract fun handleInput (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun removeNestedPack (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;)V
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$IconPackName : io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$IconPackName;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$IconPackName;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$IconPackName;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$NestedPackName : io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$NestedPackName;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$NestedPackName;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$NestedPackName;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$PackageName : io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$PackageName;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$PackageName;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange$PackageName;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Ljava/util/List;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Z)V
+	public synthetic fun <init> (Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Ljava/util/List;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public final fun component2 ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public final fun component5 ()Z
+	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Ljava/util/List;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Z)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Ljava/util/List;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAllowAddNestedPack ()Z
+	public final fun getIconPackName ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public final fun getIconPackPackage ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public final fun getNestedPacks ()Ljava/util/List;
+	public final fun getPackageName ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public fun hashCode ()I
+	public final fun isValid ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public final fun copy (Ljava/lang/String;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;Ljava/lang/String;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getInputFieldState ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;)V
+	public synthetic fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;
+	public final fun copy (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInputFieldState ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/ui/ComposableSingletons$PackEditUiKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/ui/ComposableSingletons$PackEditUiKt;
+	public fun <init> ()V
+	public final fun getLambda$-270074014$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1049151682$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1613774751$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/ui/PackEditUiKt {
+	public static final fun PackEditUi (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/util/IconPackTooltipContentKt {
+	public static final fun buildIconPackHighlight (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ldev/snipme/highlights/Highlights;
+	public static final fun buildPackPackageHighlight (Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ldev/snipme/highlights/Highlights;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/util/IconPackWriter {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/util/IconPackWriter;
+	public final fun savePack (Lio/github/composegears/valkyrie/settings/InMemorySettings;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;Z)V
+	public static synthetic fun savePack$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/util/IconPackWriter;Lio/github/composegears/valkyrie/settings/InMemorySettings;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;ZILjava/lang/Object;)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ComposableSingletons$ExistingPackScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ComposableSingletons$ExistingPackScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1990156361$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$671549322$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ExistingPackScreenKt {
+	public static final fun getExistingPackScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/foundation/ChooseExistingPackFileKt {
+	public static final fun ChooseExistingPackFile (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/foundation/ComposableSingletons$ChooseExistingPackFileKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/foundation/ComposableSingletons$ChooseExistingPackFileKt;
+	public fun <init> ()V
+	public final fun getLambda$-1435568212$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1809135468$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/foundation/ComposableSingletons$ExistingPackEditorKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/foundation/ComposableSingletons$ExistingPackEditorKt;
+	public fun <init> ()V
+	public final fun getLambda$-1685070920$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-243154858$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/foundation/ExistingPackEditorKt {
+	public static final fun ExistingPackEditor (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState$ExistingPackEditState;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$AddNestedPack : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$AddNestedPack;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$PreviewPackObject : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$PreviewPackObject;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$RemoveNestedPack : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;
+	public final fun copy (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$RemoveNestedPack;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$RemoveNestedPack;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$RemoveNestedPack;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNestedPack ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$SavePack : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$SavePack;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$SelectKotlinFile : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction {
+	public static final field $stable I
+	public fun <init> (Ljava/nio/file/Path;Lcom/intellij/openapi/project/Project;)V
+	public final fun component1 ()Ljava/nio/file/Path;
+	public final fun component2 ()Lcom/intellij/openapi/project/Project;
+	public final fun copy (Ljava/nio/file/Path;Lcom/intellij/openapi/project/Project;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$SelectKotlinFile;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$SelectKotlinFile;Ljava/nio/file/Path;Lcom/intellij/openapi/project/Project;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction$SelectKotlinFile;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/nio/file/Path;
+	public final fun getProject ()Lcom/intellij/openapi/project/Project;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent$OnSettingsUpdated : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent$OnSettingsUpdated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent$PreviewIconPackObject : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent$PreviewIconPackObject;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent$PreviewIconPackObject;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackEvent$PreviewIconPackObject;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCode ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState$ChooserState : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState$ChooserState;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState$ExistingPackEditState : io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;Ljava/lang/String;Z)V
+	public synthetic fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Z
+	public final fun copy (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;Ljava/lang/String;Z)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState$ExistingPackEditState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState$ExistingPackEditState;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;Ljava/lang/String;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackModeState$ExistingPackEditState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExportDirectory ()Ljava/lang/String;
+	public final fun getNextAvailable ()Z
+	public final fun getPackEditState ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/viewmodel/ExistingPackInputHandler : io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/inputhandler/BasicInputHandler {
+	public static final field $stable I
+	public static final field Companion Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/viewmodel/ExistingPackInputHandler$Companion;
+	public fun <init> ()V
+	public fun provideInputFieldState (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/viewmodel/ExistingPackInputHandler$Companion {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/viewmodel/ExistingPackViewModel : com/composegears/tiamat/TiamatViewModel {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
+	public final fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun onAction (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/existingpack/ui/model/ExistingPackAction;)V
+	public final fun onValueChange (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange;)Lkotlinx/coroutines/Job;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ComposableSingletons$NewPackScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ComposableSingletons$NewPackScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$1081412635$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$2045813754$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/NewPackScreenKt {
+	public static final fun getNewPackScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/foundation/ChoosePackDirectoryKt {
+	public static final fun ChoosePackDirectory (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$ChooseExportDirectoryState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/foundation/ComposableSingletons$ChoosePackDirectoryKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/foundation/ComposableSingletons$ChoosePackDirectoryKt;
+	public fun <init> ()V
+	public final fun getLambda$165267051$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$492304404$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$693906500$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/foundation/ComposableSingletons$NewPackCreationKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/foundation/ComposableSingletons$NewPackCreationKt;
+	public fun <init> ()V
+	public final fun getLambda$1320950460$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$487578298$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/foundation/NewPackCreationKt {
+	public static final fun NewIconPackCreation (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$PickedState;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$AddNestedPack : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$AddNestedPack;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$PreviewPackObject : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$PreviewPackObject;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$RemoveNestedPack : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;
+	public final fun copy (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$RemoveNestedPack;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$RemoveNestedPack;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$RemoveNestedPack;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNestedPack ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/NestedPack;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SaveDestination : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SaveDestination;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SavePack : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SavePack;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SelectDestinationFolder : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+	public static final field $stable I
+	public fun <init> (Ljava/nio/file/Path;)V
+	public final fun component1 ()Ljava/nio/file/Path;
+	public final fun copy (Ljava/nio/file/Path;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SelectDestinationFolder;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SelectDestinationFolder;Ljava/nio/file/Path;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$SelectDestinationFolder;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/nio/file/Path;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$UseMaterialPack : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$UseMaterialPack;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$UseMaterialPack;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction$UseMaterialPack;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent$OnSettingsUpdated : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent$OnSettingsUpdated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent$PreviewIconPackObject : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent$PreviewIconPackObject;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent$PreviewIconPackObject;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackEvent$PreviewIconPackObject;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCode ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$ChooseExportDirectoryState : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Z)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Z)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$ChooseExportDirectoryState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$ChooseExportDirectoryState;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$ChooseExportDirectoryState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconPackDestination ()Ljava/lang/String;
+	public final fun getNextAvailable ()Z
+	public final fun getPredictedPackage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$PickedState : io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;ZZ)V
+	public synthetic fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;
+	public final fun component2 ()Z
+	public final fun component3 ()Z
+	public final fun copy (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;ZZ)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$PickedState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$PickedState;Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;ZZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackModeState$PickedState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNextAvailable ()Z
+	public final fun getPackEditState ()Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/PackEditState;
+	public final fun getUseMaterialPack ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/viewmodel/NewPackInputHandler : io/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/inputhandler/BasicInputHandler {
+	public static final field $stable I
+	public static final field Companion Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/viewmodel/NewPackInputHandler$Companion;
+	public fun <init> (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;)V
+	public fun provideInputFieldState (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;)Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputFieldState;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/viewmodel/NewPackInputHandler$Companion {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/viewmodel/NewPackViewModel : com/composegears/tiamat/TiamatViewModel {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
+	public final fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun onAction (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/newpack/ui/model/NewPackAction;)V
+	public final fun onValueChange (Lio/github/composegears/valkyrie/ui/screen/mode/iconpack/creation/common/packedit/model/InputChange;)Lkotlinx/coroutines/Job;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ComposableSingletons$SimpleConversionScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ComposableSingletons$SimpleConversionScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-422261281$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1645201272$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/SimpleConversionScreenKt {
+	public static final fun getSimpleConversionScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/ComposableSingletons$SimpleConversionPickerStateUIKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/ComposableSingletons$SimpleConversionPickerStateUIKt;
+	public fun <init> ()V
+	public final fun getLambda$-1105489349$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/SimpleConversionPickerStateUIKt {
+	public static final fun SimpleConversionPickerStateUI (Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/ComposableSingletons$SimpleConversionPreviewUiKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/ComposableSingletons$SimpleConversionPreviewUiKt;
+	public fun <init> ()V
+	public final fun getLambda$970029131$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/SimpleConversionPreviewUiKt {
+	public static final fun SimpleConversionPreviewStateUi (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState$ConversionState;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ExpandedActions : java/lang/Enum {
+	public static final field Edit Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ExpandedActions;
+	public static final field None Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ExpandedActions;
+	public static final field Preview Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ExpandedActions;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ExpandedActions;
+	public static fun values ()[Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ExpandedActions;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ui/ComposableSingletons$EditActionKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ui/ComposableSingletons$EditActionKt;
+	public fun <init> ()V
+	public final fun getLambda$1700928745$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ui/ComposableSingletons$PreviewActionKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ui/ComposableSingletons$PreviewActionKt;
+	public fun <init> ()V
+	public final fun getLambda$861690325$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ui/EditActionKt {
+	public static final fun EditAction (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/ui/preview/action/ui/PreviewActionKt {
+	public static final fun PreviewAction (Lio/github/composegears/valkyrie/ir/IrImageVector;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/ir/IrImageVector;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/ir/IrImageVector;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/ir/IrImageVector;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCode ()Ljava/lang/String;
+	public final fun getIrImageVector ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$FileBasedIcon : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource {
+	public static final field $stable I
+	public fun <init> (Ljava/nio/file/Path;)V
+	public final fun component1 ()Ljava/nio/file/Path;
+	public final fun copy (Ljava/nio/file/Path;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$FileBasedIcon;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$FileBasedIcon;Ljava/nio/file/Path;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$FileBasedIcon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/nio/file/Path;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$StringBasedIcon : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$StringBasedIcon;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$StringBasedIcon;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource$StringBasedIcon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$Back : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$Back;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$ClosePreview : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$ClosePreview;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnCopyInClipboard : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnCopyInClipboard;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnCopyInClipboard;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnCopyInClipboard;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnDragAndDropPath : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public fun <init> (Ljava/nio/file/Path;)V
+	public final fun component1 ()Ljava/nio/file/Path;
+	public final fun copy (Ljava/nio/file/Path;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnDragAndDropPath;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnDragAndDropPath;Ljava/nio/file/Path;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnDragAndDropPath;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/nio/file/Path;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnIconNaneChange : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnIconNaneChange;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnIconNaneChange;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnIconNaneChange;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnPasteFromClipboard : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnPasteFromClipboard;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnPasteFromClipboard;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OnPasteFromClipboard;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OpenFilePicker : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OpenFilePicker;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OpenSettings : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionAction$OpenSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState$ConversionState : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource;Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource;
+	public final fun component2 ()Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;
+	public final fun copy (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource;Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState$ConversionState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState$ConversionState;Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource;Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState$ConversionState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconContent ()Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconContent;
+	public final fun getIconSource ()Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/IconSource;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState$PickerState : io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionState$PickerState;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/conversion/viewmodel/SimpleConversionViewModel : com/composegears/tiamat/TiamatViewModel, com/composegears/tiamat/Saveable {
+	public static final field $stable I
+	public fun <init> (Ljava/util/Map;)V
+	public final fun changeIconName (Ljava/lang/String;)Lkotlinx/coroutines/Job;
+	public final fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
+	public final fun getInMemorySettings ()Lio/github/composegears/valkyrie/settings/InMemorySettings;
+	public final fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun pasteFromClipboard (Ljava/lang/String;)Lkotlinx/coroutines/Job;
+	public final fun reset ()V
+	public fun saveToSaveState ()Ljava/util/Map;
+	public final fun selectPath (Ljava/nio/file/Path;)Lkotlinx/coroutines/Job;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/setup/ComposableSingletons$SimpleModeSetupScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/ComposableSingletons$SimpleModeSetupScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1338467326$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-1425999504$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1613586911$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeInputChange {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeInputChange$PackageName : io/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeInputChange {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeInputChange$PackageName;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeInputChange$PackageName;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeInputChange$PackageName;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeSetupScreenKt {
+	public static final fun getSimpleModeSetupScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeSetupState {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Z)V
+	public synthetic fun <init> (Lio/github/composegears/valkyrie/ui/domain/validation/InputState;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public final fun component2 ()Z
+	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/validation/InputState;Z)Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeSetupState;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeSetupState;Lio/github/composegears/valkyrie/ui/domain/validation/InputState;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeSetupState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNextAvailable ()Z
+	public final fun getPackageName ()Lio/github/composegears/valkyrie/ui/domain/validation/InputState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeSetupViewModel : com/composegears/tiamat/TiamatViewModel {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun onValueChange (Lio/github/composegears/valkyrie/ui/screen/mode/simple/setup/SimpleModeInputChange;)Lkotlinx/coroutines/Job;
+	public final fun saveSettings ()V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/mode/simple/setup/util/PackageTooltipContentKt {
+	public static final fun buildPackageHighlight (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ldev/snipme/highlights/Highlights;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/preview/CodePreviewScreenKt {
+	public static final fun getCodePreviewScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/preview/ComposableSingletons$CodePreviewScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/preview/ComposableSingletons$CodePreviewScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-633909861$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/ComposableSingletons$SettingsScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/ComposableSingletons$SettingsScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1484629124$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/ExportSettings {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZZZIZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
+	public final fun component2 ()Z
+	public final fun component3 ()Z
+	public final fun component4 ()Z
+	public final fun component5 ()Z
+	public final fun component6 ()I
+	public final fun component7 ()Z
+	public final fun component8 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
+	public final fun copy (Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZZZIZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;)Lio/github/composegears/valkyrie/ui/screen/settings/ExportSettings;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/ExportSettings;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZZZIZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/ExportSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddTrailingComma ()Z
+	public final fun getGeneratePreview ()Z
+	public final fun getIndentSize ()I
+	public final fun getOutputFormat ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
+	public final fun getPreviewAnnotationType ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
+	public final fun getUseComposeColors ()Z
+	public final fun getUseExplicitMode ()Z
+	public final fun getUseFlatPackage ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/GeneralSettings {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;Lio/github/composegears/valkyrie/ui/domain/model/Mode;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconPackDestination ()Ljava/lang/String;
+	public final fun getMode ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun getPackageName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/PreviewSettings {
+	public static final field $stable I
+	public fun <init> (ZLio/github/composegears/valkyrie/ui/domain/model/PreviewType;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public final fun copy (ZLio/github/composegears/valkyrie/ui/domain/model/PreviewType;)Lio/github/composegears/valkyrie/ui/screen/settings/PreviewSettings;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/PreviewSettings;ZLio/github/composegears/valkyrie/ui/domain/model/PreviewType;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/PreviewSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPreviewType ()Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public final fun getShowImageVectorPreview ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/SettingsScreenKt {
+	public static final fun getSettingsScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/SettingsViewModel : com/composegears/tiamat/TiamatViewModel {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun clearSettings ()V
+	public final fun getExportSettings ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun getGeneralSettings ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun getPreviewSettings ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun onAction (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction;)V
+	public final fun resetMode ()V
+}
+
+public abstract interface class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateAddTrailingComma : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateAddTrailingComma;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateAddTrailingComma;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateAddTrailingComma;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddTrailingComma ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateExplicitMode : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateExplicitMode;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateExplicitMode;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateExplicitMode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUseExplicitMode ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateFlatPackage : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateFlatPackage;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateFlatPackage;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateFlatPackage;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUseFlatPackage ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateImageVectorPreview : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateImageVectorPreview;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateImageVectorPreview;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateImageVectorPreview;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnabled ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateIndentSize : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateIndentSize;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateIndentSize;IILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateIndentSize;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIndent ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateOutputFormat : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
+	public final fun copy (Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateOutputFormat;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateOutputFormat;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateOutputFormat;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getOutputFormat ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewAnnotationType : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
+	public final fun copy (Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewAnnotationType;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewAnnotationType;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnnotationType ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewGeneration : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewGeneration;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewGeneration;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewGeneration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGenerate ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewType : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewType;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewType;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdatePreviewType;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPreviewType ()Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateUseComposeColors : io/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction {
+	public static final field $stable I
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateUseComposeColors;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateUseComposeColors;ZILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/model/SettingsAction$UpdateUseComposeColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUseComposeColor ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/AboutSettingsScreenKt {
+	public static final fun getAboutSettingsScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/ComposableSingletons$AboutSettingsScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/ComposableSingletons$AboutSettingsScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$1785901084$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1875075835$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/ComposableSingletons$GeneralSettingsScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/ComposableSingletons$GeneralSettingsScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1499044804$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-727617839$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-750138308$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-817059131$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-900031920$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$131366802$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$756074315$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$987445358$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/GeneralSettingsScreenKt {
+	public static final fun getGeneralSettingsScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$ImageVectorExportSettingsScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$ImageVectorExportSettingsScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1710925290$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-2093574463$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$IndentSizeSectionKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$IndentSizeSectionKt;
+	public fun <init> ()V
+	public final fun getLambda$-1310259422$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-203362686$idea_plugin ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$1098345901$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1839348223$idea_plugin ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$OutputFormatSectionKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$OutputFormatSectionKt;
+	public fun <init> ()V
+	public final fun getLambda$-258239475$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$PreviewAnnotationSectionKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/export/ComposableSingletons$PreviewAnnotationSectionKt;
+	public fun <init> ()V
+	public final fun getLambda$816742297$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ImageVectorExportSettingsScreenKt {
+	public static final fun getImageVectorExportSettingsScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/IndentSizeSectionKt {
+	public static final fun IndentSizeSection (ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/OutputFormatSectionKt {
+	public static final fun OutputFormatSection (Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/PreviewAnnotationSectionKt {
+	public static final fun PreviewAnnotationSection (ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ui/ComposableSingletons$SelectableCardKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/export/ui/ComposableSingletons$SelectableCardKt;
+	public fun <init> ()V
+	public final fun getLambda$1671403699$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ui/ComposableSingletons$SwitchOptionKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/export/ui/ComposableSingletons$SwitchOptionKt;
+	public fun <init> ()V
+	public final fun getLambda$-2097297197$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ui/SelectableCardKt {
+	public static final fun SelectableCard (Ljava/lang/String;Ldev/snipme/highlights/Highlights;ZLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/export/ui/SwitchOptionKt {
+	public static final fun SwitchOption (Ljava/lang/String;Ljava/lang/String;ZLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/preview/ComposableSingletons$ImageVectorPreviewSettingsScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/preview/ComposableSingletons$ImageVectorPreviewSettingsScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1397530004$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1738361489$idea_plugin ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-241296947$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-60295562$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/preview/ComposableSingletons$PreviewBgSectionKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ui/screen/settings/tabs/preview/ComposableSingletons$PreviewBgSectionKt;
+	public fun <init> ()V
+	public final fun getLambda$-1615099453$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-2131452698$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1285463004$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1333943228$idea_plugin ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$709913582$idea_plugin ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/preview/ImageVectorPreviewSettingsScreenKt {
+	public static final fun getImageVectorPreviewSettingsScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/screen/settings/tabs/preview/PreviewBgSectionKt {
+	public static final fun PreviewBgSection (Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/util/StubKt {
+	public static final fun getIR_STUB ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+}
+
+public final class io/github/composegears/valkyrie/util/ValkyrieStrings {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/util/ValkyrieStrings;
+	public final fun getString (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/util/ValkyrieStringsKt {
+	public static final fun stringResource (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/util/extension/Uuid {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/util/extension/Uuid;
+	public final fun random ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/util/extension/VirtualFileKt {
+	public static final fun isSvg (Lcom/intellij/openapi/vfs/VirtualFile;)Z
+	public static final fun isXml (Lcom/intellij/openapi/vfs/VirtualFile;)Z
+}
+

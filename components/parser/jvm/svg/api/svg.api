@@ -1,0 +1,6 @@
+public final class io/github/composegears/valkyrie/parser/jvm/svg/SvgToXmlParser {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/jvm/svg/SvgToXmlParser;
+	public final fun parse (Ljava/lang/String;)Ljava/lang/String;
+	public final fun parse (Ljava/nio/file/Path;)Ljava/lang/String;
+}
+
