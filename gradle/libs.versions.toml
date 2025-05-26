@@ -28,7 +28,8 @@ mockk = "io.mockk:mockk:1.14.2"
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.6.0"
 composeRules = "io.nlopez.compose.rules:ktlint:0.4.22"
 
-gradle-agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+gradle-agp-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
+gradle-agp-full = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 
 # Dependencies for build-logic module
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
