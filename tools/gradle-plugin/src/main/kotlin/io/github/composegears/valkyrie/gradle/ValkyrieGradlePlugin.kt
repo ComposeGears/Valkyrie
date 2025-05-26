@@ -16,7 +16,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
         val extension = extensions.create("valkyrie", ValkyrieExtension::class.java)
 
         val svgTask = tasks.register(TASK_NAME, GenerateSvgImageVectorTask::class.java) { task ->
-            task.group = "build"
+            task.group = LifecycleBasePlugin.BUILD_GROUP
             task.description = "Converts SVG files into generated ImageVector Kotlin accessor properties"
             task.svgFiles.setFrom(findSvgFiles())
             task.drawableFiles.setFrom(findDrawableFiles())
