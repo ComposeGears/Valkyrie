@@ -5,6 +5,14 @@ public final class io/github/composegears/valkyrie/ComposableSingletons$MainKt {
 	public final fun getLambda$1562354988$compose_app ()Lkotlin/jvm/functions/Function3;
 }
 
+public final class io/github/composegears/valkyrie/ComposableSingletons$ValkyrieAppKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/ComposableSingletons$ValkyrieAppKt;
+	public fun <init> ()V
+	public final fun getLambda$-1367110540$compose_app ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$-806613472$compose_app ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1544194771$compose_app ()Lkotlin/jvm/functions/Function3;
+}
+
 public final class io/github/composegears/valkyrie/MainKt {
 	public static final fun main ()V
 	public static synthetic fun main ([Ljava/lang/String;)V
@@ -12,5 +20,42 @@ public final class io/github/composegears/valkyrie/MainKt {
 
 public final class io/github/composegears/valkyrie/ValkyrieAppKt {
 	public static final fun ValkyrieApp (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/composegears/valkyrie/screen/intro/ComposableSingletons$IntroScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/screen/intro/ComposableSingletons$IntroScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1737554607$compose_app ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/screen/intro/IntroScreenKt {
+	public static final fun getIntroScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/screen/mode/simple/ComposableSingletons$SimpleConversionScreenKt {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/screen/mode/simple/ComposableSingletons$SimpleConversionScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-859100886$compose_app ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$373745612$compose_app ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/composegears/valkyrie/screen/mode/simple/SimpleConversionScreenKt {
+	public static final fun getSimpleConversionScreen ()Lcom/composegears/tiamat/NavDestination;
+}
+
+public final class io/github/composegears/valkyrie/ui/theme/LocalThemeConfig {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun isDarkTheme ()Z
+	public final fun setDarkTheme (Z)V
+	public final fun toggle ()V
+}
+
+public final class io/github/composegears/valkyrie/ui/theme/LocalThemeConfigKt {
+	public static final fun getLocalTheme ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class io/github/composegears/valkyrie/ui/theme/ValkyrieThemeKt {
+	public static final fun ValkyrieTheme (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 

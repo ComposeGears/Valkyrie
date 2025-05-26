@@ -162,7 +162,7 @@ public final class io/github/composegears/valkyrie/service/PersistentSettings$Va
 	public final fun getIconPackName ()Ljava/lang/String;
 	public final fun getIconPackPackage ()Ljava/lang/String;
 	public final fun getIndentSize ()I
-	public final fun getMode ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun getMode ()Lio/github/composegears/valkyrie/shared/Mode;
 	public final fun getNestedPacks ()Ljava/lang/String;
 	public final fun getOutputFormat ()Ljava/lang/String;
 	public final fun getPackageName ()Ljava/lang/String;
@@ -179,7 +179,7 @@ public final class io/github/composegears/valkyrie/service/PersistentSettings$Va
 	public final fun setIconPackName (Ljava/lang/String;)V
 	public final fun setIconPackPackage (Ljava/lang/String;)V
 	public final fun setIndentSize (I)V
-	public final fun setMode (Lio/github/composegears/valkyrie/ui/domain/model/Mode;)V
+	public final fun setMode (Lio/github/composegears/valkyrie/shared/Mode;)V
 	public final fun setNestedPacks (Ljava/lang/String;)V
 	public final fun setOutputFormat (Ljava/lang/String;)V
 	public final fun setPackageName (Ljava/lang/String;)V
@@ -210,8 +210,8 @@ public final class io/github/composegears/valkyrie/settings/InMemorySettingsKt {
 
 public final class io/github/composegears/valkyrie/settings/ValkyriesSettings {
 	public static final field $stable I
-	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZ)V
-	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public fun <init> (Lio/github/composegears/valkyrie/shared/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZ)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/shared/Mode;
 	public final fun component10 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
 	public final fun component11 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
 	public final fun component12 ()Z
@@ -228,8 +228,8 @@ public final class io/github/composegears/valkyrie/settings/ValkyriesSettings {
 	public final fun component7 ()Ljava/lang/String;
 	public final fun component8 ()Ljava/util/List;
 	public final fun component9 ()Z
-	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZ)Lio/github/composegears/valkyrie/settings/ValkyriesSettings;
-	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;Lio/github/composegears/valkyrie/ui/domain/model/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZILjava/lang/Object;)Lio/github/composegears/valkyrie/settings/ValkyriesSettings;
+	public final fun copy (Lio/github/composegears/valkyrie/shared/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZ)Lio/github/composegears/valkyrie/settings/ValkyriesSettings;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/settings/ValkyriesSettings;Lio/github/composegears/valkyrie/shared/Mode;Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZIZZZZILjava/lang/Object;)Lio/github/composegears/valkyrie/settings/ValkyriesSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddTrailingComma ()Z
 	public final fun getFlatPackage ()Z
@@ -238,7 +238,7 @@ public final class io/github/composegears/valkyrie/settings/ValkyriesSettings {
 	public final fun getIconPackName ()Ljava/lang/String;
 	public final fun getIconPackPackage ()Ljava/lang/String;
 	public final fun getIndentSize ()I
-	public final fun getMode ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun getMode ()Lio/github/composegears/valkyrie/shared/Mode;
 	public final fun getNestedPacks ()Ljava/util/List;
 	public final fun getOutputFormat ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
 	public final fun getPackageName ()Ljava/lang/String;
@@ -341,15 +341,6 @@ public abstract interface class io/github/composegears/valkyrie/ui/domain/ParamU
 	public abstract fun invoke (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class io/github/composegears/valkyrie/ui/domain/model/Mode : java/lang/Enum {
-	public static final field IconPack Lio/github/composegears/valkyrie/ui/domain/model/Mode;
-	public static final field Simple Lio/github/composegears/valkyrie/ui/domain/model/Mode;
-	public static final field Unspecified Lio/github/composegears/valkyrie/ui/domain/model/Mode;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/domain/model/Mode;
-	public static fun values ()[Lio/github/composegears/valkyrie/ui/domain/model/Mode;
-}
-
 public final class io/github/composegears/valkyrie/ui/domain/model/PreviewType : java/lang/Enum {
 	public static final field Auto Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
 	public static final field Black Lio/github/composegears/valkyrie/ui/domain/model/PreviewType;
@@ -441,11 +432,6 @@ public final class io/github/composegears/valkyrie/ui/extension/MutableStateFlow
 
 public final class io/github/composegears/valkyrie/ui/extension/StringKt {
 	public static final fun or (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-}
-
-public final class io/github/composegears/valkyrie/ui/foundation/ColorKt {
-	public static final fun dim-8_81llA (J)J
-	public static final fun disabled-8_81llA (J)J
 }
 
 public final class io/github/composegears/valkyrie/ui/foundation/ComposableSingletons$DragAndDropBoxKt {
@@ -580,10 +566,6 @@ public final class io/github/composegears/valkyrie/ui/foundation/PixelGridKt {
 	public static final fun PixelGrid-rAjV9yQ (Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/composegears/valkyrie/ui/foundation/RowKt {
-	public static final fun CenterVerticalRow (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/Arrangement$Horizontal;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
-}
-
 public final class io/github/composegears/valkyrie/ui/foundation/ScrollableTabRowKt {
 	public static final fun ScrollableTabRow (Ljava/util/List;ILandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
 }
@@ -605,14 +587,6 @@ public final class io/github/composegears/valkyrie/ui/foundation/SnackbarKt {
 
 public abstract interface class io/github/composegears/valkyrie/ui/foundation/SnackbarManager {
 	public abstract fun show (Ljava/lang/String;)V
-}
-
-public final class io/github/composegears/valkyrie/ui/foundation/SpacerKt {
-	public static final fun HorizontalSpacer-uFdPcIQ (Landroidx/compose/foundation/layout/RowScope;FLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
-	public static final fun SizeSpacer--orJrPs (FLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
-	public static final fun VerticalSpacer-uFdPcIQ (Landroidx/compose/foundation/layout/ColumnScope;FLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
-	public static final fun WeightSpacer (Landroidx/compose/foundation/layout/ColumnScope;Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)V
-	public static final fun WeightSpacer (Landroidx/compose/foundation/layout/RowScope;Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/composegears/valkyrie/ui/foundation/TextWithIconKt {
@@ -810,14 +784,6 @@ public final class io/github/composegears/valkyrie/ui/foundation/icons/KotlinLog
 
 public final class io/github/composegears/valkyrie/ui/foundation/icons/PlayForwardKt {
 	public static final fun getPlayForward (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/ui/foundation/icons/PluginIconKt {
-	public static final fun getPluginIcon (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/ui/foundation/icons/SettingsKt {
-	public static final fun getSettings (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
 public final class io/github/composegears/valkyrie/ui/foundation/icons/VisibilityKt {
@@ -2092,15 +2058,15 @@ public final class io/github/composegears/valkyrie/ui/screen/settings/ExportSett
 
 public final class io/github/composegears/valkyrie/ui/screen/settings/GeneralSettings {
 	public static final field $stable I
-	public fun <init> (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public fun <init> (Lio/github/composegears/valkyrie/shared/Mode;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/shared/Mode;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Lio/github/composegears/valkyrie/ui/domain/model/Mode;Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;
-	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;Lio/github/composegears/valkyrie/ui/domain/model/Mode;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;
+	public final fun copy (Lio/github/composegears/valkyrie/shared/Mode;Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;Lio/github/composegears/valkyrie/shared/Mode;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/ui/screen/settings/GeneralSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIconPackDestination ()Ljava/lang/String;
-	public final fun getMode ()Lio/github/composegears/valkyrie/ui/domain/model/Mode;
+	public final fun getMode ()Lio/github/composegears/valkyrie/shared/Mode;
 	public final fun getPackageName ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
