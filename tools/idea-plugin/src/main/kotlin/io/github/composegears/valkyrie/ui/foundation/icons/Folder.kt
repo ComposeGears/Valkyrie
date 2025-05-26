@@ -1,17 +1,31 @@
 package io.github.composegears.valkyrie.ui.foundation.icons
 
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.materialPath
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
 val ValkyrieIcons.Folder: ImageVector
     get() {
-        if (_folder != null) {
-            return _folder!!
+        if (_Folder != null) {
+            return _Folder!!
         }
-        _folder = materialIcon(name = "Folder") {
-            materialPath {
+        _Folder = ImageVector.Builder(
+            name = "Folder",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            path(
+                fill = SolidColor(Color.Black),
+                strokeLineWidth = 1f,
+                strokeLineJoin = StrokeJoin.Bevel,
+                strokeLineMiter = 1f,
+            ) {
                 moveTo(9.17f, 6.0f)
                 lineToRelative(2.0f, 2.0f)
                 horizontalLineTo(20.0f)
@@ -32,9 +46,10 @@ val ValkyrieIcons.Folder: ImageVector
                 lineToRelative(-2.0f, -2.0f)
                 close()
             }
-        }
-        return _folder!!
+        }.build()
+
+        return _Folder!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _folder: ImageVector? = null
+private var _Folder: ImageVector? = null

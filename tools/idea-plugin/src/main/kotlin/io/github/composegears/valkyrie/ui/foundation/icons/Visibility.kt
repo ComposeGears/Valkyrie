@@ -1,17 +1,31 @@
 package io.github.composegears.valkyrie.ui.foundation.icons
 
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.materialPath
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
 val ValkyrieIcons.Visibility: ImageVector
     get() {
-        if (_visibility != null) {
-            return _visibility!!
+        if (_Visibility != null) {
+            return _Visibility!!
         }
-        _visibility = materialIcon(name = "Filled.Visibility") {
-            materialPath {
+        _Visibility = ImageVector.Builder(
+            name = "Filled.Visibility",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            path(
+                fill = SolidColor(Color.Black),
+                strokeLineWidth = 1f,
+                strokeLineJoin = StrokeJoin.Bevel,
+                strokeLineMiter = 1f,
+            ) {
                 moveTo(12.0f, 4.5f)
                 curveTo(7.0f, 4.5f, 2.73f, 7.61f, 1.0f, 12.0f)
                 curveToRelative(1.73f, 4.39f, 6.0f, 7.5f, 11.0f, 7.5f)
@@ -31,9 +45,10 @@ val ValkyrieIcons.Visibility: ImageVector
                 reflectiveCurveToRelative(-1.34f, -3.0f, -3.0f, -3.0f)
                 close()
             }
-        }
-        return _visibility!!
+        }.build()
+
+        return _Visibility!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _visibility: ImageVector? = null
+private var _Visibility: ImageVector? = null

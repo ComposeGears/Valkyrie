@@ -1,17 +1,32 @@
 package io.github.composegears.valkyrie.ui.foundation.icons
 
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.materialPath
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
 val ValkyrieIcons.Help: ImageVector
     get() {
-        if (_help != null) {
-            return _help!!
+        if (_Help != null) {
+            return _Help!!
         }
-        _help = materialIcon(name = "Help", autoMirror = true) {
-            materialPath {
+        _Help = ImageVector.Builder(
+            name = "Help",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+            autoMirror = true,
+        ).apply {
+            path(
+                fill = SolidColor(Color.Black),
+                strokeLineWidth = 1f,
+                strokeLineJoin = StrokeJoin.Bevel,
+                strokeLineMiter = 1f,
+            ) {
                 moveTo(12.0f, 2.0f)
                 curveTo(6.48f, 2.0f, 2.0f, 6.48f, 2.0f, 12.0f)
                 reflectiveCurveToRelative(4.48f, 10.0f, 10.0f, 10.0f)
@@ -40,9 +55,10 @@ val ValkyrieIcons.Help: ImageVector
                 curveToRelative(0.0f, 0.88f, -0.36f, 1.68f, -0.93f, 2.25f)
                 close()
             }
-        }
-        return _help!!
+        }.build()
+
+        return _Help!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _help: ImageVector? = null
+private var _Help: ImageVector? = null
