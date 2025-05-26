@@ -237,7 +237,7 @@ class ValkyrieGradlePluginTest {
         writeTestDrawables()
 
         // when
-        val result = runTaskWithConfigurationCache(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME).build()
 
         // then
         assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
@@ -271,11 +271,11 @@ class ValkyrieGradlePluginTest {
         writeTestSvgs()
 
         // First run generates the outputs
-        val result = runTaskWithConfigurationCache(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME).build()
         assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
 
         // Second run doesn't need to - no inputs have changed
-        val result2 = runTaskWithConfigurationCache(root, TASK_NAME).build()
+        val result2 = runTask(root, TASK_NAME).build()
         assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":$TASK_NAME")?.outcome)
     }
 
@@ -283,7 +283,7 @@ class ValkyrieGradlePluginTest {
         val svgDir = root.resolve("src/$sourceSet/svg")
         svgDir.mkdirs()
 
-        File(SAMPLE_SVG_DIR)
+        File(System.getProperty("test.dir.svg"))
             .listFiles()
             .orEmpty()
             .forEach { file -> file.copyTo(svgDir.resolve(file.name)) }
@@ -293,7 +293,7 @@ class ValkyrieGradlePluginTest {
         val xmlDir = root.resolve("src/$sourceSet/res/drawable")
         xmlDir.mkdirs()
 
-        File(SAMPLE_XML_DIR)
+        File(System.getProperty("test.dir.xml"))
             .listFiles()
             .orEmpty()
             .forEach { file -> file.copyTo(xmlDir.resolve(file.name)) }

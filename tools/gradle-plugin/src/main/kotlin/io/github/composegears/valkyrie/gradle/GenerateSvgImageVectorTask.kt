@@ -5,13 +5,11 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGene
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
-import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
-import java.nio.file.Path
-import javax.inject.Inject
+import java.nio.file.Path as JPath
+import kotlinx.io.files.Path as KPath
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
@@ -21,25 +19,24 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
-import org.gradle.kotlin.dsl.property
 
 @CacheableTask
-open class GenerateSvgImageVectorTask @Inject constructor(objects: ObjectFactory) : DefaultTask() {
+abstract class GenerateSvgImageVectorTask : DefaultTask() {
     @get:PathSensitive(PathSensitivity.ABSOLUTE)
     @get:InputFiles
-    val svgFiles: ConfigurableFileCollection = objects.fileCollection()
+    abstract val svgFiles: ConfigurableFileCollection
 
     @get:PathSensitive(PathSensitivity.ABSOLUTE)
     @get:InputFiles
-    val drawableFiles: ConfigurableFileCollection = objects.fileCollection()
+    abstract val drawableFiles: ConfigurableFileCollection
 
-    @get:Input val packageName: Property<String> = objects.property<String>()
+    @get:Input abstract val packageName: Property<String>
 
-    @get:Input val outputSourceSet: Property<String> = objects.property<String>()
+    @get:Input abstract val outputSourceSet: Property<String>
 
-    @get:Nested val config: Property<ValkyrieConfig> = objects.property<ValkyrieConfig>()
+    @get:Nested abstract val config: Property<ValkyrieConfig>
 
-    @get:OutputDirectory val outputDirectory: DirectoryProperty = objects.directoryProperty()
+    @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
 
     @TaskAction
     fun execute() = with(config.get()) {
@@ -51,11 +48,11 @@ open class GenerateSvgImageVectorTask @Inject constructor(objects: ObjectFactory
         // e.g. "<project-root>/build/generated/sources/valkyrie/main"
         val sourceSetDirectory = outputDirectory.resolve(outputSourceSet.get())
 
-        val generatedFiles = arrayListOf<Path>()
+        val generatedFiles = arrayListOf<JPath>()
         var fileIndex = 0
 
         (svgFiles + drawableFiles).files.forEach { file ->
-            val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, file.toIOPath())
+            val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, KPath(file.absolutePath))
             val config = ImageVectorGeneratorConfig(
                 packageName = packageName,
                 iconPackPackage = packageName,
