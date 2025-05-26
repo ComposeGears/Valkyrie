@@ -1,7 +1,11 @@
 package io.github.composegears.valkyrie.gradle
 
 import io.github.composegears.valkyrie.gradle.GenerateSvgImageVectorTask.Companion.TASK_NAME
-import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import kotlin.io.path.name
+import kotlin.io.path.writeText
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import org.gradle.api.internal.project.DefaultProject
@@ -12,17 +16,16 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 
 class ValkyrieGradlePluginTest {
-    @TempDir lateinit var root: File
+    @TempDir lateinit var root: Path
 
     private lateinit var project: DefaultProject
 
     @BeforeEach
     fun before() {
-        root.writeLibsTomlFile()
         root.writeSettingsFile()
         project = ProjectBuilder
             .builder()
-            .withProjectDir(root)
+            .withProjectDir(root.toFile())
             .build()
             as DefaultProject
     }
@@ -33,8 +36,8 @@ class ValkyrieGradlePluginTest {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    alias(libs.plugins.kotlinAndroid)
-                    alias(libs.plugins.agpLib)
+                    kotlin("android")
+                    id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
 
@@ -59,7 +62,7 @@ class ValkyrieGradlePluginTest {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    alias(libs.plugins.kotlinJvm)
+                    kotlin("jvm")
                     id("io.github.composegears.valkyrie")
                 }
             """.trimIndent(),
@@ -79,7 +82,7 @@ class ValkyrieGradlePluginTest {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    alias(libs.plugins.kotlinJvm)
+                    kotlin("jvm")
                     id("io.github.composegears.valkyrie")
                 }
 
@@ -103,7 +106,7 @@ class ValkyrieGradlePluginTest {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    alias(libs.plugins.kotlinJvm)
+                    kotlin("jvm")
                     id("io.github.composegears.valkyrie")
                 }
 
@@ -136,7 +139,7 @@ class ValkyrieGradlePluginTest {
                 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 
                 plugins {
-                    alias(libs.plugins.kotlinJvm)
+                    kotlin("jvm")
                     id("io.github.composegears.valkyrie")
                 }
 
@@ -185,8 +188,8 @@ class ValkyrieGradlePluginTest {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    alias(libs.plugins.kotlinMultiplatform)
-                    alias(libs.plugins.agpLib)
+                    kotlin("multiplatform")
+                    id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
 
@@ -222,8 +225,8 @@ class ValkyrieGradlePluginTest {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    alias(libs.plugins.kotlinAndroid)
-                    alias(libs.plugins.agpLib)
+                    kotlin("android")
+                    id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
 
@@ -255,8 +258,8 @@ class ValkyrieGradlePluginTest {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    alias(libs.plugins.kotlinAndroid)
-                    alias(libs.plugins.agpLib)
+                    kotlin("android")
+                    id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
 
@@ -280,22 +283,18 @@ class ValkyrieGradlePluginTest {
     }
 
     private fun writeTestSvgs(sourceSet: String = "main") {
-        val svgDir = root.resolve("src/$sourceSet/svg")
-        svgDir.mkdirs()
+        val destDir = root.resolve("src/$sourceSet/svg")
+        Files.createDirectories(destDir)
 
-        File(System.getProperty("test.dir.svg"))
-            .listFiles()
-            .orEmpty()
-            .forEach { file -> file.copyTo(svgDir.resolve(file.name)) }
+        val sourceDir = Paths.get(System.getProperty("test.dir.svg"))
+        Files.list(sourceDir).forEach { p -> Files.copy(p, destDir.resolve(p.name)) }
     }
 
     private fun writeTestDrawables(sourceSet: String = "main") {
-        val xmlDir = root.resolve("src/$sourceSet/res/drawable")
-        xmlDir.mkdirs()
+        val destDir = root.resolve("src/$sourceSet/res/drawable")
+        Files.createDirectories(destDir)
 
-        File(System.getProperty("test.dir.xml"))
-            .listFiles()
-            .orEmpty()
-            .forEach { file -> file.copyTo(xmlDir.resolve(file.name)) }
+        val sourceDir = Paths.get(System.getProperty("test.dir.xml"))
+        Files.list(sourceDir).forEach { p -> Files.copy(p, destDir.resolve(p.name)) }
     }
 }

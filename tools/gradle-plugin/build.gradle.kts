@@ -4,6 +4,7 @@ plugins {
 }
 
 tasks.validatePlugins {
+    // TODO: https://github.com/gradle/gradle/issues/22600
     enableStricterValidation = true
 }
 
@@ -35,15 +36,25 @@ tasks.test {
     systemProperty("test.dir.svg", sharedTestResourcesDir("svg"))
     systemProperty("test.dir.xml", sharedTestResourcesDir("xml"))
 
-    // TODO: Set up test matrix for different gradle/agp/kotlin version combos?
-    systemProperty("test.version.agp", libs.versions.agp.get().toString())
-    systemProperty("test.version.kotlin", libs.versions.kotlin.get().toString())
-    systemProperty("test.version.gradle", "8.14.1")
+    // TODO: Set up tests to run for different gradle versions?
+    systemProperty("test.version.gradle", GradleVersion.current().version)
+}
+
+// Adapted from https://github.com/GradleUp/shadow/blob/1d7b0863fed3126bf376f11d563e9176de176cd3/build.gradle.kts#L63-L65
+// Allows gradle test cases to use the same classpath as the parent build - meaning we don't need to specify versions
+// when loading plugins into test projects.
+val testPluginClasspath by configurations.registering {
+    isCanBeResolved = true
+}
+
+tasks.pluginUnderTestMetadata {
+    // Plugins used in tests could be resolved in classpath.
+    pluginClasspath.from(testPluginClasspath)
 }
 
 dependencies {
-    implementation(libs.gradle.agp.api)
-    implementation(libs.kotlin.gradle.plugin)
+    compileOnly(libs.gradle.agp)
+    compileOnly(libs.kotlin.gradle.plugin)
 
     api(projects.components.extensions)
     api(projects.components.generator.jvm.iconpack)
@@ -51,8 +62,11 @@ dependencies {
     api(projects.components.ir)
     api(projects.components.parser.unified)
 
+    testPluginClasspath(libs.gradle.agp)
+    testPluginClasspath(libs.kotlin.gradle.plugin)
+
     testImplementation(gradleTestKit())
-    testImplementation(libs.gradle.agp.full)
+    testImplementation(libs.gradle.agp)
     testImplementation(libs.kotlin.gradle.plugin)
     testImplementation(libs.junit5.jupiter)
     testImplementation(libs.kotlin.test)
