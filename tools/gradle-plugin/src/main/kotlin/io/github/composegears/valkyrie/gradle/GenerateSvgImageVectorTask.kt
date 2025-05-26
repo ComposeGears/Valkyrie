@@ -51,22 +51,23 @@ abstract class GenerateSvgImageVectorTask : DefaultTask() {
         val generatedFiles = arrayListOf<JPath>()
         var fileIndex = 0
 
+        val config = ImageVectorGeneratorConfig(
+            packageName = packageName,
+            iconPackPackage = packageName,
+            packName = iconPackName,
+            nestedPackName = nestedPackName,
+            outputFormat = outputFormat,
+            useComposeColors = useComposeColors,
+            generatePreview = generatePreview,
+            previewAnnotationType = previewAnnotationType,
+            useFlatPackage = useFlatPackage,
+            useExplicitMode = useExplicitMode,
+            addTrailingComma = addTrailingComma,
+            indentSize = indentSize,
+        )
+
         (svgFiles + drawableFiles).files.forEach { file ->
             val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, KPath(file.absolutePath))
-            val config = ImageVectorGeneratorConfig(
-                packageName = packageName,
-                iconPackPackage = packageName,
-                packName = iconPackName,
-                nestedPackName = nestedPackName,
-                outputFormat = outputFormat,
-                useComposeColors = useComposeColors,
-                generatePreview = generatePreview,
-                previewAnnotationType = previewAnnotationType,
-                useFlatPackage = useFlatPackage,
-                useExplicitMode = useExplicitMode,
-                addTrailingComma = addTrailingComma,
-                indentSize = indentSize,
-            )
             val vectorSpecOutput = ImageVectorGenerator.convert(
                 vector = parseOutput.irImageVector,
                 iconName = parseOutput.iconName,
