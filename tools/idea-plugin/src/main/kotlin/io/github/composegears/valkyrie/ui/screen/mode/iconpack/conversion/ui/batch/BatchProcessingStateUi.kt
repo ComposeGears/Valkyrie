@@ -16,10 +16,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
@@ -54,6 +50,9 @@ import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
+import io.github.composegears.valkyrie.ui.foundation.icons.ArrowDropDown
+import io.github.composegears.valkyrie.ui.foundation.icons.Delete
+import io.github.composegears.valkyrie.ui.foundation.icons.MoreVert
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
@@ -207,7 +206,7 @@ private fun ValidIconItem(
                 var isExpanded by rememberMutableState { false }
 
                 IconButton(
-                    imageVector = Icons.Default.MoreVert,
+                    imageVector = ValkyrieIcons.MoreVert,
                     onClick = { isExpanded = true },
                 )
                 IconActionsDropdown(
@@ -257,7 +256,7 @@ private fun BrokenIconItem(
                     },
                 )
                 IconButton(
-                    imageVector = Icons.Default.Delete,
+                    imageVector = ValkyrieIcons.Delete,
                     iconSize = 18.dp,
                     onClick = {
                         onDelete(broken.id)
@@ -283,7 +282,7 @@ private fun IconActionsDropdown(
         DropdownMenuItem(
             text = {
                 CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                    Icon(imageVector = ValkyrieIcons.Delete, contentDescription = null)
                     Text(text = "Delete")
                 }
             },
@@ -330,7 +329,7 @@ private fun PacksDropdown(
                 modifier = Modifier.graphicsLayer {
                     rotationZ = rotation
                 },
-                imageVector = Icons.Default.ArrowDropDown,
+                imageVector = ValkyrieIcons.ArrowDropDown,
                 contentDescription = null,
             )
         }

@@ -10,8 +10,6 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -30,7 +28,9 @@ import androidx.compose.ui.unit.sp
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.HorizontalSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
+import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.ui.util.dim
+import io.github.composegears.valkyrie.ui.foundation.icons.ArrowDropDown
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
@@ -72,7 +72,7 @@ fun IndentSizeSection(
                 AnimatedIndentText(indent)
                 HorizontalSpacer(12.dp)
                 Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
+                    imageVector = ValkyrieIcons.ArrowDropDown,
                     contentDescription = null,
                     modifier = Modifier.graphicsLayer {
                         rotationZ = rotateAnimation
