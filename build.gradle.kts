@@ -23,9 +23,10 @@ apiValidation {
     klib {
         enabled = true
     }
+    // App and test projects are not libraries, so we don't need to validate them.
     ignoredProjects += setOf(
+        "compose-app",
         "test",
-        "coverage",
     )
 }
 
