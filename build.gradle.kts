@@ -25,7 +25,9 @@ apiValidation {
     }
     // App and test projects are not libraries, so we don't need to validate them.
     ignoredProjects += setOf(
+        "cli",
         "compose-app",
+        "idea-plugin",
         "test",
     )
 }
