@@ -12,7 +12,7 @@ abstract class ValkyrieExtension {
     abstract val packageName: Property<String>
 
     /**
-     * When true, accessor generation will be re-run when clicking Sync in the IntelliJ IDE UI. Disabled by default.
+     * If `true`, accessor generation will be re-run when clicking Sync in the IntelliJ IDE UI. Disabled by default.
      */
     abstract val generateAtSync: Property<Boolean>
 

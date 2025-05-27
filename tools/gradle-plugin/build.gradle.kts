@@ -23,18 +23,17 @@ gradlePlugin {
     }
 }
 
-fun Project.sharedTestResourcesDir(name: String): String = project
-    .project(projects.components.test.path)
-    .layout
-    .projectDirectory
-    .dir("sharedTestResources/imagevector/$name")
-    .asFile
-    .absolutePath
+val sharedTestResourcesDir: File =
+    project(projects.components.test.path)
+        .layout
+        .projectDirectory
+        .dir("sharedTestResources/imagevector")
+        .asFile
 
 tasks.test {
     // So we can copy the shared test SVG/XML files into our test cases
-    systemProperty("test.dir.svg", sharedTestResourcesDir("svg"))
-    systemProperty("test.dir.xml", sharedTestResourcesDir("xml"))
+    systemProperty("test.dir.svg", sharedTestResourcesDir.resolve("svg"))
+    systemProperty("test.dir.xml", sharedTestResourcesDir.resolve("xml"))
 
     // TODO: Set up tests to run for different gradle versions?
     systemProperty("test.version.gradle", GradleVersion.current().version)
@@ -62,11 +61,8 @@ dependencies {
     api(projects.components.ir)
     api(projects.components.parser.unified)
 
+    testImplementation(libs.bundles.test)
+    testRuntimeOnly(libs.junit.launcher)
     testPluginClasspath(libs.agp.full)
     testPluginClasspath(libs.kotlin.gradle.plugin)
-
-    testImplementation(libs.agp.full)
-    testImplementation(libs.kotlin.gradle.plugin)
-    testImplementation(libs.junit5.jupiter)
-    testImplementation(libs.kotlin.test)
 }

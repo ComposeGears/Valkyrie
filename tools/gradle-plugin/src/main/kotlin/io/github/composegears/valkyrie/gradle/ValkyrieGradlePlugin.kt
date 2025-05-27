@@ -2,10 +2,10 @@ package io.github.composegears.valkyrie.gradle
 
 import com.android.build.api.dsl.CommonExtension
 import io.github.composegears.valkyrie.gradle.GenerateSvgImageVectorTask.Companion.TASK_NAME
-import java.io.File
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.SourceSet
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -19,8 +19,8 @@ class ValkyrieGradlePlugin : Plugin<Project> {
         val svgTask = tasks.register(TASK_NAME, GenerateSvgImageVectorTask::class.java) { task ->
             task.group = LifecycleBasePlugin.BUILD_GROUP
             task.description = "Converts SVG files into generated ImageVector Kotlin accessor properties"
-            task.svgFiles.setFrom(findSvgFiles())
-            task.drawableFiles.setFrom(findDrawableFiles())
+            task.svgFiles.conventionCompat(findSvgFiles())
+            task.drawableFiles.conventionCompat(findDrawableFiles())
             task.packageName.set(extension.packageName.orNull ?: estimatePackageNameOrThrow())
             task.config.set(extension.config)
             task.outputSourceSet.set(extension.outputSourceSet.orNull ?: estimateSourceSet())
@@ -32,7 +32,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
             // Run generation immediately if we're syncing Intellij/Android Studio - helps to speed up dev cycle
             val isIdeSyncing = System.getProperty("idea.sync.active") == "true"
             if (extension.generateAtSync.getOrElse(false) && isIdeSyncing) {
-                tasks.maybeCreate("prepareKotlinIdeaImport").dependsOn(svgTask)
+                tasks.findByName("prepareKotlinIdeaImport")?.dependsOn(svgTask)
             }
 
             // Run generation before any kind of kotlin source processing
@@ -61,17 +61,15 @@ class ValkyrieGradlePlugin : Plugin<Project> {
         SourceSet.MAIN_SOURCE_SET_NAME
     }
 
-    private fun Project.findSvgFiles(): Set<File> = layout.projectDirectory
+    private fun Project.findSvgFiles(): FileCollection = layout.projectDirectory
         .dir("src/${estimateSourceSet()}/svg")
         .asFileTree
         .filter { it.extension == "svg" }
-        .files
 
-    private fun Project.findDrawableFiles(): Set<File> = layout.projectDirectory
+    private fun Project.findDrawableFiles(): FileCollection = layout.projectDirectory
         .dir("src/${estimateSourceSet()}/res")
         .asFileTree
         .filter { it.parentFile?.name.orEmpty().contains("drawable") && it.extension == "xml" }
-        .files
 }
 
 private val NO_PACKAGE_NAME_ERROR = """

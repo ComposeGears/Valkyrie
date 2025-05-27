@@ -5,7 +5,7 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotati
 import org.gradle.api.tasks.Input
 
 /**
- * Uses the same defaults as SvgXmlToImageVectorCommand in tools/cli.
+ * Uses the same defaults as `SvgXmlToImageVectorCommand` in tools/cli.
  */
 data class ValkyrieConfig @JvmOverloads constructor(
     @get:Input var iconPackName: String = "",

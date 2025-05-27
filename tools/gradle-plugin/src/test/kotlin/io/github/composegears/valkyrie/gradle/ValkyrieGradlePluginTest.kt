@@ -1,13 +1,14 @@
 package io.github.composegears.valkyrie.gradle
 
+import assertk.assertThat
+import assertk.assertions.contains
+import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.gradle.GenerateSvgImageVectorTask.Companion.TASK_NAME
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.name
 import kotlin.io.path.writeText
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
 import org.gradle.api.internal.project.DefaultProject
 import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.testkit.runner.TaskOutcome
@@ -52,8 +53,9 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME).build()
 
         // then
-        assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
-        assertContains(result.output, "Generated 0 ImageVectors in package a.b.c")
+        assertThat(result.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        assertThat(result.output).contains("Generated 0 ImageVectors in package a.b.c")
+        assertThat(result.output).contains("Generated 0 ImageVectors in package a.b.c")
     }
 
     @Test
@@ -72,8 +74,8 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME).buildAndFail()
 
         // then
-        assertContains(result.output, "Could not create task ':$TASK_NAME'")
-        assertContains(result.output, "Couldn't automatically estimate package name")
+        assertThat(result.output).contains("Could not create task ':$TASK_NAME'")
+        assertThat(result.output).contains("Couldn't automatically estimate package name")
     }
 
     @Test
@@ -96,8 +98,8 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME).build()
 
         // then
-        assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
-        assertContains(result.output, "Generated 0 ImageVectors in package x.y.z")
+        assertThat(result.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        assertThat(result.output).contains("Generated 0 ImageVectors in package x.y.z")
     }
 
     @Test
@@ -122,12 +124,12 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME).build()
 
         // then
-        assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
-        assertContains(result.output, "Generated 4 ImageVectors in package x.y.z")
-        assertContains(result.output, "LinearGradient.kt")
-        assertContains(result.output, "RadialGradient.kt")
-        assertContains(result.output, "ClipPathGradient.kt")
-        assertContains(result.output, "LinearGradientWithStroke.kt")
+        assertThat(result.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        assertThat(result.output).contains("Generated 4 ImageVectors in package x.y.z")
+        assertThat(result.output).contains("LinearGradient.kt")
+        assertThat(result.output).contains("RadialGradient.kt")
+        assertThat(result.output).contains("ClipPathGradient.kt")
+        assertThat(result.output).contains("LinearGradientWithStroke.kt")
     }
 
     @Test
@@ -167,19 +169,19 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME).build()
 
         // then the expected files are printed to log
-        assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
-        assertContains(result.output, "Generated 4 ImageVectors in package x.y.z")
-        assertContains(result.output, "LinearGradient.kt")
-        assertContains(result.output, "RadialGradient.kt")
-        assertContains(result.output, "ClipPathGradient.kt")
-        assertContains(result.output, "LinearGradientWithStroke.kt")
+        assertThat(result.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        assertThat(result.output).contains("Generated 4 ImageVectors in package x.y.z")
+        assertThat(result.output).contains("LinearGradient.kt")
+        assertThat(result.output).contains("RadialGradient.kt")
+        assertThat(result.output).contains("ClipPathGradient.kt")
+        assertThat(result.output).contains("LinearGradientWithStroke.kt")
 
         // and the LinearGradient file is created with the right visibility, parent pack, nested pack, etc
         val linearGradientKt = project
             .fileTree(root)
             .first { it.name == "LinearGradient.kt" }
             .readText()
-        assertContains(linearGradientKt, "public val MyIconPack.MyNestedPack.LinearGradient: ImageVector")
+        assertThat(linearGradientKt).contains("public val MyIconPack.MyNestedPack.LinearGradient: ImageVector")
     }
 
     @Test
@@ -211,12 +213,12 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME).build()
 
         // then
-        assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
-        assertContains(result.output, "Generated 4 ImageVectors in package x.y.z")
-        assertContains(result.output, "LinearGradient.kt")
-        assertContains(result.output, "RadialGradient.kt")
-        assertContains(result.output, "ClipPathGradient.kt")
-        assertContains(result.output, "LinearGradientWithStroke.kt")
+        assertThat(result.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        assertThat(result.output).contains("Generated 4 ImageVectors in package x.y.z")
+        assertThat(result.output).contains("LinearGradient.kt")
+        assertThat(result.output).contains("RadialGradient.kt")
+        assertThat(result.output).contains("ClipPathGradient.kt")
+        assertThat(result.output).contains("LinearGradientWithStroke.kt")
     }
 
     @Test
@@ -243,12 +245,12 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME).build()
 
         // then
-        assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
-        assertContains(result.output, "Generated 13 ImageVectors in package x.y.z")
-        assertContains(result.output, "OnlyPath.kt")
-        assertContains(result.output, "IconWithShorthandColor.kt")
-        assertContains(result.output, "SeveralPath.kt")
-        assertContains(result.output, "AllPathParams.kt")
+        assertThat(result.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        assertThat(result.output).contains("Generated 13 ImageVectors in package x.y.z")
+        assertThat(result.output).contains("OnlyPath.kt")
+        assertThat(result.output).contains("IconWithShorthandColor.kt")
+        assertThat(result.output).contains("SeveralPath.kt")
+        assertThat(result.output).contains("AllPathParams.kt")
         // plus loads others
     }
 
@@ -275,11 +277,11 @@ class ValkyrieGradlePluginTest {
 
         // First run generates the outputs
         val result = runTask(root, TASK_NAME).build()
-        assertEquals(TaskOutcome.SUCCESS, result.task(":$TASK_NAME")?.outcome)
+        assertThat(result.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.SUCCESS)
 
         // Second run doesn't need to - no inputs have changed
         val result2 = runTask(root, TASK_NAME).build()
-        assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":$TASK_NAME")?.outcome)
+        assertThat(result2.task(":$TASK_NAME")?.outcome).isEqualTo(TaskOutcome.UP_TO_DATE)
     }
 
     private fun writeTestSvgs(sourceSet: String = "main") {
