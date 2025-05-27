@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import dev.snipme.highlights.Highlights
@@ -15,7 +16,7 @@ import dev.snipme.highlights.model.SyntaxLanguage
 import dev.snipme.highlights.model.SyntaxThemes
 import io.github.composegears.valkyrie.ui.foundation.theme.isLight
 
-fun Highlights.buildAnnotatedString() = androidx.compose.ui.text.buildAnnotatedString {
+fun Highlights.buildAnnotatedString() = buildAnnotatedString {
     append(getCode())
 
     getHighlights()
