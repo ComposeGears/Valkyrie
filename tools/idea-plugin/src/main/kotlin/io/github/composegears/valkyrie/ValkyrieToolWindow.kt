@@ -1,15 +1,8 @@
 package io.github.composegears.valkyrie
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposePanel
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.unit.toSize
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
@@ -34,30 +27,11 @@ class ValkyrieToolWindow :
         toolWindow.apply {
             setTitleActions(listOf(RefreshPluginAction()))
             addComposePanel {
-                Compose17IJSizeBugWorkaround {
-                    ValkyrieTheme(
-                        project = project,
-                        currentComponent = this,
-                    ) {
-                        CompositionLocalProvider(LocalSnackBar provides rememberSnackbarState()) {
-                            ValkyriePlugin()
-                        }
+                ValkyrieTheme(project = project, currentComponent = this) {
+                    CompositionLocalProvider(LocalSnackBar provides rememberSnackbarState()) {
+                        ValkyriePlugin()
                     }
                 }
-            }
-        }
-    }
-
-    /**
-     * Workaround until the issue with Compose 1.7 + fillMax__ + IntelliJ Panels is fixed:
-     * https://youtrack.jetbrains.com/issue/CMP-5856
-     */
-    @OptIn(ExperimentalComposeUiApi::class)
-    @Composable
-    private fun Compose17IJSizeBugWorkaround(content: @Composable () -> Unit) {
-        with(LocalDensity.current) {
-            Box(modifier = Modifier.requiredSize(LocalWindowInfo.current.containerSize.toSize().toDpSize())) {
-                content()
             }
         }
     }

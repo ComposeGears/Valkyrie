@@ -40,7 +40,7 @@ fun ClipboardEventColumn(
         modifier = modifier
             .fillMaxSize()
             .focusRequester(focusRequester)
-            .focusProperties { exit = { focusRequester } }
+            .focusProperties { onExit = { focusRequester } }
             .focusable()
             .onPointerEvent(PointerEventType.Enter) {
                 focusRequester.requestFocus()
