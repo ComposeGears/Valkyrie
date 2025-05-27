@@ -1,0 +1,73 @@
+public final class io/github/composegears/valkyrie/parser/unified/ParserType : java/lang/Enum {
+	public static final field Jvm Lio/github/composegears/valkyrie/parser/unified/ParserType;
+	public static final field Kmp Lio/github/composegears/valkyrie/parser/unified/ParserType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/ParserType;
+	public static fun values ()[Lio/github/composegears/valkyrie/parser/unified/ParserType;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/SvgXmlParser {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/unified/SvgXmlParser;
+	public final fun getAvailableParsers ()Ljava/util/List;
+	public final fun toIrImageVector (Lio/github/composegears/valkyrie/parser/unified/ParserType;Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
+	public final fun toIrImageVector (Lio/github/composegears/valkyrie/parser/unified/ParserType;Lkotlinx/io/files/Path;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/ext/PathKt {
+	public static final fun getExtension (Lkotlinx/io/files/Path;)Ljava/lang/String;
+	public static final fun isSvg (Lkotlinx/io/files/Path;)Z
+	public static final fun isXml (Lkotlinx/io/files/Path;)Z
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/ext/Path_jvmKt {
+	public static final fun toIOPath (Ljava/nio/file/Path;)Lkotlinx/io/files/Path;
+	public static final fun toJvmPath (Lkotlinx/io/files/Path;)Ljava/nio/file/Path;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/ext/StringKt {
+	public static final fun capitalized (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun isSvgExtension (Ljava/lang/String;)Z
+	public static final fun isXmlExtension (Ljava/lang/String;)Z
+	public static final fun removePrefix (Ljava/lang/String;Ljava/lang/CharSequence;)Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/model/IconParserOutput {
+	public fun <init> (Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public final fun component2 ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconName ()Ljava/lang/String;
+	public final fun getIconType ()Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public final fun getIrImageVector ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/model/IconType : java/lang/Enum {
+	public static final field Companion Lio/github/composegears/valkyrie/parser/unified/model/IconType$Companion;
+	public static final field SVG Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public static final field XML Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getExtension ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public static fun values ()[Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/model/IconType$Companion {
+	public final fun from (Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+	public final fun from (Lkotlinx/io/files/Path;)Lio/github/composegears/valkyrie/parser/unified/model/IconType;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/util/IconNameFormatter {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/unified/util/IconNameFormatter;
+	public final fun format (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/parser/unified/util/PackageExtractor {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/unified/util/PackageExtractor;
+	public final fun getFrom (Ljava/lang/String;)Ljava/lang/String;
+}
+

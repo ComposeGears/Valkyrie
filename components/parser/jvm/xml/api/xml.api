@@ -1,0 +1,15 @@
+public final class io/github/composegears/valkyrie/parser/jvm/xml/XmlToImageVectorParser {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/jvm/xml/XmlToImageVectorParser;
+	public final fun parse (Ljava/lang/String;)Lio/github/composegears/valkyrie/ir/IrImageVector;
+}
+
+public final class io/github/composegears/valkyrie/parser/jvm/xml/XmlToImageVectorParserKt {
+	public static final field PIVOT_X Ljava/lang/String;
+	public static final field PIVOT_Y Ljava/lang/String;
+	public static final field ROTATION Ljava/lang/String;
+	public static final field SCALE_X Ljava/lang/String;
+	public static final field SCALE_Y Ljava/lang/String;
+	public static final field TRANSLATE_X Ljava/lang/String;
+	public static final field TRANSLATE_Y Ljava/lang/String;
+}
+

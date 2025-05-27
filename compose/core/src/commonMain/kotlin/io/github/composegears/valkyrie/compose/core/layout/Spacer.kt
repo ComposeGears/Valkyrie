@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package io.github.composegears.valkyrie.ui.foundation
+package io.github.composegears.valkyrie.compose.core.layout
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope

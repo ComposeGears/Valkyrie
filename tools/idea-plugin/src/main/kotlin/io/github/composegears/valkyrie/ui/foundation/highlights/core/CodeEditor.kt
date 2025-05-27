@@ -38,9 +38,9 @@ import androidx.compose.ui.unit.sp
 import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.compose.core.rememberMutableIntState
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
+import io.github.composegears.valkyrie.compose.ui.util.disabled
 import io.github.composegears.valkyrie.ui.foundation.HorizontalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
-import io.github.composegears.valkyrie.ui.foundation.disabled
 
 @Composable
 fun CodeEditor(

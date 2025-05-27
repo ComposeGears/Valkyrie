@@ -1,0 +1,11 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.components.parser:common>
+final object io.github.composegears.valkyrie.parser.common/PathParser { // io.github.composegears.valkyrie.parser.common/PathParser|null[0]
+    final fun parsePathString(kotlin/String): kotlin.collections/List<io.github.composegears.valkyrie.ir/IrPathNode> // io.github.composegears.valkyrie.parser.common/PathParser.parsePathString|parsePathString(kotlin.String){}[0]
+}

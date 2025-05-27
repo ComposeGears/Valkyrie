@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_header">Welcome to Valkyrie</string>
+    <string name="intro_subheader">Choose conversion mode</string>
+    <string name="intro_card_simple_title">Simple</string>
+    <string name="intro_card_simple_description">One-click conversion from SVG/XML into ImageVector</string>
+</resources>

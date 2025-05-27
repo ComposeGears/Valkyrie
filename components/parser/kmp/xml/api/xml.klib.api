@@ -1,0 +1,11 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.components.parser.kmp:xml>
+final object io.github.composegears.valkyrie.parser.kmp.xml/XmlToImageVectorParser { // io.github.composegears.valkyrie.parser.kmp.xml/XmlToImageVectorParser|null[0]
+    final fun parse(kotlin/String): io.github.composegears.valkyrie.ir/IrImageVector // io.github.composegears.valkyrie.parser.kmp.xml/XmlToImageVectorParser.parse|parse(kotlin.String){}[0]
+}

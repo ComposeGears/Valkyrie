@@ -1,0 +1,15 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.components.parser.kmp:svg>
+final object io.github.composegears.valkyrie.parser.kmp.svg/SVGParser { // io.github.composegears.valkyrie.parser.kmp.svg/SVGParser|null[0]
+    final fun parse(kotlin/String): io.github.composegears.valkyrie.ir/IrImageVector // io.github.composegears.valkyrie.parser.kmp.svg/SVGParser.parse|parse(kotlin.String){}[0]
+}
+
+final object io.github.composegears.valkyrie.parser.kmp.svg/SvgColorParser { // io.github.composegears.valkyrie.parser.kmp.svg/SvgColorParser|null[0]
+    final fun parse(kotlin/String): io.github.composegears.valkyrie.ir/IrColor? // io.github.composegears.valkyrie.parser.kmp.svg/SvgColorParser.parse|parse(kotlin.String){}[0]
+}

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.compose.icons.idea
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
@@ -8,13 +8,13 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.Settings: ImageVector
+val ValkyrieIcons.Idea.Settings: ImageVector
     get() {
         if (_Settings != null) {
             return _Settings!!
         }
         _Settings = ImageVector.Builder(
-            name = "Settings",
+            name = "Idea.Settings",
             defaultWidth = 16.dp,
             defaultHeight = 16.dp,
             viewportWidth = 16f,

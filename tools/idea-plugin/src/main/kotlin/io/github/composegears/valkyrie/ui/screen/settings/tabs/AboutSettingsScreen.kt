@@ -27,14 +27,14 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.navDestination
+import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
+import io.github.composegears.valkyrie.compose.ui.util.dim
 import io.github.composegears.valkyrie.extensions.cast
-import io.github.composegears.valkyrie.ui.foundation.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
-import io.github.composegears.valkyrie.ui.foundation.dim
 import io.github.composegears.valkyrie.ui.foundation.icons.ExternalLink
-import io.github.composegears.valkyrie.ui.foundation.icons.PluginIcon
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberBrowser
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
@@ -55,7 +55,7 @@ private fun AboutSettingsUi() {
         ) {
             Image(
                 modifier = Modifier.size(48.dp),
-                imageVector = ValkyrieIcons.PluginIcon,
+                imageVector = ValkyrieIcons.Colored.ValkyrieLogo,
                 contentDescription = null,
             )
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {

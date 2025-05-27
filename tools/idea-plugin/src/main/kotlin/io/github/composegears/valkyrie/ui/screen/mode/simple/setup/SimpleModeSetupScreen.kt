@@ -17,6 +17,7 @@ import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.composegears.tiamat.rememberViewModel
+import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.ui.domain.validation.ErrorCriteria
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
@@ -24,7 +25,6 @@ import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.InputField
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeInputChange.PackageName

@@ -21,12 +21,12 @@ import com.composegears.tiamat.navArgsOrNull
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.navigationSlideInOut
 import com.composegears.tiamat.rememberNavController
+import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.SegmentedButton
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.VerticalSpacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ExistingPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.NewPackScreen
 

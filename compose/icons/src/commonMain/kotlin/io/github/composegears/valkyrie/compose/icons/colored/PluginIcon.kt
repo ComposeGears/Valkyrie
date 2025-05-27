@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.compose.icons.colored
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -7,13 +7,13 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.PluginIcon: ImageVector
+val ValkyrieIcons.Colored.ValkyrieLogo: ImageVector
     get() {
-        if (_PluginIcon != null) {
-            return _PluginIcon!!
+        if (_ValkyrieLogo != null) {
+            return _ValkyrieLogo!!
         }
-        _PluginIcon = ImageVector.Builder(
-            name = "PluginIcon",
+        _ValkyrieLogo = ImageVector.Builder(
+            name = "Colored.ValkyrieLogo",
             defaultWidth = 40.08.dp,
             defaultHeight = 40.08.dp,
             viewportWidth = 40.08f,
@@ -203,8 +203,8 @@ val ValkyrieIcons.PluginIcon: ImageVector
             }
         }.build()
 
-        return _PluginIcon!!
+        return _ValkyrieLogo!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _PluginIcon: ImageVector? = null
+private var _ValkyrieLogo: ImageVector? = null

@@ -1,0 +1,20 @@
+public final class io/github/composegears/valkyrie/psi/iconpack/IconPackInfo {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)Lio/github/composegears/valkyrie/psi/iconpack/IconPackInfo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/psi/iconpack/IconPackInfo;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/psi/iconpack/IconPackInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconPack ()Ljava/lang/String;
+	public final fun getNestedPacks ()Ljava/util/List;
+	public final fun getPackageName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/psi/iconpack/IconPackPsiParser {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/psi/iconpack/IconPackPsiParser;
+	public final fun extractIconPack (Ljava/nio/file/Path;Lcom/intellij/openapi/project/Project;)Lio/github/composegears/valkyrie/psi/iconpack/IconPackInfo;
+}
+

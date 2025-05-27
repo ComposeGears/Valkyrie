@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.domain.model
+package io.github.composegears.valkyrie.shared
 
 enum class Mode {
     Simple,

@@ -1,0 +1,19 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie:shared>
+final enum class io.github.composegears.valkyrie.shared/Mode : kotlin/Enum<io.github.composegears.valkyrie.shared/Mode> { // io.github.composegears.valkyrie.shared/Mode|null[0]
+    enum entry IconPack // io.github.composegears.valkyrie.shared/Mode.IconPack|null[0]
+    enum entry Simple // io.github.composegears.valkyrie.shared/Mode.Simple|null[0]
+    enum entry Unspecified // io.github.composegears.valkyrie.shared/Mode.Unspecified|null[0]
+
+    final val entries // io.github.composegears.valkyrie.shared/Mode.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.shared/Mode> // io.github.composegears.valkyrie.shared/Mode.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.shared/Mode // io.github.composegears.valkyrie.shared/Mode.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.shared/Mode> // io.github.composegears.valkyrie.shared/Mode.values|values#static(){}[0]
+}
