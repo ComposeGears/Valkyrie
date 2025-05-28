@@ -4,7 +4,7 @@ intellij = "2.6.0"
 kotlin = "2.1.21"
 
 [libraries]
-android-build-tools = "com.android.tools:sdk-common:31.10.0"
+android-build-tools = "com.android.tools:sdk-common:31.10.1"
 highlights = "dev.snipme:highlights:1.0.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.7.0"
