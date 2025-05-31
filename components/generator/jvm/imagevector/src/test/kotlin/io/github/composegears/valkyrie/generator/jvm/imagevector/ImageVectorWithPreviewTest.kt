@@ -9,14 +9,18 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-class ImageVectorWithPreviewTest {
+@ParameterizedClass
+@EnumSource(value = OutputFormat::class)
+class ImageVectorWithPreviewTest(
+    private val outputFormat: OutputFormat,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `androidx preview generation without icon pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `androidx preview generation without icon pack`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -37,9 +41,8 @@ class ImageVectorWithPreviewTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `jetbrains preview generation without icon pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `jetbrains preview generation without icon pack`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -60,9 +63,8 @@ class ImageVectorWithPreviewTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `androidx preview generation with icon pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `androidx preview generation with icon pack`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -84,9 +86,8 @@ class ImageVectorWithPreviewTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `jetbrains preview generation with icon pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `jetbrains preview generation with icon pack`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -108,9 +109,8 @@ class ImageVectorWithPreviewTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `androidx preview generation with nested pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `androidx preview generation with nested pack`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -133,9 +133,8 @@ class ImageVectorWithPreviewTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `jetbrains preview generation with nested pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `jetbrains preview generation with nested pack`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(

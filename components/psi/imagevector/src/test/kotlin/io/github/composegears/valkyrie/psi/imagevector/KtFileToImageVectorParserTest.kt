@@ -21,11 +21,16 @@ import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGr
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIcon
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedSinglePath
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-class KtFileToImageVectorParserTest {
+@ParameterizedClass
+@EnumSource(value = ParseType::class)
+class KtFileToImageVectorParserTest(
+    private val parseType: ParseType,
+) {
 
     companion object {
         @JvmField
@@ -36,9 +41,8 @@ class KtFileToImageVectorParserTest {
     private val project: Project
         get() = projectExtension.project
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `empty image vector`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `empty image vector`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "lazy/EmptyImageVector.kt",
@@ -49,9 +53,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedEmptyImageVector)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `empty paths`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `empty paths`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "lazy/EmptyPaths.kt",
@@ -62,9 +65,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedEmptyPaths)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse all path params`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse all path params`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "lazy/AllPathParams.kt",
@@ -75,7 +77,7 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedAllPathParams)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `parse material icon`() = runInEdtAndGet {
         val ktFile = project.createKtFile(from = "backing/MaterialIcon.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
@@ -83,9 +85,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedMaterialIcon)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse icon with group`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse icon with group`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "lazy/IconWithGroup.kt",
@@ -96,9 +97,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedIconWithGroup)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse single path property`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse single path property`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "lazy/SinglePath.kt",
@@ -109,9 +109,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedSinglePath)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse all group params`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse all group params`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "imagevector/kt/lazy/AllGroupParams.kt",
@@ -122,9 +121,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedAllGroupParams)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse compose color`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse compose color`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "imagevector/kt/lazy/ComposeColor.kt",
@@ -135,9 +133,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedComposeColor)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse icon with linear gradient`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse icon with linear gradient`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "imagevector/kt/backing/LinearGradient.kt",
@@ -148,9 +145,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedLinearGradient)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse icon with linear gradient and stroke`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse icon with linear gradient and stroke`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "imagevector/kt/backing/LinearGradientWithStroke.kt",
@@ -161,9 +157,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedLinearGradientWithStroke)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse linear gradient with clip path`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse linear gradient with clip path`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "imagevector/kt/lazy/ClipPathGradient.kt",
@@ -174,9 +169,8 @@ class KtFileToImageVectorParserTest {
         assertThat(imageVector).isEqualTo(ExpectedClipPathGradient)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = ParseType::class)
-    fun `parse icon with radial gradient`(parseType: ParseType) = runInEdtAndGet {
+    @Test
+    fun `parse icon with radial gradient`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
             project = project,
             pathToLazy = "imagevector/kt/backing/RadialGradient.kt",

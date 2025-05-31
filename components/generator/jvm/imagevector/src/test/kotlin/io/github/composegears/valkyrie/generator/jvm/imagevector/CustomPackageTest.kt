@@ -9,14 +9,18 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-class CustomPackageTest {
+@ParameterizedClass
+@EnumSource(value = OutputFormat::class)
+class CustomPackageTest(
+    private val outputFormat: OutputFormat,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `flat package without icon pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `flat package without icon pack`() {
         val icon = getResourcePath("imagevector/xml/ic_flat_package.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -36,9 +40,8 @@ class CustomPackageTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `flat package with icon pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `flat package with icon pack`() {
         val icon = getResourcePath("imagevector/xml/ic_flat_package.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -59,9 +62,8 @@ class CustomPackageTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `flat package with nested icon pack`(outputFormat: OutputFormat) {
+    @Test
+    fun `flat package with nested icon pack`() {
         val icon = getResourcePath("imagevector/xml/ic_flat_package.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -83,9 +85,8 @@ class CustomPackageTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `different icon pack package`(outputFormat: OutputFormat) {
+    @Test
+    fun `different icon pack package`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(

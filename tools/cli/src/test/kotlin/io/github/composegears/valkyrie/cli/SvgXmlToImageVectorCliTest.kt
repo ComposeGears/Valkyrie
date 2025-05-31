@@ -32,10 +32,15 @@ import kotlin.io.path.readText
 import kotlin.properties.Delegates
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.MethodSource
 
-class SvgXmlToImageVectorCliTest {
+@ParameterizedClass
+@MethodSource("testMatrix")
+class SvgXmlToImageVectorCliTest(
+    private val arg: Pair<CliTestType, OutputFormat>,
+) {
 
     private var tempDir: Path by Delegates.notNull()
 
@@ -49,9 +54,8 @@ class SvgXmlToImageVectorCliTest {
         tempDir.toFile().delete()
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `batch processing xml`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `batch processing xml`() {
         val (cliTestType, outputFormat) = arg
         val input = getResourcePath("imagevector/xml")
 
@@ -70,9 +74,8 @@ class SvgXmlToImageVectorCliTest {
         assertThat(resultFiles).isEqualTo(inputFiles)
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `batch processing svg`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `batch processing svg`() {
         val (cliTestType, outputFormat) = arg
         val input = getResourcePath("imagevector/svg")
 
@@ -90,9 +93,8 @@ class SvgXmlToImageVectorCliTest {
         assertThat(files.size).isEqualTo(4)
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `flat package without icon pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `flat package without icon pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_flat_package.xml",
             expectedKtName = "FlatPackage.kt",
@@ -100,9 +102,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `flat package with icon pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `flat package with icon pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_flat_package.xml",
             expectedKtName = "FlatPackage.pack.kt",
@@ -112,9 +113,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `flat package with nested icon pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `flat package with nested icon pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_flat_package.xml",
             expectedKtName = "FlatPackage.pack.nested.kt",
@@ -125,9 +125,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `generation with explicit mode`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `generation with explicit mode`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.explicit.kt",
@@ -136,9 +135,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `generation without icon pack with indent 1`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `generation without icon pack with indent 1`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.indent1.kt",
@@ -147,9 +145,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `generation without icon pack with indent 2`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `generation without icon pack with indent 2`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.indent2.kt",
@@ -158,9 +155,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `generation without icon pack with indent 3`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `generation without icon pack with indent 3`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.indent3.kt",
@@ -169,9 +165,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `generation without icon pack with indent 6`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `generation without icon pack with indent 6`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.indent6.kt",
@@ -180,9 +175,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `androidx preview generation without icon pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `androidx preview generation without icon pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.preview.androidx.kt",
@@ -192,9 +186,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `jetbrains preview generation without icon pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `jetbrains preview generation without icon pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.preview.jetbrains.kt",
@@ -204,9 +197,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `androidx preview generation with icon pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `androidx preview generation with icon pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.preview.androidx.kt",
@@ -217,9 +209,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `jetbrains preview generation with icon pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `jetbrains preview generation with icon pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.preview.jetbrains.kt",
@@ -230,9 +221,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `androidx preview generation with nested pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `androidx preview generation with nested pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.nested.preview.androidx.kt",
@@ -244,9 +234,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `jetbrains preview generation with nested pack`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `jetbrains preview generation with nested pack`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.nested.preview.jetbrains.kt",
@@ -258,9 +247,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `empty path xml`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `empty path xml`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.kt",
@@ -269,9 +257,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon only with path`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon only with path`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_only_path.xml",
             expectedKtName = "OnlyPath.kt",
@@ -279,9 +266,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with path and solid color`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with path and solid color`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_fill_color_stroke.xml",
             expectedKtName = "FillColorStroke.kt",
@@ -289,9 +275,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with path and solid color trailing`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with path and solid color trailing`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_fill_color_stroke.xml",
             expectedKtName = "FillColorStroke.trailing.kt",
@@ -301,9 +286,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with all path params`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with all path params`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_path_params.xml",
             expectedKtName = "AllPathParams.kt",
@@ -311,9 +295,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with all group params`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with all group params`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_group_params.xml",
             expectedKtName = "AllGroupParams.kt",
@@ -322,9 +305,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with several path`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with several path`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_several_path.xml",
             expectedKtName = "SeveralPath.kt",
@@ -333,9 +315,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with compose colors enabled`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with compose colors enabled`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_compose_color.xml",
             expectedKtName = "ComposeColor.kt",
@@ -344,9 +325,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with compose colors and linear gradient`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with compose colors and linear gradient`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_compose_color_linear_gradient.xml",
             expectedKtName = "ComposeColor.linear.gradient.kt",
@@ -355,9 +335,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with compose colors and radial gradient`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with compose colors and radial gradient`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_compose_color_radial_gradient.xml",
             expectedKtName = "ComposeColor.radial.gradient.kt",
@@ -366,9 +345,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with transparent fill color`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with transparent fill color`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_transparent_fill_color.xml",
             expectedKtName = "TransparentFillColor.kt",
@@ -376,9 +354,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with named arguments`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with named arguments`() {
         arg.testConversion(
             inputResource = "imagevector/xml/icon_with_named_args.xml",
             expectedKtName = "IconWithNamedArgs.kt",
@@ -386,9 +363,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `icon with shorthand color`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `icon with shorthand color`() {
         arg.testConversion(
             inputResource = "imagevector/xml/icon_with_shorthand_color.xml",
             expectedKtName = "IconWithShorthandColor.kt",
@@ -396,9 +372,8 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `svg linear gradient parsing`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `svg linear gradient parsing`() {
         arg.testConversion(
             inputResource = "imagevector/svg/ic_linear_gradient.svg",
             expectedKtName = "LinearGradient.kt",
@@ -406,27 +381,24 @@ class SvgXmlToImageVectorCliTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `svg radial gradient parsing`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `svg radial gradient parsing`() {
         arg.testConversion(
             inputResource = "imagevector/svg/ic_radial_gradient.svg",
             expectedKtName = "RadialGradient.kt",
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `svg linear gradient with stroke parsing`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `svg linear gradient with stroke parsing`() {
         arg.testConversion(
             inputResource = "imagevector/svg/ic_linear_gradient_with_stroke.svg",
             expectedKtName = "LinearGradientWithStroke.kt",
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("testMatrix")
-    fun `svg with complex gradient`(arg: Pair<CliTestType, OutputFormat>) {
+    @Test
+    fun `svg with complex gradient`() {
         arg.testConversion(
             inputResource = "imagevector/svg/ic_clip_path_gradient.svg",
             expectedKtName = "ClipPathGradient.kt",

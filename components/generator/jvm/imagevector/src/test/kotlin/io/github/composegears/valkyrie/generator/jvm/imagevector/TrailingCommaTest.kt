@@ -9,14 +9,18 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-class TrailingCommaTest {
+@ParameterizedClass
+@EnumSource(value = OutputFormat::class)
+class TrailingCommaTest(
+    private val outputFormat: OutputFormat,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `icon with path and solid color`(outputFormat: OutputFormat) {
+    @Test
+    fun `icon with path and solid color`() {
         val icon = getResourcePath("imagevector/xml/ic_fill_color_stroke.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -37,9 +41,8 @@ class TrailingCommaTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `icon with all group params trailing`(outputFormat: OutputFormat) {
+    @Test
+    fun `icon with all group params trailing`() {
         val icon = getResourcePath("imagevector/xml/ic_all_group_params.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(

@@ -9,14 +9,18 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-class ImageVectorWithIndentTest {
+@ParameterizedClass
+@EnumSource(value = OutputFormat::class)
+class ImageVectorWithIndentTest(
+    private val outputFormat: OutputFormat,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `generation without icon pack with indent 1`(outputFormat: OutputFormat) {
+    @Test
+    fun `generation without icon pack with indent 1`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -36,9 +40,8 @@ class ImageVectorWithIndentTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `generation without icon pack with indent 2`(outputFormat: OutputFormat) {
+    @Test
+    fun `generation without icon pack with indent 2`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -58,9 +61,8 @@ class ImageVectorWithIndentTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `generation without icon pack with indent 3`(outputFormat: OutputFormat) {
+    @Test
+    fun `generation without icon pack with indent 3`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -80,9 +82,8 @@ class ImageVectorWithIndentTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `generation without icon pack with indent 6`(outputFormat: OutputFormat) {
+    @Test
+    fun `generation without icon pack with indent 6`() {
         val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
