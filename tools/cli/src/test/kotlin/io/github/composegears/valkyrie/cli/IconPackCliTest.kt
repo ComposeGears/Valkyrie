@@ -19,14 +19,18 @@ import kotlin.io.path.readText
 import kotlin.properties.Delegates
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-class IconPackCliTest {
+@ParameterizedClass
+@EnumSource(value = CliTestType::class)
+class IconPackCliTest(
+    private val cliTestType: CliTestType,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate icon pack`(cliTestType: CliTestType) {
+    @Test
+    fun `generate icon pack`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.kt",
@@ -34,9 +38,8 @@ class IconPackCliTest {
         )
     }
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate icon pack explicit mode`(cliTestType: CliTestType) {
+    @Test
+    fun `generate icon pack explicit mode`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.explicit.kt",
@@ -45,9 +48,8 @@ class IconPackCliTest {
         )
     }
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate nested packs`(cliTestType: CliTestType) {
+    @Test
+    fun `generate nested packs`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.L2.kt",
@@ -55,9 +57,8 @@ class IconPackCliTest {
         )
     }
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate nested packs explicit`(cliTestType: CliTestType) {
+    @Test
+    fun `generate nested packs explicit`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.explicit.kt",
@@ -66,9 +67,8 @@ class IconPackCliTest {
         )
     }
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate nested indent 1 packs`(cliTestType: CliTestType) {
+    @Test
+    fun `generate nested indent 1 packs`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent1.kt",
@@ -77,9 +77,8 @@ class IconPackCliTest {
         )
     }
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate nested indent 2 packs`(cliTestType: CliTestType) {
+    @Test
+    fun `generate nested indent 2 packs`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent2.kt",
@@ -88,9 +87,8 @@ class IconPackCliTest {
         )
     }
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate nested indent 3 packs`(cliTestType: CliTestType) {
+    @Test
+    fun `generate nested indent 3 packs`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent3.kt",
@@ -99,9 +97,8 @@ class IconPackCliTest {
         )
     }
 
-    @ParameterizedTest
-    @EnumSource(value = CliTestType::class)
-    fun `generate nested indent 6 packs`(cliTestType: CliTestType) {
+    @Test
+    fun `generate nested indent 6 packs`() {
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent6.kt",

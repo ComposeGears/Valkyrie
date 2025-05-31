@@ -9,14 +9,18 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType.SVG
-import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-class SvgWithGradientToImageVectorTest {
+@ParameterizedClass
+@EnumSource(value = OutputFormat::class)
+class SvgWithGradientToImageVectorTest(
+    private val outputFormat: OutputFormat,
+) {
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `svg linear gradient parsing`(outputFormat: OutputFormat) {
+    @Test
+    fun `svg linear gradient parsing`() {
         val icon = getResourcePath("imagevector/svg/ic_linear_gradient.svg").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -33,9 +37,8 @@ class SvgWithGradientToImageVectorTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `svg radial gradient parsing`(outputFormat: OutputFormat) {
+    @Test
+    fun `svg radial gradient parsing`() {
         val icon = getResourcePath("imagevector/svg/ic_radial_gradient.svg").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -52,9 +55,8 @@ class SvgWithGradientToImageVectorTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `svg linear gradient with stroke parsing`(outputFormat: OutputFormat) {
+    @Test
+    fun `svg linear gradient with stroke parsing`() {
         val icon = getResourcePath("imagevector/svg/ic_linear_gradient_with_stroke.svg").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
@@ -71,9 +73,8 @@ class SvgWithGradientToImageVectorTest {
         assertThat(output).isEqualTo(expected)
     }
 
-    @ParameterizedTest
-    @EnumSource(value = OutputFormat::class)
-    fun `svg with complex gradient`(outputFormat: OutputFormat) {
+    @Test
+    fun `svg with complex gradient`() {
         val icon = getResourcePath("imagevector/svg/ic_clip_path_gradient.svg").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
         val output = ImageVectorGenerator.convert(
