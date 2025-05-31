@@ -39,6 +39,8 @@ class IconNameFormatterTest {
             IconTest(fileName = "fitContent", expected = "FitContent"),
             IconTest(fileName = "fitContent_dark", expected = "FitContentDark"),
             IconTest(fileName = "stub@20x20", expected = "Stub20X20"),
+            IconTest(fileName = "comment add-03.svg", expected = "CommentAdd03"),
+            IconTest(fileName = "image-flip  -horizontal.svg", expected = "ImageFlipHorizontal"),
         )
 
         fileNames.forEach {
