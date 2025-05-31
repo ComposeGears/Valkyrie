@@ -14,12 +14,10 @@ import io.github.composegears.valkyrie.cli.common.CommandLineTestRunner
 import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourceText
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
-import kotlin.io.path.createTempDirectory
+import kotlin.io.path.listDirectoryEntries
 import kotlin.io.path.readText
-import kotlin.properties.Delegates
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
@@ -28,6 +26,8 @@ import org.junit.jupiter.params.provider.EnumSource
 class IconPackCliTest(
     private val cliTestType: CliTestType,
 ) {
+    @TempDir
+    lateinit var tempDir: Path
 
     @Test
     fun `generate icon pack`() {
@@ -125,8 +125,7 @@ class IconPackCliTest(
             ),
         )
 
-        val files = tempDir.toFile().listFiles().orEmpty()
-        assertThat(files.size).isEqualTo(1)
+        assertThat(tempDir.listDirectoryEntries().size).isEqualTo(1)
 
         val result = tempDir.resolve("ValkyrieIcons.kt").readText()
         val expected = getResourceText(expectedResource)
@@ -139,24 +138,6 @@ class IconPackCliTest(
         when (cliTestType) {
             DirectMain -> main(*commands.toTypedArray())
             JarTerminal -> CommandLineTestRunner(commands).run()
-        }
-    }
-
-    companion object {
-        // Workaround for https://github.com/junit-team/junit5/issues/2811.
-        @JvmStatic
-        private var tempDir: Path by Delegates.notNull()
-
-        @JvmStatic
-        @BeforeAll
-        fun before() {
-            tempDir = createTempDirectory()
-        }
-
-        @JvmStatic
-        @AfterAll
-        fun after() {
-            tempDir.toFile().delete()
         }
     }
 }
