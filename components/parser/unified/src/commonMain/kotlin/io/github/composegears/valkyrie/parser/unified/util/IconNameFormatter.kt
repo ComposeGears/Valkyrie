@@ -17,6 +17,6 @@ object IconNameFormatter {
         .replace(invalidCharacterRegex, "_")
         .split(camelCaseRegex)
         .joinToString(separator = "") { it.capitalized() }
-        .split("_", "-")
+        .split("_", " ", "-")
         .joinToString(separator = "") { it.capitalized() }
 }
