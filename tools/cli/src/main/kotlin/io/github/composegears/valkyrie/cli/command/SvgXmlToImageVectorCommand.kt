@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import io.github.composegears.valkyrie.cli.ext.booleanOption
+import io.github.composegears.valkyrie.cli.ext.booleanOrNullOption
 import io.github.composegears.valkyrie.cli.ext.intOption
 import io.github.composegears.valkyrie.cli.ext.outputError
 import io.github.composegears.valkyrie.cli.ext.outputInfo
@@ -109,6 +110,11 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
         default = 4,
     )
 
+    private val autoMirror by booleanOrNullOption(
+        "--auto-mirror",
+        help = "Force add \"autoMirror=true\" or \"autoMirror=false\" option to generated ImageVector",
+    )
+
     private val verbose by option(
         "-v",
         "--verbose",
@@ -134,6 +140,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
             indentSize = indentSize,
+            autoMirror = autoMirror,
             verbose = verbose,
         )
     }
@@ -178,6 +185,7 @@ private fun svgXml2ImageVector(
     useExplicitMode: Boolean,
     addTrailingComma: Boolean,
     indentSize: Int,
+    autoMirror: Boolean?,
     verbose: Boolean,
 ) {
     val iconPaths = when {
@@ -211,7 +219,13 @@ private fun svgXml2ImageVector(
             if (verbose) {
                 outputInfo("process = $path")
             }
-            val parseOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = path.toIOPath())
+            val parseOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = path.toIOPath()).run {
+                when {
+                    autoMirror != null -> copy(irImageVector = irImageVector.copy(autoMirror = autoMirror))
+                    else -> this
+                }
+            }
+
             val config = ImageVectorGeneratorConfig(
                 packageName = packageName,
                 iconPackPackage = packageName,
