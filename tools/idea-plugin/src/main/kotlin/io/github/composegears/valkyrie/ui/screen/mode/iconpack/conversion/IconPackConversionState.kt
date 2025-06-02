@@ -12,7 +12,7 @@ sealed interface IconPackConversionState {
 
         data class IconPackCreationState(
             val icons: List<BatchIcon>,
-            val exportEnabled: Boolean,
+            val exportIssues: Map<ValidationError, List<IconName>>,
         ) : BatchProcessing
 
         data object ImportValidationState : BatchProcessing
@@ -27,6 +27,7 @@ sealed interface BatchIcon {
     data class Broken(
         override val id: IconId = IconId(id = Uuid.random()),
         override val iconName: IconName,
+        val iconSource: IconSource,
     ) : BatchIcon
 
     data class Valid(
@@ -61,4 +62,17 @@ sealed interface IconPack {
         val nestedPacks: List<String>,
         override val currentNestedPack: String,
     ) : IconPack
+}
+
+enum class IconSource {
+    File,
+    Clipboard,
+}
+
+enum class ValidationError {
+    FailedToParseFile,
+    FailedToParseClipboard,
+    IconNameEmpty,
+    IconNameContainsSpace,
+    HasDuplicates,
 }

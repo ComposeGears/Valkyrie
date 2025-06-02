@@ -8,6 +8,11 @@ public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$C
 	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;
 }
 
+public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Filled {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Filled;
+}
+
 public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea {
 	public static final field $stable I
 	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;
@@ -20,6 +25,14 @@ public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$O
 
 public final class io/github/composegears/valkyrie/compose/icons/colored/PluginIconKt {
 	public static final fun getValkyrieLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/compose/icons/filled/HelpKt {
+	public static final fun getHelp (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Filled;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/compose/icons/idea/NotificationsKt {
+	public static final fun getNotifications (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/idea/SettingsKt {

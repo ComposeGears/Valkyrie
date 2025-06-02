@@ -5,6 +5,10 @@ public final class io/github/composegears/valkyrie/compose/core/RememberMutableS
 	public static final fun rememberMutableState (Ljava/lang/Object;Ljava/lang/Object;Landroidx/compose/runtime/SnapshotMutationPolicy;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)Landroidx/compose/runtime/MutableState;
 }
 
+public final class io/github/composegears/valkyrie/compose/core/animation/ExpandedAnimatedContentKt {
+	public static final fun ExpandedAnimatedContent (Ljava/lang/Object;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class io/github/composegears/valkyrie/compose/core/layout/RowKt {
 	public static final fun CenterVerticalRow (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/Arrangement$Horizontal;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }

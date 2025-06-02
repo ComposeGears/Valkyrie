@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.compose.icons.filled
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -8,13 +8,13 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.Help: ImageVector
+val ValkyrieIcons.Filled.Help: ImageVector
     get() {
         if (_Help != null) {
             return _Help!!
         }
         _Help = ImageVector.Builder(
-            name = "Help",
+            name = "Filled.Help",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,

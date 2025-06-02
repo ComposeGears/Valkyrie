@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.compose.core.animation.ExpandedAnimatedContent
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
@@ -47,6 +49,7 @@ import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.CloseAction
 import io.github.composegears.valkyrie.ui.foundation.FocusableTextField
 import io.github.composegears.valkyrie.ui.foundation.IconButton
+import io.github.composegears.valkyrie.ui.foundation.NotificationAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
@@ -61,7 +64,14 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconId
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconSource
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.FailedToParseFile
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.HasDuplicates
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameContainsSpace
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameEmpty
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.model.BatchAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.ExportIssuesUI
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconPreviewBox
 import io.github.composegears.valkyrie.util.IR_STUB
@@ -78,9 +88,11 @@ fun BatchProcessingStateUi(
     onUpdatePack: (BatchIcon, String) -> Unit,
     onPreviewClick: (BatchIcon.Valid) -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
+    onResolveIssues: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val latestOnScrollUnavailable by rememberUpdatedState(onScrollUnavailable)
+    var currentAction by rememberMutableState<BatchAction>(state) { BatchAction.None }
 
     ClipboardEventColumn(
         modifier = modifier,
@@ -96,8 +108,23 @@ fun BatchProcessingStateUi(
             CloseAction(onClose = onClose)
             AppBarTitle(title = "IconPack generation")
             WeightSpacer()
+            if (state.exportIssues.isNotEmpty()) {
+                NotificationAction(
+                    selected = currentAction is BatchAction.ExportIssues,
+                    onNotification = {
+                        currentAction = when (currentAction) {
+                            is BatchAction.ExportIssues -> BatchAction.None
+                            else -> BatchAction.ExportIssues(state.exportIssues)
+                        }
+                    },
+                )
+            }
             SettingsAction(openSettings = openSettings)
         }
+        ProcessingActions(
+            action = currentAction,
+            onResolveIssues = onResolveIssues,
+        )
         Box {
             val lazyGridState = rememberLazyGridState()
 
@@ -132,6 +159,27 @@ fun BatchProcessingStateUi(
                 }
             }
             VerticalScrollbar(adapter = rememberScrollbarAdapter(lazyGridState))
+        }
+    }
+}
+
+@Composable
+private fun ProcessingActions(
+    action: BatchAction,
+    onResolveIssues: () -> Unit,
+) {
+    ExpandedAnimatedContent(
+        modifier = Modifier.fillMaxWidth(),
+        targetState = action,
+    ) { action ->
+        when (action) {
+            is BatchAction.ExportIssues -> {
+                ExportIssuesUI(
+                    exportIssues = action.issues,
+                    onResolveIssues = onResolveIssues,
+                )
+            }
+            BatchAction.None -> Spacer(modifier = Modifier.fillMaxWidth())
         }
     }
 }
@@ -250,9 +298,9 @@ private fun BrokenIconItem(
                     modifier = Modifier
                         .weight(1f)
                         .padding(vertical = 8.dp),
-                    text = when {
-                        broken.iconName.name.isEmpty() -> "Failed to parse icon"
-                        else -> "Failed to parse icon: ${broken.iconName.name}"
+                    text = when (broken.iconSource) {
+                        IconSource.File -> "Failed to parse icon: ${broken.iconName.name}"
+                        IconSource.Clipboard -> "Failed to parse icon"
                     },
                 )
                 IconButton(
@@ -358,7 +406,12 @@ private fun PacksDropdown(
 private fun BatchProcessingStatePreview() = PreviewTheme {
     BatchProcessingStateUi(
         state = IconPackCreationState(
-            exportEnabled = false,
+            exportIssues = mapOf(
+                IconNameEmpty to listOf(IconName("")),
+                IconNameContainsSpace to listOf(IconName("Ic Duplicate")),
+                FailedToParseFile to listOf(IconName("test.svg")),
+                HasDuplicates to listOf(IconName("IcDuplicate")),
+            ),
             icons = listOf(
                 BatchIcon.Valid(
                     id = IconId("1"),
@@ -373,6 +426,7 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
                 BatchIcon.Broken(
                     id = IconId("2"),
                     iconName = IconName(name = "ic_all_path_params_3"),
+                    iconSource = IconSource.File,
                 ),
                 BatchIcon.Valid(
                     id = IconId("3"),
@@ -397,5 +451,6 @@ private fun BatchProcessingStatePreview() = PreviewTheme {
         onUpdatePack = { _, _ -> },
         onPreviewClick = {},
         onRenameIcon = { _, _ -> },
+        onResolveIssues = { },
     )
 }
