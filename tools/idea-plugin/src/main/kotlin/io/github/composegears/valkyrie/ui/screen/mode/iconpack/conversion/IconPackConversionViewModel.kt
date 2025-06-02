@@ -19,6 +19,7 @@ import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.checkExportIssues
 import io.github.composegears.valkyrie.util.getOrNull
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
@@ -57,7 +58,7 @@ class IconPackConversionViewModel(
                     _state.updateState {
                         BatchProcessing.IconPackCreationState(
                             icons = restoredState,
-                            exportEnabled = restoredState.isAllIconsValid(),
+                            exportIssues = restoredState.checkExportIssues(),
                         )
                     }
                 }
@@ -98,7 +99,7 @@ class IconPackConversionViewModel(
                     } else {
                         copy(
                             icons = iconsToProcess,
-                            exportEnabled = iconsToProcess.isAllIconsValid(),
+                            exportIssues = iconsToProcess.checkExportIssues(),
                         )
                     }
                 }
@@ -245,7 +246,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = icons,
-                        exportEnabled = icons.isAllIconsValid(),
+                        exportIssues = icons.checkExportIssues(),
                     )
                 }
                 else -> this
@@ -257,13 +258,65 @@ class IconPackConversionViewModel(
         _state.updateState { IconsPickering }
     }
 
+    fun resolveExportIssues() = viewModelScope.launch {
+        val creationState = _state.value.safeAs<BatchProcessing.IconPackCreationState>() ?: return@launch
+
+        val processedIcons = creationState.icons
+            .filterIsInstance<BatchIcon.Valid>()
+            .map { icon ->
+                val name = icon.iconName.name
+
+                when {
+                    name.isEmpty() -> icon.copy(iconName = IconName("IconName"))
+                    name.contains(" ") -> icon.copy(iconName = IconName(name.replace(" ", "")))
+                    else -> icon
+                }
+            }
+
+        val nameGroups = processedIcons.groupBy { it.iconName.name }
+        val nameCounters = mutableMapOf<String, Int>()
+
+        val icons = processedIcons.map { icon ->
+            val originalName = icon.iconName.name
+            val group = nameGroups[originalName]
+
+            if (group != null && group.size > 1) {
+                val counter = nameCounters.getOrDefault(originalName, 0) + 1
+                nameCounters[originalName] = counter
+
+                if (counter > 1) {
+                    icon.copy(iconName = IconName("$originalName${counter - 1}"))
+                } else {
+                    icon
+                }
+            } else {
+                icon
+            }
+        }
+
+        if (icons.checkExportIssues().isEmpty()) {
+            _events.emit(ConversionEvent.NothingToExport)
+            reset()
+        } else {
+            _state.updateState {
+                creationState.copy(
+                    icons = icons,
+                    exportIssues = icons.checkExportIssues(),
+                )
+            }
+        }
+    }
+
     private fun processText(text: String) = viewModelScope.launch(Dispatchers.Default) {
         val iconName = ""
         val output =
             runCatching { SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, text, iconName) }.getOrNull()
 
         val icon = when (output) {
-            null -> BatchIcon.Broken(iconName = IconName(iconName))
+            null -> BatchIcon.Broken(
+                iconName = IconName(iconName),
+                iconSource = IconSource.Clipboard,
+            )
             else -> BatchIcon.Valid(
                 iconName = IconName(output.iconName),
                 iconType = output.iconType,
@@ -277,7 +330,7 @@ class IconPackConversionViewModel(
 
             BatchProcessing.IconPackCreationState(
                 icons = icons,
-                exportEnabled = icons.isAllIconsValid(),
+                exportIssues = icons.checkExportIssues(),
             )
         }
     }
@@ -300,7 +353,10 @@ class IconPackConversionViewModel(
                         }.getOrNull()
 
                         when (output) {
-                            null -> BatchIcon.Broken(iconName = IconName(path.name))
+                            null -> BatchIcon.Broken(
+                                iconName = IconName(path.name),
+                                iconSource = IconSource.File,
+                            )
                             else -> BatchIcon.Valid(
                                 iconName = IconName(output.iconName),
                                 iconType = output.iconType,
@@ -310,9 +366,10 @@ class IconPackConversionViewModel(
                         }
                     }
                 val icons = lastIcons + newIcons
+
                 BatchProcessing.IconPackCreationState(
                     icons = icons,
-                    exportEnabled = icons.isAllIconsValid(),
+                    exportIssues = icons.checkExportIssues(),
                 )
             }
         }
@@ -334,16 +391,10 @@ class IconPackConversionViewModel(
             )
         }
     }
-
-    private fun List<BatchIcon>.isAllIconsValid() = isNotEmpty() &&
-        all { it is BatchIcon.Valid } &&
-        all { it.iconName.name.isNotEmpty() && !it.iconName.name.contains(" ") } &&
-        hasNoDuplicates()
-
-    private fun List<BatchIcon>.hasNoDuplicates() = map { it.iconName.name }.toSet().size == size
 }
 
 sealed interface ConversionEvent {
     data class OpenPreview(val iconContent: String) : ConversionEvent
     data object ExportCompleted : ConversionEvent
+    data object NothingToExport : ConversionEvent
 }

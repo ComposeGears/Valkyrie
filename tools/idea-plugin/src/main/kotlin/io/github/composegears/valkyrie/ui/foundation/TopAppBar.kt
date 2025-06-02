@@ -14,12 +14,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.idea.Notifications
 import io.github.composegears.valkyrie.compose.icons.idea.Settings
 import io.github.composegears.valkyrie.ui.foundation.icons.Back
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
@@ -149,6 +152,32 @@ fun EditAction(
 }
 
 @Composable
+fun NotificationAction(
+    selected: Boolean,
+    modifier: Modifier = Modifier,
+    onNotification: () -> Unit,
+) {
+    val errorColor = MaterialTheme.colorScheme.error
+
+    SelectableAction(
+        modifier = modifier
+            .size(32.dp)
+            .drawBehind {
+                drawCircle(
+                    color = errorColor,
+                    radius = 6f,
+                    center = Offset(size.width - 8.dp.toPx(), 6.dp.toPx()),
+                )
+            },
+        imageVector = ValkyrieIcons.Idea.Notifications,
+        hint = "Notifications",
+        iconSize = 18.dp,
+        onClick = onNotification,
+        selected = selected,
+    )
+}
+
+@Composable
 private fun SelectableAction(
     imageVector: ImageVector,
     hint: String,
@@ -189,6 +218,7 @@ private fun TopAppBarPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
             CopyAction {}
             PreviewAction(selected = false) { }
             EditAction(selected = false) {}
+            NotificationAction(selected = false) { }
             SettingsAction {}
         }
         HorizontalDivider()
@@ -200,6 +230,7 @@ private fun TopAppBarPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
             CopyAction {}
             EditAction(selected = true) {}
             PreviewAction(selected = true) { }
+            NotificationAction(selected = true) { }
             SettingsAction {}
         }
     }

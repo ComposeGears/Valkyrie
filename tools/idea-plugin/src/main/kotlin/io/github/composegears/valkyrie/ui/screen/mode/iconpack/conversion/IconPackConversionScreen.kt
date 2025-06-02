@@ -48,6 +48,7 @@ import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
+import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberMultiSelectDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ExportingState
@@ -74,6 +75,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
             paths = pendingData?.paths.orEmpty(),
         )
     }
+    val snackbar = rememberSnackbar()
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
 
@@ -92,6 +94,9 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
                         writeAction {
                             VirtualFileManager.getInstance().syncRefresh()
                         }
+                    }
+                    is ConversionEvent.NothingToExport -> {
+                        snackbar.show("Nothing to export")
                     }
                 }
             }.launchIn(this)
@@ -116,6 +121,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
         onPreviewClick = viewModel::showPreview,
         onExport = viewModel::export,
         onRenameIcon = viewModel::renameIcon,
+        onResolveIssues = viewModel::resolveExportIssues,
     )
 }
 
@@ -132,6 +138,7 @@ private fun IconPackConversionUi(
     onPreviewClick: (BatchIcon.Valid) -> Unit,
     onExport: () -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
+    onResolveIssues: () -> Unit,
 ) {
     var isExportButtonVisible by rememberSaveable { mutableStateOf(true) }
 
@@ -194,6 +201,7 @@ private fun IconPackConversionUi(
                             onRenameIcon = onRenameIcon,
                             onClose = onReset,
                             openSettings = openSettings,
+                            onResolveIssues = onResolveIssues,
                         )
                     }
                 }
@@ -211,7 +219,7 @@ private fun IconPackConversionUi(
             ) {
                 Button(
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp),
-                    enabled = state.exportEnabled,
+                    enabled = state.exportIssues.isEmpty(),
                     shape = MaterialTheme.shapes.large,
                     colors = ButtonDefaults.buttonColors().copy(
                         disabledContainerColor = Color.Gray,
@@ -282,6 +290,7 @@ private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
         onPreviewClick = {},
         onExport = {},
         onRenameIcon = { _, _ -> },
+        onResolveIssues = {},
     )
 }
 

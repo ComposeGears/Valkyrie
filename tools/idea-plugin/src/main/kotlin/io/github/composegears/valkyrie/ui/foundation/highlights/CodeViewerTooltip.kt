@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.filled.Help
 import io.github.composegears.valkyrie.compose.ui.util.disabled
 import io.github.composegears.valkyrie.ui.foundation.highlights.core.CodeViewer
-import io.github.composegears.valkyrie.ui.foundation.icons.Help
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -44,7 +44,7 @@ fun CodeViewerTooltip(
         content = {
             Icon(
                 modifier = Modifier.size(18.dp),
-                imageVector = ValkyrieIcons.Help,
+                imageVector = ValkyrieIcons.Filled.Help,
                 tint = when {
                     enabled -> MaterialTheme.colorScheme.onSurface
                     else -> MaterialTheme.colorScheme.onSurface.disabled()

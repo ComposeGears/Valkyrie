@@ -1,12 +1,5 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import io.github.composegears.valkyrie.compose.core.animation.ExpandedAnimatedContent
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
@@ -78,20 +72,9 @@ fun SimpleConversionPreviewStateUi(
             CopyAction(onCopy = { onAction(OnCopyInClipboard(codePreview)) })
             SettingsAction(openSettings = { onAction(OpenSettings) })
         }
-        AnimatedContent(
+        ExpandedAnimatedContent(
             modifier = Modifier.fillMaxWidth(),
             targetState = expandedAction,
-            transitionSpec = {
-                if (initialState != targetState) {
-                    (slideInVertically { height -> -height } + fadeIn()) togetherWith
-                        slideOutVertically { height -> -height } + fadeOut()
-                } else {
-                    slideInVertically { height -> height } + fadeIn() togetherWith
-                        slideOutVertically { height -> height } + fadeOut()
-                }.using(
-                    SizeTransform(clip = true),
-                )
-            },
         ) { actions ->
             when (actions) {
                 ExpandedActions.Edit -> {

@@ -71,7 +71,7 @@ fun FocusableTextField(
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    var textFieldValue by rememberMutableState {
+    var textFieldValue by rememberMutableState(value) {
         TextFieldValue(
             text = value,
             selection = TextRange(value.length),
@@ -82,7 +82,7 @@ fun FocusableTextField(
     var mode by rememberMutableState { View }
     val hoverAlpha by animateFloatAsState(if (isHover && mode == View) 1f else 0f)
 
-    val isError by remember {
+    val isError by remember(textFieldValue) {
         derivedStateOf { textFieldValue.text.isEmpty() || textFieldValue.text.contains(" ") }
     }
 
