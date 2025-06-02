@@ -30,6 +30,11 @@ internal fun CliktCommand.booleanOption(
     default: Boolean = false,
 ) = option(names = names, help = help).boolean().default(default)
 
+internal fun CliktCommand.booleanOrNullOption(
+    vararg names: String,
+    help: String,
+) = option(names = names, help = help).boolean()
+
 internal fun CliktCommand.intOption(
     vararg names: String,
     help: String,

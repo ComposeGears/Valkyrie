@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.cli
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.AddTrailingComma
+import io.github.composegears.valkyrie.cli.SvgXmlCommand.AutoMirror
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.GeneratePreview
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.IconPackName
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.ImageVectorOutputFormat
@@ -296,12 +297,33 @@ class SvgXmlToImageVectorCliTest(
     }
 
     @Test
+    fun `icon with all path params (force auto mirror true)`() {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_all_path_params.xml",
+            expectedKtName = "AllPathParams.kt",
+            iconPackName = IconPackName("ValkyrieIcons"),
+            autoMirror = AutoMirror(true),
+        )
+    }
+
+    @Test
     fun `icon with all group params`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_group_params.xml",
             expectedKtName = "AllGroupParams.kt",
             iconPackName = IconPackName("ValkyrieIcons"),
             useComposeColors = UseComposeColors(false),
+        )
+    }
+
+    @Test
+    fun `icon with all group params (force auto mirror false)`() {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_all_group_params.xml",
+            expectedKtName = "AllGroupParams.kt",
+            iconPackName = IconPackName("ValkyrieIcons"),
+            useComposeColors = UseComposeColors(false),
+            autoMirror = AutoMirror(false),
         )
     }
 
@@ -418,6 +440,7 @@ class SvgXmlToImageVectorCliTest(
         generatePreview: GeneratePreview? = null,
         previewAnnotationType: ImageVectorPreviewAnnotationType? = null,
         addTrailingComma: AddTrailingComma? = null,
+        autoMirror: AutoMirror? = null,
     ) {
         val (cliTestType, outputFormat) = this
         val input = getResourcePath(inputResource)
@@ -438,6 +461,7 @@ class SvgXmlToImageVectorCliTest(
                 addTrailingComma,
                 indentSize,
                 useComposeColors,
+                autoMirror,
             ),
         )
 
@@ -543,5 +567,9 @@ private sealed interface SvgXmlCommand {
 
     data class IndentSize(val size: Int) : SvgXmlCommand {
         override val command: String = "--indent-size=$size"
+    }
+
+    data class AutoMirror(val autoMirror: Boolean) : SvgXmlCommand {
+        override val command: String = "--auto-mirror=$autoMirror"
     }
 }
