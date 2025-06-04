@@ -104,7 +104,7 @@ class XmlDeserializerTest {
                     android:name="vect"
                     android:fillColor="#FF000000"
                     android:pathData="M15.67,4H14V2h-4v2H8.33C7.6,4 7,4.6 7,5.33V9h4.93L13,7v2h4V5.33C17,4.6 16.4,4 15.67,4z"
-                    android:alpha=".3"/>
+                    android:fillAlpha=".3"/>
                   <path
                     android:name="draw"
                     android:fillColor="#FF000000"

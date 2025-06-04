@@ -71,5 +71,5 @@ object XmlToImageVectorParser {
 
     private fun String.asFillType(): IrPathFillType = IrPathFillType.entries.find { it.name.equals(this, ignoreCase = true) } ?: IrPathFillType.NonZero
 
-    private fun String.toIrColor(): IrColor = AndroidColorParser.parse(this) ?: IrColor(this)
+    private fun String.toIrColor(): IrColor? = AndroidColorParser.parse(this) ?: IrColor(this).takeUnless { it.isTransparent() }
 }
