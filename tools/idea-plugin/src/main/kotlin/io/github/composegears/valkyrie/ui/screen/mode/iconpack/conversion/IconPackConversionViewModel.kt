@@ -294,7 +294,7 @@ class IconPackConversionViewModel(
             }
         }
 
-        if (icons.checkExportIssues().isEmpty()) {
+        if (icons.isEmpty()) {
             _events.emit(ConversionEvent.NothingToExport)
             reset()
         } else {
