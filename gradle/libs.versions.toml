@@ -1,7 +1,7 @@
 [versions]
 compose = "1.8.1"
 intellij = "2.6.0"
-kotlin = "2.1.21"
+kotlin = "2.2.0-RC2"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.10.1"
