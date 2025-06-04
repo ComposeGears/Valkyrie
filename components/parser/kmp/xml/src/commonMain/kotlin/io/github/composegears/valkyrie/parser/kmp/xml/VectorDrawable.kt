@@ -54,7 +54,7 @@ internal data class VectorDrawable(
         @XmlSerialName("fillType", ANDROID_NAMESPACE) val fillType: String = "nonZero",
         @XmlSerialName("fillColor", ANDROID_NAMESPACE) val fillColor: String? = null,
         @XmlSerialName("pathData", ANDROID_NAMESPACE) val pathData: String,
-        @XmlSerialName("alpha", ANDROID_NAMESPACE) val alpha: Float = 1.0f,
+        @XmlSerialName("fillAlpha", ANDROID_NAMESPACE) val alpha: Float = 1.0f,
         @XmlSerialName("strokeWidth", ANDROID_NAMESPACE) val strokeWidth: String? = null,
         @XmlSerialName("strokeLineCap", ANDROID_NAMESPACE) val strokeLineCap: String? = null,
         @XmlSerialName("strokeLineJoin", ANDROID_NAMESPACE) val strokeLineJoin: String? = null,

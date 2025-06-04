@@ -26,7 +26,7 @@ class XmlToImageVectorParserTest {
             """
                 <path
                     android:fillColor="@android:color/white"
-                    android:alpha="0.5"
+                    android:fillAlpha="0.5"
                     android:pathData=""/>
             """.trimIndent(),
         )

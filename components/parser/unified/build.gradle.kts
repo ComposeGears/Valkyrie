@@ -16,6 +16,15 @@ kotlin {
             implementation(projects.components.parser.kmp.svg)
             implementation(projects.components.parser.kmp.xml)
         }
+        jvmTest {
+            resources.srcDir("$rootDir/components/test/sharedTestResources")
+
+            dependencies {
+                implementation(projects.components.extensions)
+
+                implementation(libs.bundles.test)
+            }
+        }
         wasmJsMain.dependencies {
             implementation(projects.components.parser.kmp.svg)
             implementation(projects.components.parser.kmp.xml)
