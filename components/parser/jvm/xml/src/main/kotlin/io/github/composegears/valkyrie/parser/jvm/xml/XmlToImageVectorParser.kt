@@ -16,6 +16,7 @@ import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsString
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsStrokeCap
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsStrokeLineJoin
 import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParser.END_TAG
 import org.xmlpull.v1.XmlPullParser.START_TAG
 import org.xmlpull.v1.XmlPullParserFactory
 
@@ -84,6 +85,13 @@ private fun parseNodes(parser: XmlPullParser): List<IrVectorNode> {
                     }
                     GRADIENT -> handleGradient(parser, currentGroup, nodes)
                     ITEM -> handleItem(parser, currentGroup, nodes)
+                }
+            }
+            END_TAG -> {
+                when (parser.name) {
+                    GROUP -> {
+                        currentGroup = null
+                    }
                 }
             }
         }

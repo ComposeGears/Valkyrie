@@ -266,6 +266,27 @@ class XmlToImageVectorTest(
     }
 
     @Test
+    fun `icon with linear and radial gradient + offset`() {
+        val icon = getResourcePath("imagevector/xml/ic_linear_radial_gradient_with_offset.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
+            config = createConfig(
+                outputFormat = outputFormat,
+                useComposeColors = true,
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/LinearRadialGradientWithOffset.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/LinearRadialGradientWithOffset.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
     fun `icon with transparent fill color`() {
         val icon = getResourcePath("imagevector/xml/ic_transparent_fill_color.xml").toIOPath()
         val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
