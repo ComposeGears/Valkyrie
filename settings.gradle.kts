@@ -53,6 +53,9 @@ dependencyResolutionManagement {
             create("ideaPluginVersions") {
                 from(files("gradle/plugin.versions.toml"))
             }
+            create("webLibs") {
+                from(files("gradle/web.versions.toml"))
+            }
         }
     }
 }

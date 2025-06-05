@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
+import io.github.composegears.valkyrie.flow.simple.SimpleConversionFlow
 import io.github.composegears.valkyrie.sdk.compose.foundation.dim
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
@@ -33,13 +33,13 @@ import valkyrie.tools.compose_app.generated.resources.intro_card_simple_title
 import valkyrie.tools.compose_app.generated.resources.intro_header
 import valkyrie.tools.compose_app.generated.resources.intro_subheader
 
-val IntroScreen by navDestination {
+val IntroScreen by navDestination<Unit> {
     val navController = navController()
 
     IntroUI(
         onModeChange = {
             when (it) {
-                ValkyrieMode.Simple -> navController.navigate(SimpleConversionScreen)
+                ValkyrieMode.Simple -> navController.navigate(SimpleConversionFlow)
                 else -> {}
             }
         },
@@ -73,7 +73,7 @@ private fun IntroUI(onModeChange: (ValkyrieMode) -> Unit) {
         InfoCard(
             modifier = Modifier.padding(horizontal = 16.dp),
             onClick = { onModeChange(ValkyrieMode.Simple) },
-            icon = ValkyrieIcons.Outlined.Conversion,
+            image = ValkyrieIcons.Outlined.Conversion,
             title = stringResource(Res.string.intro_card_simple_title),
             description = stringResource(Res.string.intro_card_simple_description),
         )

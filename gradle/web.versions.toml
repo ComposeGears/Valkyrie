@@ -1,0 +1,4 @@
+[versions]
+
+[libraries]
+filekit-compose = "io.github.vinceglb:filekit-dialogs-compose:0.10.0"

@@ -1,7 +1,5 @@
-
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -10,34 +8,25 @@ plugins {
 }
 
 kotlin {
-    jvm("desktop")
+    jvm()
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         outputModuleName = "composeApp"
 
         browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
             }
         }
         binaries.executable()
     }
 
     sourceSets {
-        val desktopMain by getting
-
         commonMain.dependencies {
             implementation(projects.sdk.compose.foundation)
+            implementation(projects.sdk.compose.codeviewer)
+            implementation(projects.sdk.compose.highlightsCore)
             implementation(projects.sdk.compose.icons)
             implementation(projects.sdk.shared)
 
@@ -46,9 +35,11 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
 
             implementation(kotlin("stdlib"))
+            implementation(webLibs.filekit.compose)
+            implementation(libs.leviathan)
             implementation(libs.tiamat)
         }
-        desktopMain.dependencies {
+        jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
         wasmJsMain.dependencies {
@@ -65,6 +56,11 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "io.github.composegears.valkyrie"
             packageVersion = "1.0.0"
+
+            // Need for FileKit
+            linux {
+                modules("jdk.security.auth")
+            }
         }
     }
 }
