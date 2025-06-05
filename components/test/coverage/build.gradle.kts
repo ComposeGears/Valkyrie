@@ -7,7 +7,7 @@ dependencies {
     kover(projects.tools.cli)
     kover(projects.components.generator.core)
     kover(projects.components.generator.jvm.poetExtensions)
-    kover(projects.components.generator.jvm.iconpack)
+    kover(projects.components.generator.iconpack)
     kover(projects.components.generator.jvm.imagevector)
     kover(projects.components.ir)
     kover(projects.components.parser.common)

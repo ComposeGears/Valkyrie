@@ -88,7 +88,7 @@ val r8: Configuration by configurations.creating
 
 dependencies {
     implementation(projects.components.extensions)
-    implementation(projects.components.generator.jvm.iconpack)
+    implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.ir)
     implementation(projects.components.parser.unified)

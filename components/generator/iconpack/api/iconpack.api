@@ -1,0 +1,35 @@
+public final class io/github/composegears/valkyrie/generator/iconpack/IconPackGenerator {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/generator/iconpack/IconPackGenerator;
+	public final fun create (Lio/github/composegears/valkyrie/generator/iconpack/IconPackGeneratorConfig;)Lio/github/composegears/valkyrie/generator/iconpack/IconPackSpecOutput;
+}
+
+public final class io/github/composegears/valkyrie/generator/iconpack/IconPackGeneratorConfig {
+	public fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/generator/core/IconPack;ZI)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lio/github/composegears/valkyrie/generator/core/IconPack;
+	public final fun component3 ()Z
+	public final fun component4 ()I
+	public final fun copy (Ljava/lang/String;Lio/github/composegears/valkyrie/generator/core/IconPack;ZI)Lio/github/composegears/valkyrie/generator/iconpack/IconPackGeneratorConfig;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/generator/iconpack/IconPackGeneratorConfig;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/core/IconPack;ZIILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/iconpack/IconPackGeneratorConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconPack ()Lio/github/composegears/valkyrie/generator/core/IconPack;
+	public final fun getIndentSize ()I
+	public final fun getPackageName ()Ljava/lang/String;
+	public final fun getUseExplicitMode ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/generator/iconpack/IconPackSpecOutput {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/generator/iconpack/IconPackSpecOutput;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/generator/iconpack/IconPackSpecOutput;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/iconpack/IconPackSpecOutput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
