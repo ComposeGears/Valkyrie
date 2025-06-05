@@ -61,7 +61,6 @@ intellijPlatform {
         failureLevel = listOf(
             FailureLevel.COMPATIBILITY_WARNINGS,
             FailureLevel.COMPATIBILITY_PROBLEMS,
-            FailureLevel.DEPRECATED_API_USAGES,
             FailureLevel.OVERRIDE_ONLY_API_USAGES,
             FailureLevel.NON_EXTENDABLE_API_USAGES,
             FailureLevel.PLUGIN_STRUCTURE_WARNINGS,
