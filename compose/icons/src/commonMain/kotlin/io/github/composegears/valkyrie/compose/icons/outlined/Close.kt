@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.compose.icons.outlined
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -8,13 +8,13 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.Close: ImageVector
+val ValkyrieIcons.Outlined.Close: ImageVector
     get() {
         if (_Close != null) {
             return _Close!!
         }
         _Close = ImageVector.Builder(
-            name = "Close",
+            name = "Outlined.Close",
             defaultWidth = 16.dp,
             defaultHeight = 16.dp,
             viewportWidth = 16f,
