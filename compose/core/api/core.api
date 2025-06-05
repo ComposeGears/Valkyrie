@@ -1,3 +1,10 @@
+public final class io/github/composegears/valkyrie/compose/core/ModifierKt {
+	public static final fun clickableNoRipple (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Z)Landroidx/compose/ui/Modifier;
+	public static synthetic fun clickableNoRipple$default (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;ZILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static final fun dashedBorder-c6UQjLI (Landroidx/compose/ui/Modifier;JLandroidx/compose/ui/graphics/Shape;FFFI)Landroidx/compose/ui/Modifier;
+	public static synthetic fun dashedBorder-c6UQjLI$default (Landroidx/compose/ui/Modifier;JLandroidx/compose/ui/graphics/Shape;FFFIILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+}
+
 public final class io/github/composegears/valkyrie/compose/core/RememberMutableStateKt {
 	public static final fun rememberMutableIntState (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/MutableIntState;
 	public static final fun rememberMutableState (Landroidx/compose/runtime/SnapshotMutationPolicy;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)Landroidx/compose/runtime/MutableState;

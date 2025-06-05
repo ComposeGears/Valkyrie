@@ -23,7 +23,7 @@ import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.compose.util.dim
-import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
+import io.github.composegears.valkyrie.flow.simple.SimpleConversionFlow
 import io.github.composegears.valkyrie.shared.Mode
 import org.jetbrains.compose.resources.stringResource
 import valkyrie.tools.compose_app.generated.resources.Res
@@ -38,7 +38,7 @@ val IntroScreen by navDestination<Unit> {
     IntroUI(
         onModeChange = {
             when (it) {
-                Mode.Simple -> navController.navigate(SimpleConversionScreen)
+                Mode.Simple -> navController.navigate(SimpleConversionFlow)
                 else -> {}
             }
         },

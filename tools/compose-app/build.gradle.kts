@@ -37,6 +37,7 @@ kotlin {
         val desktopMain by getting
 
         commonMain.dependencies {
+            implementation(projects.compose.codeviewer)
             implementation(projects.compose.core)
             implementation(projects.compose.icons)
             implementation(projects.compose.ui)
@@ -47,6 +48,8 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(libs.filekit.compose)
+            implementation(libs.flowmvi.core)
             implementation(libs.tiamat)
         }
         desktopMain.dependencies {
@@ -66,6 +69,11 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "io.github.composegears.valkyrie"
             packageVersion = "1.0.0"
+
+            // Need for FileKit
+            linux {
+                modules("jdk.security.auth")
+            }
         }
     }
 }

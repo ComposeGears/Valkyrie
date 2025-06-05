@@ -25,40 +25,43 @@ import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
 import io.github.composegears.valkyrie.compose.icons.outlined.Dark
 import io.github.composegears.valkyrie.compose.icons.outlined.Light
 import io.github.composegears.valkyrie.compose.icons.outlined.Settings
+import io.github.composegears.valkyrie.flow.simple.SimpleConversionFlow
 import io.github.composegears.valkyrie.screen.intro.IntroScreen
-import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
+import io.github.composegears.valkyrie.ui.ProvideSharedTransition
 import io.github.composegears.valkyrie.ui.theme.LocalTheme
 import io.github.composegears.valkyrie.ui.theme.ValkyrieTheme
 
 @Composable
 fun ValkyrieApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController(
-        destinations = arrayOf(IntroScreen, SimpleConversionScreen),
+        destinations = arrayOf(IntroScreen, SimpleConversionFlow),
         startDestination = IntroScreen,
     )
 
     ValkyrieTheme {
-        Row(modifier = modifier) {
-            NavigationRail(containerColor = MaterialTheme.colorScheme.surfaceVariant) {
-                VerticalSpacer(4.dp)
-                LogoItem(
-                    onClick = {
-                        // TODO: open about
-                    },
+        ProvideSharedTransition {
+            Row(modifier = modifier) {
+                NavigationRail(containerColor = MaterialTheme.colorScheme.surfaceVariant) {
+                    VerticalSpacer(4.dp)
+                    LogoItem(
+                        onClick = {
+                            // TODO: open about
+                        },
+                    )
+                    WeightSpacer()
+                    SettingsItem(
+                        onClick = {
+                            // TODO: open settings screen
+                        },
+                    )
+                    ThemeToggle()
+                    VerticalSpacer(4.dp)
+                }
+                Navigation(
+                    modifier = Modifier.fillMaxSize(),
+                    navController = navController,
                 )
-                WeightSpacer()
-                SettingsItem(
-                    onClick = {
-                        // TODO: open settings screen
-                    },
-                )
-                ThemeToggle()
-                VerticalSpacer(4.dp)
             }
-            Navigation(
-                modifier = Modifier.fillMaxSize(),
-                navController = navController,
-            )
         }
     }
 }

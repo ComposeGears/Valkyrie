@@ -24,8 +24,8 @@ import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.idea.Notifications
 import io.github.composegears.valkyrie.compose.icons.idea.Settings
+import io.github.composegears.valkyrie.compose.icons.outlined.Close
 import io.github.composegears.valkyrie.ui.foundation.icons.Back
-import io.github.composegears.valkyrie.ui.foundation.icons.Close
 import io.github.composegears.valkyrie.ui.foundation.icons.Copy
 import io.github.composegears.valkyrie.ui.foundation.icons.Edit
 import io.github.composegears.valkyrie.ui.foundation.icons.Watch
@@ -82,7 +82,7 @@ fun CloseAction(
 ) {
     SelectableAction(
         modifier = modifier.size(32.dp),
-        imageVector = ValkyrieIcons.Close,
+        imageVector = ValkyrieIcons.Outlined.Close,
         hint = "Close",
         onClick = onClose,
         selected = false,
