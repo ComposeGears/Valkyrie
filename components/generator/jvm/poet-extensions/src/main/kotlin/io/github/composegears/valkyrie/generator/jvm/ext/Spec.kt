@@ -4,19 +4,11 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeSpec
 
 fun FileSpec.Builder.setIndent(indent: Int) = indent(" ".repeat(indent))
 
 fun FileSpec.removeExplicitModeCode(): String = toString()
     .replace("public ", "")
-
-inline fun objectBuilder(
-    name: String,
-    builderAction: TypeSpec.Builder.() -> Unit,
-) = TypeSpec.objectBuilder(name)
-    .apply(builderAction)
-    .build()
 
 inline fun fileSpecBuilder(
     packageName: String,
