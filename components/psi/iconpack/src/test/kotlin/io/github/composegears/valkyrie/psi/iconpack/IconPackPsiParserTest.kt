@@ -7,7 +7,7 @@ import assertk.assertions.isNotNull
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.ProjectExtension
 import com.intellij.testFramework.runInEdtAndGet
-import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
+import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 

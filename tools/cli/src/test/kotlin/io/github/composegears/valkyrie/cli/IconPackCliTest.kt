@@ -11,7 +11,7 @@ import io.github.composegears.valkyrie.cli.common.CliTestType
 import io.github.composegears.valkyrie.cli.common.CliTestType.DirectMain
 import io.github.composegears.valkyrie.cli.common.CliTestType.JarTerminal
 import io.github.composegears.valkyrie.cli.common.CommandLineTestRunner
-import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourceText
+import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourceText
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.listDirectoryEntries

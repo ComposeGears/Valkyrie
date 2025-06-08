@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.generator.iconpack
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.generator.core.iconpack
+import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 
 class IconPackWithIndentTest {
@@ -23,16 +24,7 @@ class IconPackWithIndentTest {
     @Test
     fun `generate nested indent 1 packs`() {
         val result = IconPackGenerator.create(config = createConfig(indentSize = 1))
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons {
-             object Filled
-
-             object Colored
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.indent1.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
@@ -40,16 +32,7 @@ class IconPackWithIndentTest {
     @Test
     fun `generate nested indent 2 packs`() {
         val result = IconPackGenerator.create(config = createConfig(indentSize = 2))
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons {
-              object Filled
-
-              object Colored
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.indent2.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
@@ -57,16 +40,7 @@ class IconPackWithIndentTest {
     @Test
     fun `generate nested indent 3 packs`() {
         val result = IconPackGenerator.create(config = createConfig(indentSize = 3))
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons {
-               object Filled
-
-               object Colored
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.indent3.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
@@ -74,16 +48,7 @@ class IconPackWithIndentTest {
     @Test
     fun `generate nested indent 6 packs`() {
         val result = IconPackGenerator.create(config = createConfig(indentSize = 6))
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons {
-                  object Filled
-
-                  object Colored
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.indent6.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
