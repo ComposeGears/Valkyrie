@@ -18,6 +18,7 @@ dependencies {
     implementation(libs.kotlinpoet)
 
     testImplementation(projects.components.parser.unified)
+    testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 }

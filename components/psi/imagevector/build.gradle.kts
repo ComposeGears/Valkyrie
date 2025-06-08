@@ -27,6 +27,7 @@ dependencies {
 
     testImplementation(compose.ui)
     testImplementation(projects.components.irCompose)
+    testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 

@@ -3,9 +3,3 @@ public final class io/github/composegears/valkyrie/extensions/PathUtilsKt {
 	public static synthetic fun writeToKt$default (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZILjava/lang/Object;)V
 }
 
-public final class io/github/composegears/valkyrie/extensions/ResourceUtils {
-	public static final field INSTANCE Lio/github/composegears/valkyrie/extensions/ResourceUtils;
-	public final fun getResourcePath (Ljava/lang/String;)Ljava/nio/file/Path;
-	public final fun getResourceText (Ljava/lang/String;)Ljava/lang/String;
-}
-

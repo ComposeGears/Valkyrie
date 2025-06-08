@@ -5,9 +5,9 @@ import assertk.assertThat
 import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
-import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType
+import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
 import kotlin.test.assertEquals
 import kotlinx.io.files.Path
 import org.junit.jupiter.api.Disabled

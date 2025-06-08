@@ -9,6 +9,7 @@ plugins {
 dependencies {
     implementation(projects.components.extensions)
 
+    testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
     // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-faq.html#junit5-test-framework-refers-to-junit4

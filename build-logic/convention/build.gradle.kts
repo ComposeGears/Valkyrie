@@ -19,5 +19,9 @@ gradlePlugin {
             id = "valkyrie.compose"
             implementationClass = "ComposePlugin"
         }
+        register("valkyrie.wasm.resources") {
+            id = "valkyrie.wasm.resources"
+            implementationClass = "WasmResourcesPlugin"
+        }
     }
 }

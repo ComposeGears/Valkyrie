@@ -20,7 +20,7 @@ kotlin {
             resources.srcDir("$rootDir/components/test/sharedTestResources")
 
             dependencies {
-                implementation(projects.components.extensions)
+                implementation(projects.components.test.resourceLoader)
 
                 implementation(libs.bundles.test)
             }

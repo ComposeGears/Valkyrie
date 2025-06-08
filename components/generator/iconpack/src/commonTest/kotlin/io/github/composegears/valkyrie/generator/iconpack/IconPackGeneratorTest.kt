@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.core.iconpack
+import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 
 class IconPackGeneratorTest {
@@ -22,29 +23,15 @@ class IconPackGeneratorTest {
     @Test
     fun `generate icon pack`() {
         val result = IconPackGenerator.create(config = createConfig())
-
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
 
     @Test
     fun `generate icon pack explicit mode`() {
-        val result = IconPackGenerator.create(
-            config = createConfig(useExplicitMode = true),
-        )
-
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            public object ValkyrieIcons
-
-        """.trimIndent()
+        val result = IconPackGenerator.create(config = createConfig(useExplicitMode = true))
+        val expected = getResourceText("iconpack/IconPack.explicit.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
@@ -59,17 +46,7 @@ class IconPackGeneratorTest {
                 },
             ),
         )
-
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons {
-                object Filled
-
-                object Colored
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.L2.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
@@ -89,23 +66,7 @@ class IconPackGeneratorTest {
                 },
             ),
         )
-
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons {
-                object Rounded {
-                    object Filled
-                }
-
-                object Sharp {
-                    object Colored
-
-                    object Dark
-                }
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.L3.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
@@ -127,25 +88,7 @@ class IconPackGeneratorTest {
                 },
             ),
         )
-
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            object ValkyrieIcons {
-                object Material {
-                    object Rounded {
-                        object Filled
-
-                        object Outlined
-                    }
-                }
-
-                object Custom {
-                    object Brand
-                }
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.L4.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
@@ -161,17 +104,7 @@ class IconPackGeneratorTest {
                 useExplicitMode = true,
             ),
         )
-
-        val expected = """
-            package io.github.composegears.valkyrie.icons
-
-            public object ValkyrieIcons {
-                public object Filled
-
-                public object Colored
-            }
-
-        """.trimIndent()
+        val expected = getResourceText("iconpack/IconPack.nested.explicit.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }

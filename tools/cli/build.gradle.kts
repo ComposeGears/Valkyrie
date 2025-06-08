@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.clikt)
     r8(libs.r8)
 
+    testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.mockk)

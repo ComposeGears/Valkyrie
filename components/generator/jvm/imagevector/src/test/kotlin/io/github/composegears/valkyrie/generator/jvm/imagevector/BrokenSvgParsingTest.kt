@@ -2,10 +2,10 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector
 
 import assertk.assertFailure
 import assertk.assertions.isInstanceOf
-import io.github.composegears.valkyrie.extensions.ResourceUtils.getResourcePath
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
+import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
 import java.io.EOFException
 import org.junit.jupiter.api.Test
 
