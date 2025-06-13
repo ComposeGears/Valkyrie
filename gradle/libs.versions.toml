@@ -33,7 +33,7 @@ kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compil
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
-compose-hot-reload = "org.jetbrains.compose.hot-reload:1.0.0-alpha10"
+compose-hot-reload = "org.jetbrains.compose.hot-reload:1.0.0-alpha11"
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
