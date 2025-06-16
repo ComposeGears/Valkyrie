@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ut
 
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchIcon
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconSource
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.FailedToParseClipboard
@@ -40,10 +41,20 @@ fun List<BatchIcon>.checkExportIssues(): Map<ValidationError, List<IconName>> {
         )
 
         val duplicates = this@checkExportIssues
-            .groupBy { it.iconName.name }
+            .filterIsInstance<BatchIcon.Valid>()
+            .groupBy {
+                val packIdentifier = when (val pack = it.iconPack) {
+                    is IconPack.Single -> pack.iconPackName
+                    is IconPack.Nested -> "${pack.iconPackName}.${pack.currentNestedPack}"
+                }
+                packIdentifier to it.iconName.name
+            }
             .filter { it.value.size > 1 && it.value.any { it.iconName.name.isNotEmpty() } }
-            .keys
-            .map { IconName(it) }
+            .values
+            .flatten()
+            .map { it.iconName }
+            .distinct()
+
         addIfNotEmpty(error = HasDuplicates, icons = duplicates)
     }
 }

@@ -112,19 +112,21 @@ class IconPackConversionViewModel(
         _state.updateState {
             when (this) {
                 is BatchProcessing.IconPackCreationState -> {
+                    val updatedIcons = icons.map { icon ->
+                        if (icon.id == batchIcon.id && icon is BatchIcon.Valid) {
+                            icon.copy(
+                                iconPack = when (icon.iconPack) {
+                                    is IconPack.Nested -> icon.iconPack.copy(currentNestedPack = nestedPack)
+                                    is IconPack.Single -> icon.iconPack
+                                },
+                            )
+                        } else {
+                            icon
+                        }
+                    }
                     copy(
-                        icons = icons.map { icon ->
-                            if (icon.id == batchIcon.id && icon is BatchIcon.Valid) {
-                                icon.copy(
-                                    iconPack = when (icon.iconPack) {
-                                        is IconPack.Nested -> icon.iconPack.copy(currentNestedPack = nestedPack)
-                                        is IconPack.Single -> icon.iconPack
-                                    },
-                                )
-                            } else {
-                                icon
-                            }
-                        },
+                        icons = updatedIcons,
+                        exportIssues = updatedIcons.checkExportIssues(),
                     )
                 }
                 else -> this

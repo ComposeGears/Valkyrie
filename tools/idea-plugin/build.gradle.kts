@@ -41,6 +41,8 @@ dependencies {
     implementation(libs.leviathan.compose)
     implementation(libs.tiamat)
 
+    testImplementation(libs.bundles.kmp.test)
+
     intellijPlatform {
         zipSigner()
     }

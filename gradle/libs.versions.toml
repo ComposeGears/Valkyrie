@@ -58,3 +58,4 @@ valkyrie-kover = { id = "valkyrie.kover" }
 
 [bundles]
 test = ["junit5-jupiter", "assertk"]
+kmp-test = ["kotlin-test", "assertk"]
