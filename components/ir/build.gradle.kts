@@ -6,8 +6,7 @@ plugins {
 kotlin {
     sourceSets {
         commonTest.dependencies {
-            implementation(libs.assertk)
-            implementation(libs.kotlin.test)
+            implementation(libs.bundles.kmp.test)
         }
     }
 }

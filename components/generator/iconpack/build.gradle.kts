@@ -19,8 +19,7 @@ kotlin {
             dependencies {
                 implementation(projects.components.test.resourceLoader)
 
-                implementation(libs.assertk)
-                implementation(libs.kotlin.test)
+                implementation(libs.bundles.kmp.test)
             }
         }
     }

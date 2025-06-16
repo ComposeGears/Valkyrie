@@ -30,8 +30,7 @@ kotlin {
             implementation(projects.components.parser.kmp.xml)
         }
         commonTest.dependencies {
-            implementation(libs.assertk)
-            implementation(libs.kotlin.test)
+            implementation(libs.bundles.kmp.test)
         }
     }
 }

@@ -54,3 +54,4 @@ valkyrie-wasm-resources = { id = "valkyrie.wasm.resources" }
 
 [bundles]
 test = ["junit5-jupiter", "assertk"]
+kmp-test = ["kotlin-test", "assertk"]
