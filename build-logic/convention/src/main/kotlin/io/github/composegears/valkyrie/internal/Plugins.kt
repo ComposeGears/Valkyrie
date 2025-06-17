@@ -11,3 +11,6 @@ internal val Project.jetbrainsComposePluginId
 
 internal val Project.kotlinComposePluginId
     get() = libs.plugins.kotlin.compose.get().pluginId
+
+internal val Project.koverPluginId
+    get() = libs.plugins.kover.get().pluginId

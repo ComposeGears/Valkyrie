@@ -1,4 +1,3 @@
-
 import io.github.composegears.valkyrie.internal.composeCompiler
 import io.github.composegears.valkyrie.internal.jetbrainsComposePluginId
 import io.github.composegears.valkyrie.internal.kotlinComposePluginId

@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.kover)
+    alias(libs.plugins.valkyrie.kover)
 }
 
 dependencies {

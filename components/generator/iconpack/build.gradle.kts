@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.valkyrie.kmp)
     alias(libs.plugins.valkyrie.wasm.resources)
-    alias(libs.plugins.kover)
+    alias(libs.plugins.valkyrie.kover)
 }
 
 kotlin {
