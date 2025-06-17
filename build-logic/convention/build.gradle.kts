@@ -7,6 +7,7 @@ group = "io.github.composegears.valkyrie"
 dependencies {
     compileOnly(libs.kotlin.compose.compiler.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
+    compileOnly(libs.kover.plugin)
 }
 
 gradlePlugin {
@@ -22,6 +23,10 @@ gradlePlugin {
         register("valkyrie.wasm.resources") {
             id = "valkyrie.wasm.resources"
             implementationClass = "WasmResourcesPlugin"
+        }
+        register("valkyrie.kover") {
+            id = "valkyrie.kover"
+            implementationClass = "KoverPlugin"
         }
     }
 }

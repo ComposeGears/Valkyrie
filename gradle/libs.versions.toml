@@ -1,7 +1,9 @@
 [versions]
 compose = "1.8.1"
 intellij = "2.6.0"
+jacoco = "0.8.13"
 kotlin = "2.2.0-RC3"
+kover = "0.9.1"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.10.1"
@@ -31,6 +33,7 @@ composeRules = "io.nlopez.compose.rules:ktlint:0.4.22"
 # Dependencies for build-logic module
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kover-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
 [plugins]
 compose-hot-reload = "org.jetbrains.compose.hot-reload:1.0.0-alpha11"
@@ -38,7 +41,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kover = "org.jetbrains.kotlinx.kover:0.9.1"
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 jetbrains-bcv = "org.jetbrains.kotlinx.binary-compatibility-validator:0.17.0"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
@@ -51,6 +54,7 @@ spotless = "com.diffplug.spotless:7.0.4"
 valkyrie-kmp = { id = "valkyrie.kmp" }
 valkyrie-compose = { id = "valkyrie.compose" }
 valkyrie-wasm-resources = { id = "valkyrie.wasm.resources" }
+valkyrie-kover = { id = "valkyrie.kover" }
 
 [bundles]
 test = ["junit5-jupiter", "assertk"]
