@@ -1,5 +1,5 @@
 [versions]
-compose = "1.8.1"
+compose = "1.8.2"
 intellij = "2.6.0"
 kotlin = "2.2.0-RC3"
 
