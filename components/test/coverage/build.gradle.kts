@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.kover)
 }
 
+kover {
+    useJacoco(libs.versions.jacoco.get())
+}
+
 dependencies {
     // include only necessary dependencies for the test coverage
     kover(projects.tools.cli)

@@ -1,6 +1,7 @@
 [versions]
 compose = "1.8.1"
 intellij = "2.6.0"
+jacoco = "0.8.13"
 kotlin = "2.2.0-RC3"
 
 [libraries]
