@@ -2,8 +2,8 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.
 
 import androidx.compose.runtime.Composable
 import dev.snipme.highlights.Highlights
-import io.github.composegears.valkyrie.ui.foundation.highlights.core.getEmphasisLocations
-import io.github.composegears.valkyrie.ui.foundation.highlights.core.rememberCodeHighlight
+import io.github.composegears.valkyrie.compose.codeviewer.core.getEmphasisLocations
+import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
 
 @Composable
 fun buildPackPackageHighlight(

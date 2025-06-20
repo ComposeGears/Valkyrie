@@ -19,9 +19,11 @@ dependencies {
     implementation(projects.components.parser.unified)
     implementation(projects.components.psi.iconpack)
     implementation(projects.components.psi.imagevector)
+    implementation(projects.compose.codeviewer)
     implementation(projects.compose.core)
     implementation(projects.compose.icons)
     implementation(projects.compose.ui)
+    implementation(projects.compose.util)
     implementation(projects.shared)
 
     compileOnly(compose.desktop.currentOs) {
@@ -36,7 +38,6 @@ dependencies {
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
-    implementation(libs.highlights)
     implementation(libs.leviathan)
     implementation(libs.leviathan.compose)
     implementation(libs.tiamat)

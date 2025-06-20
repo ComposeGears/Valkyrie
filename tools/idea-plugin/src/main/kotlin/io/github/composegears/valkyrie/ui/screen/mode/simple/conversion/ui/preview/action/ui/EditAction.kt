@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.ui.util.disabled
+import io.github.composegears.valkyrie.compose.util.disabled
 import io.github.composegears.valkyrie.ui.foundation.FocusableTextField
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme

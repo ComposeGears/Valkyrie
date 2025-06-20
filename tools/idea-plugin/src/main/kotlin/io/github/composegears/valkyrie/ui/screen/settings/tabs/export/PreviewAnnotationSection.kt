@@ -13,11 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.AndroidX
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.Jetbrains
-import io.github.composegears.valkyrie.ui.foundation.highlights.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ui.SelectableCard
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ui.SwitchOption

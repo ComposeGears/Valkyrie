@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.filled.Help
-import io.github.composegears.valkyrie.compose.ui.util.disabled
+import io.github.composegears.valkyrie.compose.util.disabled
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.TooltipIcon
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme

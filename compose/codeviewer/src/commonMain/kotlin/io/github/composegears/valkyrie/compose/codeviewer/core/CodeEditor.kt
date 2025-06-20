@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.highlights.core
+package io.github.composegears.valkyrie.compose.codeviewer.core
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -38,9 +38,9 @@ import androidx.compose.ui.unit.sp
 import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.compose.core.rememberMutableIntState
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
-import io.github.composegears.valkyrie.compose.ui.util.disabled
-import io.github.composegears.valkyrie.ui.foundation.HorizontalScrollbar
-import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
+import io.github.composegears.valkyrie.compose.ui.foundation.HorizontalScrollbar
+import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
+import io.github.composegears.valkyrie.compose.util.disabled
 
 @Composable
 fun CodeEditor(

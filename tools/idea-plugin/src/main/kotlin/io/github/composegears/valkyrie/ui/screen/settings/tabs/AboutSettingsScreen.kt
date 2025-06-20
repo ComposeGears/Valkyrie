@@ -31,7 +31,7 @@ import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
-import io.github.composegears.valkyrie.compose.ui.util.dim
+import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.extensions.cast
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.icons.ExternalLink
