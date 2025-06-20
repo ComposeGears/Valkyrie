@@ -39,8 +39,8 @@ import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.ui.util.dim
-import io.github.composegears.valkyrie.compose.ui.util.disabled
+import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.compose.util.disabled
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified

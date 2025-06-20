@@ -40,6 +40,7 @@ kotlin {
             implementation(projects.compose.core)
             implementation(projects.compose.icons)
             implementation(projects.compose.ui)
+            implementation(projects.compose.util)
             implementation(projects.shared)
 
             implementation(compose.material3)

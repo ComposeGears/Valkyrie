@@ -15,9 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.snipme.highlights.Highlights
+import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.highlights.CodeViewerTooltip
-import io.github.composegears.valkyrie.ui.foundation.highlights.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable

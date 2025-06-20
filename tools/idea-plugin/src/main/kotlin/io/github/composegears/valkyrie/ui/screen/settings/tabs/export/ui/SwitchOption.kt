@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.composegears.valkyrie.compose.ui.util.dim
+import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable

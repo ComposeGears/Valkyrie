@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.composegears.tiamat.navDestination
 import com.composegears.tiamat.rememberSharedViewModel
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.ui.util.dim
+import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.PreviewSettings

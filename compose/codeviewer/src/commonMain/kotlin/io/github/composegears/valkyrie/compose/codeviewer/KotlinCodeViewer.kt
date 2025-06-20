@@ -1,6 +1,5 @@
-package io.github.composegears.valkyrie.ui.foundation.highlights
+package io.github.composegears.valkyrie.compose.codeviewer
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -12,10 +11,9 @@ import androidx.compose.ui.unit.sp
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.SyntaxLanguage
 import dev.snipme.highlights.model.SyntaxThemes
+import io.github.composegears.valkyrie.compose.codeviewer.core.CodeEditor
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.highlights.core.CodeEditor
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.foundation.theme.isLight
+import io.github.composegears.valkyrie.compose.util.isLight
 
 @Composable
 fun KotlinCodeViewer(
@@ -54,9 +52,9 @@ fun KotlinCodeViewer(
     )
 }
 
-@Preview
+// @Preview - not working without Android target
 @Composable
-private fun CodePreview() = PreviewTheme {
+private fun CodePreview() {
     KotlinCodeViewer(
         text = """
         val ValkyrieIcons.EmptyImageVector: ImageVector

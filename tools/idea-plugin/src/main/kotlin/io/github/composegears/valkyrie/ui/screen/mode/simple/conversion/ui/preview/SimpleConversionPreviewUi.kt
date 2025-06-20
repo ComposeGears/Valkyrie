@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import io.github.composegears.valkyrie.compose.codeviewer.KotlinCodeViewer
 import io.github.composegears.valkyrie.compose.core.animation.ExpandedAnimatedContent
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
@@ -21,7 +22,6 @@ import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.PreviewAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.highlights.KotlinCodeViewer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.action.ExpandedActions
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.action.ui.EditAction

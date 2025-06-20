@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.highlights.core
+package io.github.composegears.valkyrie.compose.codeviewer.core
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -14,9 +14,9 @@ import dev.snipme.highlights.model.ColorHighlight
 import dev.snipme.highlights.model.PhraseLocation
 import dev.snipme.highlights.model.SyntaxLanguage
 import dev.snipme.highlights.model.SyntaxThemes
-import io.github.composegears.valkyrie.ui.foundation.theme.isLight
+import io.github.composegears.valkyrie.compose.util.isLight
 
-fun Highlights.buildAnnotatedString() = buildAnnotatedString {
+internal fun Highlights.buildAnnotatedString() = buildAnnotatedString {
     append(getCode())
 
     getHighlights()

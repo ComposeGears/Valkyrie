@@ -68,8 +68,10 @@ include("components:psi:imagevector")
 include("components:test:coverage")
 include("components:test:resource-loader")
 
+include("compose:codeviewer")
 include("compose:core")
 include("compose:icons")
 include("compose:ui")
+include("compose:util")
 
 include("shared")

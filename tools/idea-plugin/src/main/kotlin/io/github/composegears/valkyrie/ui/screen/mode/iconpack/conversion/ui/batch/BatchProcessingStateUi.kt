@@ -39,6 +39,7 @@ import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.parser.unified.model.IconType
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
@@ -52,7 +53,6 @@ import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.NotificationAction
 import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.icons.ArrowDropDown
 import io.github.composegears.valkyrie.ui.foundation.icons.Delete
 import io.github.composegears.valkyrie.ui.foundation.icons.MoreVert

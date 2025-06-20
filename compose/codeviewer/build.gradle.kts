@@ -7,9 +7,11 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.compose.core)
+            implementation(projects.compose.ui)
             implementation(projects.compose.util)
 
             implementation(compose.material3)
+            api(libs.highlights)
         }
     }
 }

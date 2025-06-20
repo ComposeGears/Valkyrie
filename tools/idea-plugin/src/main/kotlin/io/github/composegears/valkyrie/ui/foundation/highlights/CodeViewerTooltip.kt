@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.snipme.highlights.Highlights
+import io.github.composegears.valkyrie.compose.codeviewer.core.CodeViewer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.filled.Help
-import io.github.composegears.valkyrie.compose.ui.util.disabled
-import io.github.composegears.valkyrie.ui.foundation.highlights.core.CodeViewer
+import io.github.composegears.valkyrie.compose.util.disabled
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.compose.ui.util
+package io.github.composegears.valkyrie.compose.util
 
 import androidx.compose.ui.graphics.Color
 

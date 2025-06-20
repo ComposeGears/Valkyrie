@@ -1,6 +1,5 @@
-package io.github.composegears.valkyrie.ui.foundation.highlights.core
+package io.github.composegears.valkyrie.compose.codeviewer.core
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -8,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.PhraseLocation
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
 fun CodeViewer(
@@ -22,9 +20,9 @@ fun CodeViewer(
     )
 }
 
-@Preview
+// @Preview - not working without Android target
 @Composable
-private fun CodeTextViewPreview() = PreviewTheme {
+private fun CodeTextViewPreview() {
     val highlights = rememberCodeHighlight(
         codeBlock = """
             package io.github.composegears.valkyrie
