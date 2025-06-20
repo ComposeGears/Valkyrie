@@ -1,0 +1,13 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.compose:util>
+final val io.github.composegears.valkyrie.compose.util/isLight // io.github.composegears.valkyrie.compose.util/isLight|@androidx.compose.material3.ColorScheme{}isLight[0]
+    final fun (androidx.compose.material3/ColorScheme).<get-isLight>(androidx.compose.runtime/Composer?, kotlin/Int): kotlin/Boolean // io.github.composegears.valkyrie.compose.util/isLight.<get-isLight>|<get-isLight>@androidx.compose.material3.ColorScheme(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+
+final fun (androidx.compose.ui.graphics/Color).io.github.composegears.valkyrie.compose.util/dim(): androidx.compose.ui.graphics/Color // io.github.composegears.valkyrie.compose.util/dim|dim@androidx.compose.ui.graphics.Color(){}[0]
+final fun (androidx.compose.ui.graphics/Color).io.github.composegears.valkyrie.compose.util/disabled(): androidx.compose.ui.graphics/Color // io.github.composegears.valkyrie.compose.util/disabled|disabled@androidx.compose.ui.graphics.Color(){}[0]

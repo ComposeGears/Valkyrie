@@ -29,7 +29,7 @@ import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.HorizontalSpacer
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.ui.util.dim
+import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.ui.foundation.icons.ArrowDropDown
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource

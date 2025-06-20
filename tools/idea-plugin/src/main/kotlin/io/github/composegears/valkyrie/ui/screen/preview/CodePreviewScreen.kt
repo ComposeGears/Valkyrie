@@ -7,9 +7,9 @@ import androidx.compose.ui.Modifier
 import com.composegears.tiamat.navArgs
 import com.composegears.tiamat.navController
 import com.composegears.tiamat.navDestination
+import io.github.composegears.valkyrie.compose.codeviewer.KotlinCodeViewer
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.highlights.KotlinCodeViewer
 
 val CodePreviewScreen by navDestination {
     val navController = navController()

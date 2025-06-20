@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation
+package io.github.composegears.valkyrie.compose.ui.foundation
 
 import androidx.compose.foundation.HorizontalScrollbar
 import androidx.compose.foundation.LocalScrollbarStyle
