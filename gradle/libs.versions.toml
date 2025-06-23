@@ -2,7 +2,7 @@
 compose = "1.8.2"
 intellij = "2.6.0"
 jacoco = "0.8.13"
-kotlin = "2.2.0-RC3"
+kotlin = "2.2.0"
 kover = "0.9.1"
 
 [libraries]
