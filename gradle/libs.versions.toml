@@ -42,7 +42,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-jetbrains-bcv = "org.jetbrains.kotlinx.binary-compatibility-validator:0.17.0"
+jetbrains-bcv = "org.jetbrains.kotlinx.binary-compatibility-validator:0.18.0"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
