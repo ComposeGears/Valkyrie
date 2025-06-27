@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.ui.domain.validation
 
 class IconPackValidationUseCase : ValidationUseCase {
 
-    private val iconPackRegex = "^[A-Za-z]*$".toRegex()
+    private val iconPackRegex = "^[A-Za-z0-9]*$".toRegex()
 
     override suspend fun invoke(params: String): ValidationResult {
         return when {
