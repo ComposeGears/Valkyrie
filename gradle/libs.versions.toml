@@ -48,7 +48,7 @@ jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "in
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
 buildConfig = "com.github.gmazzo.buildconfig:5.6.7"
 shadow = "com.gradleup.shadow:8.3.8"
-spotless = "com.diffplug.spotless:7.0.4"
+spotless = "com.diffplug.spotless:7.1.0"
 
 # Project conventional plugins
 valkyrie-kmp = { id = "valkyrie.kmp" }
