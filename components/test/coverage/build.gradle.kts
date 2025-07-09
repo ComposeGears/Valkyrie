@@ -5,6 +5,7 @@ plugins {
 dependencies {
     // include only necessary dependencies for the test coverage
     kover(projects.tools.cli)
+    kover(projects.tools.gradlePlugin)
     kover(projects.components.generator.core)
     kover(projects.components.generator.jvm.poetExtensions)
     kover(projects.components.generator.iconpack)
