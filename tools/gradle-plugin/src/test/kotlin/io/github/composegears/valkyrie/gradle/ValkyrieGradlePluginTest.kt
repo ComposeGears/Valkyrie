@@ -7,13 +7,11 @@ import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.createDirectories
-import kotlin.io.path.exists
 import kotlin.io.path.name
 import kotlin.io.path.readText
 import kotlin.io.path.walk
 import kotlin.io.path.writeText
 import org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
-import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
