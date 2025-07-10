@@ -407,8 +407,7 @@ class ValkyrieGradlePluginTest {
     @Test
     fun `Compile Android project generating and using ImageVectors`() {
         // pre-check - we need the Android SDK to pass this test. Skip test if it can't be found
-        val androidHome = androidHome()
-        assumeTrue(androidHome != null && androidHome.exists())
+        val androidHome = androidHomeOrSkip()
 
         // given
         root.writeTestSvgs(sourceSet = "freeDebug")

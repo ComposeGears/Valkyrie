@@ -6,18 +6,18 @@ import assertk.Assert
 import assertk.assertions.support.fail
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.Properties
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.copyToRecursively
 import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
-import kotlin.io.path.inputStream
 import kotlin.io.path.writeText
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import org.junit.jupiter.api.Assumptions.assumeFalse
+import org.junit.jupiter.api.Assumptions.assumeTrue
 
 internal fun buildRunner(root: Path, androidHome: Path? = null) = GradleRunner
     .create()
@@ -83,24 +83,14 @@ internal fun Assert<BuildResult>.taskHadResult(name: String, expected: TaskOutco
     fail(expected, outcome)
 }
 
-internal fun androidHome(): Path? {
-    val androidHomeProp = System.getProperty("test.androidHome")
-    val androidHome = Paths.get(androidHomeProp)
-    if (androidHomeProp.isNotBlank() && androidHome.exists()) {
-        return androidHome
-    }
+internal fun androidHomeOrSkip(): Path {
+    val androidHome = System.getProperty("test.androidHome")
+    assumeFalse(androidHome.isNullOrBlank())
 
-    val localProps = Paths.get(System.getProperty("test.localProps"))
-    if (localProps.exists()) {
-        val properties = Properties()
-        localProps.inputStream().use { properties.load(it) }
-        val sdkHome = Paths.get(properties.getProperty("sdk.dir"))
-        if (sdkHome.exists()) {
-            return sdkHome
-        }
-    }
+    val androidHomePath = Paths.get(androidHome)
+    assumeTrue(androidHomePath.exists())
 
-    return null
+    return androidHomePath
 }
 
 internal fun composeUi(): String = System.getProperty("test.composeUi")

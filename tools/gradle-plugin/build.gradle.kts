@@ -1,3 +1,7 @@
+import java.nio.file.Paths
+import java.util.Properties
+import kotlin.io.path.exists
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.valkyrie.kover)
@@ -36,9 +40,8 @@ tasks.test {
     systemProperty("test.dir.svg", sharedTestResourcesDir.resolve("svg"))
     systemProperty("test.dir.xml", sharedTestResourcesDir.resolve("xml"))
 
-    systemProperty("test.androidHome", System.getenv("ANDROID_HOME"))
+    androidHome()?.let { systemProperty("test.androidHome", it) }
     systemProperty("test.composeUi", libs.composeUi.get().toString())
-    systemProperty("test.localProps", rootProject.file("local.properties").absolutePath)
 
     // TODO: Set up tests to run for different gradle versions?
     systemProperty("test.version.gradle", GradleVersion.current().version)
@@ -71,4 +74,26 @@ dependencies {
 
     testPluginClasspath(libs.agp.full)
     testPluginClasspath(libs.kotlin.gradle.plugin)
+}
+
+fun androidHome(): String? {
+    val androidHome = System.getenv("ANDROID_HOME")
+    if (!androidHome.isNullOrBlank() && Paths.get(androidHome).exists()) {
+        logger.info("Using system environment variable $androidHome as ANDROID_HOME")
+        return androidHome
+    }
+
+    val localProps = rootProject.file("local.properties")
+    if (localProps.exists()) {
+        val properties = Properties()
+        localProps.inputStream().use { properties.load(it) }
+        val sdkHome = properties.getProperty("sdk.dir")
+        if (Paths.get(sdkHome).exists()) {
+            logger.info("Using local.properties sdk.dir $sdkHome as ANDROID_HOME")
+            return sdkHome
+        }
+    }
+
+    logger.warn("No Android SDK found - Android unit tests will be skipped")
+    return null
 }
