@@ -116,6 +116,7 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
 
             if (sourceSetIsEmpty) {
                 // nothing at all in the source set - nothing to work with so no task needs generating
+                target.logger.info("Source set ${sourceSet.name} is empty - skipping registration of codegen task")
                 return
             }
 
