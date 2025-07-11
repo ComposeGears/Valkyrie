@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.extensions
 
 import java.io.IOException
+import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteIfExists
@@ -12,7 +13,7 @@ fun String.writeToKt(
     nameWithoutExtension: String,
     deleteIfExists: Boolean = true,
     createParents: Boolean = true,
-) {
+): Path {
     val outputPath = Path(outputDir, "$nameWithoutExtension.kt")
 
     if (deleteIfExists) {
@@ -22,4 +23,5 @@ fun String.writeToKt(
         outputPath.createParentDirectories()
     }
     outputPath.writeText(this)
+    return outputPath
 }
