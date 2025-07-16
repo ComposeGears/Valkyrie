@@ -41,7 +41,7 @@ tasks.test {
     systemProperty("test.dir.xml", sharedTestResourcesDir.resolve("xml"))
 
     androidHome()?.let { systemProperty("test.androidHome", it) }
-    systemProperty("test.composeUi", libs.composeUi.get().toString())
+    systemProperty("test.composeUi", libs.compose.ui.get().toString())
 
     // TODO: Set up tests to run for different gradle versions?
     systemProperty("test.version.gradle", GradleVersion.current().version)
