@@ -51,10 +51,16 @@ internal fun Project.defaultOutputDir(sourceSet: KotlinSourceSet) = project
     .buildDirectory
     .dir("generated/sources/valkyrie/${sourceSet.name}")
 
-internal fun KotlinSourceSet.root(): Directory = project
-    .layout
-    .projectDirectory
-    .dir("src/$name")
+internal fun KotlinSourceSet.root(): Directory = with(project) {
+    // kotlin.srcDirs returns a set like ["src/main/kotlin", "src/main/java"] - we want the "src/main" directory.
+    val src = provider {
+        kotlin.srcDirs
+            .firstOrNull()
+            ?.resolve("..")
+            ?: error("No srcDir found for source set $name")
+    }
+    return layout.dir(src).get()
+}
 
 internal fun KotlinSourceSet.findSvgFiles(): FileCollection = root()
     .dir("svg")
