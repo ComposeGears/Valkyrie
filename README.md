@@ -71,7 +71,8 @@ material icons.
 
 - IntelliJ IDEA / Android Studio plugin
 - CLI tool
-- Gradle plugin and Web app (🚧 coming soon 🚧)
+- Gradle plugin 
+- Web app (🚧 coming soon 🚧)
 
 ## IDEA Plugin
 
