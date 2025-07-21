@@ -2,11 +2,12 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.util
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.withIndent
 import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.jvm.ext.builderBlock
-import io.github.composegears.valkyrie.generator.jvm.ext.indention
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
+import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.asStatement
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.ClipPathParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.NameParam
@@ -20,9 +21,9 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParam
 import io.github.composegears.valkyrie.ir.IrPathNode
 import io.github.composegears.valkyrie.ir.IrVectorNode
 
+context(config: ImageVectorSpecConfig)
 internal fun CodeBlock.Builder.addGroup(
     path: IrVectorNode.IrGroup,
-    addTrailingComma: Boolean,
     groupBody: CodeBlock.Builder.() -> Unit,
 ) {
     val groupParams = path.buildGroupParams()
@@ -48,20 +49,20 @@ internal fun CodeBlock.Builder.addGroup(
             add(
                 codeBlock = buildCodeBlock {
                     add("%M(\n", MemberNames.Group)
-                    indent()
-                    groupParams.forEachIndexed { index, param ->
-                        fillGroupArgs(param)
-                        if (index == groupParams.lastIndex) {
-                            if (addTrailingComma) {
-                                trailingComma()
+                    withIndent {
+                        groupParams.forEachIndexed { index, param ->
+                            fillGroupArgs(param)
+                            if (index == groupParams.lastIndex) {
+                                if (config.addTrailingComma) {
+                                    trailingComma()
+                                } else {
+                                    newLine()
+                                }
                             } else {
-                                newLine()
+                                trailingComma()
                             }
-                        } else {
-                            trailingComma()
                         }
                     }
-                    unindent()
                     add(")")
                     beginControlFlow("")
                     groupBody()
@@ -120,7 +121,7 @@ private fun CodeBlock.Builder.translationYArg(param: TranslationYParam) {
 
 private fun CodeBlock.Builder.clipPathArg(param: ClipPathParam) {
     newLine()
-    indention {
+    withIndent {
         builderBlock("clipPathData = %M {", MemberNames.PathData) {
             param.clipPath.forEach { pathNode ->
                 addStatement("%L", pathNode.asStatement().replace(' ', '·'))

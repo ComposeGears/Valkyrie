@@ -18,18 +18,18 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 
 internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
 
-    fun createAsBackingProperty(irVector: IrImageVector): ImageVectorSpecOutput {
+    fun createAsBackingProperty(irVector: IrImageVector): ImageVectorSpecOutput = with(config) {
         val backingProperty = backingPropertySpec(
-            name = config.iconName.backingPropertyName(),
+            name = iconName.backingPropertyName(),
             type = ClassNames.ImageVector,
         )
 
-        val iconPackClassName = config.resolveIconPackClassName()
-        val packageName = config.resolvePackageName()
+        val iconPackClassName = resolveIconPackClassName()
+        val packageName = resolvePackageName()
 
         val fileSpec = fileSpecBuilder(
             packageName = packageName,
-            fileName = config.iconName,
+            fileName = iconName,
         ) {
             addProperty(
                 propertySpec = iconProperty(
@@ -40,22 +40,22 @@ internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
             )
             addProperty(propertySpec = backingProperty)
             addPreview(
-                config = config,
                 iconPackClassName = iconPackClassName,
                 packageName = packageName,
             )
-            setIndent(config.indentSize)
+            setIndent(indentSize)
         }
 
         return ImageVectorSpecOutput(
             content = when {
-                config.useExplicitMode -> fileSpec.toString()
+                useExplicitMode -> fileSpec.toString()
                 else -> fileSpec.removeExplicitModeCode()
             },
             name = fileSpec.name,
         )
     }
 
+    context(config: ImageVectorSpecConfig)
     private fun iconProperty(
         irVector: IrImageVector,
         iconPackClassName: ClassName?,
@@ -65,6 +65,7 @@ internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
         getter(iconFun(irVector = irVector, backingProperty = backingProperty))
     }
 
+    context(config: ImageVectorSpecConfig)
     private fun iconFun(irVector: IrImageVector, backingProperty: PropertySpec): FunSpec {
         return getterFunSpecBuilder {
             addCode(
@@ -77,7 +78,7 @@ internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
             addCode(
                 buildCodeBlock {
                     addCode("%N = ", backingProperty)
-                    addImageVectorBlock(config = config, irVector = irVector)
+                    addImageVectorBlock(irVector = irVector)
                 },
             )
             addStatement("")

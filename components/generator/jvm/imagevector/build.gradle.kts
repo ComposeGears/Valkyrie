@@ -9,6 +9,12 @@ sourceSets {
     }
 }
 
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xcontext-parameters")
+    }
+}
+
 dependencies {
     implementation(projects.components.extensions)
     api(projects.components.generator.jvm.poetExtensions)

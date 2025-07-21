@@ -2,12 +2,13 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.util
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.withIndent
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.jvm.ext.argumentBlock
-import io.github.composegears.valkyrie.generator.jvm.ext.indention
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
+import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.NameParam
@@ -26,10 +27,9 @@ import io.github.composegears.valkyrie.ir.IrStrokeLineCap
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode
 
+context(config: ImageVectorSpecConfig)
 internal fun CodeBlock.Builder.addPath(
     path: IrVectorNode.IrPath,
-    addTrailingComma: Boolean,
-    useComposeColor: Boolean,
     pathBody: CodeBlock.Builder.() -> Unit,
 ) {
     val pathParams = path.buildPathParams()
@@ -47,7 +47,6 @@ internal fun CodeBlock.Builder.addPath(
                     fillPathArgs(
                         param = pathParams.first(),
                         handleMultiline = true,
-                        useComposeColor = useComposeColor,
                     )
                     beginControlFlow(")")
                     pathBody()
@@ -59,20 +58,20 @@ internal fun CodeBlock.Builder.addPath(
             add(
                 codeBlock = buildCodeBlock {
                     add("%M(\n", MemberNames.Path)
-                    indent()
-                    pathParams.forEachIndexed { index, param ->
-                        fillPathArgs(param, useComposeColor = useComposeColor)
-                        if (index == pathParams.lastIndex) {
-                            if (addTrailingComma) {
-                                trailingComma()
+                    withIndent {
+                        pathParams.forEachIndexed { index, param ->
+                            fillPathArgs(param)
+                            if (index == pathParams.lastIndex) {
+                                if (config.addTrailingComma) {
+                                    trailingComma()
+                                } else {
+                                    newLine()
+                                }
                             } else {
-                                newLine()
+                                trailingComma()
                             }
-                        } else {
-                            trailingComma()
                         }
                     }
-                    unindent()
                     add(")")
                     beginControlFlow("")
                     pathBody()
@@ -83,14 +82,14 @@ internal fun CodeBlock.Builder.addPath(
     }
 }
 
+context(config: ImageVectorSpecConfig)
 private fun CodeBlock.Builder.fillPathArgs(
     param: PathParams,
-    useComposeColor: Boolean,
     handleMultiline: Boolean = false,
 ) {
     when (param) {
         is NameParam -> nameArg(param)
-        is FillParam -> fillArg(param, handleMultiline, useComposeColor = useComposeColor)
+        is FillParam -> fillArg(param, handleMultiline)
         is FillAlphaParam -> fillAlphaArg(param)
         is PathFillTypeParam -> pathFillTypeArg(param)
         is StrokeAlphaParam -> strokeAlphaArg(param)
@@ -106,76 +105,113 @@ private fun CodeBlock.Builder.nameArg(param: NameParam) {
     add("name = %S", param.name)
 }
 
+context(config: ImageVectorSpecConfig)
 private fun CodeBlock.Builder.fillArg(
     path: FillParam,
     handleMultiline: Boolean,
-    useComposeColor: Boolean,
 ) {
     when (val fill = path.fill) {
         is IrFill.Color -> {
             add("fill = %M(", MemberNames.SolidColor)
-            addColor(fill.irColor, useName = useComposeColor)
+            addColor(fill.irColor)
             add(")")
         }
         is IrFill.LinearGradient -> {
             if (handleMultiline) {
                 newLine()
-                indention {
-                    addLinearGradient(fill, useComposeColor = useComposeColor)
+                withIndent {
+                    addLinearGradient(fill)
                 }
                 newLine()
             } else {
-                addLinearGradient(fill, useComposeColor = useComposeColor)
+                addLinearGradient(fill)
             }
         }
         is IrFill.RadialGradient -> {
             if (handleMultiline) {
                 newLine()
-                indention {
-                    addRadialGradient(fill, useComposeColor = useComposeColor)
+                withIndent {
+                    addRadialGradient(fill)
                 }
                 newLine()
             } else {
-                addRadialGradient(fill, useComposeColor = useComposeColor)
+                addRadialGradient(fill)
             }
         }
     }
 }
 
-private fun CodeBlock.Builder.addLinearGradient(
-    fill: IrFill.LinearGradient,
-    useComposeColor: Boolean,
-) {
-    argumentBlock("fill = %T.linearGradient(", ClassNames.Brush) {
+context(config: ImageVectorSpecConfig)
+private fun CodeBlock.Builder.addLinearGradient(fill: IrFill.LinearGradient) {
+    fun gradientBody() {
         argumentBlock("colorStops = arrayOf(", isNested = true) {
-            addColorStops(fill.colorStops, useComposeColor = useComposeColor)
+            addColorStops(fill.colorStops)
         }
-        add(
-            "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),",
-            MemberNames.Offset,
-        )
+        if (config.fullQualifiedImports.offset) {
+            add(
+                "start = %L(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),",
+                MemberNames.Offset.canonicalName,
+            )
+        } else {
+            add(
+                "start = %M(${fill.startX.formatFloat()}, ${fill.startY.formatFloat()}),",
+                MemberNames.Offset,
+            )
+        }
         newLine()
-        add(
-            "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})",
-            MemberNames.Offset,
-        )
+        if (config.fullQualifiedImports.offset) {
+            add(
+                "end = %L(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})",
+                MemberNames.Offset.canonicalName,
+            )
+        } else {
+            add(
+                "end = %M(${fill.endX.formatFloat()}, ${fill.endY.formatFloat()})",
+                MemberNames.Offset,
+            )
+        }
+    }
+
+    if (config.fullQualifiedImports.brush) {
+        argumentBlock("fill = %L.linearGradient(", ClassNames.Brush.canonicalName) {
+            gradientBody()
+        }
+    } else {
+        argumentBlock("fill = %T.linearGradient(", ClassNames.Brush) {
+            gradientBody()
+        }
     }
 }
 
-private fun CodeBlock.Builder.addRadialGradient(
-    fill: IrFill.RadialGradient,
-    useComposeColor: Boolean,
-) {
-    argumentBlock("fill = %T.radialGradient(", ClassNames.Brush) {
+context(config: ImageVectorSpecConfig)
+private fun CodeBlock.Builder.addRadialGradient(fill: IrFill.RadialGradient) {
+    fun gradientBody() {
         argumentBlock("colorStops = arrayOf(", isNested = true) {
-            addColorStops(fill.colorStops, useComposeColor = useComposeColor)
+            addColorStops(fill.colorStops)
         }
-        add(
-            "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),",
-            MemberNames.Offset,
-        )
+        if (config.fullQualifiedImports.offset) {
+            add(
+                "center = %L(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),",
+                MemberNames.Offset.canonicalName,
+            )
+        } else {
+            add(
+                "center = %M(${fill.centerX.formatFloat()}, ${fill.centerY.formatFloat()}),",
+                MemberNames.Offset,
+            )
+        }
         newLine()
         add("radius = ${fill.radius.formatFloat()}")
+    }
+
+    if (config.fullQualifiedImports.brush) {
+        argumentBlock("fill = %L.radialGradient(", ClassNames.Brush.canonicalName) {
+            gradientBody()
+        }
+    } else {
+        argumentBlock("fill = %T.radialGradient(", ClassNames.Brush) {
+            gradientBody()
+        }
     }
 }
 
@@ -183,6 +219,7 @@ private fun CodeBlock.Builder.fillAlphaArg(param: FillAlphaParam) {
     add("fillAlpha = ${param.fillAlpha.formatFloat()}")
 }
 
+context(config: ImageVectorSpecConfig)
 private fun CodeBlock.Builder.strokeArg(param: StrokeColorParam) {
     add("stroke = %M(", MemberNames.SolidColor)
     addColor(param.strokeColor)
@@ -213,10 +250,16 @@ private fun CodeBlock.Builder.pathFillTypeArg(param: PathFillTypeParam) {
     add("pathFillType = %T.%L", ClassNames.PathFillType, param.pathFillType.name)
 }
 
-private fun CodeBlock.Builder.addColor(color: IrColor, useName: Boolean = false) {
-    add("%M", MemberNames.Color)
+context(config: ImageVectorSpecConfig)
+private fun CodeBlock.Builder.addColor(color: IrColor) {
+    if (config.fullQualifiedImports.color) {
+        add("%L", MemberNames.Color.canonicalName)
+    } else {
+        add("%M", MemberNames.Color)
+    }
+
     val name = color.toName()
-    if (name != null && useName) {
+    if (name != null && config.useComposeColors) {
         val alphaValue = color.alpha.toFloat() / 0xFF
         if (alphaValue < 1f) {
             add(".$name.copy(alpha = ${alphaValue.formatFloat()})")
@@ -228,14 +271,12 @@ private fun CodeBlock.Builder.addColor(color: IrColor, useName: Boolean = false)
     }
 }
 
-private fun CodeBlock.Builder.addColorStops(
-    stops: List<IrFill.ColorStop>,
-    useComposeColor: Boolean,
-) {
+context(config: ImageVectorSpecConfig)
+private fun CodeBlock.Builder.addColorStops(stops: List<IrFill.ColorStop>) {
     val lastIndex = stops.lastIndex
     stops.forEachIndexed { index, stop ->
         add("${stop.offset.formatFloat()} to ")
-        addColor(stop.irColor, useName = useComposeColor)
+        addColor(stop.irColor)
         if (index != lastIndex) add(",\n")
     }
 }

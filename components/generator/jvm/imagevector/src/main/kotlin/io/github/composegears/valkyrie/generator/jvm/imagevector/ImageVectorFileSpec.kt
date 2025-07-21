@@ -20,6 +20,7 @@ internal data class ImageVectorSpecConfig(
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
     val indentSize: Int,
+    val fullQualifiedImports: FullQualifiedImports,
 )
 
 internal class ImageVectorFileSpec(private val config: ImageVectorSpecConfig) {

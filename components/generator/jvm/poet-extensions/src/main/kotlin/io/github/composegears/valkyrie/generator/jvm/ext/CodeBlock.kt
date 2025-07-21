@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.generator.jvm.ext
 
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.withIndent
 
 fun CodeBlock.Builder.argumentBlock(
     argumentFlow: String,
@@ -9,7 +10,7 @@ fun CodeBlock.Builder.argumentBlock(
     block: CodeBlock.Builder.() -> Unit,
 ) {
     add("$argumentFlow\n", *args)
-    indention(block)
+    withIndent(block)
     newLine()
     add(")")
     if (isNested) {
@@ -24,14 +25,8 @@ fun CodeBlock.Builder.builderBlock(
     block: CodeBlock.Builder.() -> Unit,
 ) {
     add("$argumentFlow\n", *args)
-    indention(block)
+    withIndent(block)
     add("}")
-}
-
-fun CodeBlock.Builder.indention(block: CodeBlock.Builder.() -> Unit) {
-    indent()
-    block()
-    unindent()
 }
 
 fun CodeBlock.Builder.newLine() {

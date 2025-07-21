@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.cli
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.AddTrailingComma
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.AutoMirror
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.GeneratePreview
@@ -62,7 +63,7 @@ class SvgXmlToImageVectorCliTest(
 
         convert(
             cliTestType = cliTestType,
-            svgXmlCommands = listOfNotNull(
+            svgXmlCommands = listOf(
                 InputPath(input.absolutePathString()),
                 OutputPath(tempDir.absolutePathString()),
                 PackageName("io.github.composegears.valkyrie.icons"),
@@ -70,9 +71,23 @@ class SvgXmlToImageVectorCliTest(
             ),
         )
 
-        val resultFiles = tempDir.toFile().listFiles().orEmpty().size
-        val inputFiles = input.toFile().listFiles().orEmpty().size
-        assertThat(resultFiles).isEqualTo(inputFiles)
+        val files = tempDir.toFile().listFiles()
+        assertThat(files).isNotNull()
+
+        val inputCount = input.toFile().listFiles().orEmpty().size
+        val resultCount = files.orEmpty().size
+        assertThat(resultCount).isEqualTo(inputCount)
+
+        // check full qualified imports as we have Brush.kt icon
+        files
+            ?.find { it.name == "FullQualified.kt" }
+            ?.let {
+                val expected = outputFormat.toResourceText(
+                    pathToBackingProperty = "imagevector/kt/backing/FullQualified.brush.kt",
+                    pathToLazyProperty = "imagevector/kt/lazy/FullQualified.brush.kt",
+                )
+                assertThat(it.readText()).isEqualTo(expected)
+            }
     }
 
     @Test
@@ -373,6 +388,7 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_transparent_fill_color.xml",
             expectedKtName = "TransparentFillColor.kt",
             iconPackName = IconPackName("ValkyrieIcons"),
+            useComposeColors = UseComposeColors(false),
         )
     }
 

@@ -15,7 +15,18 @@ data class ImageVectorGeneratorConfig(
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
     val indentSize: Int,
+    val fullQualifiedImports: FullQualifiedImports = FullQualifiedImports(),
 )
+
+data class FullQualifiedImports(
+    val brush: Boolean = false,
+    val color: Boolean = false,
+    val offset: Boolean = false,
+) {
+    companion object {
+        val reservedComposeQualifiers = listOf("Brush", "Color", "Offset")
+    }
+}
 
 enum class PreviewAnnotationType(val key: String) {
     AndroidX("androidx"),
@@ -63,6 +74,7 @@ object ImageVectorGenerator {
             useExplicitMode = config.useExplicitMode,
             addTrailingComma = config.addTrailingComma,
             indentSize = config.indentSize,
+            fullQualifiedImports = config.fullQualifiedImports,
         ),
     ).createFileFor(vector)
 }
