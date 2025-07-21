@@ -33,14 +33,15 @@ abstract class BasicInputHandler(initialState: InputFieldState) : InputHandler {
     override fun addNestedPack() {
         _state.updateState {
             copy(
-                nestedPacks = nestedPacks + NestedPack(
-                    id = nestedPacks.size.toString(),
-                    inputFieldState = InputState(
-                        text = "",
-                        validationResult = ValidationResult.None,
-                        enabled = true,
+                nestedPacks = nestedPacks +
+                    NestedPack(
+                        id = nestedPacks.size.toString(),
+                        inputFieldState = InputState(
+                            text = "",
+                            validationResult = ValidationResult.None,
+                            enabled = true,
+                        ),
                     ),
-                ),
             )
         }
     }
