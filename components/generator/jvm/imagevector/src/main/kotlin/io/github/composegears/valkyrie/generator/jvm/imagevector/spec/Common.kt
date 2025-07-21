@@ -34,10 +34,8 @@ internal fun ImageVectorSpecConfig.resolveIconPackClassName() = when {
     }
 }
 
-internal fun CodeBlock.Builder.addImageVectorBlock(
-    config: ImageVectorSpecConfig,
-    irVector: IrImageVector,
-) {
+context(config: ImageVectorSpecConfig)
+internal fun CodeBlock.Builder.addImageVectorBlock(irVector: IrImageVector) {
     add(
         imageVectorBuilderSpecs(
             iconName = when {
@@ -47,64 +45,41 @@ internal fun CodeBlock.Builder.addImageVectorBlock(
             irVector = irVector,
             path = {
                 irVector.nodes.forEach { node ->
-                    addVectorNode(
-                        irVectorNode = node,
-                        addTrailingComma = config.addTrailingComma,
-                        useComposeColors = config.useComposeColors,
-                    )
+                    addVectorNode(irVectorNode = node)
                 }
             },
-            addTrailingComma = config.addTrailingComma,
         ),
     )
 }
 
+context(config: ImageVectorSpecConfig)
 internal fun FileSpec.Builder.addPreview(
-    config: ImageVectorSpecConfig,
     iconPackClassName: ClassName?,
     packageName: String,
 ) {
     if (config.generatePreview) {
         addFunction(
             funSpec = when {
-                iconPackClassName != null -> iconPreviewSpecForNestedPack(
-                    iconPackClassName = iconPackClassName,
-                    iconName = config.iconName,
-                    previewAnnotationType = config.previewAnnotationType,
-                )
-                else -> iconPreviewSpec(
-                    iconPackage = packageName,
-                    iconName = config.iconName,
-                    previewAnnotationType = config.previewAnnotationType,
-                )
+                iconPackClassName != null -> iconPreviewSpecForNestedPack(iconPackClassName = iconPackClassName)
+                else -> iconPreviewSpec(iconPackage = packageName)
             },
         )
     }
 }
 
-private fun CodeBlock.Builder.addVectorNode(
-    irVectorNode: IrVectorNode,
-    addTrailingComma: Boolean,
-    useComposeColors: Boolean,
-) {
+context(config: ImageVectorSpecConfig)
+private fun CodeBlock.Builder.addVectorNode(irVectorNode: IrVectorNode) {
     when (irVectorNode) {
         is IrVectorNode.IrGroup -> addGroup(
             path = irVectorNode,
-            addTrailingComma = addTrailingComma,
             groupBody = {
                 irVectorNode.nodes.forEach { node ->
-                    addVectorNode(
-                        irVectorNode = node,
-                        addTrailingComma = addTrailingComma,
-                        useComposeColors = useComposeColors,
-                    )
+                    addVectorNode(irVectorNode = node)
                 }
             },
         )
         is IrVectorNode.IrPath -> addPath(
             path = irVectorNode,
-            addTrailingComma = addTrailingComma,
-            useComposeColor = useComposeColors,
             pathBody = {
                 irVectorNode.paths.forEach { pathNode ->
                     // based on https://github.com/square/kotlinpoet/pull/1860#issuecomment-1986825382

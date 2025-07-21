@@ -15,13 +15,13 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 
 internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
 
-    fun createAsLazyProperty(irVector: IrImageVector): ImageVectorSpecOutput {
-        val iconPackClassName = config.resolveIconPackClassName()
-        val packageName = config.resolvePackageName()
+    fun createAsLazyProperty(irVector: IrImageVector): ImageVectorSpecOutput = with(config) {
+        val iconPackClassName = resolveIconPackClassName()
+        val packageName = resolvePackageName()
 
         val fileSpec = fileSpecBuilder(
             packageName = packageName,
-            fileName = config.iconName,
+            fileName = iconName,
         ) {
             addProperty(
                 propertySpec = iconProperty(
@@ -30,29 +30,29 @@ internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
                 ),
             )
             addPreview(
-                config = config,
                 iconPackClassName = iconPackClassName,
                 packageName = packageName,
             )
-            setIndent(config.indentSize)
+            setIndent(indentSize)
         }
 
         return ImageVectorSpecOutput(
             content = when {
-                config.useExplicitMode -> fileSpec.toString()
+                useExplicitMode -> fileSpec.toString()
                 else -> fileSpec.removeExplicitModeCode()
             },
             name = fileSpec.name,
         )
     }
 
+    context(config: ImageVectorSpecConfig)
     private fun iconProperty(
         irVector: IrImageVector,
         iconPackClassName: ClassName?,
     ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
         receiver(iconPackClassName)
         val codeBlock = buildCodeBlock {
-            addImageVectorBlock(config = config, irVector = irVector)
+            addImageVectorBlock(irVector = irVector)
         }
 
         delegate(

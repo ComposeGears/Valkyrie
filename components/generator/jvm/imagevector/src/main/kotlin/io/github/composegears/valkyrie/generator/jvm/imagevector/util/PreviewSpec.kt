@@ -7,15 +7,15 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.jvm.ext.funSpecBuilder
+import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 
+context(config: ImageVectorSpecConfig)
 internal fun iconPreviewSpecForNestedPack(
-    iconName: String,
     iconPackClassName: ClassName,
-    previewAnnotationType: PreviewAnnotationType,
-): FunSpec = funSpecBuilder("${iconName}Preview") {
+): FunSpec = funSpecBuilder("${config.iconName}Preview") {
     addModifiers(KModifier.PRIVATE)
-    addPreviewAnnotation(previewAnnotationType)
+    addPreviewAnnotation(config.previewAnnotationType)
     addComposableAnnotation()
     addCode(
         codeBlock = buildCodeBlock {
@@ -29,20 +29,19 @@ internal fun iconPreviewSpecForNestedPack(
             addStatement(
                 format = "%M(imageVector = %T, contentDescription = null)",
                 MemberNames.Image,
-                iconPackClassName.nestedClass(iconName),
+                iconPackClassName.nestedClass(config.iconName),
             )
             endControlFlow()
         },
     )
 }
 
+context(config: ImageVectorSpecConfig)
 internal fun iconPreviewSpec(
     iconPackage: String,
-    iconName: String,
-    previewAnnotationType: PreviewAnnotationType,
-): FunSpec = funSpecBuilder("${iconName}Preview") {
+): FunSpec = funSpecBuilder("${config.iconName}Preview") {
     addModifiers(KModifier.PRIVATE)
-    addPreviewAnnotation(previewAnnotationType)
+    addPreviewAnnotation(config.previewAnnotationType)
     addComposableAnnotation()
     addCode(
         codeBlock = buildCodeBlock {
@@ -58,7 +57,7 @@ internal fun iconPreviewSpec(
                 MemberNames.Image,
                 MemberName(
                     packageName = iconPackage,
-                    simpleName = iconName,
+                    simpleName = config.iconName,
                 ),
             )
             endControlFlow()

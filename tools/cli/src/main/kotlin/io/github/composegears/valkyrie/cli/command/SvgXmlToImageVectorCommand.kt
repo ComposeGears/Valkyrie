@@ -17,6 +17,8 @@ import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
 import io.github.composegears.valkyrie.cli.ext.stringOption
 import io.github.composegears.valkyrie.extensions.writeToKt
+import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports
+import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports.Companion.reservedComposeQualifiers
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
@@ -26,6 +28,7 @@ import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.isSvg
 import io.github.composegears.valkyrie.parser.unified.ext.isXml
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
+import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.isDirectory
@@ -213,6 +216,17 @@ private fun svgXml2ImageVector(
 
     outputInfo("Start processing...")
 
+    val fullQualifiedNames = iconPaths
+        .map { IconNameFormatter.format(name = it.name) }
+        .filter { reservedComposeQualifiers.contains(it) }
+
+    if (fullQualifiedNames.isNotEmpty()) {
+        outputInfo(
+            "Found icons names that conflict with reserved Compose qualifiers. " +
+                "Full qualified import will be used for: ${fullQualifiedNames.joinToString(", ")}",
+        )
+    }
+
     iconPaths
         .sortedBy { it.name }
         .forEach { path ->
@@ -239,6 +253,11 @@ private fun svgXml2ImageVector(
                 useExplicitMode = useExplicitMode,
                 addTrailingComma = addTrailingComma,
                 indentSize = indentSize,
+                fullQualifiedImports = FullQualifiedImports(
+                    brush = "Brush" in fullQualifiedNames,
+                    color = "Color" in fullQualifiedNames,
+                    offset = "Offset" in fullQualifiedNames,
+                ),
             )
             val vectorSpecOutput = ImageVectorGenerator.convert(
                 vector = parseOutput.irImageVector,

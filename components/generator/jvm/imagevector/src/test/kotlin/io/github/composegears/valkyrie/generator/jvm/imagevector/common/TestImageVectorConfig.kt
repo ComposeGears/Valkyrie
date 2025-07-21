@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.generator.jvm.imagevector.common
 
+import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
@@ -17,6 +18,7 @@ internal fun createConfig(
     useExplicitMode: Boolean = false,
     addTrailingComma: Boolean = false,
     indentSize: Int = 4,
+    fullQualifiedImports: FullQualifiedImports = FullQualifiedImports(),
 ): ImageVectorGeneratorConfig {
     return ImageVectorGeneratorConfig(
         packageName = packageName,
@@ -31,5 +33,6 @@ internal fun createConfig(
         useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,
         indentSize = indentSize,
+        fullQualifiedImports = fullQualifiedImports,
     )
 }
