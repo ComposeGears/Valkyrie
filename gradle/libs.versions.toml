@@ -28,7 +28,7 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 mockk = "io.mockk:mockk:1.14.5"
 
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.7.0"
-composeRules = "io.nlopez.compose.rules:ktlint:0.4.24"
+composeRules = "io.nlopez.compose.rules:ktlint:0.4.25"
 
 # Dependencies for build-logic module
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
