@@ -47,7 +47,7 @@ jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
 buildConfig = "com.github.gmazzo.buildconfig:5.6.7"
-shadow = "com.gradleup.shadow:8.3.9"
+shadow = "com.gradleup.shadow:9.0.0"
 spotless = "com.diffplug.spotless:7.2.1"
 
 # Project conventional plugins
