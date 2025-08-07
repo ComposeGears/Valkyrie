@@ -49,6 +49,10 @@ tasks.withType<Jar>().configureEach {
     }
 }
 
+tasks.shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 val buildWithR8 by tasks.registering(JavaExec::class) {
     dependsOn(tasks.installShadowDist)
 
