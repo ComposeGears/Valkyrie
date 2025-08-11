@@ -15,7 +15,7 @@ jobs:
   check-links:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Java
         uses: actions/setup-java@v4
