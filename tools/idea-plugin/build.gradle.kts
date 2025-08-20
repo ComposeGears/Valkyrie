@@ -72,8 +72,14 @@ intellijPlatform {
             FailureLevel.NOT_DYNAMIC,
         )
         ides {
-            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2.4")
-            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2025.1")
+            create(
+                type = IntelliJPlatformType.IntellijIdeaCommunity,
+                version = "2024.2.4",
+            )
+            create(
+                type = IntelliJPlatformType.IntellijIdeaCommunity,
+                version = "2025.2",
+            )
         }
     }
     signing {
