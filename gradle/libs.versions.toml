@@ -1,6 +1,6 @@
 [versions]
 compose = "1.8.2"
-flowmvi = "3.2.0-alpha03"
+flowmvi = "3.2.0-alpha05"
 intellij = "2.7.2"
 jacoco = "0.8.13"
 kotlin = "2.2.10"
@@ -8,7 +8,7 @@ kover = "0.9.1"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.12.1"
-filekit-compose = "io.github.vinceglb:filekit-dialogs-compose:0.10.0-beta04"
+filekit-compose = "io.github.vinceglb:filekit-dialogs-compose:0.10.0"
 flowmvi-core = { module = "pro.respawn.flowmvi:core", version.ref = "flowmvi" }
 highlights = "dev.snipme:highlights:1.0.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
