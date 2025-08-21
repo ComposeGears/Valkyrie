@@ -50,7 +50,8 @@ kotlin {
 
             implementation(libs.filekit.compose)
             implementation(libs.flowmvi.core)
-            implementation(libs.tiamat)
+            implementation(libs.leviathan)
+            implementation(libs.tiamat.new)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

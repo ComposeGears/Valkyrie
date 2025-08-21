@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.flow.simple.screen.conversion
 
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -30,9 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.navArgs
-import com.composegears.tiamat.navController
-import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.compose.back
+import com.composegears.tiamat.compose.navArgs
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.SyntaxThemes
 import io.github.composegears.valkyrie.compose.codeviewer.core.CodeViewer
@@ -40,6 +40,7 @@ import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.ui.foundation.AnimatedVerticalScrollbar
 import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.ui.AnimatedVisibilityScope
 import io.github.composegears.valkyrie.ui.AppBarTitle
 import io.github.composegears.valkyrie.ui.CloseAction
 import io.github.composegears.valkyrie.ui.SharedTransitionScope
@@ -51,61 +52,63 @@ import org.jetbrains.compose.resources.stringResource
 import valkyrie.tools.compose_app.generated.resources.Res
 import valkyrie.tools.compose_app.generated.resources.simple_conversion_screen_title
 
-val SimpleConversionScreen by navDestination {
+val SimpleConversionScreen by navDestination<List<PlatformFile>> {
     val navArgs = navArgs()
     val navController = navController()
 
     SimpleConversionUi(
         files = navArgs,
-        onClose = navController::back,
+        onClose = { navController.parent?.back() },
     )
 }
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun AnimatedVisibilityScope.SimpleConversionUi(
+private fun SimpleConversionUi(
     files: List<PlatformFile>,
     onClose: () -> Unit,
 ) {
     SharedTransitionScope {
-        Surface {
-            Column(modifier = Modifier.fillMaxSize()) {
-                TopAppBar {
-                    CloseAction(onClose = onClose)
-                    AppBarTitle(
-                        modifier = Modifier
-                            .sharedElement(
-                                sharedContentState = rememberSharedContentState("top-appbar"),
-                                animatedVisibilityScope = this@SimpleConversionUi,
-                            )
-                            .renderInSharedTransitionScopeOverlay(),
-                        title = stringResource(Res.string.simple_conversion_screen_title),
-                    )
-                }
-                Row(modifier = Modifier.fillMaxSize()) {
-                    var selectedIcon by rememberMutableState { files.first() }
-                    val text by produceState("", key1 = selectedIcon) {
-                        value = selectedIcon.readString()
+        AnimatedVisibilityScope {
+            Surface {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    TopAppBar {
+                        CloseAction(onClose = onClose)
+                        AppBarTitle(
+                            modifier = Modifier
+                                .sharedElement(
+                                    sharedContentState = rememberSharedContentState("top-appbar"),
+                                    animatedVisibilityScope = this@AnimatedVisibilityScope,
+                                )
+                                .renderInSharedTransitionScopeOverlay(),
+                            title = stringResource(Res.string.simple_conversion_screen_title),
+                        )
                     }
-                    val isLight = MaterialTheme.colorScheme.isLight
-                    var highlights by rememberMutableState(isLight, text) {
-                        Highlights.Builder()
-                            .code(text)
-                            .theme(SyntaxThemes.darcula(darkMode = !isLight))
-                            .build()
+                    Row(modifier = Modifier.fillMaxSize()) {
+                        var selectedIcon by rememberMutableState { files.first() }
+                        val text by produceState("", key1 = selectedIcon) {
+                            value = selectedIcon.readString()
+                        }
+                        val isLight = MaterialTheme.colorScheme.isLight
+                        var highlights by rememberMutableState(isLight, text) {
+                            Highlights.Builder()
+                                .code(text)
+                                .theme(SyntaxThemes.darcula(darkMode = !isLight))
+                                .build()
+                        }
+                        IconListSection(
+                            modifier = Modifier.width(360.dp),
+                            files = files,
+                            currentFile = selectedIcon,
+                            onFileSelect = { selectedIcon = it },
+                        )
+                        CodeViewer(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            highlights = highlights,
+                        )
                     }
-                    IconListSection(
-                        modifier = Modifier.width(360.dp),
-                        files = files,
-                        currentFile = selectedIcon,
-                        onFileSelect = { selectedIcon = it },
-                    )
-                    CodeViewer(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                        highlights = highlights,
-                    )
                 }
             }
         }
