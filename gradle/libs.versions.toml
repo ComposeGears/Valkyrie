@@ -13,7 +13,7 @@ kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.0"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.3"
 leviathan = "io.github.composegears:leviathan:2.0.0"
 leviathan-compose = "io.github.composegears:leviathan-compose:2.0.0"
-tiamat = "io.github.composegears:tiamat:1.5.1"
+tiamat = "io.github.composegears:tiamat:1.5.2"
 xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.2"
 
