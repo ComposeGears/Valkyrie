@@ -7,7 +7,7 @@ kover = "0.9.1"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.0"
-highlights = "dev.snipme:highlights:1.0.0"
+highlights = "dev.snipme:highlights:1.1.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.0"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.3"
