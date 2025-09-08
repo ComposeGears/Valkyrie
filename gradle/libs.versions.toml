@@ -18,7 +18,7 @@ xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.2"
 
 clikt = "com.github.ajalt.clikt:clikt:5.0.3"
-r8 = "com.android.tools:r8:8.7.18"
+r8 = "com.android.tools:r8:8.11.18"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.13.4"
