@@ -66,6 +66,11 @@ Allows to create organized icon pack with an extension property of you pack obje
 
         <projectService serviceImplementation="io.github.composegears.valkyrie.service.PersistentSettings"/>
         <projectService serviceImplementation="io.github.composegears.valkyrie.service.GlobalEventsHandler"/>
+
+        <completion.contributor
+            language="kotlin"
+            order="first, before KotlinCompletionContributor, before AndroidComposeCompletionContributor"
+            implementationClass="io.github.composegears.valkyrie.completion.ImageVectorCompletionContributor"/>
     </extensions>
 
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
