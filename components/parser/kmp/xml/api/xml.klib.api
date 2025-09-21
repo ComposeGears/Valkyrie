@@ -6,6 +6,10 @@
 // - Show declarations: true
 
 // Library unique name: <valkyrie.components.parser.kmp:xml>
+final object io.github.composegears.valkyrie.parser.kmp.xml/ImageVectorToXmlParser { // io.github.composegears.valkyrie.parser.kmp.xml/ImageVectorToXmlParser|null[0]
+    final fun parse(io.github.composegears.valkyrie.ir/IrImageVector): kotlin/String // io.github.composegears.valkyrie.parser.kmp.xml/ImageVectorToXmlParser.parse|parse(io.github.composegears.valkyrie.ir.IrImageVector){}[0]
+}
+
 final object io.github.composegears.valkyrie.parser.kmp.xml/XmlToImageVectorParser { // io.github.composegears.valkyrie.parser.kmp.xml/XmlToImageVectorParser|null[0]
     final fun parse(kotlin/String): io.github.composegears.valkyrie.ir/IrImageVector // io.github.composegears.valkyrie.parser.kmp.xml/XmlToImageVectorParser.parse|parse(kotlin.String){}[0]
 }
