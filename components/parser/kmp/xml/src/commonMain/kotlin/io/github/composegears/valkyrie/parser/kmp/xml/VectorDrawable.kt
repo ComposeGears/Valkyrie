@@ -9,7 +9,7 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 private const val ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android"
 private const val ANDROID_PREFIX = "android"
 
-@XmlSerialName(value ="vector", prefix = ANDROID_PREFIX)
+@XmlSerialName(value = "vector", prefix = ANDROID_PREFIX)
 @Serializable
 internal data class VectorDrawable(
     @XmlSerialName("name", ANDROID_NAMESPACE, ANDROID_PREFIX) val name: String? = null,

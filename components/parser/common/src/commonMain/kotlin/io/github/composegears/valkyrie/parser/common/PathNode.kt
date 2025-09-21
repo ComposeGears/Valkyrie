@@ -210,16 +210,22 @@ fun IrPathNode.toPathArgs(): FloatArray = when (this) {
     is ReflectiveQuadTo -> floatArrayOf(x, y)
     is RelativeReflectiveQuadTo -> floatArrayOf(x, y)
     is ArcTo -> floatArrayOf(
-        horizontalEllipseRadius, verticalEllipseRadius, theta,
+        horizontalEllipseRadius,
+        verticalEllipseRadius,
+        theta,
         if (isMoreThanHalf) 1f else 0f,
         if (isPositiveArc) 1f else 0f,
-        arcStartX, arcStartY,
+        arcStartX,
+        arcStartY,
     )
     is RelativeArcTo -> floatArrayOf(
-        horizontalEllipseRadius, verticalEllipseRadius, theta,
+        horizontalEllipseRadius,
+        verticalEllipseRadius,
+        theta,
         if (isMoreThanHalf) 1f else 0f,
         if (isPositiveArc) 1f else 0f,
-        arcStartDx, arcStartDy,
+        arcStartDx,
+        arcStartDy,
     )
 }
 
