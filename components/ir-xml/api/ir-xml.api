@@ -1,0 +1,4 @@
+public final class io/github/composegears/valkyrie/ir/xml/IrToVectorXmlKt {
+	public static final fun toVectorXmlString (Lio/github/composegears/valkyrie/ir/IrImageVector;)Ljava/lang/String;
+}
+
