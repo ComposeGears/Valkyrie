@@ -7,12 +7,14 @@ import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.parser.common.toPathString
 import java.io.StringWriter
+import java.nio.file.Path
 import javax.xml.stream.XMLOutputFactory
 import javax.xml.stream.XMLStreamWriter
 import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
+import kotlin.io.path.writeText
 
 object ImageVectorToXmlParser {
 
@@ -68,6 +70,16 @@ object ImageVectorToXmlParser {
 
         // Format the XML with proper indentation
         return formatXml(stringWriter.toString())
+    }
+
+    fun parse(imageVector: IrImageVector, outputPath: Path) {
+        val xmlContent = parse(imageVector)
+        outputPath.writeText(xmlContent)
+    }
+
+    fun parse(imageVector: IrImageVector, outputFilePath: String) {
+        val xmlContent = parse(imageVector)
+        Path.of(outputFilePath).writeText(xmlContent)
     }
 
     private fun formatXml(xmlString: String): String {
