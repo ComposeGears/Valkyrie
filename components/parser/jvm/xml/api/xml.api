@@ -1,6 +1,8 @@
 public final class io/github/composegears/valkyrie/parser/jvm/xml/ImageVectorToXmlParser {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/jvm/xml/ImageVectorToXmlParser;
 	public final fun parse (Lio/github/composegears/valkyrie/ir/IrImageVector;)Ljava/lang/String;
+	public final fun parse (Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;)V
+	public final fun parse (Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/nio/file/Path;)V
 }
 
 public final class io/github/composegears/valkyrie/parser/jvm/xml/XmlToImageVectorParser {
