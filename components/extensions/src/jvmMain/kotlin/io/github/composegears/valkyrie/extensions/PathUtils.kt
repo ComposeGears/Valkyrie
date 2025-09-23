@@ -12,8 +12,37 @@ fun String.writeToKt(
     nameWithoutExtension: String,
     deleteIfExists: Boolean = true,
     createParents: Boolean = true,
+) = writeToFile(
+    outputDir = outputDir,
+    nameWithoutExtension = nameWithoutExtension,
+    extension = "kt",
+    deleteIfExists = deleteIfExists,
+    createParents = createParents,
+)
+
+@Throws(IOException::class)
+fun String.writeToXml(
+    outputDir: String,
+    nameWithoutExtension: String,
+    deleteIfExists: Boolean = true,
+    createParents: Boolean = true,
+) = writeToFile(
+    outputDir = outputDir,
+    nameWithoutExtension = nameWithoutExtension,
+    extension = "xml",
+    deleteIfExists = deleteIfExists,
+    createParents = createParents,
+)
+
+@Throws(IOException::class)
+private fun String.writeToFile(
+    outputDir: String,
+    nameWithoutExtension: String,
+    extension: String,
+    deleteIfExists: Boolean,
+    createParents: Boolean,
 ) {
-    val outputPath = Path(outputDir, "$nameWithoutExtension.kt")
+    val outputPath = Path(outputDir, "$nameWithoutExtension.$extension")
 
     if (deleteIfExists) {
         outputPath.deleteIfExists()
