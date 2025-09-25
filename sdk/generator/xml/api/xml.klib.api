@@ -1,0 +1,9 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.generator:xml>
+final object io.github.composegears.valkyrie.sdk.generator.xml/IrToXmlGenerator // io.github.composegears.valkyrie.sdk.generator.xml/IrToXmlGenerator|null[0]

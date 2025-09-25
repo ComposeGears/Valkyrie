@@ -1,0 +1,4 @@
+public final class io/github/composegears/valkyrie/sdk/generator/xml/IrToXmlGenerator {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/generator/xml/IrToXmlGenerator;
+}
+
