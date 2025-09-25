@@ -81,5 +81,6 @@ final val io.github.composegears.valkyrie.parser.unified.ext/isXml // io.github.
 final val io.github.composegears.valkyrie.parser.unified.ext/isXmlExtension // io.github.composegears.valkyrie.parser.unified.ext/isXmlExtension|@kotlin.String{}isXmlExtension[0]
     final inline fun (kotlin/String).<get-isXmlExtension>(): kotlin/Boolean // io.github.composegears.valkyrie.parser.unified.ext/isXmlExtension.<get-isXmlExtension>|<get-isXmlExtension>@kotlin.String(){}[0]
 
+final fun (io.github.composegears.valkyrie.ir/IrImageVector).io.github.composegears.valkyrie.parser.unified/toVectorXmlString(): kotlin/String // io.github.composegears.valkyrie.parser.unified/toVectorXmlString|toVectorXmlString@io.github.composegears.valkyrie.ir.IrImageVector(){}[0]
 final fun (kotlin/String).io.github.composegears.valkyrie.parser.unified.ext/capitalized(): kotlin/String // io.github.composegears.valkyrie.parser.unified.ext/capitalized|capitalized@kotlin.String(){}[0]
 final fun (kotlin/String).io.github.composegears.valkyrie.parser.unified.ext/removePrefix(kotlin/CharSequence): kotlin/String // io.github.composegears.valkyrie.parser.unified.ext/removePrefix|removePrefix@kotlin.String(kotlin.CharSequence){}[0]

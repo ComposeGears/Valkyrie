@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
+    implementation(projects.components.irXml)
     implementation(projects.components.irCompose)
     implementation(projects.components.parser.unified)
     implementation(projects.components.psi.iconpack)
