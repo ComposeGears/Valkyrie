@@ -9,6 +9,7 @@ import io.github.composegears.valkyrie.ir.IrStrokeLineCap
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.parser.common.PathParser
+import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
 
 object XmlToImageVectorParser {
     fun parse(text: String): IrImageVector {
@@ -29,8 +30,8 @@ object XmlToImageVectorParser {
 
     private fun VectorDrawable.Child.toNode(): IrVectorNode {
         return when (this) {
-            is VectorDrawable.Group -> this.toIrGroup()
-            is VectorDrawable.Path -> this.toIrPath()
+            is VectorDrawable.Group -> toIrGroup()
+            is VectorDrawable.Path -> toIrPath()
         }
     }
 

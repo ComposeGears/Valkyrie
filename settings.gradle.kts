@@ -72,6 +72,8 @@ include("components:psi:imagevector")
 include("components:test:coverage")
 include("components:test:resource-loader")
 
+include("sdk:core:xml")
+
 include("compose:codeviewer")
 include("compose:core")
 include("compose:icons")
