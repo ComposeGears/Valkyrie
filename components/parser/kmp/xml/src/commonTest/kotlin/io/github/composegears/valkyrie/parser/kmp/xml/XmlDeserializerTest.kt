@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.parser.kmp.xml
 
+import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

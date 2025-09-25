@@ -1,0 +1,17 @@
+plugins {
+    alias(libs.plugins.valkyrie.kmp)
+    alias(libs.plugins.valkyrie.kover)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.xmlutil)
+        }
+    }
+}
+
+tasks.withType<Jar>().configureEach {
+    archiveBaseName = "sdk-core-xml"
+}

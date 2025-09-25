@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.kmp.xml
+package io.github.composegears.valkyrie.sdk.core.xml
 
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
@@ -10,7 +10,7 @@ private const val ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/androi
 
 @XmlSerialName("vector")
 @Serializable
-internal data class VectorDrawable(
+data class VectorDrawable(
     @XmlSerialName("name", ANDROID_NAMESPACE) val name: String? = null,
     @XmlSerialName("width", ANDROID_NAMESPACE) val widthInDp: String,
     @XmlSerialName("height", ANDROID_NAMESPACE) val heightInDp: String,
