@@ -18,3 +18,7 @@ kotlin {
         }
     }
 }
+
+tasks.withType<Jar>().configureEach {
+    archiveBaseName = "parser-kmp-xml"
+}
