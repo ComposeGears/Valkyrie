@@ -9,27 +9,12 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.kover) apply false
-    alias(libs.plugins.jetbrains.bcv)
     alias(libs.plugins.jetbrains.compose) apply false
     alias(libs.plugins.jetbrains.intellij) apply false
     alias(libs.plugins.jetbrains.intellij.module) apply false
     alias(libs.plugins.buildConfig) apply false
     alias(libs.plugins.shadow) apply false
     alias(libs.plugins.spotless) apply false
-}
-
-apiValidation {
-    @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
-    klib {
-        enabled = true
-    }
-    // App and test projects are not libraries, so we don't need to validate them.
-    ignoredProjects += setOf(
-        "cli",
-        "compose-app",
-        "idea-plugin",
-        "test",
-    )
 }
 
 allprojects {

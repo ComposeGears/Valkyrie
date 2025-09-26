@@ -42,7 +42,6 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-jetbrains-bcv = "org.jetbrains.kotlinx.binary-compatibility-validator:0.18.1"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
@@ -54,6 +53,7 @@ spotless = "com.diffplug.spotless:8.0.0"
 valkyrie-kmp = { id = "valkyrie.kmp" }
 valkyrie-compose = { id = "valkyrie.compose" }
 valkyrie-wasm-resources = { id = "valkyrie.wasm.resources" }
+valkyrie-abi = { id = "valkyrie.abi" }
 valkyrie-kover = { id = "valkyrie.kover" }
 
 [bundles]
