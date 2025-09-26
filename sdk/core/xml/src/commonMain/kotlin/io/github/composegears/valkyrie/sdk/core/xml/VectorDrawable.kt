@@ -7,17 +7,18 @@ import nl.adaptivity.xmlutil.serialization.XmlPolyChildren
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 private const val ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android"
+private const val ANDROID_PREFIX = "android"
 
-@XmlSerialName("vector")
+@XmlSerialName(value = "vector", prefix = ANDROID_PREFIX)
 @Serializable
 data class VectorDrawable(
-    @XmlSerialName("name", ANDROID_NAMESPACE) val name: String? = null,
-    @XmlSerialName("width", ANDROID_NAMESPACE) val widthInDp: String,
-    @XmlSerialName("height", ANDROID_NAMESPACE) val heightInDp: String,
-    @XmlSerialName("viewportWidth", ANDROID_NAMESPACE) val viewportWidth: Float,
-    @XmlSerialName("viewportHeight", ANDROID_NAMESPACE) val viewportHeight: Float,
-    @XmlSerialName("tint", ANDROID_NAMESPACE) val tint: String? = null,
-    @XmlSerialName("autoMirrored", ANDROID_NAMESPACE) val autoMirrored: Boolean = false,
+    @XmlSerialName("name", ANDROID_NAMESPACE, ANDROID_PREFIX) val name: String? = null,
+    @XmlSerialName("width", ANDROID_NAMESPACE, ANDROID_PREFIX) val widthInDp: String,
+    @XmlSerialName("height", ANDROID_NAMESPACE, ANDROID_PREFIX) val heightInDp: String,
+    @XmlSerialName("viewportWidth", ANDROID_NAMESPACE, ANDROID_PREFIX) val viewportWidth: Float,
+    @XmlSerialName("viewportHeight", ANDROID_NAMESPACE, ANDROID_PREFIX) val viewportHeight: Float,
+    @XmlSerialName("tint", ANDROID_NAMESPACE, ANDROID_PREFIX) val tint: String? = null,
+    @XmlSerialName("autoMirrored", ANDROID_NAMESPACE, ANDROID_PREFIX) val autoMirrored: Boolean = false,
 
     @XmlPolyChildren([GROUP, PATH])
     val children: List<@Polymorphic Child>,
@@ -31,16 +32,16 @@ data class VectorDrawable(
 
     @Serializable
     @SerialName(GROUP)
-    @XmlSerialName(GROUP)
+    @XmlSerialName(value = GROUP, prefix = ANDROID_PREFIX)
     data class Group(
-        @XmlSerialName("name", ANDROID_NAMESPACE) val name: String? = null,
-        @XmlSerialName("pivotX", ANDROID_NAMESPACE) val pivotX: Float? = null,
-        @XmlSerialName("pivotY", ANDROID_NAMESPACE) val pivotY: Float? = null,
-        @XmlSerialName("translateX", ANDROID_NAMESPACE) val translateX: Float? = null,
-        @XmlSerialName("translateY", ANDROID_NAMESPACE) val translateY: Float? = null,
-        @XmlSerialName("scaleX", ANDROID_NAMESPACE) val scaleX: Float? = null,
-        @XmlSerialName("scaleY", ANDROID_NAMESPACE) val scaleY: Float? = null,
-        @XmlSerialName("rotation", ANDROID_NAMESPACE) val rotation: Float? = null,
+        @XmlSerialName("name", ANDROID_NAMESPACE, ANDROID_PREFIX) val name: String? = null,
+        @XmlSerialName("pivotX", ANDROID_NAMESPACE, ANDROID_PREFIX) val pivotX: Float? = null,
+        @XmlSerialName("pivotY", ANDROID_NAMESPACE, ANDROID_PREFIX) val pivotY: Float? = null,
+        @XmlSerialName("translateX", ANDROID_NAMESPACE, ANDROID_PREFIX) val translateX: Float? = null,
+        @XmlSerialName("translateY", ANDROID_NAMESPACE, ANDROID_PREFIX) val translateY: Float? = null,
+        @XmlSerialName("scaleX", ANDROID_NAMESPACE, ANDROID_PREFIX) val scaleX: Float? = null,
+        @XmlSerialName("scaleY", ANDROID_NAMESPACE, ANDROID_PREFIX) val scaleY: Float? = null,
+        @XmlSerialName("rotation", ANDROID_NAMESPACE, ANDROID_PREFIX) val rotation: Float? = null,
 
         @XmlPolyChildren([GROUP, PATH])
         val children: List<@Polymorphic Child>,
@@ -48,18 +49,18 @@ data class VectorDrawable(
 
     @Serializable
     @SerialName(PATH)
-    @XmlSerialName(PATH)
+    @XmlSerialName(value = PATH, prefix = ANDROID_PREFIX)
     data class Path(
-        @XmlSerialName("name", ANDROID_NAMESPACE) val name: String? = null,
-        @XmlSerialName("fillType", ANDROID_NAMESPACE) val fillType: String = "nonZero",
-        @XmlSerialName("fillColor", ANDROID_NAMESPACE) val fillColor: String? = null,
-        @XmlSerialName("pathData", ANDROID_NAMESPACE) val pathData: String,
-        @XmlSerialName("fillAlpha", ANDROID_NAMESPACE) val alpha: Float = 1.0f,
-        @XmlSerialName("strokeWidth", ANDROID_NAMESPACE) val strokeWidth: String? = null,
-        @XmlSerialName("strokeLineCap", ANDROID_NAMESPACE) val strokeLineCap: String? = null,
-        @XmlSerialName("strokeLineJoin", ANDROID_NAMESPACE) val strokeLineJoin: String? = null,
-        @XmlSerialName("strokeColor", ANDROID_NAMESPACE) val strokeColor: String? = null,
-        @XmlSerialName("strokeAlpha", ANDROID_NAMESPACE) val strokeAlpha: String? = null,
-        @XmlSerialName("strokeMiterLimit", ANDROID_NAMESPACE) val strokeMiterLimit: String? = null,
+        @XmlSerialName("name", ANDROID_NAMESPACE, ANDROID_PREFIX) val name: String? = null,
+        @XmlSerialName("fillType", ANDROID_NAMESPACE, ANDROID_PREFIX) val fillType: String = "nonZero",
+        @XmlSerialName("fillColor", ANDROID_NAMESPACE, ANDROID_PREFIX) val fillColor: String? = null,
+        @XmlSerialName("pathData", ANDROID_NAMESPACE, ANDROID_PREFIX) val pathData: String,
+        @XmlSerialName("fillAlpha", ANDROID_NAMESPACE, ANDROID_PREFIX) val alpha: Float = 1.0f,
+        @XmlSerialName("strokeWidth", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeWidth: String? = null,
+        @XmlSerialName("strokeLineCap", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeLineCap: String? = null,
+        @XmlSerialName("strokeLineJoin", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeLineJoin: String? = null,
+        @XmlSerialName("strokeColor", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeColor: String? = null,
+        @XmlSerialName("strokeAlpha", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeAlpha: String? = null,
+        @XmlSerialName("strokeMiterLimit", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeMiterLimit: String? = null,
     ) : Child
 }
