@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.valkyrie.kmp)
+    alias(libs.plugins.valkyrie.abi)
     alias(libs.plugins.valkyrie.wasm.resources)
     alias(libs.plugins.valkyrie.kover)
 }

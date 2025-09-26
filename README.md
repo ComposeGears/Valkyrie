@@ -565,6 +565,10 @@ other available gradle commands:
 
 - apply formatting: `./gradlew spotlessApply`
 
+- update ABI: `./gradlew updateLegacyAbi`
+
+- check ABI: `./gradlew checkLegacyAbi`
+
 - create html test report: `./gradlew components:test:coverage:koverHtmlReport`
 
 - print test coverage: `./gradlew components:test:coverage:koverLog`

@@ -28,5 +28,9 @@ gradlePlugin {
             id = "valkyrie.kover"
             implementationClass = "KoverPlugin"
         }
+        register("valkyrie.abi") {
+            id = "valkyrie.abi"
+            implementationClass = "AbiPlugin"
+        }
     }
 }
