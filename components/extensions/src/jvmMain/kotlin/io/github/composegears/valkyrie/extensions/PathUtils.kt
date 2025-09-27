@@ -52,21 +52,3 @@ private fun String.writeToFile(
     }
     outputPath.writeText(this)
 }
-
-@Throws(IOException::class)
-fun String.writeToXml(
-    outputDir: String,
-    nameWithoutExtension: String,
-    deleteIfExists: Boolean = true,
-    createParents: Boolean = true,
-) {
-    val outputPath = Path(outputDir, "$nameWithoutExtension.xml")
-
-    if (deleteIfExists) {
-        outputPath.deleteIfExists()
-    }
-    if (createParents) {
-        outputPath.createParentDirectories()
-    }
-    outputPath.writeText(this)
-}

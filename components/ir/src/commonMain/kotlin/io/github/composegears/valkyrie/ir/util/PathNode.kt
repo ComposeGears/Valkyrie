@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.common
+package io.github.composegears.valkyrie.ir.util
 
 import io.github.composegears.valkyrie.ir.IrPathNode
 import io.github.composegears.valkyrie.ir.IrPathNode.ArcTo
@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.ir.IrPathNode.RelativeReflectiveQuadTo
 import io.github.composegears.valkyrie.ir.IrPathNode.RelativeVerticalTo
 import io.github.composegears.valkyrie.ir.IrPathNode.VerticalTo
 
-internal fun Char.toPathNodes(args: FloatArray): List<IrPathNode> = when (this) {
+fun Char.toPathNodes(args: FloatArray): List<IrPathNode> = when (this) {
     'Z', 'z' -> listOf(Close)
     'm' -> pathNodesFromArgs(args, NUM_MOVE_TO_ARGS) { array ->
         RelativeMoveTo(
@@ -239,11 +239,16 @@ fun IrPathNode.toPathString(formatFloat: (Float) -> String = { it.toString() }):
     return if (args.isEmpty()) {
         command.toString()
     } else {
+        val isArc = command == 'A' || command == 'a'
         buildString {
             append(command)
-            args.forEach { arg ->
+            args.forEachIndexed { index, arg ->
                 append(' ')
-                append(formatFloat(arg))
+                if (isArc && (index == 3 || index == 4)) {
+                    append(if (arg != 0f) '1' else '0')
+                } else {
+                    append(formatFloat(arg))
+                }
             }
         }
     }

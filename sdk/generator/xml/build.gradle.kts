@@ -10,6 +10,10 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.sdk.core.xml)
             implementation(projects.components.ir)
+            implementation(libs.xmlutil)
+        }
+        commonTest.dependencies {
+            implementation(libs.bundles.kmp.test)
         }
     }
 }

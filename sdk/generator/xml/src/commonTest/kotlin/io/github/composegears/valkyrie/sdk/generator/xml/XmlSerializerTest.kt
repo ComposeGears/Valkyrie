@@ -1,7 +1,7 @@
-package io.github.composegears.valkyrie.parser.kmp.xml
+package io.github.composegears.valkyrie.sdk.generator.xml
 
+import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class XmlSerializerTest {
@@ -207,65 +207,5 @@ class XmlSerializerTest {
         val result = XmlSerializer.serialize(vectorDrawable)
 
         assertTrue(result.contains("android:name=\"test_icon\""))
-    }
-
-    @Test
-    fun `deserialize then serialize produces equivalent XML structure`() {
-        val originalXml = """
-            <vector xmlns:android="http://schemas.android.com/apk/res/android"
-                android:width="24dp"
-                android:height="24dp"
-                android:viewportWidth="24"
-                android:viewportHeight="24">
-              <path
-                  android:fillColor="@android:color/white"
-                  android:pathData="M12,2L12,22"/>
-            </vector>
-        """.trimIndent()
-
-        val vectorDrawable = XmlDeserializer.deserialize(originalXml)
-        val serializedXml = XmlSerializer.serialize(vectorDrawable)
-
-        with(serializedXml) {
-            assertTrue(contains("android:width=\"24dp\""))
-            assertTrue(contains("android:height=\"24dp\""))
-            assertTrue(contains("android:viewportWidth=\"24.0\""))
-            assertTrue(contains("android:viewportHeight=\"24.0\""))
-            assertTrue(contains("android:fillColor=\"@android:color/white\""))
-            assertTrue(contains("android:pathData=\"M12,2L12,22\""))
-        }
-    }
-
-    @Test
-    fun `roundtrip with complex group structure preserves hierarchy`() {
-        val originalXml = """
-            <vector xmlns:android="http://schemas.android.com/apk/res/android"
-                android:width="24dp"
-                android:height="24dp"
-                android:viewportWidth="24"
-                android:viewportHeight="24">
-              <group android:name="parent">
-                <group android:name="child" android:rotation="45">
-                  <path android:pathData="M12,2L12,22" android:fillColor="#000000"/>
-                </group>
-              </group>
-            </vector>
-        """.trimIndent()
-
-        val vectorDrawable = XmlDeserializer.deserialize(originalXml)
-        val serializedXml = XmlSerializer.serialize(vectorDrawable)
-
-        with(serializedXml) {
-            assertTrue(contains("android:name=\"parent\""))
-            assertTrue(contains("android:name=\"child\""))
-            assertTrue(contains("android:rotation=\"45.0\""))
-            assertTrue(contains("android:fillColor=\"#000000\""))
-            assertTrue(contains("android:pathData=\"M12,2L12,22\""))
-        }
-
-        val roundtripVector = XmlDeserializer.deserialize(serializedXml)
-        assertEquals(vectorDrawable.widthInDp, roundtripVector.widthInDp)
-        assertEquals(vectorDrawable.heightInDp, roundtripVector.heightInDp)
-        assertEquals(vectorDrawable.children.size, roundtripVector.children.size)
     }
 }

@@ -1,5 +1,6 @@
-package io.github.composegears.valkyrie.parser.kmp.xml
+package io.github.composegears.valkyrie.sdk.generator.xml
 
+import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
