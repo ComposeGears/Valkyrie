@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.kmp.xml
+package io.github.composegears.valkyrie.sdk.generator.xml
 
 import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.ir.IrFill
@@ -9,10 +9,9 @@ import io.github.composegears.valkyrie.ir.IrStrokeLineCap
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class ImageVectorToXmlParserTest {
+class IrToXmlGeneratorTest {
 
     @Test
     fun `parse ImageVector to valid VectorDrawable xml`() {
@@ -27,7 +26,7 @@ class ImageVectorToXmlParserTest {
             ),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
             assertTrue(contains("android:fillColor=\"#FFFFFFFF\""))
@@ -53,7 +52,7 @@ class ImageVectorToXmlParserTest {
             ),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         assertTrue(result.contains("android:fillType=\"evenOdd\""))
         assertTrue(result.contains("android:fillColor=\"#FFFFFFFF\""))
@@ -78,7 +77,7 @@ class ImageVectorToXmlParserTest {
             ),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
             assertTrue(contains("android:name=\"hi\""))
@@ -114,7 +113,7 @@ class ImageVectorToXmlParserTest {
             ),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
             assertTrue(contains("android:strokeWidth=\"42\""))
@@ -134,7 +133,7 @@ class ImageVectorToXmlParserTest {
             nodes = emptyList(),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
             assertTrue(contains("android:width=\"24dp\""))
@@ -154,7 +153,7 @@ class ImageVectorToXmlParserTest {
             nodes = emptyList(),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
             assertTrue(contains("android:width=\"24.5dp\""))
@@ -175,7 +174,7 @@ class ImageVectorToXmlParserTest {
             nodes = emptyList(),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         assertTrue(result.contains("android:autoMirrored=\"true\""))
     }
@@ -191,76 +190,9 @@ class ImageVectorToXmlParserTest {
             nodes = emptyList(),
         )
 
-        val result = ImageVectorToXmlParser.parse(imageVector)
+        val result = IrToXmlGenerator.generate(imageVector)
 
         assertTrue(result.contains("android:name=\"test_icon\""))
-    }
-
-    @Test
-    fun `roundtrip test simple path`() {
-        val originalVector = imageVector(
-            nodes = listOf(
-                IrVectorNode.IrPath(
-                    pathFillType = IrPathFillType.NonZero,
-                    fill = IrFill.Color(IrColor(0xff000000)),
-                    fillAlpha = 1f,
-                    paths = emptyList(),
-                ),
-            ),
-        )
-
-        val xml = ImageVectorToXmlParser.parse(originalVector)
-        val parsedBack = XmlToImageVectorParser.parse(xml)
-
-        assertEquals(originalVector.defaultWidth, parsedBack.defaultWidth)
-        assertEquals(originalVector.defaultHeight, parsedBack.defaultHeight)
-        assertEquals(originalVector.viewportWidth, parsedBack.viewportWidth)
-        assertEquals(originalVector.viewportHeight, parsedBack.viewportHeight)
-        assertEquals(originalVector.nodes.size, parsedBack.nodes.size)
-    }
-
-    @Test
-    fun `roundtrip test with group`() {
-        val originalVector = imageVector(
-            nodes = listOf(
-                IrVectorNode.IrGroup(
-                    name = "group",
-                    rotate = 90f,
-                    pivotX = 12f,
-                    pivotY = 12f,
-                    translationX = 5f,
-                    translationY = -5f,
-                    scaleX = 1.5f,
-                    scaleY = 0.8f,
-                    clipPathData = mutableListOf(),
-                    nodes = mutableListOf(
-                        IrVectorNode.IrPath(
-                            pathFillType = IrPathFillType.EvenOdd,
-                            fill = IrFill.Color(IrColor(0xffff0000)),
-                            fillAlpha = 0.7f,
-                            paths = emptyList(),
-                        ),
-                    ),
-                ),
-            ),
-        )
-
-        val xml = ImageVectorToXmlParser.parse(originalVector)
-        val parsedBack = XmlToImageVectorParser.parse(xml)
-
-        assertEquals(originalVector.nodes.size, parsedBack.nodes.size)
-        val originalGroup = originalVector.nodes[0] as IrVectorNode.IrGroup
-        val parsedGroup = parsedBack.nodes[0] as IrVectorNode.IrGroup
-
-        assertEquals(originalGroup.name, parsedGroup.name)
-        assertEquals(originalGroup.rotate, parsedGroup.rotate)
-        assertEquals(originalGroup.pivotX, parsedGroup.pivotX)
-        assertEquals(originalGroup.pivotY, parsedGroup.pivotY)
-        assertEquals(originalGroup.translationX, parsedGroup.translationX)
-        assertEquals(originalGroup.translationY, parsedGroup.translationY)
-        assertEquals(originalGroup.scaleX, parsedGroup.scaleX)
-        assertEquals(originalGroup.scaleY, parsedGroup.scaleY)
-        assertEquals(originalGroup.nodes.size, parsedGroup.nodes.size)
     }
 
     private fun imageVector(nodes: List<IrVectorNode> = emptyList()): IrImageVector = IrImageVector(

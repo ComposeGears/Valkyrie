@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.parser.common
 
 import io.github.composegears.valkyrie.ir.IrPathNode
+import io.github.composegears.valkyrie.ir.util.toPathNodes
 import kotlin.Boolean
 import kotlin.Char
 import kotlin.FloatArray
