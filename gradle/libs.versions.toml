@@ -21,7 +21,7 @@ clikt = "com.github.ajalt.clikt:clikt:5.0.3"
 r8 = "com.android.tools:r8:8.11.18"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
-junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.13.4"
+junit5-jupiter = "org.junit.jupiter:junit-jupiter:5.14.0"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit4 = "junit:junit:4.13.2"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
