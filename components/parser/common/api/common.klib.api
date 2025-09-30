@@ -9,8 +9,3 @@
 final object io.github.composegears.valkyrie.parser.common/PathParser { // io.github.composegears.valkyrie.parser.common/PathParser|null[0]
     final fun parsePathString(kotlin/String): kotlin.collections/List<io.github.composegears.valkyrie.ir/IrPathNode> // io.github.composegears.valkyrie.parser.common/PathParser.parsePathString|parsePathString(kotlin.String){}[0]
 }
-
-final fun (io.github.composegears.valkyrie.ir/IrPathNode).io.github.composegears.valkyrie.parser.common/toPathArgs(): kotlin/FloatArray // io.github.composegears.valkyrie.parser.common/toPathArgs|toPathArgs@io.github.composegears.valkyrie.ir.IrPathNode(){}[0]
-final fun (io.github.composegears.valkyrie.ir/IrPathNode).io.github.composegears.valkyrie.parser.common/toPathCommand(): kotlin/Char // io.github.composegears.valkyrie.parser.common/toPathCommand|toPathCommand@io.github.composegears.valkyrie.ir.IrPathNode(){}[0]
-final fun (io.github.composegears.valkyrie.ir/IrPathNode).io.github.composegears.valkyrie.parser.common/toPathString(kotlin/Function1<kotlin/Float, kotlin/String> = ...): kotlin/String // io.github.composegears.valkyrie.parser.common/toPathString|toPathString@io.github.composegears.valkyrie.ir.IrPathNode(kotlin.Function1<kotlin.Float,kotlin.String>){}[0]
-final fun (kotlin.collections/List<io.github.composegears.valkyrie.ir/IrPathNode>).io.github.composegears.valkyrie.parser.common/toPathString(kotlin/Function1<kotlin/Float, kotlin/String> = ...): kotlin/String // io.github.composegears.valkyrie.parser.common/toPathString|toPathString@kotlin.collections.List<io.github.composegears.valkyrie.ir.IrPathNode>(kotlin.Function1<kotlin.Float,kotlin.String>){}[0]

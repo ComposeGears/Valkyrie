@@ -1,4 +1,5 @@
 public final class io/github/composegears/valkyrie/sdk/generator/xml/IrToXmlGenerator {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/generator/xml/IrToXmlGenerator;
+	public final fun generate (Lio/github/composegears/valkyrie/ir/IrImageVector;)Ljava/lang/String;
 }
 

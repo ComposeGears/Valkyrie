@@ -1,9 +1,3 @@
-public final class io/github/composegears/valkyrie/parser/unified/IrToVectorXml_jvmKt {
-	public static final fun toVectorXmlFile (Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;)V
-	public static final fun toVectorXmlFile (Lio/github/composegears/valkyrie/ir/IrImageVector;Lkotlinx/io/files/Path;)V
-	public static final fun toVectorXmlString (Lio/github/composegears/valkyrie/ir/IrImageVector;)Ljava/lang/String;
-}
-
 public final class io/github/composegears/valkyrie/parser/unified/ParserType : java/lang/Enum {
 	public static final field Jvm Lio/github/composegears/valkyrie/parser/unified/ParserType;
 	public static final field Kmp Lio/github/composegears/valkyrie/parser/unified/ParserType;

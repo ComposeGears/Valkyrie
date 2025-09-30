@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.valkyrie.abi)
     alias(libs.plugins.valkyrie.kover)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.valkyrie.wasm.resources)
 }
 
 kotlin {
@@ -12,8 +13,14 @@ kotlin {
             implementation(projects.components.ir)
             implementation(libs.xmlutil)
         }
-        commonTest.dependencies {
-            implementation(libs.bundles.kmp.test)
+        commonTest {
+            resources.srcDir("$rootDir/components/test/sharedTestResources")
+
+            dependencies {
+                implementation(projects.components.test.resourceLoader)
+                implementation(projects.components.parser.kmp.xml)
+                implementation(libs.bundles.kmp.test)
+            }
         }
     }
 }
