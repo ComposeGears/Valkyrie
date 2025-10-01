@@ -7,6 +7,7 @@ import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.ir.util.toPathString
 import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
+import kotlin.math.round
 
 object IrToXmlGenerator {
 
@@ -28,8 +29,8 @@ object IrToXmlGenerator {
     }
 
     private fun IrVectorNode.toVdChild(): VectorDrawable.Child = when (this) {
-        is IrVectorNode.IrGroup -> this.toVdGroup()
-        is IrVectorNode.IrPath -> this.toVdPath()
+        is IrVectorNode.IrGroup -> toVdGroup()
+        is IrVectorNode.IrPath -> toVdPath()
     }
 
     private fun IrVectorNode.IrGroup.toVdGroup(): VectorDrawable.Group {
@@ -81,7 +82,7 @@ object IrToXmlGenerator {
     private fun formatFloatValue(v: Float): String {
         if (!v.isFinite()) return "0"
         val scale = 100000f
-        val scaled = kotlin.math.round(v * scale) / scale
+        val scaled = round(v * scale) / scale
         val raw = scaled.toString()
         return raw.trimEnd('0').trimEnd('.')
     }
