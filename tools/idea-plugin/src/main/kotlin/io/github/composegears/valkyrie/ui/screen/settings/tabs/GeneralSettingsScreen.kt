@@ -45,6 +45,7 @@ import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
+import io.github.composegears.valkyrie.shared.Mode.WebImport
 import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.icons.PlayForward
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -127,7 +128,7 @@ private fun GeneralSettingsUi(
                     Simple -> "Simple"
                     IconPack -> "IconPack"
                     Editor -> "Editor"
-                    Unspecified -> "Unspecified"
+                    Unspecified, WebImport -> "Unspecified"
                 }
                 Text(
                     style = MaterialTheme.typography.bodyMedium,

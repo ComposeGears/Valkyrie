@@ -3,6 +3,7 @@ public final class io/github/composegears/valkyrie/shared/Mode : java/lang/Enum 
 	public static final field IconPack Lio/github/composegears/valkyrie/shared/Mode;
 	public static final field Simple Lio/github/composegears/valkyrie/shared/Mode;
 	public static final field Unspecified Lio/github/composegears/valkyrie/shared/Mode;
+	public static final field WebImport Lio/github/composegears/valkyrie/shared/Mode;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/shared/Mode;
 	public static fun values ()[Lio/github/composegears/valkyrie/shared/Mode;

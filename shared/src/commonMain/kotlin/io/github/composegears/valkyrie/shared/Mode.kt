@@ -4,5 +4,6 @@ enum class Mode {
     Simple,
     IconPack,
     Editor,
+    WebImport,
     Unspecified,
 }

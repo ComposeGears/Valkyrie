@@ -72,7 +72,7 @@ private fun IntroUI(onModeChange: (Mode) -> Unit) {
         InfoCard(
             modifier = Modifier.padding(horizontal = 16.dp),
             onClick = { onModeChange(Mode.Simple) },
-            image = ValkyrieIcons.Outlined.Conversion,
+            icon = ValkyrieIcons.Outlined.Conversion,
             title = stringResource(Res.string.intro_card_simple_title),
             description = stringResource(Res.string.intro_card_simple_description),
         )

@@ -11,6 +11,7 @@ final enum class io.github.composegears.valkyrie.shared/Mode : kotlin/Enum<io.gi
     enum entry IconPack // io.github.composegears.valkyrie.shared/Mode.IconPack|null[0]
     enum entry Simple // io.github.composegears.valkyrie.shared/Mode.Simple|null[0]
     enum entry Unspecified // io.github.composegears.valkyrie.shared/Mode.Unspecified|null[0]
+    enum entry WebImport // io.github.composegears.valkyrie.shared/Mode.WebImport|null[0]
 
     final val entries // io.github.composegears.valkyrie.shared/Mode.entries|#static{}entries[0]
         final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.shared/Mode> // io.github.composegears.valkyrie.shared/Mode.entries.<get-entries>|<get-entries>#static(){}[0]

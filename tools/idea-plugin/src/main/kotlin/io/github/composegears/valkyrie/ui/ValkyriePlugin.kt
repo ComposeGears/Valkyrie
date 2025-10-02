@@ -27,6 +27,7 @@ import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
+import io.github.composegears.valkyrie.shared.Mode.WebImport
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
@@ -39,6 +40,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleCo
 import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -65,6 +67,8 @@ fun ValkyriePlugin(
 
             EditorSelectScreen,
             EditScreen,
+
+            WebImportFlow,
         ),
         startDestination = null,
         configuration = {
@@ -131,7 +135,7 @@ private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     val screen = when (settings.mode) {
         Simple -> SimpleConversionScreen
         IconPack -> IconPackConversionScreen
-        Unspecified, Editor -> IntroScreen
+        Unspecified, Editor, WebImport -> IntroScreen
     }
 
     if (current != screen) {
