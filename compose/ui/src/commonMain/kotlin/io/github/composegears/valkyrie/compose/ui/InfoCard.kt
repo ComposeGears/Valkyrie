@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.compose.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -23,10 +24,11 @@ import io.github.composegears.valkyrie.compose.util.dim
 @Composable
 fun InfoCard(
     onClick: () -> Unit,
-    image: ImageVector,
     title: String,
     description: String,
     modifier: Modifier = Modifier,
+    image: ImageVector? = null,
+    icon: ImageVector? = null,
 ) {
     Card(
         modifier = modifier,
@@ -37,13 +39,24 @@ fun InfoCard(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.Top)
-                    .size(36.dp),
-                imageVector = image,
-                contentDescription = null,
-            )
+            icon?.let {
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.Top)
+                        .size(36.dp),
+                    imageVector = it,
+                    contentDescription = null,
+                )
+            }
+            image?.let {
+                Image(
+                    modifier = Modifier
+                        .align(Alignment.Top)
+                        .size(36.dp),
+                    imageVector = it,
+                    contentDescription = null,
+                )
+            }
             Column(
                 modifier = Modifier.width(250.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -51,11 +64,13 @@ fun InfoCard(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
+                    maxLines = 1,
                 )
                 Text(
                     text = description,
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                     color = LocalContentColor.current.dim(),
+                    maxLines = 1,
                 )
             }
         }

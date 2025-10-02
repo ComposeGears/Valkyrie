@@ -23,6 +23,10 @@ public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$O
 	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;
 }
 
+public final class io/github/composegears/valkyrie/compose/icons/colored/GoogleMaterialLogoKt {
+	public static final fun getGoogleMaterialLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/compose/icons/colored/PluginIconKt {
 	public static final fun getValkyrieLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
@@ -53,6 +57,10 @@ public final class io/github/composegears/valkyrie/compose/icons/outlined/DarkKt
 
 public final class io/github/composegears/valkyrie/compose/icons/outlined/EditorKt {
 	public static final fun getEditor (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/compose/icons/outlined/FileImportKt {
+	public static final fun getFileImport (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/outlined/LightKt {

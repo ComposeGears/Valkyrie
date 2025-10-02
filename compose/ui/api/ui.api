@@ -1,5 +1,5 @@
 public final class io/github/composegears/valkyrie/compose/ui/InfoCardKt {
-	public static final fun InfoCard (Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun InfoCard (Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/Modifier;Landroidx/compose/ui/graphics/vector/ImageVector;Landroidx/compose/ui/graphics/vector/ImageVector;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/composegears/valkyrie/compose/ui/foundation/ScrollbarKt {
