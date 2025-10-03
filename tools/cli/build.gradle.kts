@@ -57,7 +57,7 @@ val buildWithR8 by tasks.registering(JavaExec::class) {
     dependsOn(tasks.installShadowDist)
 
     val proguardRulesFile = layout.projectDirectory.file("proguard-rules.pro").asFile
-    val jar = layout.buildDirectory.file("install/cli-shadow/lib/$baseName-$version-all.jar").map { it.asFile }
+    val jar = layout.buildDirectory.file("install/valkyrie-shadow/lib/$baseName-$version-all.jar").map { it.asFile }
 
     inputs.files(jar, proguardRulesFile)
     outputs.file(jar)
@@ -77,7 +77,7 @@ val buildWithR8 by tasks.registering(JavaExec::class) {
 val buildCLI by tasks.registering(Zip::class) {
     dependsOn(buildWithR8)
 
-    from(layout.buildDirectory.file("install/cli-shadow"))
+    from(layout.buildDirectory.file("install/valkyrie-shadow"))
 
     archiveFileName.set("$baseName-cli-$version.zip")
     destinationDirectory.set(layout.buildDirectory.dir("distributions/"))
@@ -85,7 +85,7 @@ val buildCLI by tasks.registering(Zip::class) {
 
 tasks.test {
     dependsOn(buildWithR8)
-    systemProperty("CLI_PATH", layout.buildDirectory.file("install/cli-shadow/bin").get().asFile.path)
+    systemProperty("CLI_PATH", layout.buildDirectory.file("install/valkyrie-shadow/bin").get().asFile.path)
 }
 
 val r8: Configuration by configurations.creating
