@@ -5,8 +5,8 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrPathFillType
 import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrVectorNode
-import io.github.composegears.valkyrie.ir.util.toPathString
 import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
+import io.github.composegears.valkyrie.sdk.generator.xml.util.toPathString
 import kotlin.math.round
 
 object IrToXmlGenerator {
@@ -48,12 +48,12 @@ object IrToXmlGenerator {
     }
 
     private fun IrVectorNode.IrPath.toVdPath(): VectorDrawable.Path {
-        val fillColorStr = when (val f = fill) {
-            is IrFill.Color -> f.irColor.toHexColor()
+        val fillColorStr = when (val fill = fill) {
+            is IrFill.Color -> fill.irColor.toHexColor()
             else -> null
         }
-        val strokeColorStr = when (val s = stroke) {
-            is IrStroke.Color -> s.irColor.toHexColor()
+        val strokeColorStr = when (val stroke = stroke) {
+            is IrStroke.Color -> stroke.irColor.toHexColor()
             else -> null
         }
 
