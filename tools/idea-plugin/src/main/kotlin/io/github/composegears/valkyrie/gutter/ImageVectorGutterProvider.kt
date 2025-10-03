@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.gutter
 
 import com.android.ide.common.vectordrawable.VdPreview
-import com.intellij.codeInsight.daemon.GutterIconNavigationHandler
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.openapi.editor.markup.GutterIconRenderer
@@ -22,57 +21,66 @@ import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtProperty
 
 class ImageVectorGutterProvider : LineMarkerProvider {
-    override fun getLineMarkerInfo(p0: PsiElement): LineMarkerInfo<*>? {
-        return null
-    }
 
-    override fun collectSlowLineMarkers(elements: List<PsiElement?>, result: MutableCollection<in LineMarkerInfo<*>>) {
+    override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? = null
+
+    override fun collectSlowLineMarkers(
+        elements: List<PsiElement?>,
+        result: MutableCollection<in LineMarkerInfo<*>>,
+    ) {
         val propertyCache = mutableMapOf<KtProperty, IrImageVector?>()
-        val vectorProperties = elements
-            .filterIsInstance<KtProperty>()
-            .filter { isImageVector(it) }
 
-        for (property in vectorProperties) {
-            val irImageVector = parseImageVectorProperty(property)
-            propertyCache[property] = irImageVector
+        // Process ImageVector property definitions
+        elements.filterIsInstance<KtProperty>()
+            .filter { it.isImageVector() }
+            .forEach { property ->
+                val irImageVector = parseImageVectorProperty(property)
+                propertyCache[property] = irImageVector
 
-            if (irImageVector != null) {
-                val nameIdentifier = property.nameIdentifier
-                nameIdentifier?.let {
-                    createGutterIcon(
-                        element = nameIdentifier,
-                        irImageVector = irImageVector,
-                        name = property.name ?: "",
-                    )?.let {
-                        result.add(it)
+                irImageVector?.let {
+                    property.nameIdentifier?.let { identifier ->
+                        createGutterIcon(identifier, it, property.name.orEmpty())?.let(result::add)
                     }
                 }
             }
-        }
 
-        val references = elements.filterIsInstance<KtNameReferenceExpression>()
-        for (reference in references) {
-            val referencedProperty = reference.references
-                .mapNotNull { it.resolve() as? KtProperty }
-                .firstOrNull { isImageVector(it) }
-                ?: continue
+        // Process ImageVector references
+        elements.filterIsInstance<KtNameReferenceExpression>()
+            .mapNotNull { reference ->
+                val referencedProperty = reference.references
+                    .mapNotNull { it.resolve() as? KtProperty }
+                    .firstOrNull { it.isImageVector() }
+                    ?: return@mapNotNull null
 
-            val irImageVector = propertyCache.getOrPut(referencedProperty) {
-                parseImageVectorProperty(referencedProperty)
-            } ?: continue
+                val irImageVector = propertyCache.getOrPut(referencedProperty) {
+                    parseImageVectorProperty(referencedProperty)
+                } ?: return@mapNotNull null
 
-            createGutterIcon(
-                element = reference,
-                irImageVector = irImageVector,
-                name = referencedProperty.name ?: "",
-            )?.let {
-                result.add(it)
+                createGutterIcon(reference, irImageVector, referencedProperty.name.orEmpty())
             }
-        }
+            .forEach(result::add)
     }
 
-    private fun isImageVector(property: KtProperty): Boolean = property.typeReference?.text == "ImageVector" ||
-        property.typeReference?.text == "androidx.compose.ui.graphics.vector.ImageVector"
+    private fun KtProperty.isImageVector(): Boolean = typeReference?.text in IMAGEVECTOR_TYPES
+
+    private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
+        // Try parsing the current file
+        val containingFile = property.containingKtFile
+        ImageVectorPsiParser.parseToIrImageVector(containingFile)?.let { return it }
+
+        // For properties from libraries, navigate to decompiled/attached source
+        val navigationElement = property.navigationElement
+        if (navigationElement is KtProperty && navigationElement != property) {
+            val sourceFile = navigationElement.containingKtFile
+
+            // Only parse if we have actual source code (not a stub)
+            if (COMPILED_CODE_MARKER !in sourceFile.text) {
+                return ImageVectorPsiParser.parseToIrImageVector(sourceFile)
+            }
+        }
+
+        return null
+    }
 
     private fun <T : PsiElement> createGutterIcon(
         element: T,
@@ -81,94 +89,69 @@ class ImageVectorGutterProvider : LineMarkerProvider {
     ): LineMarkerInfo<T>? {
         val icon = createIconFromImageVector(irImageVector) ?: return null
 
-        val navigationHandler = GutterIconNavigationHandler<T> { event, _ ->
-            showIconPreviewPopup(event, irImageVector, name)
-        }
         return LineMarkerInfo(
             element,
             element.textRange,
             icon,
             { "Vector Icon: $name" },
-            navigationHandler,
+            { event, _ ->
+                showIconPreviewPopup(event, irImageVector, name)
+            },
             GutterIconRenderer.Alignment.LEFT,
             { "Vector Icon: $name" },
         )
     }
 
-    private fun createIconFromImageVector(irImageVector: IrImageVector): Icon? {
-        return try {
-            val errorLog = StringBuilder()
-            val previewImage = VdPreview.getPreviewFromVectorXml(
-                VdPreview.TargetSize.createFromMaxDimension(16),
-                irImageVector.toVectorXmlString(),
-                errorLog,
-            )
-
-            if (previewImage != null) {
-                ImageIcon(previewImage)
-            } else {
-                null
-            }
-        } catch (_: Exception) {
-            null
-        }
+    private fun createIconFromImageVector(irImageVector: IrImageVector): Icon? = try {
+        VdPreview.getPreviewFromVectorXml(
+            VdPreview.TargetSize.createFromMaxDimension(GUTTER_ICON_SIZE),
+            irImageVector.toVectorXmlString(),
+            StringBuilder(),
+        )?.let(::ImageIcon)
+    } catch (_: Exception) {
+        null
     }
 
-    private fun showIconPreviewPopup(event: MouseEvent, irImageVector: IrImageVector, name: String) {
+    private fun showIconPreviewPopup(
+        event: MouseEvent,
+        irImageVector: IrImageVector,
+        name: String,
+    ) {
         val previewImage = try {
-            val errorLog = StringBuilder()
             VdPreview.getPreviewFromVectorXml(
-                VdPreview.TargetSize.createFromMaxDimension(64),
+                VdPreview.TargetSize.createFromMaxDimension(POPUP_ICON_SIZE),
                 irImageVector.toVectorXmlString(),
-                errorLog,
+                StringBuilder(),
             )
         } catch (_: Exception) {
             null
+        } ?: return
+
+        val panel = JPanel(BorderLayout()).apply {
+            add(JLabel(ImageIcon(previewImage)), BorderLayout.CENTER)
+            add(JLabel(name), BorderLayout.SOUTH)
+            border = BorderFactory.createEmptyBorder(POPUP_PADDING, POPUP_PADDING, POPUP_PADDING, POPUP_PADDING)
         }
 
-        previewImage?.let {
-            val panel = JPanel(BorderLayout()).apply {
-                add(JLabel(ImageIcon(previewImage)), BorderLayout.CENTER)
-                add(JLabel(name), BorderLayout.SOUTH)
-                border = BorderFactory.createEmptyBorder(5, 5, 5, 5)
-            }
-
-            val popup = JBPopupFactory.getInstance()
-                .createComponentPopupBuilder(panel, null)
-                .setTitle("Vector Icon Preview")
-                .setResizable(false)
-                .setMovable(false)
-                .setRequestFocus(true)
-                .createPopup()
-
-            popup.show(RelativePoint(event))
-        }
+        JBPopupFactory.getInstance()
+            .createComponentPopupBuilder(panel, null)
+            .setTitle("Vector Icon Preview")
+            .setResizable(false)
+            .setMovable(false)
+            .setRequestFocus(true)
+            .createPopup()
+            .show(RelativePoint(event))
     }
 
-    private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
-        // Try parsing the file containing this property
-        val containingFile = property.containingKtFile
-        val fileParse = ImageVectorPsiParser.parseToIrImageVector(containingFile)
-        if (fileParse != null) {
-            return fileParse
-        }
+    private companion object {
+        const val GUTTER_ICON_SIZE = 16
+        const val POPUP_ICON_SIZE = 64
+        const val POPUP_PADDING = 5
+        const val COMPILED_CODE_MARKER = "/* compiled code */"
 
-        // For properties from a library, we need to try to navigate to the actual source/decompiled file
-        // navigationElement gives us access to the real source, not just the stub
-        val navigationElement = property.navigationElement
-
-        if (navigationElement is KtProperty && navigationElement != property) {
-            val sourceFile = navigationElement.containingKtFile
-
-            // Check if the file has actual parseable source (not just a stub)
-            if (!sourceFile.text.contains("/* compiled code */")) {
-                // Try parsing the source file
-                val sourceParse = ImageVectorPsiParser.parseToIrImageVector(sourceFile)
-                if (sourceParse != null) {
-                    return sourceParse
-                }
-            }
-        }
-        return null
+        val IMAGEVECTOR_TYPES = setOf(
+            "ImageVector",
+            "androidx.compose.ui.graphics.vector.ImageVector",
+        )
     }
 }
