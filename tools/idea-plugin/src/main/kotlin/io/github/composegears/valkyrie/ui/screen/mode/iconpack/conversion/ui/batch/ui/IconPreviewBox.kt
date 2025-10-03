@@ -34,7 +34,7 @@ fun IconPreviewBox(
     previewType: PreviewType,
     modifier: Modifier = Modifier,
 ) {
-    var bgType by rememberSaveable(key = previewType.name) {
+    var bgType by rememberSaveable {
         mutableStateOf(
             when (previewType) {
                 PreviewType.Black -> BgType.Black
