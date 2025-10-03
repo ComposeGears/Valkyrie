@@ -33,13 +33,7 @@ fun KotlinCodeViewer(
     CodeEditor(
         modifier = modifier,
         highlights = highlights,
-        onValueChange = {
-            highlights = highlights.getBuilder()
-                .code(it)
-                .build()
-
-            onChange(it)
-        },
+        onValueChange = onChange,
         textStyle = MaterialTheme.typography.bodyMedium.copy(lineHeight = 21.sp, fontSize = 13.sp),
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Color.Transparent,
