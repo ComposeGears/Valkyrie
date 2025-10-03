@@ -155,110 +155,15 @@ private inline fun pathNodesFromArgs(
 ): List<IrPathNode> {
     return (0..args.size - numArgs step numArgs).map { index ->
         val subArray = args.slice(index until index + numArgs).toFloatArray()
-        val node = nodeFor(subArray)
-        when {
-            // According to the spec, if a MoveTo is followed by multiple pairs of coordinates,
-            // the subsequent pairs are treated as implicit corresponding LineTo commands.
-            node is MoveTo && index > 0 -> LineTo(subArray[0], subArray[1])
-            node is RelativeMoveTo && index > 0 -> RelativeLineTo(subArray[0], subArray[1])
+
+        // According to the spec, if a MoveTo is followed by multiple pairs of coordinates,
+        // the subsequent pairs are treated as implicit corresponding LineTo commands.
+        when (val node = nodeFor(subArray)) {
+            is MoveTo if index > 0 -> LineTo(subArray[0], subArray[1])
+            is RelativeMoveTo if index > 0 -> RelativeLineTo(subArray[0], subArray[1])
             else -> node
         }
     }
-}
-
-fun IrPathNode.toPathCommand(): Char = when (this) {
-    is Close -> 'Z'
-    is MoveTo -> 'M'
-    is RelativeMoveTo -> 'm'
-    is LineTo -> 'L'
-    is RelativeLineTo -> 'l'
-    is HorizontalTo -> 'H'
-    is RelativeHorizontalTo -> 'h'
-    is VerticalTo -> 'V'
-    is RelativeVerticalTo -> 'v'
-    is CurveTo -> 'C'
-    is RelativeCurveTo -> 'c'
-    is ReflectiveCurveTo -> 'S'
-    is RelativeReflectiveCurveTo -> 's'
-    is QuadTo -> 'Q'
-    is RelativeQuadTo -> 'q'
-    is ReflectiveQuadTo -> 'T'
-    is RelativeReflectiveQuadTo -> 't'
-    is ArcTo -> 'A'
-    is RelativeArcTo -> 'a'
-}
-
-/**
- * Extension function to convert an IrPathNode back to its argument array.
- */
-fun IrPathNode.toPathArgs(): FloatArray = when (this) {
-    is Close -> floatArrayOf()
-    is MoveTo -> floatArrayOf(x, y)
-    is RelativeMoveTo -> floatArrayOf(x, y)
-    is LineTo -> floatArrayOf(x, y)
-    is RelativeLineTo -> floatArrayOf(x, y)
-    is HorizontalTo -> floatArrayOf(x)
-    is RelativeHorizontalTo -> floatArrayOf(x)
-    is VerticalTo -> floatArrayOf(y)
-    is RelativeVerticalTo -> floatArrayOf(y)
-    is CurveTo -> floatArrayOf(x1, y1, x2, y2, x3, y3)
-    is RelativeCurveTo -> floatArrayOf(dx1, dy1, dx2, dy2, dx3, dy3)
-    is ReflectiveCurveTo -> floatArrayOf(x1, y1, x2, y2)
-    is RelativeReflectiveCurveTo -> floatArrayOf(x1, y1, x2, y2)
-    is QuadTo -> floatArrayOf(x1, y1, x2, y2)
-    is RelativeQuadTo -> floatArrayOf(x1, y1, x2, y2)
-    is ReflectiveQuadTo -> floatArrayOf(x, y)
-    is RelativeReflectiveQuadTo -> floatArrayOf(x, y)
-    is ArcTo -> floatArrayOf(
-        horizontalEllipseRadius,
-        verticalEllipseRadius,
-        theta,
-        if (isMoreThanHalf) 1f else 0f,
-        if (isPositiveArc) 1f else 0f,
-        arcStartX,
-        arcStartY,
-    )
-    is RelativeArcTo -> floatArrayOf(
-        horizontalEllipseRadius,
-        verticalEllipseRadius,
-        theta,
-        if (isMoreThanHalf) 1f else 0f,
-        if (isPositiveArc) 1f else 0f,
-        arcStartDx,
-        arcStartDy,
-    )
-}
-
-/**
- * Extension function to convert an IrPathNode back to its path string representation.
- */
-fun IrPathNode.toPathString(formatFloat: (Float) -> String = { it.toString() }): String {
-    val command = toPathCommand()
-    val args = toPathArgs()
-
-    return if (args.isEmpty()) {
-        command.toString()
-    } else {
-        val isArc = command == 'A' || command == 'a'
-        buildString {
-            append(command)
-            args.forEachIndexed { index, arg ->
-                append(' ')
-                if (isArc && (index == 3 || index == 4)) {
-                    append(if (arg != 0f) '1' else '0')
-                } else {
-                    append(formatFloat(arg))
-                }
-            }
-        }
-    }
-}
-
-/**
- * Extension function to convert a list of IrPathNodes to a complete path data string.
- */
-fun List<IrPathNode>.toPathString(formatFloat: (Float) -> String = { it.toString() }): String {
-    return joinToString(" ") { it.toPathString(formatFloat) }
 }
 
 /**
