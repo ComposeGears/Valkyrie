@@ -528,12 +528,6 @@ public final class io/github/composegears/valkyrie/ir/util/IrImageVectorColorKt 
 }
 
 public final class io/github/composegears/valkyrie/ir/util/PathNodeKt {
-	public static final fun toPathArgs (Lio/github/composegears/valkyrie/ir/IrPathNode;)[F
-	public static final fun toPathCommand (Lio/github/composegears/valkyrie/ir/IrPathNode;)C
 	public static final fun toPathNodes (C[F)Ljava/util/List;
-	public static final fun toPathString (Lio/github/composegears/valkyrie/ir/IrPathNode;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
-	public static final fun toPathString (Ljava/util/List;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
-	public static synthetic fun toPathString$default (Lio/github/composegears/valkyrie/ir/IrPathNode;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/String;
-	public static synthetic fun toPathString$default (Ljava/util/List;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/String;
 }
 
