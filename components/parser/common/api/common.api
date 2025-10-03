@@ -1,12 +1,3 @@
-public final class io/github/composegears/valkyrie/parser/common/PathNodeKt {
-	public static final fun toPathArgs (Lio/github/composegears/valkyrie/ir/IrPathNode;)[F
-	public static final fun toPathCommand (Lio/github/composegears/valkyrie/ir/IrPathNode;)C
-	public static final fun toPathString (Lio/github/composegears/valkyrie/ir/IrPathNode;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
-	public static final fun toPathString (Ljava/util/List;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
-	public static synthetic fun toPathString$default (Lio/github/composegears/valkyrie/ir/IrPathNode;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/String;
-	public static synthetic fun toPathString$default (Ljava/util/List;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/String;
-}
-
 public final class io/github/composegears/valkyrie/parser/common/PathParser {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/common/PathParser;
 	public final fun parsePathString (Ljava/lang/String;)Ljava/util/List;
