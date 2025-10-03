@@ -67,6 +67,10 @@ Allows to create organized icon pack with an extension property of you pack obje
         <projectService serviceImplementation="io.github.composegears.valkyrie.service.PersistentSettings"/>
         <projectService serviceImplementation="io.github.composegears.valkyrie.service.GlobalEventsHandler"/>
 
+        <codeInsight.lineMarkerProvider
+            language="kotlin"
+            implementationClass="io.github.composegears.valkyrie.gutter.ImageVectorGutterProvider" />
+
         <completion.contributor
             language="kotlin"
             order="first, before KotlinCompletionContributor, before AndroidComposeCompletionContributor"
