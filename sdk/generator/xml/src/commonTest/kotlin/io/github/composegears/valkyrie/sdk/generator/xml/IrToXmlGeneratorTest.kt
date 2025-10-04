@@ -4,6 +4,7 @@ import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrPathFillType
+import io.github.composegears.valkyrie.ir.IrPathNode
 import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrStrokeLineCap
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
@@ -187,6 +188,41 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         assertTrue(result.contains("android:name=\"test_icon\""))
+    }
+
+    @Test
+    fun `parse ImageVector with clip path in group`() {
+        val imageVector = imageVector(
+            nodes = listOf(
+                IrVectorNode.IrGroup(
+                    name = "clipped_group",
+                    clipPathData = mutableListOf(
+                        IrPathNode.MoveTo(12f, 2f),
+                        IrPathNode.LineTo(22f, 12f),
+                        IrPathNode.LineTo(12f, 22f),
+                        IrPathNode.LineTo(2f, 12f),
+                        IrPathNode.Close,
+                    ),
+                    nodes = mutableListOf(
+                        IrVectorNode.IrPath(
+                            fill = IrFill.Color(IrColor(0xffff0000)),
+                            paths = emptyList(),
+                        ),
+                    ),
+                ),
+            ),
+        )
+
+        val result = IrToXmlGenerator.generate(imageVector)
+
+        with(result) {
+            assertTrue(contains("<group"))
+            assertTrue(contains("</group>"))
+            assertTrue(contains("<clip-path"))
+            assertTrue(contains("android:name=\"clipped_group\""))
+            assertTrue(contains("android:pathData=\"M 12 2 L 22 12 L 12 22 L 2 12 Z\""))
+            assertTrue(contains("android:fillColor=\"#FFFF0000\""))
+        }
     }
 
     @Test
@@ -465,11 +501,41 @@ class IrToXmlGeneratorTest {
 
         validateVectorAttributes(xml = generatedXml, size = 128, viewportSize = 128f)
 
-        // TODO: Original has complex gradients with offset items and clip paths - needs gradient support
+        // TODO: Original has complex gradients with offset items - needs gradient support
         val pathCount = generatedXml.split("<path").lastIndex
-        assertEquals(pathCount, 7, "Should contain 7 paths")
+        assertEquals(7, pathCount, "Should contain 7 paths")
 
         assertTrue(generatedXml.contains("<group"))
+        val clipPathCount = generatedXml.split("<clip-path").lastIndex
+        assertEquals(1, clipPathCount, "Should contain exactly 1 clip-path element")
+
+        // Verify the clip-path data is preserved
+        val expectedClipPathData =
+            "M 66.8 76.5 c -10.89 3.76 -22.1 6.51 -33.5 8.2 c -1.92 0.25 -3.27 2.02 -3.02 3.94 c 0.06 0.44 0.2 0.87 0.42 1.26 c 8.2 14.2 27.4 21.6 45.8 15.4 c 20.2 -6.8 29.4 -24.2 27.2 -40.1 c -0.27 -1.9 -2.03 -3.22 -3.92 -2.95 c -0.45 0.06 -0.88 0.22 -1.28 0.45 C 88.36 68.22 77.75 72.83 66.8 76.5 Z"
+        assertTrue(generatedXml.contains(expectedClipPathData), "Generated XML should contain the clip-path data")
+    }
+
+    @Test
+    fun `round trip test for ic_clip_path xml`() {
+        val generatedXml = roundTripGenerateXml("imagevector/xml/ic_clip_path.xml")
+
+        validateVectorAttributes(xml = generatedXml, size = 24, viewportSize = 24f)
+
+        val groupCount = generatedXml.split("<group").lastIndex
+        assertEquals(1, groupCount, "Should contain exactly 1 group")
+
+        val clipPathCount = generatedXml.split("<clip-path").lastIndex
+        assertEquals(1, clipPathCount, "Should contain exactly 1 clip-path element")
+
+        val pathCount = generatedXml.split("<path").lastIndex
+        assertEquals(1, pathCount, "Should contain exactly 1 path element")
+
+        // Verify clip-path data is preserved (circular clip region)
+        assertTrue(generatedXml.contains("M 12 2 C 6.48 2 2 6.48 2 12 s 4.48 10 10 10 s 10 -4.48 10 -10 S 17.52 2 12 2 Z"))
+
+        // Verify the path inside the clipped group
+        assertTrue(generatedXml.contains("android:fillColor=\"#FFFF0000\""))
+        assertTrue(generatedXml.contains("M 0 0 h 24 v 24 h -24 Z"))
     }
 
     private fun roundTripGenerateXml(resourcePath: String): String {

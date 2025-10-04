@@ -1,4 +1,5 @@
 public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable {
+	public static final field CLIP_PATH Ljava/lang/String;
 	public static final field Companion Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Companion;
 	public static final field GROUP Ljava/lang/String;
 	public static final field PATH Ljava/lang/String;
@@ -39,6 +40,36 @@ public final synthetic class io/github/composegears/valkyrie/sdk/core/xml/Vector
 }
 
 public abstract interface class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Child {
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath : io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Child {
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPathData ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$ClipPath$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Companion {

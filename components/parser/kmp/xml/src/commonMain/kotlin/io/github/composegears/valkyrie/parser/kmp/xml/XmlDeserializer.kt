@@ -14,6 +14,7 @@ internal object XmlDeserializer {
         polymorphic(VectorDrawable.Child::class) {
             subclass(VectorDrawable.Group::class)
             subclass(VectorDrawable.Path::class)
+            subclass(VectorDrawable.ClipPath::class)
         }
     }
 

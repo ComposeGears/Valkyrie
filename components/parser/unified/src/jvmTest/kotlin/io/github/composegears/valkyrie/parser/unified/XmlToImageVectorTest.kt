@@ -94,6 +94,11 @@ class XmlToImageVectorTest {
         unifiedXmlParserTest(iconPath = getResourcePath("imagevector/xml/icon_with_shorthand_color.xml").toIOPath())
     }
 
+    @Test
+    fun `icon with clip path`() {
+        unifiedXmlParserTest(iconPath = getResourcePath("imagevector/xml/ic_clip_path.xml").toIOPath())
+    }
+
     private fun unifiedXmlParserTest(iconPath: Path) {
         val jvmOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = iconPath)
         val kmpOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Kmp, path = iconPath)
