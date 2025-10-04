@@ -32,6 +32,7 @@ object XmlToImageVectorParser {
         return when (this) {
             is VectorDrawable.Group -> toIrGroup()
             is VectorDrawable.Path -> toIrPath()
+            is VectorDrawable.ClipPath -> error("ClipPath should be handled within Group")
         }
     }
 
@@ -52,6 +53,16 @@ object XmlToImageVectorParser {
     }
 
     private fun VectorDrawable.Group.toIrGroup(): IrVectorNode.IrGroup {
+        val clipPathData = children
+            .filterIsInstance<VectorDrawable.ClipPath>()
+            .flatMap { PathParser.parsePathString(it.pathData) }
+            .toMutableList()
+
+        val regularChildren = children
+            .filterNot { it is VectorDrawable.ClipPath }
+            .map { it.toNode() }
+            .toMutableList()
+
         return IrVectorNode.IrGroup(
             name = name.orEmpty(),
             rotate = rotation ?: 0f,
@@ -61,8 +72,8 @@ object XmlToImageVectorParser {
             scaleY = scaleY ?: 1f,
             translationX = translateX ?: 0f,
             translationY = translateY ?: 0f,
-            clipPathData = mutableListOf(),
-            nodes = children.map { it.toNode() }.toMutableList(),
+            clipPathData = clipPathData,
+            nodes = regularChildren,
         )
     }
 

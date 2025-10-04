@@ -20,12 +20,13 @@ data class VectorDrawable(
     @XmlSerialName("tint", ANDROID_NAMESPACE, ANDROID_PREFIX) val tint: String? = null,
     @XmlSerialName("autoMirrored", ANDROID_NAMESPACE, ANDROID_PREFIX) val autoMirrored: Boolean = false,
 
-    @XmlPolyChildren([GROUP, PATH])
+    @XmlPolyChildren([GROUP, PATH, CLIP_PATH])
     val children: List<@Polymorphic Child>,
 ) {
     companion object {
         const val GROUP = "group"
         const val PATH = "path"
+        const val CLIP_PATH = "clip-path"
     }
 
     sealed interface Child
@@ -43,7 +44,7 @@ data class VectorDrawable(
         @XmlSerialName("scaleY", ANDROID_NAMESPACE, ANDROID_PREFIX) val scaleY: Float? = null,
         @XmlSerialName("rotation", ANDROID_NAMESPACE, ANDROID_PREFIX) val rotation: Float? = null,
 
-        @XmlPolyChildren([GROUP, PATH])
+        @XmlPolyChildren([GROUP, PATH, CLIP_PATH])
         val children: List<@Polymorphic Child>,
     ) : Child
 
@@ -62,5 +63,13 @@ data class VectorDrawable(
         @XmlSerialName("strokeColor", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeColor: String? = null,
         @XmlSerialName("strokeAlpha", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeAlpha: String? = null,
         @XmlSerialName("strokeMiterLimit", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeMiterLimit: String? = null,
+    ) : Child
+
+    @Serializable
+    @SerialName(CLIP_PATH)
+    @XmlSerialName(value = CLIP_PATH, prefix = ANDROID_PREFIX)
+    data class ClipPath(
+        @XmlSerialName("name", ANDROID_NAMESPACE, ANDROID_PREFIX) val name: String? = null,
+        @XmlSerialName("pathData", ANDROID_NAMESPACE, ANDROID_PREFIX) val pathData: String,
     ) : Child
 }

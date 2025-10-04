@@ -41,6 +41,35 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
 
     sealed interface Child // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Child|null[0]
 
+    final class ClipPath : io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Child { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath|null[0]
+        constructor <init>(kotlin/String? = ..., kotlin/String) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.<init>|<init>(kotlin.String?;kotlin.String){}[0]
+
+        final val name // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.name|{}name[0]
+            final fun <get-name>(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.name.<get-name>|<get-name>(){}[0]
+        final val pathData // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.pathData|{}pathData[0]
+            final fun <get-pathData>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.pathData.<get-pathData>|<get-pathData>(){}[0]
+
+        final fun component1(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.component1|component1(){}[0]
+        final fun component2(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.component2|component2(){}[0]
+        final fun copy(kotlin/String? = ..., kotlin/String = ...): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.copy|copy(kotlin.String?;kotlin.String){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.toString|toString(){}[0]
+
+        final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath> { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.$serializer|null[0]
+            final val descriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.$serializer.descriptor|{}descriptor[0]
+                final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+            final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.$serializer.childSerializers|childSerializers(){}[0]
+            final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+            final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.ClipPath){}[0]
+        }
+
+        final object Companion { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.Companion|null[0]
+            final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.Companion.serializer|serializer(){}[0]
+        }
+    }
+
     final class Group : io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Child { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Group|null[0]
         constructor <init>(kotlin/String? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Child>) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Group.<init>|<init>(kotlin.String?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.collections.List<io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.Child>){}[0]
 
@@ -159,6 +188,8 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
     }
 
     final object Companion { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion|null[0]
+        final const val CLIP_PATH // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.CLIP_PATH|{}CLIP_PATH[0]
+            final fun <get-CLIP_PATH>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.CLIP_PATH.<get-CLIP_PATH>|<get-CLIP_PATH>(){}[0]
         final const val GROUP // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GROUP|{}GROUP[0]
             final fun <get-GROUP>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GROUP.<get-GROUP>|<get-GROUP>(){}[0]
         final const val PATH // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.PATH|{}PATH[0]

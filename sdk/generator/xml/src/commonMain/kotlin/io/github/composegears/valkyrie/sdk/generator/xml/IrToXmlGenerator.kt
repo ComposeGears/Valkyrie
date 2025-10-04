@@ -34,6 +34,20 @@ object IrToXmlGenerator {
     }
 
     private fun IrVectorNode.IrGroup.toVdGroup(): VectorDrawable.Group {
+        val regularChildren = nodes.map { it.toVdChild() }
+
+        // Generate clip-path element if present
+        // ClipPath must be the first child in the group to properly define the clipping region
+        val allChildren = if (clipPathData.isNotEmpty()) {
+            val clipPath = VectorDrawable.ClipPath(
+                name = null,
+                pathData = clipPathData.toPathString(::formatFloatValue),
+            )
+            listOf(clipPath) + regularChildren
+        } else {
+            regularChildren
+        }
+
         return VectorDrawable.Group(
             name = name.ifEmpty { null },
             pivotX = pivotX.takeIf { it != 0f },
@@ -43,7 +57,7 @@ object IrToXmlGenerator {
             scaleX = scaleX.takeIf { it != 1f },
             scaleY = scaleY.takeIf { it != 1f },
             rotation = rotate.takeIf { it != 0f },
-            children = nodes.map { it.toVdChild() },
+            children = allChildren,
         )
     }
 
