@@ -1,8 +1,11 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel
 
-import com.composegears.tiamat.Saveable
-import com.composegears.tiamat.SavedState
-import com.composegears.tiamat.TiamatViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.composegears.leviathan.compose.inject
+import com.composegears.tiamat.navigation.MutableSavedState
+import com.composegears.tiamat.navigation.asStateFlow
+import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
@@ -10,35 +13,30 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.ConversionState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.PickerState
-import io.github.composegears.valkyrie.util.getOrNull
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
 class SimpleConversionViewModel(
-    private val savedState: SavedState?,
-) : TiamatViewModel(),
-    Saveable {
+    savedState: MutableSavedState,
+) : ViewModel() {
 
-    val inMemorySettings by DI.core.inMemorySettings
+    val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val _state = MutableStateFlow(initialState())
+    private val _state = savedState.recordOf<SimpleConversionState>(key = "conversionState", initialValue = PickerState)
     val state = _state.asStateFlow()
 
     private val _events = MutableSharedFlow<String>()
     val events = _events.asSharedFlow()
 
     init {
-        _state
+        state
             .combine(inMemorySettings.settings) { state, _ ->
                 if (state is ConversionState) {
                     when (val icon = state.iconSource) {
@@ -46,24 +44,20 @@ class SimpleConversionViewModel(
                             val output = parseIcon(path = icon.path, iconName = state.iconContent.name)
 
                             if (output != null) {
-                                _state.updateState {
-                                    ConversionState(
-                                        iconSource = IconSource.FileBasedIcon(icon.path),
-                                        iconContent = output,
-                                    )
-                                }
+                                _state.value = ConversionState(
+                                    iconSource = IconSource.FileBasedIcon(icon.path),
+                                    iconContent = output,
+                                )
                             }
                         }
                         is IconSource.StringBasedIcon -> {
                             val output = parseIcon(text = icon.text, iconName = state.iconContent.name)
 
                             if (output != null) {
-                                _state.updateState {
-                                    ConversionState(
-                                        iconSource = IconSource.StringBasedIcon(icon.text),
-                                        iconContent = output,
-                                    )
-                                }
+                                _state.value = ConversionState(
+                                    iconSource = IconSource.StringBasedIcon(icon.text),
+                                    iconContent = output,
+                                )
                             }
                         }
                     }
@@ -72,28 +66,22 @@ class SimpleConversionViewModel(
             .launchIn(viewModelScope)
     }
 
-    override fun saveToSaveState(): SavedState {
-        val conversionState = _state.value.safeAs<ConversionState>() ?: return emptyMap()
-
-        return mapOf("conversionState" to conversionState)
-    }
-
     fun selectPath(path: Path) = viewModelScope.launch(Dispatchers.Default) {
         val output = parseIcon(path)
 
         if (output == null) {
             _events.emit("Failed to parse icon")
         } else {
-            _state.updateState {
-                ConversionState(
-                    iconSource = IconSource.FileBasedIcon(path),
-                    iconContent = output,
-                )
-            }
+            _state.value = ConversionState(
+                iconSource = IconSource.FileBasedIcon(path),
+                iconContent = output,
+            )
         }
     }
 
-    fun reset() = _state.updateState { PickerState }
+    fun reset() {
+        _state.value = PickerState
+    }
 
     fun pasteFromClipboard(text: String) = viewModelScope.launch(Dispatchers.Default) {
         val output = parseIcon(text = text, iconName = "IconName")
@@ -101,12 +89,10 @@ class SimpleConversionViewModel(
         if (output == null) {
             _events.emit("Failed to parse icon from clipboard")
         } else {
-            _state.updateState {
-                ConversionState(
-                    iconSource = IconSource.StringBasedIcon(text),
-                    iconContent = output,
-                )
-            }
+            _state.value = ConversionState(
+                iconSource = IconSource.StringBasedIcon(text),
+                iconContent = output,
+            )
         }
     }
 
@@ -121,12 +107,10 @@ class SimpleConversionViewModel(
                 )
 
                 if (output != null) {
-                    _state.updateState {
-                        ConversionState(
-                            iconSource = IconSource.FileBasedIcon(conversionState.iconSource.path),
-                            iconContent = output,
-                        )
-                    }
+                    _state.value = ConversionState(
+                        iconSource = IconSource.FileBasedIcon(conversionState.iconSource.path),
+                        iconContent = output,
+                    )
                 }
             }
             is IconSource.StringBasedIcon -> {
@@ -136,19 +120,13 @@ class SimpleConversionViewModel(
                 )
 
                 if (output != null) {
-                    _state.updateState {
-                        ConversionState(
-                            iconSource = IconSource.StringBasedIcon(conversionState.iconSource.text),
-                            iconContent = output,
-                        )
-                    }
+                    _state.value = ConversionState(
+                        iconSource = IconSource.StringBasedIcon(conversionState.iconSource.text),
+                        iconContent = output,
+                    )
                 }
             }
         }
-    }
-
-    private fun initialState(): SimpleConversionState {
-        return savedState?.getOrNull<ConversionState>(key = "conversionState") ?: PickerState
     }
 
     private fun parseIcon(

@@ -1,6 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.setup
 
-import com.composegears.tiamat.TiamatViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.composegears.leviathan.compose.inject
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.shared.Mode
@@ -13,9 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SimpleModeSetupViewModel : TiamatViewModel() {
+class SimpleModeSetupViewModel : ViewModel() {
 
-    private val inMemorySettings by DI.core.inMemorySettings
+    private val inMemorySettings = inject(DI.core.inMemorySettings)
 
     private val inputHandler = SimpleModeInputHandler(inMemorySettings)
 

@@ -11,16 +11,23 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.NavController
-import com.composegears.tiamat.Navigation
-import com.composegears.tiamat.navArgsOrNull
-import com.composegears.tiamat.navDestination
-import com.composegears.tiamat.navigationSlideInOut
-import com.composegears.tiamat.rememberNavController
+import com.composegears.tiamat.compose.Navigation
+import com.composegears.tiamat.compose.back
+import com.composegears.tiamat.compose.currentNavDestinationAsState
+import com.composegears.tiamat.compose.navArgs
+import com.composegears.tiamat.compose.navArgsOrNull
+import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigate
+import com.composegears.tiamat.compose.navigationSlideInOut
+import com.composegears.tiamat.compose.popToTop
+import com.composegears.tiamat.compose.rememberNavController
+import com.composegears.tiamat.navigation.NavController
+import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
@@ -34,16 +41,16 @@ val IconPackCreationScreen by navDestination<PendingPathData> {
     val pendingData = navArgsOrNull()
 
     val nestedNavController = rememberNavController(
-        startDestination = NewPackScreen,
-        destinations = arrayOf(NewPackScreen, ExistingPackScreen),
-        startDestinationNavArgs = pendingData,
+        startEntry = NewPackScreen.toNavEntry(navArgs = pendingData),
     )
 
     IconPackModeSetupUI(
         tabsNavController = nestedNavController,
         pendingPathData = pendingData,
         onBack = {
-            if (nestedNavController.canGoBack && nestedNavController.current != NewPackScreen) {
+            if (nestedNavController.canNavigateBack() &&
+                nestedNavController.getCurrentNavEntry()?.destination != NewPackScreen
+            ) {
                 nestedNavController.back()
             } else {
                 nestedNavController.parent?.back(transition = navigationSlideInOut(false))
@@ -72,6 +79,7 @@ private fun IconPackModeSetupUI(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val tabs = remember { listOf(NewPackScreen, ExistingPackScreen) }
+            val currentTab by tabsNavController.currentNavDestinationAsState()
 
             SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                 tabs.forEachIndexed { index, tab ->
@@ -85,7 +93,7 @@ private fun IconPackModeSetupUI(
                                 },
                             )
                         },
-                        selected = tabsNavController.current == tab,
+                        selected = currentTab == tab,
                         label = {
                             when (tab) {
                                 NewPackScreen -> Text(text = "Create new")
@@ -100,6 +108,7 @@ private fun IconPackModeSetupUI(
             Navigation(
                 modifier = Modifier.fillMaxSize(),
                 navController = tabsNavController,
+                destinations = arrayOf(NewPackScreen, ExistingPackScreen),
             )
         }
     }

@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.composegears.leviathan.compose.leviathanInject
+import com.composegears.leviathan.compose.inject
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.vfs.VirtualFile
 import io.github.composegears.valkyrie.compose.core.rememberMutableState
@@ -28,7 +28,7 @@ fun VirtualFileImageVector(
     modifier: Modifier = Modifier,
 ) {
     val project = LocalProject.current
-    val settings by leviathanInject { DI.core.inMemorySettings }.settings.collectAsState()
+    val settings by inject { DI.core.inMemorySettings }.settings.collectAsState()
 
     var irImageVector by rememberMutableState<IrImageVector?> { null }
     var isPreparing by rememberMutableState { true }

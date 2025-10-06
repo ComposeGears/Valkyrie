@@ -1,8 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
-import com.composegears.tiamat.Saveable
-import com.composegears.tiamat.SavedState
-import com.composegears.tiamat.TiamatViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.composegears.leviathan.compose.inject
+import com.composegears.tiamat.navigation.MutableSavedState
+import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
@@ -20,7 +22,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Conver
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.checkExportIssues
-import io.github.composegears.valkyrie.util.getOrNull
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
@@ -34,13 +35,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class IconPackConversionViewModel(
-    savedState: SavedState?,
+    savedState: MutableSavedState,
     paths: List<Path>,
-) : TiamatViewModel(),
-    Saveable {
+) : ViewModel() {
 
-    val inMemorySettings by DI.core.inMemorySettings
+    val inMemorySettings = inject(DI.core.inMemorySettings)
 
+    private val icons = savedState.recordOf<List<BatchIcon>?>("icons", null)
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()
 
@@ -48,7 +49,7 @@ class IconPackConversionViewModel(
     val events = _events.asSharedFlow()
 
     init {
-        val restoredState = savedState?.getOrNull<List<BatchIcon>>(key = "icons")
+        val restoredState = icons.value
 
         when {
             restoredState != null -> {
@@ -71,12 +72,13 @@ class IconPackConversionViewModel(
                 }
             }
         }
-    }
-
-    override fun saveToSaveState(): SavedState {
-        return when (val state = _state.value) {
-            is BatchProcessing.IconPackCreationState -> mapOf("icons" to state.icons)
-            else -> mapOf("icons" to emptyList<List<BatchIcon>>())
+        viewModelScope.launch {
+            _state.collect {
+                icons.value = when (val state = _state.value) {
+                    is BatchProcessing.IconPackCreationState -> state.icons
+                    else -> emptyList<BatchIcon>()
+                }
+            }
         }
     }
 
