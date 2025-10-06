@@ -17,10 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.NavDestination
-import com.composegears.tiamat.navController
-import com.composegears.tiamat.navDestination
-import com.composegears.tiamat.navigationSlideInOut
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigate
+import com.composegears.tiamat.compose.navigationSlideInOut
+import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.WEB_IMPORT_FEATURE_ENABLED
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer

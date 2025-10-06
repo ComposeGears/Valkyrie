@@ -16,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.Navigation
-import com.composegears.tiamat.rememberNavController
+import com.composegears.tiamat.compose.Navigation
+import com.composegears.tiamat.compose.rememberNavController
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
@@ -33,7 +33,6 @@ import io.github.composegears.valkyrie.ui.theme.ValkyrieTheme
 @Composable
 fun ValkyrieApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController(
-        destinations = arrayOf(IntroScreen, SimpleConversionScreen),
         startDestination = IntroScreen,
     )
 
@@ -58,6 +57,7 @@ fun ValkyrieApp(modifier: Modifier = Modifier) {
             Navigation(
                 modifier = Modifier.fillMaxSize(),
                 navController = navController,
+                destinations = arrayOf(IntroScreen, SimpleConversionScreen),
             )
         }
     }

@@ -14,10 +14,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.composegears.tiamat.navController
-import com.composegears.tiamat.navDestination
-import com.composegears.tiamat.navigationSlideInOut
-import com.composegears.tiamat.rememberSaveableViewModel
+import com.composegears.tiamat.compose.back
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigate
+import com.composegears.tiamat.compose.navigationSlideInOut
+import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -46,7 +48,7 @@ import kotlinx.coroutines.launch
 val SimpleConversionScreen by navDestination<Unit> {
     val navController = navController()
 
-    val viewModel = rememberSaveableViewModel(::SimpleConversionViewModel)
+    val viewModel = saveableViewModel { SimpleConversionViewModel(it) }
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
 

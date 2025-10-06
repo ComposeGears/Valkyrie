@@ -14,5 +14,5 @@ private object CoreModuleImpl : Leviathan(), CoreModule {
 
     private val platformModule = intellijPlatformModule()
 
-    override val inMemorySettings by instanceOf { InMemorySettings(platformModule.project.get()) }
+    override val inMemorySettings by instanceOf { InMemorySettings(inject(platformModule.project)) }
 }

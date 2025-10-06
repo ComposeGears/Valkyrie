@@ -19,8 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composegears.tiamat.navDestination
-import com.composegears.tiamat.rememberSharedViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
@@ -32,7 +33,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewType
 
 val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
-    val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
+    val viewModel = viewModel<SettingsViewModel>(navController())
     val previewSettings by viewModel.previewSettings.collectAsState()
 
     ImageVectorPreviewSettingsUi(

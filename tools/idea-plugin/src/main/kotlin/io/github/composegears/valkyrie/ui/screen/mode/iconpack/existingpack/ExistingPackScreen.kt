@@ -13,10 +13,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.composegears.tiamat.navArgsOrNull
-import com.composegears.tiamat.navController
-import com.composegears.tiamat.navDestination
-import com.composegears.tiamat.rememberViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.composegears.tiamat.compose.navArgsOrNull
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigate
+import com.composegears.tiamat.compose.replace
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
@@ -38,7 +40,7 @@ val ExistingPackScreen by navDestination<PendingPathData> {
     val navController = navController()
     val pendingData = navArgsOrNull()
 
-    val viewModel = rememberViewModel(::ExistingPackViewModel)
+    val viewModel = viewModel<ExistingPackViewModel>()
     val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
 
     LaunchedEffect(Unit) {

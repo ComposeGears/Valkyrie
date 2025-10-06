@@ -9,8 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.composegears.tiamat.navController
-import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.compose.back
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Back

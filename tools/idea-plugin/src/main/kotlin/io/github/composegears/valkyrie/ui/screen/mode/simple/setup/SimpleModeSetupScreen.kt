@@ -13,10 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.navController
-import com.composegears.tiamat.navDestination
-import com.composegears.tiamat.navigationSlideInOut
-import com.composegears.tiamat.rememberViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.composegears.tiamat.compose.back
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigationSlideInOut
+import com.composegears.tiamat.compose.replace
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.ui.domain.validation.ErrorCriteria
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
@@ -33,7 +35,7 @@ import kotlinx.coroutines.Dispatchers
 
 val SimpleModeSetupScreen by navDestination<Unit> {
     val navController = navController()
-    val viewModel = rememberViewModel(::SimpleModeSetupViewModel)
+    val viewModel = viewModel<SimpleModeSetupViewModel>()
 
     val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
 

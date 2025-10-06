@@ -36,11 +36,13 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.navArgsOrNull
-import com.composegears.tiamat.navController
-import com.composegears.tiamat.navDestination
-import com.composegears.tiamat.navigationSlideInOut
-import com.composegears.tiamat.rememberSaveableViewModel
+import com.composegears.tiamat.compose.back
+import com.composegears.tiamat.compose.navArgsOrNull
+import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigate
+import com.composegears.tiamat.compose.navigationSlideInOut
+import com.composegears.tiamat.compose.saveableViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
@@ -69,7 +71,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
     val navController = navController()
     val pendingData = navArgsOrNull()
 
-    val viewModel = rememberSaveableViewModel {
+    val viewModel = saveableViewModel {
         IconPackConversionViewModel(
             savedState = it,
             paths = pendingData?.paths.orEmpty(),
