@@ -1,20 +1,18 @@
 package io.github.composegears.valkyrie.gutter
 
-import com.android.ide.common.vectordrawable.VdPreview
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiElement
 import com.intellij.ui.awt.RelativePoint
+import io.github.composegears.valkyrie.completion.ImageVectorIcon
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import java.awt.BorderLayout
 import java.awt.event.MouseEvent
 import javax.swing.BorderFactory
-import javax.swing.Icon
-import javax.swing.ImageIcon
 import javax.swing.JLabel
 import javax.swing.JPanel
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
@@ -39,7 +37,7 @@ class ImageVectorGutterProvider : LineMarkerProvider {
 
                 irImageVector?.let {
                     property.nameIdentifier?.let { identifier ->
-                        createGutterIcon(identifier, it, property.name.orEmpty())?.let(result::add)
+                        createGutterIcon(identifier, it, property.name.orEmpty()).let(result::add)
                     }
                 }
             }
@@ -61,7 +59,7 @@ class ImageVectorGutterProvider : LineMarkerProvider {
             .forEach(result::add)
     }
 
-    private fun KtProperty.isImageVector(): Boolean = typeReference?.text in IMAGEVECTOR_TYPES
+    private fun KtProperty.isImageVector(): Boolean = typeReference?.text in IMAGE_VECTOR_TYPES
 
     private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
         // Try parsing the current file
@@ -86,49 +84,42 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         element: T,
         irImageVector: IrImageVector,
         name: String,
-    ): LineMarkerInfo<T>? {
-        val icon = createIconFromImageVector(irImageVector) ?: return null
+    ): LineMarkerInfo<T> {
+        val vectorXml = irImageVector.toVectorXmlString()
+        val gutterIcon = ImageVectorIcon(
+            vectorXml = vectorXml,
+            size = GUTTER_ICON_SIZE,
+        )
 
         return LineMarkerInfo(
             element,
             element.textRange,
-            icon,
+            gutterIcon,
             { "Vector Icon: $name" },
             { event, _ ->
-                showIconPreviewPopup(event, irImageVector, name)
+                showIconPreviewPopup(
+                    event = event,
+                    vectorXml = vectorXml,
+                    name = name,
+                )
             },
             GutterIconRenderer.Alignment.LEFT,
             { "Vector Icon: $name" },
         )
     }
 
-    private fun createIconFromImageVector(irImageVector: IrImageVector): Icon? = try {
-        VdPreview.getPreviewFromVectorXml(
-            VdPreview.TargetSize.createFromMaxDimension(GUTTER_ICON_SIZE),
-            irImageVector.toVectorXmlString(),
-            StringBuilder(),
-        )?.let(::ImageIcon)
-    } catch (_: Exception) {
-        null
-    }
-
     private fun showIconPreviewPopup(
         event: MouseEvent,
-        irImageVector: IrImageVector,
+        vectorXml: String,
         name: String,
     ) {
-        val previewImage = try {
-            VdPreview.getPreviewFromVectorXml(
-                VdPreview.TargetSize.createFromMaxDimension(POPUP_ICON_SIZE),
-                irImageVector.toVectorXmlString(),
-                StringBuilder(),
-            )
-        } catch (_: Exception) {
-            null
-        } ?: return
+        val previewIcon = ImageVectorIcon(
+            vectorXml = vectorXml,
+            size = POPUP_ICON_SIZE,
+        )
 
         val panel = JPanel(BorderLayout()).apply {
-            add(JLabel(ImageIcon(previewImage)), BorderLayout.CENTER)
+            add(JLabel(previewIcon), BorderLayout.CENTER)
             add(JLabel(name), BorderLayout.SOUTH)
             border = BorderFactory.createEmptyBorder(POPUP_PADDING, POPUP_PADDING, POPUP_PADDING, POPUP_PADDING)
         }
@@ -145,11 +136,11 @@ class ImageVectorGutterProvider : LineMarkerProvider {
 
     private companion object {
         const val GUTTER_ICON_SIZE = 16
-        const val POPUP_ICON_SIZE = 64
+        const val POPUP_ICON_SIZE = 128
         const val POPUP_PADDING = 5
         const val COMPILED_CODE_MARKER = "/* compiled code */"
 
-        val IMAGEVECTOR_TYPES = setOf(
+        val IMAGE_VECTOR_TYPES = setOf(
             "ImageVector",
             "androidx.compose.ui.graphics.vector.ImageVector",
         )
