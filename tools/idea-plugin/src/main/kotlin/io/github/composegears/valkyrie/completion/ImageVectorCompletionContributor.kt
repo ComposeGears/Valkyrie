@@ -1,20 +1,17 @@
 package io.github.composegears.valkyrie.completion
 
-import com.android.ide.common.vectordrawable.VdPreview
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.codeInsight.lookup.LookupElementPresentation
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import javax.swing.Icon
-import javax.swing.ImageIcon
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtProperty
 
@@ -61,22 +58,11 @@ class ImageVectorCompletionContributor : CompletionContributor() {
     }
 
     private fun createIconFromKtFile(ktFile: KtFile): Icon? {
-        return try {
-            val irImageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile) ?: return null
-            val errorLog = StringBuilder()
+        val vectorXml = ImageVectorPsiParser.parseToIrImageVector(ktFile)
+            ?.toVectorXmlString()
+            ?: return null
 
-            val previewFromVectorXml = VdPreview.getPreviewFromVectorXml(
-                VdPreview.TargetSize.createFromMaxDimension(16),
-                irImageVector.toVectorXmlString(),
-                errorLog,
-            )
-            ImageIcon(previewFromVectorXml)
-        } catch (e: Exception) {
-            Logger
-                .getInstance(ImageVectorCompletionContributor::class.java)
-                .error("Failed to create icon preview: ${ktFile.name}, error: ${e.message}", e)
-            null
-        }
+        return ImageVectorIcon(vectorXml = vectorXml)
     }
 
     private class ComposeColorLookupElementDecorator(
