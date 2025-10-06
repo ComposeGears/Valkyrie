@@ -2,19 +2,19 @@ package io.github.composegears.valkyrie.gutter
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
+import com.intellij.ide.util.EditSourceUtil
 import com.intellij.openapi.editor.markup.GutterIconRenderer
-import com.intellij.openapi.ui.popup.JBPopupFactory
+import com.intellij.pom.Navigatable
 import com.intellij.psi.PsiElement
-import com.intellij.ui.awt.RelativePoint
+import com.intellij.psi.createSmartPointer
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
 import io.github.composegears.valkyrie.completion.ImageVectorIcon
+import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
-import java.awt.BorderLayout
-import java.awt.event.MouseEvent
-import javax.swing.BorderFactory
-import javax.swing.JLabel
-import javax.swing.JPanel
+import javax.swing.Icon
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtProperty
 
@@ -26,18 +26,21 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         elements: List<PsiElement?>,
         result: MutableCollection<in LineMarkerInfo<*>>,
     ) {
-        val propertyCache = mutableMapOf<KtProperty, IrImageVector?>()
-
         // Process ImageVector property definitions
         elements.filterIsInstance<KtProperty>()
             .filter { it.isImageVector() }
             .forEach { property ->
-                val irImageVector = parseImageVectorProperty(property)
-                propertyCache[property] = irImageVector
+                val icon = getOrCreateGutterIcon(property)
 
-                irImageVector?.let {
+                icon?.let {
                     property.nameIdentifier?.let { identifier ->
-                        createGutterIcon(identifier, it, property.name.orEmpty()).let(result::add)
+                        // nameIdentifier is already a leaf (LeafPsiElement)
+                        createGutterIcon(
+                            element = identifier,
+                            icon = icon,
+                            name = property.name.orEmpty(),
+                            navigationTarget = null,
+                        ).let(result::add)
                     }
                 }
             }
@@ -46,20 +49,42 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         elements.filterIsInstance<KtNameReferenceExpression>()
             .mapNotNull { reference ->
                 val referencedProperty = reference.references
-                    .mapNotNull { it.resolve() as? KtProperty }
+                    .mapNotNull { it.resolve().safeAs<KtProperty>() }
                     .firstOrNull { it.isImageVector() }
                     ?: return@mapNotNull null
 
-                val irImageVector = propertyCache.getOrPut(referencedProperty) {
-                    parseImageVectorProperty(referencedProperty)
-                } ?: return@mapNotNull null
+                val icon = getOrCreateGutterIcon(referencedProperty) ?: return@mapNotNull null
 
-                createGutterIcon(reference, irImageVector, referencedProperty.name.orEmpty())
+                // Get the leaf element (identifier) from the reference expression
+                // due to LineMarker is supposed to be registered for leaf elements only
+                val leafElement = reference.firstChild ?: reference
+
+                createGutterIcon(
+                    element = leafElement,
+                    icon = icon,
+                    name = referencedProperty.name.orEmpty(),
+                    navigationTarget = referencedProperty,
+                )
             }
             .forEach(result::add)
     }
 
-    private fun KtProperty.isImageVector(): Boolean = typeReference?.text in IMAGE_VECTOR_TYPES
+    private fun getOrCreateGutterIcon(ktProperty: KtProperty): Icon? {
+        val cachedValuesManager = CachedValuesManager.getManager(ktProperty.project)
+
+        return cachedValuesManager.getCachedValue(ktProperty) {
+            val icon = ktProperty.createIcon()
+
+            CachedValueProvider.Result.create(icon, ktProperty)
+        }
+    }
+
+    private fun KtProperty.createIcon(): Icon? {
+        val irImageVector = parseImageVectorProperty(this) ?: return null
+        val vectorXml = irImageVector.toVectorXmlString()
+
+        return ImageVectorIcon(vectorXml = vectorXml)
+    }
 
     private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
         // Try parsing the current file
@@ -82,67 +107,34 @@ class ImageVectorGutterProvider : LineMarkerProvider {
 
     private fun <T : PsiElement> createGutterIcon(
         element: T,
-        irImageVector: IrImageVector,
+        icon: Icon,
         name: String,
-    ): LineMarkerInfo<T> {
-        val vectorXml = irImageVector.toVectorXmlString()
-        val gutterIcon = ImageVectorIcon(
-            vectorXml = vectorXml,
-            size = GUTTER_ICON_SIZE,
-        )
-
-        return LineMarkerInfo(
-            element,
-            element.textRange,
-            gutterIcon,
-            { "Vector Icon: $name" },
-            { event, _ ->
-                showIconPreviewPopup(
-                    event = event,
-                    vectorXml = vectorXml,
-                    name = name,
-                )
-            },
-            GutterIconRenderer.Alignment.LEFT,
-            { "Vector Icon: $name" },
-        )
-    }
-
-    private fun showIconPreviewPopup(
-        event: MouseEvent,
-        vectorXml: String,
-        name: String,
-    ) {
-        val previewIcon = ImageVectorIcon(
-            vectorXml = vectorXml,
-            size = POPUP_ICON_SIZE,
-        )
-
-        val panel = JPanel(BorderLayout()).apply {
-            add(JLabel(previewIcon), BorderLayout.CENTER)
-            add(JLabel(name), BorderLayout.SOUTH)
-            border = BorderFactory.createEmptyBorder(POPUP_PADDING, POPUP_PADDING, POPUP_PADDING, POPUP_PADDING)
-        }
-
-        JBPopupFactory.getInstance()
-            .createComponentPopupBuilder(panel, null)
-            .setTitle("Vector Icon Preview")
-            .setResizable(false)
-            .setMovable(false)
-            .setRequestFocus(true)
-            .createPopup()
-            .show(RelativePoint(event))
-    }
+        navigationTarget: T?,
+    ): LineMarkerInfo<T> = LineMarkerInfo(
+        element,
+        element.textRange,
+        icon,
+        { "ImageVector Icon: $name" },
+        { _, _ ->
+            navigationTarget?.createSmartPointer()?.let { target ->
+                target.element
+                    ?.let(EditSourceUtil::getDescriptor)
+                    ?.takeIf(Navigatable::canNavigate)
+                    ?.navigate(true)
+            }
+        },
+        GutterIconRenderer.Alignment.LEFT,
+        { "ImageVector Icon: $name" },
+    )
 
     private companion object {
-        const val GUTTER_ICON_SIZE = 16
-        const val POPUP_ICON_SIZE = 128
-        const val POPUP_PADDING = 5
-        const val COMPILED_CODE_MARKER = "/* compiled code */"
+        private const val COMPILED_CODE_MARKER = "/* compiled code */"
 
-        val IMAGE_VECTOR_TYPES = setOf(
+        private val IMAGE_VECTOR_TYPES = setOf(
             "ImageVector",
             "androidx.compose.ui.graphics.vector.ImageVector",
         )
+
+        private fun KtProperty.isImageVector(): Boolean = typeReference?.text in IMAGE_VECTOR_TYPES
     }
 }
