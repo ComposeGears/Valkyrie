@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.settings
 
+import com.composegears.tiamat.navigation.SavedState
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
@@ -10,7 +11,6 @@ import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
 import java.util.Collections.emptyList
-import java.util.Collections.emptyMap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -26,7 +26,7 @@ class InMemorySettings(project: Project) {
     private val _settings = MutableStateFlow(persistentSettings.state.toValkyriesSettings())
     val settings = _settings.asStateFlow()
 
-    var uiState: Map<String, Any?> = emptyMap()
+    var uiState: SavedState? = null
         private set
 
     val current: ValkyriesSettings
@@ -57,7 +57,7 @@ class InMemorySettings(project: Project) {
         indentSize = 4
     }
 
-    fun updateUIState(uiState: Map<String, Any?>) {
+    fun updateUIState(uiState: SavedState) {
         this.uiState = uiState
     }
 

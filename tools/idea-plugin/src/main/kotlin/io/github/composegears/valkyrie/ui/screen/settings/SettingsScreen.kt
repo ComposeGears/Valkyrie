@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.currentNavDestinationAsState
 import com.composegears.tiamat.compose.navController
+import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.compose.replace
@@ -54,7 +54,7 @@ val SettingsScreen by navDestination<Unit> {
 
         ScrollableTabRow(
             tabs = tabNames,
-            selectedTabIndex = tabScreens.indexOf(tabsDestination),
+            selectedTabIndex = tabScreens.indexOfFirst { destination -> destination.name == tabsDestination?.name },
         ) { tabIndex ->
             val navDestination = tabScreens[tabIndex]
             if (navDestination != tabsDestination) {
