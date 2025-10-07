@@ -29,8 +29,11 @@ class SimpleConversionViewModel(
 
     val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val _state = savedState.recordOf<SimpleConversionState>(key = "conversionState", initialValue = PickerState)
-    val state = _state.asStateFlow()
+    private val stateRecord = savedState.recordOf<SimpleConversionState>(
+        key = "conversionState",
+        initialValue = PickerState,
+    )
+    val state = stateRecord.asStateFlow()
 
     private val _events = MutableSharedFlow<String>()
     val events = _events.asSharedFlow()
@@ -44,7 +47,7 @@ class SimpleConversionViewModel(
                             val output = parseIcon(path = icon.path, iconName = state.iconContent.name)
 
                             if (output != null) {
-                                _state.value = ConversionState(
+                                stateRecord.value = ConversionState(
                                     iconSource = IconSource.FileBasedIcon(icon.path),
                                     iconContent = output,
                                 )
@@ -54,7 +57,7 @@ class SimpleConversionViewModel(
                             val output = parseIcon(text = icon.text, iconName = state.iconContent.name)
 
                             if (output != null) {
-                                _state.value = ConversionState(
+                                stateRecord.value = ConversionState(
                                     iconSource = IconSource.StringBasedIcon(icon.text),
                                     iconContent = output,
                                 )
@@ -72,7 +75,7 @@ class SimpleConversionViewModel(
         if (output == null) {
             _events.emit("Failed to parse icon")
         } else {
-            _state.value = ConversionState(
+            stateRecord.value = ConversionState(
                 iconSource = IconSource.FileBasedIcon(path),
                 iconContent = output,
             )
@@ -80,7 +83,7 @@ class SimpleConversionViewModel(
     }
 
     fun reset() {
-        _state.value = PickerState
+        stateRecord.value = PickerState
     }
 
     fun pasteFromClipboard(text: String) = viewModelScope.launch(Dispatchers.Default) {
@@ -89,7 +92,7 @@ class SimpleConversionViewModel(
         if (output == null) {
             _events.emit("Failed to parse icon from clipboard")
         } else {
-            _state.value = ConversionState(
+            stateRecord.value = ConversionState(
                 iconSource = IconSource.StringBasedIcon(text),
                 iconContent = output,
             )
@@ -97,7 +100,7 @@ class SimpleConversionViewModel(
     }
 
     fun changeIconName(name: String) = viewModelScope.launch(Dispatchers.Default) {
-        val conversionState = _state.value.safeAs<ConversionState>() ?: return@launch
+        val conversionState = stateRecord.value.safeAs<ConversionState>() ?: return@launch
 
         when (conversionState.iconSource) {
             is IconSource.FileBasedIcon -> {
@@ -107,7 +110,7 @@ class SimpleConversionViewModel(
                 )
 
                 if (output != null) {
-                    _state.value = ConversionState(
+                    stateRecord.value = ConversionState(
                         iconSource = IconSource.FileBasedIcon(conversionState.iconSource.path),
                         iconContent = output,
                     )
@@ -120,7 +123,7 @@ class SimpleConversionViewModel(
                 )
 
                 if (output != null) {
-                    _state.value = ConversionState(
+                    stateRecord.value = ConversionState(
                         iconSource = IconSource.StringBasedIcon(conversionState.iconSource.text),
                         iconContent = output,
                     )

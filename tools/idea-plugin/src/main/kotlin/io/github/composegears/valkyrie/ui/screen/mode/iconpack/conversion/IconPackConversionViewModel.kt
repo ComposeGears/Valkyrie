@@ -32,6 +32,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class IconPackConversionViewModel(
@@ -41,7 +43,8 @@ class IconPackConversionViewModel(
 
     val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val icons = savedState.recordOf<List<BatchIcon>?>("icons", null)
+    private val iconsRecord = savedState.recordOf<List<BatchIcon>?>("icons", null)
+
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()
 
@@ -49,7 +52,7 @@ class IconPackConversionViewModel(
     val events = _events.asSharedFlow()
 
     init {
-        val restoredState = icons.value
+        val restoredState = iconsRecord.value
 
         when {
             restoredState != null -> {
@@ -72,14 +75,14 @@ class IconPackConversionViewModel(
                 }
             }
         }
-        viewModelScope.launch {
-            _state.collect {
-                icons.value = when (val state = _state.value) {
+        _state
+            .onEach {
+                iconsRecord.value = when (val state = _state.value) {
                     is BatchProcessing.IconPackCreationState -> state.icons
                     else -> emptyList<BatchIcon>()
                 }
             }
-        }
+            .launchIn(viewModelScope)
     }
 
     fun pickerEvent(events: PickerEvent) {
