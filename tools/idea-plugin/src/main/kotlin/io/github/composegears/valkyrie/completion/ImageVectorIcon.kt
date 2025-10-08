@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.completion
 
 import com.android.ide.common.vectordrawable.VdPreview
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.ui.scale.JBUIScale
 import java.awt.Component
 import java.awt.Graphics
 import java.awt.Graphics2D
@@ -15,25 +14,20 @@ class ImageVectorIcon(
 ) : Icon {
 
     @Volatile
-    private var lastScale: Float = -1f
-
-    @Volatile
     private var cachedImage: Image? = null
 
     override fun paintIcon(c: Component?, g: Graphics?, x: Int, y: Int) {
         if (g !is Graphics2D) return
-        val scale = JBUIScale.sysScale(g)
 
-        if (cachedImage == null || scale != lastScale) {
-            cachedImage = renderImage(scale)
-            lastScale = scale
+        if (cachedImage == null) {
+            cachedImage = renderImage()
         }
         val img = cachedImage ?: return
         g.drawImage(img, x, y, size, size, null)
     }
 
-    private fun renderImage(scale: Float): Image? {
-        val maxDimension = (size * scale).toInt().coerceAtLeast(1)
+    private fun renderImage(): Image? {
+        val maxDimension = ICON_SCALE_FACTOR * size
         val errorLog = StringBuilder()
 
         val imageBuffer = VdPreview.getPreviewFromVectorXml(
@@ -52,4 +46,8 @@ class ImageVectorIcon(
 
     override fun getIconWidth(): Int = size
     override fun getIconHeight(): Int = size
+
+    companion object {
+        private const val ICON_SCALE_FACTOR = 4
+    }
 }
