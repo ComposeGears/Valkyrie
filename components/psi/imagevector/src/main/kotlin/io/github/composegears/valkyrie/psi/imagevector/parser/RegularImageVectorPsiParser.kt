@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.psi.imagevector.parser
 
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrVectorNode
-import io.github.composegears.valkyrie.psi.extension.childOfType
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractPathFillType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractStrokeCap
@@ -21,7 +20,9 @@ import org.jetbrains.kotlin.psi.KtProperty
 internal object RegularImageVectorPsiParser {
 
     fun parse(ktFile: KtFile): IrImageVector? {
-        val property = ktFile.childOfType<KtProperty>() ?: return null
+        val property = ktFile.childrenOfType<KtProperty>()
+            .firstOrNull { it.typeReference?.text == "ImageVector" }
+            ?: return null
 
         val blockBody = property.getter?.bodyBlockExpression
             ?: property.delegateExpression?.childrenOfType<KtBlockExpression>()?.firstOrNull()

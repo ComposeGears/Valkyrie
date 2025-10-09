@@ -16,9 +16,11 @@ import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedComposeC
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedEmptyImageVector
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedEmptyPaths
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedIconWithGroup
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedIconWithImportMember
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGradient
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGradientWithStroke
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIcon
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIconWithoutParam
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedSinglePath
 import org.junit.jupiter.api.Test
@@ -83,6 +85,22 @@ class KtFileToImageVectorParserTest(
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIcon)
+    }
+
+    @Test
+    fun `parse material icon without param`() = runInEdtAndGet {
+        val ktFile = project.createKtFile(from = "backing/MaterialIcon.without.param.kt")
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+
+        assertThat(imageVector).isEqualTo(ExpectedMaterialIconWithoutParam)
+    }
+
+    @Test
+    fun `parse icon with import member`() = runInEdtAndGet {
+        val ktFile = project.createKtFile(from = "backing/IconWithImportMember.kt")
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+
+        assertThat(imageVector).isEqualTo(ExpectedIconWithImportMember)
     }
 
     @Test
