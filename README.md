@@ -19,12 +19,21 @@
 
 ## Motivation
 
-On one of the projects, during the migration to Jetpack Compose, we needed to convert a large number of icons from XML (Android drawable) and SVG (Figma design system) to ImageVector. The existing solutions didn't quite fit our needs due to
-their inconvenient workflow, numerous bugs, poor output code, and in some cases, even being paid (after 5 icons 😄).
+During the development Jetpack Compose / Compose Multiplatform, we often faced the challenge of
+converting icons from SVG or XML format to ImageVector. While there are existing tools available for this purpose, we
+found that they often fell short in terms of usability, reliability, and the quality of the generated code and in some
+cases, even being paid 😄.
 
-Additionally, with the release of Compose 1.7.0,
-Google [discontinued](https://android-review.googlesource.com/c/platform/frameworks/support/+/3109060) support for
-material icons.
+To address these issues, we decided to create our own tool that would streamline the conversion process and provide a
+better user experience.
+
+The primary goal of this project is to offer a fast, reliable, and user-friendly solution for converting SVG and XML
+icons to ImageVector format, while also allowing for customization of the generated code to meet individual project
+needs.
+
+> [!NOTE]
+> This project is especially relevant now as Material Icons is no longer maintained or recommended for use in your apps.
+> [Learn more](https://developer.android.com/develop/ui/compose/graphics/images/material).
 
 ## Table of Contents
 
@@ -36,6 +45,9 @@ material icons.
     - [Create new icon pack](#new-icon-pack)
     - [Update existing icon pack](#existing-icon-pack)
   - [ImageVector previewer](#imagevector-previewer)
+    - [Embedded previewer](#embedded-previewer)
+    - [AutoCompletion previewer](#autocompletion-previewer)
+    - [Gutter previewer](#gutter-previewer)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Build plugin](#build-plugin)
@@ -147,6 +159,8 @@ https://github.com/user-attachments/assets/77f449dd-a6d0-44ea-9059-b7b30ee94426
 
 ### ImageVector Previewer
 
+#### Embedded Previewer
+
 We personally find it very useful to have a previewer for ImageVector (such we have for SVG or XML).
 Previewer available for any ImageVector formats (backing or lazy property, legacy google material icons) without
 compose @Preview annotation and project compilation.
@@ -165,6 +179,23 @@ Previewer actions:
 Demo:
 
 https://github.com/user-attachments/assets/1047a2b3-81ec-4e10-a118-0ff20bd5227b
+
+#### AutoCompletion Previewer
+
+When IDEA auto-completion popup is shown for any ImageVector property, the preview image will be displayed in the popup.
+
+<div align="center">
+    <img src="assets/imagevector_previewer_autocomplete.png" />
+</div>
+
+#### Gutter Previewer
+
+Preview inside gutter available for any ImageVector property. By clicking on the gutter icon, the original file will be
+opened in the editor with embedded previewer.
+
+<div align="center">
+    <img src="assets/imagevector_previewer_gutter.png" />
+</div>
 
 ### Requirements
 
@@ -196,7 +227,8 @@ https://github.com/user-attachments/assets/1047a2b3-81ec-4e10-a118-0ff20bd5227b
 
 Precondition: IntelliJ IDEA with installed [Plugin DevKit](https://plugins.jetbrains.com/plugin/22851-plugin-devkit)
 
-Run `./gradlew buildPlugin` to build plugin locally. Artifact will be available in `tools/idea-plugin/build/distributions/`
+Run `./gradlew buildPlugin` to build plugin locally. Artifact will be available in
+`tools/idea-plugin/build/distributions/`
 folder
 
 or run plugin in IDE using: `./gradlew runIde`
