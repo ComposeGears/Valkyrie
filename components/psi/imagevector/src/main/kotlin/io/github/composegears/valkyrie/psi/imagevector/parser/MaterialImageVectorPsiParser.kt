@@ -7,7 +7,6 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.ir.IrVectorNode.IrPath
-import io.github.composegears.valkyrie.psi.extension.childOfType
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractPathFillType
 import io.github.composegears.valkyrie.psi.imagevector.common.parsePath
@@ -20,7 +19,10 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 internal object MaterialImageVectorPsiParser {
 
     fun parse(ktFile: KtFile): IrImageVector? {
-        val property = ktFile.childOfType<KtProperty>() ?: return null
+        val property = ktFile.childrenOfType<KtProperty>()
+            .firstOrNull { it.typeReference?.text == "ImageVector" }
+            ?: return null
+
         val blockBody = property.getter?.bodyBlockExpression ?: return null
 
         val materialIconCall = blockBody.childrenOfType<KtCallExpression>().firstOrNull {
