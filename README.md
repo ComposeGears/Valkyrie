@@ -199,8 +199,8 @@ opened in the editor with embedded previewer.
 
 ### Requirements
 
-- IntelliJ IDEA 2024.1 and later
-- Android Studio Koala and later
+- IntelliJ IDEA 2024.2+
+- Android Studio Ladybug+
 
 > [!IMPORTANT]
 > K2 mode is available starting from IntelliJ IDEA
