@@ -658,5 +658,8 @@ final object io.github.composegears.valkyrie.ir.util/ColorClassification { // io
     final fun from(kotlin.collections/List<io.github.composegears.valkyrie.ir/IrColor>): io.github.composegears.valkyrie.ir.util/DominantShade // io.github.composegears.valkyrie.ir.util/ColorClassification.from|from(kotlin.collections.List<io.github.composegears.valkyrie.ir.IrColor>){}[0]
 }
 
+final val io.github.composegears.valkyrie.ir/aspectRatio // io.github.composegears.valkyrie.ir/aspectRatio|@io.github.composegears.valkyrie.ir.IrImageVector{}aspectRatio[0]
+    final fun (io.github.composegears.valkyrie.ir/IrImageVector).<get-aspectRatio>(): kotlin/Float // io.github.composegears.valkyrie.ir/aspectRatio.<get-aspectRatio>|<get-aspectRatio>@io.github.composegears.valkyrie.ir.IrImageVector(){}[0]
+
 final fun (io.github.composegears.valkyrie.ir/IrImageVector).io.github.composegears.valkyrie.ir.util/iconColors(): kotlin.collections/List<io.github.composegears.valkyrie.ir/IrColor> // io.github.composegears.valkyrie.ir.util/iconColors|iconColors@io.github.composegears.valkyrie.ir.IrImageVector(){}[0]
 final fun (kotlin/Char).io.github.composegears.valkyrie.ir.util/toPathNodes(kotlin/FloatArray): kotlin.collections/List<io.github.composegears.valkyrie.ir/IrPathNode> // io.github.composegears.valkyrie.ir.util/toPathNodes|toPathNodes@kotlin.Char(kotlin.FloatArray){}[0]

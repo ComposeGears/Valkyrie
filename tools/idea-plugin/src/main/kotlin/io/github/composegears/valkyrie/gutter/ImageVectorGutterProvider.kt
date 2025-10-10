@@ -12,6 +12,7 @@ import com.intellij.psi.util.CachedValuesManager
 import io.github.composegears.valkyrie.completion.ImageVectorIcon
 import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.ir.aspectRatio
 import io.github.composegears.valkyrie.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import javax.swing.Icon
@@ -83,7 +84,10 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         val irImageVector = parseImageVectorProperty(this) ?: return null
         val vectorXml = irImageVector.toVectorXmlString()
 
-        return ImageVectorIcon(vectorXml = vectorXml)
+        return ImageVectorIcon(
+            vectorXml = vectorXml,
+            aspectRatio = irImageVector.aspectRatio,
+        )
     }
 
     private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {

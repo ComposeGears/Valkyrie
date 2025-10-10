@@ -116,6 +116,10 @@ public final class io/github/composegears/valkyrie/ir/IrImageVector {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/composegears/valkyrie/ir/IrImageVectorKt {
+	public static final fun getAspectRatio (Lio/github/composegears/valkyrie/ir/IrImageVector;)F
+}
+
 public final class io/github/composegears/valkyrie/ir/IrPathFillType : java/lang/Enum {
 	public static final field EvenOdd Lio/github/composegears/valkyrie/ir/IrPathFillType;
 	public static final field NonZero Lio/github/composegears/valkyrie/ir/IrPathFillType;
