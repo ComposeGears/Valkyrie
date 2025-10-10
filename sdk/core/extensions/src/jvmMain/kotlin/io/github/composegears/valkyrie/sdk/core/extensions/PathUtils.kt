@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.extensions
+package io.github.composegears.valkyrie.sdk.core.extensions
 
 import java.io.IOException
 import kotlin.io.path.Path
@@ -16,20 +16,6 @@ fun String.writeToKt(
     outputDir = outputDir,
     nameWithoutExtension = nameWithoutExtension,
     extension = "kt",
-    deleteIfExists = deleteIfExists,
-    createParents = createParents,
-)
-
-@Throws(IOException::class)
-fun String.writeToXml(
-    outputDir: String,
-    nameWithoutExtension: String,
-    deleteIfExists: Boolean = true,
-    createParents: Boolean = true,
-) = writeToFile(
-    outputDir = outputDir,
-    nameWithoutExtension = nameWithoutExtension,
-    extension = "xml",
     deleteIfExists = deleteIfExists,
     createParents = createParents,
 )

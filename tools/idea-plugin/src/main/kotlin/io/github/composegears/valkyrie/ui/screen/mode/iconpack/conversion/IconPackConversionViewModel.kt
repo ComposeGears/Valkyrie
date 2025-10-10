@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.recordOf
-import io.github.composegears.valkyrie.extensions.safeAs
-import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
@@ -14,6 +12,8 @@ import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.isSvg
 import io.github.composegears.valkyrie.parser.unified.ext.isXml
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
+import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.di.DI

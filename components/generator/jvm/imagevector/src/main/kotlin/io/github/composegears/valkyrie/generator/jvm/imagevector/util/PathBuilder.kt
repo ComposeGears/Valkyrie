@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.util
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.jvm.ext.argumentBlock
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
@@ -26,6 +25,7 @@ import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrStrokeLineCap
 import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode
+import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 
 context(config: ImageVectorSpecConfig)
 internal fun CodeBlock.Builder.addPath(

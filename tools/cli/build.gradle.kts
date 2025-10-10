@@ -91,11 +91,11 @@ tasks.test {
 val r8: Configuration by configurations.creating
 
 dependencies {
-    implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.ir)
     implementation(projects.components.parser.unified)
+    implementation(projects.sdk.core.extensions)
 
     implementation(libs.clikt)
     r8(libs.r8)

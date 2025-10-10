@@ -2,10 +2,10 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.
 
 import com.intellij.openapi.application.ReadResult.Companion.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
-import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.updateNestedPack
 import io.github.composegears.valkyrie.shared.Mode

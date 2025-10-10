@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.platform
 
 import com.intellij.openapi.ide.CopyPasteManager
-import io.github.composegears.valkyrie.extensions.cast
+import io.github.composegears.valkyrie.sdk.core.extensions.cast
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 import java.io.File

@@ -12,10 +12,10 @@ import io.github.composegears.valkyrie.cli.ext.intOption
 import io.github.composegears.valkyrie.cli.ext.outputInfo
 import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
-import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 

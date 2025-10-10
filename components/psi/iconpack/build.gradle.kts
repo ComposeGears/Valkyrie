@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.components.extensions)
+    implementation(projects.sdk.core.extensions)
 
     testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.bundles.test)

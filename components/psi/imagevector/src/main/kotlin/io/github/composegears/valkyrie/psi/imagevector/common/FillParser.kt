@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.psi.imagevector.common
 
-import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.psi.extension.childOfType
+import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import org.jetbrains.kotlin.psi.KtBinaryExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
