@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.psi.imagevector.parser
 
-import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.ir.IrFill
 import io.github.composegears.valkyrie.ir.IrImageVector
@@ -8,13 +7,21 @@ import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.ir.IrVectorNode.IrPath
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
+import io.github.composegears.valkyrie.psi.imagevector.common.autoMirror
+import io.github.composegears.valkyrie.psi.imagevector.common.builderExpression
+import io.github.composegears.valkyrie.psi.imagevector.common.defaultHeight
+import io.github.composegears.valkyrie.psi.imagevector.common.defaultWidth
 import io.github.composegears.valkyrie.psi.imagevector.common.extractPathFillType
+import io.github.composegears.valkyrie.psi.imagevector.common.materialIconCall
+import io.github.composegears.valkyrie.psi.imagevector.common.name
+import io.github.composegears.valkyrie.psi.imagevector.common.parseFloatArg
 import io.github.composegears.valkyrie.psi.imagevector.common.parsePath
+import io.github.composegears.valkyrie.psi.imagevector.common.viewportHeight
+import io.github.composegears.valkyrie.psi.imagevector.common.viewportWidth
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtProperty
-import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 internal object MaterialImageVectorPsiParser {
 
@@ -25,44 +32,35 @@ internal object MaterialImageVectorPsiParser {
 
         val blockBody = property.getter?.bodyBlockExpression ?: return null
 
-        val materialIconCall = blockBody.childrenOfType<KtCallExpression>().firstOrNull {
-            it.calleeExpression?.text == "materialIcon"
-        } ?: return null
+        val materialIconCall = blockBody.materialIconCall()
+
+        if (materialIconCall != null) {
+            return IrImageVector(
+                name = materialIconCall.name(),
+                defaultWidth = 24f,
+                defaultHeight = 24f,
+                viewportWidth = 24f,
+                viewportHeight = 24f,
+                autoMirror = materialIconCall.autoMirror(),
+                nodes = blockBody.parseMaterialPath(),
+            )
+        }
+
+        val builder = blockBody.builderExpression() ?: return null
 
         return IrImageVector(
-            name = materialIconCall.extractIconName(),
-            defaultWidth = 24f,
-            defaultHeight = 24f,
-            viewportWidth = 24f,
-            viewportHeight = 24f,
-            autoMirror = materialIconCall.extractAutoMirror(),
+            name = builder.name().ifEmpty { property.name.orEmpty() },
+            defaultWidth = builder.defaultWidth(0f),
+            defaultHeight = builder.defaultHeight(0f),
+            viewportWidth = builder.viewportWidth(0f),
+            viewportHeight = builder.viewportHeight(0f),
+            autoMirror = builder.autoMirror(),
             nodes = blockBody.parseMaterialPath(),
         )
     }
 
-    private fun KtCallExpression.extractIconName(): String {
-        val nameArgument = valueArguments.find { arg ->
-            arg?.getArgumentName()?.asName?.identifier == "name"
-        }
-
-        return nameArgument?.getArgumentExpression().safeAs<KtStringTemplateExpression>()
-            ?.entries
-            ?.firstOrNull()
-            ?.text.orEmpty()
-    }
-
-    private fun KtCallExpression.extractAutoMirror(): Boolean {
-        val autoMirrorArgument = valueArguments.find { arg ->
-            arg?.getArgumentName()?.asName?.identifier == "autoMirror"
-        }
-
-        return autoMirrorArgument?.getArgumentExpression()?.text?.toBoolean() ?: false
-    }
-
     private fun KtBlockExpression.parseMaterialPath(): List<IrVectorNode> {
-        val materialPathCall = childrenOfType<KtCallExpression>().firstOrNull {
-            it.calleeExpression?.text == "materialPath"
-        } ?: return emptyList()
+        val materialPathCall = materialPathCall() ?: return emptyList()
 
         val pathLambda = materialPathCall.lambdaArguments.firstOrNull()?.getLambdaExpression()
         val pathBody = pathLambda?.bodyExpression ?: return emptyList()
@@ -70,8 +68,8 @@ internal object MaterialImageVectorPsiParser {
         return listOf(
             IrPath(
                 fill = IrFill.Color(IrColor("#FF000000")),
-                fillAlpha = materialPathCall.extractFloat("fillAlpha", 1f),
-                strokeAlpha = materialPathCall.extractFloat("strokeAlpha", 1f),
+                fillAlpha = materialPathCall.parseFloatArg("fillAlpha") ?: 1f,
+                strokeAlpha = materialPathCall.parseFloatArg("strokeAlpha") ?: 1f,
                 strokeLineWidth = 1f,
                 strokeLineJoin = IrStrokeLineJoin.Bevel,
                 strokeLineMiter = 1f,
@@ -80,12 +78,12 @@ internal object MaterialImageVectorPsiParser {
             ),
         )
     }
+}
 
-    private fun KtCallExpression.extractFloat(argName: String, defaultValue: Float): Float {
-        val argument = valueArguments.find { arg ->
-            arg?.getArgumentName()?.asName?.identifier == argName
-        }
+private fun KtBlockExpression.materialPathCall(): KtCallExpression? {
+    val ktCallExpression = childrenOfType<KtCallExpression>().firstOrNull {
+        it.calleeExpression?.text == "materialPath"
+    } ?: return null
 
-        return argument?.getArgumentExpression()?.text?.toFloatOrNull() ?: defaultValue
-    }
+    return ktCallExpression
 }

@@ -20,6 +20,7 @@ import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedIconWith
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGradient
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGradientWithStroke
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIcon
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIconOnlyWithPath
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIconWithoutParam
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedSinglePath
@@ -81,7 +82,7 @@ class KtFileToImageVectorParserTest(
 
     @Test
     fun `parse material icon`() = runInEdtAndGet {
-        val ktFile = project.createKtFile(from = "backing/MaterialIcon.kt")
+        val ktFile = project.createKtFile(from = "backing/MaterialIcon.all.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIcon)
@@ -89,10 +90,18 @@ class KtFileToImageVectorParserTest(
 
     @Test
     fun `parse material icon without param`() = runInEdtAndGet {
-        val ktFile = project.createKtFile(from = "backing/MaterialIcon.without.param.kt")
+        val ktFile = project.createKtFile(from = "backing/MaterialIcon.all.without.param.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIconWithoutParam)
+    }
+
+    @Test
+    fun `parse material icon only with materialPath`() = runInEdtAndGet {
+        val ktFile = project.createKtFile(from = "backing/MaterialIcon.material.path.kt")
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+
+        assertThat(imageVector).isEqualTo(ExpectedMaterialIconOnlyWithPath)
     }
 
     @Test

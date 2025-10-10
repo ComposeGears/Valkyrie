@@ -3,15 +3,22 @@ package io.github.composegears.valkyrie.psi.imagevector.parser
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
+import io.github.composegears.valkyrie.psi.imagevector.common.autoMirror
+import io.github.composegears.valkyrie.psi.imagevector.common.builderExpression
+import io.github.composegears.valkyrie.psi.imagevector.common.defaultHeight
+import io.github.composegears.valkyrie.psi.imagevector.common.defaultWidth
 import io.github.composegears.valkyrie.psi.imagevector.common.extractPathFillType
 import io.github.composegears.valkyrie.psi.imagevector.common.extractStrokeCap
 import io.github.composegears.valkyrie.psi.imagevector.common.extractStrokeJoin
+import io.github.composegears.valkyrie.psi.imagevector.common.name
 import io.github.composegears.valkyrie.psi.imagevector.common.parseClipPath
 import io.github.composegears.valkyrie.psi.imagevector.common.parseFill
 import io.github.composegears.valkyrie.psi.imagevector.common.parseFloatArg
 import io.github.composegears.valkyrie.psi.imagevector.common.parsePath
 import io.github.composegears.valkyrie.psi.imagevector.common.parseStringArg
 import io.github.composegears.valkyrie.psi.imagevector.common.parseStroke
+import io.github.composegears.valkyrie.psi.imagevector.common.viewportHeight
+import io.github.composegears.valkyrie.psi.imagevector.common.viewportWidth
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtFile
@@ -28,61 +35,17 @@ internal object RegularImageVectorPsiParser {
             ?: property.delegateExpression?.childrenOfType<KtBlockExpression>()?.firstOrNull()
             ?: return null
 
-        val ktImageVector = blockBody.parseImageVectorParams() ?: return null
+        val builder = blockBody.builderExpression() ?: return null
 
         return IrImageVector(
-            name = ktImageVector.name.ifEmpty { property.name.orEmpty() },
-            defaultWidth = ktImageVector.defaultWidth,
-            defaultHeight = ktImageVector.defaultHeight,
-            viewportWidth = ktImageVector.viewportWidth,
-            viewportHeight = ktImageVector.viewportHeight,
+            name = builder.name().ifEmpty { property.name.orEmpty() },
+            defaultWidth = builder.defaultWidth(0f),
+            defaultHeight = builder.defaultHeight(0f),
+            viewportWidth = builder.viewportWidth(0f),
+            viewportHeight = builder.viewportHeight(0f),
+            autoMirror = builder.autoMirror(),
             nodes = blockBody.parseApplyBlock(),
         )
-    }
-
-    private fun KtBlockExpression.parseImageVectorParams(): IrImageVector? {
-        val imageVectorBuilderCall = childrenOfType<KtCallExpression>().firstOrNull {
-            it.calleeExpression?.text == "Builder"
-        } ?: return null
-
-        var name = ""
-        var defaultWidth = 0f
-        var defaultHeight = 0f
-        var viewportWidth = 0f
-        var viewportHeight = 0f
-
-        imageVectorBuilderCall.valueArguments
-            .forEach { arg ->
-                val argName = arg.getArgumentName()?.asName?.identifier
-                val argValue = arg.getArgumentExpression()?.text
-
-                when (argName) {
-                    "name" -> name = argValue?.removeSurrounding("\"").orEmpty()
-                    "defaultWidth" -> defaultWidth = parseValue(argValue)
-                    "defaultHeight" -> defaultHeight = parseValue(argValue)
-                    "viewportWidth" -> viewportWidth = parseValue(argValue)
-                    "viewportHeight" -> viewportHeight = parseValue(argValue)
-                }
-            }
-
-        return IrImageVector(
-            name = name,
-            defaultWidth = defaultWidth,
-            defaultHeight = defaultHeight,
-            viewportWidth = viewportWidth,
-            viewportHeight = viewportHeight,
-            nodes = emptyList(),
-        )
-    }
-
-    private fun parseValue(value: String?): Float {
-        if (value == null) return 0f
-
-        return value
-            .removeSuffix(".dp")
-            .removeSuffix("f")
-            .removeSuffix("F")
-            .toFloatOrNull() ?: 0f
     }
 
     private fun KtBlockExpression.parseApplyBlock(): List<IrVectorNode> {
