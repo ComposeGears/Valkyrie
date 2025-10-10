@@ -18,7 +18,6 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
@@ -67,11 +66,8 @@ val SimpleConversionScreen by navDestination<Unit> {
         previewType = settings.previewType,
         onAction = {
             when (it) {
-                is Back -> navController.back(transition = navigationSlideInOut(false))
-                is OpenSettings -> navController.navigate(
-                    dest = SettingsScreen,
-                    transition = navigationSlideInOut(true),
-                )
+                is Back -> navController.back()
+                is OpenSettings -> navController.navigate(dest = SettingsScreen)
                 is ClosePreview -> viewModel.reset()
                 is OpenFilePicker -> {
                     scope.launch {

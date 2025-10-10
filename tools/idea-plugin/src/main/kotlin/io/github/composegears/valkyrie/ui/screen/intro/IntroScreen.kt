@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.WEB_IMPORT_FEATURE_ENABLED
@@ -55,37 +54,14 @@ val IntroScreen: NavDestination<Unit> by navDestination {
 
     IntroScreenUI(
         openSettings = {
-            navController.navigate(
-                dest = SettingsScreen,
-                transition = navigationSlideInOut(true),
-            )
+            navController.navigate(dest = SettingsScreen)
         },
         onModeChange = {
             when (it) {
-                Simple -> {
-                    navController.navigate(
-                        dest = SimpleModeSetupScreen,
-                        transition = navigationSlideInOut(true),
-                    )
-                }
-                IconPack -> {
-                    navController.navigate(
-                        dest = IconPackCreationScreen,
-                        transition = navigationSlideInOut(true),
-                    )
-                }
-                Editor -> {
-                    navController.navigate(
-                        dest = EditorSelectScreen,
-                        transition = navigationSlideInOut(true),
-                    )
-                }
-                WebImport -> {
-                    navController.navigate(
-                        dest = WebImportFlow,
-                        transition = navigationSlideInOut(true),
-                    )
-                }
+                Simple -> navController.navigate(dest = SimpleModeSetupScreen)
+                IconPack -> navController.navigate(dest = IconPackCreationScreen)
+                Editor -> navController.navigate(dest = EditorSelectScreen)
+                WebImport -> navController.navigate(dest = WebImportFlow)
                 Unspecified -> {}
             }
         },

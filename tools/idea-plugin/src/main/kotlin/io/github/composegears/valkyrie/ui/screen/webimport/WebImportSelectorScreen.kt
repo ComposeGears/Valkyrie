@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.navigationSlideInOut
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
@@ -29,9 +28,7 @@ import io.github.composegears.valkyrie.util.stringResource
 val WebImportSelectorScreen by navDestination<Unit> {
     val navController = navController()
 
-    WebImportSelectorScreenUI(
-        onBack = { navController.back(transition = navigationSlideInOut(false)) },
-    )
+    WebImportSelectorScreenUI(onBack = navController::back)
 }
 
 @Composable

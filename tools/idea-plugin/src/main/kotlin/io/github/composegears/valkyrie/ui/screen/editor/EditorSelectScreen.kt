@@ -23,7 +23,6 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.navigationSlideInOut
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
@@ -37,12 +36,11 @@ val EditorSelectScreen by navDestination<Unit> {
     val navController = navController()
 
     EditorScreenUi(
-        onBack = { navController.back(transition = navigationSlideInOut(false)) },
+        onBack = navController::back,
         openEdit = { type ->
             navController.navigate(
                 dest = EditScreen,
                 navArgs = type,
-                transition = navigationSlideInOut(true),
             )
         },
     )

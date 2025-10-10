@@ -18,7 +18,6 @@ import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
@@ -44,12 +43,9 @@ val EditScreen by navDestination<EditorType> {
 
     EditScreenUi(
         state = state,
-        onBack = { navController.back(transition = navigationSlideInOut(false)) },
+        onBack = navController::back,
         openSettings = {
-            navController.navigate(
-                dest = SettingsScreen,
-                transition = navigationSlideInOut(true),
-            )
+            navController.navigate(dest = SettingsScreen)
         },
         onPickerEvent = {
             viewModel.pickerEvent(project = project.current, events = it)

@@ -17,7 +17,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.replace
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.ui.domain.validation.ErrorCriteria
@@ -42,15 +41,10 @@ val SimpleModeSetupScreen by navDestination<Unit> {
     SimpleModeSetupScreenUI(
         state = state,
         onValueChange = viewModel::onValueChange,
-        onBack = {
-            navController.back(transition = navigationSlideInOut(false))
-        },
+        onBack = navController::back,
         onNext = {
             viewModel.saveSettings()
-            navController.replace(
-                dest = SimpleConversionScreen,
-                transition = navigationSlideInOut(true),
-            )
+            navController.replace(dest = SimpleConversionScreen)
         },
     )
 }

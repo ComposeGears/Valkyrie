@@ -41,7 +41,6 @@ import com.composegears.tiamat.compose.navArgsOrNull
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.saveableViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
@@ -107,14 +106,9 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
     IconPackConversionUi(
         state = state,
         previewType = settings.previewType,
-        onBack = {
-            navController.back(transition = navigationSlideInOut(false))
-        },
+        onBack = navController::back,
         openSettings = {
-            navController.navigate(
-                dest = SettingsScreen,
-                transition = navigationSlideInOut(true),
-            )
+            navController.navigate(dest = SettingsScreen)
         },
         onPickEvent = viewModel::pickerEvent,
         updatePack = viewModel::updateIconPack,
