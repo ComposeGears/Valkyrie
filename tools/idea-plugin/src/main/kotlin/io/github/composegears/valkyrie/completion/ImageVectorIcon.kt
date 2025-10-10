@@ -11,6 +11,7 @@ import javax.swing.Icon
 class ImageVectorIcon(
     private val vectorXml: String,
     private val size: Int = 16,
+    private val aspectRatio: Float,
 ) : Icon {
 
     @Volatile
@@ -23,7 +24,18 @@ class ImageVectorIcon(
             cachedImage = renderImage()
         }
         val img = cachedImage ?: return
-        g.drawImage(img, x, y, size, size, null)
+
+        // Calculate dimensions preserving aspect ratio
+        val (width, height) = when {
+            aspectRatio > 1f -> size to (size / aspectRatio).toInt()
+            else -> (size * aspectRatio).toInt() to size
+        }
+
+        // Center the icon if it's smaller than the allocated space
+        val offsetX = x + (size - width) / 2
+        val offsetY = y + (size - height) / 2
+
+        g.drawImage(img, offsetX, offsetY, width, height, null)
     }
 
     private fun renderImage(): Image? {

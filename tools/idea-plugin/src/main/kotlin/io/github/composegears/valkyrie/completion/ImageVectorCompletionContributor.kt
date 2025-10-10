@@ -9,6 +9,7 @@ import com.intellij.codeInsight.lookup.LookupElementPresentation
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import io.github.composegears.valkyrie.extensions.safeAs
+import io.github.composegears.valkyrie.ir.aspectRatio
 import io.github.composegears.valkyrie.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import javax.swing.Icon
@@ -58,11 +59,13 @@ class ImageVectorCompletionContributor : CompletionContributor() {
     }
 
     private fun createIconFromKtFile(ktFile: KtFile): Icon? {
-        val vectorXml = ImageVectorPsiParser.parseToIrImageVector(ktFile)
-            ?.toVectorXmlString()
-            ?: return null
+        val irImageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)
+        val vectorXml = irImageVector?.toVectorXmlString() ?: return null
 
-        return ImageVectorIcon(vectorXml = vectorXml)
+        return ImageVectorIcon(
+            vectorXml = vectorXml,
+            aspectRatio = irImageVector.aspectRatio,
+        )
     }
 
     private class ComposeColorLookupElementDecorator(
