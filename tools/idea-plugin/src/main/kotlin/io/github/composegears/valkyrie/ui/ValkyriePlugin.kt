@@ -14,6 +14,7 @@ import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.TiamatExperimentalApi
 import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.navigationNone
+import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.compose.replace
 import com.composegears.tiamat.navigation.NavController
@@ -105,6 +106,7 @@ fun ValkyriePlugin(
 
                 WebImportFlow,
             ),
+            contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
         )
         SnackbarHost(
             modifier = Modifier.align(Alignment.BottomCenter),

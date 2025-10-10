@@ -24,7 +24,6 @@ import com.composegears.tiamat.compose.currentNavDestinationAsState
 import com.composegears.tiamat.compose.navArgsOrNull
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.popToTop
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.navigation.NavController
@@ -54,7 +53,7 @@ val IconPackCreationScreen by navDestination<PendingPathData> {
             ) {
                 nestedNavController.back()
             } else {
-                nestedNavController.parent?.back(transition = navigationSlideInOut(false))
+                nestedNavController.parent?.back()
             }
         },
     )

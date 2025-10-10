@@ -10,7 +10,6 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.currentNavDestinationAsState
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.compose.replace
 import com.composegears.tiamat.navigation.NavDestination
@@ -39,11 +38,7 @@ val SettingsScreen by navDestination<Unit> {
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar {
-            BackAction(
-                onBack = {
-                    navController.back(transition = navigationSlideInOut(false))
-                },
-            )
+            BackAction(onBack = navController::back)
             AppBarTitle("Settings")
         }
 
