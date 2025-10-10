@@ -17,7 +17,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(projects.components.extensions)
+    implementation(projects.sdk.core.extensions)
     api(projects.components.generator.jvm.poetExtensions)
     api(projects.components.generator.core)
     implementation(projects.components.ir)

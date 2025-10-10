@@ -12,7 +12,6 @@ group = rootProject.providers.gradleProperty("GROUP").get()
 version = rootProject.providers.gradleProperty("VERSION_NAME").get()
 
 dependencies {
-    implementation(projects.components.extensions)
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.irXml)
@@ -25,6 +24,7 @@ dependencies {
     implementation(projects.compose.icons)
     implementation(projects.compose.ui)
     implementation(projects.compose.util)
+    implementation(projects.sdk.core.extensions)
     implementation(projects.shared)
 
     compileOnly(compose.desktop.currentOs) {

@@ -16,7 +16,6 @@ import io.github.composegears.valkyrie.cli.ext.outputInfo
 import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
 import io.github.composegears.valkyrie.cli.ext.stringOption
-import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports
 import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports.Companion.reservedComposeQualifiers
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
@@ -29,6 +28,7 @@ import io.github.composegears.valkyrie.parser.unified.ext.isSvg
 import io.github.composegears.valkyrie.parser.unified.ext.isXml
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
+import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.isDirectory

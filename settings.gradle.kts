@@ -54,7 +54,6 @@ include("tools:cli")
 include("tools:compose-app")
 include("tools:idea-plugin")
 
-include("components:extensions")
 include("components:generator:core")
 include("components:generator:iconpack")
 include("components:generator:jvm:poet-extensions")
@@ -73,6 +72,7 @@ include("components:psi:imagevector")
 include("components:test:coverage")
 include("components:test:resource-loader")
 
+include("sdk:core:extensions")
 include("sdk:core:xml")
 include("sdk:generator:xml")
 

@@ -53,7 +53,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
         }
         wasmJsMain.dependencies {
-            implementation(projects.components.extensions)
+            implementation(projects.sdk.core.extensions)
         }
     }
 }

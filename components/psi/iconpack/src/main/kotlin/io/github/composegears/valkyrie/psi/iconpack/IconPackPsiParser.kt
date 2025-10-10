@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.psi.iconpack
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiManager
 import com.intellij.testFramework.LightVirtualFile
-import io.github.composegears.valkyrie.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import java.nio.file.Path
 import kotlin.io.path.name
 import kotlin.io.path.readText

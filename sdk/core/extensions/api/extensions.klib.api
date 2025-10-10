@@ -1,0 +1,10 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.core:extensions>
+final inline fun <#A: reified kotlin/Any> (kotlin/Any?).io.github.composegears.valkyrie.sdk.core.extensions/cast(): #A // io.github.composegears.valkyrie.sdk.core.extensions/cast|cast@kotlin.Any?(){0§<kotlin.Any>}[0]
+final inline fun <#A: reified kotlin/Any> (kotlin/Any?).io.github.composegears.valkyrie.sdk.core.extensions/safeAs(): #A? // io.github.composegears.valkyrie.sdk.core.extensions/safeAs|safeAs@kotlin.Any?(){0§<kotlin.Any>}[0]

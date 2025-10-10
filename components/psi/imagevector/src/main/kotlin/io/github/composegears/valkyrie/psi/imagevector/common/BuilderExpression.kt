@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.psi.imagevector.common
 
-import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.psi.extension.childrenOfType
+import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression

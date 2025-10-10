@@ -21,8 +21,8 @@ configurations {
 }
 
 dependencies {
-    implementation(projects.components.extensions)
     implementation(projects.components.ir)
+    implementation(projects.sdk.core.extensions)
 
     compileOnly(compose.runtime)
 

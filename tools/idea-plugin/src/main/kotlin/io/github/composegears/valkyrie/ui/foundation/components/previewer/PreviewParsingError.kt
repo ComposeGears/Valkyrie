@@ -22,7 +22,7 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.extensions.cast
+import io.github.composegears.valkyrie.sdk.core.extensions.cast
 import io.github.composegears.valkyrie.ui.foundation.icons.Error
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberBrowser
