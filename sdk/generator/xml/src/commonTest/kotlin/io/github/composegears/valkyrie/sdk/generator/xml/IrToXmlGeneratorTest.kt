@@ -13,6 +13,7 @@ import io.github.composegears.valkyrie.parser.kmp.xml.XmlToImageVectorParser
 import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class IrToXmlGeneratorTest {
@@ -237,8 +238,6 @@ class IrToXmlGeneratorTest {
         val expectedPathData =
             "M 6.75 12.127 L 3.623 9 L 2.558 10.057 L 6.75 14.25 L 15.75 5.25 L 14.693 4.192 L 6.75 12.127 Z"
         assertTrue(generatedXml.contains(expectedPathData))
-
-        assertPathDefaults(generatedXml)
     }
 
     @Test
@@ -310,8 +309,6 @@ class IrToXmlGeneratorTest {
         val expectedPathData =
             "M 6.75 12.127 L 3.623 9 L 2.558 10.057 L 6.75 14.25 L 15.75 5.25 L 14.693 4.192 L 6.75 12.127 Z"
         assertTrue(generatedXml.contains(expectedPathData))
-
-        assertPathDefaults(generatedXml)
     }
 
     @Test
@@ -343,7 +340,6 @@ class IrToXmlGeneratorTest {
 
         assertTrue(generatedXml.contains("android:fillColor=\"#FFE676FF\"")) // #e676ff becomes #FFE676FF
         assertTrue(generatedXml.contains("android:fillColor=\"#FFFF00FF\"")) // #ff00ff becomes #FFFF00FF
-        assertPathDefaults(generatedXml)
     }
 
     @Test
@@ -389,8 +385,6 @@ class IrToXmlGeneratorTest {
         assertTrue(generatedXml.contains("android:fillColor=\"#FF232F34\""))
 
         assertTrue(generatedXml.contains("M 21"))
-
-        assertPathDefaults(generatedXml)
     }
 
     @Test
@@ -538,15 +532,44 @@ class IrToXmlGeneratorTest {
         assertTrue(generatedXml.contains("M 0 0 h 24 v 24 h -24 Z"))
     }
 
+    @Test
+    fun `parse ImageVector with default values should exclude them from XML output`() {
+        val imageVector = IrImageVector(
+            defaultWidth = 24f,
+            defaultHeight = 24f,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+            autoMirror = false,
+            nodes = listOf(
+                IrVectorNode.IrPath(
+                    pathFillType = IrPathFillType.NonZero,
+                    fill = IrFill.Color(IrColor(0xffffffff)),
+                    fillAlpha = 1f,
+                    strokeAlpha = 1f,
+                    paths = emptyList(),
+                ),
+            ),
+        )
+
+        val result = IrToXmlGenerator.generate(imageVector)
+
+        with(result) {
+            // Default values should not be present in the XML
+            assertFalse(contains("android:autoMirrored=\"false\""), "Default autoMirrored=false should not be in XML")
+            assertFalse(contains("android:fillType=\"nonZero\""), "Default fillType=nonZero should not be in XML")
+            assertFalse(contains("android:fillAlpha=\"1.0\""), "Default fillAlpha=1.0 should not be in XML")
+            assertFalse(contains("android:strokeAlpha=\"1.0\""), "Default strokeAlpha=1.0 should not be in XML")
+
+            // Non-default values should be present
+            assertTrue(contains("android:fillColor=\"#FFFFFFFF\""), "Non-default fillColor should be in XML")
+            assertTrue(contains("android:pathData=\"\""), "pathData should always be present")
+        }
+    }
+
     private fun roundTripGenerateXml(resourcePath: String): String {
         val originalXml = getResourceText(resourcePath)
         val imageVector = XmlToImageVectorParser.parse(originalXml)
         return IrToXmlGenerator.generate(imageVector)
-    }
-
-    private fun assertPathDefaults(xml: String) {
-        assertTrue(xml.contains("android:fillType=\"nonZero\""))
-        assertTrue(xml.contains("android:fillAlpha=\"1.0\""))
     }
 
     private fun validateVectorAttributes(xml: String, size: Int, viewportSize: Float, autoMirrored: Boolean = false) {
@@ -555,7 +578,9 @@ class IrToXmlGeneratorTest {
             assertTrue(contains("android:height=\"${size}dp\""))
             assertTrue(contains("android:viewportWidth=\"$viewportSize\""))
             assertTrue(contains("android:viewportHeight=\"$viewportSize\""))
-            assertTrue(contains("android:autoMirrored=\"$autoMirrored\""))
+            if (autoMirrored) {
+                assertTrue(contains("android:autoMirrored=\"true\""))
+            }
         }
     }
 

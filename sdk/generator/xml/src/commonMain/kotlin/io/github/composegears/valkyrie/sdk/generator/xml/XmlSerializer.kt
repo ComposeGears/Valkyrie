@@ -7,6 +7,7 @@ import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.XML
+import nl.adaptivity.xmlutil.serialization.XmlSerializationPolicy
 
 internal object XmlSerializer {
     private val baseModule = SerializersModule {
@@ -23,6 +24,7 @@ internal object XmlSerializer {
         defaultPolicy {
             pedantic = false
             repairNamespaces = true
+            encodeDefault = XmlSerializationPolicy.XmlEncodeDefault.NEVER
         }
     }
 
