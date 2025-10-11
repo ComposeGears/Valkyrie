@@ -32,7 +32,7 @@ icons to ImageVector format, while also allowing for customization of the genera
 needs.
 
 > [!NOTE]
-> This project is especially relevant now as Material Icons is no longer maintained or recommended for use in your apps.
+> This project is especially relevant now as Material Icons is no longer maintained and not recommended for use in your apps.
 > [Learn more](https://developer.android.com/develop/ui/compose/graphics/images/material).
 
 ## Table of Contents
