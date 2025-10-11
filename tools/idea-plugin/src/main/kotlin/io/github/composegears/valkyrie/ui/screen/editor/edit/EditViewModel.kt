@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.editor.edit
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.composegears.tiamat.navigation.MutableSavedState
+import com.composegears.tiamat.Saveable
+import com.composegears.tiamat.SavedState
+import com.composegears.tiamat.TiamatViewModel
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -22,12 +22,17 @@ import kotlinx.coroutines.launch
 import org.jetbrains.kotlin.psi.KtFile
 
 class EditViewModel(
-    val savedState: MutableSavedState,
+    val savedState: SavedState?,
     val editorType: EditorType,
-) : ViewModel() {
+) : TiamatViewModel(),
+    Saveable {
 
     private val _state = MutableStateFlow<EditState>(EditState.Select)
     val state = _state.asStateFlow()
+
+    override fun saveToSaveState(): SavedState {
+        return mapOf()
+    }
 
     fun pickerEvent(project: Project, events: PickerEvent) {
         when (events) {

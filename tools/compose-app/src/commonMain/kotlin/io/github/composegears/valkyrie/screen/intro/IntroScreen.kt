@@ -15,9 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.compose.navController
-import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.navigate
+import com.composegears.tiamat.navController
+import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons

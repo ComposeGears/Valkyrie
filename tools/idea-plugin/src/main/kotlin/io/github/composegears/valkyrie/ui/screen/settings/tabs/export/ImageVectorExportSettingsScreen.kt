@@ -11,9 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.composegears.tiamat.compose.navController
-import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.rememberSharedViewModel
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
@@ -32,7 +31,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ui.SwitchO
 import io.github.composegears.valkyrie.util.stringResource
 
 val ImageVectorExportSettingsScreen by navDestination<Unit> {
-    val viewModel = viewModel<SettingsViewModel>(navController())
+    val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
     val exportSettings by viewModel.exportSettings.collectAsState()
 
     ImageVectorExportSettingsUi(

@@ -1,8 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.composegears.leviathan.compose.inject
+import com.composegears.tiamat.TiamatViewModel
+import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
@@ -39,9 +38,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class NewPackViewModel : ViewModel() {
+class NewPackViewModel : TiamatViewModel() {
 
-    private val inMemorySettings = inject(DI.core.inMemorySettings)
+    private val inMemorySettings by DI.core.inMemorySettings
 
     private var inputHandler = NewPackInputHandler(inMemorySettings.current)
 

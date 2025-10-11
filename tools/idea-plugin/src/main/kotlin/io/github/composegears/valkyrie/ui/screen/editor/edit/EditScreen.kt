@@ -13,26 +13,24 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.composegears.tiamat.compose.back
-import com.composegears.tiamat.compose.navArgs
-import com.composegears.tiamat.compose.navController
-import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.saveableViewModel
+import com.composegears.tiamat.navArgs
+import com.composegears.tiamat.navController
+import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.navigationSlideInOut
+import com.composegears.tiamat.rememberSaveableViewModel
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.screen.editor.EditorType
 import io.github.composegears.valkyrie.ui.screen.editor.edit.ui.EditorSelectUi
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 
-val EditScreen by navDestination<EditorType> {
+val EditScreen by navDestination {
     val project = LocalProject.current
 
     val navController = navController()
     val args = navArgs()
 
-    val viewModel = saveableViewModel {
+    val viewModel = rememberSaveableViewModel {
         EditViewModel(
             savedState = it,
             editorType = args,

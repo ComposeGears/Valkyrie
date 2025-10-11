@@ -10,16 +10,15 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.composegears.leviathan.compose.inject
+import com.composegears.leviathan.compose.leviathanInject
+import com.composegears.tiamat.NavController
+import com.composegears.tiamat.Navigation
+import com.composegears.tiamat.Route
 import com.composegears.tiamat.TiamatExperimentalApi
-import com.composegears.tiamat.compose.Navigation
-import com.composegears.tiamat.compose.navigationNone
+import com.composegears.tiamat.navigationNone
 import com.composegears.tiamat.compose.navigationSlideInOut
-import com.composegears.tiamat.compose.rememberNavController
-import com.composegears.tiamat.compose.replace
-import com.composegears.tiamat.navigation.NavController
-import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
-import com.composegears.tiamat.navigation.Route
+import com.composegears.tiamat.rememberNavController
+import com.composegears.tiamat.toNavEntry
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
@@ -50,15 +49,41 @@ import kotlinx.coroutines.flow.onEach
 fun ValkyriePlugin(
     modifier: Modifier = Modifier,
 ) {
-    val inMemorySettings = inject { DI.core.inMemorySettings }
+    val inMemorySettings = leviathanInject { DI.core.inMemorySettings }
 
     val project = LocalProject.current
 
     val navController = rememberNavController(
+        destinations = arrayOf(
+            IntroScreen,
+            SimpleModeSetupScreen,
+            SimpleConversionScreen,
+
+            IconPackCreationScreen,
+            IconPackConversionScreen,
+
+            CodePreviewScreen,
+
+            SettingsScreen,
+
+            EditorSelectScreen,
+            EditScreen,
+
+            WebImportFlow,
+        ),
         startDestination = null,
-        savedState = inMemorySettings.uiState,
         configuration = {
-            if (getCurrentNavEntry() == null) initialFlow(inMemorySettings)
+            if (current != null) return@rememberNavController
+
+            val uiState = inMemorySettings.uiState
+            if (uiState.isNotEmpty()) {
+                runCatching {
+                    loadFromSavedState(uiState)
+                }
+            }
+            if (current != null) return@rememberNavController
+
+            initialFlow(inMemorySettings)
         },
     )
 
@@ -81,7 +106,7 @@ fun ValkyriePlugin(
 
     DisposableEffect(Unit) {
         onDispose {
-            inMemorySettings.updateUIState(navController.saveToSavedState())
+            inMemorySettings.updateUIState(navController.getSavedState())
         }
     }
 
@@ -89,24 +114,6 @@ fun ValkyriePlugin(
         Navigation(
             modifier = Modifier.matchParentSize(),
             navController = navController,
-            destinations = arrayOf(
-                IntroScreen,
-                SimpleModeSetupScreen,
-                SimpleConversionScreen,
-
-                IconPackCreationScreen,
-                IconPackConversionScreen,
-
-                CodePreviewScreen,
-
-                SettingsScreen,
-
-                EditorSelectScreen,
-                EditScreen,
-
-                WebImportFlow,
-            ),
-            contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
         )
         SnackbarHost(
             modifier = Modifier.align(Alignment.BottomCenter),
@@ -132,14 +139,14 @@ private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
         Unspecified, Editor, WebImport -> IntroScreen
     }
 
-    if (getCurrentNavEntry()?.destination != screen) {
-        route(Route(listOf(IntroScreen, screen)))
+    if (current != screen) {
+        route(Route.build(IntroScreen, screen))
     }
 }
 
 @OptIn(TiamatExperimentalApi::class)
 private fun NavController.openConversionFlow(event: ImportIcons) {
-    when (getCurrentNavEntry()?.destination) {
+    when (current) {
         IconPackConversionScreen -> {
             replace(
                 dest = IconPackConversionScreen,
@@ -149,11 +156,9 @@ private fun NavController.openConversionFlow(event: ImportIcons) {
         }
         else -> {
             route(
-                Route(
-                    listOf(
-                        IntroScreen,
-                        IconPackConversionScreen.toNavEntry(navArgs = event.pathData),
-                    ),
+                Route.build(
+                    IntroScreen,
+                    IconPackConversionScreen.toNavEntry(navArgs = event.pathData),
                 ),
             )
         }
@@ -162,7 +167,7 @@ private fun NavController.openConversionFlow(event: ImportIcons) {
 
 @OptIn(TiamatExperimentalApi::class)
 private fun NavController.openSetupIconPackWithPendingData(event: SetupIconPackMode) {
-    when (getCurrentNavEntry()?.destination) {
+    when (current) {
         IconPackCreationScreen -> {
             replace(
                 dest = IconPackCreationScreen,
@@ -172,11 +177,9 @@ private fun NavController.openSetupIconPackWithPendingData(event: SetupIconPackM
         }
         else -> {
             route(
-                Route(
-                    listOf(
-                        IntroScreen,
-                        IconPackCreationScreen.toNavEntry(navArgs = event.pathData),
-                    ),
+                Route.build(
+                    IntroScreen,
+                    IconPackCreationScreen.toNavEntry(navArgs = event.pathData),
                 ),
             )
         }

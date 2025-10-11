@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.composegears.leviathan.compose.inject
-import com.composegears.tiamat.navigation.MutableSavedState
-import com.composegears.tiamat.navigation.recordOf
+import com.composegears.tiamat.Saveable
+import com.composegears.tiamat.SavedState
+import com.composegears.tiamat.TiamatViewModel
+import io.github.composegears.valkyrie.extensions.safeAs
+import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
@@ -22,6 +22,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Conver
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.checkExportIssues
+import io.github.composegears.valkyrie.util.getOrNull
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
@@ -37,13 +38,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class IconPackConversionViewModel(
-    savedState: MutableSavedState,
+    savedState: SavedState?,
     paths: List<Path>,
-) : ViewModel() {
+) : TiamatViewModel(),
+    Saveable {
 
-    val inMemorySettings = inject(DI.core.inMemorySettings)
-
-    private val iconsRecord = savedState.recordOf<List<BatchIcon>?>("icons", null)
+    val inMemorySettings by DI.core.inMemorySettings
 
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()
@@ -52,7 +52,7 @@ class IconPackConversionViewModel(
     val events = _events.asSharedFlow()
 
     init {
-        val restoredState = iconsRecord.value
+        val restoredState = savedState?.getOrNull<List<BatchIcon>>(key = "icons")
 
         when {
             restoredState != null -> {
@@ -75,14 +75,13 @@ class IconPackConversionViewModel(
                 }
             }
         }
-        _state
-            .onEach {
-                iconsRecord.value = when (val state = _state.value) {
-                    is BatchProcessing.IconPackCreationState -> state.icons
-                    else -> emptyList<BatchIcon>()
-                }
-            }
-            .launchIn(viewModelScope)
+    }
+
+    override fun saveToSaveState(): SavedState {
+        return when (val state = _state.value) {
+            is BatchProcessing.IconPackCreationState -> mapOf("icons" to state.icons)
+            else -> mapOf("icons" to emptyList<List<BatchIcon>>())
+        }
     }
 
     fun pickerEvent(events: PickerEvent) {

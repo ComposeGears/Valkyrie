@@ -30,12 +30,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.composegears.tiamat.compose.editNavStack
-import com.composegears.tiamat.compose.navController
-import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.navigation.NavController
-import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
+import com.composegears.tiamat.NavController
+import com.composegears.tiamat.navController
+import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.rememberSharedViewModel
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
@@ -59,7 +57,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 val GeneralSettingsScreen by navDestination<Unit> {
     val navController = navController()
 
-    val viewModel = viewModel<SettingsViewModel>(navController)
+    val viewModel = rememberSharedViewModel(provider = ::SettingsViewModel)
     val generalSettings by viewModel.generalSettings.collectAsState()
 
     var showClearSettingsDialog by rememberMutableState { false }
@@ -90,7 +88,8 @@ val GeneralSettingsScreen by navDestination<Unit> {
 
 private fun openIntro(navController: NavController) {
     navController.parent?.run {
-        editNavStack { _ -> listOf(IntroScreen.toNavEntry()) }
+        editBackStack { clear() }
+        replace(IntroScreen)
     }
 }
 

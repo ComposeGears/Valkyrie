@@ -2,17 +2,14 @@ package io.github.composegears.valkyrie.ui.screen.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.composegears.tiamat.compose.Navigation
-import com.composegears.tiamat.compose.back
-import com.composegears.tiamat.compose.currentNavDestinationAsState
-import com.composegears.tiamat.compose.navController
-import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.rememberNavController
-import com.composegears.tiamat.compose.replace
-import com.composegears.tiamat.navigation.NavDestination
+import com.composegears.tiamat.NavDestination
+import com.composegears.tiamat.Navigation
+import com.composegears.tiamat.navController
+import com.composegears.tiamat.navDestination
+import com.composegears.tiamat.navigationSlideInOut
+import com.composegears.tiamat.rememberNavController
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.ScrollableTabRow
@@ -44,15 +41,15 @@ val SettingsScreen by navDestination<Unit> {
 
         val tabsNavController = rememberNavController(
             startDestination = GeneralSettingsScreen,
+            destinations = tabScreens,
         )
-        val tabsDestination by tabsNavController.currentNavDestinationAsState()
 
         ScrollableTabRow(
             tabs = tabNames,
-            selectedTabIndex = tabScreens.indexOfFirst { destination -> destination.name == tabsDestination?.name },
+            selectedTabIndex = tabScreens.indexOf(tabsNavController.current),
         ) { tabIndex ->
             val navDestination = tabScreens[tabIndex]
-            if (navDestination != tabsDestination) {
+            if (navDestination != tabsNavController.current) {
                 tabsNavController.replace(navDestination)
             }
         }
@@ -60,7 +57,6 @@ val SettingsScreen by navDestination<Unit> {
         Navigation(
             modifier = Modifier.fillMaxSize(),
             navController = tabsNavController,
-            destinations = tabScreens,
         )
     }
 }

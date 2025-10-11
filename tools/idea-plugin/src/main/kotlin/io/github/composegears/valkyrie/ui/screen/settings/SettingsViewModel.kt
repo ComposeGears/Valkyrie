@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.settings
 
-import androidx.lifecycle.ViewModel
-import com.composegears.leviathan.compose.inject
+import com.composegears.tiamat.TiamatViewModel
 import com.intellij.collaboration.async.mapState
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
@@ -23,9 +22,9 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
 
 @Suppress("UnstableApiUsage")
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel : TiamatViewModel() {
 
-    private val inMemorySettings = inject(DI.core.inMemorySettings)
+    private val inMemorySettings by DI.core.inMemorySettings
 
     val exportSettings = inMemorySettings.settings.mapState {
         ExportSettings(

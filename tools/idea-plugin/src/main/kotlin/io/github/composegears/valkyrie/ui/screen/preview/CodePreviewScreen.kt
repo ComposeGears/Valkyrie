@@ -4,15 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.composegears.tiamat.compose.back
-import com.composegears.tiamat.compose.navArgs
-import com.composegears.tiamat.compose.navController
-import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.navArgs
+import com.composegears.tiamat.navController
+import com.composegears.tiamat.navDestination
 import io.github.composegears.valkyrie.compose.codeviewer.KotlinCodeViewer
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 
-val CodePreviewScreen by navDestination<String> {
+val CodePreviewScreen by navDestination {
     val navController = navController()
     val navArgs = navArgs()
 
