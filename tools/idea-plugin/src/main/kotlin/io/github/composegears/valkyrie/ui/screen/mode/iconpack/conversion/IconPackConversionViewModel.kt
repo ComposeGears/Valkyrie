@@ -3,8 +3,6 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 import com.composegears.tiamat.Saveable
 import com.composegears.tiamat.SavedState
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.extensions.safeAs
-import io.github.composegears.valkyrie.extensions.writeToKt
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
@@ -33,8 +31,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class IconPackConversionViewModel(
@@ -53,7 +49,6 @@ class IconPackConversionViewModel(
 
     init {
         val restoredState = savedState?.getOrNull<List<BatchIcon>>(key = "icons")
-
         when {
             restoredState != null -> {
                 if (restoredState.isEmpty()) {

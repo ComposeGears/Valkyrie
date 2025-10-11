@@ -16,7 +16,6 @@ import com.composegears.tiamat.Navigation
 import com.composegears.tiamat.Route
 import com.composegears.tiamat.TiamatExperimentalApi
 import com.composegears.tiamat.navigationNone
-import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.rememberNavController
 import com.composegears.tiamat.toNavEntry
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler

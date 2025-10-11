@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmod
 import com.composegears.tiamat.Saveable
 import com.composegears.tiamat.SavedState
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
@@ -47,7 +46,7 @@ class SimpleConversionViewModel(
                             val output = parseIcon(path = icon.path, iconName = state.iconContent.name)
 
                             if (output != null) {
-                                stateRecord.updateState {
+                                _state.updateState {
                                     ConversionState(
                                         iconSource = IconSource.FileBasedIcon(icon.path),
                                         iconContent = output,
@@ -59,7 +58,7 @@ class SimpleConversionViewModel(
                             val output = parseIcon(text = icon.text, iconName = state.iconContent.name)
 
                             if (output != null) {
-                                stateRecord.updateState {
+                                _state.updateState {
                                     ConversionState(
                                         iconSource = IconSource.StringBasedIcon(icon.text),
                                         iconContent = output,
@@ -102,7 +101,7 @@ class SimpleConversionViewModel(
         if (output == null) {
             _events.emit("Failed to parse icon from clipboard")
         } else {
-            stateRecord.updateState {
+            _state.updateState {
                 ConversionState(
                     iconSource = IconSource.StringBasedIcon(text),
                     iconContent = output,
@@ -112,7 +111,7 @@ class SimpleConversionViewModel(
     }
 
     fun changeIconName(name: String) = viewModelScope.launch(Dispatchers.Default) {
-        val conversionState = stateRecord.value.safeAs<ConversionState>() ?: return@launch
+        val conversionState = _state.value.safeAs<ConversionState>() ?: return@launch
 
         when (conversionState.iconSource) {
             is IconSource.FileBasedIcon -> {
@@ -122,7 +121,7 @@ class SimpleConversionViewModel(
                 )
 
                 if (output != null) {
-                    stateRecord.updateState {
+                    _state.updateState {
                         ConversionState(
                             iconSource = IconSource.FileBasedIcon(conversionState.iconSource.path),
                             iconContent = output,
@@ -137,7 +136,7 @@ class SimpleConversionViewModel(
                 )
 
                 if (output != null) {
-                    stateRecord.updateState {
+                    _state.updateState {
                         ConversionState(
                             iconSource = IconSource.StringBasedIcon(conversionState.iconSource.text),
                             iconContent = output,

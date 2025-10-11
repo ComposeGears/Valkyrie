@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewmodel
 
 import com.composegears.tiamat.TiamatViewModel
-import io.github.composegears.valkyrie.extensions.safeAs
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
