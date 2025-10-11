@@ -11,7 +11,8 @@ import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import io.github.composegears.valkyrie.completion.ImageVectorIcon
 import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.ir.aspectRatio
+import io.github.composegears.valkyrie.ir.util.aspectRatio
+import io.github.composegears.valkyrie.ir.util.dominantShadeColor
 import io.github.composegears.valkyrie.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
@@ -87,6 +88,7 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         return ImageVectorIcon(
             vectorXml = vectorXml,
             aspectRatio = irImageVector.aspectRatio,
+            dominantShade = irImageVector.dominantShadeColor,
         )
     }
 

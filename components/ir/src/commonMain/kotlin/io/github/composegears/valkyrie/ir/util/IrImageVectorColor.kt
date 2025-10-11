@@ -6,7 +6,7 @@ import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.IrStroke
 import io.github.composegears.valkyrie.ir.IrVectorNode
 
-fun IrImageVector.iconColors(): List<IrColor> {
+internal fun IrImageVector.iconColors(): List<IrColor> {
     val colors = mutableSetOf<IrColor>()
 
     nodes.onEach { node ->
