@@ -11,7 +11,7 @@ enum class DominantShade {
     Mixed,
 }
 
-object ColorClassification {
+internal object ColorClassification {
 
     private const val BLACK_THRESHOLD = 0.2f
     private const val WHITE_THRESHOLD = 0.8f

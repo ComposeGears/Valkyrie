@@ -19,9 +19,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
-import io.github.composegears.valkyrie.ir.util.ColorClassification
 import io.github.composegears.valkyrie.ir.util.DominantShade
-import io.github.composegears.valkyrie.ir.util.iconColors
+import io.github.composegears.valkyrie.ir.util.dominantShadeColor
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
@@ -40,7 +39,7 @@ fun IconPreviewBox(
                 PreviewType.Black -> BgType.Black
                 PreviewType.White -> BgType.White
                 PreviewType.Pixel -> BgType.PixelGrid
-                PreviewType.Auto -> when (ColorClassification.from(irImageVector.iconColors())) {
+                PreviewType.Auto -> when (irImageVector.dominantShadeColor) {
                     DominantShade.Black -> BgType.White
                     DominantShade.White -> BgType.Black
                     DominantShade.Mixed -> BgType.PixelGrid
