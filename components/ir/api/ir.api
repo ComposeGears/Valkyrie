@@ -116,10 +116,6 @@ public final class io/github/composegears/valkyrie/ir/IrImageVector {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/composegears/valkyrie/ir/IrImageVectorKt {
-	public static final fun getAspectRatio (Lio/github/composegears/valkyrie/ir/IrImageVector;)F
-}
-
 public final class io/github/composegears/valkyrie/ir/IrPathFillType : java/lang/Enum {
 	public static final field EvenOdd Lio/github/composegears/valkyrie/ir/IrPathFillType;
 	public static final field NonZero Lio/github/composegears/valkyrie/ir/IrPathFillType;
@@ -513,11 +509,6 @@ public final class io/github/composegears/valkyrie/ir/IrVectorNode$IrPath : io/g
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/composegears/valkyrie/ir/util/ColorClassification {
-	public static final field INSTANCE Lio/github/composegears/valkyrie/ir/util/ColorClassification;
-	public final fun from (Ljava/util/List;)Lio/github/composegears/valkyrie/ir/util/DominantShade;
-}
-
 public final class io/github/composegears/valkyrie/ir/util/DominantShade : java/lang/Enum {
 	public static final field Black Lio/github/composegears/valkyrie/ir/util/DominantShade;
 	public static final field Mixed Lio/github/composegears/valkyrie/ir/util/DominantShade;
@@ -527,8 +518,9 @@ public final class io/github/composegears/valkyrie/ir/util/DominantShade : java/
 	public static fun values ()[Lio/github/composegears/valkyrie/ir/util/DominantShade;
 }
 
-public final class io/github/composegears/valkyrie/ir/util/IrImageVectorColorKt {
-	public static final fun iconColors (Lio/github/composegears/valkyrie/ir/IrImageVector;)Ljava/util/List;
+public final class io/github/composegears/valkyrie/ir/util/IrImageVectorExtensionsKt {
+	public static final fun getAspectRatio (Lio/github/composegears/valkyrie/ir/IrImageVector;)F
+	public static final fun getDominantShadeColor (Lio/github/composegears/valkyrie/ir/IrImageVector;)Lio/github/composegears/valkyrie/ir/util/DominantShade;
 }
 
 public final class io/github/composegears/valkyrie/ir/util/PathNodeKt {

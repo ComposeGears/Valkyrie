@@ -2,6 +2,9 @@ package io.github.composegears.valkyrie.completion
 
 import com.android.ide.common.vectordrawable.VdPreview
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.ui.JBColor
+import io.github.composegears.valkyrie.ir.util.DominantShade
+import java.awt.Color
 import java.awt.Component
 import java.awt.Graphics
 import java.awt.Graphics2D
@@ -12,6 +15,7 @@ class ImageVectorIcon(
     private val vectorXml: String,
     private val size: Int = 16,
     private val aspectRatio: Float,
+    private val dominantShade: DominantShade,
 ) : Icon {
 
     @Volatile
@@ -19,6 +23,7 @@ class ImageVectorIcon(
 
     override fun paintIcon(c: Component?, g: Graphics?, x: Int, y: Int) {
         if (g !is Graphics2D) return
+        drawBackground(g = g, x = x, y = y)
 
         if (cachedImage == null) {
             cachedImage = renderImage()
@@ -36,6 +41,20 @@ class ImageVectorIcon(
         val offsetY = y + (size - height) / 2
 
         g.drawImage(img, offsetX, offsetY, width, height, null)
+    }
+
+    private fun drawBackground(g: Graphics2D, x: Int, y: Int) {
+        when (dominantShade) {
+            DominantShade.Black -> {
+                g.color = blackIconBackgroundColor
+                g.fillRoundRect(x, y, size, size, 2, 2)
+            }
+            DominantShade.White -> {
+                g.color = whiteIconBackgroundColor
+                g.fillRoundRect(x, y, size, size, 2, 2)
+            }
+            DominantShade.Mixed -> {}
+        }
     }
 
     private fun renderImage(): Image? {
@@ -61,5 +80,8 @@ class ImageVectorIcon(
 
     companion object {
         private const val ICON_SCALE_FACTOR = 4
+
+        private val blackIconBackgroundColor = JBColor(Color(0, 0, 0, 0), Color.WHITE)
+        private val whiteIconBackgroundColor = JBColor(Color.DARK_GRAY, Color(0, 0, 0, 0))
     }
 }

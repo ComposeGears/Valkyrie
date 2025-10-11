@@ -5,6 +5,7 @@
 ### Added
 
 - Setup of changelog plugin
+- Dynamically set the gutter icon's background to maintain contrast when its dominant color matches the IDE theme color
 
 ## [0.17.2](https://github.com/ComposeGears/Valkyrie/releases/tag/0.17.2) - 2025-10-11
 

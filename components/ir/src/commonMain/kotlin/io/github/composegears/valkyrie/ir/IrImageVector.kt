@@ -9,10 +9,3 @@ data class IrImageVector(
     val viewportHeight: Float,
     val nodes: List<IrVectorNode>,
 )
-
-val IrImageVector.aspectRatio: Float
-    get() = if (viewportHeight != 0f && viewportWidth != 0f) {
-        viewportWidth / viewportHeight
-    } else {
-        1f
-    }
