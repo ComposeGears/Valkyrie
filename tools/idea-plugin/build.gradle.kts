@@ -1,3 +1,4 @@
+import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -6,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.valkyrie.compose)
     alias(libs.plugins.jetbrains.intellij)
+    alias(libs.plugins.jetbrains.changelog)
 }
 
 group = rootProject.providers.gradleProperty("GROUP").get()
@@ -57,9 +59,12 @@ compose.resources {
 intellijPlatform {
     buildSearchableOptions = false
     projectName = "valkyrie-plugin"
-    pluginConfiguration.ideaVersion {
-        sinceBuild = "242"
-        untilBuild = provider { null }
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild = "242"
+            untilBuild = provider { null }
+        }
+        changeNotes = provider { changelog.render(Changelog.OutputType.HTML) }
     }
     pluginVerification {
         failureLevel = listOf(
@@ -105,6 +110,12 @@ kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_21
     }
+}
+
+changelog {
+    groups.empty()
+    repositoryUrl = "https://github.com/ComposeGears/Valkyrie"
+    versionPrefix = ""
 }
 
 tasks {
