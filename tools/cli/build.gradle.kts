@@ -77,7 +77,13 @@ val buildWithR8 by tasks.registering(JavaExec::class) {
 val buildCLI by tasks.registering(Zip::class) {
     dependsOn(buildWithR8)
 
-    from(layout.buildDirectory.file("install/valkyrie-shadow"))
+    from(layout.buildDirectory.file("install/valkyrie-shadow")) {
+        filesMatching("bin/valkyrie") {
+            permissions {
+                unix("rwxr-xr-x") // 755 in octal
+            }
+        }
+    }
 
     archiveFileName.set("$baseName-cli-$version.zip")
     destinationDirectory.set(layout.buildDirectory.dir("distributions/"))
