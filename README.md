@@ -60,7 +60,6 @@ needs.
 - [Other](#other)
   - [Export formats](#export-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
-  - [Gradle commands](#gradle-commands)
   - [Migration guide](#migration-guide)
 
 ## Key features
@@ -586,26 +585,6 @@ get() {
 </td>
 </tr>
 </table>
-
-### Gradle commands
-
-other available gradle commands:
-
-- run tests: `./gradlew test`
-
-- check code style: `./gradlew spotlessCheck`
-
-- apply formatting: `./gradlew spotlessApply`
-
-- update ABI: `./gradlew updateLegacyAbi`
-
-- check ABI: `./gradlew checkLegacyAbi`
-
-- create html test report: `./gradlew components:test:coverage:koverHtmlReport`
-
-- print test coverage: `./gradlew components:test:coverage:koverLog`
-
-- WASM app: `./gradlew tools:compose-app:wasmJsBrowserDevelopmentRun`
 
 ### Migration guide
 

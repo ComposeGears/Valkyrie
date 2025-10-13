@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.kover) apply false
     alias(libs.plugins.jetbrains.compose) apply false
+    alias(libs.plugins.jetbrains.changelog) apply false
     alias(libs.plugins.jetbrains.intellij) apply false
     alias(libs.plugins.jetbrains.intellij.module) apply false
     alias(libs.plugins.buildConfig) apply false
