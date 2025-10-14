@@ -13,7 +13,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const requiredLabels = ['housekeeping', 'feature', 'bugfix', 'dependencies', 'feature-cli', 'feature-plugin', 'bugfix-cli', 'bugfix-plugin'];
+          const requiredLabels = ['housekeeping', 'feature', 'bugfix', 'dependencies', 'feature-cli', 'feature-plugin', 'bugfix-cli', 'bugfix-plugin', 'changelog'];
           const labels = context.payload.pull_request.labels.map(label => label.name);
           const hasRequiredLabel = labels.some(label => requiredLabels.includes(label));
           if (!hasRequiredLabel) {
