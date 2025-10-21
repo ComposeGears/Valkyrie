@@ -1,10 +1,10 @@
 [versions]
-compose = "1.9.0"
+compose = "1.8.2"
 intellij = "2.9.0"
 jacoco = "0.8.13"
 kotlin = "2.2.20"
 kover = "0.9.3"
-leviathan = "3.1.0"
+leviathan = "3.1.0-1.8.2"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.0"
@@ -14,7 +14,7 @@ kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.0"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
 leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviathan" }
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
-tiamat = "io.github.composegears:tiamat:2.1.0"
+tiamat = "io.github.composegears:tiamat:2.1.0-1.8.2"
 xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.2"
 
