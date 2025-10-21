@@ -13,6 +13,10 @@ plugins {
 group = rootProject.providers.gradleProperty("GROUP").get()
 version = rootProject.providers.gradleProperty("VERSION_NAME").get()
 
+repositories {
+    maven(url = file("../../m2"))
+}
+
 dependencies {
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)

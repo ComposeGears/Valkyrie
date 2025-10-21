@@ -1,0 +1,102 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../leviathan/3.1.0-1.8.2/leviathan-3.1.0-1.8.2.module",
+    "group": "io.github.composegears",
+    "module": "leviathan",
+    "version": "3.1.0-1.8.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-wasm-js-3.1.0-1.8.2.klib",
+          "url": "leviathan-wasm-js-3.1.0-1.8.2.klib",
+          "size": 12518,
+          "sha512": "4188bfeeb670b26e55f61f01f82708f7d5e8ef4c07ccd425e4b34a5d56043c4194bac73d10ad97f57c01034c9a8e03f04cd6e96d798cc752978b40bf05737639",
+          "sha256": "dd886672fbadc26b8f6b0e594ed2402e421d8f71d6ba727509e059506edf1da4",
+          "sha1": "c9a1e9ad9caf41a89bcba6d55fea76781aeb393f",
+          "md5": "9b5e8f4e1ebe6f966f980b3dedafef9a"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-wasm-js-3.1.0-1.8.2.klib",
+          "url": "leviathan-wasm-js-3.1.0-1.8.2.klib",
+          "size": 12518,
+          "sha512": "4188bfeeb670b26e55f61f01f82708f7d5e8ef4c07ccd425e4b34a5d56043c4194bac73d10ad97f57c01034c9a8e03f04cd6e96d798cc752978b40bf05737639",
+          "sha256": "dd886672fbadc26b8f6b0e594ed2402e421d8f71d6ba727509e059506edf1da4",
+          "sha1": "c9a1e9ad9caf41a89bcba6d55fea76781aeb393f",
+          "md5": "9b5e8f4e1ebe6f966f980b3dedafef9a"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "files": [
+        {
+          "name": "leviathan-wasm-js-3.1.0-1.8.2-sources.jar",
+          "url": "leviathan-wasm-js-3.1.0-1.8.2-sources.jar",
+          "size": 2790,
+          "sha512": "1303aadf798b6073ff218b7266da7912708b3372d3a4582915a3e239a039dbccd3cbb74ec5a58d30002999dd7ec1a12826b22e8967fc0496e3fa9a3f6ec62519",
+          "sha256": "bf95d41c29ef7307f7832a581d2eb65f4cf604b3fb29ac911641dafc5d763759",
+          "sha1": "43e1dbead9322d5b23848d7a555f38c0c3487a75",
+          "md5": "ed495bed930834c8335c5a372daefdd3"
+        }
+      ]
+    }
+  ]
+}

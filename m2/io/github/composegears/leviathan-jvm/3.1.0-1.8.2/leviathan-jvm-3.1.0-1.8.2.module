@@ -1,0 +1,102 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../leviathan/3.1.0-1.8.2/leviathan-3.1.0-1.8.2.module",
+    "group": "io.github.composegears",
+    "module": "leviathan",
+    "version": "3.1.0-1.8.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-jvm-3.1.0-1.8.2.jar",
+          "url": "leviathan-jvm-3.1.0-1.8.2.jar",
+          "size": 14273,
+          "sha512": "984fb1b4cddde8b087f4b490ddd15b8722c372ef22d799c72da79d3ad862b40568ee90e507c8d94852f2997553e053b2463b8afcd8772bed9dbe88acf6fd4f38",
+          "sha256": "aa0328acd5ef2fc11322a272b541cd3eaec3499034292124c91a02f3223be204",
+          "sha1": "32f4de0cc318e73a131cdf39aac6a5ab09f2d179",
+          "md5": "9772c3c8aadddbf4a943934e914bb0d5"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-jvm-3.1.0-1.8.2.jar",
+          "url": "leviathan-jvm-3.1.0-1.8.2.jar",
+          "size": 14273,
+          "sha512": "984fb1b4cddde8b087f4b490ddd15b8722c372ef22d799c72da79d3ad862b40568ee90e507c8d94852f2997553e053b2463b8afcd8772bed9dbe88acf6fd4f38",
+          "sha256": "aa0328acd5ef2fc11322a272b541cd3eaec3499034292124c91a02f3223be204",
+          "sha1": "32f4de0cc318e73a131cdf39aac6a5ab09f2d179",
+          "md5": "9772c3c8aadddbf4a943934e914bb0d5"
+        }
+      ]
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "leviathan-jvm-3.1.0-1.8.2-sources.jar",
+          "url": "leviathan-jvm-3.1.0-1.8.2-sources.jar",
+          "size": 2790,
+          "sha512": "1303aadf798b6073ff218b7266da7912708b3372d3a4582915a3e239a039dbccd3cbb74ec5a58d30002999dd7ec1a12826b22e8967fc0496e3fa9a3f6ec62519",
+          "sha256": "bf95d41c29ef7307f7832a581d2eb65f4cf604b3fb29ac911641dafc5d763759",
+          "sha1": "43e1dbead9322d5b23848d7a555f38c0c3487a75",
+          "md5": "ed495bed930834c8335c5a372daefdd3"
+        }
+      ]
+    }
+  ]
+}

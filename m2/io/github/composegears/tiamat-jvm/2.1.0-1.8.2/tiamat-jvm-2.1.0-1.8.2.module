@@ -1,0 +1,186 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../tiamat/2.1.0-1.8.2/tiamat-2.1.0-1.8.2.module",
+    "group": "io.github.composegears",
+    "module": "tiamat",
+    "version": "2.1.0-1.8.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui-backhandler",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.androidx.lifecycle",
+          "module": "lifecycle-runtime-compose",
+          "version": {
+            "requires": "2.9.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.androidx.lifecycle",
+          "module": "lifecycle-viewmodel-compose",
+          "version": {
+            "requires": "2.9.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "tiamat-jvm-2.1.0-1.8.2.jar",
+          "url": "tiamat-jvm-2.1.0-1.8.2.jar",
+          "size": 148668,
+          "sha512": "535bec959431f925303631afed15897c5b59490c7f2544f9c7a591767c332a961e0b4383a2551d4031a06cd9fc9fcca81e64dae9db83404eb87e6b4714391502",
+          "sha256": "1eacf01a50346fd58ee14dfe9afca5b0618717c5643179efa4132ba748464ee7",
+          "sha1": "b48fc0ca9e55d11ed070ef656f3a96d68790e91e",
+          "md5": "42871f54c0c00cbf91c7757138dc3b69"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui-backhandler",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.androidx.lifecycle",
+          "module": "lifecycle-runtime-compose",
+          "version": {
+            "requires": "2.9.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.androidx.lifecycle",
+          "module": "lifecycle-viewmodel-compose",
+          "version": {
+            "requires": "2.9.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.desktop",
+          "module": "desktop-jvm-macos-arm64",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.8.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "tiamat-jvm-2.1.0-1.8.2.jar",
+          "url": "tiamat-jvm-2.1.0-1.8.2.jar",
+          "size": 148668,
+          "sha512": "535bec959431f925303631afed15897c5b59490c7f2544f9c7a591767c332a961e0b4383a2551d4031a06cd9fc9fcca81e64dae9db83404eb87e6b4714391502",
+          "sha256": "1eacf01a50346fd58ee14dfe9afca5b0618717c5643179efa4132ba748464ee7",
+          "sha1": "b48fc0ca9e55d11ed070ef656f3a96d68790e91e",
+          "md5": "42871f54c0c00cbf91c7757138dc3b69"
+        }
+      ]
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "tiamat-jvm-2.1.0-1.8.2-sources.jar",
+          "url": "tiamat-jvm-2.1.0-1.8.2-sources.jar",
+          "size": 28350,
+          "sha512": "c729e6b313fa14616ce4d617db68aea742c8d5d17b419377275ae2bb7a72250674da0ef5b70692c1d608b453632295223c248ee1ef4baadc0521b3a0179bac11",
+          "sha256": "59c81d5b11c66f3669d14010cf0e3ba9abca7d2f01b0f1e223197f795d5156af",
+          "sha1": "2cd6aa4a111cc0e84ab510816ed55944f3fa95ca",
+          "md5": "b49c486a5515211188a815e0a4e6cf60"
+        }
+      ]
+    }
+  ]
+}

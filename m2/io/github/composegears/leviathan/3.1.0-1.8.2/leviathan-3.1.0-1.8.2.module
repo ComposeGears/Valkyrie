@@ -1,0 +1,375 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.composegears",
+    "module": "leviathan",
+    "version": "3.1.0-1.8.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-metadata-3.1.0-1.8.2.jar",
+          "url": "leviathan-3.1.0-1.8.2.jar",
+          "size": 3151,
+          "sha512": "f38cfacb2d42b7da4d8c024eb8b3afd5f5a07611933c92d9774e37b2e4cfa107126a67d368cb07bf605ec094836cc954d5f393462d4c3ad40d65743fd338fcb2",
+          "sha256": "539fb0fa4d4ef1bda5fbbb02cad759bf5dd6e05809f94b135fd3be6a3a370115",
+          "sha1": "88150a0bf107c212e581b80a5413bde2c4ff0b29",
+          "md5": "ebd994eeca7cb7e1529b02a2fa32ad62"
+        }
+      ]
+    },
+    {
+      "name": "metadataSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "leviathan-kotlin-3.1.0-1.8.2-sources.jar",
+          "url": "leviathan-3.1.0-1.8.2-sources.jar",
+          "size": 2790,
+          "sha512": "1303aadf798b6073ff218b7266da7912708b3372d3a4582915a3e239a039dbccd3cbb74ec5a58d30002999dd7ec1a12826b22e8967fc0496e3fa9a3f6ec62519",
+          "sha256": "bf95d41c29ef7307f7832a581d2eb65f4cf604b3fb29ac911641dafc5d763759",
+          "sha1": "43e1dbead9322d5b23848d7a555f38c0c3487a75",
+          "md5": "ed495bed930834c8335c5a372daefdd3"
+        }
+      ]
+    },
+    {
+      "name": "androidApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../leviathan-android/3.1.0-1.8.2/leviathan-android-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-android",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "androidRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../leviathan-android/3.1.0-1.8.2/leviathan-android-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-android",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "androidSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../leviathan-android/3.1.0-1.8.2/leviathan-android-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-android",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iosarm64/3.1.0-1.8.2/leviathan-iosarm64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iosarm64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iosarm64/3.1.0-1.8.2/leviathan-iosarm64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iosarm64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iosarm64/3.1.0-1.8.2/leviathan-iosarm64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iosarm64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iossimulatorarm64/3.1.0-1.8.2/leviathan-iossimulatorarm64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iossimulatorarm64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iossimulatorarm64/3.1.0-1.8.2/leviathan-iossimulatorarm64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iossimulatorarm64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iossimulatorarm64/3.1.0-1.8.2/leviathan-iossimulatorarm64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iossimulatorarm64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iosx64/3.1.0-1.8.2/leviathan-iosx64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iosx64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosX64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iosx64/3.1.0-1.8.2/leviathan-iosx64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iosx64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "iosX64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../leviathan-iosx64/3.1.0-1.8.2/leviathan-iosx64-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-iosx64",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../leviathan-jvm/3.1.0-1.8.2/leviathan-jvm-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-jvm",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../leviathan-jvm/3.1.0-1.8.2/leviathan-jvm-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-jvm",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../leviathan-jvm/3.1.0-1.8.2/leviathan-jvm-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-jvm",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../leviathan-wasm-js/3.1.0-1.8.2/leviathan-wasm-js-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-wasm-js",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../leviathan-wasm-js/3.1.0-1.8.2/leviathan-wasm-js-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-wasm-js",
+        "version": "3.1.0-1.8.2"
+      }
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../leviathan-wasm-js/3.1.0-1.8.2/leviathan-wasm-js-3.1.0-1.8.2.module",
+        "group": "io.github.composegears",
+        "module": "leviathan-wasm-js",
+        "version": "3.1.0-1.8.2"
+      }
+    }
+  ]
+}

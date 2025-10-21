@@ -1,0 +1,104 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../leviathan/3.1.0-1.8.2/leviathan-3.1.0-1.8.2.module",
+    "group": "io.github.composegears",
+    "module": "leviathan",
+    "version": "3.1.0-1.8.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-iosArm64Main-3.1.0-1.8.2.klib",
+          "url": "leviathan-iosarm64-3.1.0-1.8.2.klib",
+          "size": 13783,
+          "sha512": "8ee14482850ccd72722964f9f8a45663faf2691f05ee5a1b0d92b126974b1cef2172eb67c3c872a872ec6e83a6a745c86852e637648d25ece4775ced83de7c63",
+          "sha256": "514783600c0e5f0a57169ab6253f50aa7d8d1fbeb99ee077b6e2908e0d603e62",
+          "sha1": "f832cbf1f5608e544122f7e06ad1533c21f2d1b9",
+          "md5": "c6aa99e6b7e0ad208884f8949a933afb"
+        }
+      ]
+    },
+    {
+      "name": "iosArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "files": [
+        {
+          "name": "leviathan-iosarm64-3.1.0-1.8.2-sources.jar",
+          "url": "leviathan-iosarm64-3.1.0-1.8.2-sources.jar",
+          "size": 2790,
+          "sha512": "1303aadf798b6073ff218b7266da7912708b3372d3a4582915a3e239a039dbccd3cbb74ec5a58d30002999dd7ec1a12826b22e8967fc0496e3fa9a3f6ec62519",
+          "sha256": "bf95d41c29ef7307f7832a581d2eb65f4cf604b3fb29ac911641dafc5d763759",
+          "sha1": "43e1dbead9322d5b23848d7a555f38c0c3487a75",
+          "md5": "ed495bed930834c8335c5a372daefdd3"
+        }
+      ]
+    },
+    {
+      "name": "iosArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-iosarm64-3.1.0-1.8.2-metadata.jar",
+          "url": "leviathan-iosarm64-3.1.0-1.8.2-metadata.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    }
+  ]
+}

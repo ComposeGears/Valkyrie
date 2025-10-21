@@ -1,0 +1,220 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../leviathan-compose/3.1.0-1.8.2/leviathan-compose-3.1.0-1.8.2.module",
+    "group": "io.github.composegears",
+    "module": "leviathan-compose",
+    "version": "3.1.0-1.8.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.1.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosSimulatorArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.composegears",
+          "module": "leviathan",
+          "version": {
+            "requires": "3.1.0-1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.androidx.lifecycle",
+          "module": "lifecycle-viewmodel-compose",
+          "version": {
+            "requires": "2.9.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-compose-iosSimulatorArm64Main-3.1.0-1.8.2.klib",
+          "url": "leviathan-compose-iossimulatorarm64-3.1.0-1.8.2.klib",
+          "size": 8380,
+          "sha512": "7c11882964af43341aa965858350f03caf6088036fa08d3779f5e9631e24a404779380421da3a39be254c485bfb9b61b5653b6a560da041a87f88529b920bcb7",
+          "sha256": "2fa72295e4c8dd88ad8e078650042757261e6e1c52e08858b60ea7bf32f5bd4c",
+          "sha1": "6b2c5b95b4d4f17936b399e04466ecc1ba5dbd50",
+          "md5": "24cdfa32a069741a1ca788da31bbb12a"
+        }
+      ]
+    },
+    {
+      "name": "iosSimulatorArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "files": [
+        {
+          "name": "leviathan-compose-iossimulatorarm64-3.1.0-1.8.2-sources.jar",
+          "url": "leviathan-compose-iossimulatorarm64-3.1.0-1.8.2-sources.jar",
+          "size": 1588,
+          "sha512": "23de181f020f834e30f9f92191bd6cf9a8c91c47e5ff9948eb49edce313619fabe2575ed7a89ad5a230266a82806d5c70f81f1ebe8348af7102be89bbe53e17d",
+          "sha256": "91f55d91e3ceb57b6e26300fa395098ff97ea9f7a84891926839837cd4240836",
+          "sha1": "6b47ed0560ba0597dbb81460f1e66bf28926caa7",
+          "md5": "97f546b54d1656117b8189160667ff39"
+        }
+      ]
+    },
+    {
+      "name": "iosSimulatorArm64ResourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.libraryelements": "kotlin-multiplatformresources",
+        "org.gradle.usage": "kotlin-multiplatformresources",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.composegears",
+          "module": "leviathan",
+          "version": {
+            "requires": "3.1.0-1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.androidx.lifecycle",
+          "module": "lifecycle-viewmodel-compose",
+          "version": {
+            "requires": "2.9.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-compose-3.1.0-1.8.2.kotlin_resources.zip",
+          "url": "leviathan-compose-iossimulatorarm64-3.1.0-1.8.2-kotlin_resources.kotlin_resources.zip",
+          "size": 368,
+          "sha512": "6512964b107b782151e24b99eb1915e6527ea879d027e50fd706ba661d2c0fce121bc9058a880c10369dd104b5f619ceab0a63389a343eb43d0b22a8d6687a54",
+          "sha256": "91702cbb78a00ead068427c16664ba2958c3889d91cbd732de8c14c258a946d2",
+          "sha1": "81b51b56a27c79085b2dc2757901153b9d3536ec",
+          "md5": "3bb77e22a41a826a32c4751531dc5c3a"
+        }
+      ]
+    },
+    {
+      "name": "iosSimulatorArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.composegears",
+          "module": "leviathan",
+          "version": {
+            "requires": "3.1.0-1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.8.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.androidx.lifecycle",
+          "module": "lifecycle-viewmodel-compose",
+          "version": {
+            "requires": "2.9.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "leviathan-compose-iossimulatorarm64-3.1.0-1.8.2-metadata.jar",
+          "url": "leviathan-compose-iossimulatorarm64-3.1.0-1.8.2-metadata.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    }
+  ]
+}
