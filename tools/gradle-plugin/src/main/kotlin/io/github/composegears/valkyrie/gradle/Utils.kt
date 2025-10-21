@@ -36,9 +36,11 @@ internal fun registerTask(
         task.drawableFiles.conventionCompat(sourceSet.findDrawableFiles())
         task.packageName.convention(extension.packageName.orElse(target.packageNameOrThrow()))
 
-        val outputDir = extension.outputDirectory.orElse(target.defaultOutputDir(sourceSet))
-        task.outputDirectory.convention(outputDir)
-        sourceSet.kotlin.srcDir(outputDir)
+        val outputRoot = extension.outputDirectory
+            .orElse(target.layout.buildDirectory.dir("generated/sources/valkyrie"))
+        val perSourceSetDir = outputRoot.map { it.dir(sourceSet.name) }
+        task.outputDirectory.convention(perSourceSetDir)
+        sourceSet.kotlin.srcDir(perSourceSetDir)
 
         task.iconPackName.convention(extension.iconPackName)
         task.nestedPackName.convention(extension.nestedPackName)
@@ -88,11 +90,6 @@ private fun Project.packageNameOrThrow(): Provider<String> = provider {
         throw GradleException(NO_PACKAGE_NAME_ERROR)
     }
 }
-
-private fun Project.defaultOutputDir(sourceSet: KotlinSourceSet) = project
-    .layout
-    .buildDirectory
-    .dir("generated/sources/valkyrie/${sourceSet.name}")
 
 private fun KotlinSourceSet.root(): Directory = with(project) {
     // kotlin.srcDirs returns a set like ["src/main/kotlin", "src/main/java"] - we want the "src/main" directory.
