@@ -78,9 +78,15 @@ dependencies {
 }
 
 fun androidHome(): String? {
+    val androidSdkRoot = System.getenv("ANDROID_SDK_ROOT")
+    if (!androidSdkRoot.isNullOrBlank() && Paths.get(androidSdkRoot).exists()) {
+        logger.info("Using ANDROID_SDK_ROOT=$androidSdkRoot")
+        return androidSdkRoot
+    }
+
     val androidHome = System.getenv("ANDROID_HOME")
     if (!androidHome.isNullOrBlank() && Paths.get(androidHome).exists()) {
-        logger.info("Using system environment variable $androidHome as ANDROID_HOME")
+        logger.info("Using ANDROID_HOME=$androidHome")
         return androidHome
     }
 
@@ -88,9 +94,9 @@ fun androidHome(): String? {
     if (localProps.exists()) {
         val properties = Properties()
         localProps.inputStream().use { properties.load(it) }
-        val sdkHome = properties.getProperty("sdk.dir")
-        if (Paths.get(sdkHome).exists()) {
-            logger.info("Using local.properties sdk.dir $sdkHome as ANDROID_HOME")
+        val sdkHome = properties.getProperty("sdk.dir")?.takeIf { it.isNotBlank() }
+        if (sdkHome != null && Paths.get(sdkHome).exists()) {
+            logger.info("Using local.properties sdk.dir $sdkHome")
             return sdkHome
         }
     }
