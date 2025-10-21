@@ -1,3 +1,4 @@
+import io.github.composegears.valkyrie.task.CheckComposeVersionCompatibility
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
@@ -131,4 +132,15 @@ tasks {
     prepareSandbox {
         exclude { "coroutines" in it.name }
     }
+    check {
+        dependsOn("checkComposeVersionCompatibility")
+    }
+}
+
+tasks.register<CheckComposeVersionCompatibility>("checkComposeVersionCompatibility") {
+    val runtimeClasspath = configurations.named("runtimeClasspath")
+    artifactCollection = provider {
+        runtimeClasspath.get().incoming.artifactView { lenient(true) }.artifacts
+    }
+    expectedComposeVersion = libs.versions.compose
 }
