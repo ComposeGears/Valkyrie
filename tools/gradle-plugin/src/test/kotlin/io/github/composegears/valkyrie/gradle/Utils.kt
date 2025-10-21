@@ -30,7 +30,9 @@ internal fun buildRunner(root: Path, androidHome: Path? = null) = GradleRunner
         }
     }
 
-internal fun runTask(root: Path, task: String) = buildRunner(root).runTask(task)
+internal fun runTask(root: Path, task: String) = buildRunner(root).runTask(task).build()
+
+internal fun failTask(root: Path, task: String) = buildRunner(root).runTask(task).buildAndFail()
 
 internal fun GradleRunner.runTask(task: String) = withArguments(
     task,

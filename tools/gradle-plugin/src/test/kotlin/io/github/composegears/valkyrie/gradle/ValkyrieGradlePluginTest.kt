@@ -44,7 +44,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestSvgs(sourceSet = "main")
 
         // when
-        val result = runTask(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME)
 
         // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
@@ -65,7 +65,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestSvgs(sourceSet = "main")
 
         // when
-        val result = runTask(root, TASK_NAME).buildAndFail()
+        val result = failTask(root, TASK_NAME)
 
         // then
         assertThat(result.output).contains("Couldn't automatically estimate package name")
@@ -89,7 +89,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestSvgs(sourceSet = "main")
 
         // when
-        val result = runTask(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME)
 
         // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
@@ -114,7 +114,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestSvgs(sourceSet = "main")
 
         // when
-        val result = runTask(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME)
 
         // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
@@ -159,7 +159,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestSvgs(sourceSet = "main")
 
         // when
-        val result = runTask(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME)
 
         // then the expected files are printed to log
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
@@ -212,7 +212,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestSvgs(sourceSet = "androidMain")
 
         // when
-        val result = runTask(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME)
 
         // no files under the commonMain source set, so no task was run for it
         assertThat(result.tasks).doesNotContain(":generateImageVectorsCommonMain")
@@ -243,7 +243,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestDrawables(sourceSet = "main")
 
         // when
-        val result = runTask(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME)
 
         // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
@@ -319,7 +319,7 @@ class ValkyrieGradlePluginTest {
         root.writeTestDrawables(sourceSet = "debug") // just build variant
         root.writeTestSvgs(sourceSet = "freeRelease") // flavor + variant
 
-        val result = runTask(root, TASK_NAME).build()
+        val result = runTask(root, TASK_NAME)
 
         // Then the specific variant tasks ran successfully
         assertThat(result).taskWasSuccessful(":generateImageVectorsDebug")
@@ -386,7 +386,7 @@ class ValkyrieGradlePluginTest {
             """.trimIndent(),
         )
 
-        val result = runTask(root, "assemble").build()
+        val result = runTask(root, "assemble")
 
         // codegen was hooked into compilation
         assertThat(result).taskWasSuccessful(":generateImageVectorsMain")
