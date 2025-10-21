@@ -6,6 +6,7 @@ import assertk.assertions.doesNotContain
 import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.absolutePathString
 import kotlin.io.path.createDirectories
 import kotlin.io.path.name
 import kotlin.io.path.readText
@@ -466,7 +467,8 @@ class ValkyrieGradlePluginTest {
             )
         }
 
-        val result = buildRunner(root, androidHome)
+        val result = buildRunner(root)
+            .withEnvironment(mapOf("ANDROID_HOME" to androidHome.absolutePathString()))
             .runTask("assemble")
             .build()
 

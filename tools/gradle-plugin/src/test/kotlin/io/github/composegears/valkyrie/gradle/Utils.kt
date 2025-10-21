@@ -7,7 +7,6 @@ import assertk.assertions.support.fail
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.absolutePathString
 import kotlin.io.path.copyToRecursively
 import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
@@ -19,16 +18,11 @@ import org.gradle.testkit.runner.TaskOutcome.SUCCESS
 import org.junit.jupiter.api.Assumptions.assumeFalse
 import org.junit.jupiter.api.Assumptions.assumeTrue
 
-internal fun buildRunner(root: Path, androidHome: Path? = null) = GradleRunner
+internal fun buildRunner(root: Path) = GradleRunner
     .create()
     .withPluginClasspath()
     .withGradleVersion(System.getProperty("test.version.gradle"))
     .withProjectDir(root.toFile())
-    .apply {
-        if (androidHome != null) {
-            withEnvironment(mapOf("ANDROID_HOME" to androidHome.absolutePathString()))
-        }
-    }
 
 internal fun runTask(root: Path, task: String) = buildRunner(root).runTask(task).build()
 
