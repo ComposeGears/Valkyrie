@@ -24,7 +24,6 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity.ABSOLUTE
 import org.gradle.api.tasks.TaskAction
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 @CacheableTask
@@ -102,7 +101,6 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
 
     companion object {
         const val TASK_NAME = "generateImageVectors"
-        const val TASK_GROUP = LifecycleBasePlugin.BUILD_GROUP
 
         fun register(
             target: Project,
@@ -122,7 +120,6 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
 
             val taskName = "${TASK_NAME}${sourceSet.name.capitalized()}"
             target.tasks.register(taskName, GenerateImageVectorsTask::class.java) { task ->
-                task.group = TASK_GROUP
                 task.description = "Converts SVG & Drawable files into ImageVector Kotlin accessor properties"
 
                 task.svgFiles.conventionCompat(sourceSet.findSvgFiles())

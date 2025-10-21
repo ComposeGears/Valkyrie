@@ -1,6 +1,4 @@
 public abstract class io/github/composegears/valkyrie/gradle/GenerateImageVectorsTask : org/gradle/api/DefaultTask {
-	public static final field Companion Lio/github/composegears/valkyrie/gradle/GenerateImageVectorsTask$Companion;
-	public static final field TASK_GROUP Ljava/lang/String;
 	public static final field TASK_NAME Ljava/lang/String;
 	public fun <init> ()V
 	public final fun execute ()V

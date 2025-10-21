@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.gradle
 
-import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_GROUP
 import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_NAME
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -44,7 +43,6 @@ class ValkyrieGradlePlugin : Plugin<Project> {
 
         // Create a wrapper task to invoke all other codegen tasks
         tasks.register(TASK_NAME) { task ->
-            task.group = TASK_GROUP
             task.dependsOn(codegenTasks)
         }
     }
