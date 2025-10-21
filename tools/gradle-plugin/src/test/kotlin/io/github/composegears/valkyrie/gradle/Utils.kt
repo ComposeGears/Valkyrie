@@ -79,9 +79,9 @@ internal fun Path.writeTestDrawables(sourceSet: String) {
 
 internal fun Assert<BuildResult>.taskWasSuccessful(name: String) = taskHadResult(name, SUCCESS)
 
-internal fun Assert<BuildResult>.taskHadResult(name: String, expected: TaskOutcome) = given { result ->
+internal fun Assert<BuildResult>.taskHadResult(name: String, expected: TaskOutcome) = transform { result ->
     val outcome = result.task(name)?.outcome
-    if (outcome == expected) return
+    if (outcome == expected) return@transform
     fail(expected, outcome)
 }
 
