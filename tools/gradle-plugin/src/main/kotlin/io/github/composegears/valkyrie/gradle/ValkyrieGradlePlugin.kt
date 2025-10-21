@@ -1,5 +1,7 @@
 package io.github.composegears.valkyrie.gradle
 
+import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_NAME
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -13,6 +15,21 @@ import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 class ValkyrieGradlePlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
         val extension = extensions.create("valkyrie", ValkyrieExtension::class.java)
+        with(extension) {
+            packageName.convention(packageNameOrThrow())
+            generateAtSync.convention(false)
+            outputDirectory.convention(layout.buildDirectory.dir("generated/sources/valkyrie"))
+            iconPackName.unsetConvention()
+            nestedPackName.unsetConvention()
+            outputFormat.convention(OutputFormat.BackingProperty)
+            useComposeColors.convention(true)
+            generatePreview.convention(false)
+            previewAnnotationType.convention(PreviewAnnotationType.AndroidX)
+            useFlatPackage.convention(false)
+            useExplicitMode.convention(false)
+            addTrailingComma.convention(false)
+            indentSize.convention(4)
+        }
 
         pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
             registerTasks<KotlinJvmProjectExtension>(extension)

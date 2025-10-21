@@ -28,17 +28,17 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
     @get:[PathSensitive(ABSOLUTE) InputFiles] abstract val svgFiles: ConfigurableFileCollection
     @get:[PathSensitive(ABSOLUTE) InputFiles] abstract val drawableFiles: ConfigurableFileCollection
 
-    @get:[Input Optional] abstract val packageName: Property<String>
+    @get:Input abstract val packageName: Property<String>
     @get:[Input Optional] abstract val iconPackName: Property<String>
     @get:[Input Optional] abstract val nestedPackName: Property<String>
-    @get:[Input Optional] abstract val outputFormat: Property<OutputFormat>
-    @get:[Input Optional] abstract val useComposeColors: Property<Boolean>
-    @get:[Input Optional] abstract val generatePreview: Property<Boolean>
-    @get:[Input Optional] abstract val previewAnnotationType: Property<PreviewAnnotationType>
-    @get:[Input Optional] abstract val useFlatPackage: Property<Boolean>
-    @get:[Input Optional] abstract val useExplicitMode: Property<Boolean>
-    @get:[Input Optional] abstract val addTrailingComma: Property<Boolean>
-    @get:[Input Optional] abstract val indentSize: Property<Int>
+    @get:Input abstract val outputFormat: Property<OutputFormat>
+    @get:Input abstract val useComposeColors: Property<Boolean>
+    @get:Input abstract val generatePreview: Property<Boolean>
+    @get:Input abstract val previewAnnotationType: Property<PreviewAnnotationType>
+    @get:Input abstract val useFlatPackage: Property<Boolean>
+    @get:Input abstract val useExplicitMode: Property<Boolean>
+    @get:Input abstract val addTrailingComma: Property<Boolean>
+    @get:Input abstract val indentSize: Property<Int>
 
     @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
 
@@ -56,21 +56,21 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
         var fileIndex = 0
 
         // Using the same defaults as `SvgXmlToImageVectorCommand` in tools/cli.
-        val useFlatPackage = useFlatPackage.getOrElse(false)
+        val useFlatPackage = useFlatPackage.get()
         val nestedPackName = nestedPackName.getOrElse("")
         val config = ImageVectorGeneratorConfig(
             packageName = packageName,
             iconPackPackage = packageName,
             packName = iconPackName.getOrElse(""),
             nestedPackName = nestedPackName,
-            outputFormat = outputFormat.getOrElse(OutputFormat.BackingProperty),
-            useComposeColors = useComposeColors.getOrElse(true),
-            generatePreview = generatePreview.getOrElse(false),
-            previewAnnotationType = previewAnnotationType.getOrElse(PreviewAnnotationType.AndroidX),
+            outputFormat = outputFormat.get(),
+            useComposeColors = useComposeColors.get(),
+            generatePreview = generatePreview.get(),
+            previewAnnotationType = previewAnnotationType.get(),
             useFlatPackage = useFlatPackage,
-            useExplicitMode = useExplicitMode.getOrElse(false),
-            addTrailingComma = addTrailingComma.getOrElse(false),
-            indentSize = indentSize.getOrElse(4),
+            useExplicitMode = useExplicitMode.get(),
+            addTrailingComma = addTrailingComma.get(),
+            indentSize = indentSize.get(),
         )
 
         (svgFiles + drawableFiles).files.forEach { file ->

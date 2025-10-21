@@ -17,8 +17,7 @@ public abstract class io/github/composegears/valkyrie/gradle/GenerateImageVector
 	public abstract fun getUseFlatPackage ()Lorg/gradle/api/provider/Property;
 }
 
-public abstract class io/github/composegears/valkyrie/gradle/ValkyrieExtension {
-	public fun <init> ()V
+public abstract interface class io/github/composegears/valkyrie/gradle/ValkyrieExtension {
 	public abstract fun getAddTrailingComma ()Lorg/gradle/api/provider/Property;
 	public abstract fun getGenerateAtSync ()Lorg/gradle/api/provider/Property;
 	public abstract fun getGeneratePreview ()Lorg/gradle/api/provider/Property;

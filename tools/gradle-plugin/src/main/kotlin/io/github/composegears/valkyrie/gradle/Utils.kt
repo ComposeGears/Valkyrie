@@ -37,7 +37,6 @@ internal fun registerTask(
         task.packageName.convention(extension.packageName.orElse(target.packageNameOrThrow()))
 
         val outputRoot = extension.outputDirectory
-            .orElse(target.layout.buildDirectory.dir("generated/sources/valkyrie"))
         val perSourceSetDir = outputRoot.map { it.dir(sourceSet.name) }
         task.outputDirectory.convention(perSourceSetDir)
         sourceSet.kotlin.srcDir(perSourceSetDir)
@@ -80,7 +79,7 @@ private val ANDROID_PLUGIN_IDS = listOf(
     "com.android.dynamic-feature",
 )
 
-private fun Project.packageNameOrThrow(): Provider<String> = provider {
+internal fun Project.packageNameOrThrow(): Provider<String> = provider {
     if (ANDROID_PLUGIN_IDS.any(pluginManager::hasPlugin)) {
         extensions
             .findByType(CommonExtension::class.java)
