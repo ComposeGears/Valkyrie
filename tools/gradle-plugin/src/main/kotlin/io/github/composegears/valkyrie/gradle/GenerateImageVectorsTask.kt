@@ -31,13 +31,21 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
     @get:Input abstract val packageName: Property<String>
     @get:[Input Optional] abstract val iconPackName: Property<String>
     @get:[Input Optional] abstract val nestedPackName: Property<String>
+
     @get:Input abstract val outputFormat: Property<OutputFormat>
+
     @get:Input abstract val useComposeColors: Property<Boolean>
+
     @get:Input abstract val generatePreview: Property<Boolean>
+
     @get:Input abstract val previewAnnotationType: Property<PreviewAnnotationType>
+
     @get:Input abstract val useFlatPackage: Property<Boolean>
+
     @get:Input abstract val useExplicitMode: Property<Boolean>
+
     @get:Input abstract val addTrailingComma: Property<Boolean>
+
     @get:Input abstract val indentSize: Property<Int>
 
     @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
