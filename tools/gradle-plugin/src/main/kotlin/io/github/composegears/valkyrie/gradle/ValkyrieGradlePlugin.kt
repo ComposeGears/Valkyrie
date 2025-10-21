@@ -49,7 +49,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
 
     private inline fun <reified T : KotlinSourceSetContainer> Project.registerTasks(extension: ValkyrieExtension) {
         extensions.getByType(T::class.java).sourceSets.configureEach { sourceSet ->
-            GenerateImageVectorsTask.register(project, extension, sourceSet)
+            registerTask(project, extension, sourceSet)
         }
     }
 }

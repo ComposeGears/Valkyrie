@@ -1,5 +1,4 @@
 public abstract class io/github/composegears/valkyrie/gradle/GenerateImageVectorsTask : org/gradle/api/DefaultTask {
-	public static final field TASK_NAME Ljava/lang/String;
 	public fun <init> ()V
 	public final fun execute ()V
 	public abstract fun getAddTrailingComma ()Lorg/gradle/api/provider/Property;
@@ -16,10 +15,6 @@ public abstract class io/github/composegears/valkyrie/gradle/GenerateImageVector
 	public abstract fun getUseComposeColors ()Lorg/gradle/api/provider/Property;
 	public abstract fun getUseExplicitMode ()Lorg/gradle/api/provider/Property;
 	public abstract fun getUseFlatPackage ()Lorg/gradle/api/provider/Property;
-}
-
-public final class io/github/composegears/valkyrie/gradle/GenerateImageVectorsTask$Companion {
-	public final fun register (Lorg/gradle/api/Project;Lio/github/composegears/valkyrie/gradle/ValkyrieExtension;Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;)V
 }
 
 public abstract class io/github/composegears/valkyrie/gradle/ValkyrieExtension {

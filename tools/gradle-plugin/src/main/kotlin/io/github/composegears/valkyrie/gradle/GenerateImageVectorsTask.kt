@@ -6,13 +6,11 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
-import io.github.composegears.valkyrie.parser.unified.ext.capitalized
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import java.nio.file.Path as JPath
 import kotlinx.io.files.Path as KPath
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
@@ -24,7 +22,6 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity.ABSOLUTE
 import org.gradle.api.tasks.TaskAction
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 @CacheableTask
 abstract class GenerateImageVectorsTask : DefaultTask() {
@@ -99,48 +96,7 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
         logger.lifecycle("Generated ${generatedFiles.size} ImageVectors in package $packageName")
     }
 
-    companion object {
-        const val TASK_NAME = "generateImageVectors"
-
-        fun register(
-            target: Project,
-            extension: ValkyrieExtension,
-            sourceSet: KotlinSourceSet,
-        ) {
-            val sourceSetIsEmpty = sourceSet.root()
-                .asFileTree
-                .filter { it.isFile }
-                .isEmpty
-
-            if (sourceSetIsEmpty) {
-                // nothing at all in the source set - nothing to work with so no task needs generating
-                target.logger.info("Source set ${sourceSet.name} is empty - skipping registration of codegen task")
-                return
-            }
-
-            val taskName = "${TASK_NAME}${sourceSet.name.capitalized()}"
-            target.tasks.register(taskName, GenerateImageVectorsTask::class.java) { task ->
-                task.description = "Converts SVG & Drawable files into ImageVector Kotlin accessor properties"
-
-                task.svgFiles.conventionCompat(sourceSet.findSvgFiles())
-                task.drawableFiles.conventionCompat(sourceSet.findDrawableFiles())
-                task.packageName.convention(extension.packageName.orElse(target.packageNameOrThrow()))
-
-                val outputDir = extension.outputDirectory.orElse(target.defaultOutputDir(sourceSet))
-                task.outputDirectory.convention(outputDir)
-                sourceSet.kotlin.srcDir(outputDir)
-
-                task.iconPackName.convention(extension.iconPackName)
-                task.nestedPackName.convention(extension.nestedPackName)
-                task.outputFormat.convention(extension.outputFormat)
-                task.useComposeColors.convention(extension.useComposeColors)
-                task.generatePreview.convention(extension.generatePreview)
-                task.previewAnnotationType.convention(extension.previewAnnotationType)
-                task.useFlatPackage.convention(extension.useFlatPackage)
-                task.useExplicitMode.convention(extension.useExplicitMode)
-                task.addTrailingComma.convention(extension.addTrailingComma)
-                task.indentSize.convention(extension.indentSize)
-            }
-        }
+    internal companion object {
+        internal const val TASK_NAME = "generateImageVectors"
     }
 }

@@ -5,6 +5,7 @@ import kotlin.io.path.exists
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.valkyrie.kover)
+    alias(libs.plugins.valkyrie.abi)
     `java-gradle-plugin`
 }
 
