@@ -138,9 +138,8 @@ tasks {
 }
 
 tasks.register<CheckComposeVersionCompatibility>("checkComposeVersionCompatibility") {
-    val runtimeClasspath = configurations.named("runtimeClasspath")
-    artifactCollection = provider {
-        runtimeClasspath.get().incoming.artifactView { lenient(true) }.artifacts
+    artifactCollection = configurations.runtimeClasspath.map {
+        it.incoming.artifactView { lenient(true) }.artifacts
     }
     expectedComposeVersion = libs.versions.compose
 }
