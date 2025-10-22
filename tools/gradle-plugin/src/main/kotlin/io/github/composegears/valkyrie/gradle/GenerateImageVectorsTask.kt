@@ -6,9 +6,9 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
-import java.nio.file.Path as JPath
-import kotlinx.io.files.Path as KPath
+import kotlinx.io.files.Path
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileCollection
@@ -20,16 +20,19 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity.ABSOLUTE
+import org.gradle.api.tasks.PathSensitivity.RELATIVE
 import org.gradle.api.tasks.TaskAction
 
 @CacheableTask
 abstract class GenerateImageVectorsTask : DefaultTask() {
-    @get:[PathSensitive(ABSOLUTE) InputFiles] abstract val svgFiles: ConfigurableFileCollection
-    @get:[PathSensitive(ABSOLUTE) InputFiles] abstract val drawableFiles: ConfigurableFileCollection
+    @get:[PathSensitive(RELATIVE) InputFiles] abstract val svgFiles: ConfigurableFileCollection
+
+    @get:[PathSensitive(RELATIVE) InputFiles] abstract val drawableFiles: ConfigurableFileCollection
 
     @get:Input abstract val packageName: Property<String>
+
     @get:[Input Optional] abstract val iconPackName: Property<String>
+
     @get:[Input Optional] abstract val nestedPackName: Property<String>
 
     @get:Input abstract val outputFormat: Property<OutputFormat>
@@ -60,10 +63,9 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
         outputDirectory.deleteRecursively() // make sure nothing is left over from previous run
         outputDirectory.mkdirs()
 
-        val generatedFiles = arrayListOf<JPath>()
+        val generatedFiles = arrayListOf<Path>()
         var fileIndex = 0
 
-        // Using the same defaults as `SvgXmlToImageVectorCommand` in tools/cli.
         val useFlatPackage = useFlatPackage.get()
         val nestedPackName = nestedPackName.getOrElse("")
         val config = ImageVectorGeneratorConfig(
@@ -82,7 +84,7 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
         )
 
         (svgFiles + drawableFiles).files.forEach { file ->
-            val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, KPath(file.absolutePath))
+            val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, Path(file.absolutePath))
             val vectorSpecOutput = ImageVectorGenerator.convert(
                 vector = parseOutput.irImageVector,
                 iconName = parseOutput.iconName,
@@ -96,7 +98,7 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
                 }.absolutePath,
                 nameWithoutExtension = vectorSpecOutput.name,
             )
-            generatedFiles.add(path)
+            generatedFiles.add(path.toIOPath())
             fileIndex++
             logger.info("File $fileIndex = $path")
         }

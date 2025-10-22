@@ -17,23 +17,18 @@ internal fun registerTask(
     extension: ValkyrieExtension,
     sourceSet: KotlinSourceSet,
 ) {
-    val sourceSetIsEmpty = sourceSet.root()
-        .asFileTree
-        .filter { it.isFile }
-        .isEmpty
-
-    if (sourceSetIsEmpty) {
-        // nothing at all in the source set - nothing to work with so no task needs generating
-        target.logger.info("Source set ${sourceSet.name} is empty - skipping registration of codegen task")
-        return
-    }
-
     val taskName = "${TASK_NAME}${sourceSet.name.capitalized()}"
     target.tasks.register(taskName, GenerateImageVectorsTask::class.java) { task ->
         task.description = "Converts SVG & Drawable files into ImageVector Kotlin accessor properties"
 
-        task.svgFiles.conventionCompat(sourceSet.findSvgFiles())
-        task.drawableFiles.conventionCompat(sourceSet.findDrawableFiles())
+        val svgFiles = sourceSet.findSvgFiles()
+        val drawableFiles = sourceSet.findDrawableFiles()
+        task.svgFiles.conventionCompat(svgFiles)
+        task.drawableFiles.conventionCompat(drawableFiles)
+        task.onlyIf("Needs at least one input file") {
+            !svgFiles.isEmpty || !drawableFiles.isEmpty
+        }
+
         task.packageName.convention(extension.packageName.orElse(target.packageNameOrThrow()))
 
         val outputRoot = extension.outputDirectory

@@ -3,7 +3,8 @@
 package io.github.composegears.valkyrie.gradle
 
 import assertk.Assert
-import assertk.assertions.support.fail
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.ExperimentalPathApi
@@ -15,8 +16,6 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
-import org.junit.jupiter.api.Assumptions.assumeFalse
-import org.junit.jupiter.api.Assumptions.assumeTrue
 
 internal fun buildRunner(root: Path) = GradleRunner
     .create()
@@ -73,18 +72,20 @@ internal fun Path.writeTestDrawables(sourceSet: String) {
 
 internal fun Assert<BuildResult>.taskWasSuccessful(name: String) = taskHadResult(name, SUCCESS)
 
-internal fun Assert<BuildResult>.taskHadResult(name: String, expected: TaskOutcome) = transform { result ->
-    val outcome = result.task(name)?.outcome
-    if (outcome == expected) return@transform
-    fail(expected, outcome)
-}
+internal fun Assert<BuildResult>.taskHadResult(path: String, expected: TaskOutcome) = transform { it.task(path)?.outcome }
+    .isNotNull()
+    .isEqualTo(expected)
 
 internal fun androidHomeOrSkip(): Path {
     val androidHome = System.getProperty("test.androidHome")
-    assumeFalse(androidHome.isNullOrBlank())
+    check(androidHome != null && androidHome.isNotBlank()) {
+        "No Android home directory configured - skipping test"
+    }
 
     val androidHomePath = Paths.get(androidHome)
-    assumeTrue(androidHomePath.exists())
+    check(androidHomePath.exists()) {
+        "Configured Android home directory ($androidHomePath) doesn't exist - skipping test"
+    }
 
     return androidHomePath
 }

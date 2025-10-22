@@ -12,6 +12,7 @@ import kotlin.io.path.name
 import kotlin.io.path.readText
 import kotlin.io.path.walk
 import kotlin.io.path.writeText
+import org.gradle.testkit.runner.TaskOutcome.SKIPPED
 import org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -193,7 +194,7 @@ class ValkyrieGradlePluginTest {
 
                 android {
                     namespace = "x.y.z"
-                    compileSdk = 35
+                    compileSdk = 36
 
                     flavorDimensions += "test"
                     productFlavors {
@@ -215,10 +216,13 @@ class ValkyrieGradlePluginTest {
         // when
         val result = runTask(root, TASK_NAME)
 
-        // no files under the commonMain source set, so no task was run for it
-        assertThat(result.tasks).doesNotContain(":generateImageVectorsCommonMain")
+        // no SVGs/drawables under these source sets, so the tasks are skipped (but still registered)
+        assertThat(result).taskHadResult(":generateImageVectorsAndroidFree", SKIPPED)
+        assertThat(result).taskHadResult(":generateImageVectorsAndroidPaidDebug", SKIPPED)
+        assertThat(result).taskHadResult(":generateImageVectorsCommonMain", SKIPPED)
+        assertThat(result).taskHadResult(":generateImageVectorsJvmTest", SKIPPED)
 
-        // but androidMain and jvmMain were
+        // but androidMain and jvmMain have SVGs, so they run successfully
         assertThat(result).taskWasSuccessful(":generateImageVectorsAndroidMain")
         assertThat(result).taskWasSuccessful(":generateImageVectorsJvmMain")
     }
@@ -236,7 +240,7 @@ class ValkyrieGradlePluginTest {
 
                 android {
                     namespace = "x.y.z"
-                    compileSdk = 35
+                    compileSdk = 36
                 }
             """.trimIndent(),
         )
@@ -271,7 +275,7 @@ class ValkyrieGradlePluginTest {
 
                 android {
                     namespace = "x.y.z"
-                    compileSdk = 35
+                    compileSdk = 36
                 }
             """.trimIndent(),
         )
@@ -302,7 +306,7 @@ class ValkyrieGradlePluginTest {
 
                 android {
                     namespace = "x.y.z"
-                    compileSdk = 35
+                    compileSdk = 36
 
                     flavorDimensions += "test"
                     productFlavors {

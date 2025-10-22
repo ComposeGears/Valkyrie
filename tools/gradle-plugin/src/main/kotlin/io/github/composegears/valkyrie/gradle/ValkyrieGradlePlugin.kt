@@ -14,13 +14,11 @@ import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 @Suppress("unused") // Registered as a Gradle plugin.
 class ValkyrieGradlePlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
-        val extension = extensions.create("valkyrie", ValkyrieExtension::class.java)
-        with(extension) {
+        val extension = extensions.create("valkyrie", ValkyrieExtension::class.java).apply {
+            // Using the same defaults as `SvgXmlToImageVectorCommand` in tools/cli.
             packageName.convention(packageNameOrThrow())
             generateAtSync.convention(false)
             outputDirectory.convention(layout.buildDirectory.dir("generated/sources/valkyrie"))
-            iconPackName.unsetConvention()
-            nestedPackName.unsetConvention()
             outputFormat.convention(OutputFormat.BackingProperty)
             useComposeColors.convention(true)
             generatePreview.convention(false)
