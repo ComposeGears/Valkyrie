@@ -5,10 +5,12 @@ on:
     branches:
       - main
     paths-ignore:
-      - '**/CHANGELOG.md'
+      - 'tools/idea-plugin/CHANGELOG.md'
+      - 'gradle.properties'
   pull_request:
     paths-ignore:
-      - '**/CHANGELOG.md'
+      - 'tools/idea-plugin/CHANGELOG.md'
+      - 'gradle.properties'
   workflow_dispatch:
 
 concurrency:
