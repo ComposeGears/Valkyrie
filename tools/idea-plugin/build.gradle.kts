@@ -1,3 +1,4 @@
+import io.github.composegears.valkyrie.task.CheckComposeVersionCompatibility
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
@@ -12,6 +13,10 @@ plugins {
 
 group = rootProject.providers.gradleProperty("GROUP").get()
 version = rootProject.providers.gradleProperty("VERSION_NAME").get()
+
+repositories {
+    maven(url = file("../../m2"))
+}
 
 dependencies {
     implementation(projects.components.generator.iconpack)
@@ -126,5 +131,14 @@ tasks {
     }
     prepareSandbox {
         exclude { "coroutines" in it.name }
+    }
+    val checkComposeVersionCompatibility by registering(CheckComposeVersionCompatibility::class) {
+        artifactCollection = configurations.runtimeClasspath.map {
+            it.incoming.artifactView { lenient(true) }.artifacts
+        }
+        expectedComposeVersion = libs.versions.compose
+    }
+    check {
+        dependsOn(checkComposeVersionCompatibility)
     }
 }

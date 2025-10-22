@@ -39,6 +39,7 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven(url = file("m2"))
     }
 }
 
