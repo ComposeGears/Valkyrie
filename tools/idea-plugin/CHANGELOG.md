@@ -1,5 +1,11 @@
 # Plugin Changelog
 
+## [0.17.4](https://github.com/ComposeGears/Valkyrie/releases/tag/0.17.4) - 2025-10-22
+
+### Fixed
+
+- Rollback Compose Multiplatform to 1.8.2 due to incompatibility with IntelliJ IDEA
+
 ## [0.17.3](https://github.com/ComposeGears/Valkyrie/releases/tag/0.17.3) - 2025-10-14
 
 ### Added
