@@ -132,14 +132,13 @@ tasks {
     prepareSandbox {
         exclude { "coroutines" in it.name }
     }
+    val checkComposeVersionCompatibility by registering(CheckComposeVersionCompatibility::class) {
+        artifactCollection = configurations.runtimeClasspath.map {
+            it.incoming.artifactView { lenient(true) }.artifacts
+        }
+        expectedComposeVersion = libs.versions.compose
+    }
     check {
-        dependsOn("checkComposeVersionCompatibility")
+        dependsOn(checkComposeVersionCompatibility)
     }
-}
-
-tasks.register<CheckComposeVersionCompatibility>("checkComposeVersionCompatibility") {
-    artifactCollection = configurations.runtimeClasspath.map {
-        it.incoming.artifactView { lenient(true) }.artifacts
-    }
-    expectedComposeVersion = libs.versions.compose
 }
