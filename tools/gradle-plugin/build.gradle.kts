@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.valkyrie.kover)
     alias(libs.plugins.valkyrie.abi)
+    alias(libs.plugins.buildConfig)
     `java-gradle-plugin`
 }
 
@@ -36,16 +37,18 @@ val sharedTestResourcesDir: File =
         .dir("sharedTestResources/imagevector")
         .asFile
 
-tasks.test {
-    // So we can copy the shared test SVG/XML files into our test cases
-    systemProperty("test.dir.svg", sharedTestResourcesDir.resolve("svg"))
-    systemProperty("test.dir.xml", sharedTestResourcesDir.resolve("xml"))
+buildConfig.sourceSets.getByName("test") {
+    packageName = "io.github.composegears.valkyrie.gradle"
+    useKotlinOutput { topLevelConstants = true }
 
-    androidHome()?.let { systemProperty("test.androidHome", it) }
-    systemProperty("test.composeUi", libs.compose.ui.get().toString())
+    // So we can copy the shared test SVG/XML files into our test cases
+    buildConfigField("RESOURCES_DIR_SVG", sharedTestResourcesDir.resolve("svg"))
+    buildConfigField("RESOURCES_DIR_XML", sharedTestResourcesDir.resolve("xml"))
+    buildConfigField<String?>("ANDROID_HOME", androidHome())
+    buildConfigField("COMPOSE_UI", libs.compose.ui.get().toString())
 
     // TODO: Set up tests to run for different gradle versions?
-    systemProperty("test.version.gradle", GradleVersion.current().version)
+    buildConfigField("GRADLE_VERSION", GradleVersion.current().version)
 }
 
 // Adapted from https://github.com/GradleUp/shadow/blob/1d7b0863fed3126bf376f11d563e9176de176cd3/build.gradle.kts#L63-L65

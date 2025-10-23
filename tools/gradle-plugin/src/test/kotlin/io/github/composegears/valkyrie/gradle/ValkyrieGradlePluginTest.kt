@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.gradle
 import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
+import assertk.assertions.exists
 import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
@@ -91,7 +92,9 @@ class ValkyrieGradlePluginTest {
         root.writeTestSvgs(sourceSet = "main")
 
         // when
-        val result = runTask(root, TASK_NAME)
+        val result = buildRunner(root)
+            .withArguments(TASK_NAME, "--info") // for log statement
+            .build()
 
         // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
@@ -120,13 +123,15 @@ class ValkyrieGradlePluginTest {
 
         // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains(
-            "Generated 4 ImageVectors in package x.y.z",
+
+        listOf(
             "LinearGradient.kt",
             "RadialGradient.kt",
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
-        )
+        ).forEach { filename ->
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+        }
     }
 
     @OptIn(ExperimentalPathApi::class)
@@ -165,13 +170,14 @@ class ValkyrieGradlePluginTest {
 
         // then the expected files are printed to log
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains(
-            "Generated 4 ImageVectors in package x.y.z",
+        listOf(
             "LinearGradient.kt",
             "RadialGradient.kt",
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
-        )
+        ).forEach { filename ->
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+        }
 
         // and the LinearGradient file is created with the right visibility, parent pack, nested pack, etc
         val linearGradientKt = root
@@ -252,14 +258,14 @@ class ValkyrieGradlePluginTest {
 
         // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains(
-            "Generated 17 ImageVectors in package x.y.z",
+        listOf(
             "OnlyPath.kt",
             "IconWithShorthandColor.kt",
             "SeveralPath.kt",
             "AllPathParams.kt",
-            // plus loads of others
-        )
+        ).forEach { filename ->
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+        }
     }
 
     @Test
@@ -316,7 +322,7 @@ class ValkyrieGradlePluginTest {
                 }
 
                 dependencies {
-                    implementation("${composeUi()}")
+                    implementation("$COMPOSE_UI")
                 }
             """.trimIndent(),
         )
@@ -334,7 +340,7 @@ class ValkyrieGradlePluginTest {
         assertThat(result).taskWasSuccessful(":generateImageVectors")
 
         // and files were generated in the right source sets
-        assertThat(result.output).contains(
+        listOf(
             "build/generated/sources/valkyrie/freeRelease/LinearGradient.kt",
             "build/generated/sources/valkyrie/freeRelease/RadialGradient.kt",
             "build/generated/sources/valkyrie/freeRelease/ClipPathGradient.kt",
@@ -343,10 +349,12 @@ class ValkyrieGradlePluginTest {
             "build/generated/sources/valkyrie/debug/IconWithShorthandColor.kt",
             "build/generated/sources/valkyrie/debug/SeveralPath.kt",
             "build/generated/sources/valkyrie/debug/AllPathParams.kt",
-        )
+        ).forEach { path ->
+            assertThat(root.resolve(path)).exists()
+        }
 
         // but the empty source sets didn't generate anything
-        assertThat(result.output).doesNotContain(
+        listOf(
             "build/generated/sources/valkyrie/free/",
             "build/generated/sources/valkyrie/freeDebug/",
             "build/generated/sources/valkyrie/main/",
@@ -355,7 +363,9 @@ class ValkyrieGradlePluginTest {
             "build/generated/sources/valkyrie/paidRelease/",
             "build/generated/sources/valkyrie/release/",
             "build/generated/sources/valkyrie/test/",
-        )
+        ).forEach { path ->
+            assertThat(root.resolve(path)).doesNotExist()
+        }
     }
 
     @Test
@@ -374,7 +384,7 @@ class ValkyrieGradlePluginTest {
                 }
 
                 dependencies {
-                    implementation("${composeUi()}")
+                    implementation("$COMPOSE_UI")
                 }
             """.trimIndent(),
         )
@@ -395,13 +405,14 @@ class ValkyrieGradlePluginTest {
 
         // codegen was hooked into compilation
         assertThat(result).taskWasSuccessful(":generateImageVectorsMain")
-        assertThat(result.output).contains(
-            "Generated 4 ImageVectors in package com.example.app",
+        listOf(
             "LinearGradient.kt",
             "RadialGradient.kt",
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
-        )
+        ).forEach { filename ->
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+        }
 
         // and the compilation succeeded, so the accessor code has access to the generated code dirs
         assertThat(result).taskWasSuccessful(":assemble")
@@ -440,7 +451,7 @@ class ValkyrieGradlePluginTest {
                 }
 
                 dependencies {
-                    implementation("${composeUi()}")
+                    implementation("$COMPOSE_UI")
                 }
             """.trimIndent(),
         )
@@ -482,5 +493,64 @@ class ValkyrieGradlePluginTest {
 
         // and the compilation succeeded, so the accessor code has access to the generated code dirs
         assertThat(result).taskWasSuccessful(":assemble")
+    }
+
+    @Test
+    fun `Run generate when syncing Intellij IDE`() {
+        // given
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "my.custom.package"
+                    generateAtSync = true
+                }
+
+                // dummy task to replicate IntelliJ
+                tasks.register("prepareKotlinIdeaImport")
+            """.trimIndent(),
+        )
+        root.writeTestSvgs(sourceSet = "main")
+
+        // when the IDE syncs
+        val result = buildRunner(root)
+            .withArguments("prepareKotlinIdeaImport", "-Didea.sync.active=true")
+            .build()
+
+        // then the generate task was run
+        assertThat(result).taskWasSuccessful(":generateImageVectorsMain")
+    }
+
+    @Test
+    fun `Don't run generate when syncing Intellij IDE if config wasn't enabled`() {
+        // given
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "my.custom.package"
+                }
+
+                // dummy task to replicate IntelliJ
+                tasks.register("prepareKotlinIdeaImport")
+            """.trimIndent(),
+        )
+        root.writeTestSvgs(sourceSet = "main")
+
+        // when the IDE syncs
+        val result = buildRunner(root)
+            .withArguments("prepareKotlinIdeaImport", "-Didea.sync.active=true")
+            .build()
+
+        // then the generate task wasn't run
+        assertThat(result.tasks).doesNotContain(":generateImageVectorsMain")
     }
 }

@@ -46,9 +46,11 @@ class ValkyrieGradlePlugin : Plugin<Project> {
         val codegenTasks = tasks.withType(GenerateImageVectorsTask::class.java)
 
         // Run generation immediately if we're syncing Intellij/Android Studio - helps to speed up dev cycle
-        val isIdeSyncing = System.getProperty("idea.sync.active") == "true"
-        if (extension.generateAtSync.getOrElse(false) && isIdeSyncing) {
-            tasks.findByName("prepareKotlinIdeaImport")?.dependsOn(codegenTasks)
+        afterEvaluate {
+            val isIdeSyncing = System.getProperty("idea.sync.active") == "true"
+            if (extension.generateAtSync.getOrElse(false) && isIdeSyncing) {
+                tasks.findByName("prepareKotlinIdeaImport")?.dependsOn(codegenTasks)
+            }
         }
 
         // Run generation before any kind of kotlin source processing

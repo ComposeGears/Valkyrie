@@ -5,6 +5,8 @@ package io.github.composegears.valkyrie.gradle
 import assertk.Assert
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
+import assertk.fail
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.ExperimentalPathApi
@@ -20,7 +22,7 @@ import org.gradle.testkit.runner.TaskOutcome.SUCCESS
 internal fun buildRunner(root: Path) = GradleRunner
     .create()
     .withPluginClasspath()
-    .withGradleVersion(System.getProperty("test.version.gradle"))
+    .withGradleVersion(GRADLE_VERSION)
     .withProjectDir(root.toFile())
 
 internal fun runTask(root: Path, task: String) = buildRunner(root).runTask(task).build()
@@ -30,7 +32,6 @@ internal fun failTask(root: Path, task: String) = buildRunner(root).runTask(task
 internal fun GradleRunner.runTask(task: String) = withArguments(
     task,
     "--configuration-cache",
-    "--info",
     "--stacktrace",
     "-Pandroid.useAndroidX=true", // needed for android builds to work, unused otherwise
 )
@@ -58,7 +59,7 @@ internal fun Path.writeTestSvgs(sourceSet: String) {
     val destDir = resolve("src/$sourceSet/svg")
     destDir.createDirectories()
 
-    val sourceDir = Paths.get(System.getProperty("test.dir.svg"))
+    val sourceDir = RESOURCES_DIR_SVG.toPath()
     sourceDir.copyToRecursively(destDir, followLinks = true)
 }
 
@@ -66,7 +67,7 @@ internal fun Path.writeTestDrawables(sourceSet: String) {
     val destDir = resolve("src/$sourceSet/res/drawable")
     destDir.createDirectories()
 
-    val sourceDir = Paths.get(System.getProperty("test.dir.xml"))
+    val sourceDir = RESOURCES_DIR_XML.toPath()
     sourceDir.copyToRecursively(destDir, followLinks = true)
 }
 
@@ -76,9 +77,15 @@ internal fun Assert<BuildResult>.taskHadResult(path: String, expected: TaskOutco
     .isNotNull()
     .isEqualTo(expected)
 
+internal fun Assert<Path>.doesNotExist() = given { path ->
+    if (Files.exists(path)) {
+        fail("$path to not exist, but it does")
+    }
+}
+
 internal fun androidHomeOrSkip(): Path {
-    val androidHome = System.getProperty("test.androidHome")
-    check(androidHome != null && androidHome.isNotBlank()) {
+    val androidHome = ANDROID_HOME
+    check(!androidHome.isNullOrBlank()) {
         "No Android home directory configured - skipping test"
     }
 
@@ -89,5 +96,3 @@ internal fun androidHomeOrSkip(): Path {
 
     return androidHomePath
 }
-
-internal fun composeUi(): String = System.getProperty("test.composeUi")
