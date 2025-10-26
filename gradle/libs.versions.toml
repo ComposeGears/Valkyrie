@@ -3,18 +3,25 @@ agp = "8.13.0"
 compose = "1.8.2"
 intellij = "2.10.3"
 jacoco = "0.8.13"
+jdkRelease = "17"
 kotlin = "2.2.21"
 kover = "0.9.3"
 leviathan = "3.1.0-1.8.2"
-jdkRelease = "17"
+ktor = "3.3.1"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.0"
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+fonticons = "dev.tclement.fonticons:core:2.1.1"
 highlights = "dev.snipme:highlights:1.1.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.0"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
+kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0"
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviathan" }
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
 tiamat = "io.github.composegears:tiamat:2.1.0-1.8.2"

@@ -9,6 +9,7 @@ sealed interface SimpleConversionState {
     data class ConversionState(
         val iconSource: IconSource,
         val iconContent: IconContent,
+        val mode: Mode = Mode.Picker,
     ) : SimpleConversionState
 }
 
