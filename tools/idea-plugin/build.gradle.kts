@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.valkyrie.compose)
     alias(libs.plugins.jetbrains.intellij)
     alias(libs.plugins.jetbrains.changelog)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = rootProject.providers.gradleProperty("GROUP").get()
@@ -46,6 +47,12 @@ dependencies {
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
+    implementation(libs.fonticons)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.leviathan)
     implementation(libs.leviathan.compose)
     implementation(libs.tiamat)

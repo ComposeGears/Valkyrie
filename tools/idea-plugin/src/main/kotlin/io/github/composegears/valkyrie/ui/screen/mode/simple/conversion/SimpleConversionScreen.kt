@@ -15,10 +15,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.composegears.tiamat.compose.back
+import com.composegears.tiamat.compose.navArgsOrNull
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
+import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -26,6 +28,7 @@ import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.platform.picker.rememberFilePicker
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.SimpleConversionPickerStateUI
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.SimpleConversionPreviewStateUi
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.Mode
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.Back
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionAction.ClosePreview
@@ -44,10 +47,21 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-val SimpleConversionScreen by navDestination<Unit> {
-    val navController = navController()
+data class SimpleConversionScreenParams(
+    val iconContent: String,
+    val iconName: String,
+)
 
-    val viewModel = saveableViewModel { SimpleConversionViewModel(it) }
+val SimpleConversionScreen by navDestination<SimpleConversionScreenParams> {
+    val navController = navController()
+    val conversionScreenParams = navArgsOrNull()
+
+    val viewModel = saveableViewModel {
+        SimpleConversionViewModel(
+            savedState = it,
+            params = conversionScreenParams,
+        )
+    }
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
 
@@ -68,7 +82,13 @@ val SimpleConversionScreen by navDestination<Unit> {
             when (it) {
                 is Back -> navController.back()
                 is OpenSettings -> navController.navigate(dest = SettingsScreen)
-                is ClosePreview -> viewModel.reset()
+                is ClosePreview -> {
+                    if (state.safeAs<ConversionState>()?.mode == Mode.StringParse) {
+                        navController.back()
+                    } else {
+                        viewModel.reset()
+                    }
+                }
                 is OpenFilePicker -> {
                     scope.launch {
                         val path = filePicker.launch()

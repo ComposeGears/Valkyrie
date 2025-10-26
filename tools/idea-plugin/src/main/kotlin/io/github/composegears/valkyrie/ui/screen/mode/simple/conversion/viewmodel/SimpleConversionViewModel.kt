@@ -11,8 +11,10 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGene
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
+import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.di.DI
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreenParams
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.ConversionState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.PickerState
 import java.nio.file.Path
@@ -25,6 +27,7 @@ import kotlinx.coroutines.launch
 
 class SimpleConversionViewModel(
     savedState: MutableSavedState,
+    params: SimpleConversionScreenParams?,
 ) : ViewModel() {
 
     val inMemorySettings = inject(DI.core.inMemorySettings)
@@ -50,6 +53,7 @@ class SimpleConversionViewModel(
                                 stateRecord.value = ConversionState(
                                     iconSource = IconSource.FileBasedIcon(icon.path),
                                     iconContent = output,
+                                    mode = state.mode,
                                 )
                             }
                         }
@@ -60,6 +64,7 @@ class SimpleConversionViewModel(
                                 stateRecord.value = ConversionState(
                                     iconSource = IconSource.StringBasedIcon(icon.text),
                                     iconContent = output,
+                                    mode = state.mode,
                                 )
                             }
                         }
@@ -67,6 +72,13 @@ class SimpleConversionViewModel(
                 }
             }
             .launchIn(viewModelScope)
+
+        if (params != null) {
+            fromText(
+                text = params.iconContent,
+                name = IconNameFormatter.format(params.iconName),
+            )
+        }
     }
 
     fun selectPath(path: Path) = viewModelScope.launch(Dispatchers.Default) {
@@ -86,8 +98,18 @@ class SimpleConversionViewModel(
         stateRecord.value = PickerState
     }
 
-    fun pasteFromClipboard(text: String) = viewModelScope.launch(Dispatchers.Default) {
-        val output = parseIcon(text = text, iconName = "IconName")
+    fun fromText(text: String, name: String) = pasteFromClipboard(
+        text = text,
+        iconName = name,
+        mode = Mode.StringParse,
+    )
+
+    fun pasteFromClipboard(
+        text: String,
+        iconName: String = "IconName",
+        mode: Mode = Mode.Picker,
+    ) = viewModelScope.launch(Dispatchers.Default) {
+        val output = parseIcon(text = text, iconName = iconName)
 
         if (output == null) {
             _events.emit("Failed to parse icon from clipboard")
@@ -95,6 +117,7 @@ class SimpleConversionViewModel(
             stateRecord.value = ConversionState(
                 iconSource = IconSource.StringBasedIcon(text),
                 iconContent = output,
+                mode = mode,
             )
         }
     }
@@ -202,4 +225,9 @@ class SimpleConversionViewModel(
             )
         }.getOrNull()
     }
+}
+
+enum class Mode {
+    Picker,
+    StringParse,
 }

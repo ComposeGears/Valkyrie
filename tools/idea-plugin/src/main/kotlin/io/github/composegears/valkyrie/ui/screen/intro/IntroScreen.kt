@@ -22,7 +22,6 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
-import io.github.composegears.valkyrie.FeatureFlag.WEB_IMPORT_FEATURE_ENABLED
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
@@ -124,18 +123,16 @@ private fun IntroScreenUI(
                         description = stringResource("intro.card.editor.description"),
                     )
                 }
-                if (WEB_IMPORT_FEATURE_ENABLED) {
-                    VerticalSpacer(24.dp)
-                    HorizontalDivider(modifier = Modifier.fillMaxWidth(0.1f))
-                    VerticalSpacer(24.dp)
-                    InfoCard(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        onClick = { onModeChange(WebImport) },
-                        icon = ValkyrieIcons.Outlined.FileImport,
-                        title = stringResource("intro.card.webimport.title"),
-                        description = stringResource("intro.card.webimport.description"),
-                    )
-                }
+                VerticalSpacer(24.dp)
+                HorizontalDivider(modifier = Modifier.fillMaxWidth(0.1f))
+                VerticalSpacer(24.dp)
+                InfoCard(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    onClick = { onModeChange(WebImport) },
+                    icon = ValkyrieIcons.Outlined.FileImport,
+                    title = stringResource("intro.card.webimport.title"),
+                    description = stringResource("intro.card.webimport.description"),
+                )
             }
             WeightSpacer(weight = 0.7f)
         }
