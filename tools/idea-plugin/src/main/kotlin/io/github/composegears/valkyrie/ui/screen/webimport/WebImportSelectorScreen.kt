@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
@@ -23,16 +24,30 @@ import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
+import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 
 val WebImportSelectorScreen by navDestination<Unit> {
     val navController = navController()
 
-    WebImportSelectorScreenUI(onBack = navController::back)
+    WebImportSelectorScreenUI(
+        onBack = navController::back,
+        onClick = {
+            val screen = when (it) {
+                GoogleMaterialSymbols -> MaterialSymbolsImportScreen
+            }
+
+            navController.navigate(dest = screen)
+        },
+    )
 }
 
 @Composable
-private fun WebImportSelectorScreenUI(onBack: () -> Unit) {
+private fun WebImportSelectorScreenUI(
+    onBack: () -> Unit,
+    onClick: (IconProviders) -> Unit,
+) {
     Column {
         TopAppBar {
             BackAction(onBack = onBack)
@@ -48,7 +63,7 @@ private fun WebImportSelectorScreenUI(onBack: () -> Unit) {
         ) {
             InfoCard(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                onClick = { },
+                onClick = { onClick(GoogleMaterialSymbols) },
                 image = ValkyrieIcons.Colored.GoogleMaterialLogo,
                 title = stringResource("web.import.selector.google.title"),
                 description = stringResource("web.import.selector.google.description"),
@@ -62,8 +77,12 @@ private fun WebImportSelectorScreenUI(onBack: () -> Unit) {
     }
 }
 
+enum class IconProviders {
+    GoogleMaterialSymbols,
+}
+
 @Preview
 @Composable
 private fun WebImportScreenPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
-    WebImportSelectorScreenUI(onBack = {})
+    WebImportSelectorScreenUI(onBack = {}, onClick = {})
 }

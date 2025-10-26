@@ -1,6 +1,7 @@
 public final class io/github/composegears/valkyrie/compose/util/ColorKt {
 	public static final fun dim-8_81llA (J)J
 	public static final fun disabled-8_81llA (J)J
+	public static final fun subtle-8_81llA (J)J
 }
 
 public final class io/github/composegears/valkyrie/compose/util/ColorSchemeKt {
