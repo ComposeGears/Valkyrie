@@ -72,7 +72,5 @@ allprojects {
 
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
-        // https://docs.gradle.org/8.9/userguide/performance.html#execute_tests_in_parallel
-        maxParallelForks = Runtime.getRuntime().availableProcessors()
     }
 }
