@@ -1,4 +1,5 @@
 [versions]
+agp = "8.13.0"
 compose = "1.8.2"
 intellij = "2.9.0"
 jacoco = "0.8.13"
@@ -8,6 +9,7 @@ leviathan = "3.1.0-1.8.2"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.0"
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 highlights = "dev.snipme:highlights:1.1.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.0"
@@ -30,6 +32,9 @@ mockk = "io.mockk:mockk:1.14.6"
 
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.7.1"
 composeRules = "io.nlopez.compose.rules:ktlint:0.4.27"
+
+agp-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
+agp-full = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 
 # Dependencies for build-logic module
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }

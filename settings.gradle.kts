@@ -53,6 +53,7 @@ includeBuild("build-logic")
 
 include("tools:cli")
 include("tools:compose-app")
+include("tools:gradle-plugin")
 include("tools:idea-plugin")
 
 include("components:generator:core")

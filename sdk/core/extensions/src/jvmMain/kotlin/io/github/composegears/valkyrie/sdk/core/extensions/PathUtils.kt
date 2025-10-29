@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.sdk.core.extensions
 
 import java.io.IOException
+import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteIfExists
@@ -27,7 +28,7 @@ private fun String.writeToFile(
     extension: String,
     deleteIfExists: Boolean,
     createParents: Boolean,
-) {
+): Path {
     val outputPath = Path(outputDir, "$nameWithoutExtension.$extension")
 
     if (deleteIfExists) {
@@ -37,4 +38,5 @@ private fun String.writeToFile(
         outputPath.createParentDirectories()
     }
     outputPath.writeText(this)
+    return outputPath
 }
