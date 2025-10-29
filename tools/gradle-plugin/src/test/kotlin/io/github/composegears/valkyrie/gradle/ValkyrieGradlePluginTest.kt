@@ -23,7 +23,7 @@ class ValkyrieGradlePluginTest {
     @TempDir lateinit var root: Path
 
     @BeforeEach
-    fun before() {
+    fun beforeEach() {
         root.writeSettingsFile()
     }
 
