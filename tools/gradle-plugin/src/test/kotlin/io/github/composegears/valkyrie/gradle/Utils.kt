@@ -77,6 +77,7 @@ internal fun Assert<BuildResult>.taskHadResult(path: String, expected: TaskOutco
     .isNotNull()
     .isEqualTo(expected)
 
+// TODO: https://github.com/assertk-org/assertk/pull/542
 internal fun Assert<Path>.doesNotExist() = given { path ->
     if (Files.exists(path)) {
         fail("$path to not exist, but it does")
