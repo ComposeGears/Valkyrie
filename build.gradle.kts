@@ -2,6 +2,9 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.intellij.platform.gradle.extensions.IntelliJPlatformDependenciesExtension
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.intellij.platform.gradle.plugins.project.IntelliJPlatformBasePlugin
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
@@ -67,6 +70,17 @@ allprojects {
         }
         kotlinGradle {
             ktlint(libs.ktlint.get().version)
+        }
+    }
+
+    tasks.withType<JavaCompile>().configureEach {
+        options.release = libs.versions.jdkRelease.get().toInt()
+    }
+
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(libs.versions.jdkRelease.get())
+            freeCompilerArgs.add("-Xjdk-release=${libs.versions.jdkRelease.get()}")
         }
     }
 
