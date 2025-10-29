@@ -6,6 +6,7 @@ jacoco = "0.8.13"
 kotlin = "2.2.20"
 kover = "0.9.3"
 leviathan = "3.1.0-1.8.2"
+jdkRelease = "17"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.0"

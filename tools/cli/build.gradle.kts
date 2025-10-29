@@ -17,17 +17,6 @@ application {
     version = versionName
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_21
-    }
-}
-
 sourceSets {
     test {
         resources.srcDir("$rootDir/components/test/sharedTestResources")
