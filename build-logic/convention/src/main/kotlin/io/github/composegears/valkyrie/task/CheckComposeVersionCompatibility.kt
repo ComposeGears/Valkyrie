@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.task
 
+import net.swiftzer.semver.SemVer
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.artifacts.ArtifactCollection
@@ -18,23 +19,25 @@ abstract class CheckComposeVersionCompatibility : DefaultTask() {
 
     @TaskAction
     fun checkVersions() {
-        val expectedVersion = expectedComposeVersion.get()
+        val maxSupportedVersion = SemVer.parse(expectedComposeVersion.get())
 
         val composeDependencies = artifactCollection.get().artifacts
             .mapNotNull { it.id.componentIdentifier as? ModuleComponentIdentifier }
             .filter { it.group.startsWith("org.jetbrains.compose") }
 
-        val invalidVersions = composeDependencies.filter { it.version != expectedVersion }
+        val invalidVersions = composeDependencies.filter {
+            SemVer.parse(it.version) > maxSupportedVersion
+        }
 
         if (invalidVersions.isNotEmpty()) {
             val errorMessage = buildString {
-                appendLine("Found org.jetbrains.compose dependencies with version != $expectedVersion:")
+                appendLine("Found Compose dependencies with version > $maxSupportedVersion:")
                 invalidVersions.forEach {
-                    appendLine("  - ${it.group}:${it.module}:${it.version}")
+                    appendLine("\t- ${it.group}:${it.module}:${it.version}")
                 }
             }
             throw GradleException(errorMessage)
         }
-        logger.lifecycle("✅ All compose dependencies have the correct version $expectedVersion")
+        logger.lifecycle("✅ All compose dependencies have version $maxSupportedVersion or lower")
     }
 }

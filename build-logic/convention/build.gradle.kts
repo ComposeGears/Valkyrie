@@ -8,6 +8,7 @@ dependencies {
     compileOnly(libs.kotlin.compose.compiler.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.kover.plugin)
+    implementation(libs.semver)
 }
 
 gradlePlugin {

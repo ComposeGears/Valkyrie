@@ -31,6 +31,8 @@ junit4 = "junit:junit:4.13.2"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 mockk = "io.mockk:mockk:1.14.6"
 
+semver = "net.swiftzer.semver:semver:2.1.0"
+
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.7.1"
 composeRules = "io.nlopez.compose.rules:ktlint:0.4.27"
 
