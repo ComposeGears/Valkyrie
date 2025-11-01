@@ -53,7 +53,7 @@ jetbrains-changelog = "org.jetbrains.changelog:2.4.0"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
-buildConfig = "com.github.gmazzo.buildconfig:5.7.0"
+buildConfig = "com.github.gmazzo.buildconfig:5.7.1"
 shadow = "com.gradleup.shadow:9.2.2"
 spotless = "com.diffplug.spotless:8.0.0"
 
