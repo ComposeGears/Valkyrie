@@ -24,17 +24,45 @@ abstract class CheckComposeVersionCompatibility : DefaultTask() {
             .mapNotNull { it.id.componentIdentifier as? ModuleComponentIdentifier }
             .filter { it.group.startsWith("org.jetbrains.compose") }
 
-        val invalidVersions = composeDependencies.filter { it.version != expectedVersion }
+        val invalidVersions = composeDependencies.filter {
+            compareVersions(currentVersion = it.version, expectedVersion = expectedVersion) > 0
+        }
 
         if (invalidVersions.isNotEmpty()) {
             val errorMessage = buildString {
-                appendLine("Found org.jetbrains.compose dependencies with version != $expectedVersion:")
+                appendLine("Found org.jetbrains.compose dependencies with version > $expectedVersion:")
                 invalidVersions.forEach {
                     appendLine("  - ${it.group}:${it.module}:${it.version}")
                 }
             }
             throw GradleException(errorMessage)
         }
-        logger.lifecycle("✅ All compose dependencies have the correct version $expectedVersion")
+        logger.lifecycle("✅ All compose dependencies have version $expectedVersion or lower")
     }
+
+    private fun compareVersions(currentVersion: String, expectedVersion: String): Int {
+        val current = parseVersion(currentVersion)
+        val expected = parseVersion(expectedVersion)
+
+        return when {
+            current.major != expected.major -> current.major.compareTo(expected.major)
+            current.minor != expected.minor -> current.minor.compareTo(expected.minor)
+            current.patch != expected.patch -> current.patch.compareTo(expected.patch)
+            else -> 0
+        }
+    }
+
+    private fun parseVersion(version: String): Version {
+        val parts = version.split('.', '-').mapNotNull { it.toIntOrNull() }
+        return Version(
+            major = parts[0],
+            minor = parts[1],
+            patch = parts[2],
+        )
+    }
+    private data class Version(
+        val major: Int,
+        val minor: Int,
+        val patch: Int,
+    )
 }
