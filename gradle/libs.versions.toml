@@ -1,7 +1,7 @@
 [versions]
 agp = "8.13.0"
 compose = "1.8.2"
-intellij = "2.10.3"
+intellij = "2.10.4"
 jacoco = "0.8.13"
 jdkRelease = "17"
 kotlin = "2.2.21"
