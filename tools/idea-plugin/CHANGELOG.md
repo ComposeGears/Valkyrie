@@ -1,5 +1,11 @@
 # Plugin Changelog
 
+[Unreleased]
+
+### Added
+
+- Add ability to import Material Symbols directly inside plugin and convert it into ImageVector
+
 ## [0.17.4](https://github.com/ComposeGears/Valkyrie/releases/tag/0.17.4) - 2025-10-22
 
 ### Fixed
