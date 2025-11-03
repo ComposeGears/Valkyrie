@@ -92,6 +92,7 @@ class SimpleConversionViewModel(
                 iconContent = output,
             )
         }
+        saveCurrentMode()
     }
 
     fun reset() {
@@ -120,6 +121,8 @@ class SimpleConversionViewModel(
                 mode = mode,
             )
         }
+
+        saveCurrentMode()
     }
 
     fun changeIconName(name: String) = viewModelScope.launch(Dispatchers.Default) {
@@ -159,8 +162,6 @@ class SimpleConversionViewModel(
         path: Path,
         iconName: String? = null,
     ): IconContent? {
-        val valkyriesSettings = inMemorySettings.current
-
         return runCatching {
             val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path.toIOPath())
             val name = iconName ?: parserOutput.iconName
@@ -168,20 +169,7 @@ class SimpleConversionViewModel(
             val output = ImageVectorGenerator.convert(
                 vector = parserOutput.irImageVector,
                 iconName = name,
-                config = ImageVectorGeneratorConfig(
-                    packageName = valkyriesSettings.packageName,
-                    iconPackPackage = valkyriesSettings.packageName,
-                    packName = "",
-                    nestedPackName = "",
-                    outputFormat = valkyriesSettings.outputFormat,
-                    useComposeColors = valkyriesSettings.useComposeColors,
-                    generatePreview = valkyriesSettings.generatePreview,
-                    previewAnnotationType = valkyriesSettings.previewAnnotationType,
-                    useFlatPackage = false,
-                    useExplicitMode = valkyriesSettings.useExplicitMode,
-                    addTrailingComma = valkyriesSettings.addTrailingComma,
-                    indentSize = valkyriesSettings.indentSize,
-                ),
+                config = createGeneratorConfig(),
             )
             IconContent(
                 name = name,
@@ -195,28 +183,13 @@ class SimpleConversionViewModel(
         text: String,
         iconName: String,
     ): IconContent? {
-        val valkyriesSettings = inMemorySettings.current
-
         return runCatching {
             val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, text, iconName)
 
             val output = ImageVectorGenerator.convert(
                 vector = parserOutput.irImageVector,
                 iconName = iconName,
-                config = ImageVectorGeneratorConfig(
-                    packageName = valkyriesSettings.packageName,
-                    iconPackPackage = valkyriesSettings.packageName,
-                    packName = "",
-                    nestedPackName = "",
-                    outputFormat = valkyriesSettings.outputFormat,
-                    useComposeColors = valkyriesSettings.useComposeColors,
-                    generatePreview = valkyriesSettings.generatePreview,
-                    previewAnnotationType = valkyriesSettings.previewAnnotationType,
-                    useFlatPackage = false,
-                    useExplicitMode = valkyriesSettings.useExplicitMode,
-                    addTrailingComma = valkyriesSettings.addTrailingComma,
-                    indentSize = valkyriesSettings.indentSize,
-                ),
+                config = createGeneratorConfig(),
             )
             IconContent(
                 name = iconName,
@@ -225,8 +198,35 @@ class SimpleConversionViewModel(
             )
         }.getOrNull()
     }
+
+    private fun createGeneratorConfig(): ImageVectorGeneratorConfig {
+        val valkyriesSettings = inMemorySettings.current
+
+        return ImageVectorGeneratorConfig(
+            // don't add package name for single icon conversion, let user decide where to put it
+            packageName = "",
+            iconPackPackage = "",
+            packName = "",
+            nestedPackName = "",
+            outputFormat = valkyriesSettings.outputFormat,
+            useComposeColors = valkyriesSettings.useComposeColors,
+            generatePreview = valkyriesSettings.generatePreview,
+            previewAnnotationType = valkyriesSettings.previewAnnotationType,
+            useFlatPackage = false,
+            useExplicitMode = valkyriesSettings.useExplicitMode,
+            addTrailingComma = valkyriesSettings.addTrailingComma,
+            indentSize = valkyriesSettings.indentSize,
+        )
+    }
+
+    private fun saveCurrentMode() {
+        inMemorySettings.update {
+            mode = io.github.composegears.valkyrie.shared.Mode.Simple
+        }
+    }
 }
 
+// TODO: split into separate screens
 enum class Mode {
     Picker,
     StringParse,
