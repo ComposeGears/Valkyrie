@@ -115,8 +115,8 @@ fun ValkyriePlugin(
                 Snackbar(
                     snackbarData = it,
                     shape = MaterialTheme.shapes.small,
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
+                    contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                 )
             },
         )

@@ -6,6 +6,10 @@
 
 - Add ability to import Material Symbols directly inside plugin and convert it into ImageVector
 
+### Changed
+
+- Enhance contrast of Snackbar colors for better visibility
+
 ## [0.17.4](https://github.com/ComposeGears/Valkyrie/releases/tag/0.17.4) - 2025-10-22
 
 ### Fixed
