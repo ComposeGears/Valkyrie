@@ -34,6 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.editNavStack
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.navigationFadeInOut
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
@@ -90,7 +91,7 @@ val GeneralSettingsScreen by navDestination<Unit> {
 
 private fun openIntro(navController: NavController) {
     navController.parent?.run {
-        editNavStack { _ -> listOf(IntroScreen.toNavEntry()) }
+        editNavStack(transition = navigationFadeInOut()) { _ -> listOf(IntroScreen.toNavEntry()) }
     }
 }
 
