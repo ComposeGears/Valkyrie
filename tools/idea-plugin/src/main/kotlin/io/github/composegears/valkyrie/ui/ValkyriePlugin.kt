@@ -39,7 +39,6 @@ import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.simple.setup.SimpleModeSetupScreen
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
@@ -91,7 +90,6 @@ fun ValkyriePlugin(
             navController = navController,
             destinations = arrayOf(
                 IntroScreen,
-                SimpleModeSetupScreen,
                 SimpleConversionScreen,
 
                 IconPackCreationScreen,

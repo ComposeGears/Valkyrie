@@ -109,4 +109,25 @@ class CustomPackageTest(
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
     }
+
+    @Test
+    fun `no package without icon pack`() {
+        val icon = getResourcePath("imagevector/xml/ic_flat_package.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
+            config = createConfig(
+                packageName = "",
+                outputFormat = outputFormat,
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/NoPackage.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/NoPackage.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
 }
