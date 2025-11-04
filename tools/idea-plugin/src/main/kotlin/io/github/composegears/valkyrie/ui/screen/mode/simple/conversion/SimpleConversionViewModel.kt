@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel
+package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,30 +11,30 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGene
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
-import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
-import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreenParams
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.ConversionState
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.viewmodel.SimpleConversionState.PickerState
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconContent
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource.FileBasedIcon
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource.StringBasedIcon
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionState
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SimpleConversionViewModel(
     savedState: MutableSavedState,
-    params: SimpleConversionScreenParams?,
+    params: SimpleConversionParamsSource,
 ) : ViewModel() {
 
     val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val stateRecord = savedState.recordOf<SimpleConversionState>(
+    private val stateRecord = savedState.recordOf<SimpleConversionState?>(
         key = "conversionState",
-        initialValue = PickerState,
+        initialValue = null,
     )
     val state = stateRecord.asStateFlow()
 
@@ -42,43 +42,44 @@ class SimpleConversionViewModel(
     val events = _events.asSharedFlow()
 
     init {
-        state
-            .combine(inMemorySettings.settings) { state, _ ->
-                if (state is ConversionState) {
-                    when (val icon = state.iconSource) {
-                        is IconSource.FileBasedIcon -> {
-                            val output = parseIcon(path = icon.path, iconName = state.iconContent.name)
+        when (params) {
+            is SimpleConversionParamsSource.PathSource -> selectPath(params.path)
+            is SimpleConversionParamsSource.TextSource -> fromText(text = params.text, name = params.name)
+        }
+        inMemorySettings.settings
+            .onEach {
+                val currentState = stateRecord.value ?: return@onEach
 
-                            if (output != null) {
-                                stateRecord.value = ConversionState(
-                                    iconSource = IconSource.FileBasedIcon(icon.path),
-                                    iconContent = output,
-                                    mode = state.mode,
-                                )
-                            }
+                when (val source = currentState.iconSource) {
+                    is FileBasedIcon -> {
+                        val output = parseIcon(
+                            path = source.path,
+                            iconName = currentState.iconContent.name,
+                        )
+                        if (output != null) {
+                            stateRecord.value = SimpleConversionState(
+                                iconSource = FileBasedIcon(source.path),
+                                iconContent = output,
+                            )
                         }
-                        is IconSource.StringBasedIcon -> {
-                            val output = parseIcon(text = icon.text, iconName = state.iconContent.name)
+                    }
+                    is StringBasedIcon -> {
+                        val output = parseIcon(
+                            text = source.text,
+                            iconName = currentState.iconContent.name,
+                        )
 
-                            if (output != null) {
-                                stateRecord.value = ConversionState(
-                                    iconSource = IconSource.StringBasedIcon(icon.text),
-                                    iconContent = output,
-                                    mode = state.mode,
-                                )
-                            }
+                        if (output != null) {
+                            stateRecord.value = SimpleConversionState(
+                                iconSource = StringBasedIcon(source.text),
+                                iconContent = output,
+                            )
                         }
                     }
                 }
             }
+            .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
-
-        if (params != null) {
-            fromText(
-                text = params.iconContent,
-                name = IconNameFormatter.format(params.iconName),
-            )
-        }
     }
 
     fun selectPath(path: Path) = viewModelScope.launch(Dispatchers.Default) {
@@ -87,70 +88,57 @@ class SimpleConversionViewModel(
         if (output == null) {
             _events.emit("Failed to parse icon")
         } else {
-            stateRecord.value = ConversionState(
-                iconSource = IconSource.FileBasedIcon(path),
+            stateRecord.value = SimpleConversionState(
+                iconSource = FileBasedIcon(path),
                 iconContent = output,
             )
         }
-        saveCurrentMode()
     }
 
-    fun reset() {
-        stateRecord.value = PickerState
-    }
-
-    fun fromText(text: String, name: String) = pasteFromClipboard(
-        text = text,
-        iconName = name,
-        mode = Mode.StringParse,
-    )
+    fun fromText(text: String, name: String) = pasteFromClipboard(text = text, iconName = name)
 
     fun pasteFromClipboard(
         text: String,
         iconName: String = "IconName",
-        mode: Mode = Mode.Picker,
     ) = viewModelScope.launch(Dispatchers.Default) {
         val output = parseIcon(text = text, iconName = iconName)
 
         if (output == null) {
             _events.emit("Failed to parse icon from clipboard")
         } else {
-            stateRecord.value = ConversionState(
-                iconSource = IconSource.StringBasedIcon(text),
+            stateRecord.value = SimpleConversionState(
+                iconSource = StringBasedIcon(text),
                 iconContent = output,
-                mode = mode,
             )
         }
-
-        saveCurrentMode()
     }
 
     fun changeIconName(name: String) = viewModelScope.launch(Dispatchers.Default) {
-        val conversionState = stateRecord.value.safeAs<ConversionState>() ?: return@launch
+        val conversionState = stateRecord.value ?: return@launch
 
         when (conversionState.iconSource) {
-            is IconSource.FileBasedIcon -> {
+            is FileBasedIcon -> {
                 val output = parseIcon(
                     path = conversionState.iconSource.path,
                     iconName = name,
                 )
 
                 if (output != null) {
-                    stateRecord.value = ConversionState(
-                        iconSource = IconSource.FileBasedIcon(conversionState.iconSource.path),
+                    stateRecord.value = SimpleConversionState(
+                        iconSource = FileBasedIcon(conversionState.iconSource.path),
                         iconContent = output,
                     )
                 }
             }
-            is IconSource.StringBasedIcon -> {
+            is StringBasedIcon -> {
                 val output = parseIcon(
                     text = conversionState.iconSource.text,
                     iconName = name,
                 )
 
                 if (output != null) {
-                    stateRecord.value = ConversionState(
-                        iconSource = IconSource.StringBasedIcon(conversionState.iconSource.text),
+                    stateRecord.value = SimpleConversionState(
+                        iconSource = StringBasedIcon(conversionState.iconSource.text),
                         iconContent = output,
                     )
                 }
@@ -218,16 +206,4 @@ class SimpleConversionViewModel(
             indentSize = valkyriesSettings.indentSize,
         )
     }
-
-    private fun saveCurrentMode() {
-        inMemorySettings.update {
-            mode = io.github.composegears.valkyrie.shared.Mode.Simple
-        }
-    }
-}
-
-// TODO: split into separate screens
-enum class Mode {
-    Picker,
-    StringParse,
 }

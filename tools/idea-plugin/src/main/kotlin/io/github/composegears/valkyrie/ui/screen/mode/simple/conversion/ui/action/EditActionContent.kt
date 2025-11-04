@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.action.ui
+package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
-fun EditAction(
+fun EditActionContent(
     iconName: String,
     modifier: Modifier = Modifier,
     onNameChange: (String) -> Unit,
@@ -42,8 +42,8 @@ fun EditAction(
 
 @Preview
 @Composable
-private fun EditActionPreview() = PreviewTheme {
-    EditAction(
+private fun EditActionContentPreview() = PreviewTheme {
+    EditActionContent(
         iconName = "IconName",
         onNameChange = {},
     )

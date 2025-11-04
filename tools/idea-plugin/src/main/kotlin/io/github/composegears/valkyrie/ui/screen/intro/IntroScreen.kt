@@ -42,7 +42,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
 import io.github.composegears.valkyrie.util.stringResource
@@ -57,7 +57,7 @@ val IntroScreen: NavDestination<Unit> by navDestination {
         },
         onModeChange = {
             when (it) {
-                Simple -> navController.navigate(dest = SimpleConversionScreen)
+                Simple -> navController.navigate(dest = SimplePickerScreen)
                 IconPack -> navController.navigate(dest = IconPackCreationScreen)
                 Editor -> navController.navigate(dest = EditorSelectScreen)
                 WebImport -> navController.navigate(dest = WebImportFlow)

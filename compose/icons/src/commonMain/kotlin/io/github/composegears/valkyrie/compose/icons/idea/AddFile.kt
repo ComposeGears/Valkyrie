@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.compose.icons.idea
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
@@ -8,13 +8,13 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.AddFile: ImageVector
+val ValkyrieIcons.Idea.AddFile: ImageVector
     get() {
         if (_AddFile != null) {
             return _AddFile!!
         }
         _AddFile = ImageVector.Builder(
-            name = "AddFile",
+            name = "Idea.AddFile",
             defaultWidth = 16.dp,
             defaultHeight = 16.dp,
             viewportWidth = 16f,
@@ -44,7 +44,7 @@ val ValkyrieIcons.AddFile: ImageVector
                 close()
             }
             path(
-                fill = SolidColor(Color(0xFFFFFFFF)),
+                fill = SolidColor(Color(0xFF6C707E)),
                 pathFillType = PathFillType.EvenOdd,
             ) {
                 moveTo(3f, 13f)

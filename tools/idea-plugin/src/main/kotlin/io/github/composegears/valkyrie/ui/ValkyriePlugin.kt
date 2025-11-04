@@ -39,6 +39,7 @@ import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
+import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
@@ -90,6 +91,8 @@ fun ValkyriePlugin(
             navController = navController,
             destinations = arrayOf(
                 IntroScreen,
+
+                SimplePickerScreen,
                 SimpleConversionScreen,
 
                 IconPackCreationScreen,
@@ -125,7 +128,7 @@ fun ValkyriePlugin(
 private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     val settings = inMemorySettings.current
     val screen = when (settings.mode) {
-        Simple -> SimpleConversionScreen
+        Simple -> SimplePickerScreen
         IconPack -> IconPackConversionScreen
         Unspecified, Editor, WebImport -> IntroScreen
     }

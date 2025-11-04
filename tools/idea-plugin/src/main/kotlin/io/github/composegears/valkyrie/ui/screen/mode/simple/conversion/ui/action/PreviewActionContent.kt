@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.preview.action.ui
+package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.util.IR_STUB
 
 @Composable
-fun PreviewAction(
+fun PreviewActionContent(
     irImageVector: IrImageVector,
     previewType: PreviewType,
     modifier: Modifier = Modifier,
@@ -33,8 +33,8 @@ fun PreviewAction(
 
 @Preview
 @Composable
-private fun PreviewActionPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
-    PreviewAction(
+private fun PreviewActionContentPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+    PreviewActionContent(
         irImageVector = IR_STUB,
         previewType = PreviewType.Auto,
     )
