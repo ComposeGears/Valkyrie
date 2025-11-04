@@ -67,8 +67,8 @@ import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreenParams
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialGridItem.CategoryHeader
@@ -97,9 +97,9 @@ val MaterialSymbolsImportScreen by navDestination {
                     is MaterialEvent.IconDownloaded -> {
                         parentNavController?.navigate(
                             dest = SimpleConversionScreen,
-                            navArgs = SimpleConversionScreenParams(
-                                iconContent = it.svgContent,
-                                iconName = it.name,
+                            navArgs = TextSource(
+                                name = it.name,
+                                text = it.svgContent,
                             ),
                         )
                     }

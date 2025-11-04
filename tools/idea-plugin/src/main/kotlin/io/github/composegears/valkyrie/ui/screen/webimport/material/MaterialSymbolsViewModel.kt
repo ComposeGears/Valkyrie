@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.material
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
+import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.webimport.material.di.MaterialSymbolsModule
@@ -115,7 +116,7 @@ class MaterialSymbolsViewModel : ViewModel() {
             _events.emit(
                 MaterialEvent.IconDownloaded(
                     svgContent = svgContent,
-                    name = icon.name,
+                    name = IconNameFormatter.format(icon.name),
                 ),
             )
         }
