@@ -9,6 +9,7 @@
 ### Fixed
 
 - Incorrect screen transition animation in certain cases
+- Plugin not saved last opened screen after hide/unhide, always opens on launch screen
 
 ### Changed
 
