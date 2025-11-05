@@ -1,11 +1,14 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.material
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
+import com.composegears.tiamat.navigation.MutableSavedState
+import com.composegears.tiamat.navigation.asStateFlow
+import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
-import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.webimport.material.di.MaterialSymbolsModule
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
@@ -18,19 +21,19 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MaterialSymbolsViewModel : ViewModel() {
-
-    private val materialSymbolsConfigUseCase = inject(MaterialSymbolsModule.materialSymbolsConfigUseCase)
+class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
 
     private val fontCache = mutableMapOf<IconFontFamily, FontByteArray>()
+    private val materialSymbolsConfigUseCase = inject(MaterialSymbolsModule.materialSymbolsConfigUseCase)
 
-    private val _materialState = MutableStateFlow<MaterialState>(MaterialState.Loading)
-    val materialState = _materialState.asStateFlow()
+    private val materialRecord = savedState.recordOf<MaterialState>(
+        key = "materialSymbols",
+        initialValue = MaterialState.Loading,
+    )
+    val materialState = materialRecord.asStateFlow()
 
     private val _events = MutableSharedFlow<MaterialEvent>()
     val events = _events.asSharedFlow()
@@ -39,24 +42,27 @@ class MaterialSymbolsViewModel : ViewModel() {
     private var iconLoadJob: Job? = null
 
     init {
-        loadConfig()
+        when (val current = materialRecord.value) {
+            is MaterialState.Success -> if (current.fontByteArray == null) {
+                downloadFont(current.iconFontFamily)
+            }
+            else -> loadConfig()
+        }
     }
 
     private fun loadConfig() {
         viewModelScope.launch {
-            _materialState.updateState { MaterialState.Loading }
+            materialRecord.value = MaterialState.Loading
 
             runCatching {
                 val config = materialSymbolsConfigUseCase.loadConfig()
-                _materialState.updateState {
-                    MaterialState.Success(
-                        config = config,
-                        gridItems = config.gridItems.toGridItems(),
-                    )
-                }
+                materialRecord.value = MaterialState.Success(
+                    config = config,
+                    gridItems = config.gridItems.toGridItems(),
+                )
                 downloadFont(IconFontFamily.OUTLINED)
             }.onFailure {
-                _materialState.updateState { MaterialState.Error("Error loading Material Symbols config: ${it.message}") }
+                materialRecord.value = MaterialState.Error("Error loading Material Symbols config: ${it.message}")
             }
         }
     }
@@ -86,9 +92,7 @@ class MaterialSymbolsViewModel : ViewModel() {
                     }
                 }.onFailure { e ->
                     if (currentFontFamily == iconFontFamily) {
-                        _materialState.updateState {
-                            MaterialState.Error("Error loading Material Symbols font: ${e.message}")
-                        }
+                        materialRecord.value = MaterialState.Error("Error loading Material Symbols font: ${e.message}")
                     }
                 }
             } else {
@@ -105,7 +109,7 @@ class MaterialSymbolsViewModel : ViewModel() {
     fun downloadIcon(icon: IconModel) {
         iconLoadJob?.cancel()
         iconLoadJob = viewModelScope.launch {
-            val state = _materialState.value.safeAs<MaterialState.Success>() ?: return@launch
+            val state = materialRecord.value.safeAs<MaterialState.Success>() ?: return@launch
 
             val svgContent = materialSymbolsConfigUseCase.loadIcon(
                 name = icon.originalName,
@@ -163,12 +167,14 @@ class MaterialSymbolsViewModel : ViewModel() {
         return if (searchQuery.isBlank()) {
             categoryFiltered.toGridItems()
         } else {
-            val filtered = categoryFiltered.mapValues { (_, icons) ->
-                icons.filter { icon ->
-                    icon.name.contains(searchQuery, ignoreCase = true)
+            categoryFiltered
+                .mapValues { (_, icons) ->
+                    icons.filter { icon ->
+                        icon.name.contains(searchQuery, ignoreCase = true)
+                    }
                 }
-            }.filterValues { it.isNotEmpty() }
-            filtered.toGridItems()
+                .filterValues { it.isNotEmpty() }
+                .toGridItems()
         }
     }
 
@@ -181,9 +187,9 @@ class MaterialSymbolsViewModel : ViewModel() {
     }
 
     private inline fun updateSuccess(crossinline transform: (MaterialState.Success) -> MaterialState.Success) {
-        val current = _materialState.value
+        val current = materialRecord.value
         if (current is MaterialState.Success) {
-            _materialState.updateState { transform(current) }
+            materialRecord.value = transform(current)
         }
     }
 }
@@ -195,8 +201,11 @@ sealed interface MaterialEvent {
     ) : MaterialEvent
 }
 
+@Stable
 sealed interface MaterialState {
-    object Loading : MaterialState
+    data object Loading : MaterialState
+
+    @Stable
     data class Success(
         val config: MaterialConfig,
         val gridItems: List<MaterialGridItem> = emptyList(),

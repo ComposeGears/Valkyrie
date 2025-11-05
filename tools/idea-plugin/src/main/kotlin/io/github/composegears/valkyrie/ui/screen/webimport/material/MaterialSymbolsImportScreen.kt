@@ -46,11 +46,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
+import com.composegears.tiamat.compose.saveableViewModel
 import dev.tclement.fonticons.ExperimentalFontIconsApi
 import dev.tclement.fonticons.FontIcon
 import dev.tclement.fonticons.IconFont
@@ -87,7 +87,7 @@ val MaterialSymbolsImportScreen by navDestination {
     val navController = navController()
     val parentNavController = navController.parent
 
-    val viewModel = viewModel { MaterialSymbolsViewModel() }
+    val viewModel = saveableViewModel { MaterialSymbolsViewModel(savedState = it) }
     val state by viewModel.materialState.collectAsState()
 
     LaunchedEffect(Unit) {
