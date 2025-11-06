@@ -1,6 +1,6 @@
 # Plugin Changelog
 
-[Unreleased]
+## [0.18.0](https://github.com/ComposeGears/Valkyrie/releases/tag/0.18.0) - 2025-11-06
 
 ### Added
 
