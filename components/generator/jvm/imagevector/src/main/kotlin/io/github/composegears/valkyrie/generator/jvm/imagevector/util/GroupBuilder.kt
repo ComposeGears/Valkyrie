@@ -18,8 +18,8 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.ScaleYParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.TranslationXParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.TranslationYParam
-import io.github.composegears.valkyrie.ir.IrPathNode
-import io.github.composegears.valkyrie.ir.IrVectorNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 
 context(config: ImageVectorSpecConfig)
 internal fun CodeBlock.Builder.addGroup(

@@ -22,7 +22,7 @@ public final class io/github/composegears/valkyrie/generator/jvm/imagevector/Ful
 
 public final class io/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGenerator {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGenerator;
-	public final fun convert (Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorSpecOutput;
+	public final fun convert (Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorSpecOutput;
 }
 
 public final class io/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig {

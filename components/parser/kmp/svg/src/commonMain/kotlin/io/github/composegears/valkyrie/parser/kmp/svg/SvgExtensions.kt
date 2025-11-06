@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.parser.kmp.svg
 
-import io.github.composegears.valkyrie.ir.IrPathFillType
-import io.github.composegears.valkyrie.ir.IrStrokeLineCap
-import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 
 internal fun SVG.Child.getSVGStrokeWithDefaults(): SVGStroke = SVGStroke(
     color = strokeColor?.let { SvgColorParser.parse(it) },

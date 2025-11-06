@@ -22,8 +22,6 @@ repositories {
 dependencies {
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
-    implementation(projects.components.irXml)
-    implementation(projects.components.irCompose)
     implementation(projects.components.parser.unified)
     implementation(projects.components.psi.iconpack)
     implementation(projects.components.psi.imagevector)
@@ -33,6 +31,10 @@ dependencies {
     implementation(projects.compose.ui)
     implementation(projects.compose.util)
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.ir.core)
+    implementation(projects.sdk.ir.compose)
+    implementation(projects.sdk.ir.util)
+    implementation(projects.sdk.ir.xml)
     implementation(projects.shared)
 
     compileOnly(compose.desktop.currentOs) {

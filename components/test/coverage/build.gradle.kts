@@ -10,7 +10,6 @@ dependencies {
     kover(projects.components.generator.jvm.poetExtensions)
     kover(projects.components.generator.iconpack)
     kover(projects.components.generator.jvm.imagevector)
-    kover(projects.components.ir)
     kover(projects.components.parser.common)
     kover(projects.components.parser.jvm.svg)
     kover(projects.components.parser.jvm.xml)
@@ -18,4 +17,8 @@ dependencies {
     kover(projects.components.parser.unified)
     kover(projects.components.psi.iconpack)
     kover(projects.components.psi.imagevector)
+    kover(projects.sdk.ir.compose)
+    kover(projects.sdk.ir.core)
+    kover(projects.sdk.ir.util)
+    kover(projects.sdk.ir.xml)
 }

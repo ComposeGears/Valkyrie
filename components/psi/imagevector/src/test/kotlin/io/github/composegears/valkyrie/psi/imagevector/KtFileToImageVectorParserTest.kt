@@ -5,7 +5,6 @@ import assertk.assertions.isEqualTo
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.ProjectExtension
 import com.intellij.testFramework.runInEdtAndGet
-import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
 import io.github.composegears.valkyrie.psi.imagevector.common.ParseType
 import io.github.composegears.valkyrie.psi.imagevector.common.createKtFile
 import io.github.composegears.valkyrie.psi.imagevector.common.toKtFile
@@ -24,6 +23,7 @@ import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterial
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIconWithoutParam
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedSinglePath
+import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedClass

@@ -1,15 +1,6 @@
 package io.github.composegears.valkyrie.parser.common
 
-import io.github.composegears.valkyrie.ir.IrPathNode
-import io.github.composegears.valkyrie.ir.util.toPathNodes
-import kotlin.Boolean
-import kotlin.Char
-import kotlin.FloatArray
-import kotlin.IllegalArgumentException
-import kotlin.Int
-import kotlin.NumberFormatException
-import kotlin.String
-import kotlin.Throws
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 import kotlin.math.min
 
 /**

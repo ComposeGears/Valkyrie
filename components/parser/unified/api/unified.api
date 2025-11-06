@@ -32,16 +32,16 @@ public final class io/github/composegears/valkyrie/parser/unified/ext/StringKt {
 }
 
 public final class io/github/composegears/valkyrie/parser/unified/model/IconParserOutput {
-	public fun <init> (Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;)V
+	public fun <init> (Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;Ljava/lang/String;)V
 	public final fun component1 ()Lio/github/composegears/valkyrie/parser/unified/model/IconType;
-	public final fun component2 ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public final fun component2 ()Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;
 	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
-	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/ir/IrImageVector;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
+	public final fun copy (Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;Lio/github/composegears/valkyrie/parser/unified/model/IconType;Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIconName ()Ljava/lang/String;
 	public final fun getIconType ()Lio/github/composegears/valkyrie/parser/unified/model/IconType;
-	public final fun getIrImageVector ()Lio/github/composegears/valkyrie/ir/IrImageVector;
+	public final fun getIrImageVector ()Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

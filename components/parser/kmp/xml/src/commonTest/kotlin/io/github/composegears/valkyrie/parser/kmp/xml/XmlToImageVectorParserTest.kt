@@ -1,13 +1,13 @@
 package io.github.composegears.valkyrie.parser.kmp.xml
 
-import io.github.composegears.valkyrie.ir.IrColor
-import io.github.composegears.valkyrie.ir.IrFill
-import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.ir.IrPathFillType
-import io.github.composegears.valkyrie.ir.IrStroke
-import io.github.composegears.valkyrie.ir.IrStrokeLineCap
-import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
-import io.github.composegears.valkyrie.ir.IrVectorNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrFill
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
+import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
+import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails

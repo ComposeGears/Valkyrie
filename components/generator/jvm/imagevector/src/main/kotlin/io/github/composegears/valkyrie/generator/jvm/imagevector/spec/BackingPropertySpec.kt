@@ -14,7 +14,7 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpec
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.ClassNames
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.backingPropertyName
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.backingPropertySpec
-import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
 internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
 

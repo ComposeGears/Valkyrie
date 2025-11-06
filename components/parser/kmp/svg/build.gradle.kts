@@ -7,7 +7,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.components.ir)
+            implementation(projects.sdk.ir.core)
             implementation(projects.components.parser.common)
             implementation(libs.xmlutil)
         }

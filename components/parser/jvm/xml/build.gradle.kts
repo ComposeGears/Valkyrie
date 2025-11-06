@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.components.ir)
     implementation(projects.components.parser.common)
+    implementation(projects.sdk.ir.core)
     implementation(libs.xpp3)
 }
 

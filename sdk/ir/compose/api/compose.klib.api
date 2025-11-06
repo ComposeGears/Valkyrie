@@ -1,0 +1,9 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.ir:compose>
+final fun (io.github.composegears.valkyrie.sdk.ir.core/IrImageVector).io.github.composegears.valkyrie.sdk.ir.compose/toComposeImageVector(androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ...): androidx.compose.ui.graphics.vector/ImageVector // io.github.composegears.valkyrie.sdk.ir.compose/toComposeImageVector|toComposeImageVector@io.github.composegears.valkyrie.sdk.ir.core.IrImageVector(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp){}[0]

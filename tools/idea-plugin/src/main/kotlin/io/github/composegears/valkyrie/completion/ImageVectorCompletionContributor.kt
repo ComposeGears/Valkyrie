@@ -8,11 +8,11 @@ import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.codeInsight.lookup.LookupElementPresentation
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
-import io.github.composegears.valkyrie.ir.util.aspectRatio
-import io.github.composegears.valkyrie.ir.util.dominantShadeColor
-import io.github.composegears.valkyrie.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.ir.util.aspectRatio
+import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
+import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
 import javax.swing.Icon
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtProperty

@@ -1,0 +1,14 @@
+public final class io/github/composegears/valkyrie/sdk/ir/util/IrExtensionKt {
+	public static final fun getAspectRatio (Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;)F
+	public static final fun getDominantShadeColor (Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;)Lio/github/composegears/valkyrie/sdk/ir/util/internal/DominantShade;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/util/internal/DominantShade : java/lang/Enum {
+	public static final field Black Lio/github/composegears/valkyrie/sdk/ir/util/internal/DominantShade;
+	public static final field Mixed Lio/github/composegears/valkyrie/sdk/ir/util/internal/DominantShade;
+	public static final field White Lio/github/composegears/valkyrie/sdk/ir/util/internal/DominantShade;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/ir/util/internal/DominantShade;
+	public static fun values ()[Lio/github/composegears/valkyrie/sdk/ir/util/internal/DominantShade;
+}
+

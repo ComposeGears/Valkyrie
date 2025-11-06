@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.parser.kmp.xml
 
-import io.github.composegears.valkyrie.ir.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 
 private const val ANDROID_COLOR_PREFIX = "@android:color/"
 

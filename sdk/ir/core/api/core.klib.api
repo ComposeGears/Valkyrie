@@ -1,0 +1,643 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.ir:core>
+final enum class io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType : kotlin/Enum<io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType> { // io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType|null[0]
+    enum entry EvenOdd // io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType.EvenOdd|null[0]
+    enum entry NonZero // io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType.NonZero|null[0]
+
+    final val entries // io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType> // io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType // io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType> // io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType.values|values#static(){}[0]
+}
+
+final enum class io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap : kotlin/Enum<io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap> { // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap|null[0]
+    enum entry Butt // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap.Butt|null[0]
+    enum entry Round // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap.Round|null[0]
+    enum entry Square // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap.Square|null[0]
+
+    final val entries // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap> // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap> // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap.values|values#static(){}[0]
+}
+
+final enum class io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin : kotlin/Enum<io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin> { // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin|null[0]
+    enum entry Bevel // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin.Bevel|null[0]
+    enum entry Miter // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin.Miter|null[0]
+    enum entry Round // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin.Round|null[0]
+
+    final val entries // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin> // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin> // io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin.values|values#static(){}[0]
+}
+
+sealed interface io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill|null[0]
+    final class Color : io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color|null[0]
+        constructor <init>(io.github.composegears.valkyrie.sdk.ir.core/IrColor) // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.<init>|<init>(io.github.composegears.valkyrie.sdk.ir.core.IrColor){}[0]
+
+        final val irColor // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.irColor|{}irColor[0]
+            final fun <get-irColor>(): io.github.composegears.valkyrie.sdk.ir.core/IrColor // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.irColor.<get-irColor>|<get-irColor>(){}[0]
+
+        final fun component1(): io.github.composegears.valkyrie.sdk.ir.core/IrColor // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.component1|component1(){}[0]
+        final fun copy(io.github.composegears.valkyrie.sdk.ir.core/IrColor = ...): io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.copy|copy(io.github.composegears.valkyrie.sdk.ir.core.IrColor){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.toString|toString(){}[0]
+    }
+
+    final class ColorStop { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop|null[0]
+        constructor <init>(kotlin/Float, io.github.composegears.valkyrie.sdk.ir.core/IrColor) // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.<init>|<init>(kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrColor){}[0]
+
+        final val irColor // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.irColor|{}irColor[0]
+            final fun <get-irColor>(): io.github.composegears.valkyrie.sdk.ir.core/IrColor // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.irColor.<get-irColor>|<get-irColor>(){}[0]
+        final val offset // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.offset|{}offset[0]
+            final fun <get-offset>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.offset.<get-offset>|<get-offset>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.component1|component1(){}[0]
+        final fun component2(): io.github.composegears.valkyrie.sdk.ir.core/IrColor // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.component2|component2(){}[0]
+        final fun copy(kotlin/Float = ..., io.github.composegears.valkyrie.sdk.ir.core/IrColor = ...): io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.copy|copy(kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrColor){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.toString|toString(){}[0]
+    }
+
+    final class LinearGradient : io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> = ...) // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrFill.ColorStop>){}[0]
+
+        final val colorStops // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.colorStops|{}colorStops[0]
+            final fun <get-colorStops>(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.colorStops.<get-colorStops>|<get-colorStops>(){}[0]
+        final val endX // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.endX|{}endX[0]
+            final fun <get-endX>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.endX.<get-endX>|<get-endX>(){}[0]
+        final val endY // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.endY|{}endY[0]
+            final fun <get-endY>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.endY.<get-endY>|<get-endY>(){}[0]
+        final val startX // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.startX|{}startX[0]
+            final fun <get-startX>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.startX.<get-startX>|<get-startX>(){}[0]
+        final val startY // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.startY|{}startY[0]
+            final fun <get-startY>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.startY.<get-startY>|<get-startY>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.component4|component4(){}[0]
+        final fun component5(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.component5|component5(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> = ...): io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrFill.ColorStop>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.toString|toString(){}[0]
+    }
+
+    final class RadialGradient : io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> = ...) // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrFill.ColorStop>){}[0]
+
+        final val centerX // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.centerX|{}centerX[0]
+            final fun <get-centerX>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.centerX.<get-centerX>|<get-centerX>(){}[0]
+        final val centerY // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.centerY|{}centerY[0]
+            final fun <get-centerY>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.centerY.<get-centerY>|<get-centerY>(){}[0]
+        final val colorStops // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.colorStops|{}colorStops[0]
+            final fun <get-colorStops>(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.colorStops.<get-colorStops>|<get-colorStops>(){}[0]
+        final val radius // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.radius|{}radius[0]
+            final fun <get-radius>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.radius.<get-radius>|<get-radius>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.component3|component3(){}[0]
+        final fun component4(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.component4|component4(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> = ...): io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrFill.ColorStop>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.toString|toString(){}[0]
+    }
+}
+
+sealed interface io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode|null[0]
+    final class ArcTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Boolean, kotlin/Boolean, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Float){}[0]
+
+        final val arcStartX // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.arcStartX|{}arcStartX[0]
+            final fun <get-arcStartX>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.arcStartX.<get-arcStartX>|<get-arcStartX>(){}[0]
+        final val arcStartY // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.arcStartY|{}arcStartY[0]
+            final fun <get-arcStartY>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.arcStartY.<get-arcStartY>|<get-arcStartY>(){}[0]
+        final val horizontalEllipseRadius // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.horizontalEllipseRadius|{}horizontalEllipseRadius[0]
+            final fun <get-horizontalEllipseRadius>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.horizontalEllipseRadius.<get-horizontalEllipseRadius>|<get-horizontalEllipseRadius>(){}[0]
+        final val isMoreThanHalf // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.isMoreThanHalf|{}isMoreThanHalf[0]
+            final fun <get-isMoreThanHalf>(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.isMoreThanHalf.<get-isMoreThanHalf>|<get-isMoreThanHalf>(){}[0]
+        final val isPositiveArc // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.isPositiveArc|{}isPositiveArc[0]
+            final fun <get-isPositiveArc>(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.isPositiveArc.<get-isPositiveArc>|<get-isPositiveArc>(){}[0]
+        final val theta // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.theta|{}theta[0]
+            final fun <get-theta>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.theta.<get-theta>|<get-theta>(){}[0]
+        final val verticalEllipseRadius // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.verticalEllipseRadius|{}verticalEllipseRadius[0]
+            final fun <get-verticalEllipseRadius>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.verticalEllipseRadius.<get-verticalEllipseRadius>|<get-verticalEllipseRadius>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.component4|component4(){}[0]
+        final fun component5(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.component5|component5(){}[0]
+        final fun component6(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.component6|component6(){}[0]
+        final fun component7(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.component7|component7(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ArcTo.toString|toString(){}[0]
+    }
+
+    final class CurveTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+
+        final val x1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.x1|{}x1[0]
+            final fun <get-x1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.x1.<get-x1>|<get-x1>(){}[0]
+        final val x2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.x2|{}x2[0]
+            final fun <get-x2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.x2.<get-x2>|<get-x2>(){}[0]
+        final val x3 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.x3|{}x3[0]
+            final fun <get-x3>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.x3.<get-x3>|<get-x3>(){}[0]
+        final val y1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.y1|{}y1[0]
+            final fun <get-y1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.y1.<get-y1>|<get-y1>(){}[0]
+        final val y2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.y2|{}y2[0]
+            final fun <get-y2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.y2.<get-y2>|<get-y2>(){}[0]
+        final val y3 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.y3|{}y3[0]
+            final fun <get-y3>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.y3.<get-y3>|<get-y3>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.component4|component4(){}[0]
+        final fun component5(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.component5|component5(){}[0]
+        final fun component6(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.component6|component6(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.CurveTo.toString|toString(){}[0]
+    }
+
+    final class HorizontalTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo|null[0]
+        constructor <init>(kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.<init>|<init>(kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.x.<get-x>|<get-x>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.component1|component1(){}[0]
+        final fun copy(kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.copy|copy(kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.HorizontalTo.toString|toString(){}[0]
+    }
+
+    final class LineTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.<init>|<init>(kotlin.Float;kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.x.<get-x>|<get-x>(){}[0]
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.component2|component2(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.copy|copy(kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.LineTo.toString|toString(){}[0]
+    }
+
+    final class MoveTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.<init>|<init>(kotlin.Float;kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.x.<get-x>|<get-x>(){}[0]
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.component2|component2(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.copy|copy(kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.MoveTo.toString|toString(){}[0]
+    }
+
+    final class QuadTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+
+        final val x1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.x1|{}x1[0]
+            final fun <get-x1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.x1.<get-x1>|<get-x1>(){}[0]
+        final val x2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.x2|{}x2[0]
+            final fun <get-x2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.x2.<get-x2>|<get-x2>(){}[0]
+        final val y1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.y1|{}y1[0]
+            final fun <get-y1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.y1.<get-y1>|<get-y1>(){}[0]
+        final val y2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.y2|{}y2[0]
+            final fun <get-y2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.y2.<get-y2>|<get-y2>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.component4|component4(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.QuadTo.toString|toString(){}[0]
+    }
+
+    final class ReflectiveCurveTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+
+        final val x1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.x1|{}x1[0]
+            final fun <get-x1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.x1.<get-x1>|<get-x1>(){}[0]
+        final val x2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.x2|{}x2[0]
+            final fun <get-x2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.x2.<get-x2>|<get-x2>(){}[0]
+        final val y1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.y1|{}y1[0]
+            final fun <get-y1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.y1.<get-y1>|<get-y1>(){}[0]
+        final val y2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.y2|{}y2[0]
+            final fun <get-y2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.y2.<get-y2>|<get-y2>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.component4|component4(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveCurveTo.toString|toString(){}[0]
+    }
+
+    final class ReflectiveQuadTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.<init>|<init>(kotlin.Float;kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.x.<get-x>|<get-x>(){}[0]
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.component2|component2(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.copy|copy(kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.ReflectiveQuadTo.toString|toString(){}[0]
+    }
+
+    final class RelativeArcTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Boolean, kotlin/Boolean, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Float){}[0]
+
+        final val arcStartDx // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.arcStartDx|{}arcStartDx[0]
+            final fun <get-arcStartDx>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.arcStartDx.<get-arcStartDx>|<get-arcStartDx>(){}[0]
+        final val arcStartDy // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.arcStartDy|{}arcStartDy[0]
+            final fun <get-arcStartDy>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.arcStartDy.<get-arcStartDy>|<get-arcStartDy>(){}[0]
+        final val horizontalEllipseRadius // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.horizontalEllipseRadius|{}horizontalEllipseRadius[0]
+            final fun <get-horizontalEllipseRadius>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.horizontalEllipseRadius.<get-horizontalEllipseRadius>|<get-horizontalEllipseRadius>(){}[0]
+        final val isMoreThanHalf // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.isMoreThanHalf|{}isMoreThanHalf[0]
+            final fun <get-isMoreThanHalf>(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.isMoreThanHalf.<get-isMoreThanHalf>|<get-isMoreThanHalf>(){}[0]
+        final val isPositiveArc // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.isPositiveArc|{}isPositiveArc[0]
+            final fun <get-isPositiveArc>(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.isPositiveArc.<get-isPositiveArc>|<get-isPositiveArc>(){}[0]
+        final val theta // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.theta|{}theta[0]
+            final fun <get-theta>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.theta.<get-theta>|<get-theta>(){}[0]
+        final val verticalEllipseRadius // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.verticalEllipseRadius|{}verticalEllipseRadius[0]
+            final fun <get-verticalEllipseRadius>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.verticalEllipseRadius.<get-verticalEllipseRadius>|<get-verticalEllipseRadius>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.component4|component4(){}[0]
+        final fun component5(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.component5|component5(){}[0]
+        final fun component6(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.component6|component6(){}[0]
+        final fun component7(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.component7|component7(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeArcTo.toString|toString(){}[0]
+    }
+
+    final class RelativeCurveTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+
+        final val dx1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dx1|{}dx1[0]
+            final fun <get-dx1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dx1.<get-dx1>|<get-dx1>(){}[0]
+        final val dx2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dx2|{}dx2[0]
+            final fun <get-dx2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dx2.<get-dx2>|<get-dx2>(){}[0]
+        final val dx3 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dx3|{}dx3[0]
+            final fun <get-dx3>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dx3.<get-dx3>|<get-dx3>(){}[0]
+        final val dy1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dy1|{}dy1[0]
+            final fun <get-dy1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dy1.<get-dy1>|<get-dy1>(){}[0]
+        final val dy2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dy2|{}dy2[0]
+            final fun <get-dy2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dy2.<get-dy2>|<get-dy2>(){}[0]
+        final val dy3 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dy3|{}dy3[0]
+            final fun <get-dy3>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.dy3.<get-dy3>|<get-dy3>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.component4|component4(){}[0]
+        final fun component5(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.component5|component5(){}[0]
+        final fun component6(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.component6|component6(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeCurveTo.toString|toString(){}[0]
+    }
+
+    final class RelativeHorizontalTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo|null[0]
+        constructor <init>(kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.<init>|<init>(kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.x.<get-x>|<get-x>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.component1|component1(){}[0]
+        final fun copy(kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.copy|copy(kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeHorizontalTo.toString|toString(){}[0]
+    }
+
+    final class RelativeLineTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.<init>|<init>(kotlin.Float;kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.x.<get-x>|<get-x>(){}[0]
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.component2|component2(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.copy|copy(kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeLineTo.toString|toString(){}[0]
+    }
+
+    final class RelativeMoveTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.<init>|<init>(kotlin.Float;kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.x.<get-x>|<get-x>(){}[0]
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.component2|component2(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.copy|copy(kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeMoveTo.toString|toString(){}[0]
+    }
+
+    final class RelativeQuadTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+
+        final val x1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.x1|{}x1[0]
+            final fun <get-x1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.x1.<get-x1>|<get-x1>(){}[0]
+        final val x2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.x2|{}x2[0]
+            final fun <get-x2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.x2.<get-x2>|<get-x2>(){}[0]
+        final val y1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.y1|{}y1[0]
+            final fun <get-y1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.y1.<get-y1>|<get-y1>(){}[0]
+        final val y2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.y2|{}y2[0]
+            final fun <get-y2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.y2.<get-y2>|<get-y2>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.component4|component4(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeQuadTo.toString|toString(){}[0]
+    }
+
+    final class RelativeReflectiveCurveTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+
+        final val x1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.x1|{}x1[0]
+            final fun <get-x1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.x1.<get-x1>|<get-x1>(){}[0]
+        final val x2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.x2|{}x2[0]
+            final fun <get-x2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.x2.<get-x2>|<get-x2>(){}[0]
+        final val y1 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.y1|{}y1[0]
+            final fun <get-y1>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.y1.<get-y1>|<get-y1>(){}[0]
+        final val y2 // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.y2|{}y2[0]
+            final fun <get-y2>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.y2.<get-y2>|<get-y2>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.component4|component4(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.copy|copy(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveCurveTo.toString|toString(){}[0]
+    }
+
+    final class RelativeReflectiveQuadTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo|null[0]
+        constructor <init>(kotlin/Float, kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.<init>|<init>(kotlin.Float;kotlin.Float){}[0]
+
+        final val x // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.x|{}x[0]
+            final fun <get-x>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.x.<get-x>|<get-x>(){}[0]
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.component2|component2(){}[0]
+        final fun copy(kotlin/Float = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.copy|copy(kotlin.Float;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeReflectiveQuadTo.toString|toString(){}[0]
+    }
+
+    final class RelativeVerticalTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo|null[0]
+        constructor <init>(kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.<init>|<init>(kotlin.Float){}[0]
+
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.component1|component1(){}[0]
+        final fun copy(kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.copy|copy(kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.RelativeVerticalTo.toString|toString(){}[0]
+    }
+
+    final class VerticalTo : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo|null[0]
+        constructor <init>(kotlin/Float) // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.<init>|<init>(kotlin.Float){}[0]
+
+        final val y // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.y|{}y[0]
+            final fun <get-y>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.y.<get-y>|<get-y>(){}[0]
+
+        final fun component1(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.component1|component1(){}[0]
+        final fun copy(kotlin/Float = ...): io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.copy|copy(kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.VerticalTo.toString|toString(){}[0]
+    }
+
+    final object Close : io.github.composegears.valkyrie.sdk.ir.core/IrPathNode { // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.Close|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.Close.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.Close.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrPathNode.Close.toString|toString(){}[0]
+    }
+}
+
+sealed interface io.github.composegears.valkyrie.sdk.ir.core/IrStroke { // io.github.composegears.valkyrie.sdk.ir.core/IrStroke|null[0]
+    final class Color : io.github.composegears.valkyrie.sdk.ir.core/IrStroke { // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color|null[0]
+        constructor <init>(io.github.composegears.valkyrie.sdk.ir.core/IrColor) // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.<init>|<init>(io.github.composegears.valkyrie.sdk.ir.core.IrColor){}[0]
+
+        final val irColor // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.irColor|{}irColor[0]
+            final fun <get-irColor>(): io.github.composegears.valkyrie.sdk.ir.core/IrColor // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.irColor.<get-irColor>|<get-irColor>(){}[0]
+
+        final fun component1(): io.github.composegears.valkyrie.sdk.ir.core/IrColor // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.component1|component1(){}[0]
+        final fun copy(io.github.composegears.valkyrie.sdk.ir.core/IrColor = ...): io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.copy|copy(io.github.composegears.valkyrie.sdk.ir.core.IrColor){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrStroke.Color.toString|toString(){}[0]
+    }
+}
+
+sealed interface io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode { // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode|null[0]
+    final class IrGroup : io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode { // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup|null[0]
+        constructor <init>(kotlin/String = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode>, kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode>) // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.<init>|<init>(kotlin.String;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrPathNode>;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode>){}[0]
+
+        final val clipPathData // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.clipPathData|{}clipPathData[0]
+            final fun <get-clipPathData>(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.clipPathData.<get-clipPathData>|<get-clipPathData>(){}[0]
+        final val name // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.name|{}name[0]
+            final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.name.<get-name>|<get-name>(){}[0]
+        final val nodes // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.nodes|{}nodes[0]
+            final fun <get-nodes>(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode> // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.nodes.<get-nodes>|<get-nodes>(){}[0]
+        final val pivotX // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.pivotX|{}pivotX[0]
+            final fun <get-pivotX>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.pivotX.<get-pivotX>|<get-pivotX>(){}[0]
+        final val pivotY // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.pivotY|{}pivotY[0]
+            final fun <get-pivotY>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.pivotY.<get-pivotY>|<get-pivotY>(){}[0]
+        final val rotate // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.rotate|{}rotate[0]
+            final fun <get-rotate>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.rotate.<get-rotate>|<get-rotate>(){}[0]
+        final val scaleX // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.scaleX|{}scaleX[0]
+            final fun <get-scaleX>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.scaleX.<get-scaleX>|<get-scaleX>(){}[0]
+        final val scaleY // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.scaleY|{}scaleY[0]
+            final fun <get-scaleY>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.scaleY.<get-scaleY>|<get-scaleY>(){}[0]
+        final val translationX // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.translationX|{}translationX[0]
+            final fun <get-translationX>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.translationX.<get-translationX>|<get-translationX>(){}[0]
+        final val translationY // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.translationY|{}translationY[0]
+            final fun <get-translationY>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.translationY.<get-translationY>|<get-translationY>(){}[0]
+
+        final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component1|component1(){}[0]
+        final fun component10(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode> // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component10|component10(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component4|component4(){}[0]
+        final fun component5(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component5|component5(){}[0]
+        final fun component6(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component6|component6(){}[0]
+        final fun component7(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component7|component7(){}[0]
+        final fun component8(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component8|component8(){}[0]
+        final fun component9(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.component9|component9(){}[0]
+        final fun copy(kotlin/String = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> = ..., kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode> = ...): io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.copy|copy(kotlin.String;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrPathNode>;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrGroup.toString|toString(){}[0]
+    }
+
+    final class IrPath : io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode { // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath|null[0]
+        constructor <init>(kotlin/String = ..., io.github.composegears.valkyrie.sdk.ir.core/IrFill? = ..., kotlin/Float = ..., io.github.composegears.valkyrie.sdk.ir.core/IrStroke? = ..., kotlin/Float = ..., kotlin/Float = ..., io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap = ..., io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin = ..., kotlin/Float = ..., io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType = ..., kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode>) // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.<init>|<init>(kotlin.String;io.github.composegears.valkyrie.sdk.ir.core.IrFill?;kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrStroke?;kotlin.Float;kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap;io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin;kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType;kotlin.collections.List<io.github.composegears.valkyrie.sdk.ir.core.IrPathNode>){}[0]
+
+        final val fill // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.fill|{}fill[0]
+            final fun <get-fill>(): io.github.composegears.valkyrie.sdk.ir.core/IrFill? // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.fill.<get-fill>|<get-fill>(){}[0]
+        final val fillAlpha // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.fillAlpha|{}fillAlpha[0]
+            final fun <get-fillAlpha>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.fillAlpha.<get-fillAlpha>|<get-fillAlpha>(){}[0]
+        final val name // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.name|{}name[0]
+            final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.name.<get-name>|<get-name>(){}[0]
+        final val pathFillType // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.pathFillType|{}pathFillType[0]
+            final fun <get-pathFillType>(): io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.pathFillType.<get-pathFillType>|<get-pathFillType>(){}[0]
+        final val paths // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.paths|{}paths[0]
+            final fun <get-paths>(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.paths.<get-paths>|<get-paths>(){}[0]
+        final val stroke // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.stroke|{}stroke[0]
+            final fun <get-stroke>(): io.github.composegears.valkyrie.sdk.ir.core/IrStroke? // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.stroke.<get-stroke>|<get-stroke>(){}[0]
+        final val strokeAlpha // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeAlpha|{}strokeAlpha[0]
+            final fun <get-strokeAlpha>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeAlpha.<get-strokeAlpha>|<get-strokeAlpha>(){}[0]
+        final val strokeLineCap // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineCap|{}strokeLineCap[0]
+            final fun <get-strokeLineCap>(): io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineCap.<get-strokeLineCap>|<get-strokeLineCap>(){}[0]
+        final val strokeLineJoin // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineJoin|{}strokeLineJoin[0]
+            final fun <get-strokeLineJoin>(): io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineJoin.<get-strokeLineJoin>|<get-strokeLineJoin>(){}[0]
+        final val strokeLineMiter // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineMiter|{}strokeLineMiter[0]
+            final fun <get-strokeLineMiter>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineMiter.<get-strokeLineMiter>|<get-strokeLineMiter>(){}[0]
+        final val strokeLineWidth // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineWidth|{}strokeLineWidth[0]
+            final fun <get-strokeLineWidth>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.strokeLineWidth.<get-strokeLineWidth>|<get-strokeLineWidth>(){}[0]
+
+        final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component1|component1(){}[0]
+        final fun component10(): io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component10|component10(){}[0]
+        final fun component11(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component11|component11(){}[0]
+        final fun component2(): io.github.composegears.valkyrie.sdk.ir.core/IrFill? // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component2|component2(){}[0]
+        final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component3|component3(){}[0]
+        final fun component4(): io.github.composegears.valkyrie.sdk.ir.core/IrStroke? // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component4|component4(){}[0]
+        final fun component5(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component5|component5(){}[0]
+        final fun component6(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component6|component6(){}[0]
+        final fun component7(): io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component7|component7(){}[0]
+        final fun component8(): io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component8|component8(){}[0]
+        final fun component9(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.component9|component9(){}[0]
+        final fun copy(kotlin/String = ..., io.github.composegears.valkyrie.sdk.ir.core/IrFill? = ..., kotlin/Float = ..., io.github.composegears.valkyrie.sdk.ir.core/IrStroke? = ..., kotlin/Float = ..., kotlin/Float = ..., io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineCap = ..., io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin = ..., kotlin/Float = ..., io.github.composegears.valkyrie.sdk.ir.core/IrPathFillType = ..., kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> = ...): io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.copy|copy(kotlin.String;io.github.composegears.valkyrie.sdk.ir.core.IrFill?;kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrStroke?;kotlin.Float;kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap;io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin;kotlin.Float;io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType;kotlin.collections.List<io.github.composegears.valkyrie.sdk.ir.core.IrPathNode>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode.IrPath.toString|toString(){}[0]
+    }
+}
+
+final class io.github.composegears.valkyrie.sdk.ir.core/IrImageVector { // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector|null[0]
+    constructor <init>(kotlin/String = ..., kotlin/Boolean = ..., kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode>) // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.<init>|<init>(kotlin.String;kotlin.Boolean;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.List<io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode>){}[0]
+
+    final val autoMirror // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.autoMirror|{}autoMirror[0]
+        final fun <get-autoMirror>(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.autoMirror.<get-autoMirror>|<get-autoMirror>(){}[0]
+    final val defaultHeight // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.defaultHeight|{}defaultHeight[0]
+        final fun <get-defaultHeight>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.defaultHeight.<get-defaultHeight>|<get-defaultHeight>(){}[0]
+    final val defaultWidth // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.defaultWidth|{}defaultWidth[0]
+        final fun <get-defaultWidth>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.defaultWidth.<get-defaultWidth>|<get-defaultWidth>(){}[0]
+    final val name // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.name|{}name[0]
+        final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.name.<get-name>|<get-name>(){}[0]
+    final val nodes // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.nodes|{}nodes[0]
+        final fun <get-nodes>(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode> // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.nodes.<get-nodes>|<get-nodes>(){}[0]
+    final val viewportHeight // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.viewportHeight|{}viewportHeight[0]
+        final fun <get-viewportHeight>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.viewportHeight.<get-viewportHeight>|<get-viewportHeight>(){}[0]
+    final val viewportWidth // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.viewportWidth|{}viewportWidth[0]
+        final fun <get-viewportWidth>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.viewportWidth.<get-viewportWidth>|<get-viewportWidth>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.component1|component1(){}[0]
+    final fun component2(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.component2|component2(){}[0]
+    final fun component3(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.component3|component3(){}[0]
+    final fun component4(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.component4|component4(){}[0]
+    final fun component5(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.component5|component5(){}[0]
+    final fun component6(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.component6|component6(){}[0]
+    final fun component7(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode> // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.component7|component7(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/Boolean = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrVectorNode> = ...): io.github.composegears.valkyrie.sdk.ir.core/IrImageVector // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.copy|copy(kotlin.String;kotlin.Boolean;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.List<io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrImageVector.toString|toString(){}[0]
+}
+
+final value class io.github.composegears.valkyrie.sdk.ir.core/IrColor { // io.github.composegears.valkyrie.sdk.ir.core/IrColor|null[0]
+    constructor <init>(kotlin/Int) // io.github.composegears.valkyrie.sdk.ir.core/IrColor.<init>|<init>(kotlin.Int){}[0]
+    constructor <init>(kotlin/Long) // io.github.composegears.valkyrie.sdk.ir.core/IrColor.<init>|<init>(kotlin.Long){}[0]
+    constructor <init>(kotlin/String) // io.github.composegears.valkyrie.sdk.ir.core/IrColor.<init>|<init>(kotlin.String){}[0]
+
+    final val alpha // io.github.composegears.valkyrie.sdk.ir.core/IrColor.alpha|{}alpha[0]
+        final fun <get-alpha>(): kotlin/UByte // io.github.composegears.valkyrie.sdk.ir.core/IrColor.alpha.<get-alpha>|<get-alpha>(){}[0]
+    final val argb // io.github.composegears.valkyrie.sdk.ir.core/IrColor.argb|{}argb[0]
+        final fun <get-argb>(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrColor.argb.<get-argb>|<get-argb>(){}[0]
+    final val blue // io.github.composegears.valkyrie.sdk.ir.core/IrColor.blue|{}blue[0]
+        final fun <get-blue>(): kotlin/UByte // io.github.composegears.valkyrie.sdk.ir.core/IrColor.blue.<get-blue>|<get-blue>(){}[0]
+    final val green // io.github.composegears.valkyrie.sdk.ir.core/IrColor.green|{}green[0]
+        final fun <get-green>(): kotlin/UByte // io.github.composegears.valkyrie.sdk.ir.core/IrColor.green.<get-green>|<get-green>(){}[0]
+    final val red // io.github.composegears.valkyrie.sdk.ir.core/IrColor.red|{}red[0]
+        final fun <get-red>(): kotlin/UByte // io.github.composegears.valkyrie.sdk.ir.core/IrColor.red.<get-red>|<get-red>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrColor.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.ir.core/IrColor.hashCode|hashCode(){}[0]
+    final fun isTransparent(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.ir.core/IrColor.isTransparent|isTransparent(){}[0]
+    final fun toHexColor(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrColor.toHexColor|toHexColor(){}[0]
+    final fun toHexLiteral(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrColor.toHexLiteral|toHexLiteral(){}[0]
+    final fun toName(): kotlin/String? // io.github.composegears.valkyrie.sdk.ir.core/IrColor.toName|toName(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrColor.toString|toString(){}[0]
+
+    final object Companion { // io.github.composegears.valkyrie.sdk.ir.core/IrColor.Companion|null[0]
+        final val nameToArgb // io.github.composegears.valkyrie.sdk.ir.core/IrColor.Companion.nameToArgb|{}nameToArgb[0]
+            final fun <get-nameToArgb>(): kotlin.collections/Map<kotlin/String, io.github.composegears.valkyrie.sdk.ir.core/IrColor> // io.github.composegears.valkyrie.sdk.ir.core/IrColor.Companion.nameToArgb.<get-nameToArgb>|<get-nameToArgb>(){}[0]
+    }
+}

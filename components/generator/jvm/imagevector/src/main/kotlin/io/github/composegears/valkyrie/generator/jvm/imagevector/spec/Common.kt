@@ -9,8 +9,8 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.util.addPath
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.iconPreviewSpec
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.iconPreviewSpecForNestedPack
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.imageVectorBuilderSpecs
-import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.ir.IrVectorNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 
 internal fun ImageVectorSpecConfig.resolvePackageName(): String = when {
     iconNestedPack.isEmpty() -> iconPackage

@@ -1,14 +1,13 @@
 package io.github.composegears.valkyrie.util
 
-import io.github.composegears.valkyrie.ir.IrColor
-import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.ir.IrPathNode
-import io.github.composegears.valkyrie.ir.IrStroke
-import io.github.composegears.valkyrie.ir.IrStrokeLineCap
-import io.github.composegears.valkyrie.ir.IrVectorNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
+import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 
 val IR_STUB = IrImageVector(
-    name = "",
     defaultWidth = 16.0f,
     defaultHeight = 16.0f,
     viewportWidth = 16.0f,

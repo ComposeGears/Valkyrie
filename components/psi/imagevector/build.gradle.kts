@@ -21,13 +21,13 @@ configurations {
 }
 
 dependencies {
-    implementation(projects.components.ir)
+    implementation(projects.sdk.ir.core)
     implementation(projects.sdk.core.extensions)
 
     compileOnly(compose.runtime)
 
     testImplementation(compose.ui)
-    testImplementation(projects.components.irCompose)
+    testImplementation(projects.sdk.ir.compose)
     testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)

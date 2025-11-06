@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model
 
 import androidx.compose.runtime.Stable
-import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import java.nio.file.Path
 
 data class SimpleConversionState(

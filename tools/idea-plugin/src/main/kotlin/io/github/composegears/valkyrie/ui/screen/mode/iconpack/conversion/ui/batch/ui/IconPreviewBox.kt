@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.ir.compose.toComposeImageVector
-import io.github.composegears.valkyrie.ir.util.DominantShade
-import io.github.composegears.valkyrie.ir.util.dominantShadeColor
+import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
+import io.github.composegears.valkyrie.sdk.ir.util.internal.DominantShade
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground

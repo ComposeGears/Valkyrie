@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.parser.kmp.svg
 
-import io.github.composegears.valkyrie.ir.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 
 internal data class SVGStroke(
     val color: IrColor?,

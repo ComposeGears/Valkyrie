@@ -1,25 +1,25 @@
 package io.github.composegears.valkyrie.sdk.generator.xml.util
 
-import io.github.composegears.valkyrie.ir.IrPathNode
-import io.github.composegears.valkyrie.ir.IrPathNode.ArcTo
-import io.github.composegears.valkyrie.ir.IrPathNode.Close
-import io.github.composegears.valkyrie.ir.IrPathNode.CurveTo
-import io.github.composegears.valkyrie.ir.IrPathNode.HorizontalTo
-import io.github.composegears.valkyrie.ir.IrPathNode.LineTo
-import io.github.composegears.valkyrie.ir.IrPathNode.MoveTo
-import io.github.composegears.valkyrie.ir.IrPathNode.QuadTo
-import io.github.composegears.valkyrie.ir.IrPathNode.ReflectiveCurveTo
-import io.github.composegears.valkyrie.ir.IrPathNode.ReflectiveQuadTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeArcTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeCurveTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeHorizontalTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeLineTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeMoveTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeQuadTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeReflectiveCurveTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeReflectiveQuadTo
-import io.github.composegears.valkyrie.ir.IrPathNode.RelativeVerticalTo
-import io.github.composegears.valkyrie.ir.IrPathNode.VerticalTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.ArcTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.Close
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.CurveTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.HorizontalTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.LineTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.MoveTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.QuadTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.ReflectiveCurveTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.ReflectiveQuadTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeArcTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeCurveTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeHorizontalTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeLineTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeMoveTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeQuadTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeReflectiveCurveTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeReflectiveQuadTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeVerticalTo
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.VerticalTo
 
 /**
  * Extension function to convert a list of IrPathNodes to a complete path data string.

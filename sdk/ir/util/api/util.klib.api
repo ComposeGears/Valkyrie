@@ -1,0 +1,24 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.ir:util>
+final enum class io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade : kotlin/Enum<io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade> { // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade|null[0]
+    enum entry Black // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade.Black|null[0]
+    enum entry Mixed // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade.Mixed|null[0]
+    enum entry White // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade.White|null[0]
+
+    final val entries // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade> // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade> // io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade.values|values#static(){}[0]
+}
+
+final val io.github.composegears.valkyrie.sdk.ir.util/aspectRatio // io.github.composegears.valkyrie.sdk.ir.util/aspectRatio|@io.github.composegears.valkyrie.sdk.ir.core.IrImageVector{}aspectRatio[0]
+    final fun (io.github.composegears.valkyrie.sdk.ir.core/IrImageVector).<get-aspectRatio>(): kotlin/Float // io.github.composegears.valkyrie.sdk.ir.util/aspectRatio.<get-aspectRatio>|<get-aspectRatio>@io.github.composegears.valkyrie.sdk.ir.core.IrImageVector(){}[0]
+final val io.github.composegears.valkyrie.sdk.ir.util/dominantShadeColor // io.github.composegears.valkyrie.sdk.ir.util/dominantShadeColor|@io.github.composegears.valkyrie.sdk.ir.core.IrImageVector{}dominantShadeColor[0]
+    final fun (io.github.composegears.valkyrie.sdk.ir.core/IrImageVector).<get-dominantShadeColor>(): io.github.composegears.valkyrie.sdk.ir.util.internal/DominantShade // io.github.composegears.valkyrie.sdk.ir.util/dominantShadeColor.<get-dominantShadeColor>|<get-dominantShadeColor>@io.github.composegears.valkyrie.sdk.ir.core.IrImageVector(){}[0]
