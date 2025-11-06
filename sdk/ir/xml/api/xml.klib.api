@@ -1,0 +1,9 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.ir:xml>
+final fun (io.github.composegears.valkyrie.sdk.ir.core/IrImageVector).io.github.composegears.valkyrie.sdk.ir.xml/toVectorXmlString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.xml/toVectorXmlString|toVectorXmlString@io.github.composegears.valkyrie.sdk.ir.core.IrImageVector(){}[0]

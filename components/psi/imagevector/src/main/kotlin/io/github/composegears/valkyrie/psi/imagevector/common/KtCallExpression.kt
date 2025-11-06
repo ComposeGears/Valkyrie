@@ -1,12 +1,12 @@
 package io.github.composegears.valkyrie.psi.imagevector.common
 
-import io.github.composegears.valkyrie.ir.IrColor
-import io.github.composegears.valkyrie.ir.IrFill
-import io.github.composegears.valkyrie.ir.IrPathFillType
-import io.github.composegears.valkyrie.ir.IrStroke
-import io.github.composegears.valkyrie.ir.IrStrokeLineCap
-import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrFill
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
+import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 import org.jetbrains.kotlin.psi.KtCallExpression
 
 internal fun KtCallExpression.extractPathFillType(): IrPathFillType {

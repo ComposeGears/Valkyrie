@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.parser.kmp.xml
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.ir.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import kotlin.test.Test
 
 class AndroidColorParserTest {

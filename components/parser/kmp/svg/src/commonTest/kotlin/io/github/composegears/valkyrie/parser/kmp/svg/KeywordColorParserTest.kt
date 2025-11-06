@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.parser.kmp.svg
 
 import assertk.assertThat
 import assertk.assertions.isNull
-import io.github.composegears.valkyrie.ir.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

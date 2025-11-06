@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.psi.imagevector
 
-import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.psi.imagevector.parser.MaterialImageVectorPsiParser
 import io.github.composegears.valkyrie.psi.imagevector.parser.RegularImageVectorPsiParser
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtImportList
 

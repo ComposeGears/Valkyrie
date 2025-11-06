@@ -1,0 +1,511 @@
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrColor {
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/ir/core/IrColor$Companion;
+	public static final synthetic fun box-impl (I)Lio/github/composegears/valkyrie/sdk/ir/core/IrColor;
+	public static fun constructor-impl (I)I
+	public static fun constructor-impl (J)I
+	public static fun constructor-impl (Ljava/lang/String;)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public static final fun getAlpha-w2LRezQ (I)B
+	public final fun getArgb ()I
+	public static final fun getBlue-w2LRezQ (I)B
+	public static final fun getGreen-w2LRezQ (I)B
+	public static final fun getRed-w2LRezQ (I)B
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public static final fun isTransparent-impl (I)Z
+	public static final fun toHexColor-impl (I)Ljava/lang/String;
+	public static final fun toHexLiteral-impl (I)Ljava/lang/String;
+	public static final fun toName-impl (I)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrColor$Companion {
+	public final fun getNameToArgb ()Ljava/util/Map;
+}
+
+public abstract interface class io/github/composegears/valkyrie/sdk/ir/core/IrFill {
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrFill$Color : io/github/composegears/valkyrie/sdk/ir/core/IrFill {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-kfogdgo ()I
+	public final fun copy-s3Xa9Yg (I)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$Color;
+	public static synthetic fun copy-s3Xa9Yg$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$Color;IILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$Color;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIrColor-kfogdgo ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrFill$ColorStop {
+	public synthetic fun <init> (FILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()F
+	public final fun component2-kfogdgo ()I
+	public final fun copy-eN2YgT4 (FI)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$ColorStop;
+	public static synthetic fun copy-eN2YgT4$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$ColorStop;FIILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$ColorStop;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIrColor-kfogdgo ()I
+	public final fun getOffset ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrFill$LinearGradient : io/github/composegears/valkyrie/sdk/ir/core/IrFill {
+	public fun <init> (FFFFLjava/util/List;)V
+	public synthetic fun <init> (FFFFLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()Ljava/util/List;
+	public final fun copy (FFFFLjava/util/List;)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$LinearGradient;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$LinearGradient;FFFFLjava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$LinearGradient;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColorStops ()Ljava/util/List;
+	public final fun getEndX ()F
+	public final fun getEndY ()F
+	public final fun getStartX ()F
+	public final fun getStartY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrFill$RadialGradient : io/github/composegears/valkyrie/sdk/ir/core/IrFill {
+	public fun <init> (FFFLjava/util/List;)V
+	public synthetic fun <init> (FFFLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (FFFLjava/util/List;)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$RadialGradient;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$RadialGradient;FFFLjava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrFill$RadialGradient;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCenterX ()F
+	public final fun getCenterY ()F
+	public final fun getColorStops ()Ljava/util/List;
+	public final fun getRadius ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrImageVector {
+	public fun <init> (Ljava/lang/String;ZFFFFLjava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;ZFFFFLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun component7 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;ZFFFFLjava/util/List;)Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;Ljava/lang/String;ZFFFFLjava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAutoMirror ()Z
+	public final fun getDefaultHeight ()F
+	public final fun getDefaultWidth ()F
+	public final fun getName ()Ljava/lang/String;
+	public final fun getNodes ()Ljava/util/List;
+	public final fun getViewportHeight ()F
+	public final fun getViewportWidth ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathFillType : java/lang/Enum {
+	public static final field EvenOdd Lio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;
+	public static final field NonZero Lio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;
+	public static fun values ()[Lio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;
+}
+
+public abstract interface class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ArcTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFZZFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()Z
+	public final fun component5 ()Z
+	public final fun component6 ()F
+	public final fun component7 ()F
+	public final fun copy (FFFZZFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ArcTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ArcTo;FFFZZFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ArcTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArcStartX ()F
+	public final fun getArcStartY ()F
+	public final fun getHorizontalEllipseRadius ()F
+	public final fun getTheta ()F
+	public final fun getVerticalEllipseRadius ()F
+	public fun hashCode ()I
+	public final fun isMoreThanHalf ()Z
+	public final fun isPositiveArc ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$Close : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$Close;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$CurveTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFFFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun copy (FFFFFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$CurveTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$CurveTo;FFFFFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$CurveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX1 ()F
+	public final fun getX2 ()F
+	public final fun getX3 ()F
+	public final fun getY1 ()F
+	public final fun getY2 ()F
+	public final fun getY3 ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$HorizontalTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (F)V
+	public final fun component1 ()F
+	public final fun copy (F)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$HorizontalTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$HorizontalTo;FILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$HorizontalTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$LineTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun copy (FF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$LineTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$LineTo;FFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$LineTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$MoveTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun copy (FF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$MoveTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$MoveTo;FFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$MoveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$QuadTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun copy (FFFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$QuadTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$QuadTo;FFFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$QuadTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX1 ()F
+	public final fun getX2 ()F
+	public final fun getY1 ()F
+	public final fun getY2 ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveCurveTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun copy (FFFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveCurveTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveCurveTo;FFFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveCurveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX1 ()F
+	public final fun getX2 ()F
+	public final fun getY1 ()F
+	public final fun getY2 ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveQuadTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun copy (FF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveQuadTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveQuadTo;FFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$ReflectiveQuadTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeArcTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFZZFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()Z
+	public final fun component5 ()Z
+	public final fun component6 ()F
+	public final fun component7 ()F
+	public final fun copy (FFFZZFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeArcTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeArcTo;FFFZZFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeArcTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArcStartDx ()F
+	public final fun getArcStartDy ()F
+	public final fun getHorizontalEllipseRadius ()F
+	public final fun getTheta ()F
+	public final fun getVerticalEllipseRadius ()F
+	public fun hashCode ()I
+	public final fun isMoreThanHalf ()Z
+	public final fun isPositiveArc ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeCurveTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFFFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun copy (FFFFFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeCurveTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeCurveTo;FFFFFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeCurveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDx1 ()F
+	public final fun getDx2 ()F
+	public final fun getDx3 ()F
+	public final fun getDy1 ()F
+	public final fun getDy2 ()F
+	public final fun getDy3 ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeHorizontalTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (F)V
+	public final fun component1 ()F
+	public final fun copy (F)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeHorizontalTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeHorizontalTo;FILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeHorizontalTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeLineTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun copy (FF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeLineTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeLineTo;FFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeLineTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeMoveTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun copy (FF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeMoveTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeMoveTo;FFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeMoveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeQuadTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun copy (FFFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeQuadTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeQuadTo;FFFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeQuadTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX1 ()F
+	public final fun getX2 ()F
+	public final fun getY1 ()F
+	public final fun getY2 ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveCurveTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FFFF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun copy (FFFF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveCurveTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveCurveTo;FFFFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveCurveTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX1 ()F
+	public final fun getX2 ()F
+	public final fun getY1 ()F
+	public final fun getY2 ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveQuadTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (FF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun copy (FF)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveQuadTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveQuadTo;FFILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeReflectiveQuadTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeVerticalTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (F)V
+	public final fun component1 ()F
+	public final fun copy (F)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeVerticalTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeVerticalTo;FILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$RelativeVerticalTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrPathNode$VerticalTo : io/github/composegears/valkyrie/sdk/ir/core/IrPathNode {
+	public fun <init> (F)V
+	public final fun component1 ()F
+	public final fun copy (F)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$VerticalTo;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$VerticalTo;FILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode$VerticalTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/composegears/valkyrie/sdk/ir/core/IrStroke {
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrStroke$Color : io/github/composegears/valkyrie/sdk/ir/core/IrStroke {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-kfogdgo ()I
+	public final fun copy-s3Xa9Yg (I)Lio/github/composegears/valkyrie/sdk/ir/core/IrStroke$Color;
+	public static synthetic fun copy-s3Xa9Yg$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrStroke$Color;IILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrStroke$Color;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIrColor-kfogdgo ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap : java/lang/Enum {
+	public static final field Butt Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;
+	public static final field Round Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;
+	public static final field Square Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;
+	public static fun values ()[Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin : java/lang/Enum {
+	public static final field Bevel Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;
+	public static final field Miter Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;
+	public static final field Round Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;
+	public static fun values ()[Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;
+}
+
+public abstract interface class io/github/composegears/valkyrie/sdk/ir/core/IrVectorNode {
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrGroup : io/github/composegears/valkyrie/sdk/ir/core/IrVectorNode {
+	public fun <init> (Ljava/lang/String;FFFFFFFLjava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;FFFFFFFLjava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Ljava/util/List;
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun component7 ()F
+	public final fun component8 ()F
+	public final fun component9 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;FFFFFFFLjava/util/List;Ljava/util/List;)Lio/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrGroup;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrGroup;Ljava/lang/String;FFFFFFFLjava/util/List;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrGroup;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClipPathData ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getNodes ()Ljava/util/List;
+	public final fun getPivotX ()F
+	public final fun getPivotY ()F
+	public final fun getRotate ()F
+	public final fun getScaleX ()F
+	public final fun getScaleY ()F
+	public final fun getTranslationX ()F
+	public final fun getTranslationY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrPath : io/github/composegears/valkyrie/sdk/ir/core/IrVectorNode {
+	public fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/ir/core/IrFill;FLio/github/composegears/valkyrie/sdk/ir/core/IrStroke;FFLio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;FLio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/ir/core/IrFill;FLio/github/composegears/valkyrie/sdk/ir/core/IrStroke;FFLio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;FLio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Lio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;
+	public final fun component11 ()Ljava/util/List;
+	public final fun component2 ()Lio/github/composegears/valkyrie/sdk/ir/core/IrFill;
+	public final fun component3 ()F
+	public final fun component4 ()Lio/github/composegears/valkyrie/sdk/ir/core/IrStroke;
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun component7 ()Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;
+	public final fun component8 ()Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;
+	public final fun component9 ()F
+	public final fun copy (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/ir/core/IrFill;FLio/github/composegears/valkyrie/sdk/ir/core/IrStroke;FFLio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;FLio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;Ljava/util/List;)Lio/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrPath;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrPath;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/ir/core/IrFill;FLio/github/composegears/valkyrie/sdk/ir/core/IrStroke;FFLio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;FLio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/ir/core/IrVectorNode$IrPath;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFill ()Lio/github/composegears/valkyrie/sdk/ir/core/IrFill;
+	public final fun getFillAlpha ()F
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPathFillType ()Lio/github/composegears/valkyrie/sdk/ir/core/IrPathFillType;
+	public final fun getPaths ()Ljava/util/List;
+	public final fun getStroke ()Lio/github/composegears/valkyrie/sdk/ir/core/IrStroke;
+	public final fun getStrokeAlpha ()F
+	public final fun getStrokeLineCap ()Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineCap;
+	public final fun getStrokeLineJoin ()Lio/github/composegears/valkyrie/sdk/ir/core/IrStrokeLineJoin;
+	public final fun getStrokeLineMiter ()F
+	public final fun getStrokeLineWidth ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

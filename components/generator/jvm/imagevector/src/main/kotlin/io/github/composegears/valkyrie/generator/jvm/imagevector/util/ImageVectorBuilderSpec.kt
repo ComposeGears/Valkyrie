@@ -8,7 +8,7 @@ import io.github.composegears.valkyrie.generator.core.trimTrailingZero
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
-import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
 context(config: ImageVectorSpecConfig)
 internal fun imageVectorBuilderSpecs(

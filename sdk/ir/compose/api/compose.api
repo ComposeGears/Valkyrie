@@ -1,0 +1,5 @@
+public final class io/github/composegears/valkyrie/sdk/ir/compose/IrToImageVectorKt {
+	public static final fun toComposeImageVector-VpY3zN4 (Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;FF)Landroidx/compose/ui/graphics/vector/ImageVector;
+	public static synthetic fun toComposeImageVector-VpY3zN4$default (Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;FFILjava/lang/Object;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+

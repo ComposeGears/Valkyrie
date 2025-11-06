@@ -7,5 +7,5 @@
 
 // Library unique name: <valkyrie.sdk.generator:xml>
 final object io.github.composegears.valkyrie.sdk.generator.xml/IrToXmlGenerator { // io.github.composegears.valkyrie.sdk.generator.xml/IrToXmlGenerator|null[0]
-    final fun generate(io.github.composegears.valkyrie.ir/IrImageVector): kotlin/String // io.github.composegears.valkyrie.sdk.generator.xml/IrToXmlGenerator.generate|generate(io.github.composegears.valkyrie.ir.IrImageVector){}[0]
+    final fun generate(io.github.composegears.valkyrie.sdk.ir.core/IrImageVector): kotlin/String // io.github.composegears.valkyrie.sdk.generator.xml/IrToXmlGenerator.generate|generate(io.github.composegears.valkyrie.sdk.ir.core.IrImageVector){}[0]
 }

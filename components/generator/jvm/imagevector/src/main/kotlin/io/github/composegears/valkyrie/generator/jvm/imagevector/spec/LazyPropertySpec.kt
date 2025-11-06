@@ -11,7 +11,7 @@ import io.github.composegears.valkyrie.generator.jvm.ext.setIndent
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecOutput
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.ClassNames
-import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
 internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
 

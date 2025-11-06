@@ -4,7 +4,7 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.Ba
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.BackingPropertySpec
 import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.LazyPropertySpec
-import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
 internal data class ImageVectorSpecConfig(
     val iconName: String,

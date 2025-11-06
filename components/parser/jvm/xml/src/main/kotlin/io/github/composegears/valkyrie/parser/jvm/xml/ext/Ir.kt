@@ -1,11 +1,11 @@
 package io.github.composegears.valkyrie.parser.jvm.xml.ext
 
-import io.github.composegears.valkyrie.ir.IrColor
-import io.github.composegears.valkyrie.ir.IrPathFillType
-import io.github.composegears.valkyrie.ir.IrPathNode
-import io.github.composegears.valkyrie.ir.IrStrokeLineCap
-import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
 import io.github.composegears.valkyrie.parser.common.PathParser
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 import org.xmlpull.v1.XmlPullParser
 
 internal fun XmlPullParser.valueAsPathData(): List<IrPathNode> {

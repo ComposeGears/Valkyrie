@@ -2,8 +2,6 @@ import java.nio.file.Paths
 import java.util.Properties
 import kotlin.io.path.exists
 import org.gradle.api.plugins.JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME
-import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
@@ -88,9 +86,9 @@ dependencies {
     compileOnly(libs.kotlin.gradle.plugin)
 
     api(projects.sdk.core.extensions)
+    api(projects.sdk.ir.core)
     api(projects.components.generator.iconpack)
     api(projects.components.generator.jvm.imagevector)
-    api(projects.components.ir)
     api(projects.components.parser.unified)
 
     testImplementation(libs.bundles.test)

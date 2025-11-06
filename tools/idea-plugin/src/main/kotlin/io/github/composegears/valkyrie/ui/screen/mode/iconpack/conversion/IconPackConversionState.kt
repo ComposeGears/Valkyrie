@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
-import io.github.composegears.valkyrie.ir.IrImageVector
 import io.github.composegears.valkyrie.parser.unified.model.IconType
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.util.extension.Uuid
 
 sealed interface IconPackConversionState {

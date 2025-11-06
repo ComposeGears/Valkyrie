@@ -3,8 +3,8 @@ package io.github.composegears.valkyrie.psi.imagevector
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
-import io.github.composegears.valkyrie.ir.IrColor
 import io.github.composegears.valkyrie.psi.imagevector.common.getIrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

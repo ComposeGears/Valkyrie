@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.generator.jvm.imagevector
 
-import io.github.composegears.valkyrie.ir.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
 data class ImageVectorGeneratorConfig(
     val packageName: String,

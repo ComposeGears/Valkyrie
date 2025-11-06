@@ -1,9 +1,5 @@
 package io.github.composegears.valkyrie.parser.jvm.xml
 
-import io.github.composegears.valkyrie.ir.IrFill
-import io.github.composegears.valkyrie.ir.IrImageVector
-import io.github.composegears.valkyrie.ir.IrStroke
-import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.dpValueAsFloat
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.isAtEnd
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.seekToStartTag
@@ -15,6 +11,10 @@ import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsPathData
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsString
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsStrokeCap
 import io.github.composegears.valkyrie.parser.jvm.xml.ext.valueAsStrokeLineJoin
+import io.github.composegears.valkyrie.sdk.ir.core.IrFill
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
+import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
+import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.END_TAG
 import org.xmlpull.v1.XmlPullParser.START_TAG

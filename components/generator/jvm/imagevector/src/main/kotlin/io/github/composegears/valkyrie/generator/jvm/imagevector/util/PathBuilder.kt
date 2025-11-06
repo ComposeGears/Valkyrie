@@ -18,14 +18,14 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.StrokeLineJoinParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.StrokeLineMiterParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.StrokeLineWidthParam
-import io.github.composegears.valkyrie.ir.IrColor
-import io.github.composegears.valkyrie.ir.IrFill
-import io.github.composegears.valkyrie.ir.IrPathFillType
-import io.github.composegears.valkyrie.ir.IrStroke
-import io.github.composegears.valkyrie.ir.IrStrokeLineCap
-import io.github.composegears.valkyrie.ir.IrStrokeLineJoin
-import io.github.composegears.valkyrie.ir.IrVectorNode
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.ir.core.IrColor
+import io.github.composegears.valkyrie.sdk.ir.core.IrFill
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
+import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
+import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
+import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 
 context(config: ImageVectorSpecConfig)
 internal fun CodeBlock.Builder.addPath(

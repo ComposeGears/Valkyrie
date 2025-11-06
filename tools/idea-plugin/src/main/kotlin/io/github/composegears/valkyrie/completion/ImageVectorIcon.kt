@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.completion
 import com.android.ide.common.vectordrawable.VdPreview
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.JBColor
-import io.github.composegears.valkyrie.ir.util.DominantShade
+import io.github.composegears.valkyrie.sdk.ir.util.internal.DominantShade
 import java.awt.Color
 import java.awt.Component
 import java.awt.Graphics
