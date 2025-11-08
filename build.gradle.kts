@@ -2,7 +2,6 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.intellij.platform.gradle.extensions.IntelliJPlatformDependenciesExtension
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.intellij.platform.gradle.plugins.project.IntelliJPlatformBasePlugin
-import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -40,7 +39,7 @@ allprojects {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
         dependencies {
             extensions.configure<IntelliJPlatformDependenciesExtension> {
-                intellijIdeaCommunity("2024.2")
+                intellijIdeaCommunity("2024.3")
                 bundledPlugin("org.jetbrains.kotlin")
             }
         }
