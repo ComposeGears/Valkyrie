@@ -40,12 +40,24 @@ dependencies {
     compileOnly(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
     }
-    implementation(compose.desktop.common)
-    implementation(compose.desktop.linux_arm64)
-    implementation(compose.desktop.linux_x64)
-    implementation(compose.desktop.macos_arm64)
-    implementation(compose.desktop.macos_x64)
-    implementation(compose.desktop.windows_x64)
+    implementation(compose.desktop.common) {
+        exclude(group = "org.jetbrains.compose.material")
+    }
+    implementation(compose.desktop.linux_arm64) {
+        exclude(group = "org.jetbrains.compose.material")
+    }
+    implementation(compose.desktop.linux_x64) {
+        exclude(group = "org.jetbrains.compose.material")
+    }
+    implementation(compose.desktop.macos_arm64) {
+        exclude(group = "org.jetbrains.compose.material")
+    }
+    implementation(compose.desktop.macos_x64) {
+        exclude(group = "org.jetbrains.compose.material")
+    }
+    implementation(compose.desktop.windows_x64) {
+        exclude(group = "org.jetbrains.compose.material")
+    }
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
