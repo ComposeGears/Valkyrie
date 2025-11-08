@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.tiamat)
 
     testImplementation(libs.bundles.kmp.test)
+    testImplementation(libs.junit4)
 
     intellijPlatform {
         zipSigner()
@@ -75,7 +76,7 @@ intellijPlatform {
     projectName = "valkyrie-plugin"
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "242"
+            sinceBuild = "243"
             untilBuild = provider { null }
         }
         changeNotes = provider { changelog.render(Changelog.OutputType.HTML) }
@@ -94,7 +95,7 @@ intellijPlatform {
         ides {
             create(
                 type = IntelliJPlatformType.IntellijIdeaCommunity,
-                version = "2024.2.4",
+                version = "2024.3.7",
             )
             create(
                 type = IntelliJPlatformType.IntellijIdeaCommunity,
