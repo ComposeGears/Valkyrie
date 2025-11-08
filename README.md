@@ -32,7 +32,8 @@ icons to ImageVector format, while also allowing for customization of the genera
 needs.
 
 > [!NOTE]
-> This project is especially relevant now as Material Icons is no longer maintained and not recommended for use in your apps.
+> This project is especially relevant now as Material Icons is no longer maintained and not recommended for use in your
+> apps.
 > [Learn more](https://developer.android.com/develop/ui/compose/graphics/images/material).
 
 ## Table of Contents
@@ -82,7 +83,7 @@ needs.
 
 - IntelliJ IDEA / Android Studio plugin
 - CLI tool
-- Gradle plugin 
+- Gradle plugin
 - Web app (🚧 coming soon 🚧)
 
 ## IDEA Plugin
@@ -199,13 +200,10 @@ opened in the editor with embedded previewer.
 
 ### Requirements
 
-- IntelliJ IDEA 2024.2+
-- Android Studio Ladybug+
-
-> [!IMPORTANT]
-> K2 mode is available starting from IntelliJ IDEA
->
-2024.2.1 ([more details](https://kotlin.github.io/analysis-api/migrating-from-k1.html#declaring-compatibility-with-the-k2-kotlin-mode))
+| Plugin version | Min IntelliJ IDEA / Android Studio           |
+|----------------|----------------------------------------------|
+| 0.1.0 - 0.14.0 | IntelliJ IDEA 2024.1, Android Studio Koala   |
+| 0.15.0+        | IntelliJ IDEA 2024.2, Android Studio Ladybug |
 
 ### Installation
 
