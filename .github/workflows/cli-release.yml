@@ -1,1 +1,78 @@
+name: CLI Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Prepare release information
+        run: |
+          VERSION_NAME=$(grep "^cli-version" gradle/cli.versions.toml | cut -d '"' -f 2)
+          RELEASE_TAG="cli-$VERSION_NAME"
+
+          # Determine if this is a snapshot version
+          IS_SNAPSHOT=false
+          [[ $VERSION_NAME == *-SNAPSHOT ]] && IS_SNAPSHOT=true
+
+          # Set pre-release flag based on snapshot status
+          PRE_RELEASE_FLAG=""
+          [[ $IS_SNAPSHOT == true ]] && PRE_RELEASE_FLAG="--prerelease"
+
+          echo "VERSION_NAME=$VERSION_NAME"
+          echo "RELEASE_TAG=$RELEASE_TAG"
+          echo "IS_SNAPSHOT=$IS_SNAPSHOT"
+          echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG"
+
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+          echo "IS_SNAPSHOT=$IS_SNAPSHOT" >> $GITHUB_ENV
+          echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG" >> $GITHUB_ENV
+
+      - name: Build CLI distribution
+        run: ./gradlew buildCLI
+
+      - name: Clean up existing release
+        run: |
+          gh release view ${{ env.RELEASE_TAG }} && gh release delete ${{ env.RELEASE_TAG }} -y --cleanup-tag
+
+      - name: Clean up previous snapshot release
+        if: env.IS_SNAPSHOT == 'false'
+        run: |
+          gh release view cli-${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete cli-${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag
+
+      - name: Create GitHub release
+        run: |
+          gh release create ${{ env.RELEASE_TAG }} tools/cli/build/distributions/*.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
+
+      - name: Update Homebrew formula
+        uses: mislav/bump-homebrew-formula-action@v3
+        if: env.IS_SNAPSHOT == 'false'
+        with:
+          formula-name: valkyrie
+          formula-path: Formula/valkyrie.rb
+          tag-name: ${{ env.RELEASE_TAG }}
+          homebrew-tap: ComposeGears/homebrew-repo
+          download-url: https://github.com/ComposeGears/Valkyrie/releases/download/${{ env.RELEASE_TAG }}/valkyrie-cli-${{ env.VERSION_NAME }}.zip
+          commit-message: |
+            Bump {{formulaName}} {{version}}
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
 
