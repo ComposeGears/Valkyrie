@@ -7,7 +7,7 @@ plugins {
 }
 
 val baseName = "valkyrie"
-val versionName = rootProject.providers.gradleProperty("VERSION_NAME").get()
+val versionName = cli.versions.cli.version.get()
 
 application {
     mainClass = "io.github.composegears.valkyrie.cli.MainKt"
@@ -90,12 +90,12 @@ dependencies {
     implementation(projects.sdk.core.extensions)
     implementation(projects.sdk.ir.core)
 
-    implementation(libs.clikt)
-    r8(libs.r8)
+    implementation(cli.clikt)
+    r8(cli.r8)
 
     testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testImplementation(libs.kotlin.test)
-    testImplementation(libs.mockk)
+    testImplementation(cli.mockk)
     testRuntimeOnly(libs.junit.launcher)
 }

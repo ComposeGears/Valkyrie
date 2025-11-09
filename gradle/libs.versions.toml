@@ -28,15 +28,11 @@ tiamat = "io.github.composegears:tiamat:2.1.0-1.8.2"
 xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
 
-clikt = "com.github.ajalt.clikt:clikt:5.0.3"
-r8 = "com.android.tools:r8:8.11.18"
-
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.0.1"
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit4 = "junit:junit:4.13.2"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-mockk = "io.mockk:mockk:1.14.6"
 
 semver = "net.swiftzer.semver:semver:2.1.0"
 
