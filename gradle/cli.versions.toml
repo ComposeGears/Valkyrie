@@ -1,0 +1,7 @@
+[versions]
+cli-version = "0.18.0"
+
+[libraries]
+clikt = "com.github.ajalt.clikt:clikt:5.0.3"
+mockk = "io.mockk:mockk:1.14.6"
+r8 = "com.android.tools:r8:8.11.18"

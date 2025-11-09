@@ -40,6 +40,12 @@ dependencyResolutionManagement {
         }
         mavenCentral()
         maven(url = file("m2"))
+
+        versionCatalogs {
+            create("cli") {
+                from(files("gradle/cli.versions.toml"))
+            }
+        }
     }
 }
 
