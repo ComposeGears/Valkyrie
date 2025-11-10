@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.0"
+agp = "8.13.1"
 compose = "1.8.2"
 intellij = "2.10.4"
 jacoco = "0.8.13"
