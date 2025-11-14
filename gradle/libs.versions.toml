@@ -48,17 +48,17 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kover-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
 [plugins]
+buildconfig = "com.github.gmazzo.buildconfig:5.7.1"
 compose-hot-reload = "org.jetbrains.compose.hot-reload:1.0.0-rc03"
+jetbrains-changelog = "org.jetbrains.changelog:2.4.0"
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
+jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-jetbrains-changelog = "org.jetbrains.changelog:2.4.0"
-jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
-jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
-jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
-buildConfig = "com.github.gmazzo.buildconfig:5.7.1"
 shadow = "com.gradleup.shadow:9.2.2"
 spotless = "com.diffplug.spotless:8.0.0"
 

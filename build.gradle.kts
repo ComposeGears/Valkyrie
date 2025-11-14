@@ -15,7 +15,7 @@ plugins {
     alias(libs.plugins.jetbrains.changelog) apply false
     alias(libs.plugins.jetbrains.intellij) apply false
     alias(libs.plugins.jetbrains.intellij.module) apply false
-    alias(libs.plugins.buildConfig) apply false
+    alias(libs.plugins.buildconfig) apply false
     alias(libs.plugins.shadow) apply false
     alias(libs.plugins.spotless) apply false
 }
