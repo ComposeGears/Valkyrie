@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.shadow)
     alias(libs.plugins.valkyrie.kover)
     alias(libs.plugins.valkyrie.abi)
+    `maven-publish`
+    signing
     application
 }
 
@@ -14,6 +16,10 @@ application {
     mainClass = "io.github.composegears.valkyrie.cli.MainKt"
     applicationName = "valkyrie"
     version = versionName
+}
+
+shadow {
+    addShadowVariantIntoJavaComponent = false
 }
 
 sourceSets {
@@ -42,6 +48,7 @@ tasks.withType<Jar>().configureEach {
 }
 
 tasks.shadowJar {
+    archiveClassifier = ""
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
@@ -53,7 +60,7 @@ val buildWithR8 by tasks.registering(JavaExec::class) {
     dependsOn(tasks.installShadowDist)
 
     val proguardRulesFile = layout.projectDirectory.file("proguard-rules.pro").asFile
-    val jar = layout.buildDirectory.file("install/valkyrie-shadow/lib/$baseName-$version-all.jar").map { it.asFile }
+    val jar = layout.buildDirectory.file("install/valkyrie-shadow/lib/$baseName-$version.jar").map { it.asFile }
 
     inputs.files(jar, proguardRulesFile)
     outputs.file(jar)
@@ -108,4 +115,56 @@ dependencies {
     testImplementation(libs.kotlin.test)
     testImplementation(cli.mockk)
     testRuntimeOnly(libs.junit.launcher)
+}
+
+// TODO: Migrate to gradle-maven-publish-plugin after https://github.com/vanniktech/gradle-maven-publish-plugin/issues/1123
+publishing {
+    publications {
+        create<MavenPublication>("shadow") {
+            groupId = "io.github.composegears.valkyrie"
+            artifactId = "valkyrie-cli"
+            version = versionName
+
+            from(components["shadow"])
+
+            pom {
+                name = "Valkyrie CLI"
+                description = "CLI tool for converting SVG/XML to Compose ImageVector and managing icon packs"
+                url = "https://github.com/composegears/valkyrie"
+
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:git://github.com/composegears/valkyrie.git"
+                    developerConnection = "scm:git:ssh://github.com:composegears/valkyrie.git"
+                    url = "https://github.com/composegears/valkyrie"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = uri("https://central.sonatype.com/publishing/deployments")
+
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    val signingKey = System.getenv("PGP_KEY")
+    val signingPassword = System.getenv("PGP_PASS")
+
+    if (signingKey != null && signingPassword != null) {
+        useInMemoryPgpKeys(signingKey.replace("|", "\n"), signingPassword)
+        sign(publishing.publications["shadow"])
+    }
 }
