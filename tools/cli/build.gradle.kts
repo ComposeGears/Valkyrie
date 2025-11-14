@@ -9,6 +9,11 @@ plugins {
     application
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 val baseName = "valkyrie"
 val versionName = cli.versions.cli.version.get()
 
@@ -126,11 +131,13 @@ publishing {
             version = versionName
 
             from(components["shadow"])
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["javadocJar"])
 
             pom {
                 name = "Valkyrie CLI"
                 description = "CLI tool for converting SVG/XML to Compose ImageVector and managing icon packs"
-                url = "https://github.com/composegears/valkyrie"
+                url = "https://github.com/ComposeGears/Valkyrie"
 
                 licenses {
                     license {
@@ -142,18 +149,16 @@ publishing {
                 scm {
                     connection = "scm:git:git://github.com/composegears/valkyrie.git"
                     developerConnection = "scm:git:ssh://github.com:composegears/valkyrie.git"
-                    url = "https://github.com/composegears/valkyrie"
+                    url = "https://github.com/ComposeGears/Valkyrie"
                 }
-            }
-        }
-    }
-    repositories {
-        maven {
-            url = uri("https://central.sonatype.com/publishing/deployments")
 
-            credentials {
-                username = System.getenv("OSSRH_USERNAME")
-                password = System.getenv("OSSRH_PASSWORD")
+                developers {
+                    developer {
+                        id = "composegears"
+                        name = "ComposeGears"
+                        url = "https://github.com/ComposeGears"
+                    }
+                }
             }
         }
     }

@@ -46,17 +46,8 @@ jobs:
           echo "IS_SNAPSHOT=$IS_SNAPSHOT" >> $GITHUB_ENV
           echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG" >> $GITHUB_ENV
 
-      #      - name: Build CLI distribution
-      #        run: ./gradlew buildCLI
-
-      - name: Publish to Maven Central
-        if: env.IS_SNAPSHOT == 'false'
-        run: ./gradlew :tools:cli:publish
-        env:
-          OSSRH_USERNAME: ${{ secrets.ORG_MAVEN_CENTRAL_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.ORG_MAVEN_CENTRAL_PASSWORD }}
-          PGP_KEY: ${{ secrets.PGP_KEY }}
-          PGP_PASS: ${{ secrets.PGP_PAS }}
+      - name: Build CLI distribution
+        run: ./gradlew buildCLI
 
       - name: Clean up existing release
         run: |
@@ -71,6 +62,15 @@ jobs:
         run: |
           gh release create ${{ env.RELEASE_TAG }} tools/cli/build/distributions/*.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
 
+      - name: Publish to Maven Central
+        if: env.IS_SNAPSHOT == 'false'
+        run: ./gradlew publishAggregationToCentralPortal
+        env:
+          OSSRH_USERNAME: ${{ secrets.ORG_MAVEN_CENTRAL_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.ORG_MAVEN_CENTRAL_PASSWORD }}
+          PGP_KEY: ${{ secrets.PGP_KEY }}
+          PGP_PASS: ${{ secrets.PGP_PAS }}
+
       - name: Update Homebrew formula
         uses: mislav/bump-homebrew-formula-action@v3
         if: env.IS_SNAPSHOT == 'false'
@@ -82,31 +82,3 @@ jobs:
           download-url: https://github.com/ComposeGears/Valkyrie/releases/download/${{ env.RELEASE_TAG }}/valkyrie-cli-${{ env.VERSION_NAME }}.zip
           commit-message: |
             Bump {{formulaName}} {{version}}
-
-#      - name: Clean up existing release
-#        run: |
-#          gh release view ${{ env.RELEASE_TAG }} && gh release delete ${{ env.RELEASE_TAG }} -y --cleanup-tag
-#
-#      - name: Clean up previous snapshot release
-#        if: env.IS_SNAPSHOT == 'false'
-#        run: |
-#          gh release view cli-${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete cli-${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag
-#
-#      - name: Create GitHub release
-#        run: |
-#          gh release create ${{ env.RELEASE_TAG }} tools/cli/build/distributions/*.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
-#
-#      - name: Update Homebrew formula
-#        uses: mislav/bump-homebrew-formula-action@v3
-#        if: env.IS_SNAPSHOT == 'false'
-#        with:
-#          formula-name: valkyrie
-#          formula-path: Formula/valkyrie.rb
-#          tag-name: ${{ env.RELEASE_TAG }}
-#          homebrew-tap: ComposeGears/homebrew-repo
-#          download-url: https://github.com/ComposeGears/Valkyrie/releases/download/${{ env.RELEASE_TAG }}/valkyrie-cli-${{ env.VERSION_NAME }}.zip
-#          commit-message: |
-#            Bump {{formulaName}} {{version}}
-#        env:
-#          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
-
