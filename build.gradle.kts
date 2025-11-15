@@ -15,9 +15,10 @@ plugins {
     alias(libs.plugins.jetbrains.changelog) apply false
     alias(libs.plugins.jetbrains.intellij) apply false
     alias(libs.plugins.jetbrains.intellij.module) apply false
-    alias(libs.plugins.buildConfig) apply false
+    alias(libs.plugins.buildconfig) apply false
     alias(libs.plugins.shadow) apply false
     alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.nmcp)
 }
 
 allprojects {
@@ -86,4 +87,15 @@ allprojects {
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
     }
+}
+
+nmcpAggregation {
+    centralPortal {
+        username = System.getenv("OSSRH_USERNAME")
+        password = System.getenv("OSSRH_PASSWORD")
+        publishingType = "USER_MANAGED"
+    }
+
+    // Publish all projects that apply the 'maven-publish' plugin
+    publishAllProjectsProbablyBreakingProjectIsolation()
 }

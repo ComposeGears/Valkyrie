@@ -62,6 +62,15 @@ jobs:
         run: |
           gh release create ${{ env.RELEASE_TAG }} tools/cli/build/distributions/*.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
 
+      - name: Publish to Maven Central
+        if: env.IS_SNAPSHOT == 'false'
+        run: ./gradlew publishAggregationToCentralPortal
+        env:
+          OSSRH_USERNAME: ${{ secrets.ORG_MAVEN_CENTRAL_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.ORG_MAVEN_CENTRAL_PASSWORD }}
+          PGP_KEY: ${{ secrets.PGP_KEY }}
+          PGP_PASS: ${{ secrets.PGP_PAS }}
+
       - name: Update Homebrew formula
         uses: mislav/bump-homebrew-formula-action@v3
         if: env.IS_SNAPSHOT == 'false'
