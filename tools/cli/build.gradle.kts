@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.buildConfig)
+    alias(libs.plugins.buildconfig)
     alias(libs.plugins.shadow)
     alias(libs.plugins.valkyrie.kover)
     application
