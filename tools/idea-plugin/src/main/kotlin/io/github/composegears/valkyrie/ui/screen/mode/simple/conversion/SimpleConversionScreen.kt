@@ -1,15 +1,11 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
@@ -18,18 +14,8 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.compose.codeviewer.KotlinCodeViewer
-import io.github.composegears.valkyrie.compose.core.animation.ExpandedAnimatedContent
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.CopyAction
-import io.github.composegears.valkyrie.ui.foundation.EditAction
-import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.PreviewAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
+import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.copyInClipboard
@@ -40,7 +26,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.Si
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction.OnIconNameChange
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.ExpandedActions
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.util.IR_STUB
@@ -102,62 +87,35 @@ private fun SimpleConversionContent(
     openSettings: () -> Unit,
     onAction: (SimpleConversionAction) -> Unit,
 ) {
-    var codePreview by rememberMutableState(state.iconContent.code) { state.iconContent.code }
-    var expandedAction by rememberMutableState { ExpandedActions.None }
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
-            BackAction(onBack = onBack)
-            AppBarTitle(title = "Simple conversion")
-            WeightSpacer()
-            EditAction(
-                onEdit = {
-                    expandedAction = when (expandedAction) {
-                        ExpandedActions.Edit -> ExpandedActions.None
-                        else -> ExpandedActions.Edit
-                    }
-                },
-                selected = expandedAction == ExpandedActions.Edit,
+    GenericConversionScreen(
+        title = "Simple conversion",
+        iconName = state.iconContent.name,
+        codeContent = state.iconContent.code,
+        irImageVector = state.iconContent.irImageVector,
+        onBack = onBack,
+        onIconNameChange = { onAction(OnIconNameChange(it)) },
+        onCopyCode = { onAction(OnCopyInClipboard(it)) },
+        onOpenSettings = openSettings,
+        editPanel = { name, onNameChange ->
+            EditActionContent(
+                iconName = name,
+                onNameChange = onNameChange,
             )
-            PreviewAction(
-                onPreview = {
-                    expandedAction = when (expandedAction) {
-                        ExpandedActions.Preview -> ExpandedActions.None
-                        else -> ExpandedActions.Preview
-                    }
-                },
-                selected = expandedAction == ExpandedActions.Preview,
+        },
+        previewPanel = { irImageVector ->
+            PreviewActionContent(
+                irImageVector = irImageVector,
+                previewType = previewType,
             )
-            CopyAction(onCopy = { onAction(OnCopyInClipboard(codePreview)) })
-            SettingsAction(openSettings = openSettings)
-        }
-        ExpandedAnimatedContent(
-            modifier = Modifier.fillMaxWidth(),
-            targetState = expandedAction,
-        ) { actions ->
-            when (actions) {
-                ExpandedActions.Edit -> {
-                    EditActionContent(
-                        iconName = state.iconContent.name,
-                        onNameChange = { onAction(OnIconNameChange(it)) },
-                    )
-                }
-                ExpandedActions.Preview -> PreviewActionContent(
-                    irImageVector = state.iconContent.irImageVector,
-                    previewType = previewType,
-                )
-                ExpandedActions.None -> Spacer(modifier = Modifier.fillMaxWidth())
-            }
-        }
-        HorizontalDivider()
-        KotlinCodeViewer(
-            modifier = Modifier.fillMaxSize(),
-            text = codePreview,
-            onChange = {
-                codePreview = it
-            },
-        )
-    }
+        },
+        codeViewer = { text, onChange ->
+            KotlinCodeViewer(
+                modifier = Modifier.fillMaxSize(),
+                text = text,
+                onChange = onChange,
+            )
+        },
+    )
 }
 
 @Preview
