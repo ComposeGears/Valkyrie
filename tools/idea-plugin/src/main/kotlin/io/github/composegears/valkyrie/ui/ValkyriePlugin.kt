@@ -27,6 +27,7 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
+import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
@@ -38,6 +39,8 @@ import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
+import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
@@ -98,6 +101,9 @@ fun ValkyriePlugin(
                 IconPackCreationScreen,
                 IconPackConversionScreen,
 
+                ImageVectorPickerScreen,
+                ImageVectorToXmlScreen,
+
                 CodePreviewScreen,
 
                 SettingsScreen,
@@ -130,6 +136,7 @@ private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     val screen = when (settings.mode) {
         Simple -> SimplePickerScreen
         IconPack -> IconPackConversionScreen
+        ImageVectorToXml -> ImageVectorPickerScreen
         Unspecified, Editor, WebImport -> IntroScreen
     }
 

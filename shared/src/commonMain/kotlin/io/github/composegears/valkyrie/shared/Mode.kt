@@ -5,5 +5,6 @@ enum class Mode {
     IconPack,
     Editor,
     WebImport,
+    ImageVectorToXml,
     Unspecified,
 }
