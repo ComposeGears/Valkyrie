@@ -16,6 +16,10 @@ application {
 }
 
 sourceSets {
+    main {
+        resources.srcDir("$projectDir")
+        resources.include("CHANGELOG.md")
+    }
     test {
         resources.srcDir("$rootDir/components/test/sharedTestResources")
     }
@@ -38,6 +42,10 @@ tasks.withType<Jar>().configureEach {
 
 tasks.shadowJar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.distTar {
+    enabled = false
 }
 
 val buildWithR8 by tasks.registering(JavaExec::class) {
