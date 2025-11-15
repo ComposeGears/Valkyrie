@@ -59,10 +59,10 @@ fun GenericConversionScreen(
     onIconNameChange: (String) -> Unit,
     onCopyCode: (String) -> Unit,
     onOpenSettings: () -> Unit,
-    modifier: Modifier = Modifier,
     editPanel: @Composable (iconName: String, onNameChange: (String) -> Unit) -> Unit,
     previewPanel: @Composable (irImageVector: IrImageVector) -> Unit,
     codeViewer: @Composable (text: String, onChange: (String) -> Unit) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var codePreview by rememberMutableState(codeContent) { codeContent }
     var expandedAction by rememberMutableState { ConversionExpandedAction.None }

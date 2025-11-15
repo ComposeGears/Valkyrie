@@ -38,12 +38,12 @@ val SimplePickerScreen by navDestination {
     GenericPickerScreen(
         title = "Simple conversion",
         onBack = navController::back,
-        onFilePicked = { path ->
+        onFilePick = { path ->
             coroutineScope.launch {
                 viewModel.onAction(OnDragAndDropPath(path))
             }
         },
-        onTextPasted = { text ->
+        onTextPaste = { text ->
             viewModel.onAction(OnPasteFromClipboard(text))
         },
         onBrowseClick = {

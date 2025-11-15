@@ -46,16 +46,16 @@ import java.nio.file.Path
  * @param description Optional description text to show below the drag & drop area
  * @param fileFilter Optional predicate to filter files during drag and drop
  * @param onBack Callback when back button is clicked
- * @param onFilePicked Callback when a file is selected via drag & drop or file picker
- * @param onTextPasted Callback when text is pasted from clipboard
+ * @param onFilePick Callback when a file is selected via drag & drop or file picker
+ * @param onTextPaste Callback when text is pasted from clipboard
  * @param onBrowseClick Callback when the user clicks to open the file picker
  */
 @Composable
 fun GenericPickerScreen(
     title: String,
     onBack: () -> Unit,
-    onFilePicked: (Path) -> Unit,
-    onTextPasted: (String) -> Unit,
+    onFilePick: (Path) -> Unit,
+    onTextPaste: (String) -> Unit,
     onBrowseClick: () -> Unit,
     modifier: Modifier = Modifier,
     description: String? = null,
@@ -68,9 +68,9 @@ fun GenericPickerScreen(
             when (dataType) {
                 is ClipboardDataType.Files -> {
                     val file = dataType.paths.firstOrNull { fileFilter(it) }
-                    file?.let(onFilePicked)
+                    file?.let(onFilePick)
                 }
-                is ClipboardDataType.Text -> onTextPasted(dataType.text)
+                is ClipboardDataType.Text -> onTextPaste(dataType.text)
             }
         },
     ) {
@@ -81,7 +81,7 @@ fun GenericPickerScreen(
         WeightSpacer(weight = 0.3f)
         PickerBox(
             description = description,
-            onDragAndDrop = onFilePicked,
+            onDragAndDrop = onFilePick,
             onBrowseClick = onBrowseClick,
             fileFilter = fileFilter,
         )
@@ -178,8 +178,8 @@ private fun GenericPickerScreenPreview() = PreviewTheme {
         title = "Simple conversion",
         description = "Drop SVG/XML file",
         onBack = {},
-        onFilePicked = {},
-        onTextPasted = {},
+        onFilePick = {},
+        onTextPaste = {},
         onBrowseClick = {},
     )
 }
