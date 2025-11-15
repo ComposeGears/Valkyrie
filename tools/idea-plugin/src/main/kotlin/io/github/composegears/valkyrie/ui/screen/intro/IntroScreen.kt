@@ -32,6 +32,7 @@ import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
+import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
@@ -42,6 +43,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
@@ -61,6 +63,7 @@ val IntroScreen: NavDestination<Unit> by navDestination {
                 IconPack -> navController.navigate(dest = IconPackCreationScreen)
                 Editor -> navController.navigate(dest = EditorSelectScreen)
                 WebImport -> navController.navigate(dest = WebImportFlow)
+                ImageVectorToXml -> navController.navigate(dest = ImageVectorPickerScreen)
                 Unspecified -> {}
             }
         },
@@ -126,6 +129,14 @@ private fun IntroScreenUI(
                 VerticalSpacer(24.dp)
                 HorizontalDivider(modifier = Modifier.fillMaxWidth(0.1f))
                 VerticalSpacer(24.dp)
+                InfoCard(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    onClick = { onModeChange(ImageVectorToXml) },
+                    icon = ValkyrieIcons.Outlined.Conversion,
+                    title = stringResource("intro.card.imagevectortoxml.title"),
+                    description = stringResource("intro.card.imagevectortoxml.description"),
+                )
+                VerticalSpacer(16.dp)
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(WebImport) },
