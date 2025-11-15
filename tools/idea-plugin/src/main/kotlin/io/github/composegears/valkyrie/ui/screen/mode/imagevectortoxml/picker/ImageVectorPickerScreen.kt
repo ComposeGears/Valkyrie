@@ -40,12 +40,12 @@ val ImageVectorPickerScreen by navDestination {
         description = stringResource("imagevectortoxml.picker.description"),
         fileFilter = { it.toString().endsWith(".kt") },
         onBack = navController::back,
-        onFilePicked = { path ->
+        onFilePick = { path ->
             coroutineScope.launch {
                 viewModel.onAction(ImageVectorPickerAction.OnDragAndDropPath(path))
             }
         },
-        onTextPasted = { text ->
+        onTextPaste = { text ->
             viewModel.onAction(ImageVectorPickerAction.OnPasteFromClipboard(text))
         },
         onBrowseClick = {
