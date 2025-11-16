@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.cli.command
 
 import assertk.assertThat
 import assertk.assertions.contains
-import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEmpty
 import com.github.ajalt.clikt.testing.test
 import kotlin.test.Test
@@ -13,8 +12,7 @@ class ChangelogCommandTest {
     fun `run should print CHANGELOG content`() {
         val result = ChangelogCommand().test()
 
-        val expectedChangelog = loadResourceText("CHANGELOG.md")
-        assertThat(result.output.trim()).isEqualTo(expectedChangelog.trim())
+        assertThat(result.output).contains("CLI Changelog")
     }
 
     @Test

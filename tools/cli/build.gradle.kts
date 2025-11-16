@@ -100,6 +100,7 @@ dependencies {
     implementation(projects.sdk.ir.core)
 
     implementation(cli.clikt)
+    implementation(cli.clikt.markdown)
     r8(cli.r8)
 
     testImplementation(projects.components.test.resourceLoader)
