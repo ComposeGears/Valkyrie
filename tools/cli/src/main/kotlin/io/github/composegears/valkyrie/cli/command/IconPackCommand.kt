@@ -63,7 +63,7 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
 
     override val printHelpOnEmptyArgs: Boolean = true
 
-    override fun help(context: Context): String = "A CLI tool to generate an IconPack object."
+    override fun help(context: Context): String = "A CLI tool to generate an IconPack object"
 
     override fun run() {
         generateIconPack(

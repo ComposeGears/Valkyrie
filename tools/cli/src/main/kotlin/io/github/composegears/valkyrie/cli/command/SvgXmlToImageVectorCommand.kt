@@ -126,7 +126,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
 
     override val printHelpOnEmptyArgs: Boolean = true
 
-    override fun help(context: Context): String = "A CLI tool to convert SVG/XML into Compose ImageVector."
+    override fun help(context: Context): String = "A CLI tool to convert SVG/XML into Compose ImageVector"
 
     override fun run() {
         svgXml2ImageVector(
