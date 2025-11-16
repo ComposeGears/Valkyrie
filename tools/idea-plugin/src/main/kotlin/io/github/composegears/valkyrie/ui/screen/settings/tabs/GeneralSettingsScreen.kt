@@ -46,6 +46,7 @@ import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.compose.util.disabled
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
+import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
@@ -130,6 +131,7 @@ private fun GeneralSettingsUi(
                     Simple -> "Simple"
                     IconPack -> "IconPack"
                     Editor -> "Editor"
+                    ImageVectorToXml -> "ImageVector to XML"
                     Unspecified, WebImport -> "Unspecified"
                 }
                 Text(
