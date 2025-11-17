@@ -1,6 +1,6 @@
 # CLI Changelog
 
-## [Unreleased]
+## [1.0.0] - 2025-11-17
 
 - Separate CLI versioning from plugin versioning
 - Add `changelog` command to print CLI changelog
