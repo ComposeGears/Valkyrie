@@ -1,5 +1,5 @@
 [versions]
-cli-version = "0.18.0"
+cli-version = "1.0.0-SNAPSHOT"
 
 clikt = "5.0.3"
 
