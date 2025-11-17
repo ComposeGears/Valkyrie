@@ -51,12 +51,12 @@ jobs:
 
       - name: Clean up existing release
         run: |
-          gh release view ${{ env.RELEASE_TAG }} && gh release delete ${{ env.RELEASE_TAG }} -y --cleanup-tag
+          gh release view ${{ env.RELEASE_TAG }} && gh release delete ${{ env.RELEASE_TAG }} -y --cleanup-tag || true
 
       - name: Clean up previous snapshot release
         if: env.IS_SNAPSHOT == 'false'
         run: |
-          gh release view cli-${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete cli-${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag
+          gh release view cli-${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete cli-${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag || true
 
       - name: Create GitHub release
         run: |
