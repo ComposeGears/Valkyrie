@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.shadow)
     alias(libs.plugins.valkyrie.kover)
+    alias(libs.plugins.valkyrie.abi)
     application
 }
 

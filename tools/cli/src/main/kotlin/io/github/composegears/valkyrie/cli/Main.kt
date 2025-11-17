@@ -12,7 +12,7 @@ fun main(vararg args: String) = ValkyrieCli()
     .versionOption(BuildConfig.VERSION_NAME, names = setOf("-v", "--version"))
     .main(args)
 
-class ValkyrieCli : CliktCommand(name = "valkyrie") {
+internal class ValkyrieCli : CliktCommand(name = "valkyrie") {
 
     override val printHelpOnEmptyArgs: Boolean = true
 
