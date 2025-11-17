@@ -1,0 +1,4 @@
+public final class io/github/composegears/valkyrie/cli/MainKt {
+	public static final fun main ([Ljava/lang/String;)V
+}
+
