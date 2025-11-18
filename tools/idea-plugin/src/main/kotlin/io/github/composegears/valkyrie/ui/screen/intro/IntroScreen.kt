@@ -28,6 +28,7 @@ import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.icons.outlined.Editor
 import io.github.composegears.valkyrie.compose.icons.outlined.FileImport
+import io.github.composegears.valkyrie.compose.icons.outlined.ReverseConversion
 import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.shared.Mode.Editor
@@ -132,7 +133,7 @@ private fun IntroScreenUI(
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(ImageVectorToXml) },
-                    icon = ValkyrieIcons.Outlined.Conversion,
+                    icon = ValkyrieIcons.Outlined.ReverseConversion,
                     title = stringResource("intro.card.imagevectortoxml.title"),
                     description = stringResource("intro.card.imagevectortoxml.description"),
                 )
