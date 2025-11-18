@@ -7,12 +7,16 @@
 <div align="center">
 
 [![Marketplace version][badge:marketplace-version]][url:plugin-homepage]
-[![GitHub releases][badge:gh-release]][url:gh-releases]
+[![Github plugin release][badge:idea-release]][url:gh-releases]
 [![Downloads][badge:marketplace-downloads]][url:plugin-homepage]
-![Coverage][badge:coverage]
+[![Rating][badge:marketplace-rating]][url:plugin-homepage]
+
+[![CLI release][badge:cli-release]][url:gh-releases]
+[![Homebrew][badge:homebrew]][url:homebrew]
 
 [![Telegram][badge:telegram-invite]][url:telegram-invite]
 [![Slack][badge:slack-invite]][url:slack-invite]
+![Test coverage][badge:coverage]
 [![License][badge:license]][url:gh-license]
 
 </div>
@@ -57,6 +61,7 @@ needs.
   - [Available commands](#available-commands)
     - [`iconpack` command](#iconpack-command)
     - [`svgxml2imagevector` command](#svgxml2imagevector-command)
+    - [`changelog` command](#changelog-command)
   - [Build](#build-cli)
 - [Other](#other)
   - [Export formats](#export-formats)
@@ -79,12 +84,12 @@ needs.
 - Ability to create your unique project icon pack (+nested packs if necessary)
 - High performance (6k icons processing ~5sec)
 
-### Currently supported:
+### Available tools:
 
-- IntelliJ IDEA / Android Studio plugin
-- CLI tool
-- Gradle plugin
-- Web app (🚧 coming soon 🚧)
+- [IntelliJ IDEA / Android Studio plugin](#idea-plugin)
+- [CLI tool](#cli-tool)
+- Gradle plugin (🚧 waiting to publish 🚧)
+- Web app (🚧 under development 🚧)
 
 ## IDEA Plugin
 
@@ -240,8 +245,8 @@ source with predefined settings.
 
 - #### via brew
 
-```shell
-  brew install ComposeGears/repo/valkyrie
+```bash
+brew install ComposeGears/repo/valkyrie
 ```
 
 - #### manually via binary release
@@ -250,8 +255,8 @@ Download latest CLI tool from [releases](https://github.com/ComposeGears/Valkyri
 
 Unzip the downloaded archive and run the CLI tool from `bin` folder in the terminal
 
-```shell
-  ./valkyrie
+```bash
+./valkyrie
 ```
 
 You should see this message
@@ -264,14 +269,14 @@ You should see this message
 A simple example of how to get the latest version of the CLI tool. It can be executed on CI/CD with predefined
 parameters.
 
-```shell
-
+```bash
 #!/bin/bash
 
+VERSION="cli-1.0.0"
 TARGET_DIR="valkyrie-cli"
 ASSET_NAME="tmp.zip"
 
-LATEST_CLI_RELEASE_URL=$(curl --silent "https://api.github.com/repos/ComposeGears/Valkyrie/releases/latest" \
+LATEST_CLI_RELEASE_URL=$(curl --silent "https://api.github.com/repos/ComposeGears/Valkyrie/releases/tags/$VERSION" \
   | jq -r '.assets[] | select(.name | startswith("valkyrie-cli")) | .browser_download_url')
 
 curl -L -o "$ASSET_NAME" "$LATEST_CLI_RELEASE_URL"
@@ -281,10 +286,10 @@ unzip -o "$ASSET_NAME" -d "$TARGET_DIR"
 rm "$ASSET_NAME"
 
 cd "$TARGET_DIR/bin" || exit
-./valkyrie svgxml2imagevector -h
+./valkyrie --version
 ```
 
-### Available commands
+### Available commands:
 
 #### `iconpack` command
 
@@ -292,8 +297,8 @@ A part of the CLI tool that allows you to create an icon pack with nested packs.
 
 Usage:
 
-```shell
-  ./valkyrie iconpack [<options>]
+```bash
+./valkyrie iconpack [<options>]
 ```
 
 <div align="center">
@@ -310,8 +315,8 @@ A part of the CLI tool that allows you to convert SVG/XML files to ImageVector.
 
 Usage:
 
-```shell
-  ./valkyrie svgxml2imagevector [<options>]
+```bash
+./valkyrie svgxml2imagevector [<options>]
 ```
 
 <div align="center">
@@ -321,6 +326,20 @@ Usage:
 Demo:
 
 https://github.com/user-attachments/assets/1e1d07bd-080f-4d39-8683-c1c30ef905e8
+
+#### `changelog` command
+
+Additional command to display embedded CLI changelog
+
+Usage:
+
+```bash
+./valkyrie changelog
+```
+
+<div align="center">
+<img src="assets/cli_valkyrie_changelog.png" width="550" />
+</div>
 
 ### Build CLI
 
@@ -619,7 +638,7 @@ Nested packs
 
 ## Contributors
 
-Thank you for your help! ❤️
+Thank you for your contributions and support! ❤️
 
 <a href="https://github.com/ComposeGears/Valkyrie/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ComposeGears/Valkyrie" />
@@ -645,9 +664,15 @@ limitations under the License.
 
 [badge:marketplace-version]: https://img.shields.io/jetbrains/plugin/v/24786?label=JB%20Marketplace&style=for-the-badge&labelColor=black&color=white
 
-[badge:gh-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?include_prereleases&style=for-the-badge&label=github%20release&labelColor=black&color=white
+[badge:idea-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?filter=!cli-*&style=for-the-badge&label=Github%20IDEA%20Plugin&labelColor=black&color=white
+
+[badge:cli-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?filter=cli-*&style=for-the-badge&label=CLI&labelColor=black&color=white
+
+[badge:homebrew]: https://img.shields.io/badge/homebrew-tap-orange?style=for-the-badge&labelColor=black&color=white&logo=homebrew
 
 [badge:marketplace-downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=for-the-badge&labelColor=black&color=white
+
+[badge:marketplace-rating]: https://img.shields.io/jetbrains/plugin/r/rating/24786?style=for-the-badge&labelColor=black&color=white
 
 [badge:slack-invite]: https://img.shields.io/badge/slack-blue.svg?logo=slack&style=for-the-badge&labelColor=black&color=white
 
@@ -660,6 +685,8 @@ limitations under the License.
 [url:plugin-homepage]: https://plugins.jetbrains.com/plugin/24786-valkyrie
 
 [url:gh-releases]: https://github.com/ComposeGears/Valkyrie/releases
+
+[url:homebrew]: https://github.com/ComposeGears/homebrew-repo
 
 [url:telegram-invite]: https://t.me/composegears
 
