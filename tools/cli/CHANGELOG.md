@@ -2,8 +2,9 @@
 
 ## [1.0.0] - 2025-11-17
 
-- Separate CLI versioning from plugin versioning
-- Add `changelog` command to print CLI changelog
+- Stabilize CLI tool
+- Separate CLI versioning from IDEA Plugin project
+- Add `changelog` command to display CLI changelog
 
 ## [0.17.3] - 2025-10-14
 
