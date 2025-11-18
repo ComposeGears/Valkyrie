@@ -68,7 +68,7 @@ jobs:
         with:
           formula-name: valkyrie
           formula-path: Formula/valkyrie.rb
-          tag-name: ${{ env.RELEASE_TAG }}
+          tag-name: ${{ env.VERSION_NAME }}
           homebrew-tap: ComposeGears/homebrew-repo
           download-url: https://github.com/ComposeGears/Valkyrie/releases/download/${{ env.RELEASE_TAG }}/valkyrie-cli-${{ env.VERSION_NAME }}.zip
           commit-message: |
