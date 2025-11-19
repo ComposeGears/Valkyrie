@@ -1,5 +1,10 @@
 # CLI Changelog
 
+## [1.0.1] - 2025-11-20
+
+- Limited changelog output to the last 5 releases
+- Added `--show-all` option to display full changelog
+
 ## [1.0.0] - 2025-11-17
 
 - Stabilize CLI tool

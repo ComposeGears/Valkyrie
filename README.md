@@ -341,6 +341,12 @@ Usage:
 <img src="assets/cli_valkyrie_changelog.png" width="550" />
 </div>
 
+Output example:
+
+<div align="center">
+<img src="assets/cli_valkyrie_changelog_output.png" width="550" />
+</div>
+
 ### Build CLI
 
 Run `./gradlew buildCLI` to build minified version of CLI tool. Artifact will be available in
