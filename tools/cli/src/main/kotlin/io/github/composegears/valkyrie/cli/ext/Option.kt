@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.cli.ext
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.boolean
@@ -40,3 +41,9 @@ internal fun CliktCommand.intOption(
     help: String,
     default: Int,
 ) = option(names = names, help = help).int().default(default)
+
+internal fun CliktCommand.flagOption(
+    vararg names: String,
+    help: String,
+    default: Boolean = false,
+) = option(names = names, help = help).flag(default = default)
