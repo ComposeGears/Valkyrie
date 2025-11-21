@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Add a new mode for backward conversion from ImageVector to XML
+
 ### Changed
 
 - Drop support for IntelliJ IDEA 2024.2
