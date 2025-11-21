@@ -22,13 +22,15 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
+import io.github.composegears.valkyrie.FeatureFlag.KT_TO_SVG_ENABLED
 import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.icons.outlined.Editor
 import io.github.composegears.valkyrie.compose.icons.outlined.FileImport
-import io.github.composegears.valkyrie.compose.icons.outlined.ReverseConversion
+import io.github.composegears.valkyrie.compose.icons.outlined.KtSvg
+import io.github.composegears.valkyrie.compose.icons.outlined.KtXml
 import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.shared.Mode.Editor
@@ -96,7 +98,7 @@ private fun IntroScreenUI(
                 )
                 VerticalSpacer(42.dp)
                 Text(
-                    text = stringResource("intro.subheader"),
+                    text = stringResource("intro.modes.header"),
                     style = MaterialTheme.typography.labelSmall,
                     color = LocalContentColor.current.copy(alpha = 0.5f),
                     textAlign = TextAlign.Center,
@@ -130,14 +132,31 @@ private fun IntroScreenUI(
                 VerticalSpacer(24.dp)
                 HorizontalDivider(modifier = Modifier.fillMaxWidth(0.1f))
                 VerticalSpacer(24.dp)
+                Text(
+                    text = stringResource("intro.tools.header"),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = LocalContentColor.current.copy(alpha = 0.5f),
+                    textAlign = TextAlign.Center,
+                )
+                VerticalSpacer(8.dp)
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(ImageVectorToXml) },
-                    icon = ValkyrieIcons.Outlined.ReverseConversion,
+                    icon = ValkyrieIcons.Outlined.KtXml,
                     title = stringResource("intro.card.imagevectortoxml.title"),
                     description = stringResource("intro.card.imagevectortoxml.description"),
                 )
                 VerticalSpacer(16.dp)
+                if (KT_TO_SVG_ENABLED) {
+                    InfoCard(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        onClick = { },
+                        icon = ValkyrieIcons.Outlined.KtSvg,
+                        title = stringResource("intro.card.imagevectortosvg.title"),
+                        description = stringResource("intro.card.imagevectortosvg.description"),
+                    )
+                    VerticalSpacer(16.dp)
+                }
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(WebImport) },
