@@ -15,7 +15,7 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 highlights = "dev.snipme:highlights:1.1.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
-kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.0"
+kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.1"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
