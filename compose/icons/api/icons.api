@@ -75,12 +75,16 @@ public final class io/github/composegears/valkyrie/compose/icons/outlined/FileIm
 	public static final fun getFileImport (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
-public final class io/github/composegears/valkyrie/compose/icons/outlined/LightKt {
-	public static final fun getLight (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+public final class io/github/composegears/valkyrie/compose/icons/outlined/KtSvgKt {
+	public static final fun getKtSvg (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
-public final class io/github/composegears/valkyrie/compose/icons/outlined/ReverseConversionKt {
-	public static final fun getReverseConversion (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+public final class io/github/composegears/valkyrie/compose/icons/outlined/KtXmlKt {
+	public static final fun getKtXml (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/compose/icons/outlined/LightKt {
+	public static final fun getLight (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/outlined/SearchKt {
