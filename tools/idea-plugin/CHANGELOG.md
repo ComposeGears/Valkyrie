@@ -6,6 +6,10 @@
 
 - Add a new mode for backward conversion from ImageVector to XML
 
+### Fixed
+
+- Fix main screen description text being cut off or truncated
+
 ### Changed
 
 - Drop support for IntelliJ IDEA 2024.2

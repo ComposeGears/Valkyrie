@@ -70,7 +70,7 @@ fun InfoCard(
                     text = description,
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                     color = LocalContentColor.current.dim(),
-                    maxLines = 1,
+                    maxLines = 2,
                 )
             }
         }
