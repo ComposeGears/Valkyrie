@@ -39,9 +39,6 @@ semver = "net.swiftzer.semver:semver:2.1.0"
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.8.0"
 composeRules = "io.nlopez.compose.rules:ktlint:0.4.28"
 
-agp-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
-agp-full = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-
 # Dependencies for build-logic module
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

@@ -1,0 +1,12 @@
+[versions]
+gradle-plugin-version = "0.1.0"
+
+agp = "8.13.1"
+
+[libraries]
+agp-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
+agp-full = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+
+[plugins]
+plugin-publish = { id = "com.gradle.plugin-publish", version = "2.0.0" }
+

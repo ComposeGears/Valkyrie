@@ -40,6 +40,10 @@ Update changelog with new version: `./gradlew patchChangelog`
 
 Build CLI: `./gradlew buildCLI`
 
+## Gradle Plugin
+
+Test plugin locally: `./gradlew :tools:gradle-plugin:publishToMavenLocal`
+
 ## WEB
 
 - Run WASM: `./gradlew tools:compose-app:wasmJsBrowserDevelopmentRun`

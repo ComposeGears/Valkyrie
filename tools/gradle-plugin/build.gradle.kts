@@ -9,21 +9,13 @@ plugins {
     alias(libs.plugins.valkyrie.kover)
     alias(libs.plugins.valkyrie.abi)
     alias(libs.plugins.buildconfig)
+    alias(libs.plugins.shadow)
+    alias(gradlePluginVersions.plugins.plugin.publish)
     `java-gradle-plugin`
 }
 
-tasks.validatePlugins {
-    // TODO: https://github.com/gradle/gradle/issues/22600
-    enableStricterValidation = true
-}
-
-kotlin {
-    compilerOptions {
-        // https://docs.gradle.org/current/userguide/compatibility.html#kotlin
-        apiVersion = KotlinVersion.KOTLIN_2_2
-        languageVersion = apiVersion
-    }
-}
+group = "io.github.composegears.valkyrie"
+version = gradlePluginVersions.versions.gradle.plugin.version.get()
 
 gradlePlugin {
     vcsUrl = "https://github.com/ComposeGears/Valkyrie"
@@ -32,12 +24,28 @@ gradlePlugin {
     plugins {
         create("valkyrie") {
             id = "io.github.composegears.valkyrie"
-            displayName = name
+            displayName = "Valkyrie Gradle Plugin"
             implementationClass = "io.github.composegears.valkyrie.gradle.ValkyrieGradlePlugin"
-            description = "Generates Kotlin accessors for ImageVectors, based on input SVG files"
-            tags.addAll("kotlin", "svg", "xml", "imagevector", "valkyrie")
+            description = "Convert SVG/XML icons into Compose ImageVector format"
+            tags.addAll("kotlin", "svg", "xml", "imagevector", "valkyrie", "compose")
         }
     }
+}
+kotlin {
+    compilerOptions {
+        // https://docs.gradle.org/current/userguide/compatibility.html#kotlin
+        apiVersion = KotlinVersion.KOTLIN_2_2
+        languageVersion = apiVersion
+    }
+}
+
+tasks.validatePlugins {
+    // TODO: https://github.com/gradle/gradle/issues/22600
+    enableStricterValidation = true
+}
+
+tasks.shadowJar {
+    archiveClassifier = ""
 }
 
 configurations.named(API_ELEMENTS_CONFIGURATION_NAME) {
@@ -82,19 +90,19 @@ tasks.pluginUnderTestMetadata {
 }
 
 dependencies {
-    compileOnly(libs.agp.api)
+    compileOnly(gradlePluginVersions.agp.api)
     compileOnly(libs.kotlin.gradle.plugin)
 
-    api(projects.sdk.core.extensions)
-    api(projects.sdk.ir.core)
-    api(projects.components.generator.iconpack)
-    api(projects.components.generator.jvm.imagevector)
-    api(projects.components.parser.unified)
+    implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.ir.core)
+    implementation(projects.components.generator.iconpack)
+    implementation(projects.components.generator.jvm.imagevector)
+    implementation(projects.components.parser.unified)
 
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 
-    testPluginClasspath(libs.agp.full)
+    testPluginClasspath(gradlePluginVersions.agp.full)
     testPluginClasspath(libs.kotlin.gradle.plugin)
 }
 

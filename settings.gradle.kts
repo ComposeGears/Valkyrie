@@ -45,6 +45,9 @@ dependencyResolutionManagement {
             create("cli") {
                 from(files("gradle/cli.versions.toml"))
             }
+            create("gradlePluginVersions") {
+                from(files("gradle/gradle.versions.toml"))
+            }
         }
     }
 }
