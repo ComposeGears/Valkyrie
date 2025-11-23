@@ -1,1 +1,49 @@
+name: Publish Gradle Plugin
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GRADLE_PUBLISH_KEY: ${{ secrets.ORG_GRADLE_PUBLISH_KEY }}
+      GRADLE_PUBLISH_SECRET: ${{ secrets.ORG_GRADLE_PUBLISH_SECRET }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Prepare release information
+        run: |
+          VERSION_NAME=$(grep "^gradle-plugin-version" gradle/gradle.versions.toml | cut -d '"' -f 2)
+          RELEASE_TAG="gradle-plugin-$VERSION_NAME"
+
+          echo "VERSION_NAME=$VERSION_NAME"
+          echo "RELEASE_TAG=$RELEASE_TAG"
+
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+
+      - name: Validate Plugin
+        run: ./gradlew :tools:gradle-plugin:validatePlugins
+
+      - name: Publish to Gradle Plugin Portal
+        run: |
+          ./gradlew :tools:gradle-plugin:publishPlugins \
+            -Pgradle.publish.key="${GRADLE_PUBLISH_KEY}" \
+            -Pgradle.publish.secret="${GRADLE_PUBLISH_SECRET}"
+
+      - name: Create GitHub release
+        run: |
+          gh release create ${{ env.RELEASE_TAG }} --generate-notes
 
