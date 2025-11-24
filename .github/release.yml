@@ -14,6 +14,12 @@ changelog:
     - title: 🔌🐛 Plugin bugfixes
       labels:
         - bugfix-plugin
+    - title: 🐘✨ Gradle plugin features
+      labels:
+        - feature-gradle
+    - title: 🐘🐛 Gradle plugin bugfixes
+      labels:
+        - bugfix-gradle
     - title: ✨ Features
       labels:
         - feature
@@ -32,9 +38,11 @@ changelog:
       exclude:
         labels:
           - bugfix-cli
+          - bugfix-gradle
           - bugfix-plugin
           - bugfix
           - feature-cli
+          - feature-gradle
           - feature-plugin
           - feature
           - housekeeping
