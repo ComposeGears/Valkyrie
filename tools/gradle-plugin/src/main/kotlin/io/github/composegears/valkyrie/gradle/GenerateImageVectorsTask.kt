@@ -8,6 +8,7 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
+import java.io.File
 import kotlinx.io.files.Path
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
@@ -83,6 +84,14 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
             indentSize = indentSize.get(),
         )
 
+        // Resolve target directory once for all files
+        val targetDirectory = resolveTargetDirectory(
+            outputDirectory = outputDirectory,
+            packageName = packageName,
+            nestedPackName = nestedPackName,
+            useFlatPackage = useFlatPackage,
+        )
+
         (svgFiles + drawableFiles).files.forEach { file ->
             val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, Path(file.absolutePath))
             val vectorSpecOutput = ImageVectorGenerator.convert(
@@ -92,10 +101,7 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
             )
 
             val path = vectorSpecOutput.content.writeToKt(
-                outputDir = when {
-                    useFlatPackage -> outputDirectory
-                    else -> outputDirectory.resolve(nestedPackName.lowercase())
-                }.absolutePath,
+                outputDir = targetDirectory.absolutePath,
                 nameWithoutExtension = vectorSpecOutput.name,
             )
             generatedFiles.add(path.toIOPath())
@@ -104,6 +110,23 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
         }
 
         logger.lifecycle("Generated ${generatedFiles.size} ImageVectors in package $packageName")
+    }
+
+    private fun resolveTargetDirectory(
+        outputDirectory: File,
+        packageName: String,
+        nestedPackName: String,
+        useFlatPackage: Boolean,
+    ): File = when {
+        useFlatPackage -> outputDirectory
+        else -> {
+            val fullPackage = when {
+                nestedPackName.isEmpty() -> packageName
+                else -> "$packageName.${nestedPackName.lowercase()}"
+            }
+            val packagePath = fullPackage.replace('.', File.separatorChar)
+            outputDirectory.resolve(packagePath)
+        }
     }
 
     internal companion object {

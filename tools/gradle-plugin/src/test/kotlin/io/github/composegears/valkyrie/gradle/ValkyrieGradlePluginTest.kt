@@ -130,7 +130,7 @@ class ValkyrieGradlePluginTest {
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
         }
     }
 
@@ -185,6 +185,48 @@ class ValkyrieGradlePluginTest {
             .first { it.name == "LinearGradient.kt" }
             .readText()
         assertThat(linearGradientKt).contains("public val MyIconPack.MyNestedPack.LinearGradient: ImageVector")
+    }
+
+    @OptIn(ExperimentalPathApi::class)
+    @Test
+    fun `Generate with nested package creates correct directory structure`() {
+        // given
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "com.example.icons"
+                    nestedPackName = "Filled"
+                    useFlatPackage = false
+                }
+            """.trimIndent(),
+        )
+        root.writeTestSvgs(sourceSet = "main")
+
+        // when
+        val result = runTask(root, TASK_NAME)
+
+        // then the files are created in the nested package directory structure
+        assertThat(result).taskWasSuccessful(":$TASK_NAME")
+        listOf(
+            "LinearGradient.kt",
+            "RadialGradient.kt",
+            "ClipPathGradient.kt",
+            "LinearGradientWithStroke.kt",
+        ).forEach { filename ->
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/com/example/icons/filled/$filename")).exists()
+        }
+
+        // and the package declaration matches the directory structure
+        val linearGradientKt = root
+            .walk()
+            .first { it.name == "LinearGradient.kt" }
+            .readText()
+        assertThat(linearGradientKt).contains("package com.example.icons.filled")
     }
 
     @Test
@@ -264,7 +306,7 @@ class ValkyrieGradlePluginTest {
             "SeveralPath.kt",
             "AllPathParams.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
         }
     }
 
@@ -341,14 +383,14 @@ class ValkyrieGradlePluginTest {
 
         // and files were generated in the right source sets
         listOf(
-            "build/generated/sources/valkyrie/freeRelease/LinearGradient.kt",
-            "build/generated/sources/valkyrie/freeRelease/RadialGradient.kt",
-            "build/generated/sources/valkyrie/freeRelease/ClipPathGradient.kt",
-            "build/generated/sources/valkyrie/freeRelease/LinearGradientWithStroke.kt",
-            "build/generated/sources/valkyrie/debug/OnlyPath.kt",
-            "build/generated/sources/valkyrie/debug/IconWithShorthandColor.kt",
-            "build/generated/sources/valkyrie/debug/SeveralPath.kt",
-            "build/generated/sources/valkyrie/debug/AllPathParams.kt",
+            "build/generated/sources/valkyrie/freeRelease/x/y/z/LinearGradient.kt",
+            "build/generated/sources/valkyrie/freeRelease/x/y/z/RadialGradient.kt",
+            "build/generated/sources/valkyrie/freeRelease/x/y/z/ClipPathGradient.kt",
+            "build/generated/sources/valkyrie/freeRelease/x/y/z/LinearGradientWithStroke.kt",
+            "build/generated/sources/valkyrie/debug/x/y/z/OnlyPath.kt",
+            "build/generated/sources/valkyrie/debug/x/y/z/IconWithShorthandColor.kt",
+            "build/generated/sources/valkyrie/debug/x/y/z/SeveralPath.kt",
+            "build/generated/sources/valkyrie/debug/x/y/z/AllPathParams.kt",
         ).forEach { path ->
             assertThat(root.resolve(path)).exists()
         }
@@ -411,7 +453,7 @@ class ValkyrieGradlePluginTest {
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/com/example/app/$filename")).exists()
         }
 
         // and the compilation succeeded, so the accessor code has access to the generated code dirs
