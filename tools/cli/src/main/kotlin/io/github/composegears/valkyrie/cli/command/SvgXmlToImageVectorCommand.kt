@@ -227,6 +227,26 @@ private fun svgXml2ImageVector(
         )
     }
 
+    val config = ImageVectorGeneratorConfig(
+        packageName = packageName,
+        iconPackPackage = packageName,
+        packName = iconPackName,
+        nestedPackName = nestedPackName,
+        outputFormat = outputFormat,
+        useComposeColors = useComposeColors,
+        generatePreview = generatePreview,
+        previewAnnotationType = previewAnnotationType,
+        useFlatPackage = useFlatPackage,
+        useExplicitMode = useExplicitMode,
+        addTrailingComma = addTrailingComma,
+        indentSize = indentSize,
+        fullQualifiedImports = FullQualifiedImports(
+            brush = "Brush" in fullQualifiedNames,
+            color = "Color" in fullQualifiedNames,
+            offset = "Offset" in fullQualifiedNames,
+        ),
+    )
+
     iconPaths
         .sortedBy { it.name }
         .forEach { path ->
@@ -240,25 +260,6 @@ private fun svgXml2ImageVector(
                 }
             }
 
-            val config = ImageVectorGeneratorConfig(
-                packageName = packageName,
-                iconPackPackage = packageName,
-                packName = iconPackName,
-                nestedPackName = nestedPackName,
-                outputFormat = outputFormat,
-                useComposeColors = useComposeColors,
-                generatePreview = generatePreview,
-                previewAnnotationType = previewAnnotationType,
-                useFlatPackage = useFlatPackage,
-                useExplicitMode = useExplicitMode,
-                addTrailingComma = addTrailingComma,
-                indentSize = indentSize,
-                fullQualifiedImports = FullQualifiedImports(
-                    brush = "Brush" in fullQualifiedNames,
-                    color = "Color" in fullQualifiedNames,
-                    offset = "Offset" in fullQualifiedNames,
-                ),
-            )
             val vectorSpecOutput = ImageVectorGenerator.convert(
                 vector = parseOutput.irImageVector,
                 iconName = parseOutput.iconName,
