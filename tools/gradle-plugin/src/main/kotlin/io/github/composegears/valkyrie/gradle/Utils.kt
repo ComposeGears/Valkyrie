@@ -8,6 +8,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.Directory
 import org.gradle.api.file.FileCollection
+import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.util.GradleVersion
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -21,13 +22,10 @@ internal fun registerTask(
     target.tasks.register(taskName, GenerateImageVectorsTask::class.java) { task ->
         task.description = "Converts SVG & Drawable files into ImageVector Kotlin accessor properties"
 
-        val svgFiles = sourceSet.findSvgFiles()
-        val drawableFiles = sourceSet.findDrawableFiles()
-        task.svgFiles.conventionCompat(svgFiles)
-        task.drawableFiles.conventionCompat(drawableFiles)
-        task.onlyIf("Needs at least one input file") {
-            !svgFiles.isEmpty || !drawableFiles.isEmpty
-        }
+        val resourceDirName = extension.resourceDirectoryName
+        val iconFiles = sourceSet.findIconFiles(resourceDirName)
+        task.iconFiles.conventionCompat(iconFiles)
+        task.onlyIf("Needs at least one input file") { !iconFiles.isEmpty }
 
         task.packageName.convention(extension.packageName.orElse(target.packageNameOrThrow()))
 
@@ -96,12 +94,11 @@ private fun KotlinSourceSet.root(): Directory = with(project) {
     return layout.dir(src).get()
 }
 
-private fun KotlinSourceSet.findSvgFiles(): FileCollection = root()
-    .dir("svg")
-    .asFileTree
-    .filter { it.extension == "svg" }
-
-private fun KotlinSourceSet.findDrawableFiles(): FileCollection = root()
-    .dir("res")
-    .asFileTree
-    .filter { it.parentFile?.name.orEmpty().contains("drawable") && it.extension == "xml" }
+private fun KotlinSourceSet.findIconFiles(resourceDirectoryName: Property<String>): FileCollection {
+    return root()
+        .dir(resourceDirectoryName.get())
+        .asFileTree
+        .filter {
+            it.extension == "svg" || it.extension == "xml"
+        }
+}

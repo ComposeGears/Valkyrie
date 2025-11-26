@@ -6,6 +6,7 @@ import assertk.Assert
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.fail
+import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.DEFAULT_RESOURCE_DIRECTORY
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -55,16 +56,22 @@ internal fun Path.writeSettingsFile() = resolve("settings.gradle.kts").writeText
     """.trimIndent(),
 )
 
-internal fun Path.writeTestSvgs(sourceSet: String) {
-    val destDir = resolve("src/$sourceSet/svg")
+internal fun Path.writeTestSvgs(
+    sourceSet: String,
+    resourceDirName: String = DEFAULT_RESOURCE_DIRECTORY,
+) {
+    val destDir = resolve("src/$sourceSet/$resourceDirName")
     destDir.createDirectories()
 
     val sourceDir = RESOURCES_DIR_SVG.toPath()
     sourceDir.copyToRecursively(destDir, followLinks = true)
 }
 
-internal fun Path.writeTestDrawables(sourceSet: String) {
-    val destDir = resolve("src/$sourceSet/res/drawable")
+internal fun Path.writeTestDrawables(
+    sourceSet: String,
+    resourceDirName: String = DEFAULT_RESOURCE_DIRECTORY,
+) {
+    val destDir = resolve("src/$sourceSet/$resourceDirName")
     destDir.createDirectories()
 
     val sourceDir = RESOURCES_DIR_XML.toPath()
@@ -73,7 +80,10 @@ internal fun Path.writeTestDrawables(sourceSet: String) {
 
 internal fun Assert<BuildResult>.taskWasSuccessful(name: String) = taskHadResult(name, SUCCESS)
 
-internal fun Assert<BuildResult>.taskHadResult(path: String, expected: TaskOutcome) = transform { it.task(path)?.outcome }
+internal fun Assert<BuildResult>.taskHadResult(
+    path: String,
+    expected: TaskOutcome,
+) = transform { it.task(path)?.outcome }
     .isNotNull()
     .isEqualTo(expected)
 

@@ -23,6 +23,12 @@ interface ValkyrieExtension {
     val outputDirectory: DirectoryProperty
 
     /**
+     * Name of the resource directory containing icon files. Defaults to `valkyrieResources`.
+     * The plugin will look for icons in `<sourceSet>/valkyrieResources` for all project types.
+     */
+    val resourceDirectoryName: Property<String>
+
+    /**
      * Unset by default
      */
     val iconPackName: Property<String>

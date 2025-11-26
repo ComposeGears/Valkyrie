@@ -2,8 +2,8 @@ public abstract class io/github/composegears/valkyrie/gradle/GenerateImageVector
 	public fun <init> ()V
 	public final fun execute ()V
 	public abstract fun getAddTrailingComma ()Lorg/gradle/api/provider/Property;
-	public abstract fun getDrawableFiles ()Lorg/gradle/api/file/ConfigurableFileCollection;
 	public abstract fun getGeneratePreview ()Lorg/gradle/api/provider/Property;
+	public abstract fun getIconFiles ()Lorg/gradle/api/file/ConfigurableFileCollection;
 	public abstract fun getIconPackName ()Lorg/gradle/api/provider/Property;
 	public abstract fun getIndentSize ()Lorg/gradle/api/provider/Property;
 	public abstract fun getNestedPackName ()Lorg/gradle/api/provider/Property;
@@ -11,7 +11,6 @@ public abstract class io/github/composegears/valkyrie/gradle/GenerateImageVector
 	public abstract fun getOutputFormat ()Lorg/gradle/api/provider/Property;
 	public abstract fun getPackageName ()Lorg/gradle/api/provider/Property;
 	public abstract fun getPreviewAnnotationType ()Lorg/gradle/api/provider/Property;
-	public abstract fun getSvgFiles ()Lorg/gradle/api/file/ConfigurableFileCollection;
 	public abstract fun getUseComposeColors ()Lorg/gradle/api/provider/Property;
 	public abstract fun getUseExplicitMode ()Lorg/gradle/api/provider/Property;
 	public abstract fun getUseFlatPackage ()Lorg/gradle/api/provider/Property;
@@ -28,6 +27,7 @@ public abstract interface class io/github/composegears/valkyrie/gradle/ValkyrieE
 	public abstract fun getOutputFormat ()Lorg/gradle/api/provider/Property;
 	public abstract fun getPackageName ()Lorg/gradle/api/provider/Property;
 	public abstract fun getPreviewAnnotationType ()Lorg/gradle/api/provider/Property;
+	public abstract fun getResourceDirectoryName ()Lorg/gradle/api/provider/Property;
 	public abstract fun getUseComposeColors ()Lorg/gradle/api/provider/Property;
 	public abstract fun getUseExplicitMode ()Lorg/gradle/api/provider/Property;
 	public abstract fun getUseFlatPackage ()Lorg/gradle/api/provider/Property;

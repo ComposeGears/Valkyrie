@@ -14,6 +14,8 @@
 [![CLI release][badge:cli-release]][url:gh-releases]
 [![Homebrew][badge:homebrew]][url:homebrew]
 
+<!-- [![Gradle Plugin Portal][badge:gradle-plugin]][url:gradle-plugin] -->
+
 [![Telegram][badge:telegram-invite]][url:telegram-invite]
 [![Slack][badge:slack-invite]][url:slack-invite]
 ![Test coverage][badge:coverage]
@@ -63,6 +65,9 @@ needs.
     - [`svgxml2imagevector` command](#svgxml2imagevector-command)
     - [`changelog` command](#changelog-command)
   - [Build](#build-cli)
+- 🐘 [Gradle plugin](#gradle-plugin)
+  - [Common scenarios](#common-scenarios)
+  - [Plugin configuration](#plugin-configuration)
 - [Other](#other)
   - [Export formats](#export-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
@@ -86,12 +91,12 @@ needs.
 
 ### Available tools:
 
-- [IntelliJ IDEA / Android Studio plugin](#idea-plugin)
-- [CLI tool](#cli-tool)
-- Gradle plugin (🚧 waiting to publish 🚧)
+- 🔌 [IntelliJ IDEA / Android Studio plugin](#idea-plugin)
+- 🖥️ [CLI tool](#cli-tool)
+- 🐘 [Gradle plugin](#gradle-plugin) (🚧 waiting to publish 🚧)
 - Web app (🚧 under development 🚧)
 
-## IDEA Plugin
+## 🔌IDEA Plugin
 
 ### Plugin features
 
@@ -236,7 +241,7 @@ folder
 
 or run plugin in IDE using: `./gradlew runIde`
 
-## CLI tool
+## 🖥CLI tool
 
 CLI tools can be easily integrated into scripts and automated workflows, allowing you to convert icons from specific
 source with predefined settings.
@@ -297,7 +302,7 @@ A part of the CLI tool that allows you to create an icon pack with nested packs.
 
 Usage:
 
-```bash
+```text
 ./valkyrie iconpack [<options>]
 ```
 
@@ -315,7 +320,7 @@ A part of the CLI tool that allows you to convert SVG/XML files to ImageVector.
 
 Usage:
 
-```bash
+```text
 ./valkyrie svgxml2imagevector [<options>]
 ```
 
@@ -351,6 +356,100 @@ Output example:
 
 Run `./gradlew buildCLI` to build minified version of CLI tool. Artifact will be available in
 `tools/cli/build/distributions/valkyrie-cli-*.**.*-SNAPSHOT.zip`.
+
+## 🐘Gradle plugin
+
+The Gradle plugin automates the conversion of SVG/XML files to Compose ImageVector format during the build process. It's
+ideal for projects that need to version control icon sources and generate type-safe Kotlin code automatically.
+
+### Common scenarios
+
+- **Team collaboration**: Keep SVG/XML sources in version control and let the build system generate Kotlin code for
+  everyone
+- **CI/CD pipelines**: Ensure icons are always generated consistently across different environments
+- **Design system integration**: Automatically sync icon updates from design tools without manual conversion
+- **Large icon libraries**: Efficiently manage hundreds or thousands of icons with minimal manual intervention
+
+### Plugin configuration
+
+#### 1. Apply the plugin
+
+<!-- [![Gradle Plugin Portal][badge:gradle-plugin]][url:gradle-plugin] -->
+
+Define in your libs.versions.toml:
+
+```toml
+[plugins]
+valkyrie = "io.github.composegears.valkyrie:latest-version"
+```
+
+Add the plugin to your `build.gradle.kts`:
+
+```kotlin
+plugins {
+  alias(libs.plugins.valkyrie)
+}
+```
+
+#### 2. Configure the plugin
+
+```kotlin
+valkyrie {
+  // Required: Package name for generated code
+  // Defaults to Android 'namespace' if Android Gradle Plugin is applied
+  packageName = "com.example.app.icons"
+
+  // Optional: Icon pack configuration
+  iconPackName = "AppIcons" // Creates an icon pack object (unset by default)
+  nestedPackName = "Filled" // For nested packs like AppIcons.Filled (unset by default)
+
+  // Optional: Resource directory name containing icon files (default: "valkyrieResources")
+  // Icons will be discovered in src/{sourceSet}/{resourceDirectoryName}/
+  // Example: src/commonMain/valkyrieResources/, src/androidMain/valkyrieResources/
+  resourceDirectoryName = "valkyrieResources"
+
+  // Optional: Output format for generated ImageVectors (default: BackingProperty)
+  outputFormat = OutputFormat.BackingProperty // or OutputFormat.LazyProperty
+
+  // Optional: Code generation settings
+  useComposeColors = true // Use androidx.compose.ui.graphics.Color (default: true)
+  generatePreview = false // Generate @Preview composable functions (default: false)
+  previewAnnotationType = PreviewAnnotationType.AndroidX // AndroidX or Jetbrains (default: AndroidX)
+  useFlatPackage = false // Generate flat package structure without subfolders (default: false)
+  useExplicitMode = false // Add explicit visibility modifiers (default: false)
+  addTrailingComma = false // Add trailing commas in generated code (default: false)
+  indentSize = 4 // Number of spaces for indentation (default: 4)
+
+  // Optional: Custom output directory (default: build/generated/sources/valkyrie)
+  outputDirectory = layout.buildDirectory.dir("generated/valkyrie")
+
+  // Optional: Generate during IDE sync for better developer experience (default: false)
+  generateAtSync = false
+}
+```
+
+#### 3. Organize your icons
+
+Place your icon files in the resources directory:
+
+```text
+src/
+└── commonMain/
+    └── valkyrieResources/
+        ├── add.svg
+        ├── delete.svg
+        └── ic_home.xml
+```
+
+The plugin automatically discovers icons from `src/{sourceSet}/valkyrieResources/` in all source sets.
+
+#### 4. Run generation
+
+Run the Gradle task to generate ImageVector sources:
+
+```bash
+./gradlew generateValkyrieImageVector
+```
 
 ## Other
 
@@ -618,21 +717,21 @@ CLI options `--iconpack-name` and `--nested-packs` removed in favour of `--iconp
 
 Single pack
 
-```
+```text
 ❌ ./valkyrie --iconpack-name=ValkyrieIcons
 ```
 
-```
+```text
 ✅ ./valkyrie --iconpack=ValkyrieIcons
 ```
 
 Nested packs
 
-```
+```text
 ❌ ./valkyrie --iconpack-name=ValkyrieIcons --nested-packs=Colored,Filled
 ```
 
-```
+```text
 ✅ ./valkyrie --iconpack=ValkyrieIcons.Colored,ValkyrieIcons.Filled
 ```
 
@@ -652,7 +751,7 @@ Thank you for your contributions and support! ❤️
 
 ## License
 
-```
+```text
 Developed by ComposeGears 2024
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -676,6 +775,8 @@ limitations under the License.
 
 [badge:homebrew]: https://img.shields.io/badge/homebrew-tap-orange?style=for-the-badge&labelColor=black&color=white&logo=homebrew
 
+<!-- [badge:gradle-plugin]: https://img.shields.io/gradle-plugin-portal/v/io.github.composegears.valkyrie?style=for-the-badge&labelColor=black&color=white&label=Gradle%20Plugin -->
+
 [badge:marketplace-downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=for-the-badge&labelColor=black&color=white
 
 [badge:marketplace-rating]: https://img.shields.io/jetbrains/plugin/r/rating/24786?style=for-the-badge&labelColor=black&color=white
@@ -693,6 +794,8 @@ limitations under the License.
 [url:gh-releases]: https://github.com/ComposeGears/Valkyrie/releases
 
 [url:homebrew]: https://github.com/ComposeGears/homebrew-repo
+
+<!-- [url:gradle-plugin]: https://plugins.gradle.org/plugin/io.github.composegears.valkyrie -->
 
 [url:telegram-invite]: https://t.me/composegears
 
