@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.gradle
 
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
+import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.DEFAULT_RESOURCE_DIRECTORY
 import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_NAME
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,6 +20,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
             packageName.convention(packageNameOrThrow())
             generateAtSync.convention(false)
             outputDirectory.convention(layout.buildDirectory.dir("generated/sources/valkyrie"))
+            resourceDirectoryName.convention(DEFAULT_RESOURCE_DIRECTORY)
             outputFormat.convention(OutputFormat.BackingProperty)
             useComposeColors.convention(true)
             generatePreview.convention(false)

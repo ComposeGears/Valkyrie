@@ -26,9 +26,7 @@ import org.gradle.api.tasks.TaskAction
 
 @CacheableTask
 abstract class GenerateImageVectorsTask : DefaultTask() {
-    @get:[PathSensitive(RELATIVE) InputFiles] abstract val svgFiles: ConfigurableFileCollection
-
-    @get:[PathSensitive(RELATIVE) InputFiles] abstract val drawableFiles: ConfigurableFileCollection
+    @get:[PathSensitive(RELATIVE) InputFiles] abstract val iconFiles: ConfigurableFileCollection
 
     @get:Input abstract val packageName: Property<String>
 
@@ -92,7 +90,7 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
             useFlatPackage = useFlatPackage,
         )
 
-        (svgFiles + drawableFiles).files.forEach { file ->
+        iconFiles.files.forEach { file ->
             val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, Path(file.absolutePath))
             val vectorSpecOutput = ImageVectorGenerator.convert(
                 vector = parseOutput.irImageVector,
@@ -130,6 +128,7 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
     }
 
     internal companion object {
-        internal const val TASK_NAME = "generateImageVectors"
+        internal const val TASK_NAME = "generateValkyrieImageVector"
+        internal const val DEFAULT_RESOURCE_DIRECTORY = "valkyrieResources"
     }
 }

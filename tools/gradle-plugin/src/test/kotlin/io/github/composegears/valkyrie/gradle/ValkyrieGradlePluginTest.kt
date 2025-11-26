@@ -265,14 +265,14 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME)
 
         // no SVGs/drawables under these source sets, so the tasks are skipped (but still registered)
-        assertThat(result).taskHadResult(":generateImageVectorsAndroidFree", SKIPPED)
-        assertThat(result).taskHadResult(":generateImageVectorsAndroidPaidDebug", SKIPPED)
-        assertThat(result).taskHadResult(":generateImageVectorsCommonMain", SKIPPED)
-        assertThat(result).taskHadResult(":generateImageVectorsJvmTest", SKIPPED)
+        assertThat(result).taskHadResult(":generateValkyrieImageVectorAndroidFree", SKIPPED)
+        assertThat(result).taskHadResult(":generateValkyrieImageVectorAndroidPaidDebug", SKIPPED)
+        assertThat(result).taskHadResult(":generateValkyrieImageVectorCommonMain", SKIPPED)
+        assertThat(result).taskHadResult(":generateValkyrieImageVectorJvmTest", SKIPPED)
 
         // but androidMain and jvmMain have SVGs, so they run successfully
-        assertThat(result).taskWasSuccessful(":generateImageVectorsAndroidMain")
-        assertThat(result).taskWasSuccessful(":generateImageVectorsJvmMain")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorAndroidMain")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorJvmMain")
     }
 
     @Test
@@ -375,11 +375,11 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, TASK_NAME)
 
         // Then the specific variant tasks ran successfully
-        assertThat(result).taskWasSuccessful(":generateImageVectorsDebug")
-        assertThat(result).taskWasSuccessful(":generateImageVectorsFreeRelease")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorDebug")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorFreeRelease")
 
         // and the wrapper
-        assertThat(result).taskWasSuccessful(":generateImageVectors")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVector")
 
         // and files were generated in the right source sets
         listOf(
@@ -446,7 +446,7 @@ class ValkyrieGradlePluginTest {
         val result = runTask(root, "assemble")
 
         // codegen was hooked into compilation
-        assertThat(result).taskWasSuccessful(":generateImageVectorsMain")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorMain")
         listOf(
             "LinearGradient.kt",
             "RadialGradient.kt",
@@ -530,8 +530,8 @@ class ValkyrieGradlePluginTest {
             .build()
 
         // codegen was hooked into compilation
-        assertThat(result).taskWasSuccessful(":generateImageVectorsFreeDebug")
-        assertThat(result).taskWasSuccessful(":generateImageVectorsPaid")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorFreeDebug")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorPaid")
 
         // and the compilation succeeded, so the accessor code has access to the generated code dirs
         assertThat(result).taskWasSuccessful(":assemble")
@@ -564,7 +564,7 @@ class ValkyrieGradlePluginTest {
             .build()
 
         // then the generate task was run
-        assertThat(result).taskWasSuccessful(":generateImageVectorsMain")
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorMain")
     }
 
     @Test
@@ -593,6 +593,70 @@ class ValkyrieGradlePluginTest {
             .build()
 
         // then the generate task wasn't run
-        assertThat(result.tasks).doesNotContain(":generateImageVectorsMain")
+        assertThat(result.tasks).doesNotContain(":generateValkyrieImageVectorMain")
+    }
+
+    @Test
+    fun `Generate from custom resource directory name`() {
+        // given
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+                    resourceDirectoryName = "my-icons"
+                }
+            """.trimIndent(),
+        )
+        root.writeTestSvgs(sourceSet = "main", resourceDirName = "my-icons")
+
+        // when
+        val result = runTask(root, TASK_NAME)
+
+        // then
+        assertThat(result).taskWasSuccessful(":$TASK_NAME")
+        listOf(
+            "LinearGradient.kt",
+            "RadialGradient.kt",
+            "ClipPathGradient.kt",
+            "LinearGradientWithStroke.kt",
+        ).forEach { filename ->
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
+        }
+    }
+
+    @Test
+    fun `Generate from custom resource directory name in KMP project`() {
+        // given
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("multiplatform")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+                    resourceDirectoryName = "icons"
+                }
+
+                kotlin {
+                    jvm()
+                }
+            """.trimIndent(),
+        )
+        root.writeTestSvgs(sourceSet = "jvmMain", resourceDirName = "icons")
+        root.writeTestDrawables(sourceSet = "jvmMain", resourceDirName = "icons")
+
+        // when
+        val result = runTask(root, TASK_NAME)
+
+        // then - both SVGs and drawables from the custom directory are processed
+        assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorJvmMain")
+        assertThat(result.output).contains("Generated 21 ImageVectors in package x.y.z")
     }
 }
