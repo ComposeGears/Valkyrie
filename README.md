@@ -42,6 +42,13 @@ needs.
 > apps.
 > [Learn more](https://developer.android.com/develop/ui/compose/graphics/images/material).
 
+## Available tools:
+
+- 🔌 [IntelliJ IDEA / Android Studio plugin](#idea-plugin)
+- 🖥️ [CLI tool](#cli-tool)
+- 🐘 [Gradle plugin](#gradle-plugin) (🚧 waiting to publish 🚧)
+- Web app (🚧 under development 🚧)
+
 ## Table of Contents
 
 - [Key features](#key-features)
@@ -88,13 +95,6 @@ needs.
   * customize code indent
 - Ability to create your unique project icon pack (+nested packs if necessary)
 - High performance (6k icons processing ~5sec)
-
-### Available tools:
-
-- 🔌 [IntelliJ IDEA / Android Studio plugin](#idea-plugin)
-- 🖥️ [CLI tool](#cli-tool)
-- 🐘 [Gradle plugin](#gradle-plugin) (🚧 waiting to publish 🚧)
-- Web app (🚧 under development 🚧)
 
 ## 🔌IDEA Plugin
 
