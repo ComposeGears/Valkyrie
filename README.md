@@ -408,17 +408,32 @@ valkyrie {
   // Example: src/commonMain/valkyrieResources/, src/androidMain/valkyrieResources/
   resourceDirectoryName = "valkyrieResources"
 
-  // Optional: Output format for generated ImageVectors (default: BackingProperty)
-  outputFormat = OutputFormat.BackingProperty // or OutputFormat.LazyProperty
+  // Optional: Generate flat package structure without subfolders (default: false)
+  useFlatPackage = false
 
-  // Optional: Code generation settings
-  useComposeColors = true // Use androidx.compose.ui.graphics.Color (default: true)
-  generatePreview = false // Generate @Preview composable functions (default: false)
-  previewAnnotationType = PreviewAnnotationType.AndroidX // AndroidX or Jetbrains (default: AndroidX)
-  useFlatPackage = false // Generate flat package structure without subfolders (default: false)
-  useExplicitMode = false // Add explicit visibility modifiers (default: false)
-  addTrailingComma = false // Add trailing commas in generated code (default: false)
-  indentSize = 4 // Number of spaces for indentation (default: 4)
+  // Optional: ImageVector generation configuration
+  imageVector {
+    // Output format for generated ImageVectors (default: BackingProperty)
+    outputFormat = OutputFormat.BackingProperty // or OutputFormat.LazyProperty
+
+    // Use predefined Compose colors instead of hex color codes (e.g. Color.Black instead of Color(0xFF000000)) (default: true)
+    useComposeColors = true
+
+    // Generate `@Preview` function for ImageVector (default: false)
+    generatePreview = false
+
+    // Specifies the type of Preview annotation to generate for @Preview
+    previewAnnotationType = PreviewAnnotationType.AndroidX
+
+    // Add explicit `public` modifier to generated declarations (default: false)
+    useExplicitMode = false
+
+    // Insert a trailing comma after the last element of ImageVector.Builder block and path params (default: false)
+    addTrailingComma = false
+
+    // Number of spaces used for each level of indentation in generated code (default: 4)
+    indentSize = 4
+  }
 
   // Optional: Custom output directory (default: build/generated/sources/valkyrie)
   outputDirectory = layout.buildDirectory.dir("generated/valkyrie")

@@ -1,9 +1,13 @@
 package io.github.composegears.valkyrie.gradle
 
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
-import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.DEFAULT_RESOURCE_DIRECTORY
-import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_NAME
+import io.github.composegears.valkyrie.gradle.dsl.create
+import io.github.composegears.valkyrie.gradle.dsl.getByType
+import io.github.composegears.valkyrie.gradle.dsl.withType
+import io.github.composegears.valkyrie.gradle.internal.DEFAULT_GENERATED_SOURCES_DIR
+import io.github.composegears.valkyrie.gradle.internal.GenerateImageVectorsTask
+import io.github.composegears.valkyrie.gradle.internal.PackageNameProvider.packageNameOrThrow
+import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
+import io.github.composegears.valkyrie.gradle.internal.registerTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
@@ -15,20 +19,10 @@ import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 @Suppress("unused") // Registered as a Gradle plugin.
 class ValkyrieGradlePlugin : Plugin<Project> {
     override fun apply(target: Project): Unit = with(target) {
-        val extension = extensions.create("valkyrie", ValkyrieExtension::class.java).apply {
-            // Using the same defaults as `SvgXmlToImageVectorCommand` in tools/cli.
+        val extension = extensions.create<ValkyrieExtension>("valkyrie").apply {
+            // should be registered here for configuration cache
             packageName.convention(packageNameOrThrow())
-            generateAtSync.convention(false)
-            outputDirectory.convention(layout.buildDirectory.dir("generated/sources/valkyrie"))
-            resourceDirectoryName.convention(DEFAULT_RESOURCE_DIRECTORY)
-            outputFormat.convention(OutputFormat.BackingProperty)
-            useComposeColors.convention(true)
-            generatePreview.convention(false)
-            previewAnnotationType.convention(PreviewAnnotationType.AndroidX)
-            useFlatPackage.convention(false)
-            useExplicitMode.convention(false)
-            addTrailingComma.convention(false)
-            indentSize.convention(4)
+            outputDirectory.convention(layout.buildDirectory.dir(DEFAULT_GENERATED_SOURCES_DIR))
         }
 
         pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
@@ -45,7 +39,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
             }
         }
 
-        val codegenTasks = tasks.withType(GenerateImageVectorsTask::class.java)
+        val codegenTasks = tasks.withType<GenerateImageVectorsTask>()
 
         // Run generation immediately if we're syncing Intellij/Android Studio - helps to speed up dev cycle
         afterEvaluate {
@@ -67,7 +61,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
     }
 
     private inline fun <reified T : KotlinSourceSetContainer> Project.registerTasks(extension: ValkyrieExtension) {
-        extensions.getByType(T::class.java).sourceSets.configureEach { sourceSet ->
+        extensions.getByType<T>().sourceSets.configureEach { sourceSet ->
             registerTask(project, extension, sourceSet)
         }
     }

@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.exists
-import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.TASK_NAME
+import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.absolutePathString
@@ -20,7 +20,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 
 class ValkyrieGradlePluginTest {
-    @TempDir lateinit var root: Path
+    @TempDir
+    lateinit var root: Path
 
     @BeforeEach
     fun beforeEach() {
@@ -152,14 +153,17 @@ class ValkyrieGradlePluginTest {
                     packageName = "x.y.z"
                     iconPackName = "MyIconPack"
                     nestedPackName = "MyNestedPack"
-                    outputFormat = OutputFormat.LazyProperty
-                    useComposeColors = false
-                    generatePreview = true
-                    previewAnnotationType = PreviewAnnotationType.Jetbrains
                     useFlatPackage = true
-                    useExplicitMode = true
-                    addTrailingComma = true
-                    indentSize = 8
+
+                    imageVector {
+                        outputFormat = OutputFormat.LazyProperty
+                        useComposeColors = false
+                        generatePreview = true
+                        previewAnnotationType = PreviewAnnotationType.Jetbrains
+                        useExplicitMode = true
+                        addTrailingComma = true
+                        indentSize = 8
+                    }
                 }
             """.trimIndent(),
         )

@@ -6,7 +6,7 @@ import assertk.Assert
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.fail
-import io.github.composegears.valkyrie.gradle.GenerateImageVectorsTask.Companion.DEFAULT_RESOURCE_DIRECTORY
+import io.github.composegears.valkyrie.gradle.internal.DEFAULT_RESOURCE_DIRECTORY
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
