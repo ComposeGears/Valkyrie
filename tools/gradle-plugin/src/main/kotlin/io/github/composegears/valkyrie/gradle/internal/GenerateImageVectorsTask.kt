@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.gradle
+package io.github.composegears.valkyrie.gradle.internal
 
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
@@ -21,36 +21,49 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity.RELATIVE
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 
 @CacheableTask
-abstract class GenerateImageVectorsTask : DefaultTask() {
-    @get:[PathSensitive(RELATIVE) InputFiles] abstract val iconFiles: ConfigurableFileCollection
+internal abstract class GenerateImageVectorsTask : DefaultTask() {
+    @get:[PathSensitive(PathSensitivity.RELATIVE) InputFiles]
+    abstract val iconFiles: ConfigurableFileCollection
 
-    @get:Input abstract val packageName: Property<String>
+    @get:Input
+    abstract val packageName: Property<String>
 
-    @get:[Input Optional] abstract val iconPackName: Property<String>
+    @get:[Input Optional]
+    abstract val iconPackName: Property<String>
 
-    @get:[Input Optional] abstract val nestedPackName: Property<String>
+    @get:[Input Optional]
+    abstract val nestedPackName: Property<String>
 
-    @get:Input abstract val outputFormat: Property<OutputFormat>
+    @get:Input
+    abstract val outputFormat: Property<OutputFormat>
 
-    @get:Input abstract val useComposeColors: Property<Boolean>
+    @get:Input
+    abstract val useComposeColors: Property<Boolean>
 
-    @get:Input abstract val generatePreview: Property<Boolean>
+    @get:Input
+    abstract val generatePreview: Property<Boolean>
 
-    @get:Input abstract val previewAnnotationType: Property<PreviewAnnotationType>
+    @get:Input
+    abstract val previewAnnotationType: Property<PreviewAnnotationType>
 
-    @get:Input abstract val useFlatPackage: Property<Boolean>
+    @get:Input
+    abstract val useFlatPackage: Property<Boolean>
 
-    @get:Input abstract val useExplicitMode: Property<Boolean>
+    @get:Input
+    abstract val useExplicitMode: Property<Boolean>
 
-    @get:Input abstract val addTrailingComma: Property<Boolean>
+    @get:Input
+    abstract val addTrailingComma: Property<Boolean>
 
-    @get:Input abstract val indentSize: Property<Int>
+    @get:Input
+    abstract val indentSize: Property<Int>
 
-    @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
+    @get:OutputDirectory
+    abstract val outputDirectory: DirectoryProperty
 
     @TaskAction
     fun execute() {
@@ -125,10 +138,5 @@ abstract class GenerateImageVectorsTask : DefaultTask() {
             val packagePath = fullPackage.replace('.', File.separatorChar)
             outputDirectory.resolve(packagePath)
         }
-    }
-
-    internal companion object {
-        internal const val TASK_NAME = "generateValkyrieImageVector"
-        internal const val DEFAULT_RESOURCE_DIRECTORY = "valkyrieResources"
     }
 }

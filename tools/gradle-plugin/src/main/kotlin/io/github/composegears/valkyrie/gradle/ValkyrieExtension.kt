@@ -1,80 +1,84 @@
 package io.github.composegears.valkyrie.gradle
 
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
+import io.github.composegears.valkyrie.gradle.dsl.newInstance
+import io.github.composegears.valkyrie.gradle.dsl.property
+import io.github.composegears.valkyrie.gradle.internal.DEFAULT_RESOURCE_DIRECTORY
+import javax.inject.Inject
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Nested
+import org.gradle.api.tasks.Optional
+import org.gradle.declarative.dsl.model.annotations.Configuring
 
-interface ValkyrieExtension {
+abstract class ValkyrieExtension @Inject constructor(objects: ObjectFactory) {
     /**
      * Package name of the generated accessors. If you have any Android gradle plugin applied, this will default to
      * the [com.android.build.api.dsl.CommonExtension.namespace] property - or fail otherwise.
      */
-    val packageName: Property<String>
+    val packageName: Property<String> = objects.property<String>()
 
     /**
-     * If `true`, accessor generation will be re-run when clicking Sync in the IntelliJ IDE UI. Disabled by default.
+     * Automatically trigger accessor generation when clicking Sync in the IntelliJ IDEA.
+     *
+     * Default: `false`
      */
-    val generateAtSync: Property<Boolean>
+    val generateAtSync: Property<Boolean> = objects
+        .property<Boolean>()
+        .convention(false)
 
     /**
-     * Output location of the generated files. Defaults to `<project-dir>/build/generated/sources/valkyrie`.
+     * Output location of the generated files.
+     *
+     * Default: `<project-dir>/build/generated/sources/valkyrie`.
      */
-    val outputDirectory: DirectoryProperty
+    val outputDirectory: DirectoryProperty = objects.directoryProperty()
 
     /**
-     * Name of the resource directory containing icon files. Defaults to `valkyrieResources`.
+     * The name of the resource directory that contains icon files.
      * The plugin will look for icons in `<sourceSet>/valkyrieResources` for all project types.
+     *
+     * Default: `valkyrieResources`
      */
-    val resourceDirectoryName: Property<String>
+    val resourceDirectoryName: Property<String> = objects
+        .property<String>()
+        .convention(DEFAULT_RESOURCE_DIRECTORY)
 
     /**
-     * Unset by default
+     * Icon pack name for generated icons
+     *
+     * Default: `unspecified`
      */
-    val iconPackName: Property<String>
+    @Optional
+    val iconPackName: Property<String> = objects.property<String>()
 
     /**
-     * Unset by default
+     * Nested package name for generated icons inside the icon pack
+     *
+     * Default: `unspecified`
      */
-    val nestedPackName: Property<String>
+    @Optional
+    val nestedPackName: Property<String> = objects.property<String>()
 
     /**
-     * Defaults to [OutputFormat.BackingProperty]
+     * Generate all icons into a single package without dividing by nested pack folders
+     *
+     * Default: `false`
      */
-    val outputFormat: Property<OutputFormat>
+    val useFlatPackage: Property<Boolean> = objects
+        .property<Boolean>()
+        .convention(false)
 
     /**
-     * Defaults to `true`
+     * ImageVector generation configuration.
      */
-    val useComposeColors: Property<Boolean>
+    @get:Nested
+    internal val imageVector: ImageVectorConfigExtension = objects.newInstance<ImageVectorConfigExtension>()
 
     /**
-     * Defaults to `false`
+     * Configures ImageVector generation options
      */
-    val generatePreview: Property<Boolean>
-
-    /**
-     * Defaults to [PreviewAnnotationType.AndroidX]
-     */
-    val previewAnnotationType: Property<PreviewAnnotationType>
-
-    /**
-     * Defaults to `false`
-     */
-    val useFlatPackage: Property<Boolean>
-
-    /**
-     * Defaults to `false`
-     */
-    val useExplicitMode: Property<Boolean>
-
-    /**
-     * Defaults to `false`
-     */
-    val addTrailingComma: Property<Boolean>
-
-    /**
-     * Defaults to `4`
-     */
-    val indentSize: Property<Int>
+    @Suppress("unused")
+    @Configuring
+    fun imageVector(action: ImageVectorConfigExtension.() -> Unit) = action.invoke(imageVector)
 }
