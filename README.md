@@ -14,7 +14,7 @@
 [![CLI release][badge:cli-release]][url:gh-releases]
 [![Homebrew][badge:homebrew]][url:homebrew]
 
-<!-- [![Gradle Plugin Portal][badge:gradle-plugin]][url:gradle-plugin] -->
+[![Gradle Plugin Portal][badge:gradle-plugin]][url:gradle-plugin]
 
 [![Telegram][badge:telegram-invite]][url:telegram-invite]
 [![Slack][badge:slack-invite]][url:slack-invite]
@@ -46,7 +46,7 @@ needs.
 
 - 🔌 [IntelliJ IDEA / Android Studio plugin](#idea-plugin)
 - 🖥️ [CLI tool](#cli-tool)
-- 🐘 [Gradle plugin](#gradle-plugin) (🚧 waiting to publish 🚧)
+- 🐘 [Gradle plugin](#gradle-plugin)
 - Web app (🚧 under development 🚧)
 
 ## Table of Contents
@@ -375,7 +375,7 @@ ideal for projects that need to version control icon sources and generate type-s
 
 #### 1. Apply the plugin
 
-<!-- [![Gradle Plugin Portal][badge:gradle-plugin]][url:gradle-plugin] -->
+[![Gradle Plugin Portal][badge:gradle-plugin]][url:gradle-plugin]
 
 Define in your libs.versions.toml:
 
@@ -848,7 +848,7 @@ limitations under the License.
 
 [badge:homebrew]: https://img.shields.io/badge/homebrew-tap-orange?style=for-the-badge&labelColor=black&color=white&logo=homebrew
 
-<!-- [badge:gradle-plugin]: https://img.shields.io/gradle-plugin-portal/v/io.github.composegears.valkyrie?style=for-the-badge&labelColor=black&color=white&label=Gradle%20Plugin -->
+[badge:gradle-plugin]: https://img.shields.io/gradle-plugin-portal/v/io.github.composegears.valkyrie?style=for-the-badge&labelColor=black&color=white&label=Gradle%20Plugin
 
 [badge:marketplace-downloads]: https://img.shields.io/jetbrains/plugin/d/24786.svg?style=for-the-badge&labelColor=black&color=white
 
@@ -868,7 +868,7 @@ limitations under the License.
 
 [url:homebrew]: https://github.com/ComposeGears/homebrew-repo
 
-<!-- [url:gradle-plugin]: https://plugins.gradle.org/plugin/io.github.composegears.valkyrie -->
+[url:gradle-plugin]: https://plugins.gradle.org/plugin/io.github.composegears.valkyrie
 
 [url:telegram-invite]: https://t.me/composegears
 
