@@ -73,8 +73,9 @@ needs.
     - [`changelog` command](#changelog-command)
   - [Build](#build-cli)
 - 🐘 [Gradle plugin](#gradle-plugin)
-  - [Common scenarios](#common-scenarios)
   - [Plugin configuration](#plugin-configuration)
+  - [Samples](#gradle-plugin-samples)
+    - [Basic conversion](#basic-conversion)
 - [Other](#other)
   - [Export formats](#export-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
@@ -464,6 +465,63 @@ Run the Gradle task to generate ImageVector sources:
 
 ```bash
 ./gradlew generateValkyrieImageVector
+```
+
+### Gradle plugin samples
+
+#### Basic conversion
+
+Simply convert SVG/XML files to ImageVector in the specified package.
+For this example, we will use a multiplatform project structure.
+
+```kotlin
+plugins {
+  kotlin("multiplatform")
+  alias(libs.plugins.valkyrie)
+}
+
+valkyrie {
+  packageName = "com.example.app.icons"
+}
+
+// other code
+```
+
+Place icons in the `valkyrieResources` directory:
+
+```text
+src/
+└── commonMain/
+    └── valkyrieResources/
+        ├── ic_brush.xml
+        ├── ic_compose_color.xml
+        ├── ic_linear_gradient.svg
+        ├── ic_several_path.xml
+        └── ic_transparent_fill_color.xml
+```
+
+Run the Gradle task:
+
+```bash
+./gradlew generateValkyrieImageVector
+```
+
+Observe generated code in `build` directory:
+
+<div align="center">
+<img src="assets/gradle_plugin_simple.png" width="350" />
+</div>
+
+Use icon from your Compose code:
+
+```kotlin
+@Composable
+fun Demo() {
+  Image(
+    imageVector = ComposeColor,
+    contentDescription = null
+  )
+}
 ```
 
 ## Other

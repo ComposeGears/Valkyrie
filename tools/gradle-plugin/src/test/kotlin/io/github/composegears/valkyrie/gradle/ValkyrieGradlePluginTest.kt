@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.exists
+import io.github.composegears.valkyrie.gradle.common.doesNotExist
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 
-class ValkyrieGradlePluginTest {
+class ValkyrieGradlePluginTest : CommonGradleTest() {
     @TempDir
     lateinit var root: Path
 
