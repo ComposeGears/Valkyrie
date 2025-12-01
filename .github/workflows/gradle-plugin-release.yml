@@ -45,5 +45,5 @@ jobs:
 
       - name: Create GitHub release
         run: |
-          gh release create ${{ env.RELEASE_TAG }} --generate-notes
+          gh release create ${{ env.RELEASE_TAG }} --generate-notes --prerelease
 
