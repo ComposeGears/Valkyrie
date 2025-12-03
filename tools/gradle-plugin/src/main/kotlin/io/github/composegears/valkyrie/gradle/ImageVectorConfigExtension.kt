@@ -55,15 +55,6 @@ abstract class ImageVectorConfigExtension @Inject constructor(objects: ObjectFac
         .convention(PreviewAnnotationType.AndroidX)
 
     /**
-     * Add explicit `public` modifier to generated declarations.
-     *
-     * Default: `false`
-     */
-    val useExplicitMode: Property<Boolean> = objects
-        .property<Boolean>()
-        .convention(false)
-
-    /**
      * Insert a trailing comma after the last element of ImageVector.Builder block and path params.
      *
      * Default: `false`
@@ -71,13 +62,4 @@ abstract class ImageVectorConfigExtension @Inject constructor(objects: ObjectFac
     val addTrailingComma: Property<Boolean> = objects
         .property<Boolean>()
         .convention(false)
-
-    /**
-     * Number of spaces used for each level of indentation in generated code.
-     *
-     * Default: `4`
-     */
-    val indentSize: Property<Int> = objects
-        .property<Int>()
-        .convention(4)
 }

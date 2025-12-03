@@ -70,6 +70,19 @@ abstract class ValkyrieExtension @Inject constructor(objects: ObjectFactory) {
         .convention(false)
 
     /**
+     * Code style configuration for generated code.
+     */
+    @get:Nested
+    internal val codeStyle: CodeStyleConfigExtension = objects.newInstance<CodeStyleConfigExtension>()
+
+    /**
+     * Configures code style options for generated code
+     */
+    @Suppress("unused")
+    @Configuring
+    fun codeStyle(action: CodeStyleConfigExtension.() -> Unit) = action.invoke(codeStyle)
+
+    /**
      * ImageVector generation configuration.
      */
     @get:Nested
