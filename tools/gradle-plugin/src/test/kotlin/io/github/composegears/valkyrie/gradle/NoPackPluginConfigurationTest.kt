@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.gradle
 import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.containsMatch
-import assertk.assertions.exists
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.gradle.common.CommonGradleTest
 import io.github.composegears.valkyrie.gradle.common.GENERATED_SOURCES_DIR
@@ -45,22 +44,16 @@ class NoPackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result).taskHadResult(":generateValkyrieImageVectorJvmMain", SKIPPED)
         assertThat(result).taskHadResult(":generateValkyrieImageVectorJvmTest", SKIPPED)
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains("Generated 17 ImageVectors in package x.y.z")
+        assertThat(result.output).contains("Generated 17 ImageVector icons in package \"x.y.z\"")
 
         val generatedIcons = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
         assertThat(generatedIcons.count()).isEqualTo(17)
 
         generatedIcons.forEach { file ->
-            assertThat(file.readText()).containsMatch(Regex("val [A-Za-z0-9_]+: ImageVector"))
-        }
+            val relativePath = root.resolve(GENERATED_SOURCES_DIR).relativize(file)
+            assertThat(relativePath.toString()).contains("commonMain/x/y/z/")
 
-        listOf(
-            "OnlyPath.kt",
-            "IconWithShorthandColor.kt",
-            "SeveralPath.kt",
-            "AllPathParams.kt",
-        ).forEach { filename ->
-            assertThat(root.resolve("${GENERATED_SOURCES_DIR}/commonMain/x/y/z/$filename")).exists()
+            assertThat(file.readText()).containsMatch(Regex("val [A-Za-z0-9_]+: ImageVector"))
         }
     }
 }

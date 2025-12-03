@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.gradle.internal
+package io.github.composegears.valkyrie.gradle.internal.common
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.GradleException

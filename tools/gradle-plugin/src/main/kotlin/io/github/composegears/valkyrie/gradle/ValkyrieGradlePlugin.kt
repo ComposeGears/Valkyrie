@@ -4,10 +4,11 @@ import io.github.composegears.valkyrie.gradle.dsl.create
 import io.github.composegears.valkyrie.gradle.dsl.getByType
 import io.github.composegears.valkyrie.gradle.dsl.withType
 import io.github.composegears.valkyrie.gradle.internal.DEFAULT_GENERATED_SOURCES_DIR
-import io.github.composegears.valkyrie.gradle.internal.GenerateImageVectorsTask
-import io.github.composegears.valkyrie.gradle.internal.PackageNameProvider.packageNameOrThrow
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
+import io.github.composegears.valkyrie.gradle.internal.common.ExtensionValidator
+import io.github.composegears.valkyrie.gradle.internal.common.PackageNameProvider.packageNameOrThrow
 import io.github.composegears.valkyrie.gradle.internal.registerTask
+import io.github.composegears.valkyrie.gradle.internal.task.GenerateImageVectorsTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
@@ -43,6 +44,8 @@ class ValkyrieGradlePlugin : Plugin<Project> {
 
         // Run generation immediately if we're syncing Intellij/Android Studio - helps to speed up dev cycle
         afterEvaluate {
+            ExtensionValidator.validate(extension)
+
             val isIdeSyncing = System.getProperty("idea.sync.active") == "true"
             if (extension.generateAtSync.getOrElse(false) && isIdeSyncing) {
                 tasks.findByName("prepareKotlinIdeaImport")?.dependsOn(codegenTasks)

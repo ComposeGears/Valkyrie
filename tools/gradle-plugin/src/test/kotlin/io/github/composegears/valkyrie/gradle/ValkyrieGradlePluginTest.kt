@@ -32,7 +32,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Package name doesn't need to be explicitly set if AGP is applied and namespace is set`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -49,37 +48,14 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         )
         root.writeTestSvgs(sourceSet = "main")
 
-        // when
         val result = runTask(root, TASK_NAME)
 
-        // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains("Generated 4 ImageVectors in package a.b.c")
-    }
-
-    @Test
-    fun `Package name needs to be explicitly set if AGP isn't applied`() {
-        // given
-        root.resolve("build.gradle.kts").writeText(
-            """
-                plugins {
-                    kotlin("jvm")
-                    id("io.github.composegears.valkyrie")
-                }
-            """.trimIndent(),
-        )
-        root.writeTestSvgs(sourceSet = "main")
-
-        // when
-        val result = failTask(root, TASK_NAME)
-
-        // then
-        assertThat(result.output).contains("Couldn't automatically estimate package name")
+        assertThat(result.output).contains("Generated 4 ImageVector icons in package \"a.b.c\"")
     }
 
     @Test
     fun `Setting custom package name`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -94,19 +70,16 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         )
         root.writeTestSvgs(sourceSet = "main")
 
-        // when
         val result = buildRunner(root)
             .withArguments(TASK_NAME, "--info") // for log statement
             .build()
 
-        // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains("Generated 4 ImageVectors in package my.custom.package")
+        assertThat(result.output).contains("Generated 4 ImageVector icons in package \"my.custom.package\"")
     }
 
     @Test
     fun `Generate from SVGs with default config`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -121,10 +94,8 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         )
         root.writeTestSvgs(sourceSet = "main")
 
-        // when
         val result = runTask(root, TASK_NAME)
 
-        // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
 
         listOf(
@@ -140,7 +111,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
     @OptIn(ExperimentalPathApi::class)
     @Test
     fun `Generate from test SVGs with custom config`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
@@ -153,9 +123,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
                 valkyrie {
                     packageName = "x.y.z"
-                    iconPackName = "MyIconPack"
-                    nestedPackName = "MyNestedPack"
-                    useFlatPackage = true
 
                     codeStyle {
                         useExplicitMode = true
@@ -174,10 +141,8 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         )
         root.writeTestSvgs(sourceSet = "main")
 
-        // when
         val result = runTask(root, TASK_NAME)
 
-        // then the expected files are printed to log
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
         listOf(
             "LinearGradient.kt",
@@ -185,7 +150,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/$filename")).exists()
+            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
         }
 
         // and the LinearGradient file is created with the right visibility, parent pack, nested pack, etc
@@ -193,54 +158,11 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             .walk()
             .first { it.name == "LinearGradient.kt" }
             .readText()
-        assertThat(linearGradientKt).contains("public val MyIconPack.MyNestedPack.LinearGradient: ImageVector")
-    }
-
-    @OptIn(ExperimentalPathApi::class)
-    @Test
-    fun `Generate with nested package creates correct directory structure`() {
-        // given
-        root.resolve("build.gradle.kts").writeText(
-            """
-                plugins {
-                    kotlin("jvm")
-                    id("io.github.composegears.valkyrie")
-                }
-
-                valkyrie {
-                    packageName = "com.example.icons"
-                    nestedPackName = "Filled"
-                    useFlatPackage = false
-                }
-            """.trimIndent(),
-        )
-        root.writeTestSvgs(sourceSet = "main")
-
-        // when
-        val result = runTask(root, TASK_NAME)
-
-        // then the files are created in the nested package directory structure
-        assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        listOf(
-            "LinearGradient.kt",
-            "RadialGradient.kt",
-            "ClipPathGradient.kt",
-            "LinearGradientWithStroke.kt",
-        ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/com/example/icons/filled/$filename")).exists()
-        }
-
-        // and the package declaration matches the directory structure
-        val linearGradientKt = root
-            .walk()
-            .first { it.name == "LinearGradient.kt" }
-            .readText()
-        assertThat(linearGradientKt).contains("package com.example.icons.filled")
+        assertThat(linearGradientKt).contains("public val LinearGradient: ImageVector")
     }
 
     @Test
     fun `Generate from SVGs in KMP project`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -270,7 +192,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.writeTestSvgs(sourceSet = "jvmMain")
         root.writeTestSvgs(sourceSet = "androidMain")
 
-        // when
         val result = runTask(root, TASK_NAME)
 
         // no SVGs/drawables under these source sets, so the tasks are skipped (but still registered)
@@ -286,7 +207,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Generate from drawables with default config`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -304,10 +224,8 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
         root.writeTestDrawables(sourceSet = "main")
 
-        // when
         val result = runTask(root, TASK_NAME)
 
-        // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
         listOf(
             "OnlyPath.kt",
@@ -321,7 +239,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Running the same task twice with configuration cache skips the second run`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -352,7 +269,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Generate outputs for android build variants`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -421,7 +337,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Compile JVM project generating and using ImageVectors`() {
-        // given
         root.writeTestSvgs(sourceSet = "main")
         root.resolve("build.gradle.kts").writeText(
             """
@@ -474,7 +389,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         // pre-check - we need the Android SDK to pass this test. Skip test if it can't be found
         val androidHome = androidHomeOrSkip()
 
-        // given
         root.writeTestSvgs(sourceSet = "freeDebug")
         root.writeTestDrawables(sourceSet = "paid")
         root.resolve("build.gradle.kts").writeText(
@@ -548,7 +462,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Run generate when syncing Intellij IDE`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -578,7 +491,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Don't run generate when syncing Intellij IDE if config wasn't enabled`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -607,7 +519,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Generate from custom resource directory name`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -623,10 +534,8 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         )
         root.writeTestSvgs(sourceSet = "main", resourceDirName = "my-icons")
 
-        // when
         val result = runTask(root, TASK_NAME)
 
-        // then
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
         listOf(
             "LinearGradient.kt",
@@ -640,7 +549,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Generate from custom resource directory name in KMP project`() {
-        // given
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
@@ -661,11 +569,10 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.writeTestSvgs(sourceSet = "jvmMain", resourceDirName = "icons")
         root.writeTestDrawables(sourceSet = "jvmMain", resourceDirName = "icons")
 
-        // when
         val result = runTask(root, TASK_NAME)
 
         // then - both SVGs and drawables from the custom directory are processed
         assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorJvmMain")
-        assertThat(result.output).contains("Generated 21 ImageVectors in package x.y.z")
+        assertThat(result.output).contains("Generated 21 ImageVector icons in package \"x.y.z\"")
     }
 }
