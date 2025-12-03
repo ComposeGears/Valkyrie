@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.gradle.internal
 
 import io.github.composegears.valkyrie.gradle.ValkyrieExtension
 import io.github.composegears.valkyrie.gradle.dsl.conventionCompat
+import io.github.composegears.valkyrie.gradle.internal.task.GenerateImageVectorsTask
 import io.github.composegears.valkyrie.parser.unified.ext.capitalized
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
@@ -15,13 +16,17 @@ internal fun registerTask(
     sourceSet: KotlinSourceSet,
 ) {
     val taskName = "${TASK_NAME}${sourceSet.name.capitalized()}"
+    val sourceSetName = sourceSet.name
     project.tasks.register(taskName, GenerateImageVectorsTask::class.java) { task ->
         task.description = "Converts SVG & Drawable files into ImageVector Kotlin accessor properties"
 
         val resourceDirName = extension.resourceDirectoryName
         val iconFiles = sourceSet.findIconFiles(resourceDirName)
         task.iconFiles.conventionCompat(iconFiles)
-        task.onlyIf("Needs at least one input file") { !iconFiles.isEmpty }
+        task.onlyIf("Needs at least one input file or iconPack") {
+            !iconFiles.isEmpty ||
+                (extension.iconPack.isPresent && sourceSetName == extension.iconPack.get().targetSourceSet.get())
+        }
 
         task.packageName.convention(extension.packageName)
 
@@ -30,16 +35,16 @@ internal fun registerTask(
         task.outputDirectory.convention(perSourceSetDir)
         sourceSet.kotlin.srcDir(perSourceSetDir)
 
-        task.iconPackName.convention(extension.iconPackName)
-        task.nestedPackName.convention(extension.nestedPackName)
         task.outputFormat.convention(extension.imageVector.outputFormat)
         task.useComposeColors.convention(extension.imageVector.useComposeColors)
         task.generatePreview.convention(extension.imageVector.generatePreview)
         task.previewAnnotationType.convention(extension.imageVector.previewAnnotationType)
-        task.useFlatPackage.convention(extension.useFlatPackage)
         task.useExplicitMode.convention(extension.codeStyle.useExplicitMode)
         task.addTrailingComma.convention(extension.imageVector.addTrailingComma)
         task.indentSize.convention(extension.codeStyle.indentSize)
+
+        task.sourceSet.convention(sourceSet.name)
+        task.iconPack.convention(extension.iconPack)
     }
 }
 

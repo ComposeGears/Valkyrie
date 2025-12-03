@@ -76,6 +76,8 @@ needs.
   - [Plugin configuration](#plugin-configuration)
   - [Samples](#gradle-plugin-samples)
     - [Basic conversion](#basic-conversion)
+    - [Icon pack configuration](#icon-pack-configuration)
+    - [Icon pack with nested packs configuration](#icon-pack-with-nested-packs-configuration)
 - [Other](#other)
   - [Export formats](#export-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
@@ -394,23 +396,24 @@ plugins {
 
 #### 2. Configure the plugin
 
+Full gradle plugin API specification (see [practical examples below](#gradle-plugin-samples)):
+
 ```kotlin
 valkyrie {
-  // Required: Package name for generated code
+  // Required: Package name for generated icons
   // Defaults to Android 'namespace' if Android Gradle Plugin is applied
   packageName = "com.example.app.icons"
 
-  // Optional: Icon pack configuration
-  iconPackName = "AppIcons" // Creates an icon pack object (unset by default)
-  nestedPackName = "Filled" // For nested packs like AppIcons.Filled (unset by default)
+  // Optional: Custom output directory (default: build/generated/sources/valkyrie)
+  outputDirectory = layout.buildDirectory.dir("generated/valkyrie")
 
   // Optional: Resource directory name containing icon files (default: "valkyrieResources")
   // Icons will be discovered in src/{sourceSet}/{resourceDirectoryName}/
   // Example: src/commonMain/valkyrieResources/, src/androidMain/valkyrieResources/
   resourceDirectoryName = "valkyrieResources"
 
-  // Optional: Generate flat package structure without subfolders (default: false)
-  useFlatPackage = false
+  // Optional: Generate during IDE sync for better developer experience (default: false)
+  generateAtSync = false
 
   // Optional: Code style configuration for generated code
   codeStyle {
@@ -439,11 +442,27 @@ valkyrie {
     addTrailingComma = false
   }
 
-  // Optional: Custom output directory (default: build/generated/sources/valkyrie)
-  outputDirectory = layout.buildDirectory.dir("generated/valkyrie")
+  // Optional icon pack object configuration
+  iconPack {
+    // Required: Name of the root icon pack object
+    name = "ValkyrieIcons"
 
-  // Optional: Generate during IDE sync for better developer experience (default: false)
-  generateAtSync = false
+    // Required: Target source set for generated icon pack object
+    targetSourceSet = "commonMain"
+
+    // Optional: Generate flat package structure without subfolders (default: false)
+    useFlatPackage = false
+
+    // Optional: Nested icon packs configuration
+    nested {
+      // Required: Name of the nested icon pack object
+      name = "Outlined"
+
+      // Required: The source folder path containing icons for this nested pack, relative to the `resourceDirectoryName`.
+      sourceFolder = "outlined"
+    }
+    // You can add more nested packs if necessary
+  }
 }
 ```
 
@@ -522,7 +541,143 @@ Use icon from your Compose code:
 fun Demo() {
   Image(
     imageVector = ComposeColor,
+    contentDescription = "Color"
+  )
+}
+```
+
+#### Icon pack configuration
+
+For better organization and type-safe access to your icons, you can create an icon pack.
+For this example, we will use a multiplatform project structure.
+
+```kotlin
+plugins {
+  kotlin("multiplatform")
+  alias(libs.plugins.valkyrie)
+}
+
+valkyrie {
+  packageName = "com.example.app.icons"
+
+  iconPack {
+    name = "ValkyrieIcons"
+    targetSourceSet = "commonMain" // icon pack object will be generated in commonMain source set
+  }
+}
+```
+
+Place icons in the `valkyrieResources` directory:
+
+```text
+src/
+└── commonMain/
+    └── valkyrieResources/
+        ├── ic_brush.xml
+        ├── ic_compose_color.xml
+        ├── ic_linear_gradient.svg
+        ├── ic_several_path.xml
+        └── ic_transparent_fill_color.xml
+```
+
+Run the Gradle task:
+
+```bash
+./gradlew generateValkyrieImageVector
+```
+
+Observe generated code in `build` directory with icon pack object and icons:
+
+<div align="center">
+<img src="assets/gradle_plugin_iconpack.png" width="350" />
+</div>
+
+Use icon from your Compose code:
+
+```kotlin
+@Composable
+fun Demo() {
+  Image(
+    imageVector = ValkyrieIcons.LinearGradient,
     contentDescription = null
+  )
+}
+```
+
+#### Icon pack with nested packs configuration
+
+For larger projects with multiple icon sets, you can organize icons into a structured icon pack with nested packs. This
+approach provides better organization and type-safe access to your icons.
+
+For this example, we will use a multiplatform project structure.
+
+```kotlin
+plugins {
+  kotlin("multiplatform")
+  alias(libs.plugins.valkyrie)
+}
+
+valkyrie {
+  packageName = "com.example.app.icons"
+
+  iconPack {
+    name = "ValkyrieIcons"
+    targetSourceSet = "commonMain"
+
+    nested {
+      name = "Outlined"
+      sourceFolder = "outlined"
+    }
+
+    nested {
+      name = "Filled"
+      sourceFolder = "filled"
+    }
+  }
+}
+```
+
+Organize your icons in nested folders:
+
+```text
+src/
+└── commonMain/
+    └── valkyrieResources/
+        ├── outlined/
+        │   ├── add.svg
+        │   ├── delete.svg
+        │   └── settings.svg
+        └── filled/
+            ├── home.svg
+            ├── user.svg
+            └── search.svg
+```
+
+Run the Gradle task:
+
+```bash
+./gradlew generateValkyrieImageVector
+```
+
+Observe generated code in `build` directory with icon pack object and icons:
+
+<div align="center">
+<img src="assets/gradle_plugin_iconpack_nested.png" width="350" />
+</div>
+
+Use icons from your Compose code:
+
+```kotlin
+@Composable
+fun Demo() {
+  Image(
+    imageVector = ValkyrieIcons.Outlined.Add,
+    contentDescription = "Add"
+  )
+
+  Image(
+    imageVector = ValkyrieIcons.Filled.Home,
+    contentDescription = "Home"
   )
 }
 ```
