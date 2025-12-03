@@ -412,6 +412,15 @@ valkyrie {
   // Optional: Generate flat package structure without subfolders (default: false)
   useFlatPackage = false
 
+  // Optional: Code style configuration for generated code
+  codeStyle {
+    // Add explicit `public` modifier to generated declarations (default: false)
+    useExplicitMode = false
+
+    // Number of spaces used for each level of indentation in generated code (default: 4)
+    indentSize = 4
+  }
+
   // Optional: ImageVector generation configuration
   imageVector {
     // Output format for generated ImageVectors (default: BackingProperty)
@@ -426,14 +435,8 @@ valkyrie {
     // Specifies the type of Preview annotation to generate for @Preview
     previewAnnotationType = PreviewAnnotationType.AndroidX
 
-    // Add explicit `public` modifier to generated declarations (default: false)
-    useExplicitMode = false
-
     // Insert a trailing comma after the last element of ImageVector.Builder block and path params (default: false)
     addTrailingComma = false
-
-    // Number of spaces used for each level of indentation in generated code (default: 4)
-    indentSize = 4
   }
 
   // Optional: Custom output directory (default: build/generated/sources/valkyrie)

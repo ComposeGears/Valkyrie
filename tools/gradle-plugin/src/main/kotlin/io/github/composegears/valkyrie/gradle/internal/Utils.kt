@@ -37,9 +37,9 @@ internal fun registerTask(
         task.generatePreview.convention(extension.imageVector.generatePreview)
         task.previewAnnotationType.convention(extension.imageVector.previewAnnotationType)
         task.useFlatPackage.convention(extension.useFlatPackage)
-        task.useExplicitMode.convention(extension.imageVector.useExplicitMode)
+        task.useExplicitMode.convention(extension.codeStyle.useExplicitMode)
         task.addTrailingComma.convention(extension.imageVector.addTrailingComma)
-        task.indentSize.convention(extension.imageVector.indentSize)
+        task.indentSize.convention(extension.codeStyle.indentSize)
     }
 }
 

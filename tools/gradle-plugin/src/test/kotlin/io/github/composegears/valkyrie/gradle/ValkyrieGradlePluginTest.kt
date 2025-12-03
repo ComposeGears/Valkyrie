@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.exists
+import io.github.composegears.valkyrie.gradle.common.CommonGradleTest
 import io.github.composegears.valkyrie.gradle.common.doesNotExist
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
@@ -156,14 +157,17 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
                     nestedPackName = "MyNestedPack"
                     useFlatPackage = true
 
+                    codeStyle {
+                        useExplicitMode = true
+                        indentSize = 8
+                    }
+
                     imageVector {
                         outputFormat = OutputFormat.LazyProperty
                         useComposeColors = false
                         generatePreview = true
                         previewAnnotationType = PreviewAnnotationType.Jetbrains
-                        useExplicitMode = true
                         addTrailingComma = true
-                        indentSize = 8
                     }
                 }
             """.trimIndent(),

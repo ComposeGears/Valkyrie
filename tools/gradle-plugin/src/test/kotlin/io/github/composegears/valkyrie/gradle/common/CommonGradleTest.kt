@@ -1,8 +1,12 @@
-package io.github.composegears.valkyrie.gradle
+package io.github.composegears.valkyrie.gradle.common
 
 import assertk.Assert
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
+import io.github.composegears.valkyrie.gradle.ANDROID_HOME
+import io.github.composegears.valkyrie.gradle.GRADLE_VERSION
+import io.github.composegears.valkyrie.gradle.RESOURCES_DIR_SVG
+import io.github.composegears.valkyrie.gradle.RESOURCES_DIR_XML
 import io.github.composegears.valkyrie.gradle.internal.DEFAULT_RESOURCE_DIRECTORY
 import java.nio.file.Path
 import java.nio.file.Paths

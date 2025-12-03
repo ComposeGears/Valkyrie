@@ -5,6 +5,7 @@ import assertk.assertions.contains
 import assertk.assertions.containsMatch
 import assertk.assertions.exists
 import assertk.assertions.isEqualTo
+import io.github.composegears.valkyrie.gradle.common.CommonGradleTest
 import io.github.composegears.valkyrie.gradle.common.GENERATED_SOURCES_DIR
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path

@@ -1,16 +1,21 @@
+public abstract class io/github/composegears/valkyrie/gradle/CodeStyleConfigExtension {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public final fun getIndentSize ()Lorg/gradle/api/provider/Property;
+	public final fun getUseExplicitMode ()Lorg/gradle/api/provider/Property;
+}
+
 public abstract class io/github/composegears/valkyrie/gradle/ImageVectorConfigExtension {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
 	public final fun getAddTrailingComma ()Lorg/gradle/api/provider/Property;
 	public final fun getGeneratePreview ()Lorg/gradle/api/provider/Property;
-	public final fun getIndentSize ()Lorg/gradle/api/provider/Property;
 	public final fun getOutputFormat ()Lorg/gradle/api/provider/Property;
 	public final fun getPreviewAnnotationType ()Lorg/gradle/api/provider/Property;
 	public final fun getUseComposeColors ()Lorg/gradle/api/provider/Property;
-	public final fun getUseExplicitMode ()Lorg/gradle/api/provider/Property;
 }
 
 public abstract class io/github/composegears/valkyrie/gradle/ValkyrieExtension {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public final fun codeStyle (Lkotlin/jvm/functions/Function1;)V
 	public final fun getGenerateAtSync ()Lorg/gradle/api/provider/Property;
 	public final fun getIconPackName ()Lorg/gradle/api/provider/Property;
 	public final fun getNestedPackName ()Lorg/gradle/api/provider/Property;
