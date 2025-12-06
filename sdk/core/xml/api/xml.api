@@ -1,6 +1,8 @@
 public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable {
 	public static final field CLIP_PATH Ljava/lang/String;
 	public static final field Companion Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Companion;
+	public static final field GRADIENT Ljava/lang/String;
+	public static final field GRADIENT_ITEM Ljava/lang/String;
 	public static final field GROUP Ljava/lang/String;
 	public static final field PATH Ljava/lang/String;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FFLjava/lang/String;ZLjava/util/List;)V
@@ -39,6 +41,36 @@ public final synthetic class io/github/composegears/valkyrie/sdk/core/xml/Vector
 	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr {
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr$Companion;
+	public fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;
+	public final fun copy (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGradient ()Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public abstract interface class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Child {
 }
 
@@ -73,6 +105,83 @@ public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$C
 }
 
 public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient {
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Ljava/lang/String;
+	public final fun component11 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/Float;
+	public final fun component3 ()Ljava/lang/Float;
+	public final fun component4 ()Ljava/lang/Float;
+	public final fun component5 ()Ljava/lang/Float;
+	public final fun component6 ()Ljava/lang/Float;
+	public final fun component7 ()Ljava/lang/Float;
+	public final fun component8 ()Ljava/lang/Float;
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;Ljava/lang/String;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/Float;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCenterX ()Ljava/lang/Float;
+	public final fun getCenterY ()Ljava/lang/Float;
+	public final fun getEndColor ()Ljava/lang/String;
+	public final fun getEndX ()Ljava/lang/Float;
+	public final fun getEndY ()Ljava/lang/Float;
+	public final fun getGradientRadius ()Ljava/lang/Float;
+	public final fun getItems ()Ljava/util/List;
+	public final fun getStartColor ()Ljava/lang/String;
+	public final fun getStartX ()Ljava/lang/Float;
+	public final fun getStartY ()Ljava/lang/Float;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Gradient$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem {
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem$Companion;
+	public fun <init> (Ljava/lang/String;F)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()F
+	public final fun copy (Ljava/lang/String;F)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem;Ljava/lang/String;FILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColor ()Ljava/lang/String;
+	public final fun getOffset ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$GradientItem$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -122,11 +231,12 @@ public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$G
 
 public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path : io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Child {
 	public static final field Companion Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path$Companion;
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component10 ()Ljava/lang/String;
 	public final fun component11 ()Ljava/lang/String;
+	public final fun component12 ()Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/lang/String;
@@ -135,9 +245,10 @@ public final class io/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$P
 	public final fun component7 ()Ljava/lang/String;
 	public final fun component8 ()Ljava/lang/String;
 	public final fun component9 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path;
-	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$Path;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAaptAttr ()Lio/github/composegears/valkyrie/sdk/core/xml/VectorDrawable$AaptAttr;
 	public final fun getAlpha ()F
 	public final fun getFillColor ()Ljava/lang/String;
 	public final fun getFillType ()Ljava/lang/String;
