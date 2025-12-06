@@ -10,7 +10,6 @@ import io.github.composegears.valkyrie.parser.unified.model.IconType
 import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
 import kotlin.test.assertEquals
 import kotlinx.io.files.Path
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class XmlToImageVectorTest {
@@ -66,16 +65,12 @@ class XmlToImageVectorTest {
     }
 
     @Test
-    @Disabled
     fun `icon with compose colors and linear gradient`() {
-        // TODO: update kmp linear gradient parsing
         unifiedXmlParserTest(iconPath = getResourcePath("imagevector/xml/ic_compose_color_linear_gradient.xml").toIOPath())
     }
 
     @Test
-    @Disabled
     fun `icon with compose colors and radial gradient`() {
-        // TODO: update kmp radial gradient parsing
         unifiedXmlParserTest(iconPath = getResourcePath("imagevector/xml/ic_compose_color_radial_gradient.xml").toIOPath())
     }
 

@@ -37,9 +37,12 @@ object XmlToImageVectorParser {
     }
 
     private fun VectorDrawable.Path.toIrPath(): IrVectorNode.IrPath {
+        val gradientFill = aaptAttr?.gradient?.toIrFill()
+        val colorFill = fillColor?.toIrColor()?.let { IrFill.Color(it) }
+
         return IrVectorNode.IrPath(
             name = name.orEmpty(),
-            fill = fillColor?.toIrColor()?.let { IrFill.Color(it) },
+            fill = gradientFill ?: colorFill,
             fillAlpha = alpha,
             stroke = strokeColor?.toIrColor()?.let { IrStroke.Color(it) },
             strokeAlpha = strokeAlpha?.toFloatOrNull() ?: 1f,
@@ -84,4 +87,46 @@ object XmlToImageVectorParser {
     private fun String.asFillType(): IrPathFillType = IrPathFillType.entries.find { it.name.equals(this, ignoreCase = true) } ?: IrPathFillType.NonZero
 
     private fun String.toIrColor(): IrColor? = AndroidColorParser.parse(this) ?: IrColor(this).takeUnless { it.isTransparent() }
+
+    private fun VectorDrawable.Gradient.toIrFill(): IrFill? {
+        return when (type.lowercase()) {
+            "linear" -> {
+                IrFill.LinearGradient(
+                    startX = startX ?: 0f,
+                    startY = startY ?: 0f,
+                    endX = endX ?: 0f,
+                    endY = endY ?: 0f,
+                    colorStops = buildColorStops(),
+                )
+            }
+            "radial" -> {
+                IrFill.RadialGradient(
+                    radius = gradientRadius ?: 0f,
+                    centerX = centerX ?: 0f,
+                    centerY = centerY ?: 0f,
+                    colorStops = buildColorStops(),
+                )
+            }
+            else -> null
+        }
+    }
+
+    private fun VectorDrawable.Gradient.buildColorStops(): MutableList<IrFill.ColorStop> {
+        return if (items.isNotEmpty()) {
+            items.mapNotNull { item ->
+                item.color.toIrColor()?.let { color ->
+                    IrFill.ColorStop(item.offset, color)
+                }
+            }
+        } else {
+            buildList {
+                startColor?.toIrColor()?.let { color ->
+                    add(IrFill.ColorStop(0f, color))
+                }
+                endColor?.toIrColor()?.let { color ->
+                    add(IrFill.ColorStop(1f, color))
+                }
+            }
+        }.toMutableList()
+    }
 }

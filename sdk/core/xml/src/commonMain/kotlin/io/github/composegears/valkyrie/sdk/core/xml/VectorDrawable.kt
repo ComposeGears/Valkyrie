@@ -8,6 +8,8 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 private const val ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android"
 private const val ANDROID_PREFIX = "android"
+private const val AAPT_NAMESPACE = "http://schemas.android.com/aapt"
+private const val AAPT_PREFIX = "aapt"
 
 @XmlSerialName(value = "vector", prefix = ANDROID_PREFIX)
 @Serializable
@@ -27,9 +29,44 @@ data class VectorDrawable(
         const val GROUP = "group"
         const val PATH = "path"
         const val CLIP_PATH = "clip-path"
+        const val GRADIENT = "gradient"
+        const val GRADIENT_ITEM = "item"
     }
 
     sealed interface Child
+
+    @Serializable
+    @SerialName(GRADIENT)
+    @XmlSerialName(value = GRADIENT)
+    data class Gradient(
+        @XmlSerialName("type", ANDROID_NAMESPACE, ANDROID_PREFIX) val type: String,
+        @XmlSerialName("startX", ANDROID_NAMESPACE, ANDROID_PREFIX) val startX: Float? = null,
+        @XmlSerialName("startY", ANDROID_NAMESPACE, ANDROID_PREFIX) val startY: Float? = null,
+        @XmlSerialName("endX", ANDROID_NAMESPACE, ANDROID_PREFIX) val endX: Float? = null,
+        @XmlSerialName("endY", ANDROID_NAMESPACE, ANDROID_PREFIX) val endY: Float? = null,
+        @XmlSerialName("centerX", ANDROID_NAMESPACE, ANDROID_PREFIX) val centerX: Float? = null,
+        @XmlSerialName("centerY", ANDROID_NAMESPACE, ANDROID_PREFIX) val centerY: Float? = null,
+        @XmlSerialName("gradientRadius", ANDROID_NAMESPACE, ANDROID_PREFIX) val gradientRadius: Float? = null,
+        @XmlSerialName("startColor", ANDROID_NAMESPACE, ANDROID_PREFIX) val startColor: String? = null,
+        @XmlSerialName("endColor", ANDROID_NAMESPACE, ANDROID_PREFIX) val endColor: String? = null,
+        val items: List<GradientItem> = emptyList(),
+    )
+
+    @Serializable
+    @SerialName(GRADIENT_ITEM)
+    @XmlSerialName(value = GRADIENT_ITEM)
+    data class GradientItem(
+        @XmlSerialName("color", ANDROID_NAMESPACE, ANDROID_PREFIX) val color: String,
+        @XmlSerialName("offset", ANDROID_NAMESPACE, ANDROID_PREFIX) val offset: Float,
+    )
+
+    @Serializable
+    @SerialName("attr")
+    @XmlSerialName(value = "attr", namespace = AAPT_NAMESPACE, prefix = AAPT_PREFIX)
+    data class AaptAttr(
+        @XmlSerialName("name", AAPT_NAMESPACE, AAPT_PREFIX) val name: String,
+        val gradient: Gradient? = null,
+    )
 
     @Serializable
     @SerialName(GROUP)
@@ -63,6 +100,7 @@ data class VectorDrawable(
         @XmlSerialName("strokeColor", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeColor: String? = null,
         @XmlSerialName("strokeAlpha", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeAlpha: String? = null,
         @XmlSerialName("strokeMiterLimit", ANDROID_NAMESPACE, ANDROID_PREFIX) val strokeMiterLimit: String? = null,
+        val aaptAttr: AaptAttr? = null,
     ) : Child
 
     @Serializable

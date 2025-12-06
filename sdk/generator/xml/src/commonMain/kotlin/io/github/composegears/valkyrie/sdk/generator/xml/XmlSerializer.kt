@@ -31,7 +31,26 @@ internal object XmlSerializer {
 
     fun serialize(vector: VectorDrawable): String {
         val rawXml = xmlConfig.encodeToString(vector)
-        return formatXmlAttributes(rawXml)
+        val formattedXml = formatXmlAttributes(rawXml)
+        return hoistAaptNamespace(formattedXml)
+    }
+
+    /**
+     * Moves xmlns:aapt namespace declaration from individual aapt:attr elements to the root vector element.
+     */
+    private fun hoistAaptNamespace(xml: String): String {
+        if (!xml.contains("<aapt:attr")) {
+            return xml
+        }
+
+        var result = xml.replace(Regex("""xmlns:aapt="http://schemas\.android\.com/aapt"\s*"""), "")
+
+        result = result.replaceFirst(
+            Regex("""(<vector[^>]*xmlns:android="http://schemas\.android\.com/apk/res/android")"""),
+            """$1 xmlns:aapt="http://schemas.android.com/aapt"""",
+        )
+
+        return result
     }
 
     /**

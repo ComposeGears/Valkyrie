@@ -409,20 +409,26 @@ class IrToXmlGeneratorTest {
     }
 
     @Test
-    fun `round trip test for ic_brush xml - GRADIENTS NOT FULLY SUPPORTED`() {
+    fun `round trip test for ic_brush xml`() {
         val generatedXml = roundTripGenerateXml("imagevector/xml/ic_brush.xml")
 
         validateVectorAttributes(xml = generatedXml, size = 24, viewportSize = 18f)
 
-        // TODO: Original has 3 paths with complex linear and radial gradients
-        // Note: The gradient information will be lost in current parsing/generation
-        // This needs to be addressed when full gradient support is implemented
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 3, "Should contain 3 path elements")
 
-        assertTrue(generatedXml.contains("M 2 2 L 6 2 L 6 6 L 2 6 Z"))
-        assertTrue(generatedXml.contains("M 6 2 L 10 2 L 10 6 L 6 6 Z"))
-        assertTrue(generatedXml.contains("M 63.6 118.8 c -27.9 0 -58 -17.5 -58 -55.9 S 35.7 7 63.6 7 c 15.5 0 29.8 5.1 40.4 14.4 c 11.5 10.2 17.6 24.6 17.6 41.5 s -6.1 31.2 -17.6 41.4 C 93.4 113.6 79 118.8 63.6 118.8 Z"))
+        with(generatedXml) {
+            assertTrue(contains("M 2 2 L 6 2 L 6 6 L 2 6 Z"))
+            assertTrue(contains("M 6 2 L 10 2 L 10 6 L 6 6 Z"))
+            assertTrue(contains("M 63.6 118.8 c -27.9 0 -58 -17.5 -58 -55.9 S 35.7 7 63.6 7 c 15.5 0 29.8 5.1 40.4 14.4 c 11.5 10.2 17.6 24.6 17.6 41.5 s -6.1 31.2 -17.6 41.4 C 93.4 113.6 79 118.8 63.6 118.8 Z"))
+            assertTrue(contains("<aapt:attr"))
+            assertTrue(contains("<gradient"))
+            assertTrue(contains("android:type=\"linear\""))
+            assertTrue(contains("android:type=\"radial\""))
+        }
+
+        val gradientItemCount = generatedXml.split("<item").lastIndex
+        assertEquals(3, gradientItemCount, "Should have gradient items")
     }
 
     @Test
@@ -455,47 +461,58 @@ class IrToXmlGeneratorTest {
     }
 
     @Test
-    fun `round trip test for ic_full_qualified xml - GRADIENTS NOT FULLY SUPPORTED`() {
+    fun `round trip test for ic_full_qualified xml`() {
         val generatedXml = roundTripGenerateXml("imagevector/xml/ic_full_qualified.xml")
 
         validateVectorAttributes(xml = generatedXml, size = 24, viewportSize = 18f)
 
-        // TODO: Original has 3 paths with complex gradients that aren't fully parsed
-        // For now, we just verify basic structure
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 3, "Should contain exactly 3 path elements")
+
+        assertTrue(generatedXml.contains("<aapt:attr"))
+        assertTrue(generatedXml.contains("<gradient"))
     }
 
     @Test
-    fun `round trip test for ic_compose_color_linear_gradient xml - GRADIENTS NOT FULLY SUPPORTED`() {
+    fun `round trip test for ic_compose_color_linear_gradient xml`() {
         val generatedXml = roundTripGenerateXml("imagevector/xml/ic_compose_color_linear_gradient.xml")
 
-        // Basic structure validation only
         validateVectorAttributes(xml = generatedXml, size = 24, viewportSize = 18f)
 
-        // TODO: Original has 16 paths with linear gradients - needs gradient support
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 16, "Should contain exactly 16 path elements")
+
+        assertTrue(generatedXml.contains("<aapt:attr"))
+        assertTrue(generatedXml.contains("<gradient"))
+        assertTrue(generatedXml.contains("android:type=\"linear\""))
+
+        val gradientCount = generatedXml.split("<gradient").lastIndex
+        assertEquals(16, gradientCount, "Should have 16 linear gradients")
     }
 
     @Test
-    fun `round trip test for ic_compose_color_radial_gradient xml - GRADIENTS NOT FULLY SUPPORTED`() {
+    fun `round trip test for ic_compose_color_radial_gradient xml`() {
         val generatedXml = roundTripGenerateXml("imagevector/xml/ic_compose_color_radial_gradient.xml")
 
         validateVectorAttributes(xml = generatedXml, size = 24, viewportSize = 18f)
 
-        // TODO: Original has 16 paths with radial gradients - needs gradient support
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 16, "Should contain exactly 16 path elements")
+
+        assertTrue(generatedXml.contains("<aapt:attr"))
+        assertTrue(generatedXml.contains("<gradient"))
+        assertTrue(generatedXml.contains("android:type=\"radial\""))
+
+        val gradientCount = generatedXml.split("<gradient").size - 1
+        assertEquals(16, gradientCount, "Should have 16 radial gradients")
     }
 
     @Test
-    fun `round trip test for ic_linear_radial_gradient_with_offset xml - GRADIENTS NOT FULLY SUPPORTED`() {
+    fun `round trip test for ic_linear_radial_gradient_with_offset xml`() {
         val generatedXml = roundTripGenerateXml("imagevector/xml/ic_linear_radial_gradient_with_offset.xml")
 
         validateVectorAttributes(xml = generatedXml, size = 128, viewportSize = 128f)
 
-        // TODO: Original has complex gradients with offset items - needs gradient support
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(7, pathCount, "Should contain 7 paths")
 
@@ -507,6 +524,14 @@ class IrToXmlGeneratorTest {
         val expectedClipPathData =
             "M 66.8 76.5 c -10.89 3.76 -22.1 6.51 -33.5 8.2 c -1.92 0.25 -3.27 2.02 -3.02 3.94 c 0.06 0.44 0.2 0.87 0.42 1.26 c 8.2 14.2 27.4 21.6 45.8 15.4 c 20.2 -6.8 29.4 -24.2 27.2 -40.1 c -0.27 -1.9 -2.03 -3.22 -3.92 -2.95 c -0.45 0.06 -0.88 0.22 -1.28 0.45 C 88.36 68.22 77.75 72.83 66.8 76.5 Z"
         assertTrue(generatedXml.contains(expectedClipPathData), "Generated XML should contain the clip-path data")
+
+        assertTrue(generatedXml.contains("<aapt:attr"))
+        assertTrue(generatedXml.contains("<gradient"))
+        assertTrue(generatedXml.contains("<item"))
+        assertTrue(generatedXml.contains("android:offset="))
+
+        val gradientCount = generatedXml.split("<gradient").size - 1
+        assertTrue(gradientCount > 0, "Should have gradient definitions")
     }
 
     @Test
@@ -563,6 +588,123 @@ class IrToXmlGeneratorTest {
             // Non-default values should be present
             assertTrue(contains("android:fillColor=\"#FFFFFFFF\""), "Non-default fillColor should be in XML")
             assertTrue(contains("android:pathData=\"\""), "pathData should always be present")
+        }
+    }
+
+    @Test
+    fun `parse ImageVector with linear gradient`() {
+        val imageVector = imageVector(
+            nodes = listOf(
+                IrVectorNode.IrPath(
+                    pathFillType = IrPathFillType.NonZero,
+                    fill = IrFill.LinearGradient(
+                        startX = 0f,
+                        startY = 0f,
+                        endX = 10f,
+                        endY = 10f,
+                        colorStops = mutableListOf(
+                            IrFill.ColorStop(0f, IrColor(0xFFFF0000)),
+                            IrFill.ColorStop(1f, IrColor(0xFF0000FF)),
+                        ),
+                    ),
+                    fillAlpha = 1f,
+                    paths = emptyList(),
+                ),
+            ),
+        )
+
+        val result = IrToXmlGenerator.generate(imageVector)
+
+        with(result) {
+            assertTrue(contains("xmlns:aapt="))
+            assertTrue(contains("<aapt:attr"))
+            assertTrue(contains("aapt:name=\"android:fillColor\""))
+            assertTrue(contains("<gradient"))
+            assertTrue(contains("android:type=\"linear\""))
+            assertTrue(contains("android:startX=\"0"))
+            assertTrue(contains("android:startY=\"0"))
+            assertTrue(contains("android:endX=\"10"))
+            assertTrue(contains("android:endY=\"10"))
+            assertTrue(contains("android:startColor=\"#FFFF0000\""))
+            assertTrue(contains("android:endColor=\"#FF0000FF\""))
+            assertTrue(contains("</aapt:attr>"))
+        }
+    }
+
+    @Test
+    fun `parse ImageVector with radial gradient`() {
+        val imageVector = imageVector(
+            nodes = listOf(
+                IrVectorNode.IrPath(
+                    pathFillType = IrPathFillType.NonZero,
+                    fill = IrFill.RadialGradient(
+                        centerX = 5f,
+                        centerY = 5f,
+                        radius = 7.5f,
+                        colorStops = mutableListOf(
+                            IrFill.ColorStop(0f, IrColor(0xFF00FF00)),
+                            IrFill.ColorStop(1f, IrColor(0xFFFFFF00)),
+                        ),
+                    ),
+                    fillAlpha = 1f,
+                    paths = emptyList(),
+                ),
+            ),
+        )
+
+        val result = IrToXmlGenerator.generate(imageVector)
+
+        with(result) {
+            assertTrue(contains("xmlns:aapt="))
+            assertTrue(contains("<aapt:attr"))
+            assertTrue(contains("aapt:name=\"android:fillColor\""))
+            assertTrue(contains("<gradient"))
+            assertTrue(contains("android:type=\"radial\""))
+            assertTrue(contains("android:centerX=\"5"))
+            assertTrue(contains("android:centerY=\"5"))
+            assertTrue(contains("android:gradientRadius=\"7.5\""))
+            assertTrue(contains("android:startColor=\"#FF00FF00\""))
+            assertTrue(contains("android:endColor=\"#FFFFFF00\""))
+            assertTrue(contains("</aapt:attr>"))
+        }
+    }
+
+    @Test
+    fun `parse ImageVector with linear gradient with multiple color stops`() {
+        val imageVector = imageVector(
+            nodes = listOf(
+                IrVectorNode.IrPath(
+                    pathFillType = IrPathFillType.NonZero,
+                    fill = IrFill.LinearGradient(
+                        startX = 0f,
+                        startY = 0f,
+                        endX = 10f,
+                        endY = 0f,
+                        colorStops = mutableListOf(
+                            IrFill.ColorStop(0f, IrColor(0xFFFF0000)),
+                            IrFill.ColorStop(0.5f, IrColor(0xFF00FF00)),
+                            IrFill.ColorStop(1f, IrColor(0xFF0000FF)),
+                        ),
+                    ),
+                    fillAlpha = 1f,
+                    paths = emptyList(),
+                ),
+            ),
+        )
+
+        val result = IrToXmlGenerator.generate(imageVector)
+
+        with(result) {
+            assertTrue(contains("android:type=\"linear\""))
+            assertTrue(contains("android:color=\"#FFFF0000\""))
+            assertTrue(contains("android:offset=\"0"))
+            assertTrue(contains("android:color=\"#FF00FF00\""))
+            assertTrue(contains("android:offset=\"0.5\""))
+            assertTrue(contains("android:color=\"#FF0000FF\""))
+            assertTrue(contains("android:offset=\"1"))
+
+            val itemCount = result.split("<item").lastIndex
+            assertEquals(3, itemCount, "Should have 3 gradient items")
         }
     }
 
