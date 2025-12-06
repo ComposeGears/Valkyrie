@@ -6,5 +6,5 @@ clikt = "5.0.3"
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 clikt-markdown = { module = "com.github.ajalt.clikt:clikt-markdown", version.ref = "clikt" }
-mockk = "io.mockk:mockk:1.14.6"
+mockk = "io.mockk:mockk:1.14.7"
 r8 = "com.android.tools:r8:8.13.17"
