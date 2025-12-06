@@ -41,6 +41,35 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
 
     sealed interface Child // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Child|null[0]
 
+    final class AaptAttr { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr|null[0]
+        constructor <init>(kotlin/String, io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient? = ...) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.<init>|<init>(kotlin.String;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.Gradient?){}[0]
+
+        final val gradient // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.gradient|{}gradient[0]
+            final fun <get-gradient>(): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.gradient.<get-gradient>|<get-gradient>(){}[0]
+        final val name // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.name|{}name[0]
+            final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.name.<get-name>|<get-name>(){}[0]
+
+        final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.component1|component1(){}[0]
+        final fun component2(): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.component2|component2(){}[0]
+        final fun copy(kotlin/String = ..., io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient? = ...): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.copy|copy(kotlin.String;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.Gradient?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.toString|toString(){}[0]
+
+        final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr> { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.$serializer|null[0]
+            final val descriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.$serializer.descriptor|{}descriptor[0]
+                final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+            final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.$serializer.childSerializers|childSerializers(){}[0]
+            final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+            final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.AaptAttr){}[0]
+        }
+
+        final object Companion { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.Companion|null[0]
+            final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr.Companion.serializer|serializer(){}[0]
+        }
+    }
+
     final class ClipPath : io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Child { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath|null[0]
         constructor <init>(kotlin/String? = ..., kotlin/String) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.<init>|<init>(kotlin.String?;kotlin.String){}[0]
 
@@ -67,6 +96,93 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
 
         final object Companion { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.Companion|null[0]
             final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.ClipPath.Companion.serializer|serializer(){}[0]
+        }
+    }
+
+    final class Gradient { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient|null[0]
+        constructor <init>(kotlin/String, kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem> = ...) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.<init>|<init>(kotlin.String;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.String?;kotlin.String?;kotlin.collections.List<io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.GradientItem>){}[0]
+
+        final val centerX // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.centerX|{}centerX[0]
+            final fun <get-centerX>(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.centerX.<get-centerX>|<get-centerX>(){}[0]
+        final val centerY // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.centerY|{}centerY[0]
+            final fun <get-centerY>(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.centerY.<get-centerY>|<get-centerY>(){}[0]
+        final val endColor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.endColor|{}endColor[0]
+            final fun <get-endColor>(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.endColor.<get-endColor>|<get-endColor>(){}[0]
+        final val endX // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.endX|{}endX[0]
+            final fun <get-endX>(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.endX.<get-endX>|<get-endX>(){}[0]
+        final val endY // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.endY|{}endY[0]
+            final fun <get-endY>(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.endY.<get-endY>|<get-endY>(){}[0]
+        final val gradientRadius // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.gradientRadius|{}gradientRadius[0]
+            final fun <get-gradientRadius>(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.gradientRadius.<get-gradientRadius>|<get-gradientRadius>(){}[0]
+        final val items // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.items|{}items[0]
+            final fun <get-items>(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.items.<get-items>|<get-items>(){}[0]
+        final val startColor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.startColor|{}startColor[0]
+            final fun <get-startColor>(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.startColor.<get-startColor>|<get-startColor>(){}[0]
+        final val startX // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.startX|{}startX[0]
+            final fun <get-startX>(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.startX.<get-startX>|<get-startX>(){}[0]
+        final val startY // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.startY|{}startY[0]
+            final fun <get-startY>(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.startY.<get-startY>|<get-startY>(){}[0]
+        final val type // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.type|{}type[0]
+            final fun <get-type>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.type.<get-type>|<get-type>(){}[0]
+
+        final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component1|component1(){}[0]
+        final fun component10(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component10|component10(){}[0]
+        final fun component11(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component11|component11(){}[0]
+        final fun component2(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component2|component2(){}[0]
+        final fun component3(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component3|component3(){}[0]
+        final fun component4(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component4|component4(){}[0]
+        final fun component5(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component5|component5(){}[0]
+        final fun component6(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component6|component6(){}[0]
+        final fun component7(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component7|component7(){}[0]
+        final fun component8(): kotlin/Float? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component8|component8(){}[0]
+        final fun component9(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.component9|component9(){}[0]
+        final fun copy(kotlin/String = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem> = ...): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.copy|copy(kotlin.String;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.String?;kotlin.String?;kotlin.collections.List<io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.GradientItem>){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.toString|toString(){}[0]
+
+        final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient> { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.$serializer|null[0]
+            final val descriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.$serializer.descriptor|{}descriptor[0]
+                final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+            final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.$serializer.childSerializers|childSerializers(){}[0]
+            final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+            final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.Gradient){}[0]
+        }
+
+        final object Companion { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.Companion|null[0]
+            final val $childSerializers // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.Companion.$childSerializers|{}$childSerializers[0]
+
+            final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Gradient.Companion.serializer|serializer(){}[0]
+        }
+    }
+
+    final class GradientItem { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem|null[0]
+        constructor <init>(kotlin/String, kotlin/Float) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.<init>|<init>(kotlin.String;kotlin.Float){}[0]
+
+        final val color // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.color|{}color[0]
+            final fun <get-color>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.color.<get-color>|<get-color>(){}[0]
+        final val offset // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.offset|{}offset[0]
+            final fun <get-offset>(): kotlin/Float // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.offset.<get-offset>|<get-offset>(){}[0]
+
+        final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.component2|component2(){}[0]
+        final fun copy(kotlin/String = ..., kotlin/Float = ...): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.copy|copy(kotlin.String;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.toString|toString(){}[0]
+
+        final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem> { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.$serializer|null[0]
+            final val descriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.$serializer.descriptor|{}descriptor[0]
+                final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+            final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.$serializer.childSerializers|childSerializers(){}[0]
+            final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+            final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.GradientItem){}[0]
+        }
+
+        final object Companion { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.Companion|null[0]
+            final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem> // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.GradientItem.Companion.serializer|serializer(){}[0]
         }
     }
 
@@ -123,8 +239,10 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
     }
 
     final class Path : io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Child { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path|null[0]
-        constructor <init>(kotlin/String? = ..., kotlin/String = ..., kotlin/String? = ..., kotlin/String, kotlin/Float = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ...) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.<init>|<init>(kotlin.String?;kotlin.String;kotlin.String?;kotlin.String;kotlin.Float;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?){}[0]
+        constructor <init>(kotlin/String? = ..., kotlin/String = ..., kotlin/String? = ..., kotlin/String, kotlin/Float = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr? = ...) // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.<init>|<init>(kotlin.String?;kotlin.String;kotlin.String?;kotlin.String;kotlin.Float;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.AaptAttr?){}[0]
 
+        final val aaptAttr // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.aaptAttr|{}aaptAttr[0]
+            final fun <get-aaptAttr>(): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.aaptAttr.<get-aaptAttr>|<get-aaptAttr>(){}[0]
         final val alpha // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.alpha|{}alpha[0]
             final fun <get-alpha>(): kotlin/Float // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.alpha.<get-alpha>|<get-alpha>(){}[0]
         final val fillColor // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.fillColor|{}fillColor[0]
@@ -151,6 +269,7 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
         final fun component1(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component1|component1(){}[0]
         final fun component10(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component10|component10(){}[0]
         final fun component11(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component11|component11(){}[0]
+        final fun component12(): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component12|component12(){}[0]
         final fun component2(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component2|component2(){}[0]
         final fun component3(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component3|component3(){}[0]
         final fun component4(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component4|component4(){}[0]
@@ -159,7 +278,7 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
         final fun component7(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component7|component7(){}[0]
         final fun component8(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component8|component8(){}[0]
         final fun component9(): kotlin/String? // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.component9|component9(){}[0]
-        final fun copy(kotlin/String? = ..., kotlin/String = ..., kotlin/String? = ..., kotlin/String = ..., kotlin/Float = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ...): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.copy|copy(kotlin.String?;kotlin.String;kotlin.String?;kotlin.String;kotlin.Float;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?){}[0]
+        final fun copy(kotlin/String? = ..., kotlin/String = ..., kotlin/String? = ..., kotlin/String = ..., kotlin/Float = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.AaptAttr? = ...): io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.copy|copy(kotlin.String?;kotlin.String;kotlin.String?;kotlin.String;kotlin.Float;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable.AaptAttr?){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Path.toString|toString(){}[0]
@@ -190,6 +309,10 @@ final class io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable { // io.
     final object Companion { // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion|null[0]
         final const val CLIP_PATH // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.CLIP_PATH|{}CLIP_PATH[0]
             final fun <get-CLIP_PATH>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.CLIP_PATH.<get-CLIP_PATH>|<get-CLIP_PATH>(){}[0]
+        final const val GRADIENT // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GRADIENT|{}GRADIENT[0]
+            final fun <get-GRADIENT>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GRADIENT.<get-GRADIENT>|<get-GRADIENT>(){}[0]
+        final const val GRADIENT_ITEM // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GRADIENT_ITEM|{}GRADIENT_ITEM[0]
+            final fun <get-GRADIENT_ITEM>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GRADIENT_ITEM.<get-GRADIENT_ITEM>|<get-GRADIENT_ITEM>(){}[0]
         final const val GROUP // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GROUP|{}GROUP[0]
             final fun <get-GROUP>(): kotlin/String // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.GROUP.<get-GROUP>|<get-GROUP>(){}[0]
         final const val PATH // io.github.composegears.valkyrie.sdk.core.xml/VectorDrawable.Companion.PATH|{}PATH[0]
