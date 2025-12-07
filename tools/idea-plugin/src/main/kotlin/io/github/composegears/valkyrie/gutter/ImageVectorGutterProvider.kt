@@ -16,6 +16,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.sdk.ir.util.aspectRatio
 import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
 import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
+import io.github.composegears.valkyrie.util.isImageVector
 import javax.swing.Icon
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtProperty
@@ -135,12 +136,5 @@ class ImageVectorGutterProvider : LineMarkerProvider {
 
     private companion object {
         private const val COMPILED_CODE_MARKER = "/* compiled code */"
-
-        private val IMAGE_VECTOR_TYPES = setOf(
-            "ImageVector",
-            "androidx.compose.ui.graphics.vector.ImageVector",
-        )
-
-        private fun KtProperty.isImageVector(): Boolean = typeReference?.text in IMAGE_VECTOR_TYPES
     }
 }
