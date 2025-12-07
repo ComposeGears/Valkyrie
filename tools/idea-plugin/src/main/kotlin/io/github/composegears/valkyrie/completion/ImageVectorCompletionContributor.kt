@@ -8,11 +8,8 @@ import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.codeInsight.lookup.LookupElementPresentation
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
-import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
-import io.github.composegears.valkyrie.sdk.ir.util.aspectRatio
-import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
-import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
+import io.github.composegears.valkyrie.util.createImageVectorIcon
 import javax.swing.Icon
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtProperty
@@ -54,20 +51,9 @@ class ImageVectorCompletionContributor : CompletionContributor() {
         val cachedValuesManager = CachedValuesManager.getManager(ktFile.project)
 
         return cachedValuesManager.getCachedValue(ktFile) {
-            val icon = createIconFromKtFile(ktFile)
+            val icon = ktFile.createImageVectorIcon()
             CachedValueProvider.Result.create(icon, ktFile)
         }
-    }
-
-    private fun createIconFromKtFile(ktFile: KtFile): Icon? {
-        val irImageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)
-        val vectorXml = irImageVector?.toVectorXmlString() ?: return null
-
-        return ImageVectorIcon(
-            vectorXml = vectorXml,
-            aspectRatio = irImageVector.aspectRatio,
-            dominantShade = irImageVector.dominantShadeColor,
-        )
     }
 
     private class ComposeColorLookupElementDecorator(

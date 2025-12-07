@@ -75,6 +75,8 @@ Allows to create organized icon pack with an extension property of you pack obje
             language="kotlin"
             order="first, before KotlinCompletionContributor, before AndroidComposeCompletionContributor"
             implementationClass="io.github.composegears.valkyrie.completion.ImageVectorCompletionContributor"/>
+
+        <iconProvider implementation="io.github.composegears.valkyrie.icon.ImageVectorIconProvider" order="first"/>
     </extensions>
 
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
