@@ -618,7 +618,7 @@ class IrToXmlGeneratorTest {
         with(result) {
             assertTrue(contains("xmlns:aapt="))
             assertTrue(contains("<aapt:attr"))
-            assertTrue(contains("aapt:name=\"android:fillColor\""))
+            assertTrue(contains("name=\"android:fillColor\""))
             assertTrue(contains("<gradient"))
             assertTrue(contains("android:type=\"linear\""))
             assertTrue(contains("android:startX=\"0"))
@@ -657,7 +657,7 @@ class IrToXmlGeneratorTest {
         with(result) {
             assertTrue(contains("xmlns:aapt="))
             assertTrue(contains("<aapt:attr"))
-            assertTrue(contains("aapt:name=\"android:fillColor\""))
+            assertTrue(contains("name=\"android:fillColor\""))
             assertTrue(contains("<gradient"))
             assertTrue(contains("android:type=\"radial\""))
             assertTrue(contains("android:centerX=\"5"))

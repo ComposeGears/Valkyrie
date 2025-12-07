@@ -64,7 +64,7 @@ data class VectorDrawable(
     @SerialName("attr")
     @XmlSerialName(value = "attr", namespace = AAPT_NAMESPACE, prefix = AAPT_PREFIX)
     data class AaptAttr(
-        @XmlSerialName("name", AAPT_NAMESPACE, AAPT_PREFIX) val name: String,
+        @XmlSerialName("name") val name: String,
         val gradient: Gradient? = null,
     )
 
