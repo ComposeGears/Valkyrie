@@ -69,27 +69,19 @@ fun KtProperty.getOrCreateGutterIcon(): Icon? {
  * This function parses the ImageVector definition and renders it as a Swing Icon
  * suitable for display in the IDE UI (project view, gutter, completion, etc.).
  */
-private fun KtFile.createImageVectorIcon(): Icon? {
-    val irImageVector = ImageVectorPsiParser.parseToIrImageVector(this) ?: return null
-    val vectorXml = irImageVector.toVectorXmlString()
+private fun KtFile.createImageVectorIcon(): Icon? =
+    ImageVectorPsiParser.parseToIrImageVector(this)
+        ?.toIcon()
 
-    return ImageVectorIcon(
-        vectorXml = vectorXml,
-        aspectRatio = irImageVector.aspectRatio,
-        dominantShade = irImageVector.dominantShadeColor,
-    )
-}
+private fun KtProperty.createIcon(): Icon? =
+    parseImageVectorProperty(this)
+        ?.toIcon()
 
-private fun KtProperty.createIcon(): Icon? {
-    val irImageVector = parseImageVectorProperty(this) ?: return null
-    val vectorXml = irImageVector.toVectorXmlString()
-
-    return ImageVectorIcon(
-        vectorXml = vectorXml,
-        aspectRatio = irImageVector.aspectRatio,
-        dominantShade = irImageVector.dominantShadeColor,
-    )
-}
+private fun IrImageVector.toIcon(): Icon = ImageVectorIcon(
+    vectorXml = toVectorXmlString(),
+    aspectRatio = aspectRatio,
+    dominantShade = dominantShadeColor,
+)
 
 private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
     // Try parsing the current file
