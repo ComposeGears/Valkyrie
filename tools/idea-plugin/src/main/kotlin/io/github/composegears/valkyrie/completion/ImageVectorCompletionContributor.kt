@@ -6,12 +6,9 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.codeInsight.lookup.LookupElementPresentation
-import com.intellij.psi.util.CachedValueProvider
-import com.intellij.psi.util.CachedValuesManager
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
-import io.github.composegears.valkyrie.util.createImageVectorIcon
+import io.github.composegears.valkyrie.util.getOrCreateCachedIcon
 import javax.swing.Icon
-import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtProperty
 
 class ImageVectorCompletionContributor : CompletionContributor() {
@@ -29,7 +26,7 @@ class ImageVectorCompletionContributor : CompletionContributor() {
                 ?.safeAs<KtProperty>()
                 ?.let { element ->
                     if (!element.isVar) {
-                        getOrCreateCachedIcon(element.containingKtFile)
+                        element.containingKtFile.getOrCreateCachedIcon()
                     } else {
                         null
                     }
@@ -44,15 +41,6 @@ class ImageVectorCompletionContributor : CompletionContributor() {
                 ?: completionResult
 
             result.passResult(newResult)
-        }
-    }
-
-    private fun getOrCreateCachedIcon(ktFile: KtFile): Icon? {
-        val cachedValuesManager = CachedValuesManager.getManager(ktFile.project)
-
-        return cachedValuesManager.getCachedValue(ktFile) {
-            val icon = ktFile.createImageVectorIcon()
-            CachedValueProvider.Result.create(icon, ktFile)
         }
     }
 

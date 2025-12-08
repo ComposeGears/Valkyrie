@@ -7,15 +7,8 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.pom.Navigatable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.createSmartPointer
-import com.intellij.psi.util.CachedValueProvider
-import com.intellij.psi.util.CachedValuesManager
-import io.github.composegears.valkyrie.completion.ImageVectorIcon
-import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
-import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
-import io.github.composegears.valkyrie.sdk.ir.util.aspectRatio
-import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
-import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
+import io.github.composegears.valkyrie.util.getOrCreateGutterIcon
 import io.github.composegears.valkyrie.util.isImageVector
 import javax.swing.Icon
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
@@ -33,8 +26,7 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         elements.filterIsInstance<KtProperty>()
             .filter { it.isImageVector() }
             .forEach { property ->
-                val icon = getOrCreateGutterIcon(property)
-
+                val icon = property.getOrCreateGutterIcon()
                 icon?.let {
                     property.nameIdentifier?.let { identifier ->
                         // nameIdentifier is already a leaf (LeafPsiElement)
@@ -56,7 +48,7 @@ class ImageVectorGutterProvider : LineMarkerProvider {
                     .firstOrNull { it.isImageVector() }
                     ?: return@mapNotNull null
 
-                val icon = getOrCreateGutterIcon(referencedProperty) ?: return@mapNotNull null
+                val icon = referencedProperty.getOrCreateGutterIcon() ?: return@mapNotNull null
 
                 // Get the leaf element (identifier) from the reference expression
                 // due to LineMarker is supposed to be registered for leaf elements only
@@ -70,46 +62,6 @@ class ImageVectorGutterProvider : LineMarkerProvider {
                 )
             }
             .forEach(result::add)
-    }
-
-    private fun getOrCreateGutterIcon(ktProperty: KtProperty): Icon? {
-        val cachedValuesManager = CachedValuesManager.getManager(ktProperty.project)
-
-        return cachedValuesManager.getCachedValue(ktProperty) {
-            val icon = ktProperty.createIcon()
-
-            CachedValueProvider.Result.create(icon, ktProperty)
-        }
-    }
-
-    private fun KtProperty.createIcon(): Icon? {
-        val irImageVector = parseImageVectorProperty(this) ?: return null
-        val vectorXml = irImageVector.toVectorXmlString()
-
-        return ImageVectorIcon(
-            vectorXml = vectorXml,
-            aspectRatio = irImageVector.aspectRatio,
-            dominantShade = irImageVector.dominantShadeColor,
-        )
-    }
-
-    private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
-        // Try parsing the current file
-        val containingFile = property.containingKtFile
-        ImageVectorPsiParser.parseToIrImageVector(containingFile)?.let { return it }
-
-        // For properties from libraries, navigate to decompiled/attached source
-        val navigationElement = property.navigationElement
-        if (navigationElement is KtProperty && navigationElement != property) {
-            val sourceFile = navigationElement.containingKtFile
-
-            // Only parse if we have actual source code (not a stub)
-            if (COMPILED_CODE_MARKER !in sourceFile.text) {
-                return ImageVectorPsiParser.parseToIrImageVector(sourceFile)
-            }
-        }
-
-        return null
     }
 
     private fun <T : PsiElement> createGutterIcon(
@@ -133,8 +85,4 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         GutterIconRenderer.Alignment.LEFT,
         { "ImageVector Icon: $name" },
     )
-
-    private companion object {
-        private const val COMPILED_CODE_MARKER = "/* compiled code */"
-    }
 }
