@@ -4,9 +4,7 @@ import com.intellij.ide.IconProvider
 import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.util.CachedValueProvider
-import com.intellij.psi.util.CachedValuesManager
-import io.github.composegears.valkyrie.util.createImageVectorIcon
+import io.github.composegears.valkyrie.util.getOrCreateCachedIcon
 import io.github.composegears.valkyrie.util.hasImageVectorProperties
 import javax.swing.Icon
 import org.jetbrains.kotlin.psi.KtFile
@@ -26,9 +24,6 @@ class ImageVectorIconProvider :
             return null
         }
 
-        return CachedValuesManager.getCachedValue(ktFile) {
-            val icon = ktFile.createImageVectorIcon()
-            CachedValueProvider.Result.create(icon, ktFile)
-        }
+        return ktFile.getOrCreateCachedIcon()
     }
 }

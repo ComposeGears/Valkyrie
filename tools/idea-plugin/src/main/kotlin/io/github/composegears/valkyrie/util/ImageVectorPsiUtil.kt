@@ -1,18 +1,16 @@
 package io.github.composegears.valkyrie.util
 
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
 import io.github.composegears.valkyrie.completion.ImageVectorIcon
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
+import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.sdk.ir.util.aspectRatio
 import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
 import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
 import javax.swing.Icon
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtProperty
-
-val IMAGE_VECTOR_TYPES = setOf(
-    "ImageVector",
-    "androidx.compose.ui.graphics.vector.ImageVector",
-)
 
 /**
  * Checks if this property is an ImageVector based on its type reference.
@@ -36,12 +34,42 @@ fun KtFile.hasImageVectorProperties(): Boolean {
 }
 
 /**
+ * Gets or creates a cached gutter icon for an ImageVector property.
+ *
+ * This function uses the PSI caching mechanism to avoid recreating icons repeatedly
+ * for the same property, improving performance.
+ */
+fun KtFile.getOrCreateCachedIcon(): Icon? {
+    return CachedValuesManager
+        .getManager(project).getCachedValue(this) {
+            val icon = createImageVectorIcon()
+            CachedValueProvider.Result.create(icon, this)
+        }
+}
+
+/**
+ * Gets or creates a cached gutter icon for an ImageVector property.
+ *
+ * This function uses the PSI caching mechanism to avoid recreating icons repeatedly
+ * for the same property, improving performance.
+ */
+fun KtProperty.getOrCreateGutterIcon(): Icon? {
+    val cachedValuesManager = CachedValuesManager.getManager(project)
+
+    return cachedValuesManager.getCachedValue(this) {
+        val icon = createIcon()
+
+        CachedValueProvider.Result.create(icon, this)
+    }
+}
+
+/**
  * Creates an icon representation from this Kotlin file containing an ImageVector.
  *
  * This function parses the ImageVector definition and renders it as a Swing Icon
  * suitable for display in the IDE UI (project view, gutter, completion, etc.).
  */
-fun KtFile.createImageVectorIcon(): Icon? {
+private fun KtFile.createImageVectorIcon(): Icon? {
     val irImageVector = ImageVectorPsiParser.parseToIrImageVector(this) ?: return null
     val vectorXml = irImageVector.toVectorXmlString()
 
@@ -51,3 +79,40 @@ fun KtFile.createImageVectorIcon(): Icon? {
         dominantShade = irImageVector.dominantShadeColor,
     )
 }
+
+private fun KtProperty.createIcon(): Icon? {
+    val irImageVector = parseImageVectorProperty(this) ?: return null
+    val vectorXml = irImageVector.toVectorXmlString()
+
+    return ImageVectorIcon(
+        vectorXml = vectorXml,
+        aspectRatio = irImageVector.aspectRatio,
+        dominantShade = irImageVector.dominantShadeColor,
+    )
+}
+
+private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
+    // Try parsing the current file
+    val containingFile = property.containingKtFile
+    ImageVectorPsiParser.parseToIrImageVector(containingFile)?.let { return it }
+
+    // For properties from libraries, navigate to decompiled/attached source
+    val navigationElement = property.navigationElement
+    if (navigationElement is KtProperty && navigationElement != property) {
+        val sourceFile = navigationElement.containingKtFile
+
+        // Only parse if we have actual source code (not a stub)
+        if (COMPILED_CODE_MARKER !in sourceFile.text) {
+            return ImageVectorPsiParser.parseToIrImageVector(sourceFile)
+        }
+    }
+
+    return null
+}
+
+private val IMAGE_VECTOR_TYPES = setOf(
+    "ImageVector",
+    "androidx.compose.ui.graphics.vector.ImageVector",
+)
+
+private const val COMPILED_CODE_MARKER = "/* compiled code */"
