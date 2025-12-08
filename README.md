@@ -78,6 +78,7 @@ needs.
     - [Basic conversion](#basic-conversion)
     - [Icon pack configuration](#icon-pack-configuration)
     - [Icon pack with nested packs configuration](#icon-pack-with-nested-packs-configuration)
+  - [Tips and tricks](#tips-and-tricks)
 - [Other](#other)
   - [Export formats](#export-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
@@ -679,6 +680,31 @@ fun Demo() {
     imageVector = ValkyrieIcons.Filled.Home,
     contentDescription = "Home"
   )
+}
+```
+
+### Tips and tricks
+
+#### Copy generated icons into source folder instead of build folder
+
+To keep generated icons in your source folder (e.g. for version control), you can create custom Gradle tasks to sync
+the generated files after the generation task.
+
+```kotlin
+val copyTask = tasks.register<Copy>("copyValkyrieIcons") {
+  dependsOn(tasks.named("generateValkyrieImageVector"))
+
+  from(layout.buildDirectory.dir("generated/sources/valkyrie/commonMain"))
+  into(layout.projectDirectory.dir("src/commonMain/kotlin"))
+}
+
+val cleanTask = tasks.register<Delete>("cleanValkyrieGenerated") {
+  delete(layout.buildDirectory.dir("generated/sources/valkyrie"))
+}
+
+tasks.register("updateValkyrieIcons") {
+  dependsOn(copyTask)
+  finalizedBy(cleanTask)
 }
 ```
 
