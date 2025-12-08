@@ -69,13 +69,11 @@ fun KtProperty.getOrCreateGutterIcon(): Icon? {
  * This function parses the ImageVector definition and renders it as a Swing Icon
  * suitable for display in the IDE UI (project view, gutter, completion, etc.).
  */
-private fun KtFile.createImageVectorIcon(): Icon? =
-    ImageVectorPsiParser.parseToIrImageVector(this)
-        ?.toIcon()
+private fun KtFile.createImageVectorIcon(): Icon? = ImageVectorPsiParser.parseToIrImageVector(this)
+    ?.toIcon()
 
-private fun KtProperty.createIcon(): Icon? =
-    parseImageVectorProperty(this)
-        ?.toIcon()
+private fun KtProperty.createIcon(): Icon? = parseImageVectorProperty(this)
+    ?.toIcon()
 
 private fun IrImageVector.toIcon(): Icon = ImageVectorIcon(
     vectorXml = toVectorXmlString(),
