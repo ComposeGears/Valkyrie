@@ -9,6 +9,7 @@
 ### Fixed
 
 - Fix main screen description text being cut off or truncated
+- Icons with gradient not drawing in gutter and autocomplete dialog 
 
 ### Changed
 
