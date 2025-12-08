@@ -1,5 +1,12 @@
 # Gradle plugin changelog
 
+## Unreleased
+
+### Added
+
+- Automatically handle full qualified imports for icons that conflict with reserved Compose qualified names (`Brush`,
+  `Color`, `Offset`)
+
 ## [0.2.0] - 2025-12-08
 
 ### Added

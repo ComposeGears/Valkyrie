@@ -3,6 +3,8 @@ package io.github.composegears.valkyrie.gradle.internal.task
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports
+import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports.Companion.reservedComposeQualifiers
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
@@ -11,6 +13,7 @@ import io.github.composegears.valkyrie.gradle.IconPackExtension
 import io.github.composegears.valkyrie.gradle.NestedPack
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import java.io.File
 import kotlinx.io.files.Path
@@ -98,14 +101,32 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         outputDirectory.deleteRecursively() // make sure nothing is left over from previous run
         outputDirectory.mkdirs()
 
+        // Detect icons with names conflicting with reserved Compose qualifiers
+        val fullQualifiedNames = iconFiles.files
+            .map { IconNameFormatter.format(name = it.name) }
+            .filter { reservedComposeQualifiers.contains(it) }
+
+        if (fullQualifiedNames.isNotEmpty()) {
+            logger.lifecycle(
+                "Found icons names that conflict with reserved Compose qualifiers. " +
+                    "Full qualified import will be used for: \"${fullQualifiedNames.joinToString(", ")}\"",
+            )
+        }
+
         if (iconPack.isPresent && iconPack.get().targetSourceSet.get() == sourceSet.get()) {
             generateIconPack(outputDirectory = outputDirectory)
         }
 
         if (iconPack.isPresent) {
-            generateIconsWithIconPack(outputDirectory = outputDirectory)
+            generateIconsWithIconPack(
+                outputDirectory = outputDirectory,
+                fullQualifiedNames = fullQualifiedNames,
+            )
         } else {
-            generateIconsWithoutPack(outputDirectory = outputDirectory)
+            generateIconsWithoutPack(
+                outputDirectory = outputDirectory,
+                fullQualifiedNames = fullQualifiedNames,
+            )
         }
 
         val executionTime = System.currentTimeMillis() - startTime
@@ -142,7 +163,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         }
     }
 
-    private fun generateIconsWithoutPack(outputDirectory: File) {
+    private fun generateIconsWithoutPack(outputDirectory: File, fullQualifiedNames: List<String>) {
         val packageName = packageName.get()
 
         if (iconFiles.isEmpty) {
@@ -157,7 +178,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             useFlatPackage = false,
         )
 
-        val config = basicConfig
+        val config = basicConfig.copy(fullQualifiedImports = createFullQualifiedImports(fullQualifiedNames))
         var convertedCount = 0
         iconFiles.files.forEach { file ->
             runCatching {
@@ -175,14 +196,17 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         logger.lifecycle("Generated $convertedCount ImageVector ${iconWord(convertedCount)} in package \"$packageName\"")
     }
 
-    private fun generateIconsWithIconPack(outputDirectory: File) {
+    private fun generateIconsWithIconPack(outputDirectory: File, fullQualifiedNames: List<String>) {
         val packageName = packageName.get()
 
         val pack = iconPack.get()
         val nestedPacks = pack.nestedPacks.get()
         val useFlatPackage = pack.useFlatPackage.get()
 
-        val config = basicConfig.copy(packName = pack.name.get())
+        val config = basicConfig.copy(
+            packName = pack.name.get(),
+            fullQualifiedImports = createFullQualifiedImports(fullQualifiedNames),
+        )
 
         if (iconFiles.isEmpty) {
             logger.lifecycle("No icon files to process for ImageVector generation")
@@ -320,6 +344,14 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         useFlatPackage -> packageName
         nestedPackName.isEmpty() -> packageName
         else -> "$packageName.${nestedPackName.lowercase()}"
+    }
+
+    private fun createFullQualifiedImports(fullQualifiedNames: List<String>): FullQualifiedImports {
+        return FullQualifiedImports(
+            brush = "Brush" in fullQualifiedNames,
+            color = "Color" in fullQualifiedNames,
+            offset = "Offset" in fullQualifiedNames,
+        )
     }
 
     private fun iconWord(count: Int): String = if (count == 1) "icon" else "icons"
