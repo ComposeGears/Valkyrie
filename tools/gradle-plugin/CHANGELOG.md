@@ -7,6 +7,11 @@
 - Automatically handle full qualified imports for icons that conflict with reserved Compose qualified names (`Brush`,
   `Color`, `Offset`)
 
+### Changed
+
+- Generated files are now placed in a `kotlin` subdirectory within each source set output directory (e.g.,
+  `build/generated/valkyrie/{sourceSetName}/kotlin` instead of `build/generated/valkyrie/{sourceSetName}`)
+
 ## [0.2.0] - 2025-12-08
 
 ### Added

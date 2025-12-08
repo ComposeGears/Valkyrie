@@ -5,7 +5,6 @@ import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.exists
 import io.github.composegears.valkyrie.gradle.common.CommonGradleTest
-import io.github.composegears.valkyrie.gradle.common.GENERATED_SOURCES_DIR
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.copyTo
@@ -28,7 +27,7 @@ class FullQualifiedNamesTest : CommonGradleTest() {
                     id("io.github.composegears.valkyrie")
                 }
                 valkyrie {
-                    packageName = "test.icons"
+                    packageName = "x.y.z"
                 }
                 kotlin {
                     jvm()
@@ -45,7 +44,7 @@ class FullQualifiedNamesTest : CommonGradleTest() {
 
         assertThat(result.output).contains("Found icons names that conflict with reserved Compose qualifiers. Full qualified import will be used for: \"Brush\"")
 
-        val ktPath = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/test/icons/Brush.kt")
+        val ktPath = root.resolveGeneratedPath("commonMain", "x/y/z/Brush.kt")
         assertThat(ktPath).exists()
         assertThat(ktPath.readText()).doesNotContain("import androidx.compose.ui.graphics.Brush")
     }
@@ -61,7 +60,7 @@ class FullQualifiedNamesTest : CommonGradleTest() {
                     id("io.github.composegears.valkyrie")
                 }
                 valkyrie {
-                    packageName = "test.icons"
+                    packageName = "x.y.z"
                 }
                 kotlin {
                     jvm()
@@ -78,7 +77,7 @@ class FullQualifiedNamesTest : CommonGradleTest() {
 
         assertThat(result.output).contains("Found icons names that conflict with reserved Compose qualifiers. Full qualified import will be used for: \"Color\"")
 
-        val ktPath = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/test/icons/Color.kt")
+        val ktPath = root.resolveGeneratedPath("commonMain", "x/y/z/Color.kt")
         assertThat(ktPath).exists()
         assertThat(ktPath.readText()).doesNotContain("import androidx.compose.ui.graphics.Color")
     }
@@ -94,7 +93,7 @@ class FullQualifiedNamesTest : CommonGradleTest() {
                     id("io.github.composegears.valkyrie")
                 }
                 valkyrie {
-                    packageName = "test.icons"
+                    packageName = "x.y.z"
                 }
                 kotlin {
                     jvm()
@@ -111,7 +110,7 @@ class FullQualifiedNamesTest : CommonGradleTest() {
 
         assertThat(result.output).contains("Found icons names that conflict with reserved Compose qualifiers. Full qualified import will be used for: \"Offset\"")
 
-        val ktPath = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/test/icons/Offset.kt")
+        val ktPath = root.resolveGeneratedPath("commonMain", "x/y/z/Offset.kt")
         assertThat(ktPath).exists()
         assertThat(ktPath.readText()).doesNotContain("import androidx.compose.ui.graphics.Offset")
     }

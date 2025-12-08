@@ -104,7 +104,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
+            assertThat(root.resolveGeneratedPath("main", "x/y/z/$filename")).exists()
         }
     }
 
@@ -150,7 +150,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
+            assertThat(root.resolveGeneratedPath("main", "x/y/z/$filename")).exists()
         }
 
         // and the LinearGradient file is created with the right visibility, parent pack, nested pack, etc
@@ -233,7 +233,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             "SeveralPath.kt",
             "AllPathParams.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
+            assertThat(root.resolveGeneratedPath("main", "x/y/z/$filename")).exists()
         }
     }
 
@@ -308,14 +308,14 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
         // and files were generated in the right source sets
         listOf(
-            "build/generated/sources/valkyrie/freeRelease/x/y/z/LinearGradient.kt",
-            "build/generated/sources/valkyrie/freeRelease/x/y/z/RadialGradient.kt",
-            "build/generated/sources/valkyrie/freeRelease/x/y/z/ClipPathGradient.kt",
-            "build/generated/sources/valkyrie/freeRelease/x/y/z/LinearGradientWithStroke.kt",
-            "build/generated/sources/valkyrie/debug/x/y/z/OnlyPath.kt",
-            "build/generated/sources/valkyrie/debug/x/y/z/IconWithShorthandColor.kt",
-            "build/generated/sources/valkyrie/debug/x/y/z/SeveralPath.kt",
-            "build/generated/sources/valkyrie/debug/x/y/z/AllPathParams.kt",
+            "build/generated/sources/valkyrie/freeRelease/kotlin/x/y/z/LinearGradient.kt",
+            "build/generated/sources/valkyrie/freeRelease/kotlin/x/y/z/RadialGradient.kt",
+            "build/generated/sources/valkyrie/freeRelease/kotlin/x/y/z/ClipPathGradient.kt",
+            "build/generated/sources/valkyrie/freeRelease/kotlin/x/y/z/LinearGradientWithStroke.kt",
+            "build/generated/sources/valkyrie/debug/kotlin/x/y/z/OnlyPath.kt",
+            "build/generated/sources/valkyrie/debug/kotlin/x/y/z/IconWithShorthandColor.kt",
+            "build/generated/sources/valkyrie/debug/kotlin/x/y/z/SeveralPath.kt",
+            "build/generated/sources/valkyrie/debug/kotlin/x/y/z/AllPathParams.kt",
         ).forEach { path ->
             assertThat(root.resolve(path)).exists()
         }
@@ -377,7 +377,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/com/example/app/$filename")).exists()
+            assertThat(root.resolveGeneratedPath("main", "com/example/app/$filename")).exists()
         }
 
         // and the compilation succeeded, so the accessor code has access to the generated code dirs
@@ -543,7 +543,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             "ClipPathGradient.kt",
             "LinearGradientWithStroke.kt",
         ).forEach { filename ->
-            assertThat(root.resolve("build/generated/sources/valkyrie/main/x/y/z/$filename")).exists()
+            assertThat(root.resolveGeneratedPath("main", "x/y/z/$filename")).exists()
         }
     }
 
