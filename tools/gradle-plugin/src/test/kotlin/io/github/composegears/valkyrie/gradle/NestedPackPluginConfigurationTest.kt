@@ -6,14 +6,12 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.exists
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.gradle.common.CommonGradleTest
-import io.github.composegears.valkyrie.gradle.common.GENERATED_SOURCES_DIR
 import io.github.composegears.valkyrie.gradle.common.doesNotExist
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.copyTo
 import kotlin.io.path.createDirectories
 import kotlin.io.path.readText
-import kotlin.io.path.walk
 import kotlin.io.path.writeText
 import org.gradle.testkit.runner.TaskOutcome.SKIPPED
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
@@ -80,12 +78,12 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
             }
 
         """.trimIndent()
-        val generatedFile = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/x/y/z/ValkyrieIcons.kt")
+
+        val generatedFile = root.resolveGeneratedPath("commonMain", "x/y/z/ValkyrieIcons.kt")
         assertThat(generatedFile).exists()
         assertThat(generatedFile.readText()).isEqualTo(expectedCode)
 
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedFiles.count()).isEqualTo(1)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(1)
     }
 
     @Test
@@ -140,12 +138,12 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
             }
 
         """.trimIndent()
-        val generatedFile = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/x/y/z/ValkyrieIcons.kt")
+
+        val generatedFile = root.resolveGeneratedPath("commonMain", "x/y/z/ValkyrieIcons.kt")
         assertThat(generatedFile).exists()
         assertThat(generatedFile.readText()).isEqualTo(expectedCode)
 
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedFiles.count()).isEqualTo(1)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(1)
 
         // Run task again to verify UP-TO-DATE behavior
         val result2 = runTask(root, TASK_NAME)
@@ -155,7 +153,7 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result2.output).doesNotContain("Generated \"ValkyrieIcons\" iconpack in package \"x.y.z\"")
         assertThat(result2.output).doesNotContain("No icon files to process for ImageVector generation")
 
-        val generatedFile2 = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/x/y/z/ValkyrieIcons.kt")
+        val generatedFile2 = root.resolveGeneratedPath("commonMain", "x/y/z/ValkyrieIcons.kt")
         assertThat(generatedFile2).exists()
         assertThat(generatedFile2.readText()).isEqualTo(expectedCode)
     }
@@ -212,12 +210,11 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
             }
 
         """.trimIndent()
-        val generatedFile = root.resolve("${GENERATED_SOURCES_DIR}/jvmMain/x/y/z/ValkyrieIcons.kt")
+        val generatedFile = root.resolveGeneratedPath("jvmMain", "x/y/z/ValkyrieIcons.kt")
         assertThat(generatedFile).exists()
         assertThat(generatedFile.readText()).isEqualTo(expectedCode)
 
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedFiles.count()).isEqualTo(1)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(1)
 
         // Run task again to verify UP-TO-DATE behavior
         val result2 = runTask(root, TASK_NAME)
@@ -227,7 +224,7 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result2.output).doesNotContain("Generated \"ValkyrieIcons\" iconpack in package \"x.y.z\"")
         assertThat(result2.output).doesNotContain("No icon files to process for ImageVector generation")
 
-        val generatedFile2 = root.resolve("${GENERATED_SOURCES_DIR}/jvmMain/x/y/z/ValkyrieIcons.kt")
+        val generatedFile2 = root.resolveGeneratedPath("jvmMain", "x/y/z/ValkyrieIcons.kt")
         assertThat(generatedFile2).exists()
         assertThat(generatedFile2.readText()).isEqualTo(expectedCode)
     }
@@ -243,7 +240,7 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
                     id("io.github.composegears.valkyrie")
                 }
                 valkyrie {
-                    packageName = "com.example.icons"
+                    packageName = "x.y.z"
 
                     iconPack {
                         name = "MyIcons"
@@ -282,12 +279,12 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
 
         assertThat(result).taskHadResult(":generateValkyrieImageVectorCommonMain", SUCCESS)
         assertThat(result).taskHadResult(":generateValkyrieImageVector", SUCCESS)
-        assertThat(result.output).contains("Generated \"MyIcons\" iconpack in package \"com.example.icons\"")
-        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Outlined\" (package: \"com.example.icons.outlined\")")
-        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Filled\" (package: \"com.example.icons.filled\")")
+        assertThat(result.output).contains("Generated \"MyIcons\" iconpack in package \"x.y.z\"")
+        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Outlined\" (package: \"x.y.z.outlined\")")
+        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Filled\" (package: \"x.y.z.filled\")")
 
         val expectedCode = """
-            package com.example.icons
+            package x.y.z
 
             object MyIcons {
                 object Outlined
@@ -297,33 +294,32 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
 
         """.trimIndent()
 
-        val iconPackFile = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/com/example/icons/MyIcons.kt")
+        val iconPackFile = root.resolveGeneratedPath("commonMain", "x/y/z/MyIcons.kt")
         assertThat(iconPackFile).exists()
         assertThat(iconPackFile.readText()).isEqualTo(expectedCode)
 
         // Count total generated files (1 pack file + 4 icon files)
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedFiles.size).isEqualTo(5)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(5)
 
         // Verify outlined icons are in the correct package
-        val outlinedFiles = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/com/example/icons/outlined")
+        val outlinedFiles = root.resolveGeneratedPath("commonMain", "x/y/z/outlined")
         val outlinedIconFiles = outlinedFiles.toFile().listFiles().orEmpty()
         assertThat(outlinedIconFiles.size).isEqualTo(2)
 
         outlinedIconFiles.forEach { file ->
             val content = file.readText()
-            assertThat(content).contains("package com.example.icons.outlined")
+            assertThat(content).contains("package x.y.z.outlined")
             assertThat(content).contains("val MyIcons.Outlined.")
         }
 
         // Verify filled icons are in the correct package
-        val filledFiles = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/com/example/icons/filled")
+        val filledFiles = root.resolveGeneratedPath("commonMain", "x/y/z/filled")
         val filledIconFiles = filledFiles.toFile().listFiles().orEmpty()
         assertThat(filledIconFiles.size).isEqualTo(2)
 
         filledIconFiles.forEach { file ->
             val content = file.readText()
-            assertThat(content).contains("package com.example.icons.filled")
+            assertThat(content).contains("package x.y.z.filled")
             assertThat(content).contains("val MyIcons.Filled.")
         }
     }
@@ -339,7 +335,7 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
                     id("io.github.composegears.valkyrie")
                 }
                 valkyrie {
-                    packageName = "com.example.icons"
+                    packageName = "x.y.z"
 
                     iconPack {
                         name = "MyIcons"
@@ -378,12 +374,12 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
 
         assertThat(result).taskHadResult(":generateValkyrieImageVectorCommonMain", SUCCESS)
         assertThat(result).taskHadResult(":generateValkyrieImageVector", SUCCESS)
-        assertThat(result.output).contains("Generated \"MyIcons\" iconpack in package \"com.example.icons\"")
-        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Outlined\" (package: \"com.example.icons\")")
-        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Filled\" (package: \"com.example.icons\")")
+        assertThat(result.output).contains("Generated \"MyIcons\" iconpack in package \"x.y.z\"")
+        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Outlined\" (package: \"x.y.z\")")
+        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Filled\" (package: \"x.y.z\")")
 
         val expectedCode = """
-            package com.example.icons
+            package x.y.z
 
             object MyIcons {
                 object Outlined
@@ -393,16 +389,15 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
 
         """.trimIndent()
 
-        val iconPackFile = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/com/example/icons/MyIcons.kt")
+        val iconPackFile = root.resolveGeneratedPath("commonMain", "x/y/z/MyIcons.kt")
         assertThat(iconPackFile).exists()
         assertThat(iconPackFile.readText()).isEqualTo(expectedCode)
 
         // Count total generated files (1 pack file + 4 icon files)
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedFiles.size).isEqualTo(5)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(5)
 
         // Verify all icons are in the flat package (not in nested packages)
-        val flatPackageDir = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/com/example/icons")
+        val flatPackageDir = root.resolveGeneratedPath("commonMain", "x/y/z")
         val iconFiles = flatPackageDir.toFile().listFiles().orEmpty().filter { it.name != "MyIcons.kt" }
         assertThat(iconFiles.size).isEqualTo(4)
 
@@ -414,7 +409,7 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
 
         outlinedIconFiles.forEach { file ->
             val content = file.readText()
-            assertThat(content).contains("package com.example.icons")
+            assertThat(content).contains("package x.y.z")
             assertThat(content).contains("val MyIcons.Outlined.")
         }
 
@@ -426,13 +421,13 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
 
         filledIconFiles.forEach { file ->
             val content = file.readText()
-            assertThat(content).contains("package com.example.icons")
+            assertThat(content).contains("package x.y.z")
             assertThat(content).contains("val MyIcons.Filled.")
         }
 
         // Verify no nested package directories were created
-        val outlinedPackageDir = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/com/example/icons/outlined")
-        val filledPackageDir = root.resolve("${GENERATED_SOURCES_DIR}/commonMain/com/example/icons/filled")
+        val outlinedPackageDir = root.resolveGeneratedPath("commonMain", "x/y/z/outlined")
+        val filledPackageDir = root.resolveGeneratedPath("commonMain", "x/y/z/filled")
         assertThat(outlinedPackageDir).doesNotExist()
         assertThat(filledPackageDir).doesNotExist()
     }

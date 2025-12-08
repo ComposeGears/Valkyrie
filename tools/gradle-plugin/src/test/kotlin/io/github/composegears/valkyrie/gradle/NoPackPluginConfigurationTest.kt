@@ -9,7 +9,6 @@ import io.github.composegears.valkyrie.gradle.common.GENERATED_SOURCES_DIR
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.readText
-import kotlin.io.path.walk
 import kotlin.io.path.writeText
 import org.gradle.testkit.runner.TaskOutcome.SKIPPED
 import org.junit.jupiter.api.Test
@@ -46,12 +45,12 @@ class NoPackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
         assertThat(result.output).contains("Generated 17 ImageVector icons in package \"x.y.z\"")
 
-        val generatedIcons = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedIcons.count()).isEqualTo(17)
+        val generatedIcons = root.allGeneratedFiles()
+        assertThat(generatedIcons.size).isEqualTo(17)
 
         generatedIcons.forEach { file ->
             val relativePath = root.resolve(GENERATED_SOURCES_DIR).relativize(file)
-            assertThat(relativePath.toString()).contains("commonMain/x/y/z/")
+            assertThat(relativePath.toString()).contains("commonMain/kotlin/x/y/z/")
 
             assertThat(file.readText()).containsMatch(Regex("val [A-Za-z0-9_]+: ImageVector"))
         }

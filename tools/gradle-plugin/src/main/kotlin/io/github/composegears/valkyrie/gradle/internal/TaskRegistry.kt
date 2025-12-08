@@ -31,7 +31,7 @@ internal fun registerTask(
         task.packageName.convention(extension.packageName)
 
         val outputRoot = extension.outputDirectory
-        val perSourceSetDir = outputRoot.map { it.dir(sourceSet.name) }
+        val perSourceSetDir = outputRoot.map { it.dir("${sourceSet.name}/kotlin") }
         task.outputDirectory.convention(perSourceSetDir)
         sourceSet.kotlin.srcDir(perSourceSetDir)
 

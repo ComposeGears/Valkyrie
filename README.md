@@ -694,8 +694,8 @@ the generated files after the generation task.
 val copyTask = tasks.register<Copy>("copyValkyrieIcons") {
   dependsOn(tasks.named("generateValkyrieImageVector"))
 
-  from(layout.buildDirectory.dir("generated/sources/valkyrie/commonMain"))
-  into(layout.projectDirectory.dir("src/commonMain/kotlin"))
+  from(layout.buildDirectory.dir("generated/sources/valkyrie"))
+  into(layout.projectDirectory.dir("src"))
 }
 
 val cleanTask = tasks.register<Delete>("cleanValkyrieGenerated") {

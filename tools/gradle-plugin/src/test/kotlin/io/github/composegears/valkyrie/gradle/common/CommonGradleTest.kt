@@ -14,6 +14,8 @@ import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.copyToRecursively
 import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
+import kotlin.io.path.isRegularFile
+import kotlin.io.path.walk
 import kotlin.io.path.writeText
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
@@ -21,6 +23,16 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 open class CommonGradleTest {
+
+    protected fun Path.resolveGeneratedPath(sourceSet: String, packagePath: String): Path {
+        return resolve("$GENERATED_SOURCES_DIR/$sourceSet/kotlin/$packagePath")
+    }
+
+    protected fun Path.allGeneratedFiles(): List<Path> = resolve(GENERATED_SOURCES_DIR)
+        .walk()
+        .filter { it.isRegularFile() }
+        .toList()
+
     protected fun buildRunner(root: Path): GradleRunner = GradleRunner
         .create()
         .withPluginClasspath()

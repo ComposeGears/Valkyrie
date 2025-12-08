@@ -10,7 +10,6 @@ import io.github.composegears.valkyrie.gradle.common.GENERATED_SOURCES_DIR
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
 import kotlin.io.path.readText
-import kotlin.io.path.walk
 import kotlin.io.path.writeText
 import org.gradle.testkit.runner.TaskOutcome.SKIPPED
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
@@ -52,10 +51,9 @@ class SimplePackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result.output).contains("No icon files to process for ImageVector generation")
 
         val iconPackName = "ValkyrieIcons"
-        assertThat(root.resolve("${GENERATED_SOURCES_DIR}/commonMain/x/y/z/$iconPackName.kt")).exists()
+        assertThat(root.resolveGeneratedPath("commonMain", "x/y/z/$iconPackName.kt")).exists()
 
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedFiles.count()).isEqualTo(1)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(1)
     }
 
     @Test
@@ -91,10 +89,9 @@ class SimplePackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result.output).contains("No icon files to process for ImageVector generation")
 
         val iconPackName = "ValkyrieIcons"
-        assertThat(root.resolve("${GENERATED_SOURCES_DIR}/jvmMain/x/y/z/$iconPackName.kt")).exists()
+        assertThat(root.resolveGeneratedPath("jvmMain", "x/y/z/$iconPackName.kt")).exists()
 
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
-        assertThat(generatedFiles.count()).isEqualTo(1)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(1)
     }
 
     @Test
@@ -133,16 +130,16 @@ class SimplePackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result.output).contains("Generated 17 ImageVector icons in package \"x.y.z\"")
 
         val iconPackName = "ValkyrieIcons"
-        assertThat(root.resolve("${GENERATED_SOURCES_DIR}/commonMain/x/y/z/$iconPackName.kt")).exists()
+        assertThat(root.resolveGeneratedPath("commonMain", "x/y/z/$iconPackName.kt")).exists()
 
-        val generatedFiles = root.resolve(GENERATED_SOURCES_DIR).walk().toList()
+        val generatedFiles = root.allGeneratedFiles()
+        assertThat(generatedFiles.size).isEqualTo(18)
 
-        assertThat(generatedFiles.count()).isEqualTo(18)
         generatedFiles
             .filter { it.fileName.toString() != "$iconPackName.kt" }
             .forEach { file ->
                 val relativePath = root.resolve(GENERATED_SOURCES_DIR).relativize(file)
-                assertThat(relativePath.toString()).contains("commonMain/x/y/z/")
+                assertThat(relativePath.toString()).contains("commonMain/kotlin/x/y/z/")
 
                 assertThat(file.readText()).containsMatch("val $iconPackName.[A-Za-z0-9_]+: ImageVector".toRegex())
             }
