@@ -34,11 +34,11 @@ fun KtFile.hasImageVectorProperties(): Boolean {
 }
 
 /**
- * Gets or creates a cached gutter icon for an ImageVector property.
- *
- * This function uses the PSI caching mechanism to avoid recreating icons repeatedly
- * for the same property, improving performance.
- */
+* Gets or creates a cached icon for a Kotlin file containing an ImageVector.
+*
+* Uses the PSI caching mechanism to avoid recreating the icon repeatedly
+* for the same file, improving performance.
+*/
 fun KtFile.getOrCreateCachedIcon(): Icon? {
     return CachedValuesManager
         .getManager(project).getCachedValue(this) {
