@@ -416,6 +416,13 @@ valkyrie {
   // Optional: Generate during IDE sync for better developer experience (default: false)
   generateAtSync = false
 
+  // Optional: Force all generated ImageVectors to have a specific autoMirror value (default: not specified)
+  // When set to true, all icons will have autoMirror = true
+  // When set to false, all icons will have autoMirror = false
+  // When not specified, the autoMirror value from the original icon file will be preserved
+  // This can be overridden at the icon pack or nested pack level
+  autoMirror = false
+
   // Optional: Code style configuration for generated code
   codeStyle {
     // Add explicit `public` modifier to generated declarations (default: false)
@@ -454,6 +461,11 @@ valkyrie {
     // Optional: Generate flat package structure without subfolders (default: false)
     useFlatPackage = false
 
+    // Optional: Force all ImageVectors in this icon pack to have a specific autoMirror value (default: not specified)
+    // When set, overrides the root level autoMirror setting
+    // This can be overridden at the nested pack level
+    autoMirror = true
+
     // Optional: Nested icon packs configuration
     nested {
       // Required: Name of the nested icon pack object
@@ -461,6 +473,10 @@ valkyrie {
 
       // Required: The source folder path containing icons for this nested pack, relative to the `resourceDirectoryName`.
       sourceFolder = "outlined"
+
+      // Optional: Force all ImageVectors in this nested pack to have a specific autoMirror value (default: not specified)
+      // When set, overrides the icon pack level and root level autoMirror settings
+      autoMirror = false
     }
     // You can add more nested packs if necessary
   }
@@ -707,6 +723,50 @@ tasks.register("updateValkyrieIcons") {
   finalizedBy(cleanTask)
 }
 ```
+
+#### AutoMirror configuration
+
+The `autoMirror` parameter controls whether icons should automatically flip horizontally when used in right-to-left (
+RTL) layouts. This is particularly useful for directional icons like arrows, chevrons, or navigation elements.
+
+**Configuration hierarchy:**
+
+The plugin supports a three-level hierarchy for `autoMirror` configuration:
+
+1. **Root level** - applies to all icons across the project
+2. **Icon pack level** - overrides root level for all icons in the pack
+3. **Nested pack level** - overrides both icon pack and root level for icons in the nested pack
+
+For example, to force enable RTL support for icons in the `Navigation` nested pack:
+
+```kotlin
+valkyrie {
+  packageName = "com.example.app.icons"
+
+  iconPack {
+    name = "ValkyrieIcons"
+    targetSourceSet = "commonMain"
+
+    nested {
+      name = "Navigation"
+      sourceFolder = "navigation"
+
+      autoMirror = true
+    }
+
+    nested {
+      name = "Logos"
+      sourceFolder = "logos"
+    }
+  }
+}
+```
+
+In this example:
+
+- Icons in the `Navigation` nested pack will have `autoMirror = true`
+- Icons in the `Logos` nested pack (and any other nested pack without an explicit `autoMirror` setting) will preserve
+  the original `autoMirror` value from the source icon file
 
 ## Other
 

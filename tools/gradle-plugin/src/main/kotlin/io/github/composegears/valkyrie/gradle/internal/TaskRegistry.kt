@@ -42,6 +42,7 @@ internal fun registerTask(
         task.useExplicitMode.convention(extension.codeStyle.useExplicitMode)
         task.addTrailingComma.convention(extension.imageVector.addTrailingComma)
         task.indentSize.convention(extension.codeStyle.indentSize)
+        task.autoMirror.convention(extension.autoMirror)
 
         task.sourceSet.convention(sourceSet.name)
         task.iconPack.convention(extension.iconPack)

@@ -6,6 +6,50 @@
 
 - Automatically handle full qualified imports for icons that conflict with reserved Compose qualified names (`Brush`,
   `Color`, `Offset`)
+- Add `autoMirror` configuration support at root, icon pack, and nested pack levels to control RTL (right-to-left) 
+  layout behavior for generated ImageVectors
+
+The `autoMirror` parameter controls whether icons should automatically flip horizontally when used in RTL layouts.
+This is particularly useful for directional icons like arrows, chevrons, or navigation elements.
+
+Configuration can be set at three levels with override hierarchy:
+1. **Root level** - applies to all icons across the project
+2. **Icon pack level** - overrides root level for all icons in the pack
+3. **Nested pack level** - overrides both icon pack and root level for icons in the nested pack
+
+Example configuration:
+
+```kotlin
+valkyrie {
+  packageName = "com.example.app.icons"
+  
+  // Force all icons to support RTL by default
+  autoMirror = true
+
+  iconPack {
+    name = "ValkyrieIcons"
+    targetSourceSet = "commonMain"
+    
+    // Override: icons in this pack won't auto-mirror
+    autoMirror = false
+
+    nested {
+      name = "Navigation"
+      sourceFolder = "navigation"
+      // Override: navigation icons should auto-mirror for RTL
+      autoMirror = true
+    }
+
+    nested {
+      name = "Logos"
+      sourceFolder = "logos"
+      // Logos inherit autoMirror = false from icon pack level
+    }
+  }
+}
+```
+
+When `autoMirror` is not specified at any level, the original value from the source icon file will be preserved.
 
 ### Changed
 
