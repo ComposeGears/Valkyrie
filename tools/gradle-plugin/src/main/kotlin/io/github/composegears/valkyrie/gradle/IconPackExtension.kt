@@ -9,6 +9,7 @@ import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Nested
+import org.gradle.api.tasks.Optional
 import org.gradle.declarative.dsl.model.annotations.Configuring
 
 abstract class IconPackExtension @Inject constructor(
@@ -39,6 +40,21 @@ abstract class IconPackExtension @Inject constructor(
     val useFlatPackage: Property<Boolean> = objects
         .property<Boolean>()
         .convention(false)
+
+    /**
+     * Force all ImageVectors in this icon pack to have a specific autoMirror value.
+     *
+     * When set to `true`, all icons in this pack will have `autoMirror = true`.
+     * When set to `false`, all icons in this pack will have `autoMirror = false`.
+     * When not specified, the autoMirror value from the root extension or the original icon file will be used.
+     *
+     * This can be overridden at the nested pack level.
+     *
+     * Default: not specified
+     */
+    @get:Input
+    @get:Optional
+    val autoMirror: Property<Boolean> = objects.property<Boolean>()
 
     @get:Nested
     internal val nestedPacks: ListProperty<NestedPack> = objects
@@ -92,4 +108,17 @@ abstract class NestedPack @Inject constructor(objects: ObjectFactory) {
      */
     @get:Input
     val sourceFolder: Property<String> = objects.property<String>()
+
+    /**
+     * Force all ImageVectors in this nested pack to have a specific autoMirror value.
+     *
+     * When set to `true`, all icons in this nested pack will have `autoMirror = true`.
+     * When set to `false`, all icons in this nested pack will have `autoMirror = false`.
+     * When not specified, the autoMirror value from the icon pack or root extension will be used.
+     *
+     * Default: not specified
+     */
+    @get:Input
+    @get:Optional
+    val autoMirror: Property<Boolean> = objects.property<Boolean>()
 }

@@ -61,6 +61,10 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
     @get:Input
     abstract val indentSize: Property<Int>
 
+    @get:Optional
+    @get:Input
+    abstract val autoMirror: Property<Boolean>
+
     @get:OutputDirectory
     abstract val outputDirectory: DirectoryProperty
 
@@ -310,8 +314,17 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         nestedPackName: String?,
     ) {
         val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, Path(file.absolutePath))
+
+        // Apply autoMirror override if specified (nested pack > icon pack > root)
+        val effectiveAutoMirror = resolveAutoMirror(nestedPackName)
+        val irImageVector = if (effectiveAutoMirror != null) {
+            parseOutput.irImageVector.copy(autoMirror = effectiveAutoMirror)
+        } else {
+            parseOutput.irImageVector
+        }
+
         val vectorSpecOutput = ImageVectorGenerator.convert(
-            vector = parseOutput.irImageVector,
+            vector = irImageVector,
             iconName = parseOutput.iconName,
             config = config,
         )
@@ -358,5 +371,25 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
 
     private fun logFileParseError(file: File, error: Throwable) {
         logger.warn("Skipping file ${file.name} due to processing error, details: ${error.message}")
+    }
+
+    private fun resolveAutoMirror(nestedPackName: String?): Boolean? {
+        // Priority: nested pack > icon pack > root extension
+        if (iconPack.isPresent && nestedPackName != null) {
+            val nestedPack = iconPack.get().nestedPacks.get().find { it.name.get() == nestedPackName }
+            if (nestedPack?.autoMirror?.isPresent == true) {
+                return nestedPack.autoMirror.get()
+            }
+        }
+
+        if (iconPack.isPresent && iconPack.get().autoMirror.isPresent) {
+            return iconPack.get().autoMirror.get()
+        }
+
+        if (autoMirror.isPresent) {
+            return autoMirror.get()
+        }
+
+        return null
     }
 }

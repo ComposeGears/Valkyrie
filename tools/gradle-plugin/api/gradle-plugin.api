@@ -6,6 +6,7 @@ public abstract class io/github/composegears/valkyrie/gradle/CodeStyleConfigExte
 
 public abstract class io/github/composegears/valkyrie/gradle/IconPackExtension {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public final fun getAutoMirror ()Lorg/gradle/api/provider/Property;
 	public final fun getName ()Lorg/gradle/api/provider/Property;
 	public final fun getTargetSourceSet ()Lorg/gradle/api/provider/Property;
 	public final fun getUseFlatPackage ()Lorg/gradle/api/provider/Property;
@@ -23,6 +24,7 @@ public abstract class io/github/composegears/valkyrie/gradle/ImageVectorConfigEx
 
 public abstract class io/github/composegears/valkyrie/gradle/NestedPack {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public final fun getAutoMirror ()Lorg/gradle/api/provider/Property;
 	public final fun getName ()Lorg/gradle/api/provider/Property;
 	public final fun getSourceFolder ()Lorg/gradle/api/provider/Property;
 }
@@ -30,6 +32,7 @@ public abstract class io/github/composegears/valkyrie/gradle/NestedPack {
 public abstract class io/github/composegears/valkyrie/gradle/ValkyrieExtension {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
 	public final fun codeStyle (Lkotlin/jvm/functions/Function1;)V
+	public final fun getAutoMirror ()Lorg/gradle/api/provider/Property;
 	public final fun getGenerateAtSync ()Lorg/gradle/api/provider/Property;
 	public final fun getOutputDirectory ()Lorg/gradle/api/file/DirectoryProperty;
 	public final fun getPackageName ()Lorg/gradle/api/provider/Property;

@@ -58,6 +58,20 @@ abstract class ValkyrieExtension @Inject constructor(private val objects: Object
         .convention(DEFAULT_RESOURCE_DIRECTORY)
 
     /**
+     * Force all generated ImageVectors to have a specific autoMirror value.
+     *
+     * When set to `true`, all icons will have `autoMirror = true`.
+     * When set to `false`, all icons will have `autoMirror = false`.
+     * When not specified, the autoMirror value from the original icon file will be preserved.
+     *
+     * This can be overridden at the icon pack or nested pack level.
+     *
+     * Default: not specified
+     */
+    @get:Optional
+    val autoMirror: Property<Boolean> = objects.property<Boolean>()
+
+    /**
      * Code style configuration for generated code.
      */
     @get:Nested
