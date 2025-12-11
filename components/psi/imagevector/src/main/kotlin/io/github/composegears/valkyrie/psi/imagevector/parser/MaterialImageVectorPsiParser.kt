@@ -60,12 +60,12 @@ internal object MaterialImageVectorPsiParser {
     }
 
     private fun KtBlockExpression.parseMaterialPath(): List<IrVectorNode> {
-        val materialPathCall = materialPathCall() ?: return emptyList()
+        val materialPathCalls = materialPathCalls()
 
-        val pathLambda = materialPathCall.lambdaArguments.firstOrNull()?.getLambdaExpression()
-        val pathBody = pathLambda?.bodyExpression ?: return emptyList()
+        return materialPathCalls.mapNotNull { materialPathCall ->
+            val pathLambda = materialPathCall.lambdaArguments.firstOrNull()?.getLambdaExpression()
+            val pathBody = pathLambda?.bodyExpression ?: return@mapNotNull null
 
-        return listOf(
             IrPath(
                 fill = IrFill.Color(IrColor("#FF000000")),
                 fillAlpha = materialPathCall.parseFloatArg("fillAlpha") ?: 1f,
@@ -75,15 +75,13 @@ internal object MaterialImageVectorPsiParser {
                 strokeLineMiter = 1f,
                 pathFillType = materialPathCall.extractPathFillType(),
                 paths = pathBody.parsePath(),
-            ),
-        )
+            )
+        }
     }
 }
 
-private fun KtBlockExpression.materialPathCall(): KtCallExpression? {
-    val ktCallExpression = childrenOfType<KtCallExpression>().firstOrNull {
+private fun KtBlockExpression.materialPathCalls(): List<KtCallExpression> {
+    return childrenOfType<KtCallExpression>().filter {
         it.calleeExpression?.text == "materialPath"
-    } ?: return null
-
-    return ktCallExpression
+    }
 }

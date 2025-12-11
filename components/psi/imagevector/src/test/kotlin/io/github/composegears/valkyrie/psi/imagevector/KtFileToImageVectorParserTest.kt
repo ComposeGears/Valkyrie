@@ -21,6 +21,7 @@ import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedLinearGr
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIcon
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIconOnlyWithPath
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIconWithoutParam
+import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedMaterialIconWithoutParam2
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.psi.imagevector.expected.ExpectedSinglePath
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
@@ -94,6 +95,14 @@ class KtFileToImageVectorParserTest(
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIconWithoutParam)
+    }
+
+    @Test
+    fun `parse material icon with several materialPath`() = runInEdtAndGet {
+        val ktFile = project.createKtFile(from = "backing/MaterialIcon.several.materialpath.kt")
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+
+        assertThat(imageVector).isEqualTo(ExpectedMaterialIconWithoutParam2)
     }
 
     @Test
