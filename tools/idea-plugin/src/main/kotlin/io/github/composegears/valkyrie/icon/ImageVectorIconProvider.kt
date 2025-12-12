@@ -4,6 +4,7 @@ import com.intellij.ide.IconProvider
 import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 import io.github.composegears.valkyrie.util.getOrCreateCachedIcon
 import io.github.composegears.valkyrie.util.hasImageVectorProperties
 import javax.swing.Icon
@@ -20,7 +21,11 @@ class ImageVectorIconProvider :
             else -> element.containingFile as? KtFile
         } ?: return null
 
-        if (!ktFile.hasImageVectorProperties()) {
+        val project = element.project
+        if (project.isDisposed) return null
+        val showIconsInProjectView = project.persistentSettings.state.showIconsInProjectView
+
+        if (!showIconsInProjectView || !ktFile.hasImageVectorProperties()) {
             return null
         }
 
