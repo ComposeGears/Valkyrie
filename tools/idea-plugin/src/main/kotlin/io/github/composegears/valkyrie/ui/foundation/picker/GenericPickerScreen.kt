@@ -29,6 +29,7 @@ import io.github.composegears.valkyrie.compose.util.isLight
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
+import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
@@ -57,6 +58,7 @@ fun GenericPickerScreen(
     onFilePick: (Path) -> Unit,
     onTextPaste: (String) -> Unit,
     onBrowseClick: () -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
     description: String? = null,
     fileFilter: (Path) -> Boolean = { true },
@@ -77,6 +79,8 @@ fun GenericPickerScreen(
         TopAppBar {
             BackAction(onBack = onBack)
             AppBarTitle(title = title)
+            WeightSpacer()
+            SettingsAction(openSettings = onOpenSettings)
         }
         WeightSpacer(weight = 0.3f)
         PickerBox(
@@ -181,5 +185,6 @@ private fun GenericPickerScreenPreview() = PreviewTheme {
         onFilePick = {},
         onTextPaste = {},
         onBrowseClick = {},
+        onOpenSettings = {},
     )
 }

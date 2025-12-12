@@ -12,6 +12,7 @@ import io.github.composegears.valkyrie.ui.platform.picker.rememberKtFilePicker
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerAction
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerEvent
+import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
 
@@ -54,6 +55,9 @@ val ImageVectorPickerScreen by navDestination {
                     viewModel.onAction(ImageVectorPickerAction.OnDragAndDropPath(path))
                 }
             }
+        },
+        onOpenSettings = {
+            navController.navigate(dest = SettingsScreen)
         },
     )
 }

@@ -13,6 +13,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleCo
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnDragAndDropPath
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnPasteFromClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerEvent
+import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import kotlinx.coroutines.launch
 
 val SimplePickerScreen by navDestination {
@@ -52,6 +53,9 @@ val SimplePickerScreen by navDestination {
                     viewModel.onAction(OnDragAndDropPath(path))
                 }
             }
+        },
+        onOpenSettings = {
+            navController.navigate(dest = SettingsScreen)
         },
     )
 }
