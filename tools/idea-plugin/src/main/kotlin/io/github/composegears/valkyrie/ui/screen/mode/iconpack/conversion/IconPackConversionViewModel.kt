@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class IconPackConversionViewModel(
     savedState: MutableSavedState,
@@ -197,13 +198,15 @@ class IconPackConversionViewModel(
                             ),
                         )
 
-                        vectorSpecOutput.content.writeToKt(
-                            outputDir = when {
-                                settings.flatPackage -> settings.iconPackDestination
-                                else -> "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}"
-                            },
-                            nameWithoutExtension = vectorSpecOutput.name,
-                        )
+                        withContext(Dispatchers.IO) {
+                            vectorSpecOutput.content.writeToKt(
+                                outputDir = when {
+                                    settings.flatPackage -> settings.iconPackDestination
+                                    else -> "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}"
+                                },
+                                nameWithoutExtension = vectorSpecOutput.name,
+                            )
+                        }
                     }
                     is IconPack.Single -> {
                         val vectorSpecOutput = ImageVectorGenerator.convert(
@@ -225,10 +228,12 @@ class IconPackConversionViewModel(
                             ),
                         )
 
-                        vectorSpecOutput.content.writeToKt(
-                            outputDir = settings.iconPackDestination,
-                            nameWithoutExtension = vectorSpecOutput.name,
-                        )
+                        withContext(Dispatchers.IO) {
+                            vectorSpecOutput.content.writeToKt(
+                                outputDir = settings.iconPackDestination,
+                                nameWithoutExtension = vectorSpecOutput.name,
+                            )
+                        }
                     }
                 }
             }
@@ -316,8 +321,7 @@ class IconPackConversionViewModel(
 
     private fun processText(text: String) = viewModelScope.launch(Dispatchers.Default) {
         val iconName = ""
-        val output =
-            runCatching { SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, text, iconName) }.getOrNull()
+        val output = runCatching { SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, text, iconName) }.getOrNull()
 
         val icon = when (output) {
             null -> BatchIcon.Broken(
