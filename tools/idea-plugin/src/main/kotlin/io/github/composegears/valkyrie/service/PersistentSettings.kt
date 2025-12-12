@@ -48,6 +48,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var addTrailingComma: Boolean by property(false)
 
         var showImageVectorPreview: Boolean by property(true)
+        var showIconsInProjectView: Boolean by property(true)
         var indentSize: Int by property(4)
     }
 

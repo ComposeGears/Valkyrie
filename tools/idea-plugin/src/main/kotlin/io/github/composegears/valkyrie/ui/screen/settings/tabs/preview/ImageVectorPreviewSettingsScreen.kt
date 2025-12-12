@@ -29,6 +29,7 @@ import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.PreviewSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIconsInProjectView
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewType
 
@@ -76,6 +77,32 @@ private fun ImageVectorPreviewSettingsUi(
                 )
             },
         )
+        ListItem(
+            modifier = Modifier
+                .toggleable(
+                    value = previewSettings.showIconsInProjectView,
+                    onValueChange = { onAction(UpdateIconsInProjectView(it)) },
+                )
+                .padding(horizontal = 8.dp)
+                .heightIn(max = 100.dp),
+            headlineContent = {
+                Text(text = "Show icons in Project View")
+            },
+            supportingContent = {
+                Text(
+                    text = "Display ImageVector preview as file icons in the project tree. \nTo ensure the icon cache updates fully, it's recommended to restart the IDE.",
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                    color = LocalContentColor.current.dim(),
+                )
+            },
+            trailingContent = {
+                Switch(
+                    modifier = Modifier.scale(0.9f),
+                    checked = previewSettings.showIconsInProjectView,
+                    onCheckedChange = { onAction(UpdateIconsInProjectView(it)) },
+                )
+            },
+        )
         VerticalSpacer(16.dp)
         PreviewBgSection(
             previewType = previewSettings.previewType,
@@ -90,6 +117,7 @@ private fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Align
     ImageVectorPreviewSettingsUi(
         previewSettings = PreviewSettings(
             showImageVectorPreview = true,
+            showIconsInProjectView = true,
             previewType = PreviewType.Auto,
         ),
         onAction = {},

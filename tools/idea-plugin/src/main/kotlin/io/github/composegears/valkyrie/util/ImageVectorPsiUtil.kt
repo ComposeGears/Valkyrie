@@ -34,17 +34,16 @@ fun KtFile.hasImageVectorProperties(): Boolean {
 }
 
 /**
-* Gets or creates a cached icon for a Kotlin file containing an ImageVector.
-*
-* Uses the PSI caching mechanism to avoid recreating the icon repeatedly
-* for the same file, improving performance.
-*/
+ * Gets or creates a cached icon for a Kotlin file containing an ImageVector.
+ *
+ * Uses the PSI caching mechanism to avoid recreating the icon repeatedly
+ * for the same file, improving performance.
+ */
 fun KtFile.getOrCreateCachedIcon(): Icon? {
-    return CachedValuesManager
-        .getManager(project).getCachedValue(this) {
-            val icon = createImageVectorIcon()
-            CachedValueProvider.Result.create(icon, this)
-        }
+    return CachedValuesManager.getCachedValue(this) {
+        val icon = createImageVectorIcon()
+        CachedValueProvider.Result.create(icon, this)
+    }
 }
 
 /**
@@ -54,9 +53,7 @@ fun KtFile.getOrCreateCachedIcon(): Icon? {
  * for the same property, improving performance.
  */
 fun KtProperty.getOrCreateGutterIcon(): Icon? {
-    val cachedValuesManager = CachedValuesManager.getManager(project)
-
-    return cachedValuesManager.getCachedValue(this) {
+    return CachedValuesManager.getCachedValue(this) {
         val icon = createIcon()
 
         CachedValueProvider.Result.create(icon, this)

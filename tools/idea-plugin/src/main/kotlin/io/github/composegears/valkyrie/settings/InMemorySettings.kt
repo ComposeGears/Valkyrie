@@ -54,6 +54,7 @@ class InMemorySettings(project: Project) {
         useExplicitMode = false
         addTrailingComma = false
         showImageVectorPreview = true
+        showIconsInProjectView = true
         indentSize = 4
     }
 
@@ -68,25 +69,26 @@ class InMemorySettings(project: Project) {
             useMaterialPack = useMaterialPack,
 
             packageName = packageName.or("io.github.composegears.valkyrie"),
-            iconPackPackage = iconPackPackage.or(packageName.or("io.github.composegears.valkyrie")),
             iconPackName = iconPackName.or("ValkyrieIcons"),
+            iconPackPackage = iconPackPackage.or(packageName.or("io.github.composegears.valkyrie")),
             iconPackDestination = iconPackDestination.or(""),
 
             nestedPacks = nestedPacks.orEmpty()
                 .split(",")
                 .filter { it.isNotEmpty() },
 
-            outputFormat = OutputFormat.from(outputFormat),
-
             generatePreview = generatePreview,
             previewAnnotationType = PreviewAnnotationType.from(previewAnnotationType),
 
-            flatPackage = flatPackage,
+            outputFormat = OutputFormat.from(outputFormat),
             useComposeColors = useComposeColors,
+            indentSize = indentSize,
+            flatPackage = flatPackage,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
-            indentSize = indentSize,
+
             showImageVectorPreview = showImageVectorPreview,
+            showIconsInProjectView = showIconsInProjectView,
         )
     }
 }
@@ -114,6 +116,7 @@ data class ValkyriesSettings(
     val addTrailingComma: Boolean,
 
     val showImageVectorPreview: Boolean,
+    val showIconsInProjectView: Boolean,
 )
 
 fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {

@@ -69,7 +69,7 @@ Allows to create organized icon pack with an extension property of you pack obje
 
         <codeInsight.lineMarkerProvider
             language="kotlin"
-            implementationClass="io.github.composegears.valkyrie.gutter.ImageVectorGutterProvider" />
+            implementationClass="io.github.composegears.valkyrie.gutter.ImageVectorGutterProvider"/>
 
         <completion.contributor
             language="kotlin"

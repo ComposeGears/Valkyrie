@@ -15,6 +15,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateAddTrailingComma
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateExplicitMode
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIconsInProjectView
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIndentSize
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
@@ -52,6 +53,7 @@ class SettingsViewModel : ViewModel() {
         PreviewSettings(
             previewType = it.previewType,
             showImageVectorPreview = it.showImageVectorPreview,
+            showIconsInProjectView = it.showIconsInProjectView,
         )
     }
 
@@ -61,6 +63,7 @@ class SettingsViewModel : ViewModel() {
             is UpdateUseComposeColors -> useComposeColors = settingsAction.useComposeColor
             is UpdateOutputFormat -> updateOutputFormat(settingsAction.outputFormat)
             is UpdateImageVectorPreview -> showImageVectorPreview = settingsAction.enabled
+            is UpdateIconsInProjectView -> showIconsInProjectView = settingsAction.enabled
             is UpdateFlatPackage -> flatPackage = settingsAction.useFlatPackage
             is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
             is UpdateAddTrailingComma -> addTrailingComma = settingsAction.addTrailingComma
@@ -96,5 +99,6 @@ data class GeneralSettings(
 
 data class PreviewSettings(
     val showImageVectorPreview: Boolean,
+    val showIconsInProjectView: Boolean,
     val previewType: PreviewType,
 )
