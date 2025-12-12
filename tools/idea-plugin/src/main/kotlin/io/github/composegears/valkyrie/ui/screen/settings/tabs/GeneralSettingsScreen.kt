@@ -172,7 +172,7 @@ private fun GeneralSettingsUi(
 
         InfoItem(
             modifier = Modifier.padding(horizontal = 24.dp),
-            title = "Export path",
+            title = "Import path",
             description = when {
                 generalSettings.iconPackDestination.isEmpty() -> "Not specified"
                 else -> "~${generalSettings.iconPackDestination.replace(currentProject.path.orEmpty(), "")}"
@@ -257,7 +257,7 @@ private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopSta
         generalSettings = GeneralSettings(
             mode = Simple,
             packageName = "io.github.composegears.valkyrie",
-            iconPackDestination = "path/to/export",
+            iconPackDestination = "path/to/import",
         ),
         onChangeMode = {},
         onClearSettings = {},

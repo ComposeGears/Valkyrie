@@ -11,9 +11,9 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Valida
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameContainsSpace
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameEmpty
 
-fun List<BatchIcon>.checkExportIssues(): Map<ValidationError, List<IconName>> {
+fun List<BatchIcon>.checkImportIssues(): Map<ValidationError, List<IconName>> {
     return buildMap {
-        val brokenIcons = this@checkExportIssues.filterIsInstance<BatchIcon.Broken>()
+        val brokenIcons = this@checkImportIssues.filterIsInstance<BatchIcon.Broken>()
 
         addIfNotEmpty(
             error = FailedToParseFile,
@@ -29,18 +29,18 @@ fun List<BatchIcon>.checkExportIssues(): Map<ValidationError, List<IconName>> {
         )
         addIfNotEmpty(
             error = IconNameEmpty,
-            icons = this@checkExportIssues
+            icons = this@checkImportIssues
                 .filter { it.iconName.name.isEmpty() }
                 .map { it.iconName },
         )
         addIfNotEmpty(
             error = IconNameContainsSpace,
-            icons = this@checkExportIssues
+            icons = this@checkImportIssues
                 .filter { it.iconName.name.contains(" ") }
                 .map { it.iconName },
         )
 
-        val duplicates = this@checkExportIssues
+        val duplicates = this@checkImportIssues
             .filterIsInstance<BatchIcon.Valid>()
             .groupBy {
                 val packIdentifier = when (val pack = it.iconPack) {

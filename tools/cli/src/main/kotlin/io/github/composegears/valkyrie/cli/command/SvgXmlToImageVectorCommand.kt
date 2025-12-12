@@ -94,7 +94,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
 
     private val useFlatPackage by booleanOption(
         "--flatpackage",
-        help = "Export all icons into a single package without dividing by nested pack folders",
+        help = "Import all icons into a single package without dividing by nested pack folders",
     )
 
     private val useExplicitMode by booleanOption(

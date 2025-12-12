@@ -7,7 +7,7 @@ sealed interface ExistingPackModeState {
 
     data class ExistingPackEditState(
         val packEditState: PackEditState = PackEditState(),
-        val exportDirectory: String = "",
+        val importDirectory: String = "",
         val nextAvailable: Boolean = true,
     ) : ExistingPackModeState
 }

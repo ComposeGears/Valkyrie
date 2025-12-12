@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.PackEditState
 
 sealed interface NewPackModeState {
-    data class ChooseExportDirectoryState(
+    data class ChooseImportDirectoryState(
         val iconPackDestination: String,
         val predictedPackage: String,
         val nextAvailable: Boolean,

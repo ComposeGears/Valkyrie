@@ -26,7 +26,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent.OnSettingsUpdated
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent.PreviewIconPackObject
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseExportDirectoryState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseImportDirectoryState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.PickedState
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
@@ -110,7 +110,7 @@ class NewPackViewModel : ViewModel() {
 
     private fun updateDestinationPath(path: Path) {
         _state.updateState {
-            ChooseExportDirectoryState(
+            ChooseImportDirectoryState(
                 iconPackDestination = path.absolutePathString(),
                 predictedPackage = PackageExtractor.getFrom(path.invariantSeparatorsPathString).orEmpty(),
                 nextAvailable = true,
@@ -119,7 +119,7 @@ class NewPackViewModel : ViewModel() {
     }
 
     private fun saveDestination() {
-        val directoryState = currentState.safeAs<ChooseExportDirectoryState>() ?: return
+        val directoryState = currentState.safeAs<ChooseImportDirectoryState>() ?: return
 
         inMemorySettings.update {
             iconPackDestination = directoryState.iconPackDestination
@@ -169,7 +169,7 @@ class NewPackViewModel : ViewModel() {
         }
     }
 
-    private fun ValkyriesSettings.toChooseDirectoryState() = ChooseExportDirectoryState(
+    private fun ValkyriesSettings.toChooseDirectoryState() = ChooseImportDirectoryState(
         iconPackDestination = iconPackDestination,
         predictedPackage = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
         nextAvailable = iconPackDestination.isNotEmpty(),

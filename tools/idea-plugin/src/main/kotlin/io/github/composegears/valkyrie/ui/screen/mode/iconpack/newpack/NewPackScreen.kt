@@ -28,7 +28,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.founda
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseExportDirectoryState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseImportDirectoryState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.PickedState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewmodel.NewPackViewModel
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
@@ -83,7 +83,7 @@ private fun NewPackUi(
         targetState = state,
         contentKey = {
             when (it) {
-                is ChooseExportDirectoryState -> 0
+                is ChooseImportDirectoryState -> 0
                 is PickedState -> 1
             }
         },
@@ -92,7 +92,7 @@ private fun NewPackUi(
         },
     ) { current ->
         when (current) {
-            is ChooseExportDirectoryState -> {
+            is ChooseImportDirectoryState -> {
                 ChoosePackDirectory(
                     state = current,
                     onAction = onAction,
@@ -114,8 +114,8 @@ private fun NewPackUi(
 private fun NewPackFlowPreview() = PreviewTheme {
     NewPackUi(
         modifier = Modifier.fillMaxWidth(0.8f),
-        state = ChooseExportDirectoryState(
-            iconPackDestination = "path/to/export",
+        state = ChooseImportDirectoryState(
+            iconPackDestination = "path/to/import",
             predictedPackage = "com.example.iconpack",
             nextAvailable = true,
         ),

@@ -27,8 +27,8 @@ class SettingsViewModel : ViewModel() {
 
     private val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    val exportSettings = inMemorySettings.settings.mapState {
-        ExportSettings(
+    val importSettings = inMemorySettings.settings.mapState {
+        ImportSettings(
             outputFormat = it.outputFormat,
             useComposeColors = it.useComposeColors,
             generatePreview = it.generatePreview,
@@ -77,7 +77,7 @@ class SettingsViewModel : ViewModel() {
     }
 }
 
-data class ExportSettings(
+data class ImportSettings(
     val outputFormat: OutputFormat,
     val useComposeColors: Boolean,
     val useFlatPackage: Boolean,

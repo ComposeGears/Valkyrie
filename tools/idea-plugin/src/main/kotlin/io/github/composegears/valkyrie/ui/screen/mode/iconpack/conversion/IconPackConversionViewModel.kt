@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.checkExportIssues
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.checkImportIssues
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
@@ -62,7 +62,7 @@ class IconPackConversionViewModel(
                     _state.updateState {
                         BatchProcessing.IconPackCreationState(
                             icons = restoredState,
-                            exportIssues = restoredState.checkExportIssues(),
+                            importIssues = restoredState.checkImportIssues(),
                         )
                     }
                 }
@@ -104,7 +104,7 @@ class IconPackConversionViewModel(
                     } else {
                         copy(
                             icons = iconsToProcess,
-                            exportIssues = iconsToProcess.checkExportIssues(),
+                            importIssues = iconsToProcess.checkImportIssues(),
                         )
                     }
                 }
@@ -131,7 +131,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = updatedIcons,
-                        exportIssues = updatedIcons.checkExportIssues(),
+                        importIssues = updatedIcons.checkImportIssues(),
                     )
                 }
                 else -> this
@@ -163,13 +163,13 @@ class IconPackConversionViewModel(
         _events.emit(OpenPreview(output.content))
     }
 
-    fun export() = viewModelScope.launch(Dispatchers.Default) {
+    fun import() = viewModelScope.launch(Dispatchers.Default) {
         val icons = when (val state = _state.value) {
             is BatchProcessing.IconPackCreationState -> state.icons
             else -> return@launch
         }
 
-        _state.updateState { BatchProcessing.ExportingState }
+        _state.updateState { BatchProcessing.ImportingState }
 
         val settings = inMemorySettings.current
 
@@ -233,7 +233,7 @@ class IconPackConversionViewModel(
                 }
             }
 
-        _events.emit(ConversionEvent.ExportCompleted)
+        _events.emit(ConversionEvent.ImportCompleted)
         reset()
     }
 
@@ -253,7 +253,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = icons,
-                        exportIssues = icons.checkExportIssues(),
+                        importIssues = icons.checkImportIssues(),
                     )
                 }
                 else -> this
@@ -265,7 +265,7 @@ class IconPackConversionViewModel(
         _state.updateState { IconsPickering }
     }
 
-    fun resolveExportIssues() = viewModelScope.launch {
+    fun resolveImportIssues() = viewModelScope.launch {
         val creationState = _state.value.safeAs<BatchProcessing.IconPackCreationState>() ?: return@launch
 
         val processedIcons = creationState.icons
@@ -302,13 +302,13 @@ class IconPackConversionViewModel(
         }
 
         if (icons.isEmpty()) {
-            _events.emit(ConversionEvent.NothingToExport)
+            _events.emit(ConversionEvent.NothingToImport)
             reset()
         } else {
             _state.updateState {
                 creationState.copy(
                     icons = icons,
-                    exportIssues = icons.checkExportIssues(),
+                    importIssues = icons.checkImportIssues(),
                 )
             }
         }
@@ -337,7 +337,7 @@ class IconPackConversionViewModel(
 
             BatchProcessing.IconPackCreationState(
                 icons = icons,
-                exportIssues = icons.checkExportIssues(),
+                importIssues = icons.checkImportIssues(),
             )
         }
     }
@@ -376,7 +376,7 @@ class IconPackConversionViewModel(
 
                 BatchProcessing.IconPackCreationState(
                     icons = icons,
-                    exportIssues = icons.checkExportIssues(),
+                    importIssues = icons.checkImportIssues(),
                 )
             }
         }
@@ -402,6 +402,6 @@ class IconPackConversionViewModel(
 
 sealed interface ConversionEvent {
     data class OpenPreview(val iconContent: String) : ConversionEvent
-    data object ExportCompleted : ConversionEvent
-    data object NothingToExport : ConversionEvent
+    data object ImportCompleted : ConversionEvent
+    data object NothingToImport : ConversionEvent
 }

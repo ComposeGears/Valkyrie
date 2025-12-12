@@ -71,7 +71,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Valida
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameEmpty
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.model.BatchAction
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.ExportIssuesUI
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.ImportIssuesUI
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.FileTypeBadge
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.IconPreviewBox
 import io.github.composegears.valkyrie.util.IR_STUB
@@ -108,13 +108,13 @@ fun BatchProcessingStateUi(
             CloseAction(onClose = onClose)
             AppBarTitle(title = "IconPack generation")
             WeightSpacer()
-            if (state.exportIssues.isNotEmpty()) {
+            if (state.importIssues.isNotEmpty()) {
                 NotificationAction(
-                    selected = currentAction is BatchAction.ExportIssues,
+                    selected = currentAction is BatchAction.ImportIssues,
                     onNotification = {
                         currentAction = when (currentAction) {
-                            is BatchAction.ExportIssues -> BatchAction.None
-                            else -> BatchAction.ExportIssues(state.exportIssues)
+                            is BatchAction.ImportIssues -> BatchAction.None
+                            else -> BatchAction.ImportIssues(state.importIssues)
                         }
                     },
                 )
@@ -173,12 +173,10 @@ private fun ProcessingActions(
         targetState = action,
     ) { action ->
         when (action) {
-            is BatchAction.ExportIssues -> {
-                ExportIssuesUI(
-                    exportIssues = action.issues,
-                    onResolveIssues = onResolveIssues,
-                )
-            }
+            is BatchAction.ImportIssues -> ImportIssuesUI(
+                importIssues = action.issues,
+                onResolveIssues = onResolveIssues,
+            )
             BatchAction.None -> Spacer(modifier = Modifier.fillMaxWidth())
         }
     }
@@ -406,7 +404,7 @@ private fun PacksDropdown(
 private fun BatchProcessingStatePreview() = PreviewTheme {
     BatchProcessingStateUi(
         state = IconPackCreationState(
-            exportIssues = mapOf(
+            importIssues = mapOf(
                 IconNameEmpty to listOf(IconName("")),
                 IconNameContainsSpace to listOf(IconName("Ic Duplicate")),
                 FailedToParseFile to listOf(IconName("test.svg")),
