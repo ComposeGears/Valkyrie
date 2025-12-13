@@ -80,7 +80,7 @@ needs.
     - [Icon pack with nested packs configuration](#icon-pack-with-nested-packs-configuration)
   - [Tips and tricks](#tips-and-tricks)
 - [Other](#other)
-  - [Import formats](#import-formats)
+  - [Output formats](#output-formats)
   - [Comparison with other solutions](#comparison-with-other-solutions)
   - [Migration guide](#migration-guide)
 
@@ -94,7 +94,7 @@ needs.
   * remove redundant code by default (e.g. `public` keyword)
   * remove unused imports (e.g. `kotlin.*` package)
   * skip default ImageVector parameters
-  * support generation as [backing property or lazy property](#import-formats)
+  * support generation as [backing property or lazy property](#output-formats)
   * optional trailing comma and explicit mode
   * customize code indent
 - Ability to create your unique project icon pack (+nested packs if necessary)
@@ -107,7 +107,7 @@ needs.
 - Two conversion modes: [Simple](#simple-mode) and [IconPack](#iconpack-mode)
 - Support for Drag&Drop files/directories and pasting content from clipboard
 - Easy option to add more icons into existing project icon pack
-- Import generated ImageVector to clipboard or file (depends on the mode)
+- Copy generated ImageVector to clipboard or file (depends on the mode)
 - Fully customizable setting for generated icons
 - Build-in [ImageVector previewer](#imagevector-previewer) for any icons without compilation ✨
 - The plugin is completely built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
@@ -770,7 +770,7 @@ In this example:
 
 ## Other
 
-### Import formats
+### Output formats
 
 [Original Discussion](https://github.com/ComposeGears/Valkyrie/issues/63)
 
