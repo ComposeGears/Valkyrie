@@ -93,7 +93,7 @@ class ExistingPackViewModel : ViewModel() {
         _state.updateState {
             ExistingPackEditState(
                 packEditState = PackEditState(inputFieldState = inputFieldState),
-                exportDirectory = path.parent.absolutePathString(),
+                importDirectory = path.parent.absolutePathString(),
             )
         }
     }
@@ -123,7 +123,7 @@ class ExistingPackViewModel : ViewModel() {
 
         viewModelScope.launch {
             inMemorySettings.update {
-                iconPackDestination = editState.exportDirectory
+                iconPackDestination = editState.importDirectory
             }
             IconPackWriter.savePack(
                 inMemorySettings = inMemorySettings,

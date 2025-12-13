@@ -22,8 +22,8 @@
 <h3>Simple - one-click solution to convert SVG/XML to ImageVector</h3>
 Allows previewing the generated icon and facilitates copying the result directly to the clipboard for easy integration into your project.
 
-<h3>IconPack - create your organized icon pack and auto export icons into your directory</h3>
-Allows to create organized icon pack with an extension property of you pack object and batch export into your specified directory.
+<h3>IconPack - create your organized icon pack and auto import icons into your directory</h3>
+Allows to create organized icon pack with an extension property of you pack object and batch import into your specified directory.
 
 ]]></description>
     <depends>com.intellij.modules.platform</depends>
@@ -44,10 +44,10 @@ Allows to create organized icon pack with an extension property of you pack obje
                         class="io.github.composegears.valkyrie.action.ImportFromDirectoryOrFileAction"
                         text="Import From"/>
 
-                <action id="valkyrie.ExportHereAction"
-                        class="io.github.composegears.valkyrie.action.ExportHereAction"
-                        icon="com.intellij.icons.AllIcons.ToolbarDecorator.Export"
-                        text="Export Here"/>
+                <action id="valkyrie.SetImportDirectory"
+                        class="io.github.composegears.valkyrie.action.SetImportDirectoryAction"
+                        icon="com.intellij.icons.AllIcons.Actions.ModuleDirectory"
+                        text="Set import directory"/>
             </group>
             <separator/>
             <add-to-group group-id="ProjectViewPopupMenu"/>

@@ -44,7 +44,7 @@ class IconValidationTest {
             validIcon("SampleIcon", singlePack),
             validIcon("", singlePack),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.IconNameEmpty to listOf(IconName(""))))
     }
 
@@ -54,14 +54,14 @@ class IconValidationTest {
             validIcon("SampleIcon", singlePack),
             validIcon("Icon With Space", singlePack),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.IconNameContainsSpace to listOf(IconName("Icon With Space"))))
     }
 
     @Test
     fun `simple, detect failed to parse file icons`() {
         val icons = listOf(brokenIcon("BrokenFileIcon", IconSource.File))
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.FailedToParseFile to listOf(IconName("BrokenFileIcon"))))
     }
 
@@ -70,7 +70,7 @@ class IconValidationTest {
         val icons = listOf(
             brokenIcon("BrokenClipboardIcon", IconSource.Clipboard),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.FailedToParseClipboard to listOf(IconName("BrokenClipboardIcon"))))
     }
 
@@ -80,7 +80,7 @@ class IconValidationTest {
             validIcon("DuplicateIcon", singlePack),
             validIcon("DuplicateIcon", singlePack),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("DuplicateIcon"))))
     }
 
@@ -93,7 +93,7 @@ class IconValidationTest {
             validIcon("DuplicateIcon", singlePack),
             validIcon("DuplicateIcon", singlePack),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(
                 mapOf(
                     ValidationError.IconNameEmpty to listOf(IconName("")),
@@ -112,7 +112,7 @@ class IconValidationTest {
             validIcon("DuplicateIcon", nestedPack),
             validIcon("DuplicateIcon", nestedPack),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(
                 mapOf(
                     ValidationError.IconNameEmpty to listOf(IconName("")),
@@ -128,7 +128,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack),
             validIcon("Test", nestedPack),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("Test"))))
     }
 
@@ -138,7 +138,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack.copy(currentNestedPack = "Filled")),
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkExportIssues()).isEqualTo(emptyMap())
+        assertThat(icons.checkImportIssues()).isEqualTo(emptyMap())
     }
 
     @Test
@@ -148,7 +148,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkExportIssues())
+        assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("Test"))))
     }
 }

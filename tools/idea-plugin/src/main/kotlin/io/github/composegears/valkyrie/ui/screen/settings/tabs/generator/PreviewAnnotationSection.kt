@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs.export
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.generator
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -19,8 +19,8 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotati
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.AndroidX
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.Jetbrains
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ui.SelectableCard
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ui.SwitchOption
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.SelectableCard
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.SwitchOption
 import io.github.composegears.valkyrie.util.stringResource
 
 @Composable
@@ -33,8 +33,8 @@ fun PreviewAnnotationSection(
 ) {
     Column(modifier = modifier) {
         SwitchOption(
-            title = stringResource("settings.export.preview.block"),
-            description = stringResource("settings.export.preview.block.description"),
+            title = stringResource("settings.generator.preview.block"),
+            description = stringResource("settings.generator.preview.block.description"),
             checked = generatePreview,
             onCheckedChange = onGeneratePreviewChange,
         )

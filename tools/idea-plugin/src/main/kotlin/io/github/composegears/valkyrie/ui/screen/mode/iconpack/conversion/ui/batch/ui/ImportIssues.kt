@@ -27,8 +27,8 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Valida
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.toMessageText
 
 @Composable
-fun ExportIssuesUI(
-    exportIssues: Map<ValidationError, List<IconName>>,
+fun ImportIssuesUI(
+    importIssues: Map<ValidationError, List<IconName>>,
     modifier: Modifier = Modifier,
     onResolveIssues: () -> Unit,
 ) {
@@ -41,13 +41,13 @@ fun ExportIssuesUI(
         ) {
             Text(
                 modifier = Modifier.padding(start = 4.dp, bottom = 4.dp),
-                text = "Export issues:",
+                text = "Import issues:",
                 style = MaterialTheme.typography.labelSmall,
                 color = LocalContentColor.current.disabled(),
             )
             SelectionContainer {
                 Text(
-                    text = exportIssues.toMessageText(),
+                    text = importIssues.toMessageText(),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -77,9 +77,9 @@ fun ExportIssuesUI(
 
 @Preview
 @Composable
-private fun ExportIssuesUIPreview() = PreviewTheme(alignment = Alignment.TopStart) {
-    ExportIssuesUI(
-        exportIssues = mapOf(
+private fun ImportIssuesUIPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+    ImportIssuesUI(
+        importIssues = mapOf(
             ValidationError.IconNameEmpty to listOf(IconName("")),
             ValidationError.IconNameContainsSpace to listOf(IconName("Ic Duplicate")),
             ValidationError.FailedToParseFile to listOf(IconName("test.svg")),

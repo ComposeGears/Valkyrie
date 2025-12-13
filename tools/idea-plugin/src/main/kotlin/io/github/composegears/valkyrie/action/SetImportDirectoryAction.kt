@@ -14,7 +14,7 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 
-class ExportHereAction : AnAction() {
+class SetImportDirectoryAction : AnAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
@@ -41,7 +41,7 @@ class ExportHereAction : AnAction() {
 
         if (settings.isIconPackRequired) {
             RequiredIconPackModeDialog(
-                message = "Export folder updated.\nYou can setup IconPack mode now or later to start processing icons",
+                message = "Destination folder updated.\nYou can setup IconPack mode now or later to start processing icons",
                 onContinue = {
                     toolWindow.show()
                     eventsHandler.send(SetupIconPackMode(pathData = PendingPathData()))

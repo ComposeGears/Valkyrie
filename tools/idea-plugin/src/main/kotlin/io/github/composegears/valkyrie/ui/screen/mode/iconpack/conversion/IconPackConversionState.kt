@@ -12,11 +12,11 @@ sealed interface IconPackConversionState {
 
         data class IconPackCreationState(
             val icons: List<BatchIcon>,
-            val exportIssues: Map<ValidationError, List<IconName>>,
+            val importIssues: Map<ValidationError, List<IconName>>,
         ) : BatchProcessing
 
         data object ImportValidationState : BatchProcessing
-        data object ExportingState : BatchProcessing
+        data object ImportingState : BatchProcessing
     }
 }
 
