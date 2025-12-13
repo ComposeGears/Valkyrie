@@ -91,7 +91,7 @@ fun ChoosePackDirectory(
                 val currentProject = rememberCurrentProject()
 
                 InfoItem(
-                    title = "Import path",
+                    title = "Destination path",
                     description = "~${state.iconPackDestination.replace(currentProject.path.orEmpty(), "")}",
                 )
             }
