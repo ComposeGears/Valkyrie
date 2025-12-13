@@ -14,7 +14,7 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 
-class ExportHereAction : AnAction() {
+class SetImportDirectoryAction : AnAction() {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
