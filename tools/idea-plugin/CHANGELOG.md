@@ -14,6 +14,7 @@
 ### Changed
 
 - Drop support for IntelliJ IDEA 2024.2
+- Rename "Export" to "Import" across IDEA plugin
 
 ## [0.18.0](https://github.com/ComposeGears/Valkyrie/releases/tag/0.18.0) - 2025-11-06
 
