@@ -41,7 +41,7 @@ class ExportHereAction : AnAction() {
 
         if (settings.isIconPackRequired) {
             RequiredIconPackModeDialog(
-                message = "Import folder updated.\nYou can setup IconPack mode now or later to start processing icons",
+                message = "Destination folder updated.\nYou can setup IconPack mode now or later to start processing icons",
                 onContinue = {
                     toolWindow.show()
                     eventsHandler.send(SetupIconPackMode(pathData = PendingPathData()))

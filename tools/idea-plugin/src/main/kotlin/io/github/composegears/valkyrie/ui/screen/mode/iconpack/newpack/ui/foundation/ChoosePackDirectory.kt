@@ -30,12 +30,12 @@ import io.github.composegears.valkyrie.ui.platform.rememberDragAndDropFolderHand
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SaveDestination
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SelectDestinationFolder
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseImportDirectoryState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseDestinationDirectoryState
 import kotlinx.coroutines.launch
 
 @Composable
 fun ChoosePackDirectory(
-    state: ChooseImportDirectoryState,
+    state: ChooseDestinationDirectoryState,
     modifier: Modifier = Modifier,
     onAction: (NewPackAction) -> Unit,
 ) {
@@ -118,7 +118,7 @@ fun ChoosePackDirectory(
 private fun ChoosePackDirectoryPreview() = PreviewTheme {
     ChoosePackDirectory(
         modifier = Modifier.fillMaxWidth(0.8f),
-        state = ChooseImportDirectoryState(
+        state = ChooseDestinationDirectoryState(
             iconPackDestination = "path/to/import",
             predictedPackage = "com.example.iconpack",
             nextAvailable = true,

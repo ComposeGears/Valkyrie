@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs.previewSettings
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.preview
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.desktop.ui.tooling.preview.Preview

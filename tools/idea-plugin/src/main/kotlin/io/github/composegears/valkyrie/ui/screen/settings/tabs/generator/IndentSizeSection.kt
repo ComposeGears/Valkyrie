@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs.importSettings
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.generator
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
@@ -54,11 +54,11 @@ fun IndentSizeSection(
             .clickable { expanded = true }
             .padding(horizontal = 8.dp),
         headlineContent = {
-            Text(text = stringResource("settings.import.indent"))
+            Text(text = stringResource("settings.generator.indent"))
         },
         supportingContent = {
             Text(
-                text = stringResource("settings.import.indent.description"),
+                text = stringResource("settings.generator.indent.description"),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                 color = LocalContentColor.current.dim(),
             )

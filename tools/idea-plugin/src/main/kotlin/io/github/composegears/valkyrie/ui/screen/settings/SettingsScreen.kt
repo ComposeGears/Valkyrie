@@ -19,8 +19,8 @@ import io.github.composegears.valkyrie.ui.foundation.ScrollableTabRow
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.AboutSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.GeneralSettingsScreen
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.importSettings.ImageVectorImportSettingsScreen
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.previewSettings.ImageVectorPreviewSettingsScreen
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.GeneratorSettingsScreen
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.preview.ImageVectorPreviewSettingsScreen
 
 val SettingsScreen by navDestination<Unit> {
     val navController = navController()
@@ -28,7 +28,7 @@ val SettingsScreen by navDestination<Unit> {
     val tabs = remember {
         listOf(
             TabItem(name = "General", screen = GeneralSettingsScreen),
-            TabItem(name = "Import", screen = ImageVectorImportSettingsScreen),
+            TabItem(name = "Generator", screen = GeneratorSettingsScreen),
             TabItem(name = "Preview", screen = ImageVectorPreviewSettingsScreen),
             TabItem(name = "About", screen = AboutSettingsScreen),
         )

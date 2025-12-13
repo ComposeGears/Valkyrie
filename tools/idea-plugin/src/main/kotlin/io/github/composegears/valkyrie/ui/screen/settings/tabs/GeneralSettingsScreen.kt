@@ -172,7 +172,7 @@ private fun GeneralSettingsUi(
 
         InfoItem(
             modifier = Modifier.padding(horizontal = 24.dp),
-            title = "Import path",
+            title = "Destination path",
             description = when {
                 generalSettings.iconPackDestination.isEmpty() -> "Not specified"
                 else -> "~${generalSettings.iconPackDestination.replace(currentProject.path.orEmpty(), "")}"

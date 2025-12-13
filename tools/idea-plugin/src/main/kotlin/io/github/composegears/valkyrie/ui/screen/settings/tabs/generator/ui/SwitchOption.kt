@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs.importSettings.ui
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column

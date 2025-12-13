@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs.importSettings
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.generator
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.La
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.importSettings.ui.SelectableCard
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.SelectableCard
 import io.github.composegears.valkyrie.util.stringResource
 
 @Composable
@@ -37,7 +37,7 @@ fun OutputFormatSection(
             .padding(paddingValues),
     ) {
         Text(
-            text = stringResource("settings.import.output.header"),
+            text = stringResource("settings.generator.output.header"),
             style = MaterialTheme.typography.bodyLarge,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -46,14 +46,14 @@ fun OutputFormatSection(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             SelectableCard(
                 modifier = Modifier.weight(1f),
-                text = stringResource("settings.import.output.backing"),
+                text = stringResource("settings.generator.output.backing"),
                 highlights = rememberCodeHighlight(backingPropertyFormat),
                 isSelected = outputFormat == BackingProperty,
                 onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
             )
             SelectableCard(
                 modifier = Modifier.weight(1f),
-                text = stringResource("settings.import.output.lazy"),
+                text = stringResource("settings.generator.output.lazy"),
                 highlights = rememberCodeHighlight(lazyPropertyFormat),
                 isSelected = outputFormat == LazyProperty,
                 onSelect = { onAction(UpdateOutputFormat(LazyProperty)) },
