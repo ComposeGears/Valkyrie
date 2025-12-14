@@ -228,5 +228,3 @@ fun IconLoadingPlaceholder(
             .shimmer(shimmer = shimmer, cornerRadius = 12.dp),
     )
 }
-
-
