@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.material.ui
+package io.github.composegears.valkyrie.ui.screen.webimport.common.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
