@@ -5,6 +5,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Valida
 
 sealed interface BatchAction {
 
-    data class ExportIssues(val issues: Map<ValidationError, List<IconName>>) : BatchAction
+    data class ImportIssues(val issues: Map<ValidationError, List<IconName>>) : BatchAction
+
     data object None : BatchAction
 }

@@ -52,9 +52,9 @@ import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberMultiSelectDragAndDropHandler
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ExportingState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ImportValidationState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ImportingState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.DragAndDropOverlay
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.BatchProcessingStateUi
@@ -90,14 +90,14 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
                             navArgs = it.iconContent,
                         )
                     }
-                    is ConversionEvent.ExportCompleted -> {
+                    is ConversionEvent.ImportCompleted -> {
                         @Suppress("UnstableApiUsage")
                         writeAction {
                             VirtualFileManager.getInstance().syncRefresh()
                         }
                     }
-                    is ConversionEvent.NothingToExport -> {
-                        snackbar.show("Nothing to export")
+                    is ConversionEvent.NothingToImport -> {
+                        snackbar.show("Nothing to import")
                     }
                 }
             }.launchIn(this)
@@ -115,9 +115,9 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
         onDeleteIcon = viewModel::deleteIcon,
         onReset = viewModel::reset,
         onPreviewClick = viewModel::showPreview,
-        onExport = viewModel::export,
+        onImport = viewModel::import,
         onRenameIcon = viewModel::renameIcon,
-        onResolveIssues = viewModel::resolveExportIssues,
+        onResolveIssues = viewModel::resolveImportIssues,
     )
 }
 
@@ -132,20 +132,20 @@ private fun IconPackConversionUi(
     onDeleteIcon: (IconId) -> Unit,
     onReset: () -> Unit,
     onPreviewClick: (BatchIcon.Valid) -> Unit,
-    onExport: () -> Unit,
+    onImport: () -> Unit,
     onRenameIcon: (BatchIcon, IconName) -> Unit,
     onResolveIssues: () -> Unit,
 ) {
-    var isExportButtonVisible by rememberSaveable { mutableStateOf(true) }
+    var isImportButtonVisible by rememberSaveable { mutableStateOf(true) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 if (available.y < -1) {
-                    isExportButtonVisible = false
+                    isImportButtonVisible = false
                 }
                 if (available.y > 1) {
-                    isExportButtonVisible = true
+                    isImportButtonVisible = true
                 }
 
                 return Offset.Zero
@@ -161,7 +161,7 @@ private fun IconPackConversionUi(
                 contentKey = {
                     when (it) {
                         is IconsPickering -> 0
-                        is ExportingState -> 1
+                        is ImportingState -> 1
                         is IconPackCreationState -> 2
                         is ImportValidationState -> 3
                     }
@@ -178,8 +178,8 @@ private fun IconPackConversionUi(
                             openSettings = openSettings,
                         )
                     }
-                    ExportingState -> {
-                        LoadingStateUi(message = "Exporting icons...")
+                    ImportingState -> {
+                        LoadingStateUi(message = "Importing icons...")
                     }
                     ImportValidationState -> {
                         LoadingStateUi(message = "Processing icons...")
@@ -189,7 +189,7 @@ private fun IconPackConversionUi(
                             modifier = Modifier.nestedScroll(nestedScrollConnection),
                             state = current,
                             previewType = previewType,
-                            onScrollUnavailable = { isExportButtonVisible = true },
+                            onScrollUnavailable = { isImportButtonVisible = true },
                             onPasteEvent = onPickEvent,
                             onDeleteIcon = onDeleteIcon,
                             onUpdatePack = updatePack,
@@ -209,13 +209,13 @@ private fun IconPackConversionUi(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 16.dp),
-                visible = isExportButtonVisible,
+                visible = isImportButtonVisible,
                 enter = slideInVertically(initialOffsetY = { it * 2 }),
                 exit = slideOutVertically(targetOffsetY = { it * 2 }),
             ) {
                 Button(
                     modifier = Modifier.defaultMinSize(minHeight = 36.dp),
-                    enabled = state.exportIssues.isEmpty(),
+                    enabled = state.importIssues.isEmpty(),
                     shape = MaterialTheme.shapes.large,
                     colors = ButtonDefaults.buttonColors().copy(
                         disabledContainerColor = Color.Gray,
@@ -226,10 +226,10 @@ private fun IconPackConversionUi(
                         focusedElevation = 6.dp,
                         disabledElevation = 0.dp,
                     ),
-                    onClick = onExport,
+                    onClick = onImport,
                 ) {
                     Text(
-                        text = "Export",
+                        text = "Import",
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
@@ -284,7 +284,7 @@ private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
         onDeleteIcon = {},
         onReset = {},
         onPreviewClick = {},
-        onExport = {},
+        onImport = {},
         onRenameIcon = { _, _ -> },
         onResolveIssues = {},
     )
@@ -293,5 +293,5 @@ private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
 @Preview
 @Composable
 private fun LoadingStateUiPreview() = PreviewTheme {
-    LoadingStateUi(message = "Exporting icons...")
+    LoadingStateUi(message = "Importing icons...")
 }

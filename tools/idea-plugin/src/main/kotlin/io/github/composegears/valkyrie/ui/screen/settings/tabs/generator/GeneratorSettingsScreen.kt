@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs.export
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.generator
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.screen.settings.ExportSettings
+import io.github.composegears.valkyrie.ui.screen.settings.GeneratorSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateAddTrailingComma
@@ -28,22 +28,22 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.export.ui.SwitchOption
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.SwitchOption
 import io.github.composegears.valkyrie.util.stringResource
 
-val ImageVectorExportSettingsScreen by navDestination<Unit> {
+val GeneratorSettingsScreen by navDestination<Unit> {
     val viewModel = viewModel<SettingsViewModel>(navController())
-    val exportSettings by viewModel.exportSettings.collectAsState()
+    val generatorSettings by viewModel.generatorSettings.collectAsState()
 
-    ImageVectorExportSettingsUi(
+    GeneratorSettingsUi(
         onAction = viewModel::onAction,
-        exportSettings = exportSettings,
+        generatorSettings = generatorSettings,
     )
 }
 
 @Composable
-private fun ImageVectorExportSettingsUi(
-    exportSettings: ExportSettings,
+private fun GeneratorSettingsUi(
+    generatorSettings: GeneratorSettings,
     onAction: (SettingsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -54,42 +54,42 @@ private fun ImageVectorExportSettingsUi(
     ) {
         VerticalSpacer(16.dp)
         OutputFormatSection(
-            outputFormat = exportSettings.outputFormat,
+            outputFormat = generatorSettings.outputFormat,
             onAction = onAction,
         )
         VerticalSpacer(16.dp)
         SwitchOption(
-            title = stringResource("settings.export.flat.package"),
-            description = stringResource("settings.export.flat.package.description"),
-            checked = exportSettings.useFlatPackage,
+            title = stringResource("settings.generator.flat.package"),
+            description = stringResource("settings.generator.flat.package.description"),
+            checked = generatorSettings.useFlatPackage,
             onCheckedChange = { onAction(UpdateFlatPackage(it)) },
         )
         SwitchOption(
-            title = stringResource("settings.export.composecolor"),
-            description = stringResource("settings.export.composecolor.description"),
-            checked = exportSettings.useComposeColors,
+            title = stringResource("settings.generator.composecolor"),
+            description = stringResource("settings.generator.composecolor.description"),
+            checked = generatorSettings.useComposeColors,
             onCheckedChange = { onAction(UpdateUseComposeColors(it)) },
         )
         SwitchOption(
-            title = stringResource("settings.export.explicit.mode"),
-            description = stringResource("settings.export.explicit.mode.description"),
-            checked = exportSettings.useExplicitMode,
+            title = stringResource("settings.generator.explicit.mode"),
+            description = stringResource("settings.generator.explicit.mode.description"),
+            checked = generatorSettings.useExplicitMode,
             onCheckedChange = { onAction(UpdateExplicitMode(it)) },
         )
         SwitchOption(
-            title = stringResource("settings.export.trailing.comma"),
-            description = stringResource("settings.export.trailing.comma.description"),
-            checked = exportSettings.addTrailingComma,
+            title = stringResource("settings.generator.trailing.comma"),
+            description = stringResource("settings.generator.trailing.comma.description"),
+            checked = generatorSettings.addTrailingComma,
             onCheckedChange = { onAction(UpdateAddTrailingComma(it)) },
         )
         PreviewAnnotationSection(
-            generatePreview = exportSettings.generatePreview,
-            previewAnnotationType = exportSettings.previewAnnotationType,
+            generatePreview = generatorSettings.generatePreview,
+            previewAnnotationType = generatorSettings.previewAnnotationType,
             onGeneratePreviewChange = { onAction(UpdatePreviewGeneration(it)) },
             onAnnotationTypeChange = { onAction(UpdatePreviewAnnotationType(it)) },
         )
         IndentSizeSection(
-            indent = exportSettings.indentSize,
+            indent = generatorSettings.indentSize,
             onValueChange = { onAction(UpdateIndentSize(it)) },
         )
         VerticalSpacer(16.dp)
@@ -98,10 +98,10 @@ private fun ImageVectorExportSettingsUi(
 
 @Preview
 @Composable
-private fun ImageVectorExportSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
-    ImageVectorExportSettingsUi(
+private fun GeneratorSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+    GeneratorSettingsUi(
         onAction = {},
-        exportSettings = ExportSettings(
+        generatorSettings = GeneratorSettings(
             outputFormat = OutputFormat.BackingProperty,
             useComposeColors = true,
             generatePreview = true,
