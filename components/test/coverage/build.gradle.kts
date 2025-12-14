@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.valkyrie.kover)
 }
 
+// include only necessary projects for the test coverage
 dependencies {
-    // include only necessary dependencies for the test coverage
     kover(projects.tools.cli)
     kover(projects.components.generator.core)
     kover(projects.components.generator.jvm.poetExtensions)
@@ -14,8 +14,8 @@ dependencies {
     kover(projects.components.parser.jvm.xml)
     kover(projects.components.parser.kmp.xml)
     kover(projects.components.parser.unified)
-    kover(projects.components.psi.iconpack)
     kover(projects.components.psi.imagevector)
+    kover(projects.sdk.intellij.psi.iconpack)
     kover(projects.sdk.ir.compose)
     kover(projects.sdk.ir.core)
     kover(projects.sdk.ir.util)
