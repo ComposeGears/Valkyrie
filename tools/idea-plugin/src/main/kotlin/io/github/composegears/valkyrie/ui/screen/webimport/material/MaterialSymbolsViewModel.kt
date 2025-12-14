@@ -9,11 +9,11 @@ import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.material.di.MaterialSymbolsModule
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialGridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
@@ -158,7 +158,7 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
         config: MaterialConfig,
         category: Category,
         searchQuery: String = "",
-    ): List<MaterialGridItem> {
+    ): List<GridItem> {
         val categoryFiltered = when (category) {
             Category.All -> config.gridItems
             else -> config.gridItems.filterKeys { it == category }
@@ -208,7 +208,7 @@ sealed interface MaterialState {
     @Stable
     data class Success(
         val config: MaterialConfig,
-        val gridItems: List<MaterialGridItem> = emptyList(),
+        val gridItems: List<GridItem> = emptyList(),
         val selectedCategory: Category = Category.All,
         val fontSettings: FontSettings = FontSettings(),
         val iconFontFamily: IconFontFamily = IconFontFamily.OUTLINED,

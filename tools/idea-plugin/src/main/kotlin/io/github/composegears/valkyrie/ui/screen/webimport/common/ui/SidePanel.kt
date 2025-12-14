@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.material.ui
+package io.github.composegears.valkyrie.ui.screen.webimport.common.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
