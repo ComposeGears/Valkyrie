@@ -22,6 +22,7 @@ repositories {
 dependencies {
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
+    implementation(projects.components.parser.jvm.svg)
     implementation(projects.components.parser.unified)
     implementation(projects.components.psi.iconpack)
     implementation(projects.components.psi.imagevector)
