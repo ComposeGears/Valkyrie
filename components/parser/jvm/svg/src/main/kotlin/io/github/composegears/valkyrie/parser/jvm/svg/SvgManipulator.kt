@@ -32,6 +32,11 @@ object SvgManipulator {
     ): String {
         return try {
             val factory = DocumentBuilderFactory.newInstance()
+            factory.apply {
+                setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
+                setFeature("http://xml.org/sax/features/external-general-entities", false)
+                setFeature("http://xml.org/sax/features/external-parameter-entities", false)
+            }
             val builder = factory.newDocumentBuilder()
             val document = builder.parse(org.xml.sax.InputSource(StringReader(svgContent)))
 

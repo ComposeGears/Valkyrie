@@ -27,6 +27,10 @@ public final class io/github/composegears/valkyrie/compose/icons/colored/GoogleM
 	public static final fun getGoogleMaterialLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
+public final class io/github/composegears/valkyrie/compose/icons/colored/LucideLogoKt {
+	public static final fun getLucideLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/compose/icons/colored/PluginIconKt {
 	public static final fun getValkyrieLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
