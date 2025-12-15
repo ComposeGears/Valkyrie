@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -16,15 +17,17 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
+import io.github.composegears.valkyrie.compose.icons.colored.LucideLogo
 import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 
@@ -36,6 +39,7 @@ val WebImportSelectorScreen by navDestination<Unit> {
         onClick = {
             val screen = when (it) {
                 GoogleMaterialSymbols -> MaterialSymbolsImportScreen
+                Lucide -> LucideImportScreen
             }
 
             navController.navigate(dest = screen)
@@ -60,6 +64,7 @@ private fun WebImportSelectorScreenUI(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             InfoCard(
                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -68,7 +73,13 @@ private fun WebImportSelectorScreenUI(
                 title = stringResource("web.import.selector.google.title"),
                 description = stringResource("web.import.selector.google.description"),
             )
-            VerticalSpacer(16.dp)
+            InfoCard(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                onClick = { onClick(Lucide) },
+                image = ValkyrieIcons.Colored.LucideLogo,
+                title = stringResource("web.import.selector.lucide.title"),
+                description = stringResource("web.import.selector.lucide.description"),
+            )
             Text(
                 text = stringResource("web.import.selector.coming.soon"),
                 style = MaterialTheme.typography.bodyMedium,
@@ -79,6 +90,7 @@ private fun WebImportSelectorScreenUI(
 
 enum class IconProviders {
     GoogleMaterialSymbols,
+    Lucide,
 }
 
 @Preview
