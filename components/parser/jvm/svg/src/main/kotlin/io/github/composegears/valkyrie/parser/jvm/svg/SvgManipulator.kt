@@ -43,7 +43,11 @@ object SvgManipulator {
             val svgElement = document.documentElement
             modifications(svgElement)
 
-            val transformer = TransformerFactory.newInstance().newTransformer()
+            val transformerFactory = TransformerFactory.newInstance().apply {
+                setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD, "")
+                setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "")
+            }
+            val transformer = transformerFactory.newTransformer()
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes")
             val writer = StringWriter()
             transformer.transform(DOMSource(document), StreamResult(writer))
