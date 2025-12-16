@@ -7,6 +7,5 @@ plugins {
 dependencies {
     implementation(libs.android.build.tools)
 
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.assertk)
+    testImplementation(libs.bundles.kmp.test)
 }
