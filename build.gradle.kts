@@ -83,7 +83,11 @@ allprojects {
         }
     }
 
-    tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
+    val excluded = setOf(":sdk:intellij:psi:iconpack")
+
+    if (project.path !in excluded) {
+        tasks.withType<Test>().configureEach {
+            useJUnitPlatform()
+        }
     }
 }

@@ -135,12 +135,12 @@ class ExistingPackViewModel : ViewModel() {
 
     private fun IconPackInfo.toInputFieldState(): InputFieldState {
         return InputFieldState(
-            iconPackName = InputState(text = iconPack, enabled = false),
+            iconPackName = InputState(text = iconPack.name, enabled = false),
             packageName = InputState(text = packageName, enabled = false),
-            nestedPacks = nestedPacks.mapIndexed { index, name ->
+            nestedPacks = iconPack.nested.mapIndexed { index, pack ->
                 NestedPack(
                     id = index.toString(),
-                    inputFieldState = InputState(text = name, enabled = false),
+                    inputFieldState = InputState(text = pack.name, enabled = false),
                 )
             },
         )
