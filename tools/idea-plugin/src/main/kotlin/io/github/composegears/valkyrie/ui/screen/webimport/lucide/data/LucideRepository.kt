@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.lucide.data
 
+import androidx.collection.LruCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import io.github.composegears.valkyrie.parser.jvm.svg.SvgManipulator
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.util.LruCache
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
@@ -59,7 +59,7 @@ class LucideRepository(
             val downloaded = httpClient.get(url).bodyAsText()
 
             cacheMutex.withLock {
-                rawSvgCache[iconName] = downloaded
+                rawSvgCache.put(iconName, downloaded)
             }
             downloaded
         }
