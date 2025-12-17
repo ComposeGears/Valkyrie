@@ -16,8 +16,6 @@ final object io.github.composegears.valkyrie.compose.icons/ValkyrieIcons { // io
     final object Outlined // io.github.composegears.valkyrie.compose.icons/ValkyrieIcons.Outlined|null[0]
 }
 
-final val io.github.composegears.valkyrie.compose.icons.colored/FlagMx // io.github.composegears.valkyrie.compose.icons.colored/FlagMx|{}FlagMx[0]
-    final fun <get-FlagMx>(): androidx.compose.ui.graphics.vector/ImageVector // io.github.composegears.valkyrie.compose.icons.colored/FlagMx.<get-FlagMx>|<get-FlagMx>(){}[0]
 final val io.github.composegears.valkyrie.compose.icons.colored/GoogleMaterialLogo // io.github.composegears.valkyrie.compose.icons.colored/GoogleMaterialLogo|@io.github.composegears.valkyrie.compose.icons.ValkyrieIcons.Colored{}GoogleMaterialLogo[0]
     final fun (io.github.composegears.valkyrie.compose.icons/ValkyrieIcons.Colored).<get-GoogleMaterialLogo>(): androidx.compose.ui.graphics.vector/ImageVector // io.github.composegears.valkyrie.compose.icons.colored/GoogleMaterialLogo.<get-GoogleMaterialLogo>|<get-GoogleMaterialLogo>@io.github.composegears.valkyrie.compose.icons.ValkyrieIcons.Colored(){}[0]
 final val io.github.composegears.valkyrie.compose.icons.colored/LucideLogo // io.github.composegears.valkyrie.compose.icons.colored/LucideLogo|@io.github.composegears.valkyrie.compose.icons.ValkyrieIcons.Colored{}LucideLogo[0]
