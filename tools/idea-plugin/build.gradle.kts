@@ -67,6 +67,7 @@ dependencies {
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
+    implementation(libs.androidx.collection)
     implementation(libs.fonticons)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.content.negotiation)

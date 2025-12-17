@@ -7,9 +7,11 @@ kotlin = "2.2.21"
 kover = "0.9.4"
 leviathan = "3.1.0-1.8.2"
 ktor = "3.3.3"
+collection = "1.5.0"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.2"
+androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling-preview = "androidx.compose.ui:ui-tooling-preview:1.10.0"
 fonticons = "dev.tclement.fonticons:core:2.1.1"

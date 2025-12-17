@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.lucide
 
+import androidx.collection.LruCache
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -22,7 +23,6 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.L
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.toGridItems
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.util.ThreadSafeLruCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,7 +35,10 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
 
     private val lucideUseCase = inject(LucideModule.lucideUseCase)
 
-    private val iconVectorCache = ThreadSafeLruCache<String, ImageVector?>(maxSize = 300)
+    // Wrapper to handle nullable ImageVector values in LruCache (which requires non-null types)
+    private data class CachedIcon(val imageVector: ImageVector?)
+
+    private val iconVectorCache = LruCache<String, CachedIcon>(300)
     private val iconLoadMutex = Mutex()
 
     private val lucideRecord = savedState.recordOf<LucideState>(
@@ -190,7 +193,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
                     return@launch
                 }
 
-                iconVectorCache[cacheKey]?.let { cachedVector ->
+                iconVectorCache.get(cacheKey)?.imageVector?.let { cachedVector ->
                     updateSuccess {
                         it.copy(
                             loadedIcons = it.loadedIcons + (cacheKey to IconLoadState.Success(cachedVector)),
@@ -232,7 +235,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
         val imageVector = parserOutput.irImageVector.toComposeImageVector()
 
         iconLoadMutex.withLock {
-            iconVectorCache[cacheKey] = imageVector
+            iconVectorCache.put(cacheKey, CachedIcon(imageVector))
         }
 
         updateSuccess {
@@ -243,7 +246,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     private suspend fun handleIconParseError(iconName: String, cacheKey: String, error: Throwable) {
         LOG.error("Failed to parse icon '$iconName'", error)
         iconLoadMutex.withLock {
-            iconVectorCache[cacheKey] = null
+            iconVectorCache.put(cacheKey, CachedIcon(null))
         }
         updateSuccess {
             it.copy(loadedIcons = it.loadedIcons + (cacheKey to IconLoadState.Error))
