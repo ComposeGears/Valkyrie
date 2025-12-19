@@ -30,6 +30,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.m
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ChooserState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ExistingPackEditState
+import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -84,8 +85,9 @@ class ExistingPackViewModel : ViewModel() {
         }
     }
 
-    private fun onChooseFile(path: Path, project: Project) {
-        val iconPackInfo = IconPackPsiParser.extractIconPack(path, project) ?: return
+    private fun onChooseFile(path: Path, project: Project) = viewModelScope.launch {
+        val ktFile = path.resolveKtFile(project) ?: return@launch
+        val iconPackInfo = IconPackPsiParser.parse(ktFile) ?: return@launch
 
         val inputFieldState = iconPackInfo.toInputFieldState()
         inputHandler.updateState(inputFieldState)

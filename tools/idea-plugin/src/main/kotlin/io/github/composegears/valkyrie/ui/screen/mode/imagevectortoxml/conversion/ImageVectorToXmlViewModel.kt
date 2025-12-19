@@ -7,23 +7,20 @@ import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VfsUtil
-import com.intellij.psi.PsiFileFactory
-import io.github.composegears.valkyrie.editor.toKtFile
 import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
-import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorSource
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlState
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.XmlContent
+import io.github.composegears.valkyrie.util.extension.PsiKtFileFactory
+import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtFile
 
 class ImageVectorToXmlViewModel(
@@ -49,10 +46,7 @@ class ImageVectorToXmlViewModel(
     }
 
     private fun convertFromPath(path: Path) = viewModelScope.launch(Dispatchers.IO) {
-        val ktFile = readAction {
-            val virtualFile = VfsUtil.findFile(path, true)
-            virtualFile?.toKtFile(project)
-        }
+        val ktFile = path.resolveKtFile(project)
 
         if (ktFile == null) {
             _events.emit("Failed to read Kotlin file")
@@ -72,13 +66,11 @@ class ImageVectorToXmlViewModel(
     }
 
     private fun convertFromText(kotlinCode: String) = viewModelScope.launch(Dispatchers.IO) {
-        val ktFile = withContext(Dispatchers.Default) {
-            readAction {
-                PsiFileFactory.getInstance(project)
-                    .createFileFromText("ImageVector.kt", KotlinFileType.INSTANCE, kotlinCode)
-                    .safeAs<KtFile>()
-            }
-        }
+        val ktFile = PsiKtFileFactory.createFromText(
+            project = project,
+            name = "ImageVector.kt",
+            text = kotlinCode,
+        )
 
         if (ktFile == null) {
             _events.emit("Failed to parse Kotlin code")

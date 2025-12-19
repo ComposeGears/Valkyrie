@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.ui.foundation.TextWithIcon
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.icons.KotlinLogo
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.platform.picker.rememberKtFilePicker
+import io.github.composegears.valkyrie.ui.platform.picker.rememberKtPathPicker
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
 import kotlin.io.path.isRegularFile
@@ -49,7 +49,7 @@ fun ChooseExistingPackFile(
     val isDragging by rememberMutableState(dragAndDropHandler.isDragging) { dragAndDropHandler.isDragging }
 
     val scope = rememberCoroutineScope()
-    val ktFilePicker = rememberKtFilePicker()
+    val ktPathPicker = rememberKtPathPicker()
 
     Column(modifier = modifier) {
         DragAndDropBox(
@@ -59,7 +59,7 @@ fun ChooseExistingPackFile(
             isDragging = isDragging,
             onChoose = {
                 scope.launch {
-                    val path = ktFilePicker.launch()
+                    val path = ktPathPicker.launch()
 
                     if (path != null) {
                         onAction(

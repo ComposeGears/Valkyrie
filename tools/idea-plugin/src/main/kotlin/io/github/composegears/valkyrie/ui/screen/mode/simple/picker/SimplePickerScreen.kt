@@ -8,7 +8,7 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
-import io.github.composegears.valkyrie.ui.platform.picker.rememberFilePicker
+import io.github.composegears.valkyrie.ui.platform.picker.rememberSvgXmlPathPicker
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnDragAndDropPath
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnPasteFromClipboard
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 val SimplePickerScreen by navDestination {
     val navController = navController()
     val coroutineScope = rememberCoroutineScope()
-    val filePicker = rememberFilePicker()
+    val svgXmlPicker = rememberSvgXmlPathPicker()
 
     val viewModel = viewModel { SimplePickerViewModel() }
 
@@ -49,7 +49,7 @@ val SimplePickerScreen by navDestination {
         },
         onBrowseClick = {
             coroutineScope.launch {
-                filePicker.launch()?.let { path ->
+                svgXmlPicker.launch()?.let { path ->
                     viewModel.onAction(OnDragAndDropPath(path))
                 }
             }

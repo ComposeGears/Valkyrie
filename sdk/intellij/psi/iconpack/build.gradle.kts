@@ -8,7 +8,6 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.sdk.core.extensions)
     implementation(projects.components.generator.core)
 
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))

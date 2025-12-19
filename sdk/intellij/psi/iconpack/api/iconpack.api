@@ -13,7 +13,6 @@ public final class io/github/composegears/valkyrie/sdk/intellij/psi/iconpack/Ico
 
 public final class io/github/composegears/valkyrie/sdk/intellij/psi/iconpack/IconPackPsiParser {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/intellij/psi/iconpack/IconPackPsiParser;
-	public final fun extractIconPack (Ljava/nio/file/Path;Lcom/intellij/openapi/project/Project;)Lio/github/composegears/valkyrie/sdk/intellij/psi/iconpack/IconPackInfo;
 	public final fun parse (Lorg/jetbrains/kotlin/psi/KtFile;)Lio/github/composegears/valkyrie/sdk/intellij/psi/iconpack/IconPackInfo;
 }
 
