@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun rememberKtFilePicker(): Picker<Path?> {
+fun rememberKtPathPicker(): Picker<Path?> {
     if (LocalInspectionMode.current) return StubFilePicker
 
     val project = LocalProject.current
@@ -31,7 +31,7 @@ fun rememberKtFilePicker(): Picker<Path?> {
 }
 
 @Composable
-fun rememberFilePicker(): Picker<Path?> {
+fun rememberSvgXmlPathPicker(): Picker<Path?> {
     if (LocalInspectionMode.current) return StubFilePicker
 
     val project = LocalProject.current

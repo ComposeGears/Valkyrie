@@ -8,7 +8,7 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
-import io.github.composegears.valkyrie.ui.platform.picker.rememberKtFilePicker
+import io.github.composegears.valkyrie.ui.platform.picker.rememberKtPathPicker
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerAction
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerEvent
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 val ImageVectorPickerScreen by navDestination {
     val navController = navController()
     val coroutineScope = rememberCoroutineScope()
-    val filePicker = rememberKtFilePicker()
+    val filePicker = rememberKtPathPicker()
 
     val viewModel = viewModel { ImageVectorPickerViewModel() }
 

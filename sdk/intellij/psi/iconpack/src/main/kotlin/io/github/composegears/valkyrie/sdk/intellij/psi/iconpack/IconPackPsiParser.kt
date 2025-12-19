@@ -1,14 +1,6 @@
 package io.github.composegears.valkyrie.sdk.intellij.psi.iconpack
 
-import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiManager
-import com.intellij.testFramework.LightVirtualFile
 import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
-import java.nio.file.Path
-import kotlin.io.path.name
-import kotlin.io.path.readText
-import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 
@@ -46,14 +38,5 @@ object IconPackPsiParser {
             name = name,
             nested = nestedObjects,
         )
-    }
-
-    @Deprecated("Use ktFile version instead")
-    fun extractIconPack(path: Path, project: Project): IconPackInfo? {
-        val ktFile = PsiManager.getInstance(project)
-            .findFile(LightVirtualFile(path.name, KotlinFileType.INSTANCE, path.readText()))
-            .safeAs<KtFile>() ?: return null
-
-        return parse(ktFile)
     }
 }
