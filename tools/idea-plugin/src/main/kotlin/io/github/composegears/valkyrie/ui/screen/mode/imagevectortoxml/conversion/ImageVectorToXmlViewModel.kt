@@ -7,7 +7,7 @@ import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.project.Project
-import io.github.composegears.valkyrie.psi.imagevector.ImageVectorPsiParser
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorSource
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
