@@ -7,12 +7,17 @@ plugins {
     alias(libs.plugins.valkyrie.kover)
 }
 
+tasks.test {
+    systemProperty("idea.kotlin.plugin.use.k2", "true")
+}
+
 dependencies {
     implementation(projects.components.generator.core)
 
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
     testImplementation(projects.components.test.resourceLoader)
     testImplementation(libs.assertk)
+    testRuntimeOnly(libs.junit.launcher)
 
     intellijPlatform {
         testFramework(TestFrameworkType.Platform)
