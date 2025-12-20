@@ -8,6 +8,7 @@ plugins {
 }
 
 dependencies {
+    testFixturesApi(libs.junit5.jupiter)
     testFixturesApi(libs.junit4)
 
     intellijPlatform {
