@@ -4,13 +4,11 @@ import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
-import com.intellij.testFramework.junit5.TestApplication
 import com.intellij.testFramework.runInEdtAndGet
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.sdk.intellij.testfixtures.KotlinCodeInsightTest
 import org.junit.jupiter.api.Test
 
-@TestApplication
 class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
     @Test

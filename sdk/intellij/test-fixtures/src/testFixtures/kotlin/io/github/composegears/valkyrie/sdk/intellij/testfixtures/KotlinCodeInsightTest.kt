@@ -1,51 +1,34 @@
 package io.github.composegears.valkyrie.sdk.intellij.testfixtures
 
 import com.intellij.openapi.vfs.LocalFileSystem
-import com.intellij.psi.PsiManager
-import com.intellij.testFramework.fixtures.CodeInsightTestFixture
-import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory
-import com.intellij.testFramework.fixtures.impl.TempDirTestFixtureImpl
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import java.nio.file.Path
 import kotlin.io.path.absolute
 import org.jetbrains.kotlin.psi.KtFile
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.TestInfo
 
 /**
  * Base test class for IntelliJ IDEA tests that work with Kotlin files.
  *
- * This class provides a configured [CodeInsightTestFixture] for testing Kotlin PSI operations
+ * This class provides a configured functionality for testing Kotlin PSI operations
  * and includes utility methods for loading Kotlin files from the test resources directory.
  *
  * JUnit 5 compatible
  */
-abstract class KotlinCodeInsightTest {
-
-    private var fixture: CodeInsightTestFixture? = null
-
-    private val psiManager: PsiManager
-        get() = fixture?.psiManager!!
-
-    protected open val testDataPath: String = "src/test/resources"
+abstract class KotlinCodeInsightTest : BasePlatformTestCase() {
 
     @BeforeEach
-    internal fun setupFixture(testInfo: TestInfo) {
-        val factory = IdeaTestFixtureFactory.getFixtureFactory()
-        val fixtureBuilder = factory.createLightFixtureBuilder(null, testInfo.displayName)
-        val lightFixture = fixtureBuilder.getFixture()
-
-        fixture = IdeaTestFixtureFactory.getFixtureFactory()
-            .createCodeInsightFixture(lightFixture, TempDirTestFixtureImpl())
-        fixture!!.testDataPath = testDataPath
-        fixture!!.setUp()
+    internal fun beforeEach() {
+        super.setUp()
     }
 
     @AfterEach
-    internal fun tearDown() {
-        fixture?.tearDown()
-        fixture = null
+    internal fun afterEach() {
+        super.tearDown()
     }
+
+    override fun getTestDataPath(): String = "src/test/resources"
 
     protected fun loadKtFile(fileName: String): KtFile {
         val path = Path.of(testDataPath, fileName).absolute()
