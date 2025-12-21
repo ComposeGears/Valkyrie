@@ -1,8 +1,6 @@
 package io.github.composegears.valkyrie.sdk.intellij.testfixtures
 
-import com.intellij.openapi.application.runInEdt
 import com.intellij.openapi.vfs.LocalFileSystem
-import com.intellij.testFramework.LightPlatformTestCase
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory
 import com.intellij.testFramework.fixtures.impl.TempDirTestFixtureImpl
@@ -45,10 +43,7 @@ abstract class KotlinCodeInsightTest {
 
     @AfterEach
     internal fun tearDownEdt() {
-        runInEdt {
-            fixture.tearDown()
-            LightPlatformTestCase.closeAndDeleteProject()
-        }
+        fixture.tearDown()
     }
 
     protected fun loadKtFile(fileName: String): KtFile {

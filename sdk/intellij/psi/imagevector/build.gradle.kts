@@ -6,12 +6,27 @@ plugins {
     alias(libs.plugins.valkyrie.compose)
     alias(libs.plugins.jetbrains.intellij.module)
     alias(libs.plugins.valkyrie.kover)
+    alias(libs.plugins.buildconfig)
 }
 
 sourceSets {
     test {
         resources.srcDir("$rootDir/components/test/sharedTestResources")
     }
+}
+
+buildConfig.sourceSets.getByName("test") {
+    useKotlinOutput {
+        topLevelConstants = true
+    }
+    packageName = "io.github.composegears.valkyrie.psi"
+
+    val path = project.layout.buildDirectory.dir("resources/test").get().asFile.absolutePath
+    buildConfigField<String>("TEST_DATA_PATH", path)
+}
+
+tasks.test {
+    systemProperty("idea.kotlin.plugin.use.k2", "true")
 }
 
 configurations {
@@ -26,14 +41,12 @@ dependencies {
 
     compileOnly(compose.runtime)
 
+    testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
     testImplementation(compose.ui)
     testImplementation(projects.sdk.ir.compose)
     testImplementation(projects.components.test.resourceLoader)
-    testImplementation(libs.bundles.test)
+    testImplementation(libs.assertk)
     testRuntimeOnly(libs.junit.launcher)
-
-    // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-faq.html#junit5-test-framework-refers-to-junit4
-    testRuntimeOnly(libs.junit4)
 
     intellijPlatform {
         testFramework(TestFrameworkType.Platform)

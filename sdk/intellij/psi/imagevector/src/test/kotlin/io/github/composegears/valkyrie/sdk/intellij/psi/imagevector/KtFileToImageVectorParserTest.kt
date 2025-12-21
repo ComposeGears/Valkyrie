@@ -2,12 +2,10 @@ package io.github.composegears.valkyrie.sdk.intellij.psi.imagevector
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.intellij.openapi.project.Project
-import com.intellij.testFramework.ProjectExtension
+import com.intellij.testFramework.junit5.TestApplication
 import com.intellij.testFramework.runInEdtAndGet
+import io.github.composegears.valkyrie.psi.TEST_DATA_PATH
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.ParseType
-import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.createKtFile
-import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.toKtFile
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedAllGroupParams
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedAllPathParams
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedClipPathGradient
@@ -24,31 +22,21 @@ import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.Exp
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedMaterialIconWithoutParam2
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedSinglePath
+import io.github.composegears.valkyrie.sdk.intellij.testfixtures.KotlinCodeInsightTest
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
+import org.jetbrains.kotlin.psi.KtFile
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
+@TestApplication
 @ParameterizedClass
 @EnumSource(value = ParseType::class)
-class KtFileToImageVectorParserTest(
-    private val parseType: ParseType,
-) {
-
-    companion object {
-        @JvmField
-        @RegisterExtension
-        val projectExtension = ProjectExtension()
-    }
-
-    private val project: Project
-        get() = projectExtension.project
+class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCodeInsightTest() {
 
     @Test
     fun `empty image vector`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "lazy/EmptyImageVector.kt",
             pathToBacking = "backing/EmptyImageVector.kt",
         )
@@ -60,7 +48,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `empty paths`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "lazy/EmptyPaths.kt",
             pathToBacking = "backing/EmptyPaths.kt",
         )
@@ -72,7 +59,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse all path params`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "lazy/AllPathParams.kt",
             pathToBacking = "backing/AllPathParams.kt",
         )
@@ -83,7 +69,7 @@ class KtFileToImageVectorParserTest(
 
     @Test
     fun `parse material icon`() = runInEdtAndGet {
-        val ktFile = project.createKtFile(from = "backing/MaterialIcon.all.kt")
+        val ktFile = loadKtFile("backing/MaterialIcon.all.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIcon)
@@ -91,7 +77,7 @@ class KtFileToImageVectorParserTest(
 
     @Test
     fun `parse material icon without param`() = runInEdtAndGet {
-        val ktFile = project.createKtFile(from = "backing/MaterialIcon.all.without.param.kt")
+        val ktFile = loadKtFile("backing/MaterialIcon.all.without.param.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIconWithoutParam)
@@ -99,7 +85,7 @@ class KtFileToImageVectorParserTest(
 
     @Test
     fun `parse material icon with several materialPath`() = runInEdtAndGet {
-        val ktFile = project.createKtFile(from = "backing/MaterialIcon.several.materialpath.kt")
+        val ktFile = loadKtFile("backing/MaterialIcon.several.materialpath.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIconWithoutParam2)
@@ -107,7 +93,7 @@ class KtFileToImageVectorParserTest(
 
     @Test
     fun `parse material icon only with materialPath`() = runInEdtAndGet {
-        val ktFile = project.createKtFile(from = "backing/MaterialIcon.material.path.kt")
+        val ktFile = loadKtFile("backing/MaterialIcon.material.path.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedMaterialIconOnlyWithPath)
@@ -115,7 +101,7 @@ class KtFileToImageVectorParserTest(
 
     @Test
     fun `parse icon with import member`() = runInEdtAndGet {
-        val ktFile = project.createKtFile(from = "backing/IconWithImportMember.kt")
+        val ktFile = loadKtFile("backing/IconWithImportMember.kt")
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedIconWithImportMember)
@@ -124,7 +110,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse icon with group`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "lazy/IconWithGroup.kt",
             pathToBacking = "backing/IconWithGroup.kt",
         )
@@ -136,7 +121,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse single path property`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "lazy/SinglePath.kt",
             pathToBacking = "backing/SinglePath.kt",
         )
@@ -148,7 +132,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse all group params`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "imagevector/kt/lazy/AllGroupParams.kt",
             pathToBacking = "imagevector/kt/backing/AllGroupParams.kt",
         )
@@ -160,7 +143,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse compose color`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "imagevector/kt/lazy/ComposeColor.kt",
             pathToBacking = "imagevector/kt/backing/ComposeColor.kt",
         )
@@ -172,7 +154,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse icon with linear gradient`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "imagevector/kt/backing/LinearGradient.kt",
             pathToBacking = "imagevector/kt/lazy/LinearGradient.kt",
         )
@@ -184,7 +165,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse icon with linear gradient and stroke`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "imagevector/kt/backing/LinearGradientWithStroke.kt",
             pathToBacking = "imagevector/kt/lazy/LinearGradientWithStroke.kt",
         )
@@ -196,7 +176,6 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse linear gradient with clip path`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "imagevector/kt/lazy/ClipPathGradient.kt",
             pathToBacking = "imagevector/kt/backing/ClipPathGradient.kt",
         )
@@ -208,12 +187,22 @@ class KtFileToImageVectorParserTest(
     @Test
     fun `parse icon with radial gradient`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            project = project,
             pathToLazy = "imagevector/kt/backing/RadialGradient.kt",
             pathToBacking = "imagevector/kt/lazy/RadialGradient.kt",
         )
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedRadialGradient)
+    }
+
+    // Use path for build folder with all generated test resources
+    override val testDataPath: String = TEST_DATA_PATH
+
+    fun ParseType.toKtFile(
+        pathToLazy: String,
+        pathToBacking: String,
+    ): KtFile = when (this) {
+        ParseType.Lazy -> loadKtFile(pathToLazy)
+        ParseType.Backing -> loadKtFile(pathToBacking)
     }
 }
