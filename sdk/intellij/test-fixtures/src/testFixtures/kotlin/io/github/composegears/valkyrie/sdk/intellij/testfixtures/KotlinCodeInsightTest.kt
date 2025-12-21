@@ -1,12 +1,12 @@
 package io.github.composegears.valkyrie.sdk.intellij.testfixtures
 
 import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.psi.PsiManager
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory
 import com.intellij.testFramework.fixtures.impl.TempDirTestFixtureImpl
 import java.nio.file.Path
 import kotlin.io.path.absolute
-import kotlin.properties.Delegates.notNull
 import org.jetbrains.kotlin.psi.KtFile
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -22,10 +22,10 @@ import org.junit.jupiter.api.TestInfo
  */
 abstract class KotlinCodeInsightTest {
 
-    private var fixture: CodeInsightTestFixture by notNull()
+    private var fixture: CodeInsightTestFixture? = null
 
-    private val psiManager
-        get() = fixture.psiManager
+    private val psiManager: PsiManager
+        get() = fixture?.psiManager!!
 
     protected open val testDataPath: String = "src/test/resources"
 
@@ -37,13 +37,14 @@ abstract class KotlinCodeInsightTest {
 
         fixture = IdeaTestFixtureFactory.getFixtureFactory()
             .createCodeInsightFixture(lightFixture, TempDirTestFixtureImpl())
-        fixture.testDataPath = testDataPath
-        fixture.setUp()
+        fixture!!.testDataPath = testDataPath
+        fixture!!.setUp()
     }
 
     @AfterEach
-    internal fun tearDownEdt() {
-        fixture.tearDown()
+    internal fun tearDown() {
+        fixture?.tearDown()
+        fixture = null
     }
 
     protected fun loadKtFile(fileName: String): KtFile {
