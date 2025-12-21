@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.sdk.intellij.psi.imagevector
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.intellij.testFramework.junit5.TestApplication
 import com.intellij.testFramework.runInEdtAndGet
 import io.github.composegears.valkyrie.psi.TEST_DATA_PATH
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.ParseType
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource
 
-@TestApplication
 @ParameterizedClass
 @EnumSource(value = ParseType::class)
 class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCodeInsightTest() {
@@ -109,8 +107,8 @@ class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCo
     @Test
     fun `parse icon with linear gradient`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            pathToLazy = "imagevector/kt/backing/LinearGradient.kt",
-            pathToBacking = "imagevector/kt/lazy/LinearGradient.kt",
+            pathToLazy = "imagevector/kt/lazy/LinearGradient.kt",
+            pathToBacking = "imagevector/kt/backing/LinearGradient.kt",
         )
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
@@ -120,8 +118,8 @@ class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCo
     @Test
     fun `parse icon with linear gradient and stroke`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            pathToLazy = "imagevector/kt/backing/LinearGradientWithStroke.kt",
-            pathToBacking = "imagevector/kt/lazy/LinearGradientWithStroke.kt",
+            pathToLazy = "imagevector/kt/lazy/LinearGradientWithStroke.kt",
+            pathToBacking = "imagevector/kt/backing/LinearGradientWithStroke.kt",
         )
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
@@ -142,16 +140,15 @@ class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCo
     @Test
     fun `parse icon with radial gradient`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            pathToLazy = "imagevector/kt/backing/RadialGradient.kt",
-            pathToBacking = "imagevector/kt/lazy/RadialGradient.kt",
+            pathToLazy = "imagevector/kt/lazy/RadialGradient.kt",
+            pathToBacking = "imagevector/kt/backing/RadialGradient.kt",
         )
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedRadialGradient)
     }
 
-    // Use path for build folder with all generated test resources
-    override val testDataPath: String = TEST_DATA_PATH
+    override fun getTestDataPath() = TEST_DATA_PATH
 
     fun ParseType.toKtFile(
         pathToLazy: String,

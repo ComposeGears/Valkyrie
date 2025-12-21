@@ -55,6 +55,5 @@ class MaterialIconParserTest : KotlinCodeInsightTest() {
         assertThat(imageVector).isEqualTo(ExpectedIconWithImportMember)
     }
 
-    // Use path for build folder with all generated test resources
-    override val testDataPath: String = TEST_DATA_PATH
+    override fun getTestDataPath() = TEST_DATA_PATH
 }
