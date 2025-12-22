@@ -4,10 +4,21 @@ import androidx.compose.runtime.Stable
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import java.nio.file.Path
 
-data class SimpleConversionState(
-    val iconSource: IconSource,
-    val iconContent: IconContent,
-)
+@Stable
+sealed interface SimpleConversionState {
+
+    data class ConversionState(
+        val iconSource: IconSource,
+        val iconContent: IconContent,
+    ) : SimpleConversionState
+
+    data class Error(
+        val message: String,
+        val stacktrace: String?,
+    ) : SimpleConversionState
+
+    data object Loading : SimpleConversionState
+}
 
 @Stable
 sealed interface IconSource {

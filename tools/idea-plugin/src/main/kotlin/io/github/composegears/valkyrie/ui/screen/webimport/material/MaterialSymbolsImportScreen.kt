@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -130,7 +131,14 @@ private fun MaterialSymbolsImportUI(
         ) { current ->
             when (current) {
                 is MaterialState.Loading -> LoadingContent()
-                is MaterialState.Error -> ErrorContent(message = current.message)
+                is MaterialState.Error -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        ErrorContent(message = current.message)
+                    }
+                }
                 is MaterialState.Success -> {
                     Box(modifier = Modifier.fillMaxSize()) {
                         IconsContent(
