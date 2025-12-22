@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,13 +26,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.animatedBorder
 import io.github.composegears.valkyrie.compose.core.animation.Shimmer
 import io.github.composegears.valkyrie.compose.core.animation.shimmer
 import io.github.composegears.valkyrie.compose.core.applyIf
+import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
+import io.github.composegears.valkyrie.compose.util.dim
 
 /**
  * Shared loading content for web import screens
@@ -65,18 +72,52 @@ fun LoadingContent(
 fun ErrorContent(
     message: String,
     modifier: Modifier = Modifier,
+    description: String? = null,
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center,
+    Column(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             text = message,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.error,
+            maxLines = 1,
         )
+        if (description != null) {
+            VerticalSpacer(16.dp)
+
+            val primaryColor = MaterialTheme.colorScheme.primary
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceVariant.dim(),
+                        shape = RoundedCornerShape(
+                            topStart = 0.dp,
+                            topEnd = 4.dp,
+                            bottomEnd = 4.dp,
+                            bottomStart = 0.dp,
+                        ),
+                    )
+                    .drawBehind {
+                        drawLine(
+                            color = primaryColor,
+                            start = Offset(0f, 2f),
+                            end = Offset(0f, size.height - 2),
+                            strokeWidth = 2.dp.toPx(),
+                            cap = StrokeCap.Round,
+                        )
+                    }
+                    .padding(horizontal = 4.dp),
+            ) {
+                Text(
+                    modifier = Modifier.padding(4.dp),
+                    text = description,
+                    style = MaterialTheme.typography.labelSmall.copy(fontFamily = FontFamily.Monospace),
+                    maxLines = 5,
+                )
+            }
+        }
     }
 }
 
