@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.core.iconpack
-import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourceText
+import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 
 class IconPackGeneratorTest {

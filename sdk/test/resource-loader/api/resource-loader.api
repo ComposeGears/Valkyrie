@@ -1,0 +1,6 @@
+public final class io/github/composegears/valkyrie/sdk/test/resource/loader/ResourceLoader {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/test/resource/loader/ResourceLoader;
+	public final fun getResourcePath (Ljava/lang/String;)Ljava/nio/file/Path;
+	public final fun getResourceText (Ljava/lang/String;)Ljava/lang/String;
+}
+

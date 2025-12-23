@@ -8,7 +8,7 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType.SVG
-import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
+import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourcePath
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedClass
 import org.junit.jupiter.params.provider.EnumSource

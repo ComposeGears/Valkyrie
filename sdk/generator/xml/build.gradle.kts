@@ -14,11 +14,12 @@ kotlin {
             implementation(libs.xmlutil)
         }
         commonTest {
-            resources.srcDir("$rootDir/components/test/sharedTestResources")
+            resources.srcDir("$rootDir/sdk/test/sharedTestResources")
 
             dependencies {
-                implementation(projects.components.test.resourceLoader)
+                implementation(projects.sdk.test.resourceLoader)
                 implementation(projects.components.parser.kmp.xml)
+
                 implementation(libs.bundles.kmp.test)
             }
         }

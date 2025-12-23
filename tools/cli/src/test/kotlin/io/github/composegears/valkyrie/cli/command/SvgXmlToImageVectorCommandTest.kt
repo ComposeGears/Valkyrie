@@ -5,7 +5,7 @@ import assertk.assertions.isEqualTo
 import com.github.ajalt.clikt.testing.test
 import io.github.composegears.valkyrie.cli.ext.outputError
 import io.github.composegears.valkyrie.cli.ext.outputInfo
-import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
+import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourcePath
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

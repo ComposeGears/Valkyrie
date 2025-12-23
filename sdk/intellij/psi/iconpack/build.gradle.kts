@@ -15,7 +15,7 @@ dependencies {
     implementation(projects.components.generator.core)
 
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
-    testImplementation(projects.components.test.resourceLoader)
+    testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.assertk)
     testRuntimeOnly(libs.junit.launcher)
 

@@ -18,10 +18,10 @@ kotlin {
             implementation(projects.components.parser.kmp.xml)
         }
         jvmTest {
-            resources.srcDir("$rootDir/components/test/sharedTestResources")
+            resources.srcDir("$rootDir/sdk/test/sharedTestResources")
 
             dependencies {
-                implementation(projects.components.test.resourceLoader)
+                implementation(projects.sdk.test.resourceLoader)
 
                 implementation(libs.bundles.test)
             }

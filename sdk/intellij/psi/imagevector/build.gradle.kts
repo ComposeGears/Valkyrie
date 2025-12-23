@@ -11,7 +11,7 @@ plugins {
 
 sourceSets {
     test {
-        resources.srcDir("$rootDir/components/test/sharedTestResources")
+        resources.srcDir("$rootDir/sdk/test/sharedTestResources")
     }
 }
 
@@ -44,7 +44,7 @@ dependencies {
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
     testImplementation(compose.ui)
     testImplementation(projects.sdk.ir.compose)
-    testImplementation(projects.components.test.resourceLoader)
+    testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.assertk)
     testRuntimeOnly(libs.junit.launcher)
 
