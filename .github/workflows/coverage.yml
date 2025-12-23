@@ -22,7 +22,7 @@ jobs:
       - name: Generate test coverage
         shell: bash
         run: |
-          COVERAGE=$(./gradlew components:test:coverage:koverLog | grep "application line coverage:" | tail -n1 | cut -d ":" -f 2 | tr -d '[:space:]%')
+          COVERAGE=$(./gradlew sdk:test:coverage:koverLog | grep "application line coverage:" | tail -n1 | cut -d ":" -f 2 | tr -d '[:space:]%')
           echo "COVERAGE=$COVERAGE"
           echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
 
