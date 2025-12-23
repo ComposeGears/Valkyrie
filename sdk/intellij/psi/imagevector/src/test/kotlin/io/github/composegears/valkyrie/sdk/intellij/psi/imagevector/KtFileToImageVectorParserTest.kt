@@ -10,13 +10,13 @@ import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.Exp
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedAllPathParams
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedClipPathGradient
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedComposeColor
-import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedEmptyImageVector
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedEmptyPaths
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedIconWithGroup
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedLinearGradient
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedLinearGradientWithStroke
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedSinglePath
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedWithoutPathImageVector
 import io.github.composegears.valkyrie.sdk.intellij.testfixtures.KotlinCodeInsightTest
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
 import org.jetbrains.kotlin.psi.KtFile
@@ -29,21 +29,21 @@ import org.junit.jupiter.params.provider.EnumSource
 class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCodeInsightTest() {
 
     @Test
-    fun `empty image vector`() = runInEdtAndGet {
+    fun `without path image vector`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            pathToLazy = "lazy/EmptyImageVector.kt",
-            pathToBacking = "backing/EmptyImageVector.kt",
+            pathToLazy = "imagevector/kt/lazy/WithoutPath.kt",
+            pathToBacking = "imagevector/kt/backing/WithoutPath.kt",
         )
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
-        assertThat(imageVector).isEqualTo(ExpectedEmptyImageVector)
+        assertThat(imageVector).isEqualTo(ExpectedWithoutPathImageVector)
     }
 
     @Test
     fun `empty paths`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            pathToLazy = "lazy/EmptyPaths.kt",
-            pathToBacking = "backing/EmptyPaths.kt",
+            pathToLazy = "imagevector/kt/lazy/EmptyPaths.kt",
+            pathToBacking = "imagevector/kt/backing/EmptyPaths.kt",
         )
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
@@ -53,8 +53,8 @@ class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCo
     @Test
     fun `parse all path params`() = runInEdtAndGet {
         val ktFile = parseType.toKtFile(
-            pathToLazy = "lazy/AllPathParams.kt",
-            pathToBacking = "backing/AllPathParams.kt",
+            pathToLazy = "imagevector/kt/lazy/AllPathParams.kt",
+            pathToBacking = "imagevector/kt/backing/AllPathParams.kt",
         )
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 

@@ -12,6 +12,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -34,9 +35,9 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("android:fillColor=\"#FFFFFFFF\""))
-            assertTrue(contains("android:fillAlpha=\"0.5\""))
-            assertTrue(contains("android:pathData=\"\""))
+            assertContains("android:fillColor=\"#FFFFFFFF\"")
+            assertContains("android:fillAlpha=\"0.5\"")
+            assertContains("android:pathData=\"\"")
             validateVectorAttributes(xml = this, size = 24, viewportSize = 24f)
         }
     }
@@ -56,8 +57,10 @@ class IrToXmlGeneratorTest {
 
         val result = IrToXmlGenerator.generate(imageVector)
 
-        assertTrue(result.contains("android:fillType=\"evenOdd\""))
-        assertTrue(result.contains("android:fillColor=\"#FFFFFFFF\""))
+        with(result) {
+            assertContains("android:fillType=\"evenOdd\"")
+            assertContains("android:fillColor=\"#FFFFFFFF\"")
+        }
     }
 
     @Test
@@ -82,14 +85,14 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("android:name=\"hi\""))
-            assertTrue(contains("android:pivotX=\"10.0\""))
-            assertTrue(contains("android:pivotY=\"11.0\""))
-            assertTrue(contains("android:rotation=\"15.0\""))
-            assertTrue(contains("android:translateX=\"20.0\""))
-            assertTrue(contains("android:translateY=\"21.0\""))
-            assertTrue(contains("android:scaleX=\"30.0\""))
-            assertTrue(contains("android:scaleY=\"31.0\""))
+            assertContains("android:name=\"hi\"")
+            assertContains("android:pivotX=\"10.0\"")
+            assertContains("android:pivotY=\"11.0\"")
+            assertContains("android:rotation=\"15.0\"")
+            assertContains("android:translateX=\"20.0\"")
+            assertContains("android:translateY=\"21.0\"")
+            assertContains("android:scaleX=\"30.0\"")
+            assertContains("android:scaleY=\"31.0\"")
         }
     }
 
@@ -118,10 +121,10 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("android:strokeWidth=\"42\""))
-            assertTrue(contains("android:strokeColor=\"#FFFFFFFF\""))
-            assertTrue(contains("android:strokeAlpha=\"0.5\""))
-            assertTrue(contains("android:strokeMiterLimit=\"2\""))
+            assertContains("android:strokeWidth=\"42\"")
+            assertContains("android:strokeColor=\"#FFFFFFFF\"")
+            assertContains("android:strokeAlpha=\"0.5\"")
+            assertContains("android:strokeMiterLimit=\"2\"")
         }
     }
 
@@ -152,10 +155,10 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("android:width=\"24.5dp\""))
-            assertTrue(contains("android:height=\"25.75dp\""))
-            assertTrue(contains("android:viewportWidth=\"100.25\""))
-            assertTrue(contains("android:viewportHeight=\"200.125\""))
+            assertContains("android:width=\"24.5dp\"")
+            assertContains("android:height=\"25.75dp\"")
+            assertContains("android:viewportWidth=\"100.25\"")
+            assertContains("android:viewportHeight=\"200.125\"")
         }
     }
 
@@ -172,7 +175,7 @@ class IrToXmlGeneratorTest {
 
         val result = IrToXmlGenerator.generate(imageVector)
 
-        assertTrue(result.contains("android:autoMirrored=\"true\""))
+        result.assertContains("android:autoMirrored=\"true\"")
     }
 
     @Test
@@ -188,7 +191,7 @@ class IrToXmlGeneratorTest {
 
         val result = IrToXmlGenerator.generate(imageVector)
 
-        assertTrue(result.contains("android:name=\"test_icon\""))
+        result.assertContains("android:name=\"test_icon\"")
     }
 
     @Test
@@ -217,12 +220,12 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("<group"))
-            assertTrue(contains("</group>"))
-            assertTrue(contains("<clip-path"))
-            assertTrue(contains("android:name=\"clipped_group\""))
-            assertTrue(contains("android:pathData=\"M 12 2 L 22 12 L 12 22 L 2 12 Z\""))
-            assertTrue(contains("android:fillColor=\"#FFFF0000\""))
+            assertContains("<group")
+            assertContains("</group>")
+            assertContains("<clip-path")
+            assertContains("android:name=\"clipped_group\"")
+            assertContains("android:pathData=\"M 12 2 L 22 12 L 12 22 L 2 12 Z\"")
+            assertContains("android:fillColor=\"#FFFF0000\"")
         }
     }
 
@@ -237,7 +240,7 @@ class IrToXmlGeneratorTest {
 
         val expectedPathData =
             "M 6.75 12.127 L 3.623 9 L 2.558 10.057 L 6.75 14.25 L 15.75 5.25 L 14.693 4.192 L 6.75 12.127 Z"
-        assertTrue(generatedXml.contains(expectedPathData))
+        generatedXml.assertContains(expectedPathData)
     }
 
     @Test
@@ -246,22 +249,24 @@ class IrToXmlGeneratorTest {
 
         validateVectorAttributes(xml = generatedXml, size = 24, viewportSize = 18f, autoMirrored = true)
 
-        assertTrue(generatedXml.contains("android:name=\"path_name\""))
-        assertTrue(generatedXml.contains("android:strokeWidth=\"1\""))
-        assertTrue(generatedXml.contains("android:fillAlpha=\"0.5\""))
-        assertTrue(generatedXml.contains("android:strokeColor=\"#FF232F34\"")) // #232F34 becomes #FF232F34
-        assertTrue(generatedXml.contains("android:strokeAlpha=\"0.5\""))
-        assertTrue(generatedXml.contains("android:strokeLineCap=\"round\""))
-        assertTrue(generatedXml.contains("android:strokeLineJoin=\"round\""))
-        assertTrue(generatedXml.contains("android:strokeMiterLimit=\"3\""))
-        assertTrue(generatedXml.contains("android:fillType=\"evenOdd\""))
-        assertTrue(generatedXml.contains("android:fillColor=\"#FF232F34\""))
+        with(generatedXml) {
+            assertContains("android:name=\"path_name\"")
+            assertContains("android:strokeWidth=\"1\"")
+            assertContains("android:fillAlpha=\"0.5\"")
+            assertContains("android:strokeColor=\"#FF232F34\"") // #232F34 becomes #FF232F34
+            assertContains("android:strokeAlpha=\"0.5\"")
+            assertContains("android:strokeLineCap=\"round\"")
+            assertContains("android:strokeLineJoin=\"round\"")
+            assertContains("android:strokeMiterLimit=\"3\"")
+            assertContains("android:fillType=\"evenOdd\"")
+            assertContains("android:fillColor=\"#FF232F34\"")
+        }
 
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(1, pathCount, "Should contain exactly 1 path element")
         val expectedPathData =
-            "M 6.75 12.127 L 3.623 9 L 2.558 10.057 L 6.75 14.25 L 15.75 5.25 L 14.693 4.192 L 6.75 12.127 Z"
-        assertTrue(generatedXml.contains(expectedPathData))
+            "M 6.75 12.127 m 1 -2 L 3.623 9 l -5.49 1.3 H 1.4 h -6 V 95.06 v 10 C 11.76 1.714 11.755 1.715 11.768 1.714 c 3.236 0.224 7.033 0 7.033 0 S 11.957 41.979 0.013 44.716 s 6.586 6.584 9.823 6.805 Q 20.306 6.477 20.306 6.508 q 0.04 -0.3 0.06 -0.61 T 5 3 t 4 1 A 0.75 0.75 0 0 0 3 5.092 A 0.75 0.75 0 1 0 3 5.092 a 0.763 0.763 0 0 1 -0.55 -0.066 a 0.763 0.763 0 0 1 -0.55 -0.066 Z"
+        generatedXml.assertContains(expectedPathData)
     }
 
     @Test
@@ -270,8 +275,8 @@ class IrToXmlGeneratorTest {
 
         validateVectorAttributes(xml = generatedXml, size = 24, viewportSize = 24f)
 
-        assertTrue(generatedXml.contains("<group"))
-        assertTrue(generatedXml.contains("</group>"))
+        generatedXml.assertContains("<group")
+        generatedXml.assertContains("</group>")
 
         val groupCount = generatedXml.split("<group").lastIndex
         assertEquals(1, groupCount, "Should contain exactly 1 group")
@@ -279,19 +284,18 @@ class IrToXmlGeneratorTest {
         assertEquals(2, pathCount, "Should contain exactly 2 paths")
 
         with(generatedXml) {
-            assertTrue(contains("android:name=\"group\""))
-            assertTrue(contains("android:rotation=\"15.0\""))
-            assertTrue(contains("android:pivotX=\"10.0\""))
-            assertTrue(contains("android:pivotY=\"10.0\""))
-            assertTrue(contains("android:scaleX=\"0.8\""))
-            assertTrue(contains("android:scaleY=\"0.8\""))
-            assertTrue(contains("android:translateX=\"6.0\""))
-            assertTrue(contains("android:translateY=\"1.0\""))
+            assertContains("android:name=\"group\"")
+            assertContains("android:rotation=\"15.0\"")
+            assertContains("android:pivotX=\"10.0\"")
+            assertContains("android:pivotY=\"10.0\"")
+            assertContains("android:scaleX=\"0.8\"")
+            assertContains("android:scaleY=\"0.8\"")
+            assertContains("android:translateX=\"6.0\"")
+            assertContains("android:translateY=\"1.0\"")
 
-            assertTrue(contains("android:fillColor=\"#FF000000\""))
+            assertContains("android:fillColor=\"#FF000000\"")
+            assertContains("android:fillAlpha=\"0.3\"")
         }
-
-        assertTrue(generatedXml.contains("android:fillAlpha=\"0.3\""))
     }
 
     @Test
@@ -303,12 +307,12 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(1, pathCount, "Should contain exactly 1 path element")
 
-        assertTrue(generatedXml.contains("android:strokeWidth=\"1\""))
-        assertTrue(generatedXml.contains("android:fillColor=\"#FF232F34\"")) // #232F34 becomes #FF232F34
+        generatedXml.assertContains("android:strokeWidth=\"1\"")
+        generatedXml.assertContains("android:fillColor=\"#FF232F34\"") // #232F34 becomes #FF232F34
 
         val expectedPathData =
             "M 6.75 12.127 L 3.623 9 L 2.558 10.057 L 6.75 14.25 L 15.75 5.25 L 14.693 4.192 L 6.75 12.127 Z"
-        assertTrue(generatedXml.contains(expectedPathData))
+        generatedXml.assertContains(expectedPathData)
     }
 
     @Test
@@ -336,10 +340,10 @@ class IrToXmlGeneratorTest {
         // Both paths have the same pathData but different colors
         val expectedPathData =
             "M 6.75 12.127 L 3.623 9 L 2.558 10.057 L 6.75 14.25 L 15.75 5.25 L 14.693 4.192 L 6.75 12.127 Z"
-        assertTrue(generatedXml.contains(expectedPathData))
+        generatedXml.assertContains(expectedPathData)
 
-        assertTrue(generatedXml.contains("android:fillColor=\"#FFE676FF\"")) // #e676ff becomes #FFE676FF
-        assertTrue(generatedXml.contains("android:fillColor=\"#FFFF00FF\"")) // #ff00ff becomes #FFFF00FF
+        generatedXml.assertContains("android:fillColor=\"#FFE676FF\"") // #e676ff becomes #FFE676FF
+        generatedXml.assertContains("android:fillColor=\"#FFFF00FF\"") // #ff00ff becomes #FFFF00FF
     }
 
     @Test
@@ -351,13 +355,13 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(1, pathCount, "Should contain exactly 1 path element")
 
-        assertTrue(generatedXml.contains("android:strokeColor=\"#FF000000\""))
-        assertTrue(generatedXml.contains("android:strokeWidth=\"12\""))
-        assertTrue(generatedXml.contains("android:strokeLineJoin=\"round\""))
+        generatedXml.assertContains("android:strokeColor=\"#FF000000\"")
+        generatedXml.assertContains("android:strokeWidth=\"12\"")
+        generatedXml.assertContains("android:strokeLineJoin=\"round\"")
 
         val expectedPathData =
             "M 22 57.26 v 84.74 c 0 5.52 4.48 10 10 10 h 18 c 3.31 0 6 -2.69 6 -6 V 95.06 l 40 30.28 l 40 -30.28 v 50.94 c 0 3.31 2.69 6 6 6 h 18 c 5.52 0 10 -4.48 10 -10 V 57.26 c 0 -13.23 -15.15 -20.75 -25.68 -12.74 L 96 81.26 L 47.68 44.53 c -10.52 -8.01 -25.68 3.48 -25.68 12.73 Z"
-        assertTrue(generatedXml.contains(expectedPathData))
+        generatedXml.assertContains(expectedPathData)
     }
 
     @Test
@@ -382,9 +386,9 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(1, pathCount, "Should contain exactly 1 path element")
 
-        assertTrue(generatedXml.contains("android:fillColor=\"#FF232F34\""))
+        generatedXml.assertContains("android:fillColor=\"#FF232F34\"")
 
-        assertTrue(generatedXml.contains("M 21"))
+        generatedXml.assertContains("M 21")
     }
 
     @Test
@@ -393,19 +397,22 @@ class IrToXmlGeneratorTest {
 
         validateVectorAttributes(xml = generatedXml, size = 48, viewportSize = 512f)
 
-        assertTrue(generatedXml.contains("<group"))
-        assertTrue(generatedXml.contains("</group>"))
+        generatedXml.assertContains("<group")
+        generatedXml.assertContains("</group>")
 
         val groupCount = generatedXml.split("<group").lastIndex
         assertEquals(1, groupCount, "Should contain exactly 1 group")
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(2, pathCount, "Should contain exactly 2 paths")
 
-        assertTrue(generatedXml.contains("android:fillColor=\"#FFD80027\"")) // #d80027 becomes #FFD80027
-        assertTrue(generatedXml.contains("android:fillColor=\"#FFEEEEEE\"")) // #eee becomes #FFEEEEEE
+        generatedXml.assertContains("android:fillColor=\"#FFD80027\"") // #d80027 becomes #FFD80027
+        generatedXml.assertContains("android:fillColor=\"#FFEEEEEE\"") // #eee becomes #FFEEEEEE
 
-        assertTrue(generatedXml.contains("M 0 0 h 512 v 167 l -23.2 89.7 L 512 345 v 167 H 0 V 345 l 29.4 -89 L 0 167 Z")) // First path
-        assertTrue(generatedXml.contains("M 0 167 h 512 v 178")) // Second path
+        assertContains(
+            generatedXml,
+            "M 0 0 h 512 v 167 l -23.2 89.7 L 512 345 v 167 H 0 V 345 l 29.4 -89 L 0 167 Z",
+        ) // First path
+        generatedXml.assertContains("M 0 167 h 512 v 178") // Second path
     }
 
     @Test
@@ -417,15 +424,16 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 3, "Should contain 3 path elements")
 
-        with(generatedXml) {
-            assertTrue(contains("M 2 2 L 6 2 L 6 6 L 2 6 Z"))
-            assertTrue(contains("M 6 2 L 10 2 L 10 6 L 6 6 Z"))
-            assertTrue(contains("M 63.6 118.8 c -27.9 0 -58 -17.5 -58 -55.9 S 35.7 7 63.6 7 c 15.5 0 29.8 5.1 40.4 14.4 c 11.5 10.2 17.6 24.6 17.6 41.5 s -6.1 31.2 -17.6 41.4 C 93.4 113.6 79 118.8 63.6 118.8 Z"))
-            assertTrue(contains("<aapt:attr"))
-            assertTrue(contains("<gradient"))
-            assertTrue(contains("android:type=\"linear\""))
-            assertTrue(contains("android:type=\"radial\""))
-        }
+        generatedXml.assertContains("M 2 2 L 6 2 L 6 6 L 2 6 Z")
+        generatedXml.assertContains("M 6 2 L 10 2 L 10 6 L 6 6 Z")
+        assertContains(
+            generatedXml,
+            "M 63.6 118.8 c -27.9 0 -58 -17.5 -58 -55.9 S 35.7 7 63.6 7 c 15.5 0 29.8 5.1 40.4 14.4 c 11.5 10.2 17.6 24.6 17.6 41.5 s -6.1 31.2 -17.6 41.4 C 93.4 113.6 79 118.8 63.6 118.8 Z",
+        )
+        generatedXml.assertContains("<aapt:attr")
+        generatedXml.assertContains("<gradient")
+        generatedXml.assertContains("android:type=\"linear\"")
+        generatedXml.assertContains("android:type=\"radial\"")
 
         val gradientItemCount = generatedXml.split("<item").lastIndex
         assertEquals(3, gradientItemCount, "Should have gradient items")
@@ -440,24 +448,22 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(16, pathCount, "Should contain exactly 16 path elements")
 
-        with(generatedXml) {
-            assertTrue(contains("android:fillColor=\"#FF000000\""))
-            assertTrue(contains("android:fillColor=\"#FF444444\""))
-            assertTrue(contains("android:fillColor=\"#FF888888\""))
-            assertTrue(contains("android:fillColor=\"#FFCCCCCC\""))
-            assertTrue(contains("android:fillColor=\"#FFFFFFFF\""))
-            assertTrue(contains("android:fillColor=\"#FFFF0000\""))
-            assertTrue(contains("android:fillColor=\"#FF00FF00\""))
-            assertTrue(contains("android:fillColor=\"#FF0000FF\""))
-            assertTrue(contains("android:fillColor=\"#FFFFFF00\""))
-            assertTrue(contains("android:fillColor=\"#FF00FFFF\""))
-            assertTrue(contains("android:fillColor=\"#FFFF00FF\""))
-            assertTrue(contains("android:fillColor=\"#80FF0000\""))
-            assertTrue(contains("android:fillColor=\"#8000FF00\""))
-            assertTrue(contains("android:fillColor=\"#800000FF\""))
-            assertTrue(contains("android:fillColor=\"#40000000\""))
-            assertTrue(contains("android:fillColor=\"#BFFFFFFF\""))
-        }
+        generatedXml.assertContains("android:fillColor=\"#FF000000\"")
+        generatedXml.assertContains("android:fillColor=\"#FF444444\"")
+        generatedXml.assertContains("android:fillColor=\"#FF888888\"")
+        generatedXml.assertContains("android:fillColor=\"#FFCCCCCC\"")
+        generatedXml.assertContains("android:fillColor=\"#FFFFFFFF\"")
+        generatedXml.assertContains("android:fillColor=\"#FFFF0000\"")
+        generatedXml.assertContains("android:fillColor=\"#FF00FF00\"")
+        generatedXml.assertContains("android:fillColor=\"#FF0000FF\"")
+        generatedXml.assertContains("android:fillColor=\"#FFFFFF00\"")
+        generatedXml.assertContains("android:fillColor=\"#FF00FFFF\"")
+        generatedXml.assertContains("android:fillColor=\"#FFFF00FF\"")
+        generatedXml.assertContains("android:fillColor=\"#80FF0000\"")
+        generatedXml.assertContains("android:fillColor=\"#8000FF00\"")
+        generatedXml.assertContains("android:fillColor=\"#800000FF\"")
+        generatedXml.assertContains("android:fillColor=\"#40000000\"")
+        generatedXml.assertContains("android:fillColor=\"#BFFFFFFF\"")
     }
 
     @Test
@@ -469,8 +475,8 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 3, "Should contain exactly 3 path elements")
 
-        assertTrue(generatedXml.contains("<aapt:attr"))
-        assertTrue(generatedXml.contains("<gradient"))
+        generatedXml.assertContains("<aapt:attr")
+        generatedXml.assertContains("<gradient")
     }
 
     @Test
@@ -482,9 +488,9 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 16, "Should contain exactly 16 path elements")
 
-        assertTrue(generatedXml.contains("<aapt:attr"))
-        assertTrue(generatedXml.contains("<gradient"))
-        assertTrue(generatedXml.contains("android:type=\"linear\""))
+        generatedXml.assertContains("<aapt:attr")
+        generatedXml.assertContains("<gradient")
+        generatedXml.assertContains("android:type=\"linear\"")
 
         val gradientCount = generatedXml.split("<gradient").lastIndex
         assertEquals(16, gradientCount, "Should have 16 linear gradients")
@@ -499,9 +505,9 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(pathCount, 16, "Should contain exactly 16 path elements")
 
-        assertTrue(generatedXml.contains("<aapt:attr"))
-        assertTrue(generatedXml.contains("<gradient"))
-        assertTrue(generatedXml.contains("android:type=\"radial\""))
+        generatedXml.assertContains("<aapt:attr")
+        generatedXml.assertContains("<gradient")
+        generatedXml.assertContains("android:type=\"radial\"")
 
         val gradientCount = generatedXml.split("<gradient").size - 1
         assertEquals(16, gradientCount, "Should have 16 radial gradients")
@@ -516,19 +522,19 @@ class IrToXmlGeneratorTest {
         val pathCount = generatedXml.split("<path").lastIndex
         assertEquals(7, pathCount, "Should contain 7 paths")
 
-        assertTrue(generatedXml.contains("<group"))
+        generatedXml.assertContains("<group")
         val clipPathCount = generatedXml.split("<clip-path").lastIndex
         assertEquals(1, clipPathCount, "Should contain exactly 1 clip-path element")
 
         // Verify the clip-path data is preserved
         val expectedClipPathData =
             "M 66.8 76.5 c -10.89 3.76 -22.1 6.51 -33.5 8.2 c -1.92 0.25 -3.27 2.02 -3.02 3.94 c 0.06 0.44 0.2 0.87 0.42 1.26 c 8.2 14.2 27.4 21.6 45.8 15.4 c 20.2 -6.8 29.4 -24.2 27.2 -40.1 c -0.27 -1.9 -2.03 -3.22 -3.92 -2.95 c -0.45 0.06 -0.88 0.22 -1.28 0.45 C 88.36 68.22 77.75 72.83 66.8 76.5 Z"
-        assertTrue(generatedXml.contains(expectedClipPathData), "Generated XML should contain the clip-path data")
+        generatedXml.assertContains(expectedClipPathData, "Generated XML should contain the clip-path data")
 
-        assertTrue(generatedXml.contains("<aapt:attr"))
-        assertTrue(generatedXml.contains("<gradient"))
-        assertTrue(generatedXml.contains("<item"))
-        assertTrue(generatedXml.contains("android:offset="))
+        generatedXml.assertContains("<aapt:attr")
+        generatedXml.assertContains("<gradient")
+        generatedXml.assertContains("<item")
+        generatedXml.assertContains("android:offset=")
 
         val gradientCount = generatedXml.split("<gradient").size - 1
         assertTrue(gradientCount > 0, "Should have gradient definitions")
@@ -550,11 +556,11 @@ class IrToXmlGeneratorTest {
         assertEquals(1, pathCount, "Should contain exactly 1 path element")
 
         // Verify clip-path data is preserved (circular clip region)
-        assertTrue(generatedXml.contains("M 12 2 C 6.48 2 2 6.48 2 12 s 4.48 10 10 10 s 10 -4.48 10 -10 S 17.52 2 12 2 Z"))
+        generatedXml.assertContains("M 12 2 C 6.48 2 2 6.48 2 12 s 4.48 10 10 10 s 10 -4.48 10 -10 S 17.52 2 12 2 Z")
 
         // Verify the path inside the clipped group
-        assertTrue(generatedXml.contains("android:fillColor=\"#FFFF0000\""))
-        assertTrue(generatedXml.contains("M 0 0 h 24 v 24 h -24 Z"))
+        generatedXml.assertContains("android:fillColor=\"#FFFF0000\"")
+        generatedXml.assertContains("M 0 0 h 24 v 24 h -24 Z")
     }
 
     @Test
@@ -578,17 +584,33 @@ class IrToXmlGeneratorTest {
 
         val result = IrToXmlGenerator.generate(imageVector)
 
-        with(result) {
-            // Default values should not be present in the XML
-            assertFalse(contains("android:autoMirrored=\"false\""), "Default autoMirrored=false should not be in XML")
-            assertFalse(contains("android:fillType=\"nonZero\""), "Default fillType=nonZero should not be in XML")
-            assertFalse(contains("android:fillAlpha=\"1.0\""), "Default fillAlpha=1.0 should not be in XML")
-            assertFalse(contains("android:strokeAlpha=\"1.0\""), "Default strokeAlpha=1.0 should not be in XML")
+        // Default values should not be present in the XML
+        assertFalse(
+            actual = result.contains("android:autoMirrored=\"false\""),
+            message = "Default autoMirrored=false should not be in XML",
+        )
+        assertFalse(
+            actual = result.contains("android:fillType=\"nonZero\""),
+            message = "Default fillType=nonZero should not be in XML",
+        )
+        assertFalse(
+            actual = result.contains("android:fillAlpha=\"1.0\""),
+            message = "Default fillAlpha=1.0 should not be in XML",
+        )
+        assertFalse(
+            actual = result.contains("android:strokeAlpha=\"1.0\""),
+            message = "Default strokeAlpha=1.0 should not be in XML",
+        )
 
-            // Non-default values should be present
-            assertTrue(contains("android:fillColor=\"#FFFFFFFF\""), "Non-default fillColor should be in XML")
-            assertTrue(contains("android:pathData=\"\""), "pathData should always be present")
-        }
+        // Non-default values should be present
+        result.assertContains(
+            other = "android:fillColor=\"#FFFFFFFF\"",
+            message = "Non-default fillColor should be in XML",
+        )
+        result.assertContains(
+            other = "android:pathData=\"\"",
+            message = "pathData should always be present",
+        )
     }
 
     @Test
@@ -616,18 +638,18 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("xmlns:aapt="))
-            assertTrue(contains("<aapt:attr"))
-            assertTrue(contains("name=\"android:fillColor\""))
-            assertTrue(contains("<gradient"))
-            assertTrue(contains("android:type=\"linear\""))
-            assertTrue(contains("android:startX=\"0"))
-            assertTrue(contains("android:startY=\"0"))
-            assertTrue(contains("android:endX=\"10"))
-            assertTrue(contains("android:endY=\"10"))
-            assertTrue(contains("android:startColor=\"#FFFF0000\""))
-            assertTrue(contains("android:endColor=\"#FF0000FF\""))
-            assertTrue(contains("</aapt:attr>"))
+            assertContains("xmlns:aapt=")
+            assertContains("<aapt:attr")
+            assertContains("name=\"android:fillColor\"")
+            assertContains("<gradient")
+            assertContains("android:type=\"linear\"")
+            assertContains("android:startX=\"0")
+            assertContains("android:startY=\"0")
+            assertContains("android:endX=\"10")
+            assertContains("android:endY=\"10")
+            assertContains("android:startColor=\"#FFFF0000\"")
+            assertContains("android:endColor=\"#FF0000FF\"")
+            assertContains("</aapt:attr>")
         }
     }
 
@@ -655,17 +677,17 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("xmlns:aapt="))
-            assertTrue(contains("<aapt:attr"))
-            assertTrue(contains("name=\"android:fillColor\""))
-            assertTrue(contains("<gradient"))
-            assertTrue(contains("android:type=\"radial\""))
-            assertTrue(contains("android:centerX=\"5"))
-            assertTrue(contains("android:centerY=\"5"))
-            assertTrue(contains("android:gradientRadius=\"7.5\""))
-            assertTrue(contains("android:startColor=\"#FF00FF00\""))
-            assertTrue(contains("android:endColor=\"#FFFFFF00\""))
-            assertTrue(contains("</aapt:attr>"))
+            assertContains("xmlns:aapt=")
+            assertContains("<aapt:attr")
+            assertContains("name=\"android:fillColor\"")
+            assertContains("<gradient")
+            assertContains("android:type=\"radial\"")
+            assertContains("android:centerX=\"5")
+            assertContains("android:centerY=\"5")
+            assertContains("android:gradientRadius=\"7.5\"")
+            assertContains("android:startColor=\"#FF00FF00\"")
+            assertContains("android:endColor=\"#FFFFFF00\"")
+            assertContains("</aapt:attr>")
         }
     }
 
@@ -695,13 +717,13 @@ class IrToXmlGeneratorTest {
         val result = IrToXmlGenerator.generate(imageVector)
 
         with(result) {
-            assertTrue(contains("android:type=\"linear\""))
-            assertTrue(contains("android:color=\"#FFFF0000\""))
-            assertTrue(contains("android:offset=\"0"))
-            assertTrue(contains("android:color=\"#FF00FF00\""))
-            assertTrue(contains("android:offset=\"0.5\""))
-            assertTrue(contains("android:color=\"#FF0000FF\""))
-            assertTrue(contains("android:offset=\"1"))
+            assertContains("android:type=\"linear\"")
+            assertContains("android:color=\"#FFFF0000\"")
+            assertContains("android:offset=\"0")
+            assertContains("android:color=\"#FF00FF00\"")
+            assertContains("android:offset=\"0.5\"")
+            assertContains("android:color=\"#FF0000FF\"")
+            assertContains("android:offset=\"1")
 
             val itemCount = result.split("<item").lastIndex
             assertEquals(3, itemCount, "Should have 3 gradient items")
@@ -716,12 +738,12 @@ class IrToXmlGeneratorTest {
 
     private fun validateVectorAttributes(xml: String, size: Int, viewportSize: Float, autoMirrored: Boolean = false) {
         with(xml) {
-            assertTrue(contains("android:width=\"${size}dp\""))
-            assertTrue(contains("android:height=\"${size}dp\""))
-            assertTrue(contains("android:viewportWidth=\"$viewportSize\""))
-            assertTrue(contains("android:viewportHeight=\"$viewportSize\""))
+            assertContains("android:width=\"${size}dp\"")
+            assertContains("android:height=\"${size}dp\"")
+            assertContains("android:viewportWidth=\"$viewportSize\"")
+            assertContains("android:viewportHeight=\"$viewportSize\"")
             if (autoMirrored) {
-                assertTrue(contains("android:autoMirrored=\"true\""))
+                assertContains("android:autoMirrored=\"true\"")
             }
         }
     }
@@ -733,4 +755,15 @@ class IrToXmlGeneratorTest {
         viewportHeight = 24f,
         nodes = nodes,
     )
+
+    private fun String.assertContains(
+        other: CharSequence,
+        message: String? = null,
+    ) {
+        assertContains(
+            charSequence = this,
+            other = other,
+            message = message,
+        )
+    }
 }

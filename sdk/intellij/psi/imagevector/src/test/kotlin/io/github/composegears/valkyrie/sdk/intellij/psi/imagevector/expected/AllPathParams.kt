@@ -15,6 +15,7 @@ val ExpectedAllPathParams = ImageVector.Builder(
     defaultHeight = 24.dp,
     viewportWidth = 18f,
     viewportHeight = 18f,
+    autoMirror = true,
 ).apply {
     path(
         name = "path_name",
