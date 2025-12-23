@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.core.layout.HorizontalSpacer
@@ -19,6 +19,7 @@ import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.NoStopIndicatorSlider
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
 import kotlin.math.roundToInt
 
@@ -59,11 +60,11 @@ fun LucideCustomization(
             VerticalSpacer(8.dp)
 
             Text(
-                text = "Stroke Width: ${String.format("%.1f", settings.strokeWidth)}",
-                style = MaterialTheme.typography.labelMedium,
+                text = "Stroke width: ${String.format("%.1f", settings.strokeWidth)}",
+                fontWeight = FontWeight.Medium,
             )
             VerticalSpacer(4.dp)
-            Slider(
+            NoStopIndicatorSlider(
                 value = settings.strokeWidth,
                 onValueChange = {
                     onSettingsChange(settings.copy(strokeWidth = it))
@@ -76,10 +77,10 @@ fun LucideCustomization(
 
             Text(
                 text = "Size: ${settings.size}px",
-                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Medium,
             )
             VerticalSpacer(4.dp)
-            Slider(
+            NoStopIndicatorSlider(
                 value = settings.size.toFloat(),
                 onValueChange = {
                     onSettingsChange(settings.copy(size = it.roundToInt()))
