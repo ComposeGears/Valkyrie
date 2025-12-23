@@ -57,7 +57,7 @@ configurations.named(API_ELEMENTS_CONFIGURATION_NAME) {
 }
 
 val sharedTestResourcesDir: File =
-    project(projects.components.test.path)
+    project(projects.sdk.test.path)
         .layout
         .projectDirectory
         .dir("sharedTestResources/imagevector")

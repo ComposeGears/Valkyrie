@@ -22,7 +22,7 @@ sourceSets {
         resources.include("CHANGELOG.md")
     }
     test {
-        resources.srcDir("$rootDir/components/test/sharedTestResources")
+        resources.srcDir("$rootDir/sdk/test/sharedTestResources")
     }
 }
 
@@ -103,7 +103,7 @@ dependencies {
     implementation(cli.clikt.markdown)
     r8(cli.r8)
 
-    testImplementation(projects.components.test.resourceLoader)
+    testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testImplementation(libs.kotlin.test)
     testImplementation(cli.mockk)

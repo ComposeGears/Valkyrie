@@ -26,7 +26,7 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.AndroidX
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.Jetbrains
-import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
+import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourcePath
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.createTempDirectory

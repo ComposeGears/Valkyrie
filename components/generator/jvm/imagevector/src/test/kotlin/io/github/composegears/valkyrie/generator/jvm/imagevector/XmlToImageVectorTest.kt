@@ -11,7 +11,7 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
-import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourcePath
+import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourcePath
 import kotlin.io.path.Path
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedClass

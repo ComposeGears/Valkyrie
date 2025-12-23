@@ -6,7 +6,7 @@ plugins {
 
 sourceSets {
     test {
-        resources.srcDir("$rootDir/components/test/sharedTestResources")
+        resources.srcDir("$rootDir/sdk/test/sharedTestResources")
     }
 }
 
@@ -25,7 +25,7 @@ dependencies {
     implementation(libs.kotlinpoet)
 
     testImplementation(projects.components.parser.unified)
-    testImplementation(projects.components.test.resourceLoader)
+    testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 }

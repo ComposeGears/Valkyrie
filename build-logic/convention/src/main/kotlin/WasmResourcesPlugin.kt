@@ -63,7 +63,7 @@ class WasmResourcesPlugin : Plugin<Project> {
         val tasks = project.tasks
 
         val copyResourcesTask = tasks.register<Copy>("copyResourcesWasmJs") {
-            from("${project.rootDir}/components/test/sharedTestResources")
+            from("${project.rootDir}/sdk/test/sharedTestResources")
             include("*/**")
             into(outputDir)
             mustRunAfter(*mustRunAfterTasks.toTypedArray())

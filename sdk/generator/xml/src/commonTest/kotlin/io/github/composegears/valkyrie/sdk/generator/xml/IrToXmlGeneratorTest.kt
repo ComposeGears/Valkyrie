@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.sdk.generator.xml
 
 import io.github.composegears.valkyrie.parser.kmp.xml.XmlToImageVectorParser
-import io.github.composegears.valkyrie.resource.loader.ResourceLoader.getResourceText
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import io.github.composegears.valkyrie.sdk.ir.core.IrFill
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
@@ -11,6 +10,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
+import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
