@@ -22,6 +22,7 @@ repositories {
 dependencies {
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
+    implementation(projects.components.parser.jvm.svg)
     implementation(projects.components.parser.unified)
     implementation(projects.compose.codeviewer)
     implementation(projects.compose.core)
@@ -61,6 +62,7 @@ dependencies {
     implementation(compose.material3)
 
     implementation(libs.android.build.tools)
+    implementation(libs.androidx.collection)
     implementation(libs.fonticons)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.content.negotiation)
