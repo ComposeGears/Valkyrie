@@ -9,6 +9,11 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,6 +35,9 @@ fun LucideCustomization(
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var strokeWidth by remember { mutableFloatStateOf(settings.strokeWidth) }
+    var size by remember { mutableIntStateOf(settings.size) }
+
     Column(modifier = modifier) {
         CenterVerticalRow {
             IconButton(
@@ -43,6 +51,8 @@ fun LucideCustomization(
             WeightSpacer()
             TextButton(
                 onClick = {
+                    strokeWidth = LucideSettings.DEFAULT_STROKE_WIDTH
+                    size = LucideSettings.DEFAULT_SIZE
                     onSettingsChange(LucideSettings())
                 },
                 enabled = settings.isModified,
@@ -60,14 +70,15 @@ fun LucideCustomization(
             VerticalSpacer(8.dp)
 
             Text(
-                text = "Stroke width: ${String.format("%.1f", settings.strokeWidth)}",
+                text = "Stroke width: ${String.format("%.1f", strokeWidth)}",
                 fontWeight = FontWeight.Medium,
             )
             VerticalSpacer(4.dp)
             NoStopIndicatorSlider(
-                value = settings.strokeWidth,
-                onValueChange = {
-                    onSettingsChange(settings.copy(strokeWidth = it))
+                value = strokeWidth,
+                onValueChange = { strokeWidth = it },
+                onValueChangeFinished = {
+                    onSettingsChange(settings.copy(strokeWidth = strokeWidth))
                 },
                 valueRange = 0.5f..4.0f,
                 steps = 34,
@@ -76,17 +87,18 @@ fun LucideCustomization(
             VerticalSpacer(16.dp)
 
             Text(
-                text = "Size: ${settings.size}px",
+                text = "Size: ${size}px",
                 fontWeight = FontWeight.Medium,
             )
             VerticalSpacer(4.dp)
             NoStopIndicatorSlider(
-                value = settings.size.toFloat(),
-                onValueChange = {
-                    onSettingsChange(settings.copy(size = it.roundToInt()))
+                value = size.toFloat(),
+                onValueChange = { size = it.roundToInt() },
+                onValueChangeFinished = {
+                    onSettingsChange(settings.copy(size = size))
                 },
-                valueRange = 16f..96f,
-                steps = 79,
+                valueRange = 16f..48f,
+                steps = 31,
             )
 
             VerticalSpacer(16.dp)
