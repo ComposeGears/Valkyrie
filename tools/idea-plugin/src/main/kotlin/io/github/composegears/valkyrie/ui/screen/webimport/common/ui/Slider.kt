@@ -17,6 +17,7 @@ fun NoStopIndicatorSlider(
     valueRange: ClosedFloatingPointRange<Float>,
     steps: Int,
     modifier: Modifier = Modifier,
+    onValueChangeFinished: (() -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val colors = SliderDefaults.colors().copy(
@@ -27,6 +28,7 @@ fun NoStopIndicatorSlider(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
+        onValueChangeFinished = onValueChangeFinished,
         interactionSource = interactionSource,
         colors = colors,
         valueRange = valueRange,
