@@ -69,20 +69,24 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         icon: Icon,
         name: String,
         navigationTarget: T?,
-    ): LineMarkerInfo<T> = LineMarkerInfo(
-        element,
-        element.textRange,
-        icon,
-        { "ImageVector Icon: $name" },
-        { _, _ ->
-            navigationTarget?.createSmartPointer()?.let { target ->
-                target.element
-                    ?.let(EditSourceUtil::getDescriptor)
-                    ?.takeIf(Navigatable::canNavigate)
-                    ?.navigate(true)
-            }
-        },
-        GutterIconRenderer.Alignment.LEFT,
-        { "ImageVector Icon: $name" },
-    )
+    ): LineMarkerInfo<T> {
+        val tooltipName = name.takeIf { it.isNotBlank() } ?: "ImageVector Icon"
+
+        return LineMarkerInfo(
+            element,
+            element.textRange,
+            icon,
+            { tooltipName },
+            { _, _ ->
+                navigationTarget?.createSmartPointer()?.let { target ->
+                    target.element
+                        ?.let(EditSourceUtil::getDescriptor)
+                        ?.takeIf(Navigatable::canNavigate)
+                        ?.navigate(true)
+                }
+            },
+            GutterIconRenderer.Alignment.LEFT,
+            { tooltipName },
+        )
+    }
 }
