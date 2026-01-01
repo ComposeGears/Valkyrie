@@ -19,6 +19,11 @@ repositories {
     maven(url = file("../../m2"))
 }
 
+configurations.all {
+    // Exclude desktop preview
+    exclude(group = "org.jetbrains.compose.ui", module = "ui-tooling-preview-desktop")
+}
+
 dependencies {
     implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
@@ -73,6 +78,9 @@ dependencies {
 
     testImplementation(libs.bundles.kmp.test)
     testImplementation(libs.junit4)
+
+    // Support for Compose Preview in IntelliJ
+    compileOnly(libs.compose.ui.tooling.preview)
 
     intellijPlatform {
         zipSigner()

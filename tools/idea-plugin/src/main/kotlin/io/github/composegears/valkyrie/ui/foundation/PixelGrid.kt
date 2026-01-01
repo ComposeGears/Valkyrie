@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.ui.foundation
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme

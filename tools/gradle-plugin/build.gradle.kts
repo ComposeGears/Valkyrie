@@ -71,7 +71,7 @@ buildConfig.sourceSets.getByName("test") {
     buildConfigField("RESOURCES_DIR_SVG", sharedTestResourcesDir.resolve("svg"))
     buildConfigField("RESOURCES_DIR_XML", sharedTestResourcesDir.resolve("xml"))
     buildConfigField<String?>("ANDROID_HOME", androidHome())
-    buildConfigField("COMPOSE_UI", libs.compose.ui.get().toString())
+    buildConfigField("COMPOSE_UI", "androidx.compose.ui:ui:${libs.versions.compose.get()}")
 
     // TODO: Set up tests to run for different gradle versions?
     buildConfigField("GRADLE_VERSION", GradleVersion.current().version)

@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.ui.foundation.components.previewer
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons

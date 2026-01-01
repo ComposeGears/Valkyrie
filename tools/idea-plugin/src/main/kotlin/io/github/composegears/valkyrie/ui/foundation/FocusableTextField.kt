@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -46,6 +45,7 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow

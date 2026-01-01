@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.core.animation.ExpandedAnimatedContent
 import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
