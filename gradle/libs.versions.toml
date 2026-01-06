@@ -29,8 +29,8 @@ xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
-junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.0.1"
-junit-launcher = "org.junit.platform:junit-platform-launcher:6.0.1"
+junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.0.2"
+junit-launcher = "org.junit.platform:junit-platform-launcher:6.0.2"
 junit4 = "junit:junit:4.13.2"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
