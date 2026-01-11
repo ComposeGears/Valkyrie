@@ -11,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.icons.Visibility
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -42,7 +42,7 @@ fun ExistingPackEditor(
             onAddNestedPack = { onAction(AddNestedPack) },
             onRemoveNestedPack = { onAction(RemoveNestedPack(it)) },
         )
-        VerticalSpacer(32.dp)
+        Spacer(32.dp)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),

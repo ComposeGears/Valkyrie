@@ -28,10 +28,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.domain.validation.ErrorCriteria
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
@@ -66,14 +66,14 @@ fun NewIconPackCreation(
             onAddNestedPack = { onAction(NewPackAction.AddNestedPack) },
             onRemoveNestedPack = { onAction(NewPackAction.RemoveNestedPack(it)) },
         )
-        VerticalSpacer(32.dp)
+        Spacer(32.dp)
         AdditionalOptions(
             useMaterialPack = state.useMaterialPack,
             onChangeUseMaterialPack = {
                 onAction(NewPackAction.UseMaterialPack(it))
             },
         )
-        VerticalSpacer(32.dp)
+        Spacer(32.dp)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),

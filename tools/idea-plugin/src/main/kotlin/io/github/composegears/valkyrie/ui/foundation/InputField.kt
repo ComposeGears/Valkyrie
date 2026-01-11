@@ -16,9 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.snipme.highlights.Highlights
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.highlights.CodeViewerTooltip
 import io.github.composegears.valkyrie.ui.foundation.icons.Backspace
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme

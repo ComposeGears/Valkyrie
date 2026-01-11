@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.PreviewSettings
@@ -50,7 +50,7 @@ private fun ImageVectorPreviewSettingsUi(
     onAction: (SettingsAction) -> Unit,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         ListItem(
             modifier = Modifier
                 .toggleable(
@@ -103,7 +103,7 @@ private fun ImageVectorPreviewSettingsUi(
                 )
             },
         )
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         PreviewBgSection(
             previewType = previewSettings.previewType,
             onSelect = { onAction(UpdatePreviewType(it)) },

@@ -18,8 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.rememberNavController
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
 import io.github.composegears.valkyrie.compose.icons.outlined.Dark
@@ -27,6 +25,8 @@ import io.github.composegears.valkyrie.compose.icons.outlined.Light
 import io.github.composegears.valkyrie.compose.icons.outlined.Settings
 import io.github.composegears.valkyrie.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.theme.LocalTheme
 import io.github.composegears.valkyrie.ui.theme.ValkyrieTheme
 
@@ -39,7 +39,7 @@ fun ValkyrieApp(modifier: Modifier = Modifier) {
     ValkyrieTheme {
         Row(modifier = modifier) {
             NavigationRail(containerColor = MaterialTheme.colorScheme.surfaceVariant) {
-                VerticalSpacer(4.dp)
+                Spacer(4.dp)
                 LogoItem(
                     onClick = {
                         // TODO: open about
@@ -52,7 +52,7 @@ fun ValkyrieApp(modifier: Modifier = Modifier) {
                     },
                 )
                 ThemeToggle()
-                VerticalSpacer(4.dp)
+                Spacer(4.dp)
             }
             Navigation(
                 modifier = Modifier.fillMaxSize(),

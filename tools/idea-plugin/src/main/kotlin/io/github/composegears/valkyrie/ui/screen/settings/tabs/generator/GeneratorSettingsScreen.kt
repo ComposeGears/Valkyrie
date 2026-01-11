@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.GeneratorSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
@@ -52,12 +52,12 @@ private fun GeneratorSettingsUi(
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         OutputFormatSection(
             outputFormat = generatorSettings.outputFormat,
             onAction = onAction,
         )
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         SwitchOption(
             title = stringResource("settings.generator.flat.package"),
             description = stringResource("settings.generator.flat.package.description"),
@@ -92,7 +92,7 @@ private fun GeneratorSettingsUi(
             indent = generatorSettings.indentSize,
             onValueChange = { onAction(UpdateIndentSize(it)) },
         )
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
     }
 }
 

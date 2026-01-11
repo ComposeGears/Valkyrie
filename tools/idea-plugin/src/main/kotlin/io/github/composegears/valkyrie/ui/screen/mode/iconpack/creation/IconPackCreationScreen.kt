@@ -28,7 +28,7 @@ import com.composegears.tiamat.compose.popToTop
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
@@ -102,7 +102,7 @@ private fun IconPackModeSetupUI(
                     )
                 }
             }
-            VerticalSpacer(36.dp)
+            Spacer(36.dp)
 
             Navigation(
                 modifier = Modifier.height(IntrinsicSize.Min),

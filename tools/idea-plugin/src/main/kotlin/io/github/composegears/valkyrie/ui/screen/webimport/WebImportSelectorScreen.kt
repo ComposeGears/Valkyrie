@@ -16,10 +16,10 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.compose.ui.InfoCard
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
@@ -68,7 +68,7 @@ private fun WebImportSelectorScreenUI(
                 title = stringResource("web.import.selector.google.title"),
                 description = stringResource("web.import.selector.google.description"),
             )
-            VerticalSpacer(16.dp)
+            Spacer(16.dp)
             Text(
                 text = stringResource("web.import.selector.coming.soon"),
                 style = MaterialTheme.typography.bodyMedium,

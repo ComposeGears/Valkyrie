@@ -12,8 +12,8 @@ import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.SyntaxLanguage
 import dev.snipme.highlights.model.SyntaxThemes
 import io.github.composegears.valkyrie.compose.codeviewer.core.CodeEditor
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 
 @Composable
 fun KotlinCodeViewer(

@@ -14,10 +14,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.LazyProperty
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
@@ -42,7 +42,7 @@ fun OutputFormatSection(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        VerticalSpacer(8.dp)
+        Spacer(8.dp)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             SelectableCard(
                 modifier = Modifier.weight(1f),

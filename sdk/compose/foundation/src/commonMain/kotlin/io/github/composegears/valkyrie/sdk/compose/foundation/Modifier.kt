@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.compose.core
+package io.github.composegears.valkyrie.sdk.compose.foundation
 
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.LinearEasing

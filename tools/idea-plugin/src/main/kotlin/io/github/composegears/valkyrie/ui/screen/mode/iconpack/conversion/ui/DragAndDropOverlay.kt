@@ -19,11 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.idea.AddFile
 import io.github.composegears.valkyrie.compose.icons.idea.AddFileDark
 import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.ui.foundation.dashedBorder
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 

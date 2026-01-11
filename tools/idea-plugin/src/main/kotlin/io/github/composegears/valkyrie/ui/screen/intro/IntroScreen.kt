@@ -23,8 +23,6 @@ import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.KT_TO_SVG_ENABLED
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.icons.outlined.Editor
@@ -32,6 +30,8 @@ import io.github.composegears.valkyrie.compose.icons.outlined.FileImport
 import io.github.composegears.valkyrie.compose.icons.outlined.KtSvg
 import io.github.composegears.valkyrie.compose.icons.outlined.KtXml
 import io.github.composegears.valkyrie.compose.ui.InfoCard
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
@@ -96,14 +96,14 @@ private fun IntroScreenUI(
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
                 )
-                VerticalSpacer(42.dp)
+                Spacer(42.dp)
                 Text(
                     text = stringResource("intro.modes.header"),
                     style = MaterialTheme.typography.labelSmall,
                     color = LocalContentColor.current.copy(alpha = 0.5f),
                     textAlign = TextAlign.Center,
                 )
-                VerticalSpacer(8.dp)
+                Spacer(8.dp)
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(Simple) },
@@ -111,7 +111,7 @@ private fun IntroScreenUI(
                     title = stringResource("intro.card.simple.title"),
                     description = stringResource("intro.card.simple.description"),
                 )
-                VerticalSpacer(16.dp)
+                Spacer(16.dp)
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(IconPack) },
@@ -120,7 +120,7 @@ private fun IntroScreenUI(
                     description = stringResource("intro.card.iconpack.description"),
                 )
                 if (ICON_EDITOR_FEATURE_ENABLED) {
-                    VerticalSpacer(16.dp)
+                    Spacer(16.dp)
                     InfoCard(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         onClick = { onModeChange(Editor) },
@@ -129,16 +129,16 @@ private fun IntroScreenUI(
                         description = stringResource("intro.card.editor.description"),
                     )
                 }
-                VerticalSpacer(24.dp)
+                Spacer(24.dp)
                 HorizontalDivider(modifier = Modifier.fillMaxWidth(0.1f))
-                VerticalSpacer(24.dp)
+                Spacer(24.dp)
                 Text(
                     text = stringResource("intro.tools.header"),
                     style = MaterialTheme.typography.labelSmall,
                     color = LocalContentColor.current.copy(alpha = 0.5f),
                     textAlign = TextAlign.Center,
                 )
-                VerticalSpacer(8.dp)
+                Spacer(8.dp)
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onModeChange(ImageVectorToXml) },
@@ -146,7 +146,7 @@ private fun IntroScreenUI(
                     title = stringResource("intro.card.imagevectortoxml.title"),
                     description = stringResource("intro.card.imagevectortoxml.description"),
                 )
-                VerticalSpacer(16.dp)
+                Spacer(16.dp)
                 if (KT_TO_SVG_ENABLED) {
                     InfoCard(
                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -155,7 +155,7 @@ private fun IntroScreenUI(
                         title = stringResource("intro.card.imagevectortosvg.title"),
                         description = stringResource("intro.card.imagevectortosvg.description"),
                     )
-                    VerticalSpacer(16.dp)
+                    Spacer(16.dp)
                 }
                 InfoCard(
                     modifier = Modifier.padding(horizontal = 16.dp),

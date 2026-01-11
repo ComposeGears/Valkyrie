@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
@@ -176,7 +176,7 @@ private fun ImageVectorPreviewUi(
             onActualSize = reset,
             fitToWindow = fitToWindow,
         )
-        VerticalSpacer(8.dp)
+        Spacer(8.dp)
         Box(
             modifier = Modifier
                 .fillMaxSize()
