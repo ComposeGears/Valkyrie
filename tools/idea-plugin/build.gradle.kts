@@ -1,6 +1,6 @@
 import io.github.composegears.valkyrie.task.CheckComposeVersionCompatibility
 import org.jetbrains.changelog.Changelog
-import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.extensions.excludeKotlinStdlib
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -15,8 +15,26 @@ plugins {
 group = rootProject.providers.gradleProperty("GROUP").get()
 version = rootProject.providers.gradleProperty("VERSION_NAME").get()
 
-repositories {
-    maven(url = file("../../m2"))
+configurations.all {
+    // Exclude Compose Multiplatform dependencies not needed in IntelliJ plugin
+    //  exclude("androidx.annotation")
+    //  exclude("androidx.arch.core")
+    //  exclude("androidx.compose")
+    //  exclude("androidx.lifecycle")
+    //  exclude("org.jetbrains.compose")
+    //  exclude("org.jetbrains.compose.foundation")
+    //  exclude("org.jetbrains.compose.runtime")
+    //  exclude("org.jetbrains.compose.ui")
+    //  exclude("org.jetbrains.jewel")
+    //  exclude("org.jetbrains.kotlin")
+    //  exclude("org.jetbrains.kotlinx")
+    exclude("org.jetbrains.skiko")
+
+    exclude(group = "net.sourceforge.plantuml") // PlantUML (~20MB) - from dev.snipme:highlights
+
+    // Exclude kotlinx-serialization-json-io to prevent conflicts with IntelliJ's bundled libraries
+    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json-io")
+    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json-io-jvm")
 }
 
 configurations.all {
@@ -33,7 +51,10 @@ dependencies {
     implementation(projects.compose.util)
     implementation(projects.sdk.compose.codeviewer)
     implementation(projects.sdk.compose.highlightsCore)
-    implementation(projects.sdk.compose.foundation)
+    implementation(projects.sdk.compose.foundation) {
+        excludeKotlinStdlib()
+        excludeCompose()
+    }
     implementation(projects.sdk.core.extensions)
     implementation(projects.sdk.intellij.psi.iconpack)
     implementation(projects.sdk.intellij.psi.imagevector)
@@ -43,28 +64,8 @@ dependencies {
     implementation(projects.sdk.ir.xml)
     implementation(projects.shared)
 
-    compileOnly(compose.desktop.currentOs) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
-    implementation(compose.desktop.common) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
-    implementation(compose.desktop.linux_arm64) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
-    implementation(compose.desktop.linux_x64) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
-    implementation(compose.desktop.macos_arm64) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
-    implementation(compose.desktop.macos_x64) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
-    implementation(compose.desktop.windows_x64) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
     implementation(compose.material3)
+    implementation(compose.preview)
 
     implementation(libs.android.build.tools)
     implementation(libs.fonticons)
@@ -85,6 +86,7 @@ dependencies {
 
     intellijPlatform {
         zipSigner()
+        pluginVerifier()
     }
 }
 
@@ -97,7 +99,7 @@ intellijPlatform {
     projectName = "valkyrie-plugin"
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "243"
+            sinceBuild = "252"
             untilBuild = provider { null }
         }
         changeNotes = provider { changelog.render(Changelog.OutputType.HTML) }
@@ -114,14 +116,7 @@ intellijPlatform {
             FailureLevel.NOT_DYNAMIC,
         )
         ides {
-            create(
-                type = IntelliJPlatformType.IntellijIdeaCommunity,
-                version = "2024.3.7",
-            )
-            create(
-                type = IntelliJPlatformType.IntellijIdeaCommunity,
-                version = "2025.2",
-            )
+            recommended()
         }
     }
     signing {
@@ -172,4 +167,12 @@ tasks {
     check {
         dependsOn(checkComposeVersionCompatibility)
     }
+}
+
+
+fun ModuleDependency.excludeCompose() {
+    exclude("org.jetbrains.compose")
+    exclude("org.jetbrains.compose.foundation")
+    exclude("org.jetbrains.compose.runtime")
+    exclude("org.jetbrains.compose.ui")
 }

@@ -6,16 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,121 +26,99 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.blendMode
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.uikit.Group
+import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
+import io.github.composegears.valkyrie.util.stringResource
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Text
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PreviewBgSection(
     previewType: PreviewType,
     modifier: Modifier = Modifier,
     onSelect: (PreviewType) -> Unit,
 ) {
-    Column(
-        modifier = modifier.padding(horizontal = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    Group(
+        modifier = modifier,
+        text = stringResource("settings.imagevector.preview.background.header"),
     ) {
-        Text(
-            text = "Preview background",
-            style = MaterialTheme.typography.bodyLarge,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            BlackItem(previewType = previewType, onSelect = onSelect)
-            WhiteItem(previewType = previewType, onSelect = onSelect)
-            PixelItem(previewType = previewType, onSelect = onSelect)
-            AutoItem(previewType = previewType, onSelect = onSelect)
+            SimplePreviewItem(
+                label = stringResource("settings.imagevector.preview.background.black"),
+                textColor = Color.White,
+                bgType = BgType.Black,
+                selected = previewType == PreviewType.Black,
+                onSelect = { onSelect(PreviewType.Black) },
+            )
+            SimplePreviewItem(
+                label = stringResource("settings.imagevector.preview.background.white"),
+                textColor = Color.Black,
+                bgType = BgType.White,
+                selected = previewType == PreviewType.White,
+                onSelect = { onSelect(PreviewType.White) },
+            )
+            SimplePreviewItem(
+                label = stringResource("settings.imagevector.preview.background.pixel"),
+                textColor = Color.Black,
+                bgType = BgType.PixelGrid,
+                selected = previewType == PreviewType.Pixel,
+                onSelect = { onSelect(PreviewType.Pixel) },
+            )
+            AutoItem(
+                label = stringResource("settings.imagevector.preview.background.auto"),
+                selected = previewType == PreviewType.Auto,
+                onSelect = { onSelect(PreviewType.Auto) },
+            )
         }
     }
 }
 
 @Composable
-private fun BlackItem(
-    previewType: PreviewType,
-    onSelect: (PreviewType) -> Unit,
+private fun SimplePreviewItem(
+    label: String,
+    textColor: Color,
+    bgType: BgType,
+    selected: Boolean,
+    onSelect: () -> Unit,
 ) {
     PreviewItem(
-        selected = previewType == PreviewType.Black,
-        onSelect = { onSelect(PreviewType.Black) },
-        content = {
-            PreviewBackground(
-                modifier = Modifier.matchParentSize(),
-                bgType = BgType.Black,
-            )
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                color = Color.White,
-                text = "Black",
-            )
-        },
-    )
-}
-
-@Composable
-private fun WhiteItem(
-    previewType: PreviewType,
-    onSelect: (PreviewType) -> Unit,
-) {
-    PreviewItem(
-        selected = previewType == PreviewType.White,
-        onSelect = { onSelect(PreviewType.White) },
-        content = {
-            PreviewBackground(
-                modifier = Modifier.matchParentSize(),
-                bgType = BgType.White,
-            )
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                color = Color.Black,
-                text = "White",
-            )
-        },
-    )
-}
-
-@Composable
-private fun PixelItem(
-    previewType: PreviewType,
-    onSelect: (PreviewType) -> Unit,
-) {
-    PreviewItem(
-        selected = previewType == PreviewType.Pixel,
-        onSelect = { onSelect(PreviewType.Pixel) },
-        content = {
-            PreviewBackground(
-                modifier = Modifier.matchParentSize(),
-                bgType = BgType.PixelGrid,
-            )
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                color = Color.Black,
-                text = "Pixel",
-            )
-        },
-    )
+        selected = selected,
+        onSelect = onSelect,
+    ) {
+        PreviewBackground(
+            modifier = Modifier.matchParentSize(),
+            bgType = bgType,
+        )
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            color = textColor,
+            text = label,
+        )
+    }
 }
 
 @Composable
 private fun AutoItem(
-    previewType: PreviewType,
-    onSelect: (PreviewType) -> Unit,
+    label: String,
+    selected: Boolean,
+    onSelect: () -> Unit,
 ) {
     PreviewItem(
         modifier = Modifier
-            .clip(MaterialTheme.shapes.small)
+            .clip(RoundedCornerShape(8.dp))
             .drawBehind {
                 drawPath(
                     path = Path().apply {
@@ -203,15 +179,15 @@ private fun AutoItem(
                     }
                 }
             },
-        selected = previewType == PreviewType.Auto,
-        onSelect = { onSelect(PreviewType.Auto) },
+        selected = selected,
+        onSelect = onSelect,
         content = {
             Text(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(end = 4.dp)
                     .blendMode(blendMode = BlendMode.Difference),
-                text = "Auto",
+                text = label,
             )
         },
     )
@@ -226,7 +202,7 @@ private fun PreviewItem(
 ) {
     val color by animateColorAsState(
         when {
-            selected -> MaterialTheme.colorScheme.primary
+            selected -> JewelTheme.globalColors.outlines.focused
             else -> Color.Transparent
         },
     )
@@ -237,9 +213,9 @@ private fun PreviewItem(
             .border(
                 width = 2.dp,
                 color = color,
-                shape = MaterialTheme.shapes.small,
+                shape = RoundedCornerShape(8.dp),
             )
-            .clip(shape = MaterialTheme.shapes.small)
+            .clip(shape = RoundedCornerShape(8.dp))
             .clickable(onClick = onSelect),
         content = content,
     )
@@ -247,9 +223,11 @@ private fun PreviewItem(
 
 @Preview
 @Composable
-private fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+internal fun PreviewBgSectionPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+    var previewType by rememberMutableState { PreviewType.Auto }
+
     PreviewBgSection(
-        previewType = PreviewType.Auto,
-        onSelect = {},
+        previewType = previewType,
+        onSelect = { previewType = it },
     )
 }

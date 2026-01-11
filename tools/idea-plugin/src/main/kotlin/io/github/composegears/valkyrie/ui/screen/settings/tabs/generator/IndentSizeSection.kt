@@ -31,7 +31,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerti
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.icons.ArrowDropDown
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 
 @Composable
@@ -137,7 +137,7 @@ private fun IndentOptionMenu(
 
 @Preview
 @Composable
-private fun IndentSizeSectionPreview() = PreviewTheme {
+internal fun IndentSizeSectionPreview() = PreviewTheme {
     IndentSizeSection(
         indent = 4,
         onValueChange = { },

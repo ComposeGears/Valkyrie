@@ -96,7 +96,7 @@ fun PreviewAnnotationSection(
 
 @Preview
 @Composable
-private fun PreviewAnnotationSectionPreview() = PreviewTheme {
+internal fun PreviewAnnotationSectionPreview() = PreviewTheme {
     PreviewAnnotationSection(
         generatePreview = true,
         previewAnnotationType = AndroidX,
