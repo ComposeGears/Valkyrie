@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import io.github.composegears.valkyrie.compose.util.isLight
 import io.github.composegears.valkyrie.sdk.compose.codeviewer.CodeEditor
-import io.github.composegears.valkyrie.sdk.compose.codeviewer.rememberCodeHighlight
+import io.github.composegears.valkyrie.sdk.compose.highlights.core.rememberCodeHighlight
 
 @Composable
 fun XmlCodeViewer(
