@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.compose.core.animation
+package io.github.composegears.valkyrie.sdk.compose.foundation.animation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope

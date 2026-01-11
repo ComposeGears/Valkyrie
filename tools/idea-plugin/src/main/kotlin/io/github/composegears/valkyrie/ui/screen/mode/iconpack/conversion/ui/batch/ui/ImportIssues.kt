@@ -15,10 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.filled.Help
 import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.TooltipIcon
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -51,7 +51,7 @@ fun ImportIssuesUI(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            VerticalSpacer(16.dp)
+            Spacer(16.dp)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,

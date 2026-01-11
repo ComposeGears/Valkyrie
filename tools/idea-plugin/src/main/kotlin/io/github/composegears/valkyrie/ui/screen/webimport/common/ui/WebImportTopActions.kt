@@ -24,13 +24,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Search
 import io.github.composegears.valkyrie.compose.icons.outlined.Tune
 import io.github.composegears.valkyrie.compose.util.subtle
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.IconButtonSmall
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
 
@@ -113,7 +113,7 @@ fun WebImportTopActions(
                 ) {
                     actions()
                 }
-                VerticalSpacer(8.dp)
+                Spacer(8.dp)
                 searchInput(
                     Modifier
                         .widthIn(min = 300.dp)

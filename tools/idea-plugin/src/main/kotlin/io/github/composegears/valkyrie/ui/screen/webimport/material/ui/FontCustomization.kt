@@ -28,12 +28,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.HorizontalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.filled.Help
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.IconButtonSmall
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
@@ -74,7 +73,7 @@ fun FontCustomization(
             ) {
                 Text(text = "Reset")
             }
-            HorizontalSpacer(4.dp)
+            Spacer(4.dp)
         }
         FontPlayground(
             fontSettings = fontSettings,
@@ -96,7 +95,7 @@ private fun FontPlayground(
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        VerticalSpacer(8.dp)
+        Spacer(8.dp)
         CenterVerticalRow {
             Text(text = "Fill", fontWeight = FontWeight.Medium)
             IconButtonSmall(
@@ -110,7 +109,7 @@ private fun FontPlayground(
                 onCheckedChange = { onSettingsChange(fontSettings.copy(fill = it)) },
             )
         }
-        VerticalSpacer(32.dp)
+        Spacer(32.dp)
 
         CenterVerticalRow {
             Text(text = "Weight", fontWeight = FontWeight.Medium)
@@ -129,7 +128,7 @@ private fun FontPlayground(
             minLabel = "100",
             maxLabel = "700",
         )
-        VerticalSpacer(32.dp)
+        Spacer(32.dp)
 
         CenterVerticalRow {
             Text(text = "Grade", fontWeight = FontWeight.Medium)
@@ -159,7 +158,7 @@ private fun FontPlayground(
             minLabel = "-25",
             maxLabel = "200",
         )
-        VerticalSpacer(32.dp)
+        Spacer(32.dp)
 
         CenterVerticalRow {
             Text(text = "Optical Size", fontWeight = FontWeight.Medium)

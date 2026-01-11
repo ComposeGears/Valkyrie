@@ -27,11 +27,11 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
 import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.core.extensions.cast
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 import io.github.composegears.valkyrie.ui.foundation.icons.ExternalLink
@@ -47,7 +47,7 @@ val AboutSettingsScreen by navDestination<Unit> {
 @Composable
 private fun AboutSettingsUi() {
     Column {
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         CenterVerticalRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,9 +71,9 @@ private fun AboutSettingsUi() {
                 )
             }
         }
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
 
         val browser = rememberBrowser()
 
@@ -83,7 +83,7 @@ private fun AboutSettingsUi() {
             text = stringResource("settings.about.sourcecode"),
             onUrlClick = browser::open,
         )
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         ClickableUrl(
             modifier = Modifier.padding(horizontal = 16.dp),
             link = "https://github.com/ComposeGears/Valkyrie/issues",

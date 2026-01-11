@@ -37,13 +37,13 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigationFadeInOut
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
@@ -117,7 +117,7 @@ private fun GeneralSettingsUi(
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         ListItem(
             modifier = Modifier
                 .clickable(
@@ -178,13 +178,13 @@ private fun GeneralSettingsUi(
                 else -> "~${generalSettings.iconPackDestination.replace(currentProject.path.orEmpty(), "")}"
             },
         )
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         InfoItem(
             modifier = Modifier.padding(horizontal = 24.dp),
             title = "Package",
             description = generalSettings.packageName.ifEmpty { "Not specified" },
         )
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         WeightSpacer()
         SectionTitle(name = "Danger zone")
         TextButton(
@@ -196,7 +196,7 @@ private fun GeneralSettingsUi(
         ) {
             Text(text = "Clear all plugin settings")
         }
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
     }
 }
 

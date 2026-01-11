@@ -11,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.domain.validation.ErrorCriteria
 import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
@@ -70,7 +70,7 @@ fun PackEditUi(
                 null
             },
         )
-        VerticalSpacer(32.dp)
+        Spacer(32.dp)
 
         InputField(
             modifier = Modifier.fillMaxWidth(),
@@ -123,7 +123,7 @@ private fun NestedPacks(
     onValueChange: (InputChange) -> Unit,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        VerticalSpacer(8.dp)
+        Spacer(8.dp)
         nestedPacks.forEachIndexed { index, nestedPack ->
             val inputFieldState = nestedPack.inputFieldState
 
@@ -159,7 +159,7 @@ private fun NestedPacks(
                 )
             }
             if (index != nestedPacks.lastIndex) {
-                VerticalSpacer(8.dp)
+                Spacer(8.dp)
             }
         }
         TextButton(

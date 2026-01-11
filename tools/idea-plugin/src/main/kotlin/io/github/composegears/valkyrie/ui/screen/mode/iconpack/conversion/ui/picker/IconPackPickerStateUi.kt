@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.pi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.UniversalPicker
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle

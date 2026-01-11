@@ -18,13 +18,13 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.shared.Mode
 import org.jetbrains.compose.resources.stringResource
 import valkyrie.tools.compose_app.generated.resources.Res
@@ -62,14 +62,14 @@ private fun IntroUI(onModeChange: (Mode) -> Unit) {
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center,
         )
-        VerticalSpacer(42.dp)
+        Spacer(42.dp)
         Text(
             text = stringResource(Res.string.intro_subheader),
             style = MaterialTheme.typography.labelSmall,
             color = LocalContentColor.current.dim(),
             textAlign = TextAlign.Center,
         )
-        VerticalSpacer(8.dp)
+        Spacer(8.dp)
         InfoCard(
             modifier = Modifier.padding(horizontal = 16.dp),
             onClick = { onModeChange(Mode.Simple) },
