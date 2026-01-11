@@ -17,7 +17,6 @@ import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.GeneratorSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
@@ -29,6 +28,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.SwitchOption
+import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 
 val GeneratorSettingsScreen by navDestination<Unit> {
@@ -98,7 +98,7 @@ private fun GeneratorSettingsUi(
 
 @Preview
 @Composable
-private fun GeneratorSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+internal fun GeneratorSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
     GeneratorSettingsUi(
         onAction = {},
         generatorSettings = GeneratorSettings(

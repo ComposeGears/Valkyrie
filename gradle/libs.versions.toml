@@ -1,11 +1,11 @@
 [versions]
-compose = "1.8.2"
+compose = "1.9.0"
 intellij = "2.11.0"
 jacoco = "0.8.13"
 jdkRelease = "17"
 kotlin = "2.2.21"
 kover = "0.9.5"
-leviathan = "3.1.0-1.8.2"
+leviathan = "3.1.0"
 ktor = "3.3.3"
 
 [libraries]
@@ -24,7 +24,7 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviathan" }
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
-tiamat = "io.github.composegears:tiamat:2.1.0-1.8.2"
+tiamat = "io.github.composegears:tiamat:2.1.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"

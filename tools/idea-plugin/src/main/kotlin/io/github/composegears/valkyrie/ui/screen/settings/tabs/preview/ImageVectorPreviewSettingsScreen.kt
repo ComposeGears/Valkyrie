@@ -1,37 +1,29 @@
 package io.github.composegears.valkyrie.ui.screen.settings.tabs.preview
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.compose.util.dim
-import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.PreviewSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIconsInProjectView
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewType
+import io.github.composegears.valkyrie.uikit.CheckboxRow
+import io.github.composegears.valkyrie.uikit.Group
+import io.github.composegears.valkyrie.uikit.GroupSpacing
+import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
+import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
     val viewModel = viewModel<SettingsViewModel>(navController())
@@ -46,80 +38,54 @@ val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
 @Composable
 private fun ImageVectorPreviewSettingsUi(
     previewSettings: PreviewSettings,
-    modifier: Modifier = Modifier,
     onAction: (SettingsAction) -> Unit,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Spacer(16.dp)
-        ListItem(
-            modifier = Modifier
-                .toggleable(
-                    value = previewSettings.showImageVectorPreview,
-                    onValueChange = { onAction(UpdateImageVectorPreview(it)) },
-                )
-                .padding(horizontal = 8.dp)
-                .heightIn(max = 100.dp),
-            headlineContent = {
-                Text(text = "Show ImageVector preview")
-            },
-            supportingContent = {
-                Text(
-                    text = "Enable icon preview functionality in the IDE without @Preview annotation",
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                    color = LocalContentColor.current.dim(),
-                )
-            },
-            trailingContent = {
-                Switch(
-                    modifier = Modifier.scale(0.9f),
+    VerticallyScrollableContainer {
+        Column {
+            Group(text = stringResource("settings.imagevector.preview.ide.preview.header")) {
+                CheckboxRow(
+                    text = stringResource("settings.imagevector.preview.ide.option.previewer"),
+                    infoText = stringResource("settings.imagevector.preview.ide.option.previewer.description"),
                     checked = previewSettings.showImageVectorPreview,
                     onCheckedChange = { onAction(UpdateImageVectorPreview(it)) },
                 )
-            },
-        )
-        ListItem(
-            modifier = Modifier
-                .toggleable(
-                    value = previewSettings.showIconsInProjectView,
-                    onValueChange = { onAction(UpdateIconsInProjectView(it)) },
-                )
-                .padding(horizontal = 8.dp)
-                .heightIn(max = 100.dp),
-            headlineContent = {
-                Text(text = "Show icons in Project View")
-            },
-            supportingContent = {
-                Text(
-                    text = "Display ImageVector preview as file icons in the project tree. \nTo ensure the icon cache updates fully, it's recommended to restart the IDE.",
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                    color = LocalContentColor.current.dim(),
-                )
-            },
-            trailingContent = {
-                Switch(
-                    modifier = Modifier.scale(0.9f),
+                CheckboxRow(
+                    text = stringResource("settings.imagevector.preview.ide.option.projectview"),
+                    infoText = stringResource("settings.imagevector.preview.ide.option.projectview.description"),
                     checked = previewSettings.showIconsInProjectView,
                     onCheckedChange = { onAction(UpdateIconsInProjectView(it)) },
                 )
-            },
-        )
-        Spacer(16.dp)
-        PreviewBgSection(
-            previewType = previewSettings.previewType,
-            onSelect = { onAction(UpdatePreviewType(it)) },
-        )
+            }
+            GroupSpacing()
+            PreviewBgSection(
+                previewType = previewSettings.previewType,
+                onSelect = { onAction(UpdatePreviewType(it)) },
+            )
+            GroupSpacing()
+        }
     }
 }
 
 @Preview
 @Composable
-private fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+internal fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+    var showImageVectorPreview by rememberMutableState { true }
+    var showIconsInProjectView by rememberMutableState { true }
+    var previewType by rememberMutableState { PreviewType.Auto }
+
     ImageVectorPreviewSettingsUi(
         previewSettings = PreviewSettings(
-            showImageVectorPreview = true,
-            showIconsInProjectView = true,
-            previewType = PreviewType.Auto,
+            showImageVectorPreview = showImageVectorPreview,
+            showIconsInProjectView = showIconsInProjectView,
+            previewType = previewType,
         ),
-        onAction = {},
+        onAction = {
+            when (it) {
+                is UpdateImageVectorPreview -> showImageVectorPreview = it.enabled
+                is UpdateIconsInProjectView -> showIconsInProjectView = it.enabled
+                is UpdatePreviewType -> previewType = it.previewType
+                else -> {}
+            }
+        },
     )
 }

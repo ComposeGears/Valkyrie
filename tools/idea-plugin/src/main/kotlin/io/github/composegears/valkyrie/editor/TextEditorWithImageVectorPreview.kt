@@ -52,7 +52,7 @@ private class ImageVectorPreviewEditor(
 
     private val composePanel = ComposePanel().apply {
         setContent {
-            ValkyrieTheme(project, this) {
+            ValkyrieTheme(project) {
                 VirtualFileImageVector(
                     modifier = Modifier.fillMaxSize(),
                     file = file,
