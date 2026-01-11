@@ -12,10 +12,11 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import org.jetbrains.annotations.Nls
+import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.InfoText
 
 @Composable
-fun CheckboxRow(
+fun CheckboxSettingsRow(
     @Nls text: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -42,10 +43,10 @@ fun CheckboxRow(
 
 @Preview
 @Composable
-internal fun CheckboxRowPreview() = PreviewTheme {
+private fun CheckboxSettingsRowPreview() = PreviewTheme {
     var checked by rememberMutableState { true }
 
-    CheckboxRow(
+    CheckboxSettingsRow(
         text = "Test Test Test Test",
         infoText = "Description Description",
         checked = checked,

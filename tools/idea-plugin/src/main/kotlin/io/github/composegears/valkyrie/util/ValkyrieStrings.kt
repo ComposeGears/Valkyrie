@@ -13,11 +13,11 @@ private const val BUNDLE = "messages.Valkyrie"
 
 @Composable
 @ReadOnlyComposable
-fun stringResource(@PropertyKey(resourceBundle = BUNDLE) key: String): String {
-    return ValkyrieBundle.message(key)
+fun stringResource(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any): String {
+    return ValkyrieBundle.message(key, *params)
 }
 
-private object ValkyrieBundle : DynamicBundle(BUNDLE) {
+object ValkyrieBundle : DynamicBundle(BUNDLE) {
 
     @JvmStatic
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) = getMessage(key, *params)

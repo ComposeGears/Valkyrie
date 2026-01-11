@@ -6,10 +6,6 @@ public final class io/github/composegears/valkyrie/sdk/compose/codeviewer/CodeVi
 	public static final fun CodeViewer (Ldev/snipme/highlights/Highlights;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/composegears/valkyrie/sdk/compose/codeviewer/CommonKt {
-	public static final fun rememberCodeHighlight (Ljava/lang/String;Z[Ldev/snipme/highlights/model/PhraseLocation;Landroidx/compose/runtime/Composer;I)Ldev/snipme/highlights/Highlights;
-}
-
 public final class io/github/composegears/valkyrie/sdk/compose/codeviewer/KotlinCodeViewerKt {
 	public static final fun KotlinCodeViewer (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
 }
