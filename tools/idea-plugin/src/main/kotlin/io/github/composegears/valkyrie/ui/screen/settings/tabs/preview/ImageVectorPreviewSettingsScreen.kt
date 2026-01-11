@@ -18,15 +18,16 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIconsInProjectView
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewType
-import io.github.composegears.valkyrie.uikit.CheckboxRow
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.preview.ui.PreviewBgSection
+import io.github.composegears.valkyrie.uikit.CheckboxSettingsRow
 import io.github.composegears.valkyrie.uikit.Group
 import io.github.composegears.valkyrie.uikit.GroupSpacing
 import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
-val ImageVectorPreviewSettingsScreen by navDestination<Unit> {
-    val viewModel = viewModel<SettingsViewModel>(navController())
+val ImageVectorPreviewSettingsScreen by navDestination {
+    val viewModel = viewModel<SettingsViewModel>(viewModelStoreOwner = navController())
     val previewSettings by viewModel.previewSettings.collectAsState()
 
     ImageVectorPreviewSettingsUi(
@@ -43,13 +44,13 @@ private fun ImageVectorPreviewSettingsUi(
     VerticallyScrollableContainer {
         Column {
             Group(text = stringResource("settings.imagevector.preview.ide.preview.header")) {
-                CheckboxRow(
+                CheckboxSettingsRow(
                     text = stringResource("settings.imagevector.preview.ide.option.previewer"),
                     infoText = stringResource("settings.imagevector.preview.ide.option.previewer.description"),
                     checked = previewSettings.showImageVectorPreview,
                     onCheckedChange = { onAction(UpdateImageVectorPreview(it)) },
                 )
-                CheckboxRow(
+                CheckboxSettingsRow(
                     text = stringResource("settings.imagevector.preview.ide.option.projectview"),
                     infoText = stringResource("settings.imagevector.preview.ide.option.projectview.description"),
                     checked = previewSettings.showIconsInProjectView,
@@ -68,11 +69,10 @@ private fun ImageVectorPreviewSettingsUi(
 
 @Preview
 @Composable
-internal fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
     var showImageVectorPreview by rememberMutableState { true }
     var showIconsInProjectView by rememberMutableState { true }
     var previewType by rememberMutableState { PreviewType.Auto }
-
     ImageVectorPreviewSettingsUi(
         previewSettings = PreviewSettings(
             showImageVectorPreview = showImageVectorPreview,

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.settings.tabs.preview
+package io.github.composegears.valkyrie.ui.screen.settings.tabs.preview.ui
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
@@ -223,7 +223,7 @@ private fun PreviewItem(
 
 @Preview
 @Composable
-internal fun PreviewBgSectionPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun PreviewBgSectionPreview() = PreviewTheme(alignment = Alignment.TopStart) {
     var previewType by rememberMutableState { PreviewType.Auto }
 
     PreviewBgSection(

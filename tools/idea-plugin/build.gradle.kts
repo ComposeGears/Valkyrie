@@ -1,3 +1,4 @@
+import io.github.composegears.valkyrie.extension.excludeCompose
 import io.github.composegears.valkyrie.task.CheckComposeVersionCompatibility
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.extensions.excludeKotlinStdlib
@@ -167,12 +168,4 @@ tasks {
     check {
         dependsOn(checkComposeVersionCompatibility)
     }
-}
-
-
-fun ModuleDependency.excludeCompose() {
-    exclude("org.jetbrains.compose")
-    exclude("org.jetbrains.compose.foundation")
-    exclude("org.jetbrains.compose.runtime")
-    exclude("org.jetbrains.compose.ui")
 }
