@@ -23,14 +23,21 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.L
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.toGridItems
+import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
+@OptIn(FlowPreview::class)
 class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
 
     private val lucideUseCase = inject(LucideModule.lucideUseCase)
@@ -39,7 +46,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     private data class CachedIcon(val imageVector: ImageVector?)
 
     private val iconVectorCache = LruCache<String, CachedIcon>(300)
-    private val iconLoadMutex = Mutex()
+    private val iconLoadMutexes = ConcurrentHashMap<String, Mutex>()
 
     private val lucideRecord = savedState.recordOf<LucideState>(
         key = "lucide",
@@ -50,11 +57,13 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     private val _events = MutableSharedFlow<LucideEvent>()
     val events = _events.asSharedFlow()
 
-    private var iconLoadJob: Job? = null
-    private val iconLoadJobs = mutableMapOf<String, Job>()
+    private var downloadJob: Job? = null
+    private val iconLoadJobs = ConcurrentHashMap<String, Job>()
+    private val searchQueryFlow = MutableStateFlow("")
 
     companion object {
         private val LOG = Logger.getInstance(LucideViewModel::class.java)
+        private const val SEARCH_DEBOUNCE_MS = 300L
     }
 
     init {
@@ -63,6 +72,22 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
                 // Already loaded
             }
             else -> loadConfig()
+        }
+
+        viewModelScope.launch(Dispatchers.Default) {
+            searchQueryFlow
+                .debounce(SEARCH_DEBOUNCE_MS)
+                .collect { query ->
+                    updateSuccess { state ->
+                        state.copy(
+                            gridItems = filterGridItems(
+                                config = state.config,
+                                category = state.selectedCategory,
+                                searchQuery = query,
+                            ),
+                        )
+                    }
+                }
         }
     }
 
@@ -84,19 +109,23 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     }
 
     fun downloadIcon(icon: LucideIcon) {
-        iconLoadJob?.cancel()
-        iconLoadJob = viewModelScope.launch {
+        downloadJob?.cancel()
+        downloadJob = viewModelScope.launch {
             val state = lucideRecord.value.safeAs<LucideState.Success>() ?: return@launch
 
-            val rawSvg = lucideUseCase.getRawSvg(icon.name)
-            val svgContent = lucideUseCase.applyCustomizations(rawSvg, state.settings)
+            runCatching {
+                val rawSvg = lucideUseCase.getRawSvg(icon.name)
+                val svgContent = lucideUseCase.applyCustomizations(rawSvg, state.settings)
 
-            _events.emit(
-                LucideEvent.IconDownloaded(
-                    svgContent = svgContent,
-                    name = IconNameFormatter.format(icon.displayName),
-                ),
-            )
+                _events.emit(
+                    LucideEvent.IconDownloaded(
+                        svgContent = svgContent,
+                        name = IconNameFormatter.format(icon.displayName),
+                    ),
+                )
+            }.onFailure { error ->
+                LOG.error("Failed to download icon '${icon.name}'", error)
+            }
         }
     }
 
@@ -115,17 +144,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     }
 
     fun updateSearchQuery(query: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            updateSuccess { state ->
-                state.copy(
-                    gridItems = filterGridItems(
-                        config = state.config,
-                        category = state.selectedCategory,
-                        searchQuery = query,
-                    ),
-                )
-            }
-        }
+        searchQueryFlow.value = query
     }
 
     fun updateSettings(settings: LucideSettings) {
@@ -133,29 +152,37 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
             iconLoadJobs.values.forEach { it.cancel() }
             iconLoadJobs.clear()
 
-            val currentState = lucideRecord.value.safeAs<LucideState.Success>() ?: return@launch
-
-            val loadedIconNames = currentState.loadedIcons.keys
-                .map { cacheKey -> cacheKey.substringBefore("-") }
-                .toSet()
+            val iconsToReload = mutableListOf<Pair<LucideIcon, String>>()
+            val oldCacheKeys = mutableSetOf<String>()
 
             updateSuccess { state ->
+                state.loadedIcons.keys.forEach { cacheKey ->
+                    extractIconNameFromCacheKey(cacheKey)?.let { iconName ->
+                        state.config.iconsByName[iconName]?.let { icon ->
+                            iconsToReload.add(icon to cacheKey)
+                            oldCacheKeys.add(cacheKey)
+                        }
+                    }
+                }
+
                 state.copy(settings = settings)
             }
 
-            loadedIconNames.forEach { iconName ->
-                currentState.config.iconsByName[iconName]?.let { icon ->
-                    reParseIconFromRepository(icon, settings)
-                }
+            oldCacheKeys.forEach { oldKey ->
+                iconVectorCache.remove(oldKey)
+            }
+
+            iconsToReload.forEach { (icon, _) ->
+                reParseIconFromRepository(icon, settings)
             }
         }
     }
 
     private fun reParseIconFromRepository(icon: LucideIcon, settings: LucideSettings) {
-        iconLoadJobs[icon.name]?.cancel()
+        val cacheKey = buildIconCacheKey(icon.name, settings)
+        iconLoadJobs[cacheKey]?.cancel()
 
         val job = viewModelScope.launch {
-            val cacheKey = buildIconCacheKey(icon.name, settings)
 
             val currentState = lucideRecord.value.safeAs<LucideState.Success>() ?: return@launch
             if (currentState.loadedIcons[cacheKey] is IconLoadState.Success) {
@@ -171,32 +198,39 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
             }
         }
 
-        iconLoadJobs[icon.name] = job
-        job.invokeOnCompletion { iconLoadJobs.remove(icon.name) }
+        iconLoadJobs[cacheKey] = job
+        job.invokeOnCompletion { iconLoadJobs.remove(cacheKey) }
     }
 
     /**
      * Load an icon for display purposes (preview in grid).
      *
-     * Uses mutex to prevent race conditions when multiple coroutines try to load the same icon.
+     * Uses per-icon mutex to prevent race conditions while allowing parallel loading of different icons.
      * Tracks jobs per cache key to allow cancellation when settings change.
+     *
+     * @return Job that can be cancelled when the icon is no longer visible
      */
-    fun loadIconForDisplay(icon: LucideIcon) {
+    fun loadIconForDisplay(icon: LucideIcon): Job {
         val job = viewModelScope.launch {
             val state = lucideRecord.value.safeAs<LucideState.Success>() ?: return@launch
             val cacheKey = buildIconCacheKey(icon.name, state.settings)
 
-            iconLoadMutex.withLock {
-                // Skip if already loaded successfully or currently loading
+            iconLoadJobs[cacheKey]?.cancel()
+
+            val mutex = iconLoadMutexes.computeIfAbsent(cacheKey) { Mutex() }
+
+            mutex.withLock {
                 val currentState = state.loadedIcons[cacheKey]
                 if (currentState is IconLoadState.Success || currentState is IconLoadState.Loading) {
                     return@launch
                 }
 
                 iconVectorCache.get(cacheKey)?.imageVector?.let { cachedVector ->
+                    val successState = IconLoadState.Success(cachedVector)
                     updateSuccess {
                         it.copy(
-                            loadedIcons = it.loadedIcons + (cacheKey to IconLoadState.Success(cachedVector)),
+                            loadedIcons = it.loadedIcons + (cacheKey to successState),
+                            iconNameIndex = it.iconNameIndex + (icon.name to successState),
                         )
                     }
                     return@launch
@@ -217,8 +251,12 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
             }
         }
 
-        iconLoadJobs[icon.name] = job
-        job.invokeOnCompletion { iconLoadJobs.remove(icon.name) }
+        iconLoadJobs[buildIconCacheKey(icon.name, lucideRecord.value.safeAs<LucideState.Success>()?.settings ?: LucideSettings())] = job
+        job.invokeOnCompletion {
+            iconLoadJobs.remove(buildIconCacheKey(icon.name, lucideRecord.value.safeAs<LucideState.Success>()?.settings ?: LucideSettings()))
+        }
+
+        return job
     }
 
     private suspend fun parseAndCacheIcon(
@@ -226,28 +264,29 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
         customizedSvg: String,
         cacheKey: String,
     ) {
-        val parserOutput = SvgXmlParser.toIrImageVector(
-            parser = ParserType.Jvm,
-            value = customizedSvg,
-            iconName = iconName,
-        )
-
-        val imageVector = parserOutput.irImageVector.toComposeImageVector()
-
-        iconLoadMutex.withLock {
-            iconVectorCache.put(cacheKey, CachedIcon(imageVector))
+        val imageVector = withContext(Dispatchers.Default) {
+            val parserOutput = SvgXmlParser.toIrImageVector(
+                parser = ParserType.Jvm,
+                value = customizedSvg,
+                iconName = iconName,
+            )
+            parserOutput.irImageVector.toComposeImageVector()
         }
 
+        iconVectorCache.put(cacheKey, CachedIcon(imageVector))
+
+        val successState = IconLoadState.Success(imageVector)
         updateSuccess {
-            it.copy(loadedIcons = it.loadedIcons + (cacheKey to IconLoadState.Success(imageVector)))
+            it.copy(
+                loadedIcons = it.loadedIcons + (cacheKey to successState),
+                iconNameIndex = it.iconNameIndex + (iconName to successState),
+            )
         }
     }
 
     private suspend fun handleIconParseError(iconName: String, cacheKey: String, error: Throwable) {
         LOG.error("Failed to parse icon '$iconName'", error)
-        iconLoadMutex.withLock {
-            iconVectorCache.put(cacheKey, CachedIcon(null))
-        }
+        iconVectorCache.put(cacheKey, CachedIcon(null))
         updateSuccess {
             it.copy(loadedIcons = it.loadedIcons + (cacheKey to IconLoadState.Error))
         }
@@ -263,7 +302,12 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
         } else {
             "unspecified"
         }
-        return "$iconName-${settings.strokeWidth}-${settings.size}-${settings.absoluteStrokeWidth}-$colorKey"
+        // Use || delimiter to separate icon name from settings (can't appear in icon names)
+        return "$iconName||${settings.strokeWidth}-${settings.size}-${settings.absoluteStrokeWidth}-$colorKey"
+    }
+
+    private fun extractIconNameFromCacheKey(cacheKey: String): String? {
+        return cacheKey.substringBefore("||", "").takeIf { it.isNotEmpty() }
     }
 
     private fun filterGridItems(
@@ -324,7 +368,12 @@ sealed interface LucideState {
         val selectedCategory: Category = Category.All,
         val settings: LucideSettings = LucideSettings(),
         val loadedIcons: Map<String, IconLoadState> = emptyMap(),
-    ) : LucideState
+        internal val iconNameIndex: Map<String, IconLoadState> = emptyMap(),
+    ) : LucideState {
+        fun getLatestSuccessfulState(iconName: String): IconLoadState? {
+            return iconNameIndex[iconName]
+        }
+    }
 
     data class Error(val message: String) : LucideState
 }

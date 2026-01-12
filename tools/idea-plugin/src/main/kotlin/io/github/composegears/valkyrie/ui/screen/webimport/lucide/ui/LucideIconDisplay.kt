@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
@@ -14,6 +14,7 @@ import io.github.composegears.valkyrie.compose.core.animation.Shimmer
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.IconLoadState
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
+import kotlinx.coroutines.Job
 
 /**
  * Display component that renders a Lucide icon
@@ -25,14 +26,18 @@ fun LucideIconDisplay(
     icon: LucideIcon,
     iconCacheKey: String,
     iconLoadState: IconLoadState?,
-    onLoadIcon: (LucideIcon) -> Unit,
+    onLoadIcon: (LucideIcon) -> Job,
     shimmer: Shimmer,
     modifier: Modifier = Modifier,
 ) {
     val currentOnLoadIcon by rememberUpdatedState(onLoadIcon)
 
-    LaunchedEffect(iconCacheKey) {
-        currentOnLoadIcon(icon)
+    DisposableEffect(iconCacheKey) {
+        val job = currentOnLoadIcon(icon)
+
+        onDispose {
+            job.cancel()
+        }
     }
 
     Box(

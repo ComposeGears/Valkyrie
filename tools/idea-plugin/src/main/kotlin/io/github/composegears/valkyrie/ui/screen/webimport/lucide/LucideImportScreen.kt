@@ -44,6 +44,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.L
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideIconDisplay
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideTopActions
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -92,7 +93,7 @@ private fun LucideImportScreenUI(
     onSelectCategory: (Category) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (LucideSettings) -> Unit,
-    onLoadIconForDisplay: (LucideIcon) -> Unit,
+    onLoadIconForDisplay: (LucideIcon) -> Job,
     getIconCacheKey: (String, LucideSettings) -> String,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -136,7 +137,7 @@ private fun IconsContent(
     onSelectCategory: (Category) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (LucideSettings) -> Unit,
-    onLoadIconForDisplay: (LucideIcon) -> Unit,
+    onLoadIconForDisplay: (LucideIcon) -> Job,
     getIconCacheKey: (String, LucideSettings) -> String,
 ) {
     val scope = rememberCoroutineScope()
@@ -191,23 +192,18 @@ private fun IconsContent(
                             is IconItem<*> -> {
                                 val lucideIcon = item.icon as LucideIcon
                                 val iconCacheKey = getIconCacheKey(lucideIcon.name, state.settings)
-                                var iconLoadState = state.loadedIcons[iconCacheKey]
-
-                                if (iconLoadState !is IconLoadState.Success) {
-                                    iconLoadState = state.loadedIcons.entries
-                                        .firstOrNull {
-                                            it.key.startsWith("${lucideIcon.name}-") &&
-                                                it.value is IconLoadState.Success
-                                        }
-                                        ?.value
-                                }
+                                val iconLoadState = state.loadedIcons[iconCacheKey]
+                                    ?.takeIf { it is IconLoadState.Success }
+                                    ?: state.getLatestSuccessfulState(lucideIcon.name)
 
                                 IconCard(
                                     name = lucideIcon.displayName,
                                     selected = lucideIcon == selectedIcon,
                                     onClick = {
-                                        selectedIcon = lucideIcon
-                                        onSelectIcon(lucideIcon)
+                                        if (iconLoadState is IconLoadState.Success) {
+                                            selectedIcon = lucideIcon
+                                            onSelectIcon(lucideIcon)
+                                        }
                                     },
                                     iconContent = {
                                         LucideIconDisplay(
