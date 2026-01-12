@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -211,12 +210,11 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
      * @return Job that can be cancelled when the icon is no longer visible
      */
     fun loadIconForDisplay(icon: LucideIcon): Job {
+        val state = lucideRecord.value.safeAs<LucideState.Success>() ?: return Job()
+        val cacheKey = buildIconCacheKey(icon.name, state.settings)
+        iconLoadJobs[cacheKey]?.cancel()
+
         val job = viewModelScope.launch {
-            val state = lucideRecord.value.safeAs<LucideState.Success>() ?: return@launch
-            val cacheKey = buildIconCacheKey(icon.name, state.settings)
-
-            iconLoadJobs[cacheKey]?.cancel()
-
             val mutex = iconLoadMutexes.computeIfAbsent(cacheKey) { Mutex() }
 
             mutex.withLock {
@@ -251,9 +249,9 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
             }
         }
 
-        iconLoadJobs[buildIconCacheKey(icon.name, lucideRecord.value.safeAs<LucideState.Success>()?.settings ?: LucideSettings())] = job
+        iconLoadJobs[cacheKey] = job
         job.invokeOnCompletion {
-            iconLoadJobs.remove(buildIconCacheKey(icon.name, lucideRecord.value.safeAs<LucideState.Success>()?.settings ?: LucideSettings()))
+            iconLoadJobs.remove(cacheKey)
         }
 
         return job
@@ -284,7 +282,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
         }
     }
 
-    private suspend fun handleIconParseError(iconName: String, cacheKey: String, error: Throwable) {
+    private fun handleIconParseError(iconName: String, cacheKey: String, error: Throwable) {
         LOG.error("Failed to parse icon '$iconName'", error)
         iconVectorCache.put(cacheKey, CachedIcon(null))
         updateSuccess {

@@ -8,6 +8,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.L
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -53,15 +54,12 @@ class LucideRepository(
 
     suspend fun getRawSvg(iconName: String): String = withContext(Dispatchers.IO) {
         cacheMutex.withLock {
-            rawSvgCache[iconName]
-        } ?: run {
-            val url = "$UNPKG_BASE/icons/$iconName.svg"
-            val downloaded = httpClient.get(url).bodyAsText()
-
-            cacheMutex.withLock {
+            rawSvgCache[iconName] ?: run {
+                val url = "$UNPKG_BASE/icons/$iconName.svg"
+                val downloaded = httpClient.get(url).bodyAsText()
                 rawSvgCache.put(iconName, downloaded)
+                downloaded
             }
-            downloaded
         }
     }
 
@@ -93,6 +91,6 @@ class LucideRepository(
 
     private fun Color.toHexString(): String {
         val argb = this.toArgb()
-        return String.format("#%06X", 0xFFFFFF and argb)
+        return String.format(Locale.ROOT, "#%06X", 0xFFFFFF and argb)
     }
 }
