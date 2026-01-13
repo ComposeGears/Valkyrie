@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.compose.codeviewer.core
+package io.github.composegears.valkyrie.sdk.compose.codeviewer
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.PhraseLocation
+import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.sdk.compose.highlights.core.buildAnnotatedString
 
 @Composable
 fun CodeViewer(
@@ -36,6 +38,7 @@ private fun CodeTextViewPreview() {
             }
         """.trimIndent(),
         emphasisLocation = arrayOf(PhraseLocation(start = 8, end = 39)),
+        isLight = MaterialTheme.colorScheme.isLight,
     )
 
     CodeViewer(highlights)

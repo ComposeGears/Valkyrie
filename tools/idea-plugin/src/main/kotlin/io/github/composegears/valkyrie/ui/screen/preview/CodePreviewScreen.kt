@@ -8,7 +8,7 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.compose.codeviewer.KotlinCodeViewer
+import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 

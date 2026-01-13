@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.compose.codeviewer
+package io.github.composegears.valkyrie.sdk.compose.codeviewer
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextFieldDefaults
@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.sp
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.SyntaxLanguage
 import dev.snipme.highlights.model.SyntaxThemes
-import io.github.composegears.valkyrie.compose.codeviewer.core.CodeEditor
 import io.github.composegears.valkyrie.compose.util.isLight
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 

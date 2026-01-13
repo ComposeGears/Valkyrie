@@ -6,8 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
-import io.github.composegears.valkyrie.compose.codeviewer.core.CodeEditor
-import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
+import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.sdk.compose.codeviewer.CodeEditor
+import io.github.composegears.valkyrie.sdk.compose.codeviewer.rememberCodeHighlight
 
 @Composable
 fun XmlCodeViewer(
@@ -15,7 +16,10 @@ fun XmlCodeViewer(
     modifier: Modifier = Modifier,
     onChange: (String) -> Unit = {},
 ) {
-    val highlights = rememberCodeHighlight(codeBlock = text)
+    val highlights = rememberCodeHighlight(
+        codeBlock = text,
+        isLight = MaterialTheme.colorScheme.isLight,
+    )
 
     CodeEditor(
         modifier = modifier,

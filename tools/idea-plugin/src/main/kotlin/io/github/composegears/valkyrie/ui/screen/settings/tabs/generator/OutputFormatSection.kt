@@ -13,10 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
+import io.github.composegears.valkyrie.compose.util.isLight
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.LazyProperty
+import io.github.composegears.valkyrie.sdk.compose.codeviewer.rememberCodeHighlight
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
@@ -47,14 +48,14 @@ fun OutputFormatSection(
             SelectableCard(
                 modifier = Modifier.weight(1f),
                 text = stringResource("settings.generator.output.backing"),
-                highlights = rememberCodeHighlight(backingPropertyFormat),
+                highlights = rememberCodeHighlight(backingPropertyFormat, isLight = MaterialTheme.colorScheme.isLight),
                 isSelected = outputFormat == BackingProperty,
                 onSelect = { onAction(UpdateOutputFormat(BackingProperty)) },
             )
             SelectableCard(
                 modifier = Modifier.weight(1f),
                 text = stringResource("settings.generator.output.lazy"),
-                highlights = rememberCodeHighlight(lazyPropertyFormat),
+                highlights = rememberCodeHighlight(lazyPropertyFormat, isLight = MaterialTheme.colorScheme.isLight),
                 isSelected = outputFormat == LazyProperty,
                 onSelect = { onAction(UpdateOutputFormat(LazyProperty)) },
             )

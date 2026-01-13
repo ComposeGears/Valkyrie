@@ -8,6 +8,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.foundation)
+
+            api(libs.highlights)
         }
     }
 }
