@@ -1,9 +1,11 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import dev.snipme.highlights.Highlights
-import io.github.composegears.valkyrie.compose.codeviewer.core.getEmphasisLocations
-import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
+import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.sdk.compose.codeviewer.rememberCodeHighlight
+import io.github.composegears.valkyrie.sdk.compose.highlights.core.getEmphasisLocations
 
 @Composable
 fun buildPackPackageHighlight(
@@ -31,6 +33,7 @@ fun buildPackPackageHighlight(
             codeBlock = codeBlock,
             highlightText = packagePlaceholder,
         ),
+        isLight = MaterialTheme.colorScheme.isLight,
     )
 }
 
@@ -55,5 +58,6 @@ fun buildIconPackHighlight(iconPackName: String): Highlights {
             codeBlock = codeBlock,
             highlightText = iconPackPlaceholder,
         ),
+        isLight = MaterialTheme.colorScheme.isLight,
     )
 }
