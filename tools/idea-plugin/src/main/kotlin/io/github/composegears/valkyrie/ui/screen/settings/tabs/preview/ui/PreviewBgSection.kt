@@ -223,7 +223,7 @@ private fun PreviewItem(
 
 @Preview
 @Composable
-private fun PreviewBgSectionPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun PreviewBgSectionPreview() = PreviewTheme {
     var previewType by rememberMutableState { PreviewType.Auto }
 
     PreviewBgSection(
