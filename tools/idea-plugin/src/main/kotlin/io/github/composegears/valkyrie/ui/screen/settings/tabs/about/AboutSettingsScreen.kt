@@ -14,12 +14,12 @@ import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
 import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
-import io.github.composegears.valkyrie.uikit.GroupSpacing
-import io.github.composegears.valkyrie.uikit.HorizontalDivider
-import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor

@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.AndroidX
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.Jetbrains
+import io.github.composegears.valkyrie.jewel.highlight.KtCodeViewer
+import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
+import io.github.composegears.valkyrie.jewel.settings.RadioButtonGroup
+import io.github.composegears.valkyrie.jewel.settings.RadioButtonTooltipRow
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.compose.highlights.core.rememberCodeHighlight
-import io.github.composegears.valkyrie.uikit.CheckboxSettingsRow
-import io.github.composegears.valkyrie.uikit.RadioButtonGroup
-import io.github.composegears.valkyrie.uikit.RadioButtonTooltipRow
-import io.github.composegears.valkyrie.uikit.highlight.KtCodeViewer
-import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 

@@ -19,6 +19,10 @@ import com.composegears.tiamat.compose.navigationFadeInOut
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
 import com.intellij.openapi.ui.MessageDialogBuilder
+import io.github.composegears.valkyrie.jewel.settings.Group
+import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
+import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
@@ -30,10 +34,6 @@ import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.GeneralSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
-import io.github.composegears.valkyrie.uikit.Group
-import io.github.composegears.valkyrie.uikit.GroupSpacing
-import io.github.composegears.valkyrie.uikit.InfoSettingsRow
-import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi

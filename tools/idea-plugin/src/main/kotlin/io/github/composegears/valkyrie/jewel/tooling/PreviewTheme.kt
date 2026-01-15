@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.uikit.tooling
+package io.github.composegears.valkyrie.jewel.tooling
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope

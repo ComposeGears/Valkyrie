@@ -18,6 +18,8 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.compose.replace
 import com.composegears.tiamat.navigation.NavDestination
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
@@ -26,8 +28,6 @@ import io.github.composegears.valkyrie.ui.screen.settings.tabs.about.AboutSettin
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.general.GeneralSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.GeneratorSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.preview.ImageVectorPreviewSettingsScreen
-import io.github.composegears.valkyrie.uikit.HorizontalDivider
-import io.github.composegears.valkyrie.uikit.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.jewel.foundation.theme.JewelTheme
