@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.uikit
+package io.github.composegears.valkyrie.jewel
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable

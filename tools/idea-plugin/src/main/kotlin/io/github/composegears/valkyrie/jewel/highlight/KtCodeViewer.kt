@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.uikit.highlight
+package io.github.composegears.valkyrie.jewel.highlight
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
