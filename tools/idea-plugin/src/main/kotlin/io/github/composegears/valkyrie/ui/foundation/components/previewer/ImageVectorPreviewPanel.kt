@@ -1,14 +1,12 @@
 package io.github.composegears.valkyrie.ui.foundation.components.previewer
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
@@ -32,7 +31,6 @@ import io.github.composegears.valkyrie.sdk.ir.util.internal.DominantShade
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.util.IR_STUB
 import kotlin.math.min
 import kotlinx.coroutines.launch
@@ -164,17 +162,14 @@ private fun ImageVectorPreviewUi(
         modifier = modifier.padding(vertical = 8.dp),
         verticalArrangement = Arrangement.Center,
     ) {
-        TopActions(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(horizontal = 12.dp),
+        PreviewerToolbar(
             defaultWidth = defaultWidth,
             defaultHeight = defaultHeight,
             onBgChange = onBgChange,
             zoomIn = zoomIn,
             zoomOut = zoomOut,
-            onActualSize = reset,
-            fitToWindow = fitToWindow,
+            onActualZoom = reset,
+            onFitToWindow = fitToWindow,
         )
         Spacer(8.dp)
         Box(

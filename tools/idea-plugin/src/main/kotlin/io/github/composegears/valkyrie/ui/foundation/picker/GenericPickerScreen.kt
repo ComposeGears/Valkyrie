@@ -22,15 +22,15 @@ import io.github.composegears.valkyrie.compose.icons.idea.AddFile
 import io.github.composegears.valkyrie.compose.icons.idea.AddFileDark
 import io.github.composegears.valkyrie.compose.util.disabled
 import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
 import io.github.composegears.valkyrie.ui.platform.Os
@@ -76,9 +76,9 @@ fun GenericPickerScreen(
             }
         },
     ) {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
-            AppBarTitle(title = title)
+            Title(text = title)
             WeightSpacer()
             SettingsAction(openSettings = onOpenSettings)
         }

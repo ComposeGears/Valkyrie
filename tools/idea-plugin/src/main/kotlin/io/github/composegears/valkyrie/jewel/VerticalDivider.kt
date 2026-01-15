@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.jewel
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -9,15 +9,15 @@ import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 
 @Composable
-fun HorizontalDivider(modifier: Modifier = Modifier) {
+fun VerticalDivider(modifier: Modifier = Modifier) {
     Divider(
-        modifier = modifier.fillMaxWidth(),
-        orientation = Orientation.Horizontal,
+        modifier = modifier.fillMaxHeight(),
+        orientation = Orientation.Vertical,
     )
 }
 
 @Preview
 @Composable
-private fun HorizontalDividerPreview() = PreviewTheme {
-    HorizontalDivider()
+private fun VerticalDividerPreview() = PreviewTheme {
+    VerticalDivider()
 }

@@ -43,14 +43,6 @@ public final class io/github/composegears/valkyrie/compose/icons/idea/AddFileKt 
 	public static final fun getAddFile (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
-public final class io/github/composegears/valkyrie/compose/icons/idea/NotificationsKt {
-	public static final fun getNotifications (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/idea/SettingsKt {
-	public static final fun getSettings (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
 public final class io/github/composegears/valkyrie/compose/icons/outlined/ArrowDownKt {
 	public static final fun getArrowDown (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }

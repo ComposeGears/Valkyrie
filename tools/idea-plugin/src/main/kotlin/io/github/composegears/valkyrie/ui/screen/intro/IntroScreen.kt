@@ -30,6 +30,7 @@ import io.github.composegears.valkyrie.compose.icons.outlined.FileImport
 import io.github.composegears.valkyrie.compose.icons.outlined.KtSvg
 import io.github.composegears.valkyrie.compose.icons.outlined.KtXml
 import io.github.composegears.valkyrie.compose.ui.InfoCard
+import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.shared.Mode
@@ -40,7 +41,6 @@ import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
 import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen

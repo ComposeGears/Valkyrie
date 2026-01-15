@@ -1,19 +1,18 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.jewel.icons
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.BlackCircle: ImageVector
+val IntelliJIcons.BlackCircleDark: ImageVector
     get() {
-        if (_BlackCircle != null) {
-            return _BlackCircle!!
+        if (_BlackCircleDark != null) {
+            return _BlackCircleDark!!
         }
-        _BlackCircle = ImageVector.Builder(
-            name = "BlackCircle",
+        _BlackCircleDark = ImageVector.Builder(
+            name = "BlackCircleDark",
             defaultWidth = 16.dp,
             defaultHeight = 16.dp,
             viewportWidth = 16f,
@@ -37,8 +36,8 @@ val ValkyrieIcons.BlackCircle: ImageVector
             }
         }.build()
 
-        return _BlackCircle!!
+        return _BlackCircleDark!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _BlackCircle: ImageVector? = null
+private var _BlackCircleDark: ImageVector? = null

@@ -24,10 +24,10 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen
 import io.github.composegears.valkyrie.util.stringResource
@@ -52,9 +52,9 @@ private fun EditorScreenUi(
     openEdit: (EditorType) -> Unit,
 ) {
     Column {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
-            AppBarTitle(title = stringResource("editor.select.header"))
+            Title(text = stringResource("editor.select.header"))
         }
         Spacer(8.dp)
 
