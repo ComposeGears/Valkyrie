@@ -18,12 +18,12 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.compose.replace
 import com.composegears.tiamat.navigation.NavDestination
+import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.about.AboutSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.general.GeneralSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.GeneratorSettingsScreen
@@ -51,9 +51,9 @@ val SettingsScreen by navDestination {
     val tabScreens = remember { tabs.map { it.screen }.toTypedArray() }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = navController::back)
-            AppBarTitle(title = stringResource("settings.header"))
+            Title(text = stringResource("settings.header"))
         }
 
         val tabsNavController = rememberNavController(

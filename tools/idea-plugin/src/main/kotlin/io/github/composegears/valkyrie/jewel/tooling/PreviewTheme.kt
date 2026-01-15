@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 @Composable
 fun PreviewTheme(
     modifier: Modifier = Modifier,
-    alignment: Alignment = Alignment.Center,
+    alignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit,
 ) {
     PreviewWrapper {

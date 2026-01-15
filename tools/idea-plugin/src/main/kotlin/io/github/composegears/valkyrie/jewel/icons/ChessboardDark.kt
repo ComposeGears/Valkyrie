@@ -1,26 +1,25 @@
-package io.github.composegears.valkyrie.ui.foundation.icons
+package io.github.composegears.valkyrie.jewel.icons
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.Chessboard: ImageVector
+val IntelliJIcons.ChessboardDark: ImageVector
     get() {
-        if (_Chessboard != null) {
-            return _Chessboard!!
+        if (_ChessboardDark != null) {
+            return _ChessboardDark!!
         }
-        _Chessboard = ImageVector.Builder(
-            name = "Chessboard",
+        _ChessboardDark = ImageVector.Builder(
+            name = "ChessboardDark",
             defaultWidth = 16.dp,
             defaultHeight = 16.dp,
             viewportWidth = 16f,
             viewportHeight = 16f,
         ).apply {
             path(
-                stroke = SolidColor(Color(0xFF6C707E)),
+                stroke = SolidColor(Color(0xFFCED0D6)),
                 strokeLineWidth = 1f,
             ) {
                 moveTo(2.5f, 2.5f)
@@ -30,7 +29,7 @@ val ValkyrieIcons.Chessboard: ImageVector
                 close()
             }
             path(
-                stroke = SolidColor(Color(0xFF6C707E)),
+                stroke = SolidColor(Color(0xFFCED0D6)),
                 strokeLineWidth = 1f,
             ) {
                 moveTo(2.5f, 10.5f)
@@ -40,7 +39,7 @@ val ValkyrieIcons.Chessboard: ImageVector
                 close()
             }
             path(
-                stroke = SolidColor(Color(0xFF6C707E)),
+                stroke = SolidColor(Color(0xFFCED0D6)),
                 strokeLineWidth = 1f,
             ) {
                 moveTo(6.5f, 6.5f)
@@ -50,7 +49,7 @@ val ValkyrieIcons.Chessboard: ImageVector
                 close()
             }
             path(
-                stroke = SolidColor(Color(0xFF6C707E)),
+                stroke = SolidColor(Color(0xFFCED0D6)),
                 strokeLineWidth = 1f,
             ) {
                 moveTo(10.5f, 2.5f)
@@ -60,7 +59,7 @@ val ValkyrieIcons.Chessboard: ImageVector
                 close()
             }
             path(
-                stroke = SolidColor(Color(0xFF6C707E)),
+                stroke = SolidColor(Color(0xFFCED0D6)),
                 strokeLineWidth = 1f,
             ) {
                 moveTo(10.5f, 10.5f)
@@ -71,8 +70,8 @@ val ValkyrieIcons.Chessboard: ImageVector
             }
         }.build()
 
-        return _Chessboard!!
+        return _ChessboardDark!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _Chessboard: ImageVector? = null
+private var _ChessboardDark: ImageVector? = null

@@ -3,13 +3,13 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.pi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.UniversalPicker
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable
@@ -23,9 +23,9 @@ fun IconPackPickerStateUi(
         modifier = modifier,
         onPickerEvent = onPickerEvent,
         headerSection = {
-            TopAppBar {
+            Toolbar {
                 BackAction(onBack = onBack)
-                AppBarTitle(title = "IconPack generation")
+                Title(text = "IconPack generation")
                 WeightSpacer()
                 SettingsAction(openSettings = openSettings)
             }

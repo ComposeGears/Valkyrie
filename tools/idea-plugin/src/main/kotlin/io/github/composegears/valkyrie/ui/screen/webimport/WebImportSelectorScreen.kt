@@ -19,10 +19,10 @@ import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.compose.ui.InfoCard
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
@@ -49,9 +49,9 @@ private fun WebImportSelectorScreenUI(
     onClick: (IconProviders) -> Unit,
 ) {
     Column {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
-            AppBarTitle(title = stringResource("web.import.selector.title"))
+            Title(text = stringResource("web.import.selector.title"))
         }
         Column(
             modifier = Modifier
