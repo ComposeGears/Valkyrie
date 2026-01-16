@@ -24,10 +24,12 @@ import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.colors.primaryColor
 import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
@@ -198,11 +200,12 @@ private fun PreviewItem(
     selected: Boolean,
     onSelect: () -> Unit,
     modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(8.dp),
     content: @Composable BoxScope.() -> Unit,
 ) {
     val color by animateColorAsState(
         when {
-            selected -> JewelTheme.globalColors.outlines.focused
+            selected -> JewelTheme.primaryColor
             else -> Color.Transparent
         },
     )
@@ -213,9 +216,9 @@ private fun PreviewItem(
             .border(
                 width = 2.dp,
                 color = color,
-                shape = RoundedCornerShape(8.dp),
+                shape = shape,
             )
-            .clip(shape = RoundedCornerShape(8.dp))
+            .clip(shape = shape)
             .clickable(onClick = onSelect),
         content = content,
     )

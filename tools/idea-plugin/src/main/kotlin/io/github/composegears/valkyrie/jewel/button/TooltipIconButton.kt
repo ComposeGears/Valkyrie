@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.jewel.button
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -56,7 +57,7 @@ fun TooltipIconButton(
 
 @Preview
 @Composable
-private fun TooltipIconButtonPreview() = PreviewTheme {
+private fun TooltipIconButtonPreview() = PreviewTheme(alignment = Alignment.Center) {
     TooltipIconButton(
         key = AllIconsKeys.Actions.AddFile,
         contentDescription = null,

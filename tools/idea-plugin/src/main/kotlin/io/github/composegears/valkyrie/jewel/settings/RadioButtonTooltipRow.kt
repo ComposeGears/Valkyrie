@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.jewel.settings
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,7 @@ fun RadioButtonTooltipRow(
 
 @Preview
 @Composable
-private fun RadioButtonTooltipRowPreview() = PreviewTheme {
+private fun RadioButtonTooltipRowPreview() = PreviewTheme(alignment = Alignment.Center) {
     RadioButtonTooltipRow(
         text = "Radio option",
         selected = false,
