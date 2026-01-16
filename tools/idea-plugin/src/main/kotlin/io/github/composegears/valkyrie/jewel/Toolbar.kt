@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -274,7 +273,7 @@ fun NotificationToggleAction(
 
 @Preview
 @Composable
-private fun TopAppBarPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+private fun ToolbarPreview() = PreviewTheme {
     var isEdit by rememberMutableState { true }
     var isPreview by rememberMutableState { true }
     var isNotification by rememberMutableState { true }

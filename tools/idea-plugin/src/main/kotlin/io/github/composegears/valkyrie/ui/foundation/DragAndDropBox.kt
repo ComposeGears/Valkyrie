@@ -10,8 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -26,8 +25,12 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.colors.primaryColor
+import io.github.composegears.valkyrie.jewel.colors.softContentColor
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Text
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -35,12 +38,12 @@ fun DragAndDropBox(
     isDragging: Boolean,
     onChoose: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = MaterialTheme.shapes.small,
+    shape: Shape = RoundedCornerShape(8.dp),
     content: @Composable BoxScope.() -> Unit,
 ) {
     var isHover by rememberMutableState(isDragging) { isDragging }
 
-    val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+    val dashColor = JewelTheme.softContentColor
     val border by animateDpAsState(if (isHover) 2.dp else 1.dp)
 
     Box(
@@ -59,7 +62,7 @@ fun DragAndDropBox(
             .padding(1.dp)
             .background(
                 color = when {
-                    isHover -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
+                    isHover -> JewelTheme.primaryColor.copy(alpha = 0.05f)
                     else -> Color.Transparent
                 },
                 shape = shape,
@@ -77,7 +80,7 @@ fun DragAndDropBox(
 
 @Preview
 @Composable
-private fun DragAndDropBoxPreview() = PreviewTheme {
+private fun DragAndDropBoxPreview() = PreviewTheme(alignment = Alignment.Center) {
     DragAndDropBox(
         isDragging = false,
         onChoose = {},
@@ -85,8 +88,7 @@ private fun DragAndDropBoxPreview() = PreviewTheme {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
-                .background(Color.Gray.copy(alpha = 0.3f)),
+                .height(300.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text(text = "Content")

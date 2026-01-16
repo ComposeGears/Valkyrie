@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
@@ -38,11 +39,11 @@ fun TooltipToggleButton(
 
 @Preview
 @Composable
-private fun TooltipToggleButtonPreview() = PreviewTheme {
+private fun TooltipToggleButtonPreview() = PreviewTheme(alignment = Alignment.Center) {
     var checked by rememberMutableState { false }
 
     TooltipToggleButton(
-        key = AllIconsKeys.Actions.BuildAutoReloadChanges,
+        key = AllIconsKeys.Actions.Edit,
         contentDescription = null,
         value = checked,
         onValueChange = { checked = it },

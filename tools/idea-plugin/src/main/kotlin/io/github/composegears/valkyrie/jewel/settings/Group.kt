@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -52,7 +51,7 @@ fun ColumnScope.GroupSpacing() = Spacer(32.dp)
 
 @Preview
 @Composable
-private fun GroupPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun GroupPreview() = PreviewTheme {
     var checked by rememberMutableState { true }
 
     Group(

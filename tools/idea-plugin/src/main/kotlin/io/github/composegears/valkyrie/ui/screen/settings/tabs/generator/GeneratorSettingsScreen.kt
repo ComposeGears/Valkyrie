@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -173,7 +172,7 @@ private val LazyDelegatePropertyHint = """
 
 @Preview
 @Composable
-private fun GeneratorSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun GeneratorSettingsPreview() = PreviewTheme {
     var outputFormat by rememberMutableState { BackingProperty }
     var useComposeColors by rememberMutableState { true }
     var generatePreview by rememberMutableState { true }
