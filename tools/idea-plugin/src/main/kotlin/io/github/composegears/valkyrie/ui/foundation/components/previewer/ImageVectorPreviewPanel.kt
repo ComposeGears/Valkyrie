@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
@@ -171,6 +172,7 @@ private fun ImageVectorPreviewUi(
             onActualZoom = reset,
             onFitToWindow = fitToWindow,
         )
+        HorizontalDivider()
         Spacer(8.dp)
         Box(
             modifier = Modifier

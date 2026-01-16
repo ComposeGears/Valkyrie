@@ -1,19 +1,19 @@
 package io.github.composegears.valkyrie.ui.platform
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.runtime.remember
+import org.jetbrains.skiko.OS.Linux
+import org.jetbrains.skiko.OS.MacOS
+import org.jetbrains.skiko.OS.Windows
+import org.jetbrains.skiko.hostOs
 
 @Composable
-fun rememberCurrentOs(): Os {
-    if (LocalInspectionMode.current) return Os.MacOS
-
-    val osProperty = System.getProperty("os.name")
-
-    return when {
-        osProperty.contains("mac", ignoreCase = true) -> Os.MacOS
-        osProperty.contains("win", ignoreCase = true) -> Os.Windows
-        osProperty.contains("nux", ignoreCase = true) -> Os.Linux
-        else -> Os.Unknown
+fun rememberCurrentOs(): Os = remember {
+    when (hostOs) {
+        MacOS -> Os.MacOS
+        Windows -> Os.Windows
+        Linux -> Os.Linux
+        else -> Os.Unsupported
     }
 }
 
@@ -21,5 +21,5 @@ enum class Os {
     MacOS,
     Windows,
     Linux,
-    Unknown,
+    Unsupported,
 }

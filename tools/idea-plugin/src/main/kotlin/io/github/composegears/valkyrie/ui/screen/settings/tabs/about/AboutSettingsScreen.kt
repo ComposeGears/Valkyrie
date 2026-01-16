@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,6 +73,6 @@ private fun AboutSettingsUi() {
 
 @Preview
 @Composable
-private fun AboutSettingsPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+private fun AboutSettingsPreview() = PreviewTheme {
     AboutSettingsUi()
 }

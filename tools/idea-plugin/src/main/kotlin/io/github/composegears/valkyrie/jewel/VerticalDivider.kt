@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.jewel
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
@@ -18,6 +19,6 @@ fun VerticalDivider(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun VerticalDividerPreview() = PreviewTheme {
+private fun VerticalDividerPreview() = PreviewTheme(alignment = Alignment.Center) {
     VerticalDivider()
 }

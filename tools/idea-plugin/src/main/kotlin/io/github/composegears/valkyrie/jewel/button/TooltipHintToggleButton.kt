@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +39,7 @@ fun TooltipHintToggleButton(
             focusable = false,
             value = value,
             onValueChange = onValueChange,
-        ) { state ->
+        ) { _ ->
             Icon(
                 key = key,
                 contentDescription = contentDescription,
@@ -50,11 +51,11 @@ fun TooltipHintToggleButton(
 
 @Preview
 @Composable
-private fun TooltipHintToggleButtonPreview() = PreviewTheme {
+private fun TooltipHintToggleButtonPreview() = PreviewTheme(alignment = Alignment.Center) {
     var value by rememberMutableState { false }
 
     TooltipHintToggleButton(
-        key = AllIconsKeys.Actions.BuildAutoReloadChanges,
+        key = AllIconsKeys.Toolwindows.Notifications,
         contentDescription = null,
         value = value,
         onValueChange = { value = it },

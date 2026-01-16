@@ -11,11 +11,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,12 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.idea.AddFile
-import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.jewel.colors.primaryColor
+import io.github.composegears.valkyrie.jewel.colors.softContentColor
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
@@ -36,7 +32,6 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableSta
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.foundation.dashedBorder
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
 import io.github.composegears.valkyrie.ui.platform.Os
 import io.github.composegears.valkyrie.ui.platform.picker.rememberDirectoryPicker
@@ -49,6 +44,13 @@ import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.InfoText
+import org.jetbrains.jewel.ui.component.Link
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.typography
 
 @Composable
 fun UniversalPicker(
@@ -125,41 +127,46 @@ private fun SelectableState(
     DragAndDropBox(isDragging = isDragging) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             CenterVerticalRow {
-                Icon(
-                    imageVector = ValkyrieIcons.Idea.AddFile,
-                    contentDescription = null,
-                )
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = stringResource("picker.dnd"),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleSmall,
-                )
+                CenterVerticalRow {
+                    Icon(
+                        key = AllIconsKeys.Actions.AddFile,
+                        contentDescription = null,
+                    )
+                    Spacer(8.dp)
+                    Text(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        text = stringResource("universal.picker.dnd"),
+                        maxLines = 2,
+                    )
+                }
             }
-            Text(
+            InfoText(
                 text = when (os) {
-                    Os.MacOS -> stringResource("picker.clipboard.mac")
-                    else -> stringResource("picker.clipboard.other")
+                    Os.MacOS -> stringResource("generic.picker.clipboard.mac")
+                    else -> stringResource("generic.picker.clipboard.other")
                 },
-                textAlign = TextAlign.Center,
-                color = LocalContentColor.current.disabled(),
-                style = MaterialTheme.typography.labelSmall,
+                maxLines = 2,
             )
             Spacer(16.dp)
             Text(
-                text = stringResource("picker.dnd.or"),
-                style = MaterialTheme.typography.labelMedium,
+                text = stringResource("universal.picker.dnd.or"),
+                style = JewelTheme.typography.regular,
             )
             FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
             ) {
-                TextButton(onClick = onPickDirectory) {
-                    Text(text = stringResource("picker.pick.directory"))
-                }
-                TextButton(onClick = onPickFiles) {
-                    Text(text = stringResource("picker.pick.files"))
-                }
+                Link(
+                    text = stringResource("universal.picker.pick.directory"),
+                    onClick = onPickDirectory,
+                )
+                Link(
+                    text = stringResource("universal.picker.pick.files"),
+                    onClick = onPickFiles,
+                )
             }
         }
     }
@@ -169,30 +176,31 @@ private fun SelectableState(
 private fun DragAndDropBox(
     isDragging: Boolean,
     modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(8.dp),
     content: @Composable BoxScope.() -> Unit,
 ) {
-    val dashColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+    val dashColor = JewelTheme.softContentColor
     val border by animateDpAsState(if (isDragging) 4.dp else 1.dp)
 
     Box(
         modifier = modifier
             .fillMaxWidth(0.8f)
             .heightIn(min = 300.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(shape)
             .dashedBorder(
                 strokeWidth = border,
                 gapWidth = 8.dp,
                 dashWidth = 8.dp,
                 color = dashColor,
-                shape = MaterialTheme.shapes.small,
+                shape = shape,
             )
             .padding(2.dp)
             .background(
                 color = when {
-                    isDragging -> MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
+                    isDragging -> JewelTheme.primaryColor.copy(alpha = 0.05f)
                     else -> Color.Transparent
                 },
-                shape = MaterialTheme.shapes.small,
+                shape = shape,
             ),
         contentAlignment = Alignment.Center,
         content = content,

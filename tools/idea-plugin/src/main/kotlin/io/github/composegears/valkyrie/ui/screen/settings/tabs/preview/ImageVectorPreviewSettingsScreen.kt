@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.navController
@@ -69,10 +68,11 @@ private fun ImageVectorPreviewSettingsUi(
 
 @Preview
 @Composable
-private fun ImageVectorPreviewSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun ImageVectorPreviewSettingsPreview() = PreviewTheme {
     var showImageVectorPreview by rememberMutableState { true }
     var showIconsInProjectView by rememberMutableState { true }
     var previewType by rememberMutableState { PreviewType.Auto }
+
     ImageVectorPreviewSettingsUi(
         previewSettings = PreviewSettings(
             showImageVectorPreview = showImageVectorPreview,

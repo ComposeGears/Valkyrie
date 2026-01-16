@@ -156,7 +156,7 @@ private fun openIntro(navController: NavController) {
 
 @Preview
 @Composable
-private fun GeneralSettingsPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun GeneralSettingsPreview() = PreviewTheme {
     var isClearSettings by rememberMutableState<Boolean?> { null }
 
     GeneralSettingsUi(
