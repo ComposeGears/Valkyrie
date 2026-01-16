@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -82,7 +83,7 @@ fun DropdownSettingsRow(
 @OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
-private fun DropdownSettingsRowPreview() = PreviewTheme {
+private fun DropdownSettingsRowPreview() = PreviewTheme(alignment = Alignment.Center) {
     var currentOption by rememberMutableState { "Op 1" }
 
     DropdownSettingsRow(

@@ -110,6 +110,7 @@ private fun PreviewAnnotationSectionPreview() = PreviewTheme {
     var previewAnnotationType by rememberMutableState { AndroidX }
 
     PreviewAnnotationSection(
+        modifier = Modifier.padding(horizontal = 16.dp),
         generatePreview = generatePreview,
         previewAnnotationType = previewAnnotationType,
         onGeneratePreviewChange = { generatePreview = it },
