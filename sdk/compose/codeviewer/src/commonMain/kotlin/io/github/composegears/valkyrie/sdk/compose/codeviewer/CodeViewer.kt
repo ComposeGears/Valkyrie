@@ -9,6 +9,7 @@ import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.PhraseLocation
 import io.github.composegears.valkyrie.compose.util.isLight
 import io.github.composegears.valkyrie.sdk.compose.highlights.core.buildAnnotatedString
+import io.github.composegears.valkyrie.sdk.compose.highlights.core.rememberCodeHighlight
 
 @Composable
 fun CodeViewer(

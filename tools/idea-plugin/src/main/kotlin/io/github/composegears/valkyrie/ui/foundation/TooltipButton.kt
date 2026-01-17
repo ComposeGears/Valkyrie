@@ -1,10 +1,8 @@
 package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,36 +20,7 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.filled.Help
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.ui.foundation.icons.BlackCircle
-import io.github.composegears.valkyrie.ui.foundation.icons.Chessboard
-import io.github.composegears.valkyrie.ui.foundation.icons.WhiteCircle
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-
-@Composable
-fun TooltipIconButton(
-    hint: String,
-    onClick: () -> Unit,
-    icon: ImageVector,
-    modifier: Modifier = Modifier,
-) {
-    TooltipButton(
-        modifier = modifier,
-        hint = hint,
-    ) {
-        Box(
-            modifier = Modifier.size(24.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .clickable(onClick = onClick),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                tint = MaterialTheme.colorScheme.onSurface,
-                imageVector = icon,
-                contentDescription = null,
-            )
-        }
-    }
-}
 
 @Composable
 fun TooltipIcon(
@@ -71,31 +40,6 @@ fun TooltipIcon(
             Icon(
                 tint = MaterialTheme.colorScheme.onSurface,
                 imageVector = icon,
-                contentDescription = null,
-            )
-        }
-    }
-}
-
-@Composable
-fun TooltipImageButton(
-    hint: String,
-    image: ImageVector,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    TooltipButton(
-        modifier = modifier,
-        hint = hint,
-    ) {
-        Box(
-            modifier = Modifier.size(24.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .clickable(onClick = onClick),
-            contentAlignment = Alignment.Center,
-        ) {
-            Image(
-                imageVector = image,
                 contentDescription = null,
             )
         }
@@ -135,21 +79,6 @@ fun TooltipButton(
 @Composable
 private fun TooltipButtonPreview() = PreviewTheme {
     CenterVerticalRow {
-        TooltipIconButton(
-            hint = "Show pixel grid",
-            onClick = {},
-            icon = ValkyrieIcons.Chessboard,
-        )
-        TooltipImageButton(
-            hint = "Show white background",
-            image = ValkyrieIcons.WhiteCircle,
-            onClick = {},
-        )
-        TooltipImageButton(
-            hint = "Show black background",
-            image = ValkyrieIcons.BlackCircle,
-            onClick = {},
-        )
         TooltipIcon(
             hint = "Show black background",
             icon = ValkyrieIcons.Filled.Help,

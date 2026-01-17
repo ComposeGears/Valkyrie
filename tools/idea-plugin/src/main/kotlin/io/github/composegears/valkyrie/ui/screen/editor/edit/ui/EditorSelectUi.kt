@@ -3,13 +3,13 @@ package io.github.composegears.valkyrie.ui.screen.editor.edit.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.UniversalPicker
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 
@@ -24,9 +24,9 @@ fun EditorSelectUi(
         modifier = modifier,
         onPickerEvent = onPickerEvent,
         headerSection = {
-            TopAppBar {
+            Toolbar {
                 BackAction(onBack = onBack)
-                AppBarTitle(title = stringResource("editor.edit.header"))
+                Title(text = stringResource("editor.edit.header"))
                 WeightSpacer()
                 SettingsAction(openSettings = openSettings)
             }

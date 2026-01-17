@@ -8,9 +8,9 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 
 val CodePreviewScreen by navDestination<String> {
     val navController = navController()
@@ -28,7 +28,7 @@ private fun CodePreviewUi(
     onBack: () -> Unit,
 ) {
     Column {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
         }
         KotlinCodeViewer(

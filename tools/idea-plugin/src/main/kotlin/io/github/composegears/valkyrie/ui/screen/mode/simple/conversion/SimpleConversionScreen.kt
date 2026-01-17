@@ -14,13 +14,13 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
 import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -81,9 +81,9 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
         }
         is SimpleConversionState.Error -> {
             Column(modifier = Modifier.fillMaxSize()) {
-                TopAppBar {
+                Toolbar {
                     BackAction(onBack = navController::back)
-                    AppBarTitle(title = "Simple conversion")
+                    Title(text = "Simple conversion")
                     WeightSpacer()
                     SettingsAction(
                         openSettings = {

@@ -17,18 +17,15 @@ import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.ProjectWrapper
 import io.github.composegears.valkyrie.ui.foundation.theme.IntelliJTheme.Theme
-import java.awt.Component
 
 @Composable
 fun ValkyrieTheme(
     project: Project,
-    currentComponent: Component,
     content: @Composable () -> Unit,
 ) {
     val rootContent = @Composable {
         CompositionLocalProvider(
             LocalProject provides ProjectWrapper.Platform(project),
-            LocalComponent provides currentComponent,
             content = content,
         )
     }
@@ -51,6 +48,7 @@ fun ValkyrieTheme(content: @Composable () -> Unit) {
     }
 }
 
+@Deprecated("use jewel")
 @Composable
 fun PreviewTheme(
     modifier: Modifier = Modifier,

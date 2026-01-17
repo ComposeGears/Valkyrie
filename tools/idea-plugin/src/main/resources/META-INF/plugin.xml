@@ -26,9 +26,10 @@ Allows previewing the generated icon and facilitates copying the result directly
 Allows to create organized icon pack with an extension property of you pack object and batch import into your specified directory.
 
 ]]></description>
-    <depends>com.intellij.modules.platform</depends>
-    <!-- dependency plugin id for https://plugins.jetbrains.com/plugin/6954-kotlin -->
-    <depends>org.jetbrains.kotlin</depends>
+    <dependencies>
+        <plugin id="org.jetbrains.kotlin"/>
+        <plugin id="com.intellij.modules.compose"/>
+    </dependencies>
 
     <actions>
         <group
