@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -156,13 +155,9 @@ private fun ImageVectorPreviewUi(
     zoomOut: () -> Unit,
     reset: () -> Unit,
     onBgChange: (BgType) -> Unit,
-    modifier: Modifier = Modifier,
     fitToWindow: () -> Unit,
 ) {
-    Column(
-        modifier = modifier.padding(vertical = 8.dp),
-        verticalArrangement = Arrangement.Center,
-    ) {
+    Column(verticalArrangement = Arrangement.Center) {
         PreviewerToolbar(
             defaultWidth = defaultWidth,
             defaultHeight = defaultHeight,

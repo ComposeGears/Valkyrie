@@ -7,30 +7,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.core.FocusContainer
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen
 import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.InfoText
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.typography
 
 val EditorSelectScreen by navDestination<Unit> {
     val navController = navController()
@@ -93,11 +91,7 @@ private fun EditorOption(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier,
-        onClick = onClick,
-        elevation = CardDefaults.elevatedCardElevation(),
-    ) {
+    FocusContainer(modifier = modifier, onClick = onClick) {
         Column(
             modifier = Modifier
                 .width(420.dp)
@@ -106,13 +100,9 @@ private fun EditorOption(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleSmall,
+                style = JewelTheme.typography.h4TextStyle,
             )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                color = LocalContentColor.current.dim(),
-            )
+            InfoText(text = description)
         }
     }
 }
@@ -125,7 +115,7 @@ private data class OptionElement(
 
 @Preview
 @Composable
-private fun EditorScreenPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+private fun EditorScreenPreview() = PreviewTheme {
     EditorScreenUi(
         onBack = {},
         openEdit = {},

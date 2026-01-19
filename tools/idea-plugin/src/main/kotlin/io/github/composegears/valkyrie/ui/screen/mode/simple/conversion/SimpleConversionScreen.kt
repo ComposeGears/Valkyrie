@@ -18,12 +18,13 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource
@@ -38,6 +39,8 @@ import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ErrorContent
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.LoadingContent
 import io.github.composegears.valkyrie.util.IR_STUB
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
+import io.github.composegears.valkyrie.util.stringResource
 import java.nio.file.Path
 
 sealed interface SimpleConversionParamsSource {
@@ -48,7 +51,7 @@ sealed interface SimpleConversionParamsSource {
 val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
     val navController = navController()
     val params = navArgs()
-    val snackbar = rememberSnackbar()
+    val bannerManager = rememberBannerManager()
 
     val viewModel = saveableViewModel {
         SimpleConversionViewModel(
@@ -72,7 +75,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                     when (it) {
                         is OnCopyInClipboard -> {
                             copyInClipboard(it.text)
-                            snackbar.show(message = "Copied in clipboard")
+                            bannerManager.show(message = InfoBanner(text = message("simple.action.copy.text")))
                         }
                         is OnIconNameChange -> viewModel.changeIconName(it.name)
                     }
@@ -115,7 +118,7 @@ private fun SimpleConversionContent(
     onAction: (SimpleConversionAction) -> Unit,
 ) {
     GenericConversionScreen(
-        title = "Simple conversion",
+        title = stringResource("simple.picker.title"),
         iconName = state.iconContent.name,
         codeContent = state.iconContent.code,
         irImageVector = state.iconContent.irImageVector,
