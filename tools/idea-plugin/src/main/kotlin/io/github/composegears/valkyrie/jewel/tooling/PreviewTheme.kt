@@ -8,6 +8,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 
 @Composable
 fun PreviewTheme(
@@ -27,7 +29,8 @@ fun PreviewTheme(
 @Composable
 private fun PreviewWrapper(content: @Composable () -> Unit) {
     CompositionLocalProvider(
-        value = LocalInspectionMode provides true,
+        LocalInspectionMode provides true,
+        LocalGlobalBannerState provides rememberBannerState(),
         content = content,
     )
 }
