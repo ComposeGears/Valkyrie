@@ -24,7 +24,7 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviathan" }
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
-tiamat = "io.github.composegears:tiamat:2.1.0-1.8.2"
+tiamat = "io.github.composegears:tiamat:2.2.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
 
