@@ -4,17 +4,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.util.disabled
-import io.github.composegears.valkyrie.ui.foundation.FocusableTextField
-import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.textfield.ConfirmTextField
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
+import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.typography
 
 @Composable
 fun EditActionContent(
@@ -26,15 +30,15 @@ fun EditActionContent(
         HorizontalDivider()
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                modifier = Modifier.padding(start = 4.dp, bottom = 4.dp),
-                text = "Name",
-                style = MaterialTheme.typography.labelSmall,
-                color = LocalContentColor.current.disabled(),
+                modifier = Modifier.padding(4.dp),
+                text = stringResource("edit.action.header"),
+                style = JewelTheme.typography.small,
             )
-            FocusableTextField(
+            ConfirmTextField(
                 modifier = Modifier.width(200.dp),
-                value = iconName,
+                text = iconName,
                 onValueChange = onNameChange,
+                errorPlaceholder = stringResource("edit.action.textfield.error")
             )
         }
     }
@@ -42,9 +46,11 @@ fun EditActionContent(
 
 @Preview
 @Composable
-private fun EditActionContentPreview() = PreviewTheme {
+private fun EditActionContentPreview() = PreviewTheme(alignment = Alignment.Center) {
+    var name by rememberMutableState { "IconName" }
+
     EditActionContent(
-        iconName = "IconName",
-        onNameChange = {},
+        iconName = name,
+        onNameChange = { name = it },
     )
 }

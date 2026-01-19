@@ -6,10 +6,10 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import io.github.composegears.valkyrie.action.RefreshPluginAction
+import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
-import io.github.composegears.valkyrie.ui.foundation.rememberSnackbarState
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
 import org.jetbrains.jewel.bridge.addComposeTab
 
@@ -23,7 +23,7 @@ class ValkyrieToolWindow :
         toolWindow.setTitleActions(listOf(RefreshPluginAction()))
         toolWindow.addComposeTab(focusOnClickInside = true) {
             ValkyrieTheme(project = project) {
-                CompositionLocalProvider(LocalSnackBar provides rememberSnackbarState()) {
+                CompositionLocalProvider(LocalGlobalBannerState provides rememberBannerState()) {
                     ValkyriePlugin()
                 }
             }

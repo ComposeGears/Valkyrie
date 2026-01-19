@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.Mode.Edit
@@ -58,10 +59,10 @@ import io.github.composegears.valkyrie.ui.foundation.Mode.View
 import io.github.composegears.valkyrie.ui.foundation.icons.Checked
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
 import io.github.composegears.valkyrie.ui.foundation.icons.Edit
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
+@Deprecated("migrate to ConfirmTextField")
 fun FocusableTextField(
     value: String,
     onValueChange: (String) -> Unit,
@@ -273,17 +274,13 @@ private enum class Mode {
     View,
 }
 
+
 @Preview
 @Composable
-private fun FocusableTextFieldPreview() = PreviewTheme {
+private fun FocusableTextFieldPreview() = PreviewTheme(alignment = Alignment.Center) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         FocusableTextField(
             modifier = Modifier.width(300.dp),
-            value = "IconName",
-            onValueChange = {},
-        )
-        FocusableTextField(
-            modifier = Modifier.width(150.dp),
             value = "IconName",
             onValueChange = {},
         )
