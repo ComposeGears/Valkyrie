@@ -23,5 +23,5 @@ sealed interface BannerMessage {
 enum class BannerDuration {
     Short,
     Long,
-    Indefinite
+    Indefinite,
 }

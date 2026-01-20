@@ -13,9 +13,11 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
+import dev.snipme.highlights.model.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.editor.CodeEditor
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
@@ -25,7 +27,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversio
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlState
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.XmlContent
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.XmlCodeViewer
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.EditActionContent
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
@@ -109,10 +110,11 @@ private fun ImageVectorToXmlContent(
             )
         },
         codeViewer = { text, onChange ->
-            XmlCodeViewer(
+            CodeEditor(
                 modifier = Modifier.fillMaxSize(),
+                syntaxLanguage = SyntaxLanguage.KOTLIN,
                 text = text,
-                onChange = onChange,
+                onValueChange = onChange,
             )
         },
     )

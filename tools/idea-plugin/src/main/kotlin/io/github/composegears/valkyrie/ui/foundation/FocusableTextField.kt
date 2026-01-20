@@ -274,7 +274,6 @@ private enum class Mode {
     View,
 }
 
-
 @Preview
 @Composable
 private fun FocusableTextFieldPreview() = PreviewTheme(alignment = Alignment.Center) {

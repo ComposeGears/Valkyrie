@@ -32,9 +32,9 @@ import org.jetbrains.jewel.ui.icons.AllIconsKeys
 @Composable
 fun ConfirmTextField(
     text: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
     errorPlaceholder: String,
+    modifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit,
 ) {
     val state = rememberTextFieldState(text)
     val focusManager = LocalFocusManager.current
@@ -86,10 +86,10 @@ fun ConfirmTextField(
                     contentDescription = null,
                     onClick = {
                         onValueChange(state.text.toString())
-                    }
+                    },
                 )
             }
-        }
+        },
     )
 }
 
@@ -103,7 +103,7 @@ private fun ConfirmTextFieldPreview() = PreviewTheme(alignment = Alignment.Cente
             modifier = Modifier.width(200.dp),
             text = text,
             errorPlaceholder = "Can't be empty",
-            onValueChange = { text = it }
+            onValueChange = { text = it },
         )
         InfoText(text = "Initial value: $text")
     }

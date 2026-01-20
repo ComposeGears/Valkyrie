@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:compose:compositionlocal-allowlist")
+
 package io.github.composegears.valkyrie.jewel.banner
 
 import androidx.compose.runtime.Composable
@@ -24,10 +26,10 @@ fun rememberBannerManager(): BannerManager {
     val state = LocalGlobalBannerState.current
     val scope = rememberCoroutineScope()
 
-    return remember(state, scope)  {
+    return remember(state, scope) {
         BannerManagerImpl(
             scope = scope,
-            bannerState = state
+            bannerState = state,
         )
     }
 }
