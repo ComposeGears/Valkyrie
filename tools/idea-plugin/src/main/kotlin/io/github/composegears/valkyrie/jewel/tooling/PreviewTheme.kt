@@ -17,7 +17,7 @@ fun PreviewTheme(
     alignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    PreviewWrapper {
+    CompositionLocalProvider(LocalInspectionMode provides true) {
         Box(
             modifier = modifier.fillMaxSize(),
             content = content,
@@ -27,10 +27,16 @@ fun PreviewTheme(
 }
 
 @Composable
-private fun PreviewWrapper(content: @Composable () -> Unit) {
-    CompositionLocalProvider(
-        LocalInspectionMode provides true,
-        LocalGlobalBannerState provides rememberBannerState(),
-        content = content,
-    )
+fun BannerPreviewTheme(
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.TopStart,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    CompositionLocalProvider(LocalGlobalBannerState provides rememberBannerState()) {
+        PreviewTheme(
+            modifier = modifier,
+            alignment = alignment,
+            content = content,
+        )
+    }
 }

@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -14,14 +15,17 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
+import dev.snipme.highlights.model.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.editor.CodeEditor
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
-import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
+import io.github.composegears.valkyrie.jewel.ui.ErrorPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
@@ -36,8 +40,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.Si
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ErrorContent
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.LoadingContent
 import io.github.composegears.valkyrie.util.IR_STUB
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
@@ -86,7 +88,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
             Column(modifier = Modifier.fillMaxSize()) {
                 Toolbar {
                     BackAction(onBack = navController::back)
-                    Title(text = "Simple conversion")
+                    Title(text = stringResource("simple.picker.title"))
                     WeightSpacer()
                     SettingsAction(
                         openSettings = {
@@ -95,7 +97,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                     )
                 }
                 WeightSpacer(weight = 0.3f)
-                ErrorContent(
+                ErrorPlaceholder(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     message = state.message,
                     description = state.stacktrace,
@@ -104,7 +106,12 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
             }
         }
         is SimpleConversionState.Loading -> {
-            LoadingContent()
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                LoadingPlaceholder()
+            }
         }
     }
 }
@@ -139,10 +146,11 @@ private fun SimpleConversionContent(
             )
         },
         codeViewer = { text, onChange ->
-            KotlinCodeViewer(
+            CodeEditor(
                 modifier = Modifier.fillMaxSize(),
+                syntaxLanguage = SyntaxLanguage.KOTLIN,
                 text = text,
-                onChange = onChange,
+                onValueChange = onChange,
             )
         },
     )

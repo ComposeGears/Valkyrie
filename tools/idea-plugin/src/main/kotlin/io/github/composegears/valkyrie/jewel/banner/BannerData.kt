@@ -13,7 +13,7 @@ interface BannerData {
 
 internal class BannerDataImpl(
     private val continuation: CancellableContinuation<Unit>,
-    override val message: BannerMessage
+    override val message: BannerMessage,
 ) : BannerData {
 
     override fun dismiss() {
