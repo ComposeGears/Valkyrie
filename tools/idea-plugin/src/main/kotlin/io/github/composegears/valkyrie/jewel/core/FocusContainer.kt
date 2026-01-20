@@ -53,7 +53,7 @@ fun FocusContainer(
                 interactionSource = interactionSource,
                 indication = null,
             ),
-        content = content
+        content = content,
     )
 }
 
@@ -63,7 +63,7 @@ private fun FocusContainerPreview() = PreviewTheme(alignment = Alignment.Center)
     FocusContainer(onClick = {}) {
         Text(
             text = "Focusable",
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         )
     }
 }

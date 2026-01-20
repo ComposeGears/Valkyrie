@@ -38,7 +38,7 @@ fun EditActionContent(
                 modifier = Modifier.width(200.dp),
                 text = iconName,
                 onValueChange = onNameChange,
-                errorPlaceholder = stringResource("edit.action.textfield.error")
+                errorPlaceholder = stringResource("edit.action.textfield.error"),
             )
         }
     }
