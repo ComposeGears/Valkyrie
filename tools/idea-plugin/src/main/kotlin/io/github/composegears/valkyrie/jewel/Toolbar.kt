@@ -247,7 +247,7 @@ fun PreviewToggleAction(
 ) {
     TooltipToggleButton(
         modifier = modifier,
-        key = AllIconsKeys.Debugger.Watch,
+        key = AllIconsKeys.Actions.Preview,
         contentDescription = stringResource("accessibility.preview"),
         value = selected,
         onValueChange = onPreview,

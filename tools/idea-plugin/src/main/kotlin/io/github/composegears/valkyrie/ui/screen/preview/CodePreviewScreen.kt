@@ -4,13 +4,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
+import dev.snipme.highlights.model.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
-import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
+import io.github.composegears.valkyrie.jewel.editor.CodeEditor
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.util.stringResource
 
 val CodePreviewScreen by navDestination<String> {
     val navController = navController()
@@ -30,10 +35,23 @@ private fun CodePreviewUi(
     Column {
         Toolbar {
             BackAction(onBack = onBack)
+            Title(text = stringResource("code.preview.title"))
         }
-        KotlinCodeViewer(
+        CodeEditor(
             modifier = Modifier.fillMaxSize(),
+            syntaxLanguage = SyntaxLanguage.KOTLIN,
             text = code,
+            readOnly = true,
+            onValueChange = {},
         )
     }
+}
+
+@Preview
+@Composable
+private fun CodePreviewUiPreview() = PreviewTheme {
+    CodePreviewUi(
+        code = "sample code",
+        onBack = {},
+    )
 }

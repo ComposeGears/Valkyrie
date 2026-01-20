@@ -50,7 +50,6 @@ dependencies {
     implementation(projects.compose.icons)
     implementation(projects.compose.ui)
     implementation(projects.compose.util)
-    implementation(projects.sdk.compose.codeviewer)
     implementation(projects.sdk.compose.highlightsCore)
     implementation(projects.sdk.compose.foundation) {
         excludeKotlinStdlib()

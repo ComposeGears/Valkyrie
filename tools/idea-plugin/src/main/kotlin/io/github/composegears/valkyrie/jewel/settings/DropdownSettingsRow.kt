@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -15,30 +16,31 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.DropdownList
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.annotations.Nls
-import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.ui.component.InfoText
-import org.jetbrains.jewel.ui.component.MenuScope
-import org.jetbrains.jewel.ui.component.OutlinedSplitButton
 import org.jetbrains.jewel.ui.component.Text
-import org.jetbrains.jewel.ui.component.Tooltip
-import org.jetbrains.jewel.ui.component.items
-import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
+@OptIn(ExperimentalJewelApi::class)
 @Composable
-fun DropdownSettingsRow(
+fun <T : Any> DropdownSettingsRow(
     @Nls text: String,
-    @Nls buttonText: String,
+    current: T,
+    items: List<T>,
+    onSelectItem: (T) -> Unit,
     modifier: Modifier = Modifier,
+    comboxModifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(start = 4.dp),
+    dropdownHorizontalPadding: Dp = 0.dp,
+    transform: (T) -> String = { it.toString() },
     infoText: String? = null,
-    menuContent: MenuScope.() -> Unit,
 ) {
     val density = LocalDensity.current
 
@@ -52,20 +54,19 @@ fun DropdownSettingsRow(
             },
         ) {
             CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(text = "$text:")
-
-                OutlinedSplitButton(
-                    modifier = Modifier.onGloballyPositioned { coordinates ->
-                        val splitButtonXInRoot = coordinates.positionInRoot().x
-                        val xInThisColumn = splitButtonXInRoot - offsetInRoot.x
-                        offset = with(density) { xInThisColumn.toDp() }
-                    },
-                    onClick = {},
-                    secondaryOnClick = {},
-                    content = {
-                        Text(text = buttonText)
-                    },
-                    menuContent = menuContent,
+                Text(text = text)
+                Spacer(dropdownHorizontalPadding)
+                DropdownList(
+                    modifier = comboxModifier
+                        .onGloballyPositioned { coordinates ->
+                            val splitButtonXInRoot = coordinates.positionInRoot().x
+                            val xInThisColumn = splitButtonXInRoot - offsetInRoot.x
+                            offset = with(density) { xInThisColumn.toDp() }
+                        },
+                    items = items,
+                    selected = current,
+                    onSelectItem = onSelectItem,
+                    transform = transform,
                 )
             }
 
@@ -87,30 +88,11 @@ private fun DropdownSettingsRowPreview() = PreviewTheme(alignment = Alignment.Ce
     var currentOption by rememberMutableState { "Op 1" }
 
     DropdownSettingsRow(
-        text = "Option name",
-        buttonText = currentOption,
+        text = "Option name:",
+        current = currentOption,
+        onSelectItem = { currentOption = it },
+        comboxModifier = Modifier.width(140.dp),
+        items = listOf("Op 1", "Option Option 2", "Option 3"),
         infoText = "Description for the setting goes here",
-        menuContent = {
-            items(
-                items = listOf("Op 1", "Option Option 2", "Option 3"),
-                isSelected = { currentOption == it },
-                onItemClick = { currentOption = it },
-                content = {
-                    CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Text(modifier = Modifier.weight(1f), text = it)
-                        Tooltip(
-                            tooltip = {
-                                Text(text = "kek")
-                            },
-                        ) {
-                            Icon(
-                                key = AllIconsKeys.General.ContextHelp,
-                                contentDescription = stringResource("accessibility.help"),
-                            )
-                        }
-                    }
-                },
-            )
-        },
     )
 }

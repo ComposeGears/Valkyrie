@@ -2,12 +2,14 @@ package io.github.composegears.valkyrie.ui.screen.settings.tabs.generator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
@@ -38,9 +40,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.PreviewAnnotationSection
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
-import org.jetbrains.jewel.ui.component.items
 
 val GeneratorSettingsScreen by navDestination {
     val viewModel = viewModel<SettingsViewModel>(viewModelStoreOwner = navController())
@@ -70,18 +70,11 @@ private fun GeneratorSettingsUi(
                 )
                 DropdownSettingsRow(
                     text = stringResource("settings.generator.indent"),
-                    buttonText = generatorSettings.indentSize.toString(),
+                    items = List(10) { it + 1 },
+                    onSelectItem = { onAction(UpdateIndentSize(it)) },
+                    current = generatorSettings.indentSize,
                     infoText = stringResource("settings.generator.indent.description"),
-                    menuContent = {
-                        items(
-                            items = List(10) { it + 1 },
-                            isSelected = { generatorSettings.indentSize == it },
-                            onItemClick = { onAction(UpdateIndentSize(it)) },
-                            content = {
-                                Text(text = it.toString())
-                            },
-                        )
-                    },
+                    comboxModifier = Modifier.width(80.dp),
                 )
             }
             GroupSpacing()

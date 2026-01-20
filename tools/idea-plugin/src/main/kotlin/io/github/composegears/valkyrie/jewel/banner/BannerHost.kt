@@ -23,7 +23,7 @@ import com.intellij.codeInsight.template.emmet.generators.LoremGenerator
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.BannerPreviewTheme
 import kotlin.random.Random
 import kotlinx.coroutines.delay
 import org.jetbrains.jewel.ui.component.DefaultButton
@@ -55,15 +55,15 @@ fun BannerHost(
         transitionSpec = {
             if (initialState != targetState) {
                 (slideInVertically { height -> height } + fadeIn()) togetherWith
-                        slideOutVertically { height -> height } + fadeOut()
+                    slideOutVertically { height -> height } + fadeOut()
             } else {
                 slideInVertically { height -> -height } + fadeIn() togetherWith
-                        slideOutVertically { height -> -height } + fadeOut()
+                    slideOutVertically { height -> -height } + fadeOut()
             }.using(
-                SizeTransform(clip = false)
+                SizeTransform(clip = false),
             )
         },
-        label = "animation"
+        label = "animation",
     ) { data ->
         when (data) {
             null -> Spacer(modifier = Modifier.fillMaxWidth())
@@ -93,21 +93,21 @@ private fun lorem() = LoremGenerator().generate(Random.nextInt(3, 25), true)
 
 @Preview
 @Composable
-private fun BannerPreview() = PreviewTheme {
-    val bannerManager = rememberBannerManager()
-
+private fun BannerPreview() = BannerPreviewTheme {
     Column(
         modifier = Modifier.align(Alignment.Center),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        val bannerManager = rememberBannerManager()
+
         DefaultButton(
             onClick = {
                 bannerManager.show(message = InfoBanner(text = lorem()))
             },
             content = {
                 Text(text = "Success banner")
-            }
+            },
         )
         DefaultButton(
             onClick = {
@@ -115,7 +115,7 @@ private fun BannerPreview() = PreviewTheme {
             },
             content = {
                 Text(text = "Warning banner")
-            }
+            },
         )
         DefaultButton(
             onClick = {
@@ -123,11 +123,11 @@ private fun BannerPreview() = PreviewTheme {
             },
             content = {
                 Text(text = "Error banner")
-            }
+            },
         )
     }
     BannerHost(
         modifier = Modifier.align(Alignment.BottomCenter),
-        state = LocalGlobalBannerState.current
+        state = LocalGlobalBannerState.current,
     )
 }
