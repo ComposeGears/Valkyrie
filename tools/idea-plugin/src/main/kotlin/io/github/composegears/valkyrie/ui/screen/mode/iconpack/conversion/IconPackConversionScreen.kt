@@ -44,12 +44,13 @@ import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.rememberMultiSelectDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
@@ -61,6 +62,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.bat
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.picker.IconPackPickerStateUi
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.flow.launchIn
@@ -76,7 +78,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
             paths = pendingData?.paths.orEmpty(),
         )
     }
-    val snackbar = rememberSnackbar()
+    val bannerManager = rememberBannerManager()
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
 
@@ -97,7 +99,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
                         }
                     }
                     is ConversionEvent.NothingToImport -> {
-                        snackbar.show("Nothing to import")
+                        bannerManager.show(message = WarningBanner(text = message("iconpack.conversion.nothing.import")))
                     }
                 }
             }.launchIn(this)

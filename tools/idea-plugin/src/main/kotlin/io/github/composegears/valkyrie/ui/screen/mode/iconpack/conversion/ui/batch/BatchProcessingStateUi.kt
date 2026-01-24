@@ -36,6 +36,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
+import io.github.composegears.valkyrie.jewel.CloseAction
+import io.github.composegears.valkyrie.jewel.NotificationToggleAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.parser.unified.model.IconType
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.ExpandedAnimatedContent
@@ -46,13 +51,8 @@ import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.ClipboardText
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.CloseAction
 import io.github.composegears.valkyrie.ui.foundation.FocusableTextField
 import io.github.composegears.valkyrie.ui.foundation.IconButton
-import io.github.composegears.valkyrie.ui.foundation.NotificationAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.icons.ArrowDropDown
 import io.github.composegears.valkyrie.ui.foundation.icons.Delete
 import io.github.composegears.valkyrie.ui.foundation.icons.MoreVert
@@ -104,18 +104,15 @@ fun BatchProcessingStateUi(
             }
         },
     ) {
-        TopAppBar {
+        Toolbar {
             CloseAction(onClose = onClose)
-            AppBarTitle(title = "IconPack generation")
+            Title(text = "IconPack generation")
             WeightSpacer()
             if (state.importIssues.isNotEmpty()) {
-                NotificationAction(
+                NotificationToggleAction(
                     selected = currentAction is BatchAction.ImportIssues,
-                    onNotification = {
-                        currentAction = when (currentAction) {
-                            is BatchAction.ImportIssues -> BatchAction.None
-                            else -> BatchAction.ImportIssues(state.importIssues)
-                        }
+                    onNotification = { selected ->
+                        currentAction = if (selected) BatchAction.ImportIssues(state.importIssues) else BatchAction.None
                     },
                 )
             }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.intellij.ide.BrowserUtil
 
+@Deprecated("use jewel api")
 @Composable
 fun rememberBrowser(): Browser {
     if (LocalInspectionMode.current) return NoOpBrowser

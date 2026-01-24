@@ -1,162 +1,25 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
-import io.github.composegears.valkyrie.compose.util.dim
-import io.github.composegears.valkyrie.sdk.compose.foundation.animatedBorder
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.shimmer
-import io.github.composegears.valkyrie.sdk.compose.foundation.applyIf
-import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-
-/**
- * Shared loading content for web import screens
- */
-@Composable
-fun LoadingContent(
-    modifier: Modifier = Modifier,
-    message: String = "Loading icons...",
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            CircularProgressIndicator()
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
-    }
-}
-
-/**
- * Shared error content for web import screens
- */
-@Composable
-fun ErrorContent(
-    message: String,
-    modifier: Modifier = Modifier,
-    description: String? = null,
-) {
-    Column(
-        modifier = modifier.padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = message,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 1,
-        )
-        if (description != null) {
-            Spacer(16.dp)
-
-            val primaryColor = MaterialTheme.colorScheme.primary
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceVariant.dim(),
-                        shape = RoundedCornerShape(
-                            topStart = 0.dp,
-                            topEnd = 4.dp,
-                            bottomEnd = 4.dp,
-                            bottomStart = 0.dp,
-                        ),
-                    )
-                    .drawBehind {
-                        drawLine(
-                            color = primaryColor,
-                            start = Offset(0f, 2f),
-                            end = Offset(0f, size.height - 2),
-                            strokeWidth = 2.dp.toPx(),
-                            cap = StrokeCap.Round,
-                        )
-                    }
-                    .padding(horizontal = 4.dp),
-            ) {
-                Text(
-                    modifier = Modifier.padding(4.dp),
-                    text = description,
-                    style = MaterialTheme.typography.labelSmall.copy(fontFamily = FontFamily.Monospace),
-                    maxLines = 5,
-                )
-            }
-        }
-    }
-}
-
-/**
- * Shared empty state content for web import screens
- */
-@Composable
-fun EmptyContent(
-    modifier: Modifier = Modifier,
-    message: String = "No icons found",
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = message,
-            style = MaterialTheme.typography.titleSmall,
-        )
-    }
-}
-
-/**
- * Shared category header for web import screens
- */
-@Composable
-fun CategoryHeader(
-    title: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        modifier = modifier
-            .padding(vertical = 8.dp)
-            .padding(start = 4.dp),
-        text = title,
-        style = MaterialTheme.typography.titleMedium,
-    )
-}
+import org.jetbrains.jewel.ui.component.VerticalScrollbar
 
 /**
  * Shared icon grid for web import screens.
@@ -182,72 +45,12 @@ fun IconGrid(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             content = content,
         )
-        VerticalScrollbar(adapter = rememberScrollbarAdapter(state))
-    }
-}
-
-/**
- * Shared icon card wrapper for web import screens.
- * Provides consistent card styling, selection state, and text display.
- *
- * @param name The name of the icon to display
- * @param selected Whether this icon is currently selected
- * @param onClick Callback when the card is clicked
- * @param modifier Modifier to be applied to the card
- * @param iconContent The icon content to display in the center
- */
-@Composable
-fun IconCard(
-    name: String,
-    selected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    iconContent: @Composable () -> Unit,
-) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center,
-    ) {
-        Card(
-            modifier = Modifier
-                .width(100.dp)
-                .applyIf(selected) {
-                    animatedBorder(
-                        borderColors = listOf(
-                            Color.Transparent,
-                            MaterialTheme.colorScheme.primary,
-                        ),
-                        shape = CardDefaults.shape,
-                    )
-                },
-            onClick = onClick,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-            ),
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .padding(8.dp),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .aspectRatio(1f)
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    iconContent()
-                }
-                Text(
-                    modifier = Modifier.basicMarquee(),
-                    text = name,
-                    style = MaterialTheme.typography.bodySmall,
-                    maxLines = 1,
-                )
-            }
-        }
+        VerticalScrollbar(
+            scrollState = state,
+            modifier = Modifier.fillMaxHeight()
+                .align(Alignment.CenterEnd)
+                .padding(end = 4.dp, top = 8.dp, bottom = 4.dp),
+        )
     }
 }
 

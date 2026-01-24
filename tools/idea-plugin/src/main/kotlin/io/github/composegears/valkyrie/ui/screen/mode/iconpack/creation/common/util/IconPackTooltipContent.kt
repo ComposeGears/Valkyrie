@@ -4,8 +4,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.compose.util.isLight
-import io.github.composegears.valkyrie.sdk.compose.codeviewer.rememberCodeHighlight
 import io.github.composegears.valkyrie.sdk.compose.highlights.core.getEmphasisLocations
+import io.github.composegears.valkyrie.sdk.compose.highlights.core.rememberCodeHighlight
 
 @Composable
 fun buildPackPackageHighlight(

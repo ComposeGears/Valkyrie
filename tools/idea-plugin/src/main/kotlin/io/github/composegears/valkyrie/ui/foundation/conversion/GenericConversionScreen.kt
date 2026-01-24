@@ -8,18 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.CopyAction
+import io.github.composegears.valkyrie.jewel.EditToggleAction
+import io.github.composegears.valkyrie.jewel.PreviewToggleAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.ExpandedAnimatedContent
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.CopyAction
-import io.github.composegears.valkyrie.ui.foundation.EditAction
 import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.PreviewAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 
 /**
  * Represents the expanded action panels in conversion screens.
@@ -68,25 +68,19 @@ fun GenericConversionScreen(
     var expandedAction by rememberMutableState { ConversionExpandedAction.None }
 
     Column(modifier = modifier.fillMaxSize()) {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
-            AppBarTitle(title = title)
+            Title(text = title)
             WeightSpacer()
-            EditAction(
-                onEdit = {
-                    expandedAction = when (expandedAction) {
-                        ConversionExpandedAction.Edit -> ConversionExpandedAction.None
-                        else -> ConversionExpandedAction.Edit
-                    }
+            EditToggleAction(
+                onEdit = { selected ->
+                    expandedAction = if (selected) ConversionExpandedAction.Edit else ConversionExpandedAction.None
                 },
                 selected = expandedAction == ConversionExpandedAction.Edit,
             )
-            PreviewAction(
-                onPreview = {
-                    expandedAction = when (expandedAction) {
-                        ConversionExpandedAction.Preview -> ConversionExpandedAction.None
-                        else -> ConversionExpandedAction.Preview
-                    }
+            PreviewToggleAction(
+                onPreview = { selected ->
+                    expandedAction = if (selected) ConversionExpandedAction.Preview else ConversionExpandedAction.None
                 },
                 selected = expandedAction == ConversionExpandedAction.Preview,
             )

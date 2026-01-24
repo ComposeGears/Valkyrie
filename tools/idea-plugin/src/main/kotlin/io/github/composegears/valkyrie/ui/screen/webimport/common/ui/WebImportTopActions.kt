@@ -1,38 +1,41 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common.ui
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.outlined.Search
-import io.github.composegears.valkyrie.compose.icons.outlined.Tune
-import io.github.composegears.valkyrie.compose.util.subtle
+import io.github.composegears.valkyrie.jewel.button.OutlineIconButton
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
-import io.github.composegears.valkyrie.ui.foundation.IconButtonSmall
-import io.github.composegears.valkyrie.ui.foundation.icons.Close
+import io.github.composegears.valkyrie.util.stringResource
+import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.IconButton
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.TextField
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.theme.textFieldStyle
 
 /**
  * Generic top actions bar for web import screens.
@@ -52,21 +55,12 @@ fun WebImportTopActions(
 ) {
     val onSearchQueryChangeRemembered by rememberUpdatedState(onSearchQueryChange)
 
-    var searchQuery by rememberSaveable { mutableStateOf("") }
-
     val actions = remember {
         movableContentOf {
-            IconButtonSmall(
-                modifier = Modifier
-                    .size(32.dp)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface.subtle(),
-                        shape = CircleShape,
-                    ),
-                imageVector = ValkyrieIcons.Outlined.Tune,
+            OutlineIconButton(
+                key = AllIconsKeys.Actions.Properties,
+                contentDescription = stringResource("accessibility.properties"),
                 onClick = onToggleCustomization,
-                iconSize = 18.dp,
             )
             actionsContent()
         }
@@ -74,25 +68,43 @@ fun WebImportTopActions(
 
     val searchInput = remember {
         movableContentOf { modifier: Modifier ->
-            SearchInputField(
-                modifier = modifier,
-                value = searchQuery,
-                onValueChange = {
-                    searchQuery = it
+            val state = rememberTextFieldState("")
+
+            LaunchedEffect(state) {
+                snapshotFlow {
+                    state.text.toString()
+                }.collectLatest {
                     onSearchQueryChangeRemembered(it)
+                }
+            }
+            TextField(
+                modifier = modifier,
+                state = state,
+                placeholder = {
+                    Text(text = stringResource("web.import.search.placeholder"))
                 },
-                label = "Search icons",
                 leadingIcon = {
                     Icon(
-                        imageVector = ValkyrieIcons.Outlined.Search,
-                        contentDescription = null,
+                        modifier = Modifier.padding(end = 4.dp),
+                        key = AllIconsKeys.Actions.Find,
+                        contentDescription = stringResource("accessibility.search"),
                     )
                 },
-                trailingIcon = {
-                    Icon(
-                        imageVector = ValkyrieIcons.Close,
-                        contentDescription = null,
-                    )
+                trailingIcon = if (state.text.isNotEmpty()) {
+                    {
+                        IconButton(
+                            onClick = { state.setTextAndPlaceCursorAtEnd("") },
+                            style = JewelTheme.textFieldStyle.iconButtonStyle,
+                        ) { state ->
+                            Icon(
+                                key = AllIconsKeys.General.Close,
+                                contentDescription = stringResource("accessibility.clear"),
+                                hint = Stateful(state),
+                            )
+                        }
+                    }
+                } else {
+                    null
                 },
             )
         }
@@ -128,4 +140,16 @@ fun WebImportTopActions(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun WebImportTopActionsPreview() = PreviewTheme {
+    WebImportTopActions(
+        onToggleCustomization = {},
+        onSearchQueryChange = {},
+        actionsContent = {
+            Text(text = "Content")
+        },
+    )
 }

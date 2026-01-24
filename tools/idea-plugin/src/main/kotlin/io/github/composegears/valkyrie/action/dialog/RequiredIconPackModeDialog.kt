@@ -20,9 +20,9 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerti
 import io.github.composegears.valkyrie.ui.foundation.icons.Warning
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
-import io.github.composegears.valkyrie.ui.platform.buildComposePanel
 import java.awt.event.ActionEvent
 import javax.swing.Action
+import org.jetbrains.jewel.bridge.compose
 
 class RequiredIconPackModeDialog(
     private val message: String,
@@ -36,7 +36,7 @@ class RequiredIconPackModeDialog(
         init()
     }
 
-    override fun createCenterPanel() = buildComposePanel {
+    override fun createCenterPanel() = compose(focusOnClickInside = true) {
         ValkyrieTheme {
             DialogContentUi(
                 modifier = Modifier.fillMaxSize(),

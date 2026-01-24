@@ -13,9 +13,13 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
+import dev.snipme.highlights.model.SyntaxLanguage
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.editor.CodeEditor
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorSource
@@ -23,11 +27,11 @@ import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversio
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlState
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.XmlContent
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.XmlCodeViewer
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.EditActionContent
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.util.IR_STUB
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,7 +39,8 @@ import kotlinx.coroutines.flow.onEach
 val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
     val navController = navController()
     val params = navArgs()
-    val snackbar = rememberSnackbar()
+    val bannerManager = rememberBannerManager()
+
     val project = LocalProject.current
 
     val viewModel = saveableViewModel {
@@ -49,7 +54,9 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
 
     LaunchedEffect(Unit) {
         viewModel.events
-            .onEach(snackbar::show)
+            .onEach {
+                bannerManager.show(message = ErrorBanner(text = it))
+            }
             .launchIn(this)
     }
 
@@ -64,7 +71,7 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
                 when (action) {
                     is ImageVectorToXmlAction.OnCopyInClipboard -> {
                         copyInClipboard(action.text)
-                        snackbar.show(message = "Copied to clipboard")
+                        bannerManager.show(message = InfoBanner(text = message("imagevector.xml.copy.text")))
                     }
                     is ImageVectorToXmlAction.OnIconNameChange -> {
                         viewModel.changeIconName(action.name)
@@ -103,10 +110,11 @@ private fun ImageVectorToXmlContent(
             )
         },
         codeViewer = { text, onChange ->
-            XmlCodeViewer(
+            CodeEditor(
                 modifier = Modifier.fillMaxSize(),
+                syntaxLanguage = SyntaxLanguage.KOTLIN,
                 text = text,
-                onChange = onChange,
+                onValueChange = onChange,
             )
         },
     )

@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.ui.foundation.highlights
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.TooltipArea
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -14,7 +13,6 @@ import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.filled.Help
 import io.github.composegears.valkyrie.compose.util.disabled
-import io.github.composegears.valkyrie.sdk.compose.codeviewer.CodeViewer
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -34,10 +32,10 @@ fun CodeViewerTooltip(
                 contentColor = MaterialTheme.colorScheme.onSurface,
             ) {
                 if (enabled) {
-                    CodeViewer(
-                        modifier = Modifier.padding(8.dp),
-                        highlights = highlights,
-                    )
+                    // CodeViewer(
+                    //     modifier = Modifier.padding(8.dp),
+                    //     highlights = highlights,
+                    // )
                 }
             }
         },

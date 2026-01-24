@@ -10,7 +10,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalInspectionMode
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
-import io.github.composegears.valkyrie.ui.foundation.theme.LocalComponent
 import io.github.composegears.valkyrie.ui.platform.DragAndDropHandlerState.Companion.dragging
 import io.github.composegears.valkyrie.ui.platform.DragAndDropHandlerState.Companion.notDragging
 import java.awt.dnd.DnDConstants
@@ -22,6 +21,7 @@ import java.awt.dnd.DropTargetListener
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
+import org.jetbrains.jewel.foundation.LocalComponent
 
 @Composable
 fun rememberDragAndDropFolderHandler(onDrop: (Path) -> Unit): DragAndDropHandlerState {
