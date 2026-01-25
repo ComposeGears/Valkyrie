@@ -4,10 +4,10 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.ui.MessageDialogBuilder
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.wm.ToolWindowManager
 import io.github.composegears.valkyrie.ValkyrieToolWindow
-import io.github.composegears.valkyrie.action.dialog.RequiredIconPackModeDialog
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
@@ -36,13 +36,17 @@ class ImportFromDirectoryOrFileAction : AnAction() {
         val eventsHandler = project.globalEventsHandler
 
         if (settings.isIconPackRequired) {
-            RequiredIconPackModeDialog(
-                message = "This action requires an IconPack mode to be setup",
-                onContinue = {
-                    toolWindow.show()
-                    eventsHandler.send(SetupIconPackMode(pathData = PendingPathData(paths)))
-                },
-            ).showAndGet()
+            val yesCancel = MessageDialogBuilder.okCancel(
+                title = "",
+                message = "This action requires an IconPack mode to be setup"
+            ).asWarning()
+                .yesText("Continue")
+                .ask(event.project)
+
+            if (yesCancel) {
+                toolWindow.show()
+                eventsHandler.send(SetupIconPackMode(pathData = PendingPathData(paths)))
+            }
         } else {
             toolWindow.show()
             eventsHandler.send(ImportIcons(pathData = PendingPathData(paths)))

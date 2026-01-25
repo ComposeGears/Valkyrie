@@ -21,7 +21,7 @@ import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.ui.InfoCard
-import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.compose.ui.dim
 import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer

@@ -15,9 +15,7 @@ import androidx.compose.ui.Modifier
 fun <S> ExpandedAnimatedContent(
     targetState: S,
     modifier: Modifier = Modifier,
-    content:
-    @Composable()
-    AnimatedContentScope.(targetState: S) -> Unit,
+    content: @Composable AnimatedContentScope.(targetState: S) -> Unit,
 ) {
     AnimatedContent(
         modifier = modifier,

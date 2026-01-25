@@ -9,10 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 
@@ -25,6 +25,11 @@ val JewelTheme.Companion.primaryColor: Color
     @Composable
     @ReadOnlyComposable
     get() = JewelTheme.globalColors.outlines.focused
+
+val JewelTheme.Companion.errorFocused: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = JewelTheme.globalColors.outlines.focusedError
 
 @Preview
 @Composable

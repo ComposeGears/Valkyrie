@@ -1,31 +1,33 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.Button
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.filled.Help
-import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.TooltipIcon
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.toMessageText
+import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.DefaultButton
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.Tooltip
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.typography
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImportIssuesUI(
     importIssues: Map<ValidationError, List<IconName>>,
@@ -41,34 +43,40 @@ fun ImportIssuesUI(
         ) {
             Text(
                 modifier = Modifier.padding(start = 4.dp, bottom = 4.dp),
-                text = "Import issues:",
-                style = MaterialTheme.typography.labelSmall,
-                color = LocalContentColor.current.disabled(),
+                text = stringResource("iconpack.conversion.import.issues.title"),
+                style = JewelTheme.typography.h4TextStyle,
             )
             SelectionContainer {
                 Text(
+                    modifier = Modifier.padding(start = 16.dp),
                     text = importIssues.toMessageText(),
-                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
             Spacer(16.dp)
-            Row(
+            CenterVerticalRow(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
             ) {
-                Button(onClick = onResolveIssues) {
-                    Text(text = "Auto resolve issues")
+                DefaultButton(onClick = onResolveIssues) {
+                    Text(text = stringResource("iconpack.conversion.import.issues.auto.resolve"))
                 }
-                TooltipIcon(
-                    hint = """
-                        • Replace empty icon name with default "IconName"
-                        • Remove spaces from icon name
-                        • Remove broken icons from the conversion list
-                        • Add incremental number suffix for duplicates
-                    """.trimIndent(),
-                    icon = ValkyrieIcons.Filled.Help,
-                )
+                Tooltip(
+                    tooltip = {
+                        Text(
+                            text = """
+                                • Replace empty icon name with default "IconName"
+                                • Remove spaces from icon name
+                                • Remove broken icons from the conversion list
+                                • Add incremental number suffix for duplicates
+                            """.trimIndent(),
+                        )
+                    },
+                ) {
+                    Icon(
+                        key = AllIconsKeys.General.ContextHelp,
+                        contentDescription = stringResource("accessibility.help"),
+                    )
+                }
             }
         }
         HorizontalDivider()
@@ -77,7 +85,7 @@ fun ImportIssuesUI(
 
 @Preview
 @Composable
-private fun ImportIssuesUIPreview() = PreviewTheme(alignment = Alignment.TopStart) {
+private fun ImportIssuesUIPreview() = PreviewTheme {
     ImportIssuesUI(
         importIssues = mapOf(
             ValidationError.IconNameEmpty to listOf(IconName("")),

@@ -10,17 +10,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.outlined.BatchProcessing
 import io.github.composegears.valkyrie.jewel.core.FocusContainer
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.InfoText
 import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.typography
 
 @Composable
@@ -31,6 +33,8 @@ fun InfoCard(
     modifier: Modifier = Modifier,
     image: ImageVector? = null,
     icon: ImageVector? = null,
+    key: IconKey? = null,
+    iconSize: Dp = 36.dp,
 ) {
     FocusContainer(modifier = modifier, onClick = onClick) {
         Column {
@@ -42,7 +46,7 @@ fun InfoCard(
                     Icon(
                         modifier = Modifier
                             .align(Alignment.Top)
-                            .size(36.dp),
+                            .size(iconSize),
                         imageVector = it,
                         contentDescription = null,
                         tint = JewelTheme.contentColor,
@@ -52,8 +56,17 @@ fun InfoCard(
                     Image(
                         modifier = Modifier
                             .align(Alignment.Top)
-                            .size(36.dp),
+                            .size(iconSize),
                         imageVector = it,
+                        contentDescription = null,
+                    )
+                }
+                key?.let {
+                    Icon(
+                        modifier = Modifier
+                            .align(Alignment.Top)
+                            .size(iconSize),
+                        key = it,
                         contentDescription = null,
                     )
                 }
@@ -81,8 +94,8 @@ fun InfoCard(
 private fun InfoCardPreview() = PreviewTheme(alignment = Alignment.Center) {
     InfoCard(
         onClick = {},
-        icon = ValkyrieIcons.BatchProcessing,
+        icon = ValkyrieIcons.Outlined.BatchProcessing,
         title = "Title",
-        description = "Long description",
+        description = "Long description\nwith multiple lines",
     )
 }

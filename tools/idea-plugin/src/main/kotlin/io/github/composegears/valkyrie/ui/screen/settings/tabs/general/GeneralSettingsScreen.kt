@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.editNavStack
@@ -19,6 +18,7 @@ import com.composegears.tiamat.compose.navigationFadeInOut
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
 import com.intellij.openapi.ui.MessageDialogBuilder
+import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
 import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
@@ -30,12 +30,12 @@ import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
-import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.GeneralSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.LocalComponent
 import org.jetbrains.jewel.ui.component.Icon
@@ -107,12 +107,12 @@ private fun GeneralSettingsUi(
                     },
                 )
 
-                val currentProject = rememberCurrentProject()
+                val projectAccessor = rememberProjectAccessor()
                 InfoSettingsRow(
                     text = stringResource("settings.general.destination"),
                     infoText = when {
                         generalSettings.iconPackDestination.isEmpty() -> stringResource("settings.general.destination.unspecified")
-                        else -> "~${generalSettings.iconPackDestination.replace(currentProject.path.orEmpty(), "")}"
+                        else -> "~${generalSettings.iconPackDestination.replace(projectAccessor.path.orEmpty(), "")}"
                     },
                 )
                 InfoSettingsRow(

@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.intellij.codeInsight.template.emmet.generators.LoremGenerator
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
@@ -26,6 +25,7 @@ import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
 import io.github.composegears.valkyrie.jewel.tooling.BannerPreviewTheme
 import kotlin.random.Random
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.InlineErrorBanner
 import org.jetbrains.jewel.ui.component.InlineSuccessBanner

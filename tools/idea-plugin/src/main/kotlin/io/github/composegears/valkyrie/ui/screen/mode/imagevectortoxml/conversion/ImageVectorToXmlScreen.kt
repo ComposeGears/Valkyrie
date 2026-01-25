@@ -6,7 +6,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
@@ -18,23 +17,25 @@ import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.editor.CodeEditor
-import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
+import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorSource
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlAction
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlState
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.XmlContent
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.EditActionContent
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.PreviewActionContent
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.util.IR_STUB
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
     val navController = navController()
@@ -45,7 +46,7 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
 
     val viewModel = saveableViewModel {
         ImageVectorToXmlViewModel(
-            project = project.current,
+            project = project,
             savedState = it,
             params = params,
         )
@@ -107,6 +108,7 @@ private fun ImageVectorToXmlContent(
         previewPanel = { irImageVector ->
             PreviewActionContent(
                 irImageVector = irImageVector,
+                previewType = PreviewType.Pixel
             )
         },
         codeViewer = { text, onChange ->

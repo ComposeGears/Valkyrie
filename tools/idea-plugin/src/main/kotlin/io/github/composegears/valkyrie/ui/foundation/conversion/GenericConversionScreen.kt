@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.CopyAction
 import io.github.composegears.valkyrie.jewel.EditToggleAction
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.PreviewToggleAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
@@ -19,7 +20,6 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Expanded
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
-import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
 
 /**
  * Represents the expanded action panels in conversion screens.

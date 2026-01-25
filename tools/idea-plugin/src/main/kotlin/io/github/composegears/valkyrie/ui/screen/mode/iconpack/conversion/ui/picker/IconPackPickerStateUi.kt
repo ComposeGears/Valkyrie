@@ -1,16 +1,18 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.picker
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.common.picker.UniversalPicker
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun IconPackPickerStateUi(
@@ -25,7 +27,7 @@ fun IconPackPickerStateUi(
         headerSection = {
             Toolbar {
                 BackAction(onBack = onBack)
-                Title(text = "IconPack generation")
+                Title(text = stringResource("iconpack.conversion.picker.title"))
                 WeightSpacer()
                 SettingsAction(openSettings = openSettings)
             }
@@ -35,7 +37,7 @@ fun IconPackPickerStateUi(
 
 @Preview
 @Composable
-private fun IconPackPickerPreview() = PreviewTheme {
+private fun IconPackPickerPreview() = PreviewTheme(alignment = Alignment.Center) {
     IconPackPickerStateUi(
         onPickerEvent = {},
         onBack = {},

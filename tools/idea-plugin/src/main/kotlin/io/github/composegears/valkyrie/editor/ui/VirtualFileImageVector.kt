@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import com.composegears.leviathan.compose.inject
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.vfs.VirtualFile
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.foundation.components.previewer.ImageVectorPreviewPanel
-import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
+import io.github.composegears.valkyrie.ui.foundation.previewer.ImageVectorPreviewPanel
 import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import org.jetbrains.kotlin.psi.KtFile
 
@@ -35,7 +35,7 @@ fun VirtualFileImageVector(
 
     val ktFile by produceState<KtFile?>(null) {
         value = readAction {
-            file.resolveKtFile(project.current)
+            file.resolveKtFile(project)
         }
     }
 

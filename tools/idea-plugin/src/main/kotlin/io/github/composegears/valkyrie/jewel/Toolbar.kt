@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.button.TooltipHintToggleButton
 import io.github.composegears.valkyrie.jewel.button.TooltipIconButton
@@ -27,6 +26,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerti
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
@@ -220,6 +220,20 @@ fun FitContentAction(
         contentDescription = stringResource("accessibility.fit.content"),
         onClick = onClick,
         tooltipText = stringResource("component.toolbar.fit.content.tooltip"),
+    )
+}
+
+@Composable
+fun PreviewAction(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    TooltipIconButton(
+        modifier = modifier,
+        key = AllIconsKeys.Actions.Preview,
+        contentDescription = stringResource("accessibility.preview"),
+        onClick = onClick,
+        tooltipText = stringResource("component.toolbar.preview.tooltip"),
     )
 }
 

@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
@@ -23,6 +22,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewType
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.preview.ui.PreviewBgSection
 import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val ImageVectorPreviewSettingsScreen by navDestination {

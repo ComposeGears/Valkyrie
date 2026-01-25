@@ -1,40 +1,50 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgsOrNull
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.replace
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.PreviewAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.foundation.ChooseExistingPackFile
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.foundation.ExistingPackEditor
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.ChooseExistingPackFile
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.ExistingPackEditor
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.PreviewPackObject
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ChooserState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ExistingPackEditState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.viewmodel.ExistingPackViewModel
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
+import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val ExistingPackScreen by navDestination<PendingPathData> {
     val navController = navController()
@@ -48,13 +58,13 @@ val ExistingPackScreen by navDestination<PendingPathData> {
             .onEach {
                 when (it) {
                     is ExistingPackEvent.OnSettingsUpdated -> {
-                        navController.parent?.replace(
+                        navController.replace(
                             dest = IconPackConversionScreen,
                             navArgs = pendingData,
                         )
                     }
                     is ExistingPackEvent.PreviewIconPackObject -> {
-                        navController.parent?.navigate(
+                        navController.navigate(
                             dest = CodePreviewScreen,
                             navArgs = it.code,
                         )
@@ -66,6 +76,7 @@ val ExistingPackScreen by navDestination<PendingPathData> {
 
     ExistingPackUi(
         state = state,
+        onBack = navController::back,
         onAction = viewModel::onAction,
         onValueChange = viewModel::onValueChange,
     )
@@ -74,33 +85,35 @@ val ExistingPackScreen by navDestination<PendingPathData> {
 @Composable
 private fun ExistingPackUi(
     state: ExistingPackModeState,
+    onBack: () -> Unit,
     onAction: (ExistingPackAction) -> Unit,
     onValueChange: (InputChange) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
-    AnimatedContent(
-        modifier = modifier.fillMaxSize(),
-        targetState = state,
-        contentKey = {
-            when (it) {
-                is ChooserState -> 0
-                is ExistingPackEditState -> 1
+    Column {
+        Toolbar {
+            BackAction(onBack = onBack)
+            Title(stringResource("iconpack.existing.pack.title"))
+            WeightSpacer()
+            WeightSpacer()
+            if (state is ExistingPackEditState && state.nextAvailable) {
+                PreviewAction(onClick = { onAction(PreviewPackObject) })
             }
-        },
-        transitionSpec = {
-            fadeIn(tween(220, delayMillis = 90)) togetherWith fadeOut(tween(90))
-        },
-    ) { current ->
-        when (current) {
-            is ChooserState -> {
-                ChooseExistingPackFile(onAction = onAction)
-            }
-            is ExistingPackEditState -> {
-                ExistingPackEditor(
-                    state = current,
-                    onAction = onAction,
-                    onValueChange = onValueChange,
-                )
+        }
+        VerticallyScrollableContainer {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                when (state) {
+                    is ChooserState -> ChooseExistingPackFile(onAction = onAction)
+                    is ExistingPackEditState -> ExistingPackEditor(
+                        state = state,
+                        onAction = onAction,
+                        onValueChange = onValueChange,
+                    )
+                }
             }
         }
     }
@@ -109,10 +122,20 @@ private fun ExistingPackUi(
 @Preview
 @Composable
 private fun ExistingPackFlowPreview() = PreviewTheme {
+    var state by rememberMutableState<ExistingPackModeState> { ChooserState }
+
     ExistingPackUi(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        state = ChooserState,
+        state = state,
+        onBack = {},
         onAction = {},
         onValueChange = {},
+    )
+
+    PreviewNavigationControls(
+        modifier = Modifier
+            .padding(bottom = 16.dp)
+            .align(Alignment.BottomCenter),
+        onBack = { state = ChooserState },
+        onForward = { state = ExistingPackEditState() },
     )
 }
