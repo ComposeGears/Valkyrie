@@ -8,7 +8,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.sdk.compose.foundation)
-            implementation(projects.compose.util)
 
             implementation(compose.material3)
         }

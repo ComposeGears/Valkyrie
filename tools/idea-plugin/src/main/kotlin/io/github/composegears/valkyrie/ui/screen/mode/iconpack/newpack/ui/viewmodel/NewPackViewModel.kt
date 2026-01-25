@@ -11,9 +11,9 @@ import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.PackEditState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util.IconPackWriter
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.PackEditState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.util.IconPackWriter
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.AddNestedPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.PreviewPackObject
@@ -104,9 +104,7 @@ class NewPackViewModel : ViewModel() {
         }
     }
 
-    fun onValueChange(change: InputChange) = viewModelScope.launch {
-        inputHandler.handleInput(change)
-    }
+    fun onValueChange(change: InputChange) = inputHandler.handleInput(change)
 
     private fun updateDestinationPath(path: Path) {
         _state.updateState {

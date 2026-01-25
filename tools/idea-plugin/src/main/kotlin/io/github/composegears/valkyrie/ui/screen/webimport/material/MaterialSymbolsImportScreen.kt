@@ -38,9 +38,9 @@ import dev.tclement.fonticons.rememberVariableIconFont
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
-import io.github.composegears.valkyrie.jewel.ui.EmptyPlaceholder
-import io.github.composegears.valkyrie.jewel.ui.ErrorPlaceholder
-import io.github.composegears.valkyrie.jewel.ui.LoadingPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState

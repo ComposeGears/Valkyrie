@@ -15,8 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.sdk.ir.util.dominantShadeColor
@@ -24,14 +28,15 @@ import io.github.composegears.valkyrie.sdk.ir.util.internal.DominantShade
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.util.IR_STUB
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun IconPreviewBox(
     irImageVector: IrImageVector,
     previewType: PreviewType,
     modifier: Modifier = Modifier,
+    size: Dp = 56.dp,
 ) {
     var bgType by rememberSaveable {
         mutableStateOf(
@@ -50,7 +55,7 @@ fun IconPreviewBox(
 
     Box(
         modifier = modifier
-            .size(56.dp)
+            .size(size)
             .clip(RoundedCornerShape(8.dp))
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -63,7 +68,7 @@ fun IconPreviewBox(
     ) {
         PreviewBackground(
             bgType = bgType,
-            gridSize = (56f / 11f).dp,
+            gridSize = (size.value / 11f).dp,
             modifier = Modifier.matchParentSize(),
         )
 
@@ -78,9 +83,19 @@ fun IconPreviewBox(
 
 @Preview
 @Composable
-private fun IconPreviewBoxPreview() = PreviewTheme {
-    IconPreviewBox(
-        irImageVector = IR_STUB,
-        previewType = PreviewType.Auto,
-    )
+private fun IconPreviewBoxPreview() = PreviewTheme(alignment = Alignment.Center) {
+    var previewType by rememberMutableState { PreviewType.Pixel }
+
+    CenterVerticalRow {
+        IconPreviewBox(
+            irImageVector = IR_STUB,
+            previewType = previewType,
+        )
+        Spacer(8.dp)
+        IconPreviewBox(
+            irImageVector = IR_STUB,
+            previewType = previewType,
+            size = 48.dp,
+        )
+    }
 }

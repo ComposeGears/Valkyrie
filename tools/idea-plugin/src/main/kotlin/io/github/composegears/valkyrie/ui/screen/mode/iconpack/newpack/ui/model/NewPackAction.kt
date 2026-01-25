@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model
 
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.NestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 import java.nio.file.Path
 
 sealed interface NewPackAction {

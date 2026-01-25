@@ -2,40 +2,42 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.idea.AddFile
-import io.github.composegears.valkyrie.compose.icons.idea.AddFileDark
-import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.jewel.colors.softContentColor
+import io.github.composegears.valkyrie.jewel.graphics.dashedBorder
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.ui.foundation.dashedBorder
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 @Composable
 fun DragAndDropOverlay(
     isDragging: Boolean,
     modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(8.dp),
 ) {
     val backgroundColor by animateColorAsState(
         when {
-            isDragging -> MaterialTheme.colorScheme.background.copy(alpha = 0.97f)
-            else -> MaterialTheme.colorScheme.background.copy(alpha = 0.0f)
+            isDragging -> JewelTheme.globalColors.borders.normal.copy(alpha = 0.97f)
+            else -> JewelTheme.globalColors.borders.normal.copy(alpha = 0.0f)
         },
     )
 
@@ -44,7 +46,7 @@ fun DragAndDropOverlay(
             .fillMaxSize()
             .background(color = backgroundColor)
             .padding(32.dp)
-            .clip(MaterialTheme.shapes.small),
+            .clip(shape),
         contentAlignment = Alignment.Center,
     ) {
         AnimatedVisibility(
@@ -53,29 +55,29 @@ fun DragAndDropOverlay(
                 .aspectRatio(1f),
             visible = isDragging,
         ) {
+            val dashColor = JewelTheme.softContentColor
+
             Box(
                 modifier = Modifier
                     .dashedBorder(
-                        strokeWidth = 1.dp,
+                        strokeWidth = 2.dp,
                         gapWidth = 8.dp,
                         dashWidth = 8.dp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                        shape = MaterialTheme.shapes.small,
+                        color = dashColor,
+                        shape = shape,
                     ),
             ) {
-                CenterVerticalRow(modifier = Modifier.align(Alignment.Center)) {
-                    Image(
-                        imageVector = when {
-                            MaterialTheme.colorScheme.isLight -> ValkyrieIcons.Idea.AddFile
-                            else -> ValkyrieIcons.Idea.AddFileDark
-                        },
+                CenterVerticalRow(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Icon(
+                        key = AllIconsKeys.Actions.AddFile,
                         contentDescription = null,
                     )
                     Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = "Add more icons",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleSmall,
+                        text = stringResource("iconpack.conversion.dnd.add.more"),
+                        maxLines = 2,
                     )
                 }
             }
@@ -85,6 +87,6 @@ fun DragAndDropOverlay(
 
 @Preview
 @Composable
-private fun DragAndDropOverlayPreview() = PreviewTheme {
+private fun DragAndDropOverlayPreview() = PreviewTheme(alignment = Alignment.Center) {
     DragAndDropOverlay(isDragging = true)
 }

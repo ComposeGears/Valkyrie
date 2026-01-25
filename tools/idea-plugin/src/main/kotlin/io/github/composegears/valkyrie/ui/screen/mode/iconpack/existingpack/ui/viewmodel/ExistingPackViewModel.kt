@@ -11,13 +11,13 @@ import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.sdk.intellij.psi.iconpack.IconPackInfo
 import io.github.composegears.valkyrie.sdk.intellij.psi.iconpack.IconPackPsiParser
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.domain.validation.InputState
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.NestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.PackEditState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.util.IconPackWriter
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.PackEditState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.util.IconPackWriter
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.AddNestedPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.PreviewPackObject
@@ -71,9 +71,7 @@ class ExistingPackViewModel : ViewModel() {
         }
     }
 
-    fun onValueChange(inputChange: InputChange) = viewModelScope.launch {
-        inputHandler.handleInput(inputChange)
-    }
+    fun onValueChange(inputChange: InputChange) = inputHandler.handleInput(inputChange)
 
     fun onAction(existingPackAction: ExistingPackAction) {
         when (existingPackAction) {

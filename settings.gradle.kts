@@ -97,6 +97,5 @@ include("sdk:test:resource-loader")
 
 include("compose:icons")
 include("compose:ui")
-include("compose:util")
 
 include("shared")
