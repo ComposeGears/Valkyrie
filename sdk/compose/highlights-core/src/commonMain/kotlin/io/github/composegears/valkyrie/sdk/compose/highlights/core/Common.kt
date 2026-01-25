@@ -17,14 +17,14 @@ import dev.snipme.highlights.model.SyntaxThemes
 @Composable
 fun rememberCodeHighlight(
     codeBlock: String,
-    isLight: Boolean,
+    isDark: Boolean,
     vararg emphasisLocation: PhraseLocation,
 ): Highlights {
-    return remember(isLight, codeBlock, emphasisLocation) {
+    return remember(isDark, codeBlock, emphasisLocation) {
         Highlights.Builder()
             .code(codeBlock)
             .language(SyntaxLanguage.KOTLIN)
-            .theme(SyntaxThemes.darcula(darkMode = !isLight))
+            .theme(SyntaxThemes.darcula(darkMode = isDark))
             .emphasis(*emphasisLocation)
             .build()
     }

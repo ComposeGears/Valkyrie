@@ -7,9 +7,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
+import io.github.composegears.valkyrie.jewel.colors.errorFocused
+import org.jetbrains.jewel.foundation.Stroke
+import org.jetbrains.jewel.foundation.modifier.border
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Text
 
 @Composable
 fun PreviewTheme(
@@ -39,4 +48,25 @@ fun BannerPreviewTheme(
             content = content,
         )
     }
+}
+
+@Composable
+fun Modifier.debugBounds(): Modifier {
+    return this
+        .border(
+            alignment = Stroke.Alignment.Outside,
+            width = Dp.Hairline,
+            shape = RectangleShape,
+            color = JewelTheme.errorFocused,
+            expand = 2.dp,
+        )
+}
+
+@Preview
+@Composable
+private fun PreviewThemePreview() = PreviewTheme(alignment = Alignment.Center) {
+    Text(
+        modifier = Modifier.debugBounds(),
+        text = "Content",
+    )
 }

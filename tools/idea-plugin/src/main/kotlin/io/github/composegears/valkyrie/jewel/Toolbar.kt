@@ -224,6 +224,20 @@ fun FitContentAction(
 }
 
 @Composable
+fun PreviewAction(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    TooltipIconButton(
+        modifier = modifier,
+        key = AllIconsKeys.Actions.Preview,
+        contentDescription = stringResource("accessibility.preview"),
+        onClick = onClick,
+        tooltipText = stringResource("component.toolbar.preview.tooltip"),
+    )
+}
+
+@Composable
 fun EditToggleAction(
     selected: Boolean,
     modifier: Modifier = Modifier,

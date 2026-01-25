@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.domain.validation
+package io.github.composegears.valkyrie.jewel.textfield.validation
 
 import io.github.composegears.valkyrie.ui.domain.ParamUseCase
 
@@ -15,9 +15,3 @@ enum class ErrorCriteria {
     INCONSISTENT_FORMAT,
     FIRST_LETTER_LOWER_CASE,
 }
-
-data class InputState(
-    val text: String = "",
-    val enabled: Boolean = true,
-    val validationResult: ValidationResult = ValidationResult.Success,
-)

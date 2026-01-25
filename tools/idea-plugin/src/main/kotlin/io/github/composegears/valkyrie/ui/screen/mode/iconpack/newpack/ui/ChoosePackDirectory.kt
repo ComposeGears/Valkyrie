@@ -1,13 +1,10 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.foundation
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,20 +15,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.jewel.platform.rememberCurrentProject
+import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
-import io.github.composegears.valkyrie.ui.foundation.InfoItem
-import io.github.composegears.valkyrie.ui.foundation.icons.Folder
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.picker.rememberDirectoryPicker
-import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.platform.rememberDragAndDropFolderHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SaveDestination
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SelectDestinationFolder
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseDestinationDirectoryState
+import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.ui.component.DefaultButton
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 @Composable
 fun ChoosePackDirectory(
@@ -50,7 +50,9 @@ fun ChoosePackDirectory(
     val directoryPicker = rememberDirectoryPicker()
 
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .widthIn(max = 450.dp)
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DragAndDropBox(
@@ -71,18 +73,17 @@ fun ChoosePackDirectory(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Icon(
-                    imageVector = ValkyrieIcons.Folder,
+                    key = AllIconsKeys.Nodes.Folder,
                     contentDescription = null,
                 )
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     textAlign = TextAlign.Center,
-                    text = "Drag & Drop folder\nor browse",
-                    style = MaterialTheme.typography.titleSmall,
+                    text = stringResource("iconpack.newpack.choose.directory.dnd"),
                 )
             }
         }
-        Spacer(36.dp)
+        Spacer(24.dp)
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -90,37 +91,38 @@ fun ChoosePackDirectory(
             if (state.iconPackDestination.isNotEmpty()) {
                 val currentProject = rememberCurrentProject()
 
-                InfoItem(
-                    title = "Destination path",
-                    description = "~${state.iconPackDestination.replace(currentProject.path.orEmpty(), "")}",
+                InfoSettingsRow(
+                    text = stringResource("iconpack.newpack.choose.directory.destination.path"),
+                    infoText = "~${state.iconPackDestination.replace(currentProject.path.orEmpty(), "")}",
                 )
             }
             if (state.predictedPackage.isNotEmpty()) {
-                InfoItem(
-                    title = "Predicted package",
-                    description = state.predictedPackage.ifEmpty { "Not found" },
+                InfoSettingsRow(
+                    text = stringResource("iconpack.newpack.choose.directory.predicted.package"),
+                    infoText = state.predictedPackage,
                 )
             }
         }
         Spacer(16.dp)
-        Button(
+        DefaultButton(
             modifier = Modifier.align(Alignment.End),
             enabled = state.nextAvailable,
             onClick = { onAction(SaveDestination) },
         ) {
-            Text(text = "Next")
+            Text(text = stringResource("iconpack.newpack.choose.directory.continue"))
         }
     }
 }
 
 @Preview
 @Composable
-private fun ChoosePackDirectoryPreview() = PreviewTheme {
+private fun ChoosePackDirectoryPreview() = PreviewTheme(alignment = Alignment.Center) {
+    val currentProject = rememberCurrentProject()
+
     ChoosePackDirectory(
-        modifier = Modifier.fillMaxWidth(0.8f),
         state = ChooseDestinationDirectoryState(
-            iconPackDestination = "path/to/import",
-            predictedPackage = "com.example.iconpack",
+            iconPackDestination = "${currentProject.path}/tools/idea-plugin/src/main/kotlin/io/github/composegears/valkyrie/icons",
+            predictedPackage = "io.github.composegears.valkyrie.icons",
             nextAvailable = true,
         ),
         onAction = {},

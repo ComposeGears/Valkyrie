@@ -37,6 +37,7 @@ import io.github.composegears.valkyrie.ui.foundation.SegmentedButton
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ExistingPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.NewPackScreen
 
+@Deprecated("remove")
 val IconPackCreationScreen by navDestination<PendingPathData> {
     val pendingData = navArgsOrNull()
 

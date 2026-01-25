@@ -91,7 +91,7 @@ private fun GeneratorSettingsUi(
                                 KtCodeViewer(
                                     highlights = rememberCodeHighlight(
                                         codeBlock = BackingPropertyHint,
-                                        isLight = !JewelTheme.isDark,
+                                        isDark = JewelTheme.isDark,
                                     ),
                                 )
                             },
@@ -104,7 +104,7 @@ private fun GeneratorSettingsUi(
                                 KtCodeViewer(
                                     highlights = rememberCodeHighlight(
                                         codeBlock = LazyDelegatePropertyHint,
-                                        isLight = !JewelTheme.isDark,
+                                        isDark = JewelTheme.isDark,
                                     ),
                                 )
                             },

@@ -1,40 +1,55 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgsOrNull
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.replace
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.PreviewAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputChange
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.foundation.ChoosePackDirectory
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.foundation.NewIconPackCreation
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.ChoosePackDirectory
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.NewIconPackCreation
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.AddNestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.PreviewPackObject
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.RemoveNestedPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseDestinationDirectoryState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.PickedState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewmodel.NewPackViewModel
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
+import io.github.composegears.valkyrie.util.stringResource
+import kotlin.random.Random
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val NewPackScreen by navDestination<PendingPathData> {
     val navController = navController()
@@ -64,46 +79,48 @@ val NewPackScreen by navDestination<PendingPathData> {
             .launchIn(this)
     }
 
-    NewPackUi(
+    NewPackContent(
         state = state,
+        onBack = navController::back,
         onAction = viewModel::onAction,
         onValueChange = viewModel::onValueChange,
     )
 }
 
 @Composable
-private fun NewPackUi(
+private fun NewPackContent(
     state: NewPackModeState,
+    onBack: () -> Unit,
     onAction: (NewPackAction) -> Unit,
-    modifier: Modifier = Modifier,
     onValueChange: (InputChange) -> Unit,
 ) {
-    AnimatedContent(
-        modifier = modifier.fillMaxSize(),
-        targetState = state,
-        contentKey = {
-            when (it) {
-                is ChooseDestinationDirectoryState -> 0
-                is PickedState -> 1
+    Column {
+        Toolbar {
+            BackAction(onBack = onBack)
+            Title(stringResource("iconpack.newpack.title"))
+            WeightSpacer()
+            if (state is PickedState && state.nextAvailable) {
+                PreviewAction(onClick = { onAction(PreviewPackObject) })
             }
-        },
-        transitionSpec = {
-            fadeIn(tween(220, delayMillis = 90)) togetherWith fadeOut(tween(90))
-        },
-    ) { current ->
-        when (current) {
-            is ChooseDestinationDirectoryState -> {
-                ChoosePackDirectory(
-                    state = current,
-                    onAction = onAction,
-                )
-            }
-            is PickedState -> {
-                NewIconPackCreation(
-                    state = current,
-                    onAction = onAction,
-                    onValueChange = onValueChange,
-                )
+        }
+        VerticallyScrollableContainer {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                when (state) {
+                    is ChooseDestinationDirectoryState -> ChoosePackDirectory(
+                        state = state,
+                        onAction = onAction,
+                    )
+                    is PickedState -> NewIconPackCreation(
+                        state = state,
+                        onAction = onAction,
+                        onValueChange = onValueChange,
+                    )
+                }
             }
         }
     }
@@ -112,14 +129,62 @@ private fun NewPackUi(
 @Preview
 @Composable
 private fun NewPackFlowPreview() = PreviewTheme {
-    NewPackUi(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        state = ChooseDestinationDirectoryState(
+    var state by rememberMutableState<NewPackModeState> {
+        ChooseDestinationDirectoryState(
             iconPackDestination = "path/to/import",
             predictedPackage = "com.example.iconpack",
             nextAvailable = true,
-        ),
+        )
+    }
+
+    NewPackContent(
+        state = state,
         onValueChange = {},
-        onAction = {},
+        onBack = {},
+        onAction = { action ->
+            when (action) {
+                is AddNestedPack -> {
+                    val picked = state as? PickedState ?: return@NewPackContent
+
+                    val newPack = NestedPack(id = Random.nextLong().toString(), inputFieldState = InputState())
+
+                    state = picked.copy(
+                        packEditState = picked.packEditState.copy(
+                            inputFieldState = picked.packEditState.inputFieldState.copy(
+                                nestedPacks = picked.packEditState.inputFieldState.nestedPacks + newPack,
+                            ),
+                        ),
+                    )
+                }
+                is RemoveNestedPack -> {
+                    val picked = state as? PickedState ?: return@NewPackContent
+
+                    state = picked.copy(
+                        packEditState = picked.packEditState.copy(
+                            inputFieldState = picked.packEditState.inputFieldState.copy(
+                                nestedPacks = picked.packEditState.inputFieldState.nestedPacks
+                                    .filterNot { it.id == action.nestedPack.id },
+                            ),
+                        ),
+                    )
+                }
+                else -> {}
+            }
+        },
+    )
+    PreviewNavigationControls(
+        modifier = Modifier
+            .padding(bottom = 16.dp)
+            .align(Alignment.BottomCenter),
+        onBack = {
+            state = ChooseDestinationDirectoryState(
+                iconPackDestination = "path/to/import",
+                predictedPackage = "com.example.iconpack",
+                nextAvailable = true,
+            )
+        },
+        onForward = {
+            state = PickedState()
+        },
     )
 }

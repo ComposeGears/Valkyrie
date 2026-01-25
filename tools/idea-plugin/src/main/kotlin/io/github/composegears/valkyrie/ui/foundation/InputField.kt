@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.ui.foundation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -15,50 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.util.disabled
-import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.ui.foundation.highlights.CodeViewerTooltip
 import io.github.composegears.valkyrie.ui.foundation.icons.Backspace
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-
-@Composable
-fun InputField(
-    caption: String,
-    value: String,
-    highlights: Highlights,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    isError: Boolean = false,
-    supportingText: @Composable (() -> Unit)? = null,
-    onValueChange: (String) -> Unit,
-) {
-    Column(modifier = modifier) {
-        CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                modifier = Modifier.padding(bottom = 4.dp),
-                text = caption,
-                color = if (enabled) {
-                    MaterialTheme.colorScheme.onSurface
-                } else {
-                    MaterialTheme.colorScheme.onSurface.disabled()
-                },
-                style = MaterialTheme.typography.bodyMedium,
-            )
-
-            CodeViewerTooltip(highlights = highlights, enabled = enabled)
-        }
-        InputTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = value,
-            enabled = enabled,
-            onValueChange = onValueChange,
-            isError = isError,
-            supportingText = supportingText,
-        )
-    }
-}
 
 @Composable
 fun InputTextField(

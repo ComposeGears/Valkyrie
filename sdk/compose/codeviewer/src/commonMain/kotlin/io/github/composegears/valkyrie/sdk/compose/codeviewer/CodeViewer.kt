@@ -39,7 +39,7 @@ private fun CodeTextViewPreview() {
             }
         """.trimIndent(),
         emphasisLocation = arrayOf(PhraseLocation(start = 8, end = 39)),
-        isLight = MaterialTheme.colorScheme.isLight,
+        isDark = !MaterialTheme.colorScheme.isLight,
     )
 
     CodeViewer(highlights)

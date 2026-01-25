@@ -60,7 +60,7 @@ fun PreviewAnnotationSection(
                         KtCodeViewer(
                             highlights = rememberCodeHighlight(
                                 codeBlock = AndroidXPreviewHint,
-                                isLight = !JewelTheme.isDark,
+                                isDark = JewelTheme.isDark,
                             ),
                         )
                     },
@@ -73,7 +73,7 @@ fun PreviewAnnotationSection(
                         KtCodeViewer(
                             highlights = rememberCodeHighlight(
                                 codeBlock = JetbrainsPreviewHint,
-                                isLight = !JewelTheme.isDark,
+                                isDark = JewelTheme.isDark,
                             ),
                         )
                     },

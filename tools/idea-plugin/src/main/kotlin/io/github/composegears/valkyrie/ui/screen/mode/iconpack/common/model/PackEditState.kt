@@ -1,7 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model
-
-import io.github.composegears.valkyrie.ui.domain.validation.InputState
-import io.github.composegears.valkyrie.ui.domain.validation.ValidationResult
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model
 
 data class PackEditState(
     val inputFieldState: InputFieldState = InputFieldState(
@@ -20,13 +17,10 @@ data class InputFieldState(
 ) {
     val isValid: Boolean = iconPackName.isValid() &&
         packageName.isValid() &&
-        nestedPacks.all { it.isValid() } &&
+        nestedPacks.all { it.inputFieldState.isValid() } &&
         !hasDuplicateNestedPacks()
 
-    private fun InputState.isValid() = validationResult !is ValidationResult.Error
-
-    private fun NestedPack.isValid() = inputFieldState.validationResult !is ValidationResult.Error &&
-        inputFieldState.text.isNotEmpty()
+    private fun InputState.isValid() = text.isNotEmpty() && isValid
 
     private fun hasDuplicateNestedPacks(): Boolean {
         val packs = nestedPacks.map { it.inputFieldState.text }

@@ -1,11 +1,10 @@
-package io.github.composegears.valkyrie.ui.foundation
+package io.github.composegears.valkyrie.jewel
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -17,21 +16,23 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.ui.foundation.icons.KotlinLogo
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.jewel.icons.IntelliJIcons
+import io.github.composegears.valkyrie.jewel.icons.KotlinLogo
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Text
 
 private const val INLINE_CONTENT_ID = "inlineContentIcon"
 
 @Composable
-fun TextWithIcon(
+fun InlineIconText(
     text: String,
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
     iconTint: Color = Color.Unspecified,
-    style: TextStyle = LocalTextStyle.current,
+    style: TextStyle = JewelTheme.defaultTextStyle,
     iconSize: TextUnit = style.fontSize,
-    textAlign: TextAlign? = null,
+    textAlign: TextAlign = TextAlign.Unspecified,
     alternateText: String = "[icon]",
 ) {
     val parts = text.split(alternateText)
@@ -75,9 +76,9 @@ fun TextWithIcon(
 
 @Preview
 @Composable
-private fun TextWithIconPreview() = PreviewTheme {
-    TextWithIcon(
+private fun InlineIconTextPreview() = PreviewTheme(alignment = Alignment.Center) {
+    InlineIconText(
         text = "This is a text with a [icon] in between.",
-        imageVector = ValkyrieIcons.KotlinLogo,
+        imageVector = IntelliJIcons.KotlinLogo,
     )
 }

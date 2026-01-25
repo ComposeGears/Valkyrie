@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.viewmodel
 
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.domain.validation.InputState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.inputhandler.BasicInputHandler
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.inputhandler.BasicInputHandler
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 
 class ExistingPackInputHandler : BasicInputHandler(initialState = existingPackInputFieldState) {
 

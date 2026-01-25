@@ -2,10 +2,10 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewm
 
 import io.github.composegears.valkyrie.parser.unified.util.PackageExtractor
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.domain.validation.InputState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.inputhandler.BasicInputHandler
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.NestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.inputhandler.BasicInputHandler
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 
 class NewPackInputHandler(
     settings: ValkyriesSettings,

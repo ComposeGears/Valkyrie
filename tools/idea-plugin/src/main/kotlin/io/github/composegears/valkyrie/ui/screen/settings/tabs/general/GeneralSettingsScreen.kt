@@ -19,6 +19,7 @@ import com.composegears.tiamat.compose.navigationFadeInOut
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
 import com.intellij.openapi.ui.MessageDialogBuilder
+import io.github.composegears.valkyrie.jewel.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
@@ -30,7 +31,6 @@ import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
-import io.github.composegears.valkyrie.ui.platform.rememberCurrentProject
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.GeneralSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel

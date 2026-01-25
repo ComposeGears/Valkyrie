@@ -1,10 +1,9 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.foundation
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -13,17 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.jewel.InlineIconText
+import io.github.composegears.valkyrie.jewel.icons.IntelliJIcons
+import io.github.composegears.valkyrie.jewel.icons.KotlinLogo
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
-import io.github.composegears.valkyrie.ui.foundation.TextWithIcon
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
-import io.github.composegears.valkyrie.ui.foundation.icons.KotlinLogo
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.platform.picker.rememberKtPathPicker
 import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
+import io.github.composegears.valkyrie.util.stringResource
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
 
@@ -51,7 +50,11 @@ fun ChooseExistingPackFile(
     val scope = rememberCoroutineScope()
     val ktPathPicker = rememberKtPathPicker()
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .widthIn(max = 450.dp)
+            .padding(horizontal = 16.dp),
+    ) {
         DragAndDropBox(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,28 +75,18 @@ fun ChooseExistingPackFile(
                 }
             },
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                TextWithIcon(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    imageVector = ValkyrieIcons.KotlinLogo,
-                    textAlign = TextAlign.Center,
-                    text = "Drag & drop existing  [icon]  icon pack\nor browse",
-                    style = MaterialTheme.typography.titleSmall,
-                    iconSize = 12.sp,
-                )
-            }
+            InlineIconText(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                imageVector = IntelliJIcons.KotlinLogo,
+                textAlign = TextAlign.Center,
+                text = stringResource("iconpack.existingpack.choose.file.dnd"),
+            )
         }
     }
 }
 
 @Preview
 @Composable
-private fun ChooseExistingPackFilePreview() = PreviewTheme {
-    ChooseExistingPackFile(
-        modifier = Modifier.fillMaxWidth(0.8f),
-        onAction = {},
-    )
+private fun ChooseExistingPackFilePreview() = PreviewTheme(alignment = Alignment.Center) {
+    ChooseExistingPackFile(onAction = {})
 }

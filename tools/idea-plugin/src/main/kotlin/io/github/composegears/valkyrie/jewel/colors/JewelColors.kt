@@ -26,6 +26,11 @@ val JewelTheme.Companion.primaryColor: Color
     @ReadOnlyComposable
     get() = JewelTheme.globalColors.outlines.focused
 
+val JewelTheme.Companion.errorFocused: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = JewelTheme.globalColors.outlines.focusedError
+
 @Preview
 @Composable
 private fun JewelColorsPreview() = PreviewTheme {

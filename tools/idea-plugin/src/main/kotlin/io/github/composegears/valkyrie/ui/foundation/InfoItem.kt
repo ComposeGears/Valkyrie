@@ -62,10 +62,6 @@ private fun InfoItemPreview() = PreviewTheme {
         InfoItem(
             title = "Title",
             description = "Description",
-        )
-        InfoItem(
-            title = "Title",
-            description = "Description",
             content = {
                 Checkbox(
                     checked = true,
