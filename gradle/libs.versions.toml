@@ -2,7 +2,8 @@
 compose = "1.9.0"
 intellij = "2.10.5"
 jacoco = "0.8.13"
-jdkRelease = "17"
+jdkRelease = "21"
+# https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
 kotlin = "2.2.21"
 kover = "0.9.4"
 leviathan = "3.1.0"

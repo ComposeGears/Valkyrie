@@ -3,13 +3,13 @@ package io.github.composegears.valkyrie.jewel.highlight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.PhraseLocation
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.jewel.tooling.debugBounds
 import io.github.composegears.valkyrie.sdk.compose.highlights.core.buildAnnotatedString
 import io.github.composegears.valkyrie.sdk.compose.highlights.core.rememberCodeHighlight
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.typography

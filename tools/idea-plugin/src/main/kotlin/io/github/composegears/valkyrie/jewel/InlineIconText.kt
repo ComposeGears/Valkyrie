@@ -14,11 +14,11 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import io.github.composegears.valkyrie.jewel.icons.IntelliJIcons
 import io.github.composegears.valkyrie.jewel.icons.KotlinLogo
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 

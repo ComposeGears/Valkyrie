@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import dev.snipme.highlights.Highlights
 import io.github.composegears.valkyrie.compose.ui.foundation.HorizontalScrollbar
 import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
-import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.compose.ui.disabled
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableIntState
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.compose.highlights.core.buildAnnotatedString

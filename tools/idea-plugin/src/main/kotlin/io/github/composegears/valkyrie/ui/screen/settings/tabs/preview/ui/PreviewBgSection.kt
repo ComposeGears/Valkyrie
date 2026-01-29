@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
@@ -27,19 +28,19 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.colors.primaryColor
 import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.blendMode
 import io.github.composegears.valkyrie.ui.foundation.previewbg.BgType
 import io.github.composegears.valkyrie.ui.foundation.previewbg.PreviewBackground
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 
@@ -223,6 +224,22 @@ private fun PreviewItem(
         content = content,
     )
 }
+
+private fun Modifier.blendMode(blendMode: BlendMode): Modifier {
+    return this.drawWithCache {
+        val graphicsLayer = obtainGraphicsLayer()
+        graphicsLayer.apply {
+            record {
+                drawContent()
+            }
+            this.blendMode = blendMode
+        }
+        onDrawWithContent {
+            drawLayer(graphicsLayer)
+        }
+    }
+}
+
 
 @Preview
 @Composable

@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
@@ -23,13 +22,13 @@ import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.editor.CodeEditor
+import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
-import io.github.composegears.valkyrie.jewel.ui.ErrorPlaceholder
-import io.github.composegears.valkyrie.jewel.ui.LoadingPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction
@@ -44,6 +43,7 @@ import io.github.composegears.valkyrie.util.IR_STUB
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import java.nio.file.Path
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 sealed interface SimpleConversionParamsSource {
     data class PathSource(val path: Path) : SimpleConversionParamsSource

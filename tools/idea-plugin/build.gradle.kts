@@ -64,7 +64,6 @@ dependencies {
     implementation(projects.sdk.ir.xml)
     implementation(projects.shared)
 
-    implementation(compose.material3)
     implementation(compose.preview)
 
     implementation(libs.android.build.tools)

@@ -7,8 +7,8 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
+import io.github.composegears.valkyrie.jewel.platform.picker.rememberKtPathPicker
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
-import io.github.composegears.valkyrie.ui.platform.picker.rememberKtPathPicker
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerAction
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerEvent

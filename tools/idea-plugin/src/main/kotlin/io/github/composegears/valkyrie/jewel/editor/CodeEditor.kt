@@ -21,7 +21,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.SyntaxLanguage
@@ -32,6 +31,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableIntState
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.compose.highlights.core.buildAnnotatedString
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.HorizontalScrollbar
 import org.jetbrains.jewel.ui.component.VerticalScrollbar
@@ -69,7 +69,8 @@ fun CodeEditor(
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(32.dp)
-                    .verticalScroll(linesTextScroll),
+                    .verticalScroll(linesTextScroll)
+                    .padding(top = 4.dp),
                 value = IntRange(1, linesCount).joinToString(separator = "\n"),
                 readOnly = true,
                 textStyle = textStyle.copy(
@@ -85,7 +86,8 @@ fun CodeEditor(
                     modifier = Modifier
                         .matchParentSize()
                         .horizontalScroll(horizontalScrollState)
-                        .verticalScroll(verticalScrollState),
+                        .verticalScroll(verticalScrollState)
+                        .padding(top = 4.dp),
                     value = text,
                     onValueChange = { onValueChange(it.updateTabs(translateTabToSpaces)) },
                     visualTransformation = { text ->

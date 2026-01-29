@@ -6,6 +6,7 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
 import io.github.composegears.valkyrie.service.PersistentSettings.ValkyrieState
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
@@ -55,6 +56,12 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
     companion object {
         @JvmStatic
         val Project.persistentSettings: PersistentSettings
-            get() = service<PersistentSettings>()
+            get() {
+                return if (GlobalPreviewState.isPreview) {
+                    PersistentSettings()
+                } else {
+                    service<PersistentSettings>()
+                }
+            }
     }
 }

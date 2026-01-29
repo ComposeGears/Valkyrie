@@ -8,13 +8,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 import io.github.composegears.valkyrie.jewel.colors.errorFocused
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -26,13 +25,11 @@ fun PreviewTheme(
     alignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    CompositionLocalProvider(LocalInspectionMode provides true) {
-        Box(
-            modifier = modifier.fillMaxSize(),
-            content = content,
-            contentAlignment = alignment,
-        )
-    }
+    Box(
+        modifier = modifier.fillMaxSize(),
+        content = content,
+        contentAlignment = alignment,
+    )
 }
 
 @Composable

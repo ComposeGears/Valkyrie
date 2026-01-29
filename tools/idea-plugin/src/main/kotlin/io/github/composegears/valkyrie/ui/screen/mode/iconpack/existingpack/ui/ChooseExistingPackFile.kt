@@ -10,21 +10,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.InlineIconText
 import io.github.composegears.valkyrie.jewel.icons.IntelliJIcons
 import io.github.composegears.valkyrie.jewel.icons.KotlinLogo
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
+import io.github.composegears.valkyrie.jewel.platform.picker.rememberKtPathPicker
+import io.github.composegears.valkyrie.jewel.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.ui.DragAndDropBox
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
-import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
-import io.github.composegears.valkyrie.ui.platform.picker.rememberKtPathPicker
-import io.github.composegears.valkyrie.ui.platform.rememberFileDragAndDropHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ChooseExistingPackFile(
@@ -40,7 +40,7 @@ fun ChooseExistingPackFile(
             onAction(
                 ExistingPackAction.SelectKotlinFile(
                     path = path,
-                    project = project.current,
+                    project = project,
                 ),
             )
         },
@@ -68,7 +68,7 @@ fun ChooseExistingPackFile(
                         onAction(
                             ExistingPackAction.SelectKotlinFile(
                                 path = path,
-                                project = project.current,
+                                project = project,
                             ),
                         )
                     }

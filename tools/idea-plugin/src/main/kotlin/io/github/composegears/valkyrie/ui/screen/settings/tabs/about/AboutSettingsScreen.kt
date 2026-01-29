@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
-import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
@@ -20,9 +18,10 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerti
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.ui.component.ExternalLink
+import org.jetbrains.jewel.ui.component.InfoText
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.typography
@@ -47,10 +46,9 @@ private fun AboutSettingsUi() {
                         text = stringResource("settings.about.plugin.name"),
                         style = JewelTheme.typography.h3TextStyle,
                     )
-                    Text(
+                    InfoText(
                         text = rememberPluginVersion(),
                         style = JewelTheme.typography.small,
-                        color = LocalContentColor.current.dim(),
                     )
                 }
             }

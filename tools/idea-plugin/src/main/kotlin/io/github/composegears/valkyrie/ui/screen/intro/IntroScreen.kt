@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
@@ -19,6 +18,7 @@ import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.KT_TO_SVG_ENABLED
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.outlined.BatchProcessing
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.icons.outlined.Editor
 import io.github.composegears.valkyrie.compose.icons.outlined.FileImport
@@ -38,7 +38,6 @@ import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
-import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
@@ -47,6 +46,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePicker
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
 import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
@@ -104,7 +104,7 @@ private fun IntroScreenUI(
                     )
                     InfoCard(
                         onClick = { onModeChange(IconPack) },
-                        icon = ValkyrieIcons.BatchProcessing,
+                        icon = ValkyrieIcons.Outlined.BatchProcessing,
                         title = stringResource("intro.card.iconpack.title"),
                         description = stringResource("intro.card.iconpack.description"),
                     )

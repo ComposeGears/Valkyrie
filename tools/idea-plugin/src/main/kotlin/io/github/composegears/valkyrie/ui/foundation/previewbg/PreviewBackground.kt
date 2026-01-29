@@ -6,13 +6,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.ui.foundation.PixelGrid
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.ui.PixelGrid
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PreviewBackground(
@@ -48,7 +49,7 @@ fun PreviewBackground(
 
 @Preview
 @Composable
-private fun PreviewBackgroundPreview() = PreviewTheme {
+private fun PreviewBackgroundPreview() = PreviewTheme(alignment = Alignment.Center) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         PreviewBackground(
             modifier = Modifier.size(200.dp),

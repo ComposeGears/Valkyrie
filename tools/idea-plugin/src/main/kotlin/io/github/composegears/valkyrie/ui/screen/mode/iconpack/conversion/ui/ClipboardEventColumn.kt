@@ -23,8 +23,8 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
-import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
-import io.github.composegears.valkyrie.ui.platform.pasteFromClipboard
+import io.github.composegears.valkyrie.jewel.platform.ClipboardDataType
+import io.github.composegears.valkyrie.jewel.platform.pasteFromClipboard
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

@@ -10,10 +10,10 @@ import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
-import androidx.compose.ui.tooling.preview.Preview
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import java.awt.datatransfer.StringSelection
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.InternalJewelApi
 import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.ContextMenuItemOption
@@ -69,7 +69,7 @@ fun LinkIcon(
     )
 }
 
-private fun openUri(uriHandler: UriHandler, link: String) {
+fun openUri(uriHandler: UriHandler, link: String) {
     runCatching {
         uriHandler.openUri(link)
     }.onFailure {

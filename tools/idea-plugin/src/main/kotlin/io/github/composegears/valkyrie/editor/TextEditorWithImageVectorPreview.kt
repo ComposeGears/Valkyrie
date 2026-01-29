@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.editor
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.awt.ComposePanel
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.FileEditorState
 import com.intellij.openapi.fileEditor.TextEditor
@@ -11,12 +11,12 @@ import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.util.ui.JBUI
 import io.github.composegears.valkyrie.editor.ui.VirtualFileImageVector
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.foundation.theme.ValkyrieTheme
-import java.awt.Dimension
+import java.beans.PropertyChangeListener
 import javax.swing.JComponent
+import org.jetbrains.jewel.bridge.compose
 
 class TextEditorWithImageVectorPreview(
     project: Project,
@@ -50,16 +50,15 @@ private class ImageVectorPreviewEditor(
         DI.initWith(project)
     }
 
-    private val composePanel = ComposePanel().apply {
-        setContent {
-            ValkyrieTheme(project) {
+    private val composePanel by lazy {
+        compose(focusOnClickInside = true) {
+            CompositionLocalProvider(LocalProject provides project) {
                 VirtualFileImageVector(
                     modifier = Modifier.fillMaxSize(),
                     file = file,
                 )
             }
         }
-        preferredSize = JBUI.size(Dimension(800, 800))
     }
 
     override fun getComponent(): JComponent = composePanel
@@ -74,9 +73,9 @@ private class ImageVectorPreviewEditor(
 
     override fun isValid(): Boolean = true
 
-    override fun addPropertyChangeListener(listener: java.beans.PropertyChangeListener) {}
+    override fun addPropertyChangeListener(listener: PropertyChangeListener) {}
 
-    override fun removePropertyChangeListener(listener: java.beans.PropertyChangeListener) {}
+    override fun removePropertyChangeListener(listener: PropertyChangeListener) {}
 
     override fun <T : Any?> getUserData(p0: Key<T>): T? = null
 
