@@ -11,7 +11,7 @@ ktor = "3.3.3"
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.2"
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-ui-tooling-preview = "androidx.compose.ui:ui-tooling-preview:1.10.1"
+compose-ui-tooling-preview = "androidx.compose.ui:ui-tooling-preview:1.10.2"
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 highlights = "dev.snipme:highlights:1.1.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
