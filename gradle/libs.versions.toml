@@ -57,7 +57,7 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 shadow = "com.gradleup.shadow:9.3.1"
-spotless = "com.diffplug.spotless:8.1.0"
+spotless = "com.diffplug.spotless:8.2.1"
 
 # Project conventional plugins
 valkyrie-kmp = { id = "valkyrie.kmp" }
