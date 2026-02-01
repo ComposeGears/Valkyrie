@@ -41,6 +41,7 @@ fun MaterialTopActions(
                 items = categories,
                 transform = { it.name },
                 onSelectItem = onSelectCategory,
+                maxPopupWidth = 120.dp,
             )
         },
     )
@@ -57,6 +58,7 @@ private fun MaterialTopActionsPreview() = PreviewTheme {
         categories = listOf(
             Category("Action"),
             Category("Alert"),
+            Category("Audio & Video"),
         ),
         iconFontFamily = fontFamily,
         onToggleSidePanel = {},

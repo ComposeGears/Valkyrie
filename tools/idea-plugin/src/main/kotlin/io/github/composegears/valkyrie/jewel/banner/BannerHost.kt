@@ -18,12 +18,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.intellij.codeInsight.template.emmet.generators.LoremGenerator
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
 import io.github.composegears.valkyrie.jewel.tooling.BannerPreviewTheme
-import kotlin.random.Random
+import io.github.composegears.valkyrie.jewel.tooling.randomLorem
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.DefaultButton
@@ -89,8 +88,6 @@ internal fun BannerDuration.toMillis(): Long {
     }
 }
 
-private fun lorem() = LoremGenerator().generate(Random.nextInt(3, 25), true)
-
 @Preview
 @Composable
 private fun BannerPreview() = BannerPreviewTheme {
@@ -103,7 +100,7 @@ private fun BannerPreview() = BannerPreviewTheme {
 
         DefaultButton(
             onClick = {
-                bannerManager.show(message = InfoBanner(text = lorem()))
+                bannerManager.show(message = InfoBanner(text = randomLorem()))
             },
             content = {
                 Text(text = "Success banner")
@@ -111,7 +108,7 @@ private fun BannerPreview() = BannerPreviewTheme {
         )
         DefaultButton(
             onClick = {
-                bannerManager.show(message = WarningBanner(text = lorem()))
+                bannerManager.show(message = WarningBanner(text = randomLorem()))
             },
             content = {
                 Text(text = "Warning banner")
@@ -119,7 +116,7 @@ private fun BannerPreview() = BannerPreviewTheme {
         )
         DefaultButton(
             onClick = {
-                bannerManager.show(message = ErrorBanner(text = lorem()))
+                bannerManager.show(message = ErrorBanner(text = randomLorem()))
             },
             content = {
                 Text(text = "Error banner")

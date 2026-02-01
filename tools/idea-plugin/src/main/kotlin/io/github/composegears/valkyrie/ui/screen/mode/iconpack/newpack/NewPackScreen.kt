@@ -63,13 +63,13 @@ val NewPackScreen by navDestination<PendingPathData> {
             .onEach {
                 when (it) {
                     is NewPackEvent.OnSettingsUpdated -> {
-                        navController.parent?.replace(
+                        navController.replace(
                             dest = IconPackConversionScreen,
                             navArgs = pendingData,
                         )
                     }
                     is NewPackEvent.PreviewIconPackObject -> {
-                        navController.parent?.navigate(
+                        navController.navigate(
                             dest = CodePreviewScreen,
                             navArgs = it.code,
                         )
