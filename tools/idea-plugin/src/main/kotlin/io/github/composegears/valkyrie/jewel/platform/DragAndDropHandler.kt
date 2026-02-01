@@ -44,7 +44,6 @@ fun rememberFileDragAndDropHandler(onDrop: (Path) -> Unit): DragAndDropHandlerSt
 
 @Composable
 fun rememberMultiSelectDragAndDropHandler(onDrop: (List<Path>) -> Unit): DragAndDropHandlerState {
-
     val localComponent = LocalComponent.current
     var state by rememberMutableState { DragAndDropHandlerState() }
     val latestOnDrop by rememberUpdatedState(onDrop)

@@ -56,8 +56,7 @@ private fun DashedBorderPreview() = PreviewTheme {
             .dashedBorder(
                 color = JewelTheme.contentColor,
                 shape = RoundedCornerShape(4.dp),
-            )
+            ),
     ) {
-
     }
 }

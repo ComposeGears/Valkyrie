@@ -108,7 +108,7 @@ private fun ImageVectorToXmlContent(
         previewPanel = { irImageVector ->
             PreviewActionContent(
                 irImageVector = irImageVector,
-                previewType = PreviewType.Pixel
+                previewType = PreviewType.Pixel,
             )
         },
         codeViewer = { text, onChange ->

@@ -240,7 +240,6 @@ private fun Modifier.blendMode(blendMode: BlendMode): Modifier {
     }
 }
 
-
 @Preview
 @Composable
 private fun PreviewBgSectionPreview() = PreviewTheme {
