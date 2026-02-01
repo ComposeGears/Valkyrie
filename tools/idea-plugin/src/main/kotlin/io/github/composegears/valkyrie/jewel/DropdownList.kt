@@ -9,6 +9,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ fun <T : Any> DropdownList(
     transform: (T) -> String,
     onSelectItem: (T) -> Unit,
     modifier: Modifier = Modifier,
+    maxPopupWidth: Dp = Dp.Unspecified,
 ) {
     val updatedTransform by rememberUpdatedState(transform)
 
@@ -43,6 +45,7 @@ fun <T : Any> DropdownList(
         items = items.map(transform),
         selectedIndex = items.indexOf(selected),
         onSelectedItemChange = { onSelectItem(items[it]) },
+        maxPopupWidth = maxPopupWidth,
         modifier = modifier,
         itemKeys = { _, item -> item },
         listState = listState,
