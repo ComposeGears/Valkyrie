@@ -4,20 +4,21 @@ intellij = "2.10.5"
 jacoco = "0.8.13"
 jdkRelease = "21"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
-kotlin = "2.2.21"
+kotlin = "2.2.20"
 kover = "0.9.4"
 leviathan = "3.1.0"
-ktor = "3.3.3"
+# Support Kotlin 2.2.20 https://github.com/ktorio/ktor/releases/tag/3.3.1
+ktor = "3.3.1"
 
 [libraries]
 android-build-tools = "com.android.tools:sdk-common:31.13.2"
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-ui-tooling-preview = "androidx.compose.ui:ui-tooling-preview:1.10.0"
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 highlights = "dev.snipme:highlights:1.1.0"
-kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
+# Support Kotlin 2.2.20 https://github.com/square/kotlinpoet/releases/tag/2.1.0
+kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.2"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
+# Support Kotlin 2.2.20 https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.9.0
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -27,7 +28,8 @@ leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviat
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
 tiamat = "io.github.composegears:tiamat:2.1.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
-xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
+# Support Kotlin 2.2.20 https://github.com/pdvrieze/xmlutil/releases/tag/v0.91.2
+xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.2"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.0.2"
@@ -61,6 +63,7 @@ shadow = "com.gradleup.shadow:9.3.1"
 spotless = "com.diffplug.spotless:8.1.0"
 
 # Project conventional plugins
+valkyrie-jvm = { id = "valkyrie.jvm" }
 valkyrie-kmp = { id = "valkyrie.kmp" }
 valkyrie-compose = { id = "valkyrie.compose" }
 valkyrie-wasm-resources = { id = "valkyrie.wasm.resources" }

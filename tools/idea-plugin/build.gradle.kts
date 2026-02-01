@@ -1,8 +1,6 @@
-import io.github.composegears.valkyrie.extension.excludeCompose
-import io.github.composegears.valkyrie.task.CheckComposeVersionCompatibility
 import org.jetbrains.changelog.Changelog
-import org.jetbrains.intellij.platform.gradle.extensions.excludeKotlinStdlib
-import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -16,31 +14,40 @@ plugins {
 group = rootProject.providers.gradleProperty("GROUP").get()
 version = rootProject.providers.gradleProperty("VERSION_NAME").get()
 
-configurations.all {
-    // Exclude Compose Multiplatform dependencies not needed in IntelliJ plugin
-    //  exclude("androidx.annotation")
-    //  exclude("androidx.arch.core")
-    //  exclude("androidx.compose")
-    //  exclude("androidx.lifecycle")
-    //  exclude("org.jetbrains.compose")
-    //  exclude("org.jetbrains.compose.foundation")
-    //  exclude("org.jetbrains.compose.runtime")
-    //  exclude("org.jetbrains.compose.ui")
-    //  exclude("org.jetbrains.jewel")
-    //  exclude("org.jetbrains.kotlin")
-    //  exclude("org.jetbrains.kotlinx")
-    exclude("org.jetbrains.skiko")
+configurations.getByName("implementation") {
+    exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
+    exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+    exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
 
-    exclude(group = "net.sourceforge.plantuml") // PlantUML (~20MB) - from dev.snipme:highlights
+    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
+    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core-jvm")
+    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-slf4j")
 
-    // Exclude kotlinx-serialization-json-io to prevent conflicts with IntelliJ's bundled libraries
-    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json-io")
-    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json-io-jvm")
-}
+    exclude(group = "org.jetbrains.compose")
+    exclude(group = "org.jetbrains.compose.foundation")
+    exclude(group = "org.jetbrains.compose.desktop")
+    exclude(group = "org.jetbrains.compose.runtime")
+    exclude(group = "org.jetbrains.compose.ui")
+    exclude(group = "org.jetbrains.compose.components")
+    exclude(group = "org.jetbrains.skiko")
 
-configurations.all {
-    // Exclude desktop preview
-    exclude(group = "org.jetbrains.compose.ui", module = "ui-tooling-preview-desktop")
+    exclude(group = "androidx.annotation")
+    exclude(group = "androidx.lifecycle")
+
+    // Android Build Tools
+    exclude(group = "com.android.tools.analytics-library")
+    exclude(group = "com.android.tools.build", module = "aapt2-proto")
+    exclude(group = "com.android.tools.ddms")
+    exclude(group = "com.android.tools.layoutlib")
+    exclude(group = "com.android.tools", module = "sdklib")
+    exclude(group = "com.google.code.gson")
+    exclude(group = "com.google.guava")
+    exclude(group = "com.google.protobuf")
+    exclude(group = "org.apache.commons")
+    exclude(group = "org.bouncycastle")
+    exclude(group = "org.glassfish.jaxb")
+    exclude(group = "net.java.dev.jna")
+    exclude(group = "net.sf.kxml")
 }
 
 dependencies {
@@ -48,23 +55,14 @@ dependencies {
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.unified)
     implementation(projects.compose.icons)
-    implementation(projects.compose.ui)
-    implementation(projects.compose.util)
     implementation(projects.sdk.compose.highlightsCore)
-    implementation(projects.sdk.compose.foundation) {
-        excludeKotlinStdlib()
-        excludeCompose()
-    }
+    implementation(projects.sdk.compose.foundation)
     implementation(projects.sdk.core.extensions)
-    implementation(projects.sdk.intellij.psi.iconpack)
-    implementation(projects.sdk.intellij.psi.imagevector)
     implementation(projects.sdk.ir.core)
     implementation(projects.sdk.ir.compose)
     implementation(projects.sdk.ir.util)
     implementation(projects.sdk.ir.xml)
     implementation(projects.shared)
-
-    implementation(compose.preview)
 
     implementation(libs.android.build.tools)
     implementation(libs.fonticons)
@@ -80,12 +78,12 @@ dependencies {
     testImplementation(libs.bundles.kmp.test)
     testImplementation(libs.junit4)
 
-    // Support for Compose Preview in IntelliJ
-    compileOnly(libs.compose.ui.tooling.preview)
-
     intellijPlatform {
         zipSigner()
         pluginVerifier()
+
+        pluginModule(implementation(projects.sdk.intellij.psi.iconpack))
+        pluginModule(implementation(projects.sdk.intellij.psi.imagevector))
     }
 }
 
@@ -98,24 +96,18 @@ intellijPlatform {
     projectName = "valkyrie-plugin"
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "252"
+            sinceBuild = "253"
             untilBuild = provider { null }
         }
         changeNotes = provider { changelog.render(Changelog.OutputType.HTML) }
     }
     pluginVerification {
-        failureLevel = listOf(
-            FailureLevel.COMPATIBILITY_WARNINGS,
-            FailureLevel.COMPATIBILITY_PROBLEMS,
-            FailureLevel.OVERRIDE_ONLY_API_USAGES,
-            FailureLevel.NON_EXTENDABLE_API_USAGES,
-            FailureLevel.PLUGIN_STRUCTURE_WARNINGS,
-            FailureLevel.MISSING_DEPENDENCIES,
-            FailureLevel.INVALID_PLUGIN,
-            FailureLevel.NOT_DYNAMIC,
-        )
+        failureLevel = VerifyPluginTask.FailureLevel.ALL.toList()
         ides {
-            recommended()
+            create(
+                type = IntelliJPlatformType.IntellijIdea,
+                version = "2025.3",
+            )
         }
     }
     signing {
@@ -156,14 +148,5 @@ tasks {
     }
     prepareSandbox {
         exclude { "coroutines" in it.name }
-    }
-    val checkComposeVersionCompatibility by registering(CheckComposeVersionCompatibility::class) {
-        artifactCollection = configurations.runtimeClasspath.map {
-            it.incoming.artifactView { lenient(true) }.artifacts
-        }
-        expectedComposeVersion = libs.versions.compose
-    }
-    check {
-        dependsOn(checkComposeVersionCompatibility)
     }
 }

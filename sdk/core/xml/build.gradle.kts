@@ -13,6 +13,3 @@ kotlin {
     }
 }
 
-tasks.withType<Jar>().configureEach {
-    archiveBaseName = "sdk-core-xml"
-}
