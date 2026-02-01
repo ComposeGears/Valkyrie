@@ -46,6 +46,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(kotlin("stdlib"))
             implementation(libs.tiamat)
         }
         desktopMain.dependencies {

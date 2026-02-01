@@ -13,6 +13,10 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("valkyrie.jvm") {
+            id = "valkyrie.jvm"
+            implementationClass = "JvmPlugin"
+        }
         register("valkyrie.kmp") {
             id = "valkyrie.kmp"
             implementationClass = "KmpPlugin"

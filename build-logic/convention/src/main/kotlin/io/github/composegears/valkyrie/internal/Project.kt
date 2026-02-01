@@ -2,7 +2,9 @@ package io.github.composegears.valkyrie.internal
 
 import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 import org.gradle.api.Project
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -26,3 +28,15 @@ internal fun Project.composeCompiler(block: ComposeCompilerGradlePluginExtension
 
 internal fun Project.kover(action: KoverProjectExtension.() -> Unit) =
     extensions.configure<KoverProjectExtension>(action)
+
+internal fun Project.configureArchiveBaseName() {
+    tasks.withType<Jar>().configureEach {
+        val pathSegments = project.path
+            .removePrefix(":")
+            .split(":")
+            .filter { it.isNotEmpty() }
+        val name = pathSegments.joinToString("-")
+
+        archiveBaseName.set("valkyrie-$name")
+    }
+}
