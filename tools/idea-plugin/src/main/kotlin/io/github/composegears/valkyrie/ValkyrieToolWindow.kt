@@ -39,7 +39,7 @@ class ValkyrieToolWindow :
 private fun Valkyrie(project: Project) {
     CompositionLocalProvider(
         LocalGlobalBannerState provides rememberBannerState(),
-        LocalProject provides project
+        LocalProject provides project,
     ) {
         ValkyriePlugin()
     }
