@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.valkyrie.abi)
+    alias(libs.plugins.valkyrie.jvm)
     alias(libs.plugins.valkyrie.kover)
 }
 
