@@ -38,7 +38,7 @@ class ImportFromDirectoryOrFileAction : AnAction() {
         if (settings.isIconPackRequired) {
             val yesCancel = MessageDialogBuilder.okCancel(
                 title = "",
-                message = "This action requires an IconPack mode to be setup"
+                message = "This action requires an IconPack mode to be setup",
             ).asWarning()
                 .yesText("Continue")
                 .ask(event.project)

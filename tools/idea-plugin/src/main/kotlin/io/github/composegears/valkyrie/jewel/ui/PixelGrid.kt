@@ -64,7 +64,7 @@ fun PixelGrid(
 private fun PixelGridPreview() = PreviewTheme {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         val gridSizes = listOf(64.dp, 32.dp, 13.dp, 8.dp, 4.dp)
 

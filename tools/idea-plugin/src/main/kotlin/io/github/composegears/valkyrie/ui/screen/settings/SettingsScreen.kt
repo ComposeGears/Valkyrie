@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.currentNavDestinationAsState
@@ -17,10 +18,10 @@ import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.compose.replace
 import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.jewel.BackAction
-import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.about.AboutSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.general.GeneralSettingsScreen
@@ -69,6 +70,7 @@ val SettingsScreen by navDestination {
                 tabsNavController.replace(navDestination)
             }
         }
+        Spacer(16.dp)
 
         Navigation(
             modifier = Modifier.fillMaxSize(),
@@ -99,7 +101,6 @@ private fun Tabs(
             style = JewelTheme.defaultTabStyle,
             interactionSource = remember { MutableInteractionSource() },
         )
-        HorizontalDivider()
     }
 }
 

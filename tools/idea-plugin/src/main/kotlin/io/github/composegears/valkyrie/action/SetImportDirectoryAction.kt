@@ -42,7 +42,7 @@ class SetImportDirectoryAction : AnAction() {
         if (settings.isIconPackRequired) {
             val yesCancel = MessageDialogBuilder.okCancel(
                 title = "",
-                message = "Destination folder updated.\nYou can setup IconPack mode now or later to start processing icons"
+                message = "Destination folder updated.\nYou can setup IconPack mode now or later to start processing icons",
             ).asWarning()
                 .yesText("Continue")
                 .ask(event.project)
