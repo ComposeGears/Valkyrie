@@ -51,7 +51,7 @@ kover-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.r
 [plugins]
 buildconfig = "com.github.gmazzo.buildconfig:6.0.7"
 compose-hot-reload = "org.jetbrains.compose.hot-reload:1.0.0"
-jetbrains-changelog = "org.jetbrains.changelog:2.4.0"
+jetbrains-changelog = "org.jetbrains.changelog:2.5.0"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }
