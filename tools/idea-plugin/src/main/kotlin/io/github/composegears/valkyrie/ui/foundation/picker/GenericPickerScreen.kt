@@ -17,15 +17,15 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.idea.AddFile
 import io.github.composegears.valkyrie.compose.icons.idea.AddFileDark
 import io.github.composegears.valkyrie.compose.util.disabled
 import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
@@ -128,7 +128,7 @@ private fun PickerBox(
                 },
                 contentDescription = null,
             )
-            VerticalSpacer(8.dp)
+            Spacer(8.dp)
             CenterVerticalRow {
                 Text(
                     modifier = Modifier.padding(8.dp),
@@ -158,7 +158,7 @@ private fun PickerBox(
                     color = LocalContentColor.current.disabled(),
                     style = MaterialTheme.typography.labelSmall,
                 )
-                VerticalSpacer(4.dp)
+                Spacer(4.dp)
             }
 
             Text(

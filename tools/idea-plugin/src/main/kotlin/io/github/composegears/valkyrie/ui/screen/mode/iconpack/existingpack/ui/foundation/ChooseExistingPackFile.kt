@@ -14,8 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.TextWithIcon
 import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject

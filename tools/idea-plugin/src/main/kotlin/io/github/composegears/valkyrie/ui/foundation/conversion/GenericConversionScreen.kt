@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import io.github.composegears.valkyrie.compose.core.animation.ExpandedAnimatedContent
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
+import io.github.composegears.valkyrie.sdk.compose.foundation.animation.ExpandedAnimatedContent
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction

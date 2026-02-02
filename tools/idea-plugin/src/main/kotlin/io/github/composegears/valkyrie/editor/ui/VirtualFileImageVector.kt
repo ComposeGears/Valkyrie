@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.composegears.leviathan.compose.inject
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.vfs.VirtualFile
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.ui.di.DI

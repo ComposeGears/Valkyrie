@@ -9,15 +9,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.codeviewer.core.rememberCodeHighlight
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
+import io.github.composegears.valkyrie.compose.util.isLight
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.AndroidX
 import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.Jetbrains
+import io.github.composegears.valkyrie.sdk.compose.codeviewer.rememberCodeHighlight
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.SelectableCard
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.SwitchOption
@@ -44,7 +46,7 @@ fun PreviewAnnotationSection(
             exit = shrinkVertically() + fadeOut(),
         ) {
             Column {
-                VerticalSpacer(8.dp)
+                Spacer(8.dp)
                 Row(
                     modifier = Modifier.padding(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -62,6 +64,7 @@ fun PreviewAnnotationSection(
                                    Icon(imageVector = Icons.Filled.MyIcon)
                                }
                             """.trimIndent(),
+                            isLight = MaterialTheme.colorScheme.isLight,
                         ),
                         isSelected = previewAnnotationType == AndroidX,
                         onSelect = { onAnnotationTypeChange(AndroidX) },
@@ -80,6 +83,7 @@ fun PreviewAnnotationSection(
                                    Icon(imageVector = Icons.Filled.MyIcon)
                                }
                             """.trimIndent(),
+                            isLight = MaterialTheme.colorScheme.isLight,
                         ),
                         isSelected = previewAnnotationType == Jetbrains,
                         onSelect = { onAnnotationTypeChange(Jetbrains) },

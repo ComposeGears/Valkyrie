@@ -31,13 +31,13 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.HorizontalSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Search
 import io.github.composegears.valkyrie.compose.util.dim
 import io.github.composegears.valkyrie.compose.util.subtle
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
@@ -64,7 +64,7 @@ fun SearchInputField(
             .padding(start = 4.dp, end = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        HorizontalSpacer(4.dp)
+        Spacer(4.dp)
         BasicTextField(
             modifier = Modifier.weight(1f),
             value = value,

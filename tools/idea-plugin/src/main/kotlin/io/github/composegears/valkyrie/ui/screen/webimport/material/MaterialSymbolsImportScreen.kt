@@ -37,9 +37,9 @@ import dev.tclement.fonticons.FontIcon
 import dev.tclement.fonticons.IconFont
 import dev.tclement.fonticons.ProvideIconParameters
 import dev.tclement.fonticons.rememberVariableIconFont
-import io.github.composegears.valkyrie.compose.core.animation.Shimmer
-import io.github.composegears.valkyrie.compose.core.animation.rememberShimmer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
+import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
+import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar

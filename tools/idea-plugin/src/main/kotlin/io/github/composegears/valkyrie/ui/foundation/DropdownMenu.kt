@@ -28,13 +28,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.applyIf
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.ArrowDown
 import io.github.composegears.valkyrie.compose.util.isLight
 import io.github.composegears.valkyrie.compose.util.subtle
+import io.github.composegears.valkyrie.sdk.compose.foundation.applyIf
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 
 @Composable

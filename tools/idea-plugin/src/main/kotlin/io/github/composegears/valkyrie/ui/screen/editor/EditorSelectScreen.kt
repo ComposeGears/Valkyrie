@@ -23,8 +23,8 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar
@@ -56,7 +56,7 @@ private fun EditorScreenUi(
             BackAction(onBack = onBack)
             AppBarTitle(title = stringResource("editor.select.header"))
         }
-        VerticalSpacer(8.dp)
+        Spacer(8.dp)
 
         val options = remember {
             listOf(

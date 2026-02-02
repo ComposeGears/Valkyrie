@@ -21,6 +21,7 @@ import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.compose.icons.colored.LucideLogo
 import io.github.composegears.valkyrie.compose.ui.InfoCard
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
 import io.github.composegears.valkyrie.ui.foundation.BackAction
 import io.github.composegears.valkyrie.ui.foundation.TopAppBar

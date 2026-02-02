@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
 import io.github.composegears.valkyrie.ui.foundation.InfoItem
 import io.github.composegears.valkyrie.ui.foundation.icons.Folder
@@ -82,7 +82,7 @@ fun ChoosePackDirectory(
                 )
             }
         }
-        VerticalSpacer(36.dp)
+        Spacer(36.dp)
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -102,7 +102,7 @@ fun ChoosePackDirectory(
                 )
             }
         }
-        VerticalSpacer(16.dp)
+        Spacer(16.dp)
         Button(
             modifier = Modifier.align(Alignment.End),
             enabled = state.nextAvailable,

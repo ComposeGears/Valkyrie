@@ -32,13 +32,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.animatedBorder
-import io.github.composegears.valkyrie.compose.core.animation.Shimmer
-import io.github.composegears.valkyrie.compose.core.animation.shimmer
-import io.github.composegears.valkyrie.compose.core.applyIf
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
 import io.github.composegears.valkyrie.compose.ui.foundation.VerticalScrollbar
 import io.github.composegears.valkyrie.compose.util.dim
+import io.github.composegears.valkyrie.sdk.compose.foundation.animatedBorder
+import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
+import io.github.composegears.valkyrie.sdk.compose.foundation.animation.shimmer
+import io.github.composegears.valkyrie.sdk.compose.foundation.applyIf
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 
 /**
  * Shared loading content for web import screens
@@ -85,7 +85,7 @@ fun ErrorContent(
             maxLines = 1,
         )
         if (description != null) {
-            VerticalSpacer(16.dp)
+            Spacer(16.dp)
 
             val primaryColor = MaterialTheme.colorScheme.primary
             Box(

@@ -16,7 +16,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.gradle.develocity") version "4.3"
+    id("com.gradle.develocity") version "4.3.1"
 }
 
 develocity {
@@ -76,6 +76,9 @@ include("components:parser:kmp:xml")
 include("components:parser:kmp:svg")
 include("components:parser:unified")
 
+include("sdk:compose:codeviewer")
+include("sdk:compose:highlights-core")
+include("sdk:compose:foundation")
 include("sdk:core:extensions")
 include("sdk:core:xml")
 include("sdk:generator:xml")
@@ -89,8 +92,6 @@ include("sdk:ir:xml")
 include("sdk:test:coverage")
 include("sdk:test:resource-loader")
 
-include("compose:codeviewer")
-include("compose:core")
 include("compose:icons")
 include("compose:ui")
 include("compose:util")

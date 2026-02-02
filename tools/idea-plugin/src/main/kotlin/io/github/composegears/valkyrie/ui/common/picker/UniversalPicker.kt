@@ -26,13 +26,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
-import io.github.composegears.valkyrie.compose.core.rememberMutableState
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.idea.AddFile
 import io.github.composegears.valkyrie.compose.util.disabled
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickDirectory
 import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.foundation.dashedBorder
@@ -145,7 +145,7 @@ private fun SelectableState(
                 color = LocalContentColor.current.disabled(),
                 style = MaterialTheme.typography.labelSmall,
             )
-            VerticalSpacer(16.dp)
+            Spacer(16.dp)
             Text(
                 text = stringResource("picker.dnd.or"),
                 style = MaterialTheme.typography.labelMedium,
