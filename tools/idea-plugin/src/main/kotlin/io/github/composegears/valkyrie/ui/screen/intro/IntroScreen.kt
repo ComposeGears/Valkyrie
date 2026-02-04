@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.KT_TO_SVG_ENABLED
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
@@ -52,7 +51,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.typography
 
-val IntroScreen: NavDestination<Unit> by navDestination {
+val IntroScreen by navDestination {
 
     val navController = navController()
 

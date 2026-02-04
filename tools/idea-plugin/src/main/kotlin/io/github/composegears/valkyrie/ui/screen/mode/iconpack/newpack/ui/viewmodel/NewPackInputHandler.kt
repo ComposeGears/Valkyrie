@@ -21,7 +21,7 @@ class NewPackInputHandler(
                 return if (useMaterialPack) {
                     InputFieldState(
                         packageName = InputState(
-                            text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
+                            text = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
                         ),
                         iconPackPackage = InputState(text = "androidx.compose.material.icons", enabled = false),
                         iconPackName = InputState(text = "Icons", enabled = false),
@@ -36,16 +36,11 @@ class NewPackInputHandler(
                     )
                 } else {
                     InputFieldState(
-                        iconPackName = InputState(text = iconPackName),
+                        iconPackName = InputState(),
                         packageName = InputState(
-                            text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
+                            text = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
                         ),
-                        nestedPacks = nestedPacks.mapIndexed { index, nestedPack ->
-                            NestedPack(
-                                id = index.toString(),
-                                inputFieldState = InputState(text = nestedPack),
-                            )
-                        },
+                        nestedPacks = emptyList(),
                     )
                 }
             }

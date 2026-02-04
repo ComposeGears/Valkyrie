@@ -9,8 +9,8 @@ import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
-import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
-import io.github.composegears.valkyrie.ui.common.picker.UniversalPicker
+import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
+import io.github.composegears.valkyrie.ui.foundation.picker.UniversalPicker
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

@@ -58,6 +58,8 @@ dependencies {
     implementation(projects.sdk.compose.highlightsCore)
     implementation(projects.sdk.compose.foundation)
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.intellij.psi.iconpack)
+    implementation(projects.sdk.intellij.psi.imagevector)
     implementation(projects.sdk.ir.core)
     implementation(projects.sdk.ir.compose)
     implementation(projects.sdk.ir.util)
@@ -82,9 +84,6 @@ dependencies {
     intellijPlatform {
         zipSigner()
         pluginVerifier()
-
-        pluginModule(implementation(projects.sdk.intellij.psi.iconpack))
-        pluginModule(implementation(projects.sdk.intellij.psi.imagevector))
     }
 }
 

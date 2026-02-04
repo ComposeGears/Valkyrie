@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -29,7 +28,7 @@ fun PackageTextField(
 ) {
     ValidationTextField(
         modifier = modifier,
-        state = rememberTextFieldState(text),
+        text = text,
         validationUseCase = remember { PackageValidationUseCase() },
         errorMessageMapper = {
             when (it) {

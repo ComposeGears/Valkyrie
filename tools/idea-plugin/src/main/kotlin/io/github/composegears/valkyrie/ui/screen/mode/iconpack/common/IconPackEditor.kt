@@ -128,17 +128,17 @@ private fun NestedPacks(
                     key = AllIconsKeys.General.Delete,
                     onClick = { onRemove(nestedPack) },
                     contentDescription = stringResource("accessibility.remove"),
+                    enabled = inputFieldState.enabled
                 )
             }
             if (index != nestedPacks.lastIndex) {
                 Spacer(8.dp)
             }
         }
-        Spacer(8.dp)
-        AddPackButton(
-            onClick = onAddNestedPack,
-            enabled = allowAddNestedPack,
-        )
+        if (allowAddNestedPack) {
+            Spacer(8.dp)
+            AddPackButton(onClick = onAddNestedPack)
+        }
     }
 }
 
@@ -146,12 +146,10 @@ private fun NestedPacks(
 private fun AddPackButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
 ) {
     Link(
         modifier = modifier,
         text = stringResource("iconpack.editor.add.nested.pack"),
-        enabled = enabled,
         onClick = onClick,
     )
 }
@@ -184,7 +182,7 @@ private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCent
     IconPackEditor(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 32.dp),
+            .padding(horizontal = 16.dp),
         packEditState = state,
         onValueChange = {
             when (it) {
