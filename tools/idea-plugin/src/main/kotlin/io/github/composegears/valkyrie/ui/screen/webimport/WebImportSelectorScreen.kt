@@ -27,7 +27,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.InfoText
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
-val WebImportSelectorScreen by navDestination<Unit> {
+val WebImportSelectorScreen by navDestination {
     val navController = navController()
 
     WebImportSelectorScreenUI(

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui
+package io.github.composegears.valkyrie.ui.foundation
 
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column

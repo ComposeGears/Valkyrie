@@ -107,12 +107,16 @@ private fun ExistingPackUi(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 when (state) {
-                    is ChooserState -> ChooseExistingPackFile(onAction = onAction)
-                    is ExistingPackEditState -> ExistingPackEditor(
-                        state = state,
-                        onAction = onAction,
-                        onValueChange = onValueChange,
-                    )
+                    is ChooserState -> {
+                        ChooseExistingPackFile(onAction = onAction)
+                    }
+                    is ExistingPackEditState -> {
+                        ExistingPackEditor(
+                            state = state,
+                            onAction = onAction,
+                            onValueChange = onValueChange,
+                        )
+                    }
                 }
             }
         }

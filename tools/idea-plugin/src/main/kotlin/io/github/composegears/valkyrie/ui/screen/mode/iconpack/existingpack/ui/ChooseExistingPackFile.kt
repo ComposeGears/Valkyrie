@@ -53,7 +53,7 @@ fun ChooseExistingPackFile(
     Column(
         modifier = modifier
             .widthIn(max = 450.dp)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 32.dp),
     ) {
         DragAndDropBox(
             modifier = Modifier

@@ -9,11 +9,13 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.foundation.modifier.thenIf
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.styling.ButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
+import org.jetbrains.jewel.ui.disabledAppearance
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
@@ -24,6 +26,7 @@ fun OutlineIconButton(
     onClick: () -> Unit,
     contentDescription: String?,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     val size = JewelTheme.outlinedButtonStyle.metrics.minSize.height
     val style = ButtonStyle(
@@ -39,9 +42,10 @@ fun OutlineIconButton(
     )
 
     OutlinedButton(
-        modifier = modifier,
+        modifier = modifier.thenIf(!enabled) { disabledAppearance() },
         style = style,
         onClick = onClick,
+        enabled = enabled
     ) {
         Icon(
             key = key,

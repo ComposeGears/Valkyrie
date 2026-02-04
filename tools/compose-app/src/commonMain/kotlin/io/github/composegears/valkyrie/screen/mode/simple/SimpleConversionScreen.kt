@@ -16,7 +16,7 @@ import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.outlined.Back
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 
-val SimpleConversionScreen by navDestination<Unit> {
+val SimpleConversionScreen by navDestination {
     val navController = navController()
 
     SimpleConversionUi(onBack = navController::back)

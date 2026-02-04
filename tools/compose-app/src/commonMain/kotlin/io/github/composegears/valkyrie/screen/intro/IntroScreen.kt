@@ -33,7 +33,7 @@ import valkyrie.tools.compose_app.generated.resources.intro_card_simple_title
 import valkyrie.tools.compose_app.generated.resources.intro_header
 import valkyrie.tools.compose_app.generated.resources.intro_subheader
 
-val IntroScreen by navDestination<Unit> {
+val IntroScreen by navDestination {
     val navController = navController()
 
     IntroUI(

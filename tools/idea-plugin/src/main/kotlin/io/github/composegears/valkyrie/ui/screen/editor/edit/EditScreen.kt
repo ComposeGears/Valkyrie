@@ -19,7 +19,7 @@ import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
-import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
+import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.screen.editor.EditorType
 import io.github.composegears.valkyrie.ui.screen.editor.edit.ui.EditorSelectUi
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen

@@ -30,7 +30,7 @@ import org.jetbrains.jewel.ui.component.InfoText
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.typography
 
-val EditorSelectScreen by navDestination<Unit> {
+val EditorSelectScreen by navDestination {
     val navController = navController()
 
     EditorScreenUi(

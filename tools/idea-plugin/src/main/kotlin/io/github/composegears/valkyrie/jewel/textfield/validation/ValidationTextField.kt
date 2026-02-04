@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,7 +31,7 @@ import org.jetbrains.jewel.ui.component.TextField
 
 @Composable
 fun ValidationTextField(
-    state: TextFieldState,
+    text: String,
     validationUseCase: ValidationUseCase,
     enabled: Boolean = true,
     onValueChange: (String) -> Unit,
@@ -44,18 +45,28 @@ fun ValidationTextField(
     var validationResult by rememberMutableState<ValidationResult> { ValidationResult.None }
     var isFirstEmission by rememberMutableState { true }
 
+    val state = rememberTextFieldState(text)
+
+    LaunchedEffect(text) {
+        if (state.text.toString() != text) {
+            validationResult = ValidationResult.None
+            state.setTextAndPlaceCursorAtEnd(text)
+            isFirstEmission = true
+        }
+    }
+
     LaunchedEffect(state) {
         snapshotFlow { state.text.toString() }
-            .collectLatest { text ->
-                onValueChangeRemembered(text)
+            .collectLatest { current ->
+                onValueChangeRemembered(current)
 
                 if (isFirstEmission) {
                     isFirstEmission = false
                     return@collectLatest
                 }
 
-                delay(200)
-                val result = validationUseCase(text)
+                delay(100)
+                val result = validationUseCase(current)
                 validationResult = result
                 onValidationChangeRemembered(result)
             }
@@ -125,18 +136,18 @@ private fun ValidatedTextFieldPreview() = PreviewTheme(alignment = Alignment.Cen
         }
     }
 
-    val state = rememberTextFieldState("Text")
+    val text by rememberMutableState { "Text" }
 
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         ValidationTextField(
-            state = state,
+            text = text,
             validationUseCase = useCase,
             errorMessageMapper = mapper,
             enabled = true,
             onValueChange = { },
         )
         ValidationTextField(
-            state = state,
+            text = text,
             validationUseCase = useCase,
             enabled = false,
             onValueChange = { },

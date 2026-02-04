@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.common.picker
+package io.github.composegears.valkyrie.ui.foundation.picker
 
 import java.nio.file.Path
 
