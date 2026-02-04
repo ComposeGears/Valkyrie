@@ -27,6 +27,7 @@ leviathan-compose = { module = "io.github.composegears:leviathan-compose", versi
 tiamat = "io.github.composegears:tiamat:2.1.0-1.8.2"
 xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
+fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.0.2"
