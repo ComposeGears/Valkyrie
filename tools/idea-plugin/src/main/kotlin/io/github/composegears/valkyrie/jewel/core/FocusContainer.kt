@@ -22,6 +22,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.theme.iconButtonStyle
+import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 
 @Composable
 fun FocusContainer(
@@ -33,19 +34,22 @@ fun FocusContainer(
     val isHover by interactionSource.collectIsHoveredAsState()
     val isPressed by interactionSource.collectIsPressedAsState()
 
+    val outlineStyle = JewelTheme.outlinedButtonStyle
+    val iconStyle = JewelTheme.iconButtonStyle
+
     Box(
         modifier = modifier
             .border(
-                width = JewelTheme.globalMetrics.outlineWidth,
-                color = JewelTheme.globalColors.borders.normal,
+                width = outlineStyle.metrics.borderWidth,
+                brush = outlineStyle.colors.border,
                 shape = RoundedCornerShape(12.dp),
             )
             .clip(RoundedCornerShape(12.dp))
             .background(
                 when {
-                    isPressed -> JewelTheme.iconButtonStyle.colors.backgroundPressed
-                    isHover -> JewelTheme.iconButtonStyle.colors.backgroundHovered
-                    else -> JewelTheme.iconButtonStyle.colors.background
+                    isPressed -> iconStyle.colors.backgroundPressed
+                    isHover -> iconStyle.colors.backgroundHovered
+                    else -> iconStyle.colors.background
                 },
             )
             .clickable(
@@ -63,7 +67,7 @@ private fun FocusContainerPreview() = PreviewTheme(alignment = Alignment.Center)
     FocusContainer(onClick = {}) {
         Text(
             text = "Focusable",
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(64.dp),
         )
     }
 }
