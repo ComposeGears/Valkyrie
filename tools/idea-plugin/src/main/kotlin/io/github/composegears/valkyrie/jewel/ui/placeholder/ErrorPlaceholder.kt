@@ -19,13 +19,14 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.colors.primaryColor
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.jewel.tooling.debugBounds
 import io.github.composegears.valkyrie.jewel.tooling.lorem
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.util.ValkyrieBundle.message
+import io.github.composegears.valkyrie.util.ValkyrieBundle
 import java.awt.datatransfer.StringSelection
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -41,43 +42,40 @@ fun ErrorPlaceholder(
     modifier: Modifier = Modifier,
     description: String? = null,
 ) {
-    val clipboard = LocalClipboard.current
-    val scope = rememberCoroutineScope()
+    Column(
+        modifier = modifier
+            .widthIn(max = 450.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = message,
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+        )
+        if (description != null) {
+            Spacer(16.dp)
 
-    ContextMenuArea(
-        items = {
-            if (description != null) {
-                listOf(
-                    ContextMenuItemOption(
-                        label = message("ui.placeholder.error.context.menu.copy"),
-                        action = {
-                            scope.launch {
-                                clipboard.setClipEntry(ClipEntry(StringSelection(description)))
-                            }
-                        },
-                        icon = AllIconsKeys.Actions.Copy,
-                    ),
-                )
-            } else {
-                emptyList()
-            }
-        },
-        content = {
-            Column(
-                modifier = modifier
-                    .widthIn(max = 450.dp)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = message,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                )
-                if (description != null) {
-                    Spacer(16.dp)
+            val clipboard = LocalClipboard.current
+            val scope = rememberCoroutineScope()
 
+            ContextMenuArea(
+                items = {
+                    listOf(
+                        ContextMenuItemOption(
+                            label = ValkyrieBundle.message("ui.placeholder.error.context.menu.copy"),
+                            action = {
+                                scope.launch {
+                                    clipboard.setClipEntry(ClipEntry(StringSelection(description)))
+                                }
+                            },
+                            icon = AllIconsKeys.Actions.Copy,
+                        ),
+                    )
+                },
+                content = {
                     val primaryColor = JewelTheme.primaryColor
                     Box(
                         modifier = Modifier
@@ -105,12 +103,13 @@ fun ErrorPlaceholder(
                             modifier = Modifier.padding(8.dp),
                             text = description,
                             maxLines = 5,
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                 }
-            }
-        },
-    )
+            )
+        }
+    }
 }
 
 @Preview
@@ -120,6 +119,11 @@ private fun ErrorPlaceholderPreview() = PreviewTheme(alignment = Alignment.Cente
         ErrorPlaceholder(
             modifier = Modifier.debugBounds(),
             message = lorem(3),
+        )
+        ErrorPlaceholder(
+            modifier = Modifier.debugBounds(),
+            message = lorem(3),
+            description = lorem(3),
         )
         ErrorPlaceholder(
             modifier = Modifier.debugBounds(),

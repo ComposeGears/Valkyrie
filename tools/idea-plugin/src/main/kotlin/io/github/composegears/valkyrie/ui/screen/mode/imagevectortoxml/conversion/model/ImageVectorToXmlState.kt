@@ -4,10 +4,21 @@ import androidx.compose.runtime.Stable
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import java.nio.file.Path
 
-data class ImageVectorToXmlState(
-    val iconSource: ImageVectorSource,
-    val xmlContent: XmlContent,
-)
+@Stable
+sealed interface ImageVectorToXmlState {
+
+    data class Content(
+        val iconSource: ImageVectorSource,
+        val xmlContent: XmlContent,
+    ) : ImageVectorToXmlState
+
+    data class Error(
+        val message: String,
+        val stacktrace: String? = null,
+    ) : ImageVectorToXmlState
+
+    data object Loading : ImageVectorToXmlState
+}
 
 @Stable
 sealed interface ImageVectorSource {
