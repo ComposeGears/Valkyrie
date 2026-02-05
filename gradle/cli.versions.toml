@@ -7,4 +7,4 @@ clikt = "5.1.0"
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 clikt-markdown = { module = "com.github.ajalt.clikt:clikt-markdown", version.ref = "clikt" }
 mockk = "io.mockk:mockk:1.14.9"
-r8 = "com.android.tools:r8:8.13.19"
+r8 = "com.android.tools:r8:9.0.32"
