@@ -14,16 +14,15 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
-import dev.snipme.highlights.model.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
-import io.github.composegears.valkyrie.jewel.editor.CodeEditor
+import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
@@ -129,6 +128,7 @@ private fun SimpleConversionContent(
         iconName = state.iconContent.name,
         codeContent = state.iconContent.code,
         irImageVector = state.iconContent.irImageVector,
+        language = SyntaxLanguage.KOTLIN,
         onBack = onBack,
         onIconNameChange = { onAction(OnIconNameChange(it)) },
         onCopyCode = { onAction(OnCopyInClipboard(it)) },
@@ -145,20 +145,12 @@ private fun SimpleConversionContent(
                 previewType = previewType,
             )
         },
-        codeViewer = { text, onChange ->
-            CodeEditor(
-                modifier = Modifier.fillMaxSize(),
-                syntaxLanguage = SyntaxLanguage.KOTLIN,
-                text = text,
-                onValueChange = onChange,
-            )
-        },
     )
 }
 
 @Preview
 @Composable
-private fun SimpleConversionPreviewUiPreview() = PreviewTheme {
+private fun SimpleConversionPreviewUiPreview() = ProjectPreviewTheme {
     SimpleConversionContent(
         state = ConversionState(
             iconSource = IconSource.StringBasedIcon(""),

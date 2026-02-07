@@ -13,24 +13,13 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 import io.github.composegears.valkyrie.jewel.colors.errorFocused
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
+import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
-
-@Composable
-fun PreviewTheme(
-    modifier: Modifier = Modifier,
-    alignment: Alignment = Alignment.TopStart,
-    content: @Composable BoxScope.() -> Unit,
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        content = content,
-        contentAlignment = alignment,
-    )
-}
 
 @Composable
 fun BannerPreviewTheme(
@@ -45,6 +34,37 @@ fun BannerPreviewTheme(
             content = content,
         )
     }
+}
+
+@Composable
+fun ProjectPreviewTheme(
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.TopStart,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    val projectAccessor = rememberProjectAccessor()
+    val project = projectAccessor.project ?: error("No project available in preview")
+
+    CompositionLocalProvider(LocalProject provides project) {
+        PreviewTheme(
+            modifier = modifier,
+            alignment = alignment,
+            content = content,
+        )
+    }
+}
+
+@Composable
+fun PreviewTheme(
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.TopStart,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        content = content,
+        contentAlignment = alignment,
+    )
 }
 
 @Composable

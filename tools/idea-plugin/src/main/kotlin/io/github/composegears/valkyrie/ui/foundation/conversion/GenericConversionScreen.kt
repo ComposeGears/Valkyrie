@@ -16,6 +16,8 @@ import io.github.composegears.valkyrie.jewel.PreviewToggleAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.editor.IntellijEditorTextField
+import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.ExpandedAnimatedContent
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
@@ -41,13 +43,13 @@ enum class ConversionExpandedAction {
  * @param iconName The current icon name (for editing)
  * @param codeContent The code content to display and edit
  * @param irImageVector The IR representation for preview
+ * @param language Language for Editor
  * @param onBack Callback when back button is clicked
  * @param onIconNameChange Callback when icon name is changed
  * @param onCopyCode Callback to copy code to clipboard
  * @param onOpenSettings Callback to open settings
  * @param editPanel Composable for the edit action panel
  * @param previewPanel Composable for the preview action panel
- * @param codeViewer Composable for displaying and editing code
  */
 @Composable
 fun GenericConversionScreen(
@@ -55,16 +57,16 @@ fun GenericConversionScreen(
     iconName: String,
     codeContent: String,
     irImageVector: IrImageVector,
+    language: SyntaxLanguage,
     onBack: () -> Unit,
     onIconNameChange: (String) -> Unit,
     onCopyCode: (String) -> Unit,
     onOpenSettings: () -> Unit,
     editPanel: @Composable (iconName: String, onNameChange: (String) -> Unit) -> Unit,
     previewPanel: @Composable (irImageVector: IrImageVector) -> Unit,
-    codeViewer: @Composable (text: String, onChange: (String) -> Unit) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var codePreview by rememberMutableState(codeContent) { codeContent }
+    var latestCode by rememberMutableState { codeContent }
     var expandedAction by rememberMutableState { ConversionExpandedAction.None }
 
     Column(modifier = modifier.fillMaxSize()) {
@@ -84,7 +86,7 @@ fun GenericConversionScreen(
                 },
                 selected = expandedAction == ConversionExpandedAction.Preview,
             )
-            CopyAction(onCopy = { onCopyCode(codePreview) })
+            CopyAction(onCopy = { onCopyCode(latestCode) })
             SettingsAction(openSettings = onOpenSettings)
         }
         ExpandedAnimatedContent(
@@ -104,6 +106,11 @@ fun GenericConversionScreen(
             }
         }
         HorizontalDivider()
-        codeViewer(codePreview) { codePreview = it }
+        IntellijEditorTextField(
+            modifier = Modifier.fillMaxSize(),
+            language = language,
+            text = codeContent,
+            onValueChange = { latestCode = it },
+        )
     }
 }
