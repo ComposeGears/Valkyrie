@@ -22,10 +22,12 @@ class ValkyrieToolWindow :
     DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
+        System.setProperty("compose.interop.blending", "true")
+
         DI.initWith(project)
 
         toolWindow.setTitleActions(listOf(RefreshPluginAction()))
-        toolWindow.addComposeTab(focusOnClickInside = true) {
+        toolWindow.addComposeTab(focusOnClickInside = false) {
             Valkyrie(project)
         }
     }

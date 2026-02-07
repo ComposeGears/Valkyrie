@@ -14,17 +14,16 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
-import dev.snipme.highlights.model.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
-import io.github.composegears.valkyrie.jewel.editor.CodeEditor
+import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
@@ -124,6 +123,7 @@ private fun ImageVectorToXmlContent(
         iconName = state.xmlContent.name,
         codeContent = state.xmlContent.xmlCode,
         irImageVector = state.xmlContent.irImageVector,
+        language = SyntaxLanguage.XML,
         onBack = onBack,
         onIconNameChange = { onAction(ImageVectorToXmlAction.OnIconNameChange(it)) },
         onCopyCode = { onAction(ImageVectorToXmlAction.OnCopyInClipboard(it)) },
@@ -140,20 +140,12 @@ private fun ImageVectorToXmlContent(
                 previewType = PreviewType.Pixel,
             )
         },
-        codeViewer = { text, onChange ->
-            CodeEditor(
-                modifier = Modifier.fillMaxSize(),
-                syntaxLanguage = SyntaxLanguage.KOTLIN,
-                text = text,
-                onValueChange = onChange,
-            )
-        },
     )
 }
 
 @Preview
 @Composable
-private fun ImageVectorToXmlContentPreview() = PreviewTheme {
+private fun ImageVectorToXmlContentPreview() = ProjectPreviewTheme {
     ImageVectorToXmlContent(
         state = ImageVectorToXmlState.Content(
             iconSource = ImageVectorSource.TextBasedIcon(""),

@@ -8,12 +8,12 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import dev.snipme.highlights.model.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
-import io.github.composegears.valkyrie.jewel.editor.CodeEditor
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.editor.IntellijEditorTextField
+import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage.KOTLIN
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -37,9 +37,9 @@ private fun CodePreviewUi(
             BackAction(onBack = onBack)
             Title(text = stringResource("code.preview.title"))
         }
-        CodeEditor(
+        IntellijEditorTextField(
             modifier = Modifier.fillMaxSize(),
-            syntaxLanguage = SyntaxLanguage.KOTLIN,
+            language = KOTLIN,
             text = code,
             readOnly = true,
             onValueChange = {},
@@ -49,7 +49,7 @@ private fun CodePreviewUi(
 
 @Preview
 @Composable
-private fun CodePreviewUiPreview() = PreviewTheme {
+private fun CodePreviewUiPreview() = ProjectPreviewTheme {
     CodePreviewUi(
         code = "sample code",
         onBack = {},
