@@ -164,7 +164,10 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
                     }
                 }
 
-                state.copy(settings = settings)
+                state.copy(
+                    settings = settings,
+                    loadedIcons = state.loadedIcons - oldCacheKeys,
+                )
             }
 
             removeCachedIcons(oldCacheKeys)
@@ -226,8 +229,10 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
             }
 
             try {
+                val latestSettings = lucideRecord.value.safeAs<LucideState.Success>()?.settings
+                    ?: return@launchIfAbsent
                 val rawSvg = lucideUseCase.getRawSvg(icon.name)
-                val customizedSvg = lucideUseCase.applyCustomizations(rawSvg, state.settings)
+                val customizedSvg = lucideUseCase.applyCustomizations(rawSvg, latestSettings)
 
                 parseAndCacheIcon(icon.name, customizedSvg, cacheKey)
             } catch (error: Throwable) {

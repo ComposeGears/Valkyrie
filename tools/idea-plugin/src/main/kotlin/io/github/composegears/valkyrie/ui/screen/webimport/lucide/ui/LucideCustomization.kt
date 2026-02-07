@@ -17,11 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.core.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.compose.core.layout.HorizontalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.VerticalSpacer
-import io.github.composegears.valkyrie.compose.core.layout.WeightSpacer
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.foundation.IconButton
 import io.github.composegears.valkyrie.ui.foundation.icons.Close
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.NoStopIndicatorSlider
@@ -59,7 +58,7 @@ fun LucideCustomization(
             ) {
                 Text(text = "Reset")
             }
-            HorizontalSpacer(4.dp)
+            Spacer(4.dp)
         }
 
         Column(
@@ -67,13 +66,13 @@ fun LucideCustomization(
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
-            VerticalSpacer(8.dp)
+            Spacer(8.dp)
 
             Text(
                 text = "Stroke width: ${String.format("%.1f", strokeWidth)}",
                 fontWeight = FontWeight.Medium,
             )
-            VerticalSpacer(4.dp)
+            Spacer(4.dp)
             NoStopIndicatorSlider(
                 value = strokeWidth,
                 onValueChange = { strokeWidth = it },
@@ -84,13 +83,13 @@ fun LucideCustomization(
                 steps = 34,
             )
 
-            VerticalSpacer(16.dp)
+            Spacer(16.dp)
 
             Text(
                 text = "Size: ${size}px",
                 fontWeight = FontWeight.Medium,
             )
-            VerticalSpacer(4.dp)
+            Spacer(4.dp)
             NoStopIndicatorSlider(
                 value = size.toFloat(),
                 onValueChange = { size = it.roundToInt() },
@@ -101,7 +100,7 @@ fun LucideCustomization(
                 steps = 31,
             )
 
-            VerticalSpacer(16.dp)
+            Spacer(16.dp)
 
             CenterVerticalRow {
                 Column(modifier = Modifier.weight(1f)) {
@@ -115,7 +114,7 @@ fun LucideCustomization(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     )
                 }
-                HorizontalSpacer(8.dp)
+                Spacer(8.dp)
                 Switch(
                     checked = settings.absoluteStrokeWidth,
                     onCheckedChange = {
@@ -124,7 +123,7 @@ fun LucideCustomization(
                 )
             }
 
-            VerticalSpacer(16.dp)
+            Spacer(16.dp)
         }
     }
 }
