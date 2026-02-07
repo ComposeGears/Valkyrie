@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
-import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
 import io.github.composegears.valkyrie.jewel.tooling.BannerPreviewTheme
 import io.github.composegears.valkyrie.jewel.tooling.randomLorem
@@ -74,7 +74,7 @@ fun BannerHost(
 @Composable
 private fun BannerRender(bannerData: BannerData) {
     when (val message = bannerData.message) {
-        is InfoBanner -> InlineSuccessBanner(text = message.text)
+        is SuccessBanner -> InlineSuccessBanner(text = message.text)
         is WarningBanner -> InlineWarningBanner(text = message.text)
         is ErrorBanner -> InlineErrorBanner(text = message.text)
     }
@@ -100,7 +100,7 @@ private fun BannerPreview() = BannerPreviewTheme {
 
         DefaultButton(
             onClick = {
-                bannerManager.show(message = InfoBanner(text = randomLorem()))
+                bannerManager.show(message = SuccessBanner(text = randomLorem()))
             },
             content = {
                 Text(text = "Success banner")

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +37,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.InfoText
 
 enum class SyntaxLanguage {
-    KOTLIN, XML
+    KOTLIN,
+    XML,
 }
 
 @Composable
@@ -51,7 +53,7 @@ fun IntellijEditorTextField(
         text = text,
         language = language,
         readOnly = readOnly,
-        onValueChange = onValueChange
+        onValueChange = onValueChange,
     )
 
     editor?.let { editor ->
@@ -70,6 +72,8 @@ private fun rememberIntelliJEditor(
     onValueChange: (String) -> Unit,
 ): Editor? {
     val project = LocalProject.current
+
+    val latestOnValueChange by rememberUpdatedState(onValueChange)
 
     var editor by rememberMutableState<Editor?> { null }
     var document by rememberMutableState<Document?> { null }
@@ -102,7 +106,7 @@ private fun rememberIntelliJEditor(
 
             val listener = object : DocumentListener {
                 override fun documentChanged(event: DocumentEvent) {
-                    onValueChange(event.document.text)
+                    latestOnValueChange(event.document.text)
                 }
             }
             doc.addDocumentListener(listener, disposable)
@@ -166,7 +170,7 @@ private fun IntellijEditorTextFieldPreview() = ProjectPreviewTheme {
         @Suppress("ObjectPropertyName")
         private var _Tune: ImageVector? = null
         
-        """.trimIndent()
+    """.trimIndent()
 
     val xmlCode = """        
         <vector xmlns:android="http://schemas.android.com/apk/res/android"
@@ -189,7 +193,7 @@ private fun IntellijEditorTextFieldPreview() = ProjectPreviewTheme {
                 android:fillColor="#232F34" />
         </vector>
 
-        """.trimIndent()
+    """.trimIndent()
 
     var changedText by rememberMutableState { "" }
     var currentLanguage by rememberMutableState { SyntaxLanguage.KOTLIN }
@@ -203,9 +207,8 @@ private fun IntellijEditorTextFieldPreview() = ProjectPreviewTheme {
                         .weight(1f),
                     text = kotlinCode,
                     language = currentLanguage,
-                    onValueChange = { changedText = it }
+                    onValueChange = { changedText = it },
                 )
-
             }
             SyntaxLanguage.XML -> {
                 IntellijEditorTextField(
@@ -214,7 +217,7 @@ private fun IntellijEditorTextFieldPreview() = ProjectPreviewTheme {
                         .weight(1f),
                     text = xmlCode,
                     language = currentLanguage,
-                    onValueChange = { changedText = it }
+                    onValueChange = { changedText = it },
                 )
             }
         }

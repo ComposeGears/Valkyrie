@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
@@ -62,9 +63,10 @@ private fun WebImportSelectorScreenUI(
             ) {
                 InfoCard(
                     onClick = { onClick(GoogleMaterialSymbols) },
-                    image = ValkyrieIcons.Colored.GoogleMaterialLogo,
+                    icon = ValkyrieIcons.Colored.GoogleMaterialLogo,
                     title = stringResource("web.import.selector.google.title"),
                     description = stringResource("web.import.selector.google.description"),
+                    tint = Color.Unspecified,
                 )
                 Spacer(16.dp)
                 InfoText(

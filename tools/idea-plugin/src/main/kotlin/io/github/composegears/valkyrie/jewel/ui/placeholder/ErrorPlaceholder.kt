@@ -106,7 +106,7 @@ fun ErrorPlaceholder(
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
-                }
+                },
             )
         }
     }

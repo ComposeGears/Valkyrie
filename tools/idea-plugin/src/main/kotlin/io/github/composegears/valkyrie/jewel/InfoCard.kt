@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.jewel
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -9,10 +8,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.compose.icons.outlined.BatchProcessing
 import io.github.composegears.valkyrie.jewel.core.FocusContainer
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
@@ -31,9 +32,9 @@ fun InfoCard(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
-    image: ImageVector? = null,
     icon: ImageVector? = null,
     key: IconKey? = null,
+    tint: Color = JewelTheme.contentColor,
     iconSize: Dp = 36.dp,
 ) {
     FocusContainer(modifier = modifier, onClick = onClick) {
@@ -49,16 +50,7 @@ fun InfoCard(
                             .size(iconSize),
                         imageVector = it,
                         contentDescription = null,
-                        tint = JewelTheme.contentColor,
-                    )
-                }
-                image?.let {
-                    Image(
-                        modifier = Modifier
-                            .align(Alignment.Top)
-                            .size(iconSize),
-                        imageVector = it,
-                        contentDescription = null,
+                        tint = tint,
                     )
                 }
                 key?.let {
@@ -92,10 +84,19 @@ fun InfoCard(
 @Preview
 @Composable
 private fun InfoCardPreview() = PreviewTheme(alignment = Alignment.Center) {
-    InfoCard(
-        onClick = {},
-        icon = ValkyrieIcons.Outlined.BatchProcessing,
-        title = "Title",
-        description = "Long description\nwith multiple lines",
-    )
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        InfoCard(
+            onClick = {},
+            icon = ValkyrieIcons.Outlined.BatchProcessing,
+            title = "Title",
+            description = "Long description\nwith multiple lines",
+        )
+        InfoCard(
+            onClick = {},
+            icon = ValkyrieIcons.Colored.GoogleMaterialLogo,
+            title = "Title",
+            description = "Description",
+            tint = Color.Unspecified,
+        )
+    }
 }

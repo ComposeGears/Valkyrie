@@ -128,7 +128,7 @@ private fun NestedPacks(
                     key = AllIconsKeys.General.Delete,
                     onClick = { onRemove(nestedPack) },
                     contentDescription = stringResource("accessibility.remove"),
-                    enabled = inputFieldState.enabled
+                    enabled = inputFieldState.enabled,
                 )
             }
             if (index != nestedPacks.lastIndex) {

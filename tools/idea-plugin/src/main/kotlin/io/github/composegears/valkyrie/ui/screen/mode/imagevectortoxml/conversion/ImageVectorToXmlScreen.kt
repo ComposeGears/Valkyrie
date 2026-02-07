@@ -18,7 +18,7 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
-import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
@@ -70,7 +70,7 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
                     when (action) {
                         is ImageVectorToXmlAction.OnCopyInClipboard -> {
                             copyInClipboard(action.text)
-                            bannerManager.show(message = InfoBanner(text = message("imagevector.xml.copy.text")))
+                            bannerManager.show(message = SuccessBanner(text = message("imagevector.xml.copy.text")))
                         }
                         is ImageVectorToXmlAction.OnIconNameChange -> {
                             viewModel.changeIconName(action.name)
