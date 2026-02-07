@@ -1,83 +1,119 @@
 package io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
-import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
+import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
+import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
+import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorSource
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlAction
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlState
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.XmlContent
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.XmlCodeViewer
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.EditActionContent
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ui.action.PreviewActionContent
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.util.IR_STUB
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
     val navController = navController()
     val params = navArgs()
-    val snackbar = rememberSnackbar()
+    val bannerManager = rememberBannerManager()
+
     val project = LocalProject.current
 
     val viewModel = saveableViewModel {
         ImageVectorToXmlViewModel(
-            project = project.current,
+            project = project,
             savedState = it,
             params = params,
         )
     }
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach(snackbar::show)
-            .launchIn(this)
-    }
-
-    state?.let { state ->
-        ImageVectorToXmlContent(
-            state = state,
-            onBack = navController::back,
-            openSettings = {
-                navController.navigate(dest = SettingsScreen)
-            },
-            onAction = { action ->
-                when (action) {
-                    is ImageVectorToXmlAction.OnCopyInClipboard -> {
-                        copyInClipboard(action.text)
-                        snackbar.show(message = "Copied to clipboard")
+    when (val currentState = state) {
+        is ImageVectorToXmlState.Content -> {
+            ImageVectorToXmlContent(
+                state = currentState,
+                onBack = navController::back,
+                openSettings = {
+                    navController.navigate(dest = SettingsScreen)
+                },
+                onAction = { action ->
+                    when (action) {
+                        is ImageVectorToXmlAction.OnCopyInClipboard -> {
+                            copyInClipboard(action.text)
+                            bannerManager.show(message = SuccessBanner(text = message("imagevector.xml.copy.text")))
+                        }
+                        is ImageVectorToXmlAction.OnIconNameChange -> {
+                            viewModel.changeIconName(action.name)
+                        }
                     }
-                    is ImageVectorToXmlAction.OnIconNameChange -> {
-                        viewModel.changeIconName(action.name)
-                    }
+                },
+            )
+        }
+        is ImageVectorToXmlState.Error -> {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Toolbar {
+                    BackAction(onBack = navController::back)
+                    Title(text = stringResource("imagevectortoxml.conversion.title"))
+                    WeightSpacer()
+                    SettingsAction(
+                        openSettings = {
+                            navController.navigate(dest = SettingsScreen)
+                        },
+                    )
                 }
-            },
-        )
+                WeightSpacer(weight = 0.3f)
+                ErrorPlaceholder(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    message = currentState.message,
+                    description = currentState.stacktrace,
+                )
+                WeightSpacer(weight = 0.7f)
+            }
+        }
+        is ImageVectorToXmlState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                LoadingPlaceholder()
+            }
+        }
     }
 }
 
 @Composable
 private fun ImageVectorToXmlContent(
-    state: ImageVectorToXmlState,
+    state: ImageVectorToXmlState.Content,
     onBack: () -> Unit,
     openSettings: () -> Unit,
     onAction: (ImageVectorToXmlAction) -> Unit,
@@ -87,6 +123,7 @@ private fun ImageVectorToXmlContent(
         iconName = state.xmlContent.name,
         codeContent = state.xmlContent.xmlCode,
         irImageVector = state.xmlContent.irImageVector,
+        language = SyntaxLanguage.XML,
         onBack = onBack,
         onIconNameChange = { onAction(ImageVectorToXmlAction.OnIconNameChange(it)) },
         onCopyCode = { onAction(ImageVectorToXmlAction.OnCopyInClipboard(it)) },
@@ -100,13 +137,7 @@ private fun ImageVectorToXmlContent(
         previewPanel = { irImageVector ->
             PreviewActionContent(
                 irImageVector = irImageVector,
-            )
-        },
-        codeViewer = { text, onChange ->
-            XmlCodeViewer(
-                modifier = Modifier.fillMaxSize(),
-                text = text,
-                onChange = onChange,
+                previewType = PreviewType.Pixel,
             )
         },
     )
@@ -114,9 +145,9 @@ private fun ImageVectorToXmlContent(
 
 @Preview
 @Composable
-private fun ImageVectorToXmlContentPreview() = PreviewTheme {
+private fun ImageVectorToXmlContentPreview() = ProjectPreviewTheme {
     ImageVectorToXmlContent(
-        state = ImageVectorToXmlState(
+        state = ImageVectorToXmlState.Content(
             iconSource = ImageVectorSource.TextBasedIcon(""),
             xmlContent = XmlContent(
                 name = "IconName",

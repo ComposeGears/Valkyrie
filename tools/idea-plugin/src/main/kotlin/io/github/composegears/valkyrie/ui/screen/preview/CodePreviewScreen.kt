@@ -8,9 +8,14 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.editor.IntellijEditorTextField
+import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage.KOTLIN
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
+import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val CodePreviewScreen by navDestination<String> {
     val navController = navController()
@@ -28,12 +33,25 @@ private fun CodePreviewUi(
     onBack: () -> Unit,
 ) {
     Column {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
+            Title(text = stringResource("code.preview.title"))
         }
-        KotlinCodeViewer(
+        IntellijEditorTextField(
             modifier = Modifier.fillMaxSize(),
+            language = KOTLIN,
             text = code,
+            readOnly = true,
+            onValueChange = {},
         )
     }
+}
+
+@Preview
+@Composable
+private fun CodePreviewUiPreview() = ProjectPreviewTheme {
+    CodePreviewUi(
+        code = "sample code",
+        onBack = {},
+    )
 }

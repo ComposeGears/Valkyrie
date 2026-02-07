@@ -17,6 +17,7 @@ dependencies {
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
     testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.assertk)
+    testImplementation(kotlin("stdlib"))
     testRuntimeOnly(libs.junit.launcher)
 
     intellijPlatform {

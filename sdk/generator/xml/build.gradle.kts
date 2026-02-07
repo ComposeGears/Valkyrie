@@ -25,7 +25,3 @@ kotlin {
         }
     }
 }
-
-tasks.withType<Jar>().configureEach {
-    archiveBaseName = "sdk-generator-xml"
-}

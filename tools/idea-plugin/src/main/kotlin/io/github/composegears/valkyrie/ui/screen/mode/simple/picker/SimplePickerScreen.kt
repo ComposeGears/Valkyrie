@@ -7,13 +7,14 @@ import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
+import io.github.composegears.valkyrie.jewel.platform.picker.rememberSvgXmlPathPicker
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
-import io.github.composegears.valkyrie.ui.platform.picker.rememberSvgXmlPathPicker
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnDragAndDropPath
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnPasteFromClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerEvent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
 
 val SimplePickerScreen by navDestination {
@@ -37,7 +38,7 @@ val SimplePickerScreen by navDestination {
     }
 
     GenericPickerScreen(
-        title = "Simple conversion",
+        title = stringResource("simple.picker.title"),
         onBack = navController::back,
         onFilePick = { path ->
             coroutineScope.launch {

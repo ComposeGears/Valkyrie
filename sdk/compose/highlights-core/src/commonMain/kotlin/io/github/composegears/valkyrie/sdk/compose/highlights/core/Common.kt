@@ -1,5 +1,7 @@
 package io.github.composegears.valkyrie.sdk.compose.highlights.core
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -9,6 +11,24 @@ import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.BoldHighlight
 import dev.snipme.highlights.model.ColorHighlight
 import dev.snipme.highlights.model.PhraseLocation
+import dev.snipme.highlights.model.SyntaxLanguage
+import dev.snipme.highlights.model.SyntaxThemes
+
+@Composable
+fun rememberCodeHighlight(
+    codeBlock: String,
+    isDark: Boolean,
+    vararg emphasisLocation: PhraseLocation,
+): Highlights {
+    return remember(isDark, codeBlock, emphasisLocation) {
+        Highlights.Builder()
+            .code(codeBlock)
+            .language(SyntaxLanguage.KOTLIN)
+            .theme(SyntaxThemes.darcula(darkMode = isDark))
+            .emphasis(*emphasisLocation)
+            .build()
+    }
+}
 
 fun Highlights.buildAnnotatedString() = buildAnnotatedString {
     append(getCode())

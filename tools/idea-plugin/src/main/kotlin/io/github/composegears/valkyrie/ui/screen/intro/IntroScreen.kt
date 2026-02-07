@@ -6,30 +6,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.KT_TO_SVG_ENABLED
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.compose.icons.outlined.BatchProcessing
 import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.compose.icons.outlined.Editor
 import io.github.composegears.valkyrie.compose.icons.outlined.FileImport
 import io.github.composegears.valkyrie.compose.icons.outlined.KtSvg
 import io.github.composegears.valkyrie.compose.icons.outlined.KtXml
-import io.github.composegears.valkyrie.compose.ui.InfoCard
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.InfoCard
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.shared.Mode
@@ -39,20 +37,21 @@ import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
-import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.icons.BatchProcessing
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
 import io.github.composegears.valkyrie.util.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
+import org.jetbrains.jewel.ui.typography
 
-val IntroScreen: NavDestination<Unit> by navDestination {
+val IntroScreen by navDestination {
 
     val navController = navController()
 
@@ -63,7 +62,7 @@ val IntroScreen: NavDestination<Unit> by navDestination {
         onModeChange = {
             when (it) {
                 Simple -> navController.navigate(dest = SimplePickerScreen)
-                IconPack -> navController.navigate(dest = IconPackCreationScreen)
+                IconPack -> navController.navigate(dest = IconPackModeScreen)
                 Editor -> navController.navigate(dest = EditorSelectScreen)
                 WebImport -> navController.navigate(dest = WebImportFlow)
                 ImageVectorToXml -> navController.navigate(dest = ImageVectorPickerScreen)
@@ -78,108 +77,81 @@ private fun IntroScreenUI(
     openSettings: () -> Unit,
     onModeChange: (Mode) -> Unit,
 ) {
-    Box {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(vertical = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            WeightSpacer(weight = 0.3f)
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Text(
-                    text = stringResource("intro.header"),
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(42.dp)
-                Text(
-                    text = stringResource("intro.modes.header"),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = LocalContentColor.current.copy(alpha = 0.5f),
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(8.dp)
-                InfoCard(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    onClick = { onModeChange(Simple) },
-                    icon = ValkyrieIcons.Outlined.Conversion,
-                    title = stringResource("intro.card.simple.title"),
-                    description = stringResource("intro.card.simple.description"),
-                )
-                Spacer(16.dp)
-                InfoCard(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    onClick = { onModeChange(IconPack) },
-                    icon = ValkyrieIcons.BatchProcessing,
-                    title = stringResource("intro.card.iconpack.title"),
-                    description = stringResource("intro.card.iconpack.description"),
-                )
-                if (ICON_EDITOR_FEATURE_ENABLED) {
-                    Spacer(16.dp)
-                    InfoCard(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        onClick = { onModeChange(Editor) },
-                        image = ValkyrieIcons.Outlined.Editor,
-                        title = stringResource("intro.card.editor.title"),
-                        description = stringResource("intro.card.editor.description"),
-                    )
-                }
-                Spacer(24.dp)
-                HorizontalDivider(modifier = Modifier.fillMaxWidth(0.1f))
-                Spacer(24.dp)
-                Text(
-                    text = stringResource("intro.tools.header"),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = LocalContentColor.current.copy(alpha = 0.5f),
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(8.dp)
-                InfoCard(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    onClick = { onModeChange(ImageVectorToXml) },
-                    icon = ValkyrieIcons.Outlined.KtXml,
-                    title = stringResource("intro.card.imagevectortoxml.title"),
-                    description = stringResource("intro.card.imagevectortoxml.description"),
-                )
-                Spacer(16.dp)
-                if (KT_TO_SVG_ENABLED) {
-                    InfoCard(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        onClick = { },
-                        icon = ValkyrieIcons.Outlined.KtSvg,
-                        title = stringResource("intro.card.imagevectortosvg.title"),
-                        description = stringResource("intro.card.imagevectortosvg.description"),
-                    )
-                    Spacer(16.dp)
-                }
-                InfoCard(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    onClick = { onModeChange(WebImport) },
-                    icon = ValkyrieIcons.Outlined.FileImport,
-                    title = stringResource("intro.card.webimport.title"),
-                    description = stringResource("intro.card.webimport.description"),
-                )
-            }
-            WeightSpacer(weight = 0.7f)
+    Column {
+        Toolbar {
+            WeightSpacer()
+            SettingsAction(openSettings = openSettings)
         }
-        SettingsAction(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .align(Alignment.TopEnd),
-            openSettings = openSettings,
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 8.dp),
-            style = MaterialTheme.typography.labelSmall,
-            text = rememberPluginVersion(),
-        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            VerticallyScrollableContainer {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Text(
+                        text = stringResource("intro.modes.header"),
+                        color = JewelTheme.globalColors.text.info,
+                    )
+                    InfoCard(
+                        onClick = { onModeChange(Simple) },
+                        icon = ValkyrieIcons.Outlined.Conversion,
+                        title = stringResource("intro.card.simple.title"),
+                        description = stringResource("intro.card.simple.description"),
+                    )
+                    InfoCard(
+                        onClick = { onModeChange(IconPack) },
+                        icon = ValkyrieIcons.Outlined.BatchProcessing,
+                        title = stringResource("intro.card.iconpack.title"),
+                        description = stringResource("intro.card.iconpack.description"),
+                    )
+                    Spacer(8.dp)
+                    HorizontalDivider(modifier = Modifier.width(72.dp))
+                    Spacer(8.dp)
+                    Text(
+                        text = stringResource("intro.tools.header"),
+                        color = JewelTheme.globalColors.text.info,
+                    )
+                    if (ICON_EDITOR_FEATURE_ENABLED) {
+                        InfoCard(
+                            onClick = { onModeChange(Editor) },
+                            icon = ValkyrieIcons.Outlined.Editor,
+                            title = stringResource("intro.card.editor.title"),
+                            description = stringResource("intro.card.editor.description"),
+                        )
+                    }
+                    InfoCard(
+                        onClick = { onModeChange(ImageVectorToXml) },
+                        icon = ValkyrieIcons.Outlined.KtXml,
+                        title = stringResource("intro.card.imagevectortoxml.title"),
+                        description = stringResource("intro.card.imagevectortoxml.description"),
+                    )
+                    if (KT_TO_SVG_ENABLED) {
+                        InfoCard(
+                            onClick = { },
+                            icon = ValkyrieIcons.Outlined.KtSvg,
+                            title = stringResource("intro.card.imagevectortosvg.title"),
+                            description = stringResource("intro.card.imagevectortosvg.description"),
+                        )
+                    }
+                    InfoCard(
+                        onClick = { onModeChange(WebImport) },
+                        icon = ValkyrieIcons.Outlined.FileImport,
+                        title = stringResource("intro.card.webimport.title"),
+                        description = stringResource("intro.card.webimport.description"),
+                    )
+                }
+            }
+            Text(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 8.dp),
+                style = JewelTheme.typography.small,
+                text = rememberPluginVersion(),
+            )
+        }
     }
 }
 

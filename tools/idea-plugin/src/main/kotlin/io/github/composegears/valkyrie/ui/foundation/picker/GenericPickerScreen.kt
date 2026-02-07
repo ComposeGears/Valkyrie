@@ -1,44 +1,35 @@
 package io.github.composegears.valkyrie.ui.foundation.picker
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.idea.AddFile
-import io.github.composegears.valkyrie.compose.icons.idea.AddFileDark
-import io.github.composegears.valkyrie.compose.util.disabled
-import io.github.composegears.valkyrie.compose.util.isLight
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.platform.ClipboardDataType
+import io.github.composegears.valkyrie.jewel.platform.Os
+import io.github.composegears.valkyrie.jewel.platform.rememberCurrentOs
+import io.github.composegears.valkyrie.jewel.platform.rememberMultiSelectDragAndDropHandler
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.ui.DragAndDropBox
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.DragAndDropBox
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.platform.ClipboardDataType
-import io.github.composegears.valkyrie.ui.platform.Os
-import io.github.composegears.valkyrie.ui.platform.rememberCurrentOs
-import io.github.composegears.valkyrie.ui.platform.rememberMultiSelectDragAndDropHandler
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.ClipboardEventColumn
+import io.github.composegears.valkyrie.ui.foundation.ClipboardEventColumn
 import io.github.composegears.valkyrie.util.stringResource
 import java.nio.file.Path
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.InfoText
+import org.jetbrains.jewel.ui.component.Link
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 /**
  * Generic picker screen component that can be reused for different conversion modes.
@@ -76,9 +67,9 @@ fun GenericPickerScreen(
             }
         },
     ) {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
-            AppBarTitle(title = title)
+            Title(text = title)
             WeightSpacer()
             SettingsAction(openSettings = onOpenSettings)
         }
@@ -120,56 +111,32 @@ private fun PickerBox(
             modifier = Modifier.padding(horizontal = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
-                modifier = Modifier.size(32.dp),
-                imageVector = when {
-                    MaterialTheme.colorScheme.isLight -> ValkyrieIcons.Idea.AddFile
-                    else -> ValkyrieIcons.Idea.AddFileDark
-                },
-                contentDescription = null,
-            )
-            Spacer(8.dp)
             CenterVerticalRow {
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = buildAnnotatedString {
-                        append(stringResource("picker.dnd"))
-                        append(" ")
-                        append(stringResource("picker.dnd.or"))
-                        append(" ")
-                        append(
-                            AnnotatedString(
-                                text = "Browse",
-                                spanStyle = SpanStyle(MaterialTheme.colorScheme.primary),
-                            ),
-                        )
-                    },
-                    maxLines = 2,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleSmall,
+                Icon(
+                    key = AllIconsKeys.Actions.AddFile,
+                    contentDescription = null,
                 )
-            }
-
-            if (description != null) {
+                Spacer(8.dp)
                 Text(
-                    text = description,
-                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    text = stringResource("generic.picker.title"),
                     maxLines = 2,
-                    color = LocalContentColor.current.disabled(),
-                    style = MaterialTheme.typography.labelSmall,
                 )
                 Spacer(4.dp)
+                Link(
+                    text = stringResource("generic.picker.action"),
+                    onClick = onBrowseClick,
+                )
             }
-
-            Text(
+            if (description != null) {
+                InfoText(text = description)
+                Spacer(4.dp)
+            }
+            InfoText(
                 text = when (os) {
-                    Os.MacOS -> stringResource("picker.clipboard.mac")
-                    else -> stringResource("picker.clipboard.other")
+                    Os.MacOS -> stringResource("generic.picker.clipboard.mac")
+                    else -> stringResource("generic.picker.clipboard.other")
                 },
-                textAlign = TextAlign.Center,
-                maxLines = 2,
-                color = LocalContentColor.current.disabled(),
-                style = MaterialTheme.typography.labelSmall,
             )
         }
     }

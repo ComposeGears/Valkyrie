@@ -2,10 +2,10 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewm
 
 import io.github.composegears.valkyrie.parser.unified.util.PackageExtractor
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
-import io.github.composegears.valkyrie.ui.domain.validation.InputState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.inputhandler.BasicInputHandler
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.InputFieldState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.NestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.inputhandler.BasicInputHandler
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 
 class NewPackInputHandler(
     settings: ValkyriesSettings,
@@ -21,7 +21,7 @@ class NewPackInputHandler(
                 return if (useMaterialPack) {
                     InputFieldState(
                         packageName = InputState(
-                            text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
+                            text = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
                         ),
                         iconPackPackage = InputState(text = "androidx.compose.material.icons", enabled = false),
                         iconPackName = InputState(text = "Icons", enabled = false),
@@ -36,16 +36,11 @@ class NewPackInputHandler(
                     )
                 } else {
                     InputFieldState(
-                        iconPackName = InputState(text = iconPackName),
+                        iconPackName = InputState(),
                         packageName = InputState(
-                            text = PackageExtractor.getFrom(path = iconPackDestination) ?: packageName,
+                            text = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
                         ),
-                        nestedPacks = nestedPacks.mapIndexed { index, nestedPack ->
-                            NestedPack(
-                                id = index.toString(),
-                                inputFieldState = InputState(text = nestedPack),
-                            )
-                        },
+                        nestedPacks = emptyList(),
                     )
                 }
             }

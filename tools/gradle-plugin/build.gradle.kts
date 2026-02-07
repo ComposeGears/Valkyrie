@@ -99,6 +99,8 @@ dependencies {
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.unified)
 
+    implementation(kotlin("stdlib"))
+
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.junit.launcher)
 

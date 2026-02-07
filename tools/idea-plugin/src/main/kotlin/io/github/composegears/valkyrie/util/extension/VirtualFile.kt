@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.util.extension
 
-import com.intellij.openapi.application.readAction
+import com.intellij.openapi.application.edtWriteAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
@@ -22,7 +22,7 @@ fun VirtualFile.resolveKtFile(project: Project): KtFile? {
 }
 
 suspend fun Path.resolveKtFile(project: Project): KtFile? {
-    return readAction {
+    return edtWriteAction {
         VfsUtil.findFile(this, true)?.resolveKtFile(project)
     }
 }

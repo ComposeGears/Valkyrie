@@ -32,6 +32,10 @@ allprojects {
                 }
             }
             mavenCentral()
+            maven("https://www.jetbrains.com/intellij-repository/releases")
+            maven("https://www.jetbrains.com/intellij-repository/snapshots")
+            maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
+
             intellijPlatform {
                 defaultRepositories()
             }
@@ -39,8 +43,13 @@ allprojects {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#setting-up-intellij-platform
         dependencies {
             extensions.configure<IntelliJPlatformDependenciesExtension> {
-                intellijIdeaCommunity("2024.3")
+                // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html
+                intellijIdea("2025.3")
+
                 bundledPlugin("org.jetbrains.kotlin")
+
+                // https://github.com/JetBrains/intellij-platform-compose-plugin-template
+                composeUI()
             }
         }
     }

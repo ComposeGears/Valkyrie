@@ -1,24 +1,27 @@
 [versions]
-compose = "1.8.2"
-intellij = "2.10.5"
-jacoco = "0.8.13"
-jdkRelease = "17"
-kotlin = "2.2.21"
-kover = "0.9.5"
-leviathan = "3.1.0-1.8.2"
-ktor = "3.3.3"
 collection = "1.5.0"
+compose = "1.9.0"
+intellij = "2.11.0"
+jacoco = "0.8.13"
+jdkRelease = "21"
+# https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
+kotlin = "2.2.20"
+kover = "0.9.5"
+leviathan = "3.1.0"
+# Support Kotlin 2.2.20 https://github.com/ktorio/ktor/releases/tag/3.3.1
+ktor = "3.3.1"
 
 [libraries]
-android-build-tools = "com.android.tools:sdk-common:31.13.2"
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-ui-tooling-preview = "androidx.compose.ui:ui-tooling-preview:1.10.1"
+android-build-tools = "com.android.tools:sdk-common:31.13.2"
 fonticons = "dev.tclement.fonticons:core:2.1.1"
+fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 highlights = "dev.snipme:highlights:1.1.0"
-kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
+# Support Kotlin 2.2.20 https://github.com/square/kotlinpoet/releases/tag/2.1.0
+kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.2"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
+# Support Kotlin 2.2.20 https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.9.0
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -26,9 +29,10 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviathan" }
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
-tiamat = "io.github.composegears:tiamat:2.1.0-1.8.2"
+tiamat = "io.github.composegears:tiamat:2.1.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
-xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
+# Support Kotlin 2.2.20 https://github.com/pdvrieze/xmlutil/releases/tag/v0.91.2
+xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.2"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.0.2"
@@ -39,7 +43,7 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 semver = "net.swiftzer.semver:semver:2.1.0"
 
 ktlint = "com.pinterest.ktlint:ktlint-cli:1.8.0"
-composeRules = "io.nlopez.compose.rules:ktlint:0.5.3"
+composeRules = "io.nlopez.compose.rules:ktlint:0.5.6"
 
 # Dependencies for build-logic module
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
@@ -59,9 +63,10 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 shadow = "com.gradleup.shadow:9.3.1"
-spotless = "com.diffplug.spotless:8.1.0"
+spotless = "com.diffplug.spotless:8.2.1"
 
 # Project conventional plugins
+valkyrie-jvm = { id = "valkyrie.jvm" }
 valkyrie-kmp = { id = "valkyrie.kmp" }
 valkyrie-compose = { id = "valkyrie.compose" }
 valkyrie-wasm-resources = { id = "valkyrie.wasm.resources" }

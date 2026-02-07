@@ -16,7 +16,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.gradle.develocity") version "4.3.1"
+    id("com.gradle.develocity") version "4.3.2"
 }
 
 develocity {
@@ -39,6 +39,9 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://www.jetbrains.com/intellij-repository/releases")
+        maven("https://www.jetbrains.com/intellij-repository/snapshots")
+        maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
         maven(url = file("m2"))
 
         versionCatalogs {
@@ -94,6 +97,5 @@ include("sdk:test:resource-loader")
 
 include("compose:icons")
 include("compose:ui")
-include("compose:util")
 
 include("shared")

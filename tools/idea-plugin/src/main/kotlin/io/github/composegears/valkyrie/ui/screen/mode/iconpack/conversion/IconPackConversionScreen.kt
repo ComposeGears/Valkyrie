@@ -8,17 +8,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,11 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgsOrNull
@@ -44,14 +35,20 @@ import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
 import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.platform.rememberMultiSelectDragAndDropHandler
+import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
+import io.github.composegears.valkyrie.parser.unified.model.IconType
+import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
-import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
-import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickDirectory
-import io.github.composegears.valkyrie.ui.common.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.platform.rememberMultiSelectDragAndDropHandler
+import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
+import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent.PickDirectory
+import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent.PickFiles
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.IconPackCreationState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ImportValidationState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing.ImportingState
@@ -61,10 +58,15 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.bat
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.picker.IconPackPickerStateUi
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.util.IR_STUB
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.ui.component.DefaultButton
+import org.jetbrains.jewel.ui.component.Text
 
 val IconPackConversionScreen by navDestination<PendingPathData> {
     val navController = navController()
@@ -76,7 +78,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
             paths = pendingData?.paths.orEmpty(),
         )
     }
-    val snackbar = rememberSnackbar()
+    val bannerManager = rememberBannerManager()
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
 
@@ -97,7 +99,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
                         }
                     }
                     is ConversionEvent.NothingToImport -> {
-                        snackbar.show("Nothing to import")
+                        bannerManager.show(message = WarningBanner(text = message("iconpack.conversion.nothing.import")))
                     }
                 }
             }.launchIn(this)
@@ -213,25 +215,11 @@ private fun IconPackConversionUi(
                 enter = slideInVertically(initialOffsetY = { it * 2 }),
                 exit = slideOutVertically(targetOffsetY = { it * 2 }),
             ) {
-                Button(
-                    modifier = Modifier.defaultMinSize(minHeight = 36.dp),
-                    enabled = state.importIssues.isEmpty(),
-                    shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.buttonColors().copy(
-                        disabledContainerColor = Color.Gray,
-                    ),
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 6.dp,
-                        pressedElevation = 6.dp,
-                        focusedElevation = 6.dp,
-                        disabledElevation = 0.dp,
-                    ),
+                DefaultButton(
                     onClick = onImport,
+                    enabled = state.importIssues.isEmpty(),
                 ) {
-                    Text(
-                        text = "Import",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
+                    Text(text = "Import")
                 }
             }
             val dragAndDropHandler = rememberMultiSelectDragAndDropHandler(
@@ -257,25 +245,17 @@ private fun IconPackConversionUi(
 @Composable
 private fun LoadingStateUi(message: String) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            CircularProgressIndicator()
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodySmall,
-            )
-        }
+        LoadingPlaceholder(text = message)
     }
 }
 
 @Preview
 @Composable
 private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
+    var state by rememberMutableState<IconPackConversionState> { IconsPickering }
+
     IconPackConversionUi(
-        state = IconsPickering,
+        state = state,
         previewType = PreviewType.Auto,
         onBack = {},
         openSettings = {},
@@ -288,10 +268,47 @@ private fun IconPackConversionUiPickeringPreview() = PreviewTheme {
         onRenameIcon = { _, _ -> },
         onResolveIssues = {},
     )
-}
 
-@Preview
-@Composable
-private fun LoadingStateUiPreview() = PreviewTheme {
-    LoadingStateUi(message = "Importing icons...")
+    PreviewNavigationControls(
+        modifier = Modifier
+            .padding(bottom = 16.dp, end = 16.dp)
+            .align(Alignment.BottomEnd),
+        onBack = {
+            state = IconsPickering
+        },
+        onForward = {
+            state = IconPackCreationState(
+                icons = listOf(
+                    BatchIcon.Valid(
+                        id = IconId("1"),
+                        iconName = IconName(IconNameFormatter.format("ic_all_path_params_1")),
+                        iconType = IconType.XML,
+                        irImageVector = IR_STUB,
+                        iconPack = IconPack.Single(
+                            iconPackage = "package",
+                            iconPackName = "ValkyrieIcons",
+                        ),
+                    ),
+                    BatchIcon.Broken(
+                        id = IconId("2"),
+                        iconName = IconName(name = "ic_all_path_params_3"),
+                        iconSource = IconSource.File,
+                    ),
+                    BatchIcon.Valid(
+                        id = IconId("3"),
+                        iconName = IconName(IconNameFormatter.format("ic_all_path")),
+                        iconType = IconType.SVG,
+                        irImageVector = IR_STUB,
+                        iconPack = IconPack.Nested(
+                            iconPackName = "ValkyrieIcons",
+                            iconPackage = "package",
+                            currentNestedPack = "Kek",
+                            nestedPacks = listOf("Lol", "Kek"),
+                        ),
+                    ),
+                ),
+                importIssues = emptyMap(),
+            )
+        },
+    )
 }

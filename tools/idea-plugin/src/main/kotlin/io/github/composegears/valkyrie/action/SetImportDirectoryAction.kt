@@ -4,9 +4,9 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.ui.MessageDialogBuilder
 import com.intellij.openapi.wm.ToolWindowManager
 import io.github.composegears.valkyrie.ValkyrieToolWindow
-import io.github.composegears.valkyrie.action.dialog.RequiredIconPackModeDialog
 import io.github.composegears.valkyrie.parser.unified.util.PackageExtractor
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
@@ -40,13 +40,17 @@ class SetImportDirectoryAction : AnAction() {
         val eventsHandler = project.globalEventsHandler
 
         if (settings.isIconPackRequired) {
-            RequiredIconPackModeDialog(
+            val yesCancel = MessageDialogBuilder.okCancel(
+                title = "",
                 message = "Destination folder updated.\nYou can setup IconPack mode now or later to start processing icons",
-                onContinue = {
-                    toolWindow.show()
-                    eventsHandler.send(SetupIconPackMode(pathData = PendingPathData()))
-                },
-            ).showAndGet()
+            ).asWarning()
+                .yesText("Continue")
+                .ask(event.project)
+
+            if (yesCancel) {
+                toolWindow.show()
+                eventsHandler.send(SetupIconPackMode(pathData = PendingPathData()))
+            }
         } else {
             toolWindow.show()
             eventsHandler.send(ImportIcons(pathData = PendingPathData()))

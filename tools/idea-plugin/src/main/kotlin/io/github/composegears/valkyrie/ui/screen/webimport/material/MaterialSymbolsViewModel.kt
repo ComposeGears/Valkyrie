@@ -7,9 +7,11 @@ import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
+import com.github.androidpasswordstore.sublimefuzzy.Fuzzy
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
 import io.github.composegears.valkyrie.ui.screen.webimport.material.di.MaterialSymbolsModule
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
@@ -168,13 +170,13 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
             categoryFiltered.toGridItems()
         } else {
             categoryFiltered
-                .mapValues { (_, icons) ->
-                    icons.filter { icon ->
-                        icon.name.contains(searchQuery, ignoreCase = true)
-                    }
-                }
-                .filterValues { it.isNotEmpty() }
-                .toGridItems()
+                .asSequence()
+                .flatMap { it.value }
+                .map { it to Fuzzy.fuzzyMatch(searchQuery, it.name) }
+                .filter { it.second.first }
+                .sortedByDescending { it.second.second }
+                .map { IconItem(it.first, it.first.originalName) }
+                .toList()
         }
     }
 

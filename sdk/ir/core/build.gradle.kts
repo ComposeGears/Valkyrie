@@ -11,7 +11,3 @@ kotlin {
         }
     }
 }
-
-tasks.withType<Jar>().configureEach {
-    archiveBaseName = "sdk-ir-core"
-}

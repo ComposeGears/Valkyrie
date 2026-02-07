@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.service
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
 import java.nio.file.Path
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,6 +33,12 @@ class GlobalEventsHandler {
     companion object {
         @JvmStatic
         val Project.globalEventsHandler: GlobalEventsHandler
-            get() = service<GlobalEventsHandler>()
+            get() {
+                return if (GlobalPreviewState.isPreview) {
+                    GlobalEventsHandler()
+                } else {
+                    service<GlobalEventsHandler>()
+                }
+            }
     }
 }

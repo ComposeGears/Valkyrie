@@ -10,7 +10,7 @@ import com.intellij.psi.PsiManager
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
-import io.github.composegears.valkyrie.ui.common.picker.PickerEvent
+import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.screen.editor.EditorType
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString

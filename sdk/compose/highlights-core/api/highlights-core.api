@@ -1,5 +1,6 @@
 public final class io/github/composegears/valkyrie/sdk/compose/highlights/core/CommonKt {
 	public static final fun buildAnnotatedString (Ldev/snipme/highlights/Highlights;)Landroidx/compose/ui/text/AnnotatedString;
 	public static final fun getEmphasisLocations (Ljava/lang/String;Ljava/lang/String;)[Ldev/snipme/highlights/model/PhraseLocation;
+	public static final fun rememberCodeHighlight (Ljava/lang/String;Z[Ldev/snipme/highlights/model/PhraseLocation;Landroidx/compose/runtime/Composer;I)Ldev/snipme/highlights/Highlights;
 }
 

@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model
 
 import com.intellij.openapi.project.Project
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.common.packedit.model.NestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 import java.nio.file.Path
 
 sealed interface ExistingPackAction {

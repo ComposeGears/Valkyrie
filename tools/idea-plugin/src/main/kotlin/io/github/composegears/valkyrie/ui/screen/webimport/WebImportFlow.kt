@@ -9,7 +9,7 @@ import com.composegears.tiamat.compose.rememberNavController
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 
-val WebImportFlow by navDestination<Unit> {
+val WebImportFlow by navDestination {
     Navigation(
         modifier = Modifier.fillMaxSize(),
         navController = rememberNavController(

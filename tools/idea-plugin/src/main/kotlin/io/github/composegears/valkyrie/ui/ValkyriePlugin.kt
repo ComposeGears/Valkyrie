@@ -2,9 +2,6 @@ package io.github.composegears.valkyrie.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +17,9 @@ import com.composegears.tiamat.compose.replace
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
 import com.composegears.tiamat.navigation.Route
+import io.github.composegears.valkyrie.jewel.banner.BannerHost
+import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
@@ -32,13 +32,13 @@ import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
 import io.github.composegears.valkyrie.ui.di.DI
-import io.github.composegears.valkyrie.ui.foundation.LocalSnackBar
-import io.github.composegears.valkyrie.ui.foundation.compositionlocal.LocalProject
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.creation.IconPackCreationScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ExistingPackScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.NewPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
@@ -66,7 +66,7 @@ fun ValkyriePlugin(
     )
 
     LaunchedEffect(Unit) {
-        val globalEventsHandler = project.current.globalEventsHandler
+        val globalEventsHandler = project.globalEventsHandler
 
         globalEventsHandler
             .events
@@ -98,7 +98,9 @@ fun ValkyriePlugin(
                 SimplePickerScreen,
                 SimpleConversionScreen,
 
-                IconPackCreationScreen,
+                IconPackModeScreen,
+                NewPackScreen,
+                ExistingPackScreen,
                 IconPackConversionScreen,
 
                 ImageVectorPickerScreen,
@@ -115,17 +117,9 @@ fun ValkyriePlugin(
             ),
             contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
         )
-        SnackbarHost(
+        BannerHost(
             modifier = Modifier.align(Alignment.BottomCenter),
-            hostState = LocalSnackBar.current,
-            snackbar = {
-                Snackbar(
-                    snackbarData = it,
-                    shape = MaterialTheme.shapes.small,
-                    containerColor = MaterialTheme.colorScheme.inverseSurface,
-                    contentColor = MaterialTheme.colorScheme.inverseOnSurface,
-                )
-            },
+            state = LocalGlobalBannerState.current,
         )
     }
 }
@@ -171,9 +165,9 @@ private fun NavController.openConversionFlow(event: ImportIcons) {
 @OptIn(TiamatExperimentalApi::class)
 private fun NavController.openSetupIconPackWithPendingData(event: SetupIconPackMode) {
     when (getCurrentNavEntry()?.destination) {
-        IconPackCreationScreen -> {
+        NewPackScreen -> {
             replace(
-                dest = IconPackCreationScreen,
+                dest = NewPackScreen,
                 navArgs = event.pathData,
                 transition = navigationNone(),
             )
@@ -183,7 +177,8 @@ private fun NavController.openSetupIconPackWithPendingData(event: SetupIconPackM
                 Route(
                     listOf(
                         IntroScreen,
-                        IconPackCreationScreen.toNavEntry(navArgs = event.pathData),
+                        IconPackModeScreen,
+                        NewPackScreen.toNavEntry(navArgs = event.pathData),
                     ),
                 ),
             )

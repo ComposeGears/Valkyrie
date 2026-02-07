@@ -40,13 +40,13 @@ kotlin {
             implementation(projects.sdk.compose.foundation)
             implementation(projects.compose.icons)
             implementation(projects.compose.ui)
-            implementation(projects.compose.util)
             implementation(projects.shared)
 
             implementation(compose.material3)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(kotlin("stdlib"))
             implementation(libs.tiamat)
         }
         desktopMain.dependencies {

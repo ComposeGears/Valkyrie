@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,23 +35,23 @@ import dev.tclement.fonticons.FontIcon
 import dev.tclement.fonticons.IconFont
 import dev.tclement.fonticons.ProvideIconParameters
 import dev.tclement.fonticons.rememberVariableIconFont
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader as CategoryHeaderComponent
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.EmptyContent
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ErrorContent
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.LoadingContent
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
@@ -61,11 +59,12 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
 import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.FontCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialTopActions
+import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
 
-@OptIn(ExperimentalMaterial3Api::class)
 val MaterialSymbolsImportScreen by navDestination {
     val navController = navController()
     val parentNavController = navController.parent
@@ -115,9 +114,9 @@ private fun MaterialSymbolsImportUI(
     var isSidePanelOpen by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
-            AppBarTitle("Material Symbols import")
+            Title("Material Symbols import")
         }
         AnimatedContent(
             targetState = state,
@@ -130,13 +129,20 @@ private fun MaterialSymbolsImportUI(
             },
         ) { current ->
             when (current) {
-                is MaterialState.Loading -> LoadingContent()
+                is MaterialState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        LoadingPlaceholder(text = stringResource("web.import.placeholder.loading"))
+                    }
+                }
                 is MaterialState.Error -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        ErrorContent(message = current.message)
+                        ErrorPlaceholder(message = current.message)
                     }
                 }
                 is MaterialState.Success -> {
@@ -252,8 +258,12 @@ private fun IconsContent(
                 weight = FontWeight(fontSettings.weight),
             ) {
                 if (state.gridItems.isEmpty()) {
-                    EmptyContent()
-                    return@ProvideIconParameters
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
+                    }
                 } else {
                     IconGrid(state = lazyGridState) {
                         items(

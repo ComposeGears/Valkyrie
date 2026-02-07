@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -7,24 +8,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
-import io.github.composegears.valkyrie.sdk.compose.codeviewer.KotlinCodeViewer
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.SettingsAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
+import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
+import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.SettingsAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.foundation.rememberSnackbar
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
-import io.github.composegears.valkyrie.ui.platform.copyInClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction
@@ -35,10 +38,11 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.Si
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ErrorContent
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.LoadingContent
 import io.github.composegears.valkyrie.util.IR_STUB
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
+import io.github.composegears.valkyrie.util.stringResource
 import java.nio.file.Path
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 sealed interface SimpleConversionParamsSource {
     data class PathSource(val path: Path) : SimpleConversionParamsSource
@@ -48,7 +52,7 @@ sealed interface SimpleConversionParamsSource {
 val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
     val navController = navController()
     val params = navArgs()
-    val snackbar = rememberSnackbar()
+    val bannerManager = rememberBannerManager()
 
     val viewModel = saveableViewModel {
         SimpleConversionViewModel(
@@ -72,7 +76,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                     when (it) {
                         is OnCopyInClipboard -> {
                             copyInClipboard(it.text)
-                            snackbar.show(message = "Copied in clipboard")
+                            bannerManager.show(message = SuccessBanner(text = message("simple.action.copy.text")))
                         }
                         is OnIconNameChange -> viewModel.changeIconName(it.name)
                     }
@@ -81,9 +85,9 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
         }
         is SimpleConversionState.Error -> {
             Column(modifier = Modifier.fillMaxSize()) {
-                TopAppBar {
+                Toolbar {
                     BackAction(onBack = navController::back)
-                    AppBarTitle(title = "Simple conversion")
+                    Title(text = stringResource("simple.picker.title"))
                     WeightSpacer()
                     SettingsAction(
                         openSettings = {
@@ -92,7 +96,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                     )
                 }
                 WeightSpacer(weight = 0.3f)
-                ErrorContent(
+                ErrorPlaceholder(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     message = state.message,
                     description = state.stacktrace,
@@ -101,7 +105,12 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
             }
         }
         is SimpleConversionState.Loading -> {
-            LoadingContent()
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                LoadingPlaceholder()
+            }
         }
     }
 }
@@ -115,10 +124,11 @@ private fun SimpleConversionContent(
     onAction: (SimpleConversionAction) -> Unit,
 ) {
     GenericConversionScreen(
-        title = "Simple conversion",
+        title = stringResource("simple.picker.title"),
         iconName = state.iconContent.name,
         codeContent = state.iconContent.code,
         irImageVector = state.iconContent.irImageVector,
+        language = SyntaxLanguage.KOTLIN,
         onBack = onBack,
         onIconNameChange = { onAction(OnIconNameChange(it)) },
         onCopyCode = { onAction(OnCopyInClipboard(it)) },
@@ -135,19 +145,12 @@ private fun SimpleConversionContent(
                 previewType = previewType,
             )
         },
-        codeViewer = { text, onChange ->
-            KotlinCodeViewer(
-                modifier = Modifier.fillMaxSize(),
-                text = text,
-                onChange = onChange,
-            )
-        },
     )
 }
 
 @Preview
 @Composable
-private fun SimpleConversionPreviewUiPreview() = PreviewTheme {
+private fun SimpleConversionPreviewUiPreview() = ProjectPreviewTheme {
     SimpleConversionContent(
         state = ConversionState(
             iconSource = IconSource.StringBasedIcon(""),

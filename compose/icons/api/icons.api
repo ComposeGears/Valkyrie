@@ -8,16 +8,6 @@ public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$C
 	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;
 }
 
-public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Filled {
-	public static final field $stable I
-	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Filled;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea {
-	public static final field $stable I
-	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;
-}
-
 public final class io/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined {
 	public static final field $stable I
 	public static final field INSTANCE Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;
@@ -32,35 +22,15 @@ public final class io/github/composegears/valkyrie/compose/icons/colored/LucideL
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/colored/PluginIconKt {
-	public static final fun getValkyrieLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/filled/HelpKt {
-	public static final fun getHelp (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Filled;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/idea/AddFileDarkKt {
-	public static final fun getAddFileDark (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/idea/AddFileKt {
-	public static final fun getAddFile (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/idea/NotificationsKt {
-	public static final fun getNotifications (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/idea/SettingsKt {
-	public static final fun getSettings (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Idea;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/outlined/ArrowDownKt {
-	public static final fun getArrowDown (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+	public static final fun getPluginIcon (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/outlined/BackKt {
 	public static final fun getBack (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/compose/icons/outlined/BatchProcessingKt {
+	public static final fun getBatchProcessing (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/outlined/ConversionKt {
@@ -91,15 +61,7 @@ public final class io/github/composegears/valkyrie/compose/icons/outlined/LightK
 	public static final fun getLight (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
-public final class io/github/composegears/valkyrie/compose/icons/outlined/SearchKt {
-	public static final fun getSearch (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
 public final class io/github/composegears/valkyrie/compose/icons/outlined/SettingsKt {
 	public static final fun getSettings (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class io/github/composegears/valkyrie/compose/icons/outlined/TuneKt {
-	public static final fun getTune (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 

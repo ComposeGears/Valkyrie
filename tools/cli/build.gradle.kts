@@ -99,6 +99,7 @@ dependencies {
     implementation(projects.sdk.core.extensions)
     implementation(projects.sdk.ir.core)
 
+    implementation(kotlin("stdlib"))
     implementation(cli.clikt)
     implementation(cli.clikt.markdown)
     r8(cli.r8)

@@ -4,16 +4,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.HorizontalDivider
-import io.github.composegears.valkyrie.ui.foundation.components.previewer.ImageVectorPreviewPanel
-import io.github.composegears.valkyrie.ui.foundation.theme.PreviewTheme
+import io.github.composegears.valkyrie.ui.foundation.previewer.ImageVectorPreviewPanel
 import io.github.composegears.valkyrie.util.IR_STUB
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PreviewActionContent(
@@ -33,7 +32,7 @@ fun PreviewActionContent(
 
 @Preview
 @Composable
-private fun PreviewActionContentPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+private fun PreviewActionContentPreview() = PreviewTheme {
     PreviewActionContent(
         irImageVector = IR_STUB,
         previewType = PreviewType.Auto,
