@@ -5,16 +5,24 @@
 ### Added
 
 - Add a new mode for backward conversion from ImageVector to XML
+- Implement fuzzi-search for web import feature
+- Allow to disable icons preview in ProjectView
+- Add Settings action on picker screens
+- Add error handling for Simple mode and XML to ImageVector conversion
 
 ### Fixed
 
 - Fix main screen description text being cut off or truncated
-- Icons with gradient not drawing in gutter and autocomplete dialog 
+- Icons with gradient not drawing in gutter and autocomplete dialog
+- Fix parsing material icon with multiple material paths
+- Fix description text truncation on main screen
 
 ### Changed
 
-- Drop support for IntelliJ IDEA 2024.2
+- Min supported IntelliJ IDEA version 2025.3
+- Full plugin redesign and migration to Jewel
 - Rename "Export" to "Import" across IDEA plugin
+- Update plugin icon
 
 ## [0.18.0](https://github.com/ComposeGears/Valkyrie/releases/tag/0.18.0) - 2025-11-06
 
