@@ -5,7 +5,7 @@ jacoco = "0.8.13"
 jdkRelease = "21"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
 kotlin = "2.2.20"
-kover = "0.9.5"
+kover = "0.9.6"
 leviathan = "3.1.0"
 # Support Kotlin 2.2.20 https://github.com/ktorio/ktor/releases/tag/3.3.1
 ktor = "3.3.1"
