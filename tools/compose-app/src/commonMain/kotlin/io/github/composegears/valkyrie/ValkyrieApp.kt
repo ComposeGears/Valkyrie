@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.rememberNavController
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
+import io.github.composegears.valkyrie.compose.icons.colored.PluginIcon
 import io.github.composegears.valkyrie.compose.icons.outlined.Dark
 import io.github.composegears.valkyrie.compose.icons.outlined.Light
 import io.github.composegears.valkyrie.compose.icons.outlined.Settings
@@ -71,7 +71,7 @@ private fun LogoItem(onClick: () -> Unit) {
             .clip(CircleShape)
             .clickable(onClick = onClick)
             .padding(8.dp),
-        imageVector = ValkyrieIcons.Colored.ValkyrieLogo,
+        imageVector = ValkyrieIcons.Colored.PluginIcon,
         contentDescription = null,
     )
 }

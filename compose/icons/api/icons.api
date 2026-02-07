@@ -18,7 +18,7 @@ public final class io/github/composegears/valkyrie/compose/icons/colored/GoogleM
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/colored/PluginIconKt {
-	public static final fun getValkyrieLogo (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+	public static final fun getPluginIcon (Lio/github/composegears/valkyrie/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
 public final class io/github/composegears/valkyrie/compose/icons/outlined/BackKt {

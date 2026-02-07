@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.colored.ValkyrieLogo
+import io.github.composegears.valkyrie.compose.icons.colored.PluginIcon
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
@@ -38,7 +38,7 @@ private fun AboutSettingsUi() {
             CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Image(
                     modifier = Modifier.size(48.dp),
-                    imageVector = ValkyrieIcons.Colored.ValkyrieLogo,
+                    imageVector = ValkyrieIcons.Colored.PluginIcon,
                     contentDescription = stringResource("accessibility.logo"),
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
