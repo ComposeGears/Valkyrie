@@ -11,7 +11,7 @@ leviathan = "3.1.0"
 ktor = "3.3.1"
 
 [libraries]
-android-build-tools = "com.android.tools:sdk-common:31.13.2"
+android-build-tools = "com.android.tools:sdk-common:32.0.0"
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 highlights = "dev.snipme:highlights:1.1.0"
