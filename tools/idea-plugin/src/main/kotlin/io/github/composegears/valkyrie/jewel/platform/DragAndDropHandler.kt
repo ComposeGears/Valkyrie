@@ -20,6 +20,7 @@ import java.awt.dnd.DropTargetListener
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
+import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.LocalComponent
 
 @Composable
@@ -42,11 +43,13 @@ fun rememberFileDragAndDropHandler(onDrop: (Path) -> Unit): DragAndDropHandlerSt
     }
 }
 
+@OptIn(ExperimentalJewelApi::class)
 @Composable
 fun rememberMultiSelectDragAndDropHandler(onDrop: (List<Path>) -> Unit): DragAndDropHandlerState {
-    val localComponent = LocalComponent.current
-    var state by rememberMutableState { DragAndDropHandlerState() }
+    val component = LocalComponent.current
     val latestOnDrop by rememberUpdatedState(onDrop)
+
+    var state by rememberMutableState { DragAndDropHandlerState() }
 
     DisposableEffect(Unit) {
         val listener = SimpleDropTargetListener(
@@ -54,7 +57,7 @@ fun rememberMultiSelectDragAndDropHandler(onDrop: (List<Path>) -> Unit): DragAnd
             onDragEnter = { state = state.dragging() },
             onDragExit = { state = state.notDragging() },
         )
-        val dropTarget = DropTarget(localComponent, listener)
+        val dropTarget = DropTarget(component, listener)
 
         onDispose {
             dropTarget.removeDropTargetListener(listener)
