@@ -45,7 +45,7 @@ fun OutlineIconButton(
         modifier = modifier.thenIf(!enabled) { disabledAppearance() },
         style = style,
         onClick = onClick,
-        enabled = enabled
+        enabled = enabled,
     ) {
         Icon(
             key = key,

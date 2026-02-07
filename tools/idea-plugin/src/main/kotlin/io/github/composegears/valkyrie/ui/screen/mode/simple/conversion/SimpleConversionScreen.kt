@@ -18,7 +18,7 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
-import io.github.composegears.valkyrie.jewel.banner.BannerMessage.InfoBanner
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
@@ -76,7 +76,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                     when (it) {
                         is OnCopyInClipboard -> {
                             copyInClipboard(it.text)
-                            bannerManager.show(message = InfoBanner(text = message("simple.action.copy.text")))
+                            bannerManager.show(message = SuccessBanner(text = message("simple.action.copy.text")))
                         }
                         is OnIconNameChange -> viewModel.changeIconName(it.name)
                     }

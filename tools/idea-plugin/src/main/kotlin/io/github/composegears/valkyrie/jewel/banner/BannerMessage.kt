@@ -4,7 +4,7 @@ sealed interface BannerMessage {
     val text: String
     val duration: BannerDuration
 
-    data class InfoBanner(
+    data class SuccessBanner(
         override val text: String,
         override val duration: BannerDuration = BannerDuration.Short,
     ) : BannerMessage

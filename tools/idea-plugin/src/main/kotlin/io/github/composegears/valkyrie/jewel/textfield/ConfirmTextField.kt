@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +37,7 @@ fun ConfirmTextField(
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
 ) {
+    val currentText by rememberUpdatedState(text)
     val state = rememberTextFieldState(text)
     val focusManager = LocalFocusManager.current
 
@@ -52,7 +54,7 @@ fun ConfirmTextField(
                 when (it.key) {
                     Key.Escape -> {
                         focusManager.clearFocus()
-                        state.setTextAndPlaceCursorAtEnd(text)
+                        state.setTextAndPlaceCursorAtEnd(currentText)
                         true
                     }
                     Key.Enter -> {

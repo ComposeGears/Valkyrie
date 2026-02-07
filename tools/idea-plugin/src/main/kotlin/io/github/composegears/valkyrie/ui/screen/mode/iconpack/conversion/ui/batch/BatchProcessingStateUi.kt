@@ -32,10 +32,11 @@ import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.ExpandedAnimatedContent
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.domain.model.PreviewType
+import io.github.composegears.valkyrie.ui.foundation.ClipboardEventColumn
 import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent.ClipboardText
 import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent.PickFiles
-import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.BatchIcon
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconId
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
@@ -46,7 +47,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Valida
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.HasDuplicates
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameContainsSpace
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameEmpty
-import io.github.composegears.valkyrie.ui.foundation.ClipboardEventColumn
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.model.BatchAction
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.BrokenIconItem
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.batch.ui.ImportIssuesUI
