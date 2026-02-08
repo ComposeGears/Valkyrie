@@ -17,7 +17,6 @@ import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.compose.icons.colored.LucideLogo
-import io.github.composegears.valkyrie.compose.ui.InfoCard
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.InfoCard
 import io.github.composegears.valkyrie.jewel.Title
@@ -70,14 +69,14 @@ private fun WebImportSelectorScreenUI(
                 InfoCard(
                     onClick = { onClick(GoogleMaterialSymbols) },
                     icon = ValkyrieIcons.Colored.GoogleMaterialLogo,
+                    tint = Color.Unspecified,
                     title = stringResource("web.import.selector.google.title"),
                     description = stringResource("web.import.selector.google.description"),
-                    tint = Color.Unspecified,
                 )
                 InfoCard(
-                    modifier = Modifier.padding(horizontal = 16.dp),
                     onClick = { onClick(Lucide) },
-                    image = ValkyrieIcons.Colored.LucideLogo,
+                    icon = ValkyrieIcons.Colored.LucideLogo,
+                    tint = Color.Unspecified,
                     title = stringResource("web.import.selector.lucide.title"),
                     description = stringResource("web.import.selector.lucide.description"),
                 )

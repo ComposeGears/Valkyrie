@@ -1,31 +1,41 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.jewel.CloseAction
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
+import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
-import io.github.composegears.valkyrie.ui.foundation.IconButton
-import io.github.composegears.valkyrie.ui.foundation.icons.Close
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.NoStopIndicatorSlider
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
+import io.github.composegears.valkyrie.util.stringResource
 import kotlin.math.roundToInt
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.InfoText
+import org.jetbrains.jewel.ui.component.Link
+import org.jetbrains.jewel.ui.component.Slider
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
+import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 
 @Composable
 fun LucideCustomization(
@@ -35,95 +45,86 @@ fun LucideCustomization(
     modifier: Modifier = Modifier,
 ) {
     var strokeWidth by remember { mutableFloatStateOf(settings.strokeWidth) }
-    var size by remember { mutableIntStateOf(settings.size) }
+    var size by remember { mutableFloatStateOf(settings.size.toFloat()) }
 
     Column(modifier = modifier) {
-        CenterVerticalRow {
-            IconButton(
-                imageVector = ValkyrieIcons.Close,
-                onClick = onClose,
-            )
-            Text(
-                text = "Customize Icon",
-                style = MaterialTheme.typography.titleMedium,
-            )
+        Toolbar {
+            CloseAction(onClose = onClose)
+            Title(text = stringResource("web.import.font.customize.header"))
             WeightSpacer()
-            TextButton(
+            Link(
+                text = stringResource("web.import.font.customize.reset"),
                 onClick = {
                     strokeWidth = LucideSettings.DEFAULT_STROKE_WIDTH
-                    size = LucideSettings.DEFAULT_SIZE
+                    size = LucideSettings.DEFAULT_SIZE.toFloat()
+
                     onSettingsChange(LucideSettings())
                 },
                 enabled = settings.isModified,
-            ) {
-                Text(text = "Reset")
-            }
+            )
             Spacer(4.dp)
         }
-
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState()),
-        ) {
-            Spacer(8.dp)
-
-            Text(
-                text = "Stroke width: ${String.format("%.1f", strokeWidth)}",
-                fontWeight = FontWeight.Medium,
-            )
-            Spacer(4.dp)
-            NoStopIndicatorSlider(
-                value = strokeWidth,
-                onValueChange = { strokeWidth = it },
-                onValueChangeFinished = {
-                    onSettingsChange(settings.copy(strokeWidth = strokeWidth))
-                },
-                valueRange = 0.5f..4.0f,
-                steps = 34,
-            )
-
-            Spacer(16.dp)
-
-            Text(
-                text = "Size: ${size}px",
-                fontWeight = FontWeight.Medium,
-            )
-            Spacer(4.dp)
-            NoStopIndicatorSlider(
-                value = size.toFloat(),
-                onValueChange = { size = it.roundToInt() },
-                onValueChangeFinished = {
-                    onSettingsChange(settings.copy(size = size))
-                },
-                valueRange = 16f..48f,
-                steps = 31,
-            )
-
-            Spacer(16.dp)
-
-            CenterVerticalRow {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Absolute Stroke Width",
-                        style = MaterialTheme.typography.labelMedium,
-                    )
-                    Text(
-                        text = "Maintain stroke width when scaling",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                    )
+        HorizontalDivider(color = LocalGroupHeaderStyle.current.colors.divider)
+        VerticallyScrollableContainer {
+            Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                Spacer(16.dp)
+                CenterVerticalRow(modifier = Modifier.padding(horizontal = 4.dp)) {
+                    Text(text = stringResource("web.import.font.customize.lucide.stroke.width"))
+                    WeightSpacer()
+                    InfoText(text = String.format("%.1f", strokeWidth))
                 }
                 Spacer(8.dp)
-                Switch(
-                    checked = settings.absoluteStrokeWidth,
-                    onCheckedChange = {
-                        onSettingsChange(settings.copy(absoluteStrokeWidth = it))
+                Slider(
+                    value = strokeWidth,
+                    onValueChange = { strokeWidth = it },
+                    onValueChangeFinished = {
+                        onSettingsChange(settings.copy(strokeWidth = strokeWidth))
                     },
+                    valueRange = 0.5f..4.0f,
+                    steps = 34,
                 )
+                Spacer(16.dp)
+                CenterVerticalRow(modifier = Modifier.padding(horizontal = 4.dp)) {
+                    Text(text = stringResource("web.import.font.customize.lucide.size"))
+                    WeightSpacer()
+                    InfoText(text = stringResource("web.import.font.customize.lucide.px.suffix", size.roundToInt()))
+                }
+                Spacer(8.dp)
+                Slider(
+                    value = size,
+                    onValueChange = { size = it },
+                    onValueChangeFinished = {
+                        onSettingsChange(settings.copy(size = size.roundToInt()))
+                    },
+                    valueRange = 16f..48f,
+                    steps = 31,
+                )
+                Spacer(16.dp)
+                CheckboxSettingsRow(
+                    checked = settings.absoluteStrokeWidth,
+                    onCheckedChange = { onSettingsChange(settings.copy(absoluteStrokeWidth = it)) },
+                    text = stringResource("web.import.font.customize.lucide.absolute.stroke.width"),
+                    infoText = stringResource("web.import.font.customize.lucide.absolute.stroke.width.description"),
+                )
+                Spacer(16.dp)
             }
-
-            Spacer(16.dp)
         }
     }
+}
+
+@Preview
+@Composable
+private fun FontCustomizationPreview() = PreviewTheme(alignment = Alignment.TopEnd) {
+    var settings by rememberMutableState { LucideSettings() }
+
+    LucideCustomization(
+        modifier = Modifier
+            .width(300.dp)
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
+            .background(JewelTheme.globalColors.borders.normal),
+        settings = settings,
+        onClose = {},
+        onSettingsChange = { settings = it },
+    )
 }

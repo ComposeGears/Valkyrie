@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -22,21 +23,21 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
+import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.Title
+import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
+import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.foundation.AppBarTitle
-import io.github.composegears.valkyrie.ui.foundation.BackAction
-import io.github.composegears.valkyrie.ui.foundation.TopAppBar
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader as CategoryHeaderComponent
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.EmptyContent
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ErrorContent
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.LoadingContent
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
@@ -44,6 +45,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.L
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideIconDisplay
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideTopActions
+import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -97,9 +99,9 @@ private fun LucideImportScreenUI(
     getIconCacheKey: (String, LucideSettings) -> String,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar {
+        Toolbar {
             BackAction(onBack = onBack)
-            AppBarTitle("Lucide Icons Import")
+            Title(text = stringResource("web.import.title.lucide"))
         }
         AnimatedContent(
             targetState = state,
@@ -112,8 +114,22 @@ private fun LucideImportScreenUI(
             },
         ) { current ->
             when (current) {
-                is LucideState.Loading -> LoadingContent(message = "Loading Lucide icons...")
-                is LucideState.Error -> ErrorContent(message = current.message)
+                is LucideState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        LoadingPlaceholder(text = stringResource("web.import.placeholder.loading"))
+                    }
+                }
+                is LucideState.Error -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        ErrorPlaceholder(message = current.message)
+                    }
+                }
                 is LucideState.Success -> {
                     IconsContent(
                         state = current,
@@ -174,7 +190,12 @@ private fun IconsContent(
             )
 
             if (state.gridItems.isEmpty()) {
-                EmptyContent()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
+                }
             } else {
                 IconGrid(state = lazyGridState) {
                     items(
@@ -188,7 +209,7 @@ private fun IconsContent(
                         },
                     ) { item ->
                         when (item) {
-                            is CategoryHeader -> CategoryHeaderComponent(title = item.categoryName)
+                            is CategoryHeader -> CategoryHeader(title = item.categoryName)
                             is IconItem<*> -> {
                                 val lucideIcon = item.icon as LucideIcon
                                 val iconCacheKey = getIconCacheKey(lucideIcon.name, state.settings)

@@ -86,7 +86,7 @@ private fun FontPlayground(
                     checked = fontSettings.fill,
                     onCheckedChange = { onSettingsChange(fontSettings.copy(fill = it)) },
                 ) {
-                    Text(text = stringResource("web.import.font.customize.fill"))
+                    Text(text = stringResource("web.import.font.customize.material.fill"))
                 }
                 Spacer(8.dp)
                 LinkIcon(
@@ -98,7 +98,7 @@ private fun FontPlayground(
             Spacer(16.dp)
             CenterVerticalRow {
                 DropdownSettingsRow(
-                    text = stringResource("web.import.font.customize.weight"),
+                    text = stringResource("web.import.font.customize.material.weight"),
                     items = listOf(100, 200, 300, 400, 500, 600, 700),
                     current = fontSettings.weight,
                     onSelectItem = {
@@ -117,7 +117,7 @@ private fun FontPlayground(
             Spacer(16.dp)
             CenterVerticalRow {
                 DropdownSettingsRow(
-                    text = stringResource("web.import.font.customize.grade"),
+                    text = stringResource("web.import.font.customize.material.grade"),
                     items = listOf(-25, 0, 200),
                     current = fontSettings.grade,
                     onSelectItem = {
@@ -136,14 +136,14 @@ private fun FontPlayground(
             Spacer(16.dp)
             CenterVerticalRow {
                 DropdownSettingsRow(
-                    text = stringResource("web.import.font.customize.optical.size"),
+                    text = stringResource("web.import.font.customize.material.optical.size"),
                     items = listOf(20f, 24f, 40f, 48f),
                     current = fontSettings.opticalSize,
                     onSelectItem = {
                         onSettingsChange(fontSettings.copy(opticalSize = it))
                     },
                     transform = {
-                        message("web.import.font.customize.dp.suffix", it.toInt())
+                        message("web.import.font.customize.material.dp.suffix", it.toInt())
                     },
                     comboxModifier = Modifier.width(dropdownWidth),
                 )

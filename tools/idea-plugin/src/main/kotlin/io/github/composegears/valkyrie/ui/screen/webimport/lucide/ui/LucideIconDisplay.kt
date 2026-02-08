@@ -2,8 +2,6 @@ package io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -15,6 +13,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoading
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.IconLoadState
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import kotlinx.coroutines.Job
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.ui.component.Icon
 
 /**
  * Display component that renders a Lucide icon
@@ -51,7 +51,7 @@ fun LucideIconDisplay(
             is IconLoadState.Success -> Icon(
                 imageVector = iconLoadState.imageVector,
                 contentDescription = icon.name,
-                tint = MaterialTheme.colorScheme.onSurface,
+                tint = LocalContentColor.current,
             )
         }
     }

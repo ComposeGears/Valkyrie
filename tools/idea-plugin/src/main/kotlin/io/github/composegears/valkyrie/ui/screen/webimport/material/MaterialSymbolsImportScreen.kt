@@ -48,7 +48,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleCo
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader as CategoryHeaderComponent
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
@@ -116,7 +116,7 @@ private fun MaterialSymbolsImportUI(
     Column(modifier = Modifier.fillMaxSize()) {
         Toolbar {
             BackAction(onBack = onBack)
-            Title("Material Symbols import")
+            Title(text = stringResource("web.import.title.material"))
         }
         AnimatedContent(
             targetState = state,
@@ -232,7 +232,7 @@ private fun IconsContent(
                     key = { it.id },
                 ) { item ->
                     when (item) {
-                        is CategoryHeader -> CategoryHeaderComponent(title = item.categoryName)
+                        is CategoryHeader -> CategoryHeader(title = item.categoryName)
                         is IconItem<*> -> {
                             val materialIcon = item.icon as IconModel
                             MaterialIconStub(
@@ -277,7 +277,7 @@ private fun IconsContent(
                             key = { it.id },
                         ) { item ->
                             when (item) {
-                                is CategoryHeader -> CategoryHeaderComponent(title = item.categoryName)
+                                is CategoryHeader -> CategoryHeader(title = item.categoryName)
                                 is IconItem<*> -> {
                                     val icon = item.icon as IconModel
 
