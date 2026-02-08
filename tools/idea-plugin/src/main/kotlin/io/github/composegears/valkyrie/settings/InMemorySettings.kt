@@ -53,6 +53,7 @@ class InMemorySettings(project: Project) {
         flatPackage = false
         useExplicitMode = false
         addTrailingComma = false
+        usePathDataString = false
         showImageVectorPreview = true
         showIconsInProjectView = true
         indentSize = 4
@@ -67,26 +68,22 @@ class InMemorySettings(project: Project) {
             mode = mode,
             previewType = previewType,
             useMaterialPack = useMaterialPack,
-
             packageName = packageName.or("io.github.composegears.valkyrie"),
             iconPackName = iconPackName.or("ValkyrieIcons"),
             iconPackPackage = iconPackPackage.or(packageName.or("io.github.composegears.valkyrie")),
             iconPackDestination = iconPackDestination.or(""),
-
             nestedPacks = nestedPacks.orEmpty()
                 .split(",")
                 .filter { it.isNotEmpty() },
-
             generatePreview = generatePreview,
             previewAnnotationType = PreviewAnnotationType.from(previewAnnotationType),
-
             outputFormat = OutputFormat.from(outputFormat),
             useComposeColors = useComposeColors,
             indentSize = indentSize,
             flatPackage = flatPackage,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
-
+            usePathDataString = usePathDataString,
             showImageVectorPreview = showImageVectorPreview,
             showIconsInProjectView = showIconsInProjectView,
         )
@@ -114,6 +111,7 @@ data class ValkyriesSettings(
     val flatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
+    val usePathDataString: Boolean,
 
     val showImageVectorPreview: Boolean,
     val showIconsInProjectView: Boolean,

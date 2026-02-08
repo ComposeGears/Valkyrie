@@ -1,12 +1,12 @@
 package io.github.composegears.valkyrie.sdk.generator.xml
 
 import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
-import io.github.composegears.valkyrie.sdk.generator.xml.util.toPathString
 import io.github.composegears.valkyrie.sdk.ir.core.IrFill
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
 import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
 import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
+import io.github.composegears.valkyrie.sdk.ir.core.toPathString
 import kotlin.math.round
 
 object IrToXmlGenerator {

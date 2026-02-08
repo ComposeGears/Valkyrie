@@ -239,6 +239,7 @@ private fun svgXml2ImageVector(
         useFlatPackage = useFlatPackage,
         useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,
+        usePathDataString = false,
         indentSize = indentSize,
         fullQualifiedImports = FullQualifiedImports(
             brush = "Brush" in fullQualifiedNames,

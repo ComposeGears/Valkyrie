@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import com.intellij.testFramework.runInEdtAndGet
 import io.github.composegears.valkyrie.psi.TEST_DATA_PATH
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.ParseType
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedAddPathWithPathData
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedAllGroupParams
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedAllPathParams
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedClipPathGradient
@@ -146,6 +147,17 @@ class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCo
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedRadialGradient)
+    }
+
+    @Test
+    fun `parse addPath with pathData string`() = runInEdtAndGet {
+        val ktFile = parseType.toKtFile(
+            pathToLazy = "lazy/AddPathWithPathData.kt",
+            pathToBacking = "backing/AddPathWithPathData.kt",
+        )
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+
+        assertThat(imageVector).isEqualTo(ExpectedAddPathWithPathData)
     }
 
     override fun getTestDataPath() = TEST_DATA_PATH

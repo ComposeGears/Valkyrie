@@ -8,6 +8,7 @@ import io.github.composegears.valkyrie.generator.jvm.ext.argumentBlock
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
+import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.asPathDataString
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.NameParam
@@ -80,6 +81,31 @@ internal fun CodeBlock.Builder.addPath(
             )
         }
     }
+}
+
+context(config: ImageVectorSpecConfig)
+internal fun CodeBlock.Builder.addPathData(path: IrVectorNode.IrPath) {
+    val pathParams = path.buildPathParams()
+    val pathData = path.paths.asPathDataString()
+
+    add(
+        codeBlock = buildCodeBlock {
+            add("%M(\n", MemberNames.AddPath)
+            withIndent {
+                pathParams.forEach { param ->
+                    fillPathArgs(param)
+                    trailingComma()
+                }
+                add("pathData = %M(%S)", MemberNames.AddPathNodes, pathData)
+                if (config.addTrailingComma) {
+                    trailingComma()
+                } else {
+                    newLine()
+                }
+            }
+            add(")\n")
+        },
+    )
 }
 
 context(config: ImageVectorSpecConfig)

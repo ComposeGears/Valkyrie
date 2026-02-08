@@ -88,6 +88,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             useFlatPackage = false,
             useExplicitMode = useExplicitMode.get(),
             addTrailingComma = addTrailingComma.get(),
+            usePathDataString = false,
             indentSize = indentSize.get(),
         )
 

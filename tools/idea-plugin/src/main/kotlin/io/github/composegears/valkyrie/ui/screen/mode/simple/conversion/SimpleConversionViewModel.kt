@@ -195,6 +195,7 @@ class SimpleConversionViewModel(
             useFlatPackage = false,
             useExplicitMode = valkyriesSettings.useExplicitMode,
             addTrailingComma = valkyriesSettings.addTrailingComma,
+            usePathDataString = valkyriesSettings.usePathDataString,
             indentSize = valkyriesSettings.indentSize,
         )
     }
