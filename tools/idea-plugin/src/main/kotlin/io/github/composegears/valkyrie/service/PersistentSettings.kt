@@ -47,6 +47,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var flatPackage: Boolean by property(false)
         var useExplicitMode: Boolean by property(false)
         var addTrailingComma: Boolean by property(false)
+        var usePathDataString: Boolean by property(false)
 
         var showImageVectorPreview: Boolean by property(true)
         var showIconsInProjectView: Boolean by property(true)

@@ -19,6 +19,7 @@ internal data class ImageVectorSpecConfig(
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
+    val usePathDataString: Boolean,
     val indentSize: Int,
     val fullQualifiedImports: FullQualifiedImports,
 )

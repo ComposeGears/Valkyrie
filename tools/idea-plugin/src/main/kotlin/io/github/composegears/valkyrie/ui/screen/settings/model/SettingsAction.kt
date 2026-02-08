@@ -10,6 +10,7 @@ sealed interface SettingsAction {
     data class UpdateFlatPackage(val useFlatPackage: Boolean) : SettingsAction
     data class UpdateExplicitMode(val useExplicitMode: Boolean) : SettingsAction
     data class UpdateAddTrailingComma(val addTrailingComma: Boolean) : SettingsAction
+    data class UpdateUsePathDataString(val usePathDataString: Boolean) : SettingsAction
     data class UpdatePreviewGeneration(val generate: Boolean) : SettingsAction
     data class UpdatePreviewAnnotationType(val annotationType: PreviewAnnotationType) : SettingsAction
     data class UpdateIndentSize(val indent: Int) : SettingsAction

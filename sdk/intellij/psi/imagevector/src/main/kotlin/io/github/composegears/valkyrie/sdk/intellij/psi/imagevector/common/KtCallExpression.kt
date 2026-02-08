@@ -1,9 +1,11 @@
 package io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common
 
+import io.github.composegears.valkyrie.parser.common.PathParser
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import io.github.composegears.valkyrie.sdk.ir.core.IrFill
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
+import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
@@ -73,6 +75,17 @@ internal fun KtCallExpression.parseColor(): IrFill.Color? {
     return IrFill.Color(irColor = colorArg)
 }
 
+internal fun KtCallExpression.parsePathDataArg(): List<IrPathNode> {
+    val arg = valueArguments.find { it.getArgumentName()?.asName?.identifier == "pathData" } ?: return emptyList()
+    val call = arg.getArgumentExpression().safeAs<KtCallExpression>() ?: return emptyList()
+    if (call.calleeExpression?.text != "addPathNodes") return emptyList()
+
+    val raw = call.valueArguments.firstOrNull()?.getArgumentExpression()?.text ?: return emptyList()
+    val pathData = raw.stripQuotes()
+
+    return runCatching { PathParser.parsePathString(pathData) }.getOrElse { emptyList() }
+}
+
 private const val ALPHA_MOD = ".copy(alpha = "
 
 // TODO: Should resolve color from PSI rather than parsing strings
@@ -89,4 +102,11 @@ private fun parseColorWithAlpha(value: String): IrColor? {
     val alpha = parts.getOrNull(1)?.removeSuffix("f)")?.toFloatOrNull() ?: return null
     val argb = ((alpha * 0xFF).toInt() shl 24) or (baseColorArgb.argb and 0xFFFFFF)
     return IrColor(argb = argb)
+}
+
+private fun String.stripQuotes(): String {
+    return when {
+        startsWith("\"\"\"") && endsWith("\"\"\"") -> removeSurrounding("\"\"\"")
+        else -> removeSurrounding("\"")
+    }
 }

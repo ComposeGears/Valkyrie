@@ -157,6 +157,7 @@ class IconPackConversionViewModel(
                 useFlatPackage = settings.flatPackage,
                 useExplicitMode = settings.useExplicitMode,
                 addTrailingComma = settings.addTrailingComma,
+                usePathDataString = settings.usePathDataString,
                 indentSize = settings.indentSize,
             ),
         )
@@ -194,6 +195,7 @@ class IconPackConversionViewModel(
                                 useFlatPackage = settings.flatPackage,
                                 useExplicitMode = settings.useExplicitMode,
                                 addTrailingComma = settings.addTrailingComma,
+                                usePathDataString = settings.usePathDataString,
                                 indentSize = settings.indentSize,
                             ),
                         )
@@ -224,6 +226,7 @@ class IconPackConversionViewModel(
                                 useFlatPackage = settings.flatPackage,
                                 useExplicitMode = settings.useExplicitMode,
                                 addTrailingComma = settings.addTrailingComma,
+                                usePathDataString = settings.usePathDataString,
                                 indentSize = settings.indentSize,
                             ),
                         )

@@ -17,6 +17,7 @@ internal fun createConfig(
     useFlatPackage: Boolean = false,
     useExplicitMode: Boolean = false,
     addTrailingComma: Boolean = false,
+    usePathDataString: Boolean = false,
     indentSize: Int = 4,
     fullQualifiedImports: FullQualifiedImports = FullQualifiedImports(),
 ): ImageVectorGeneratorConfig {
@@ -32,6 +33,7 @@ internal fun createConfig(
         useFlatPackage = useFlatPackage,
         useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,
+        usePathDataString = usePathDataString,
         indentSize = indentSize,
         fullQualifiedImports = fullQualifiedImports,
     )

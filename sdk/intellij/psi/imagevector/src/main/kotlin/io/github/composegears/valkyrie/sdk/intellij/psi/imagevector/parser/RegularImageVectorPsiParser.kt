@@ -12,6 +12,7 @@ import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parse
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseFill
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseFloatArg
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parsePath
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parsePathDataArg
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseStringArg
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseStroke
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.viewportHeight
@@ -72,6 +73,9 @@ internal object RegularImageVectorPsiParser {
         if (calleeExpression?.text == "path") {
             node = parsePath()
         }
+        if (calleeExpression?.text == "addPath") {
+            node = parseAddPath()
+        }
         if (calleeExpression?.text == "group") {
             node = parseGroup()
         }
@@ -116,6 +120,22 @@ internal object RegularImageVectorPsiParser {
             strokeLineMiter = parseFloatArg("strokeLineMiter") ?: 4f,
             pathFillType = extractPathFillType(),
             paths = pathBody?.parsePath().orEmpty(),
+        )
+    }
+
+    private fun KtCallExpression.parseAddPath(): IrVectorNode.IrPath {
+        return IrVectorNode.IrPath(
+            name = parseStringArg("name").orEmpty(),
+            fill = parseFill(),
+            fillAlpha = parseFloatArg("fillAlpha") ?: 1f,
+            stroke = parseStroke(),
+            strokeAlpha = parseFloatArg("strokeAlpha") ?: 1f,
+            strokeLineWidth = parseFloatArg("strokeLineWidth") ?: 0f,
+            strokeLineCap = extractStrokeCap(),
+            strokeLineJoin = extractStrokeJoin(),
+            strokeLineMiter = parseFloatArg("strokeLineMiter") ?: 4f,
+            pathFillType = extractPathFillType(),
+            paths = parsePathDataArg(),
         )
     }
 }
