@@ -21,6 +21,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeReflective
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeReflectiveQuadTo
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeVerticalTo
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.VerticalTo
+import io.github.composegears.valkyrie.sdk.ir.core.toPathString
 
 internal fun IrPathNode.asStatement(): String = when (this) {
     is Close -> "close()"
@@ -59,3 +60,5 @@ internal fun IrPathNode.asStatement(): String = when (this) {
         "arcTo(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartX.formatFloat()}, ${arcStartY.formatFloat()})"
     }
 }
+
+internal fun List<IrPathNode>.asPathDataString(): String = toPathString()

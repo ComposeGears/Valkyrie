@@ -22,6 +22,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUsePathDataString
 
 @Suppress("UnstableApiUsage")
 class SettingsViewModel : ViewModel() {
@@ -36,6 +37,7 @@ class SettingsViewModel : ViewModel() {
             useFlatPackage = it.flatPackage,
             useExplicitMode = it.useExplicitMode,
             addTrailingComma = it.addTrailingComma,
+            usePathDataString = it.usePathDataString,
             indentSize = it.indentSize,
             previewAnnotationType = it.previewAnnotationType,
         )
@@ -67,6 +69,7 @@ class SettingsViewModel : ViewModel() {
             is UpdateFlatPackage -> flatPackage = settingsAction.useFlatPackage
             is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
             is UpdateAddTrailingComma -> addTrailingComma = settingsAction.addTrailingComma
+            is UpdateUsePathDataString -> usePathDataString = settingsAction.usePathDataString
             is UpdateIndentSize -> indentSize = settingsAction.indent
             is SettingsAction.UpdatePreviewType -> previewType = settingsAction.previewType
             is UpdatePreviewAnnotationType -> updatePreviewAnnotationType(settingsAction.annotationType)
@@ -86,6 +89,7 @@ data class GeneratorSettings(
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
+    val usePathDataString: Boolean,
     val indentSize: Int,
     val generatePreview: Boolean,
     val previewAnnotationType: PreviewAnnotationType,

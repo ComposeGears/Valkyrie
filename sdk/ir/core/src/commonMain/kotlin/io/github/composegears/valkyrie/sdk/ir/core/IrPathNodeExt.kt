@@ -1,6 +1,5 @@
-package io.github.composegears.valkyrie.sdk.generator.xml.util
+package io.github.composegears.valkyrie.sdk.ir.core
 
-import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.ArcTo
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.Close
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.CurveTo
@@ -24,7 +23,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.VerticalTo
 /**
  * Extension function to convert a list of IrPathNodes to a complete path data string.
  */
-internal fun List<IrPathNode>.toPathString(formatFloat: (Float) -> String = { it.toString() }): String {
+fun List<IrPathNode>.toPathString(formatFloat: (Float) -> String = { it.toString() }): String {
     return joinToString(" ") { it.toPathString(formatFloat) }
 }
 

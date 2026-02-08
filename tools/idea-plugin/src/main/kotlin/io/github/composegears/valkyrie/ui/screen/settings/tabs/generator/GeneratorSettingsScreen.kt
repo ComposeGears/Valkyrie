@@ -36,6 +36,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUsePathDataString
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.PreviewAnnotationSection
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -129,6 +130,12 @@ private fun GeneratorSettingsUi(
                     checked = generatorSettings.addTrailingComma,
                     onCheckedChange = { onAction(UpdateAddTrailingComma(it)) },
                 )
+                CheckboxSettingsRow(
+                    text = stringResource("settings.generator.pathdata"),
+                    infoText = stringResource("settings.generator.pathdata.description"),
+                    checked = generatorSettings.usePathDataString,
+                    onCheckedChange = { onAction(UpdateUsePathDataString(it)) },
+                )
                 PreviewAnnotationSection(
                     generatePreview = generatorSettings.generatePreview,
                     previewAnnotationType = generatorSettings.previewAnnotationType,
@@ -172,6 +179,7 @@ private fun GeneratorSettingsPreview() = PreviewTheme {
     var useFlatPackage by rememberMutableState { true }
     var useExplicitMode by rememberMutableState { false }
     var addTrailingComma by rememberMutableState { false }
+    var usePathDataString by rememberMutableState { false }
     var indentSize by rememberMutableState { 4 }
     var previewAnnotationType by rememberMutableState { PreviewAnnotationType.Jetbrains }
 
@@ -183,6 +191,7 @@ private fun GeneratorSettingsPreview() = PreviewTheme {
             is UpdateFlatPackage -> useFlatPackage = action.useFlatPackage
             is UpdateExplicitMode -> useExplicitMode = action.useExplicitMode
             is UpdateAddTrailingComma -> addTrailingComma = action.addTrailingComma
+            is UpdateUsePathDataString -> usePathDataString = action.usePathDataString
             is UpdateIndentSize -> indentSize = action.indent
             is UpdatePreviewAnnotationType -> previewAnnotationType = action.annotationType
             else -> {}
@@ -197,6 +206,7 @@ private fun GeneratorSettingsPreview() = PreviewTheme {
             useFlatPackage = useFlatPackage,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
+            usePathDataString = usePathDataString,
             indentSize = indentSize,
             previewAnnotationType = previewAnnotationType,
         ),

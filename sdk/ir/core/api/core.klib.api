@@ -641,3 +641,5 @@ final value class io.github.composegears.valkyrie.sdk.ir.core/IrColor { // io.gi
             final fun <get-nameToArgb>(): kotlin.collections/Map<kotlin/String, io.github.composegears.valkyrie.sdk.ir.core/IrColor> // io.github.composegears.valkyrie.sdk.ir.core/IrColor.Companion.nameToArgb.<get-nameToArgb>|<get-nameToArgb>(){}[0]
     }
 }
+
+final fun (kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode>).io.github.composegears.valkyrie.sdk.ir.core/toPathString(kotlin/Function1<kotlin/Float, kotlin/String> = ...): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/toPathString|toPathString@kotlin.collections.List<io.github.composegears.valkyrie.sdk.ir.core.IrPathNode>(kotlin.Function1<kotlin.Float,kotlin.String>){}[0]

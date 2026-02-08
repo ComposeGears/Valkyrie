@@ -14,6 +14,7 @@ data class ImageVectorGeneratorConfig(
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
+    val usePathDataString: Boolean,
     val indentSize: Int,
     val fullQualifiedImports: FullQualifiedImports = FullQualifiedImports(),
 )
@@ -34,7 +35,7 @@ enum class PreviewAnnotationType(val key: String) {
     ;
 
     companion object {
-        fun from(key: String?) = PreviewAnnotationType.entries.find { it.key == key } ?: AndroidX
+        fun from(key: String?) = entries.find { it.key == key } ?: AndroidX
     }
 }
 
@@ -44,7 +45,7 @@ enum class OutputFormat(val key: String) {
     ;
 
     companion object {
-        fun from(key: String?) = OutputFormat.entries.find { it.key == key } ?: BackingProperty
+        fun from(key: String?) = entries.find { it.key == key } ?: BackingProperty
     }
 }
 
@@ -73,6 +74,7 @@ object ImageVectorGenerator {
             useFlatPackage = config.useFlatPackage,
             useExplicitMode = config.useExplicitMode,
             addTrailingComma = config.addTrailingComma,
+            usePathDataString = config.usePathDataString,
             indentSize = config.indentSize,
             fullQualifiedImports = config.fullQualifiedImports,
         ),
