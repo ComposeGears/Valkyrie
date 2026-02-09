@@ -12,22 +12,19 @@ import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
+import io.github.composegears.valkyrie.ui.screen.webimport.common.util.filterGridItems
+import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toGridItems
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.di.LucideModule
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.toGridItems
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
-@OptIn(FlowPreview::class)
 class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
 
     private val lucideUseCase = inject(LucideModule.lucideUseCase)
@@ -45,33 +42,15 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
 
     private var downloadJob: Job? = null
     private var fontLoadJob: Job? = null
-    private val searchQueryFlow = MutableStateFlow("")
 
     companion object {
         private val LOG = Logger.getInstance(LucideViewModel::class.java)
-        private const val SEARCH_DEBOUNCE_MS = 300L
     }
 
     init {
         when (val initialState = lucideRecord.value) {
             is LucideState.Success if initialState.fontByteArray == null -> downloadFont()
             else -> loadConfig()
-        }
-
-        viewModelScope.launch(Dispatchers.Default) {
-            searchQueryFlow
-                .debounce(SEARCH_DEBOUNCE_MS)
-                .collect { query ->
-                    updateSuccess { state ->
-                        state.copy(
-                            gridItems = filterGridItems(
-                                config = state.config,
-                                category = state.selectedCategory,
-                                searchQuery = query,
-                            ),
-                        )
-                    }
-                }
         }
     }
 
@@ -89,7 +68,10 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
 
                 lucideRecord.value = LucideState.Success(
                     config = config,
-                    gridItems = config.gridItems.toGridItems(),
+                    gridItems = config.gridItems.toGridItems(
+                        sortKey = { title },
+                        idExtractor = { name },
+                    ),
                 )
                 downloadFont()
             }.onFailure { error ->
@@ -153,7 +135,17 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     }
 
     fun updateSearchQuery(query: String) {
-        searchQueryFlow.value = query
+        viewModelScope.launch(Dispatchers.Default) {
+            updateSuccess { state ->
+                state.copy(
+                    gridItems = filterGridItems(
+                        config = state.config,
+                        category = state.selectedCategory,
+                        searchQuery = query,
+                    ),
+                )
+            }
+        }
     }
 
     fun updateSettings(settings: LucideSettings) {
@@ -169,25 +161,13 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
         category: Category,
         searchQuery: String = "",
     ): List<GridItem> {
-        val categoryFiltered = when (category) {
-            Category.All -> config.gridItems
-            else -> config.gridItems.filterKeys { it.id == category.id }
-        }
-
-        return if (searchQuery.isBlank()) {
-            categoryFiltered.toGridItems()
-        } else {
-            categoryFiltered
-                .mapValues { (_, icons) ->
-                    icons.filter { icon ->
-                        icon.name.contains(searchQuery, ignoreCase = true) ||
-                            icon.displayName.contains(searchQuery, ignoreCase = true) ||
-                            icon.tags.any { it.contains(searchQuery, ignoreCase = true) }
-                    }
-                }
-                .filterValues { it.isNotEmpty() }
-                .toGridItems()
-        }
+        val categoryForFilter = category.takeUnless { it == Category.All }
+        return config.gridItems.filterGridItems(
+            category = categoryForFilter,
+            searchQuery = searchQuery,
+            idExtractor = { name },
+            categoryMatcher = { it.id == category.id },
+        )
     }
 
     private inline fun updateSuccess(crossinline transform: (LucideState.Success) -> LucideState.Success) {

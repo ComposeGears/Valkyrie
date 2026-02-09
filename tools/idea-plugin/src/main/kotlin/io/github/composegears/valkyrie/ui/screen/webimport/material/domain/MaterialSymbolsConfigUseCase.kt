@@ -1,12 +1,12 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.material.domain
 
 import io.github.composegears.valkyrie.parser.unified.ext.capitalized
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.material.data.config.MaterialSymbolsConfigRepository
 import io.github.composegears.valkyrie.ui.screen.webimport.material.data.font.MaterialFontRepository
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
 

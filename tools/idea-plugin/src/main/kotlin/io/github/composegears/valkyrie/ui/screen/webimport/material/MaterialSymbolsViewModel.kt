@@ -7,19 +7,18 @@ import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
-import com.github.androidpasswordstore.sublimefuzzy.Fuzzy
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
+import io.github.composegears.valkyrie.ui.screen.webimport.common.util.filterGridItems
+import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toGridItems
 import io.github.composegears.valkyrie.ui.screen.webimport.material.di.MaterialSymbolsModule
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.toGridItems
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,7 +59,10 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
                 val config = materialSymbolsConfigUseCase.loadConfig()
                 materialRecord.value = MaterialState.Success(
                     config = config,
-                    gridItems = config.gridItems.toGridItems(),
+                    gridItems = config.gridItems.toGridItems(
+                        sortKey = { name },
+                        idExtractor = { originalName },
+                    ),
                 )
                 downloadFont(IconFontFamily.OUTLINED)
             }.onFailure {
@@ -161,23 +163,12 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
         category: Category,
         searchQuery: String = "",
     ): List<GridItem> {
-        val categoryFiltered = when (category) {
-            Category.All -> config.gridItems
-            else -> config.gridItems.filterKeys { it == category }
-        }
-
-        return if (searchQuery.isBlank()) {
-            categoryFiltered.toGridItems()
-        } else {
-            categoryFiltered
-                .asSequence()
-                .flatMap { it.value }
-                .map { it to Fuzzy.fuzzyMatch(searchQuery, it.name) }
-                .filter { it.second.first }
-                .sortedByDescending { it.second.second }
-                .map { IconItem(it.first, it.first.originalName) }
-                .toList()
-        }
+        val categoryForFilter = category.takeUnless { it == Category.All }
+        return config.gridItems.filterGridItems(
+            category = categoryForFilter,
+            searchQuery = searchQuery,
+            idExtractor = { originalName },
+        )
     }
 
     fun updateFontSettings(fontSettings: FontSettings) {
