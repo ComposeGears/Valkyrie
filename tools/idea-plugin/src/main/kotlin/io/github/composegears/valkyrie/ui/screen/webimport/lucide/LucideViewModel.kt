@@ -16,8 +16,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.C
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.toGridItems
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.font.FontByteArray
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.toGridItems
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
