@@ -53,10 +53,8 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     }
 
     init {
-        when (lucideRecord.value) {
-            is LucideState.Success -> if ((lucideRecord.value as LucideState.Success).fontByteArray == null) {
-                downloadFont()
-            }
+        when (val initialState = lucideRecord.value) {
+            is LucideState.Success if initialState.fontByteArray == null -> downloadFont()
             else -> loadConfig()
         }
 
