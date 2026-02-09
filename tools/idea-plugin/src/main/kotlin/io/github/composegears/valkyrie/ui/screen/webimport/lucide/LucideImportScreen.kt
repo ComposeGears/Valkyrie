@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
@@ -43,6 +44,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableSta
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
@@ -200,29 +202,16 @@ private fun IconsContent(
                     }
                 }
                 state.fontByteArray == null -> {
-                    IconGrid(state = lazyGridState) {
-                        items(
-                            items = state.gridItems,
-                            key = { it.id },
-                            span = { item ->
-                                when (item) {
-                                    is CategoryHeader -> GridItemSpan(maxLineSpan)
-                                    is IconItem<*> -> GridItemSpan(1)
-                                }
-                            },
-                        ) { item ->
-                            when (item) {
-                                is CategoryHeader -> CategoryHeader(title = item.categoryName)
-                                is IconItem<*> -> {
-                                    val lucideIcon = item.icon as LucideIcon
-                                    LucideIconStub(
-                                        icon = lucideIcon,
-                                        shimmer = shimmer,
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    LucideIconGrid(
+                        gridItems = state.gridItems,
+                        lazyGridState = lazyGridState,
+                        iconContent = { lucideIcon ->
+                            LucideIconStub(
+                                icon = lucideIcon,
+                                shimmer = shimmer,
+                            )
+                        },
+                    )
                 }
                 else -> {
                     val iconFont = rememberLucideFont(
@@ -235,41 +224,27 @@ private fun IconsContent(
                         tint = LocalContentColor.current,
                         weight = FontWeight.W400,
                     ) {
-                        IconGrid(state = lazyGridState) {
-                            items(
-                                items = state.gridItems,
-                                key = { it.id },
-                                span = { item ->
-                                    when (item) {
-                                        is CategoryHeader -> GridItemSpan(maxLineSpan)
-                                        is IconItem<*> -> GridItemSpan(1)
-                                    }
-                                },
-                            ) { item ->
-                                when (item) {
-                                    is CategoryHeader -> CategoryHeader(title = item.categoryName)
-                                    is IconItem<*> -> {
-                                        val lucideIcon = item.icon as LucideIcon
-
-                                        IconCard(
-                                            name = lucideIcon.displayName,
-                                            selected = lucideIcon == selectedIcon,
-                                            onClick = {
-                                                selectedIcon = lucideIcon
-                                                onSelectIcon(lucideIcon)
-                                            },
-                                            iconContent = {
-                                                FontIcon(
-                                                    modifier = Modifier.size(iconSizeDp),
-                                                    icon = Char(lucideIcon.codepoint),
-                                                    contentDescription = null,
-                                                )
-                                            },
+                        LucideIconGrid(
+                            gridItems = state.gridItems,
+                            lazyGridState = lazyGridState,
+                            iconContent = { lucideIcon ->
+                                IconCard(
+                                    name = lucideIcon.displayName,
+                                    selected = lucideIcon == selectedIcon,
+                                    onClick = {
+                                        selectedIcon = lucideIcon
+                                        onSelectIcon(lucideIcon)
+                                    },
+                                    iconContent = {
+                                        FontIcon(
+                                            modifier = Modifier.size(iconSizeDp),
+                                            icon = Char(lucideIcon.codepoint),
+                                            contentDescription = null,
                                         )
-                                    }
-                                }
-                            }
-                        }
+                                    },
+                                )
+                            },
+                        )
                     }
                 }
             }
@@ -286,6 +261,31 @@ private fun IconsContent(
                 )
             },
         )
+    }
+}
+
+@Composable
+private fun LucideIconGrid(
+    gridItems: List<GridItem>,
+    lazyGridState: LazyGridState,
+    iconContent: @Composable (LucideIcon) -> Unit,
+) {
+    IconGrid(state = lazyGridState) {
+        items(
+            items = gridItems,
+            key = { it.id },
+            span = { item: GridItem ->
+                when (item) {
+                    is CategoryHeader -> GridItemSpan(maxLineSpan)
+                    is IconItem<*> -> GridItemSpan(1)
+                }
+            },
+        ) { item: GridItem ->
+            when (item) {
+                is CategoryHeader -> CategoryHeader(title = item.categoryName)
+                is IconItem<*> -> iconContent(item.icon as LucideIcon)
+            }
+        }
     }
 }
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
@@ -47,6 +48,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableSta
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
@@ -220,29 +222,16 @@ private fun IconsContent(
         if (fontByteArray == null) {
             val shimmer = rememberShimmer()
 
-            IconGrid(state = lazyGridState) {
-                items(
-                    items = state.gridItems,
-                    span = { item ->
-                        when (item) {
-                            is CategoryHeader -> GridItemSpan(maxLineSpan)
-                            is IconItem<*> -> GridItemSpan(1)
-                        }
-                    },
-                    key = { it.id },
-                ) { item ->
-                    when (item) {
-                        is CategoryHeader -> CategoryHeader(title = item.categoryName)
-                        is IconItem<*> -> {
-                            val materialIcon = item.icon as IconModel
-                            MaterialIconStub(
-                                icon = materialIcon,
-                                shimmer = shimmer,
-                            )
-                        }
-                    }
-                }
-            }
+            MaterialIconGrid(
+                gridItems = state.gridItems,
+                lazyGridState = lazyGridState,
+                iconContent = { materialIcon ->
+                    MaterialIconStub(
+                        icon = materialIcon,
+                        shimmer = shimmer,
+                    )
+                },
+            )
         } else {
             val iconFont = rememberMaterialSymbolsFont(
                 name = iconFontFamily.fontFamily,
@@ -265,42 +254,53 @@ private fun IconsContent(
                         EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
                     }
                 } else {
-                    IconGrid(state = lazyGridState) {
-                        items(
-                            items = state.gridItems,
-                            span = { item ->
-                                when (item) {
-                                    is CategoryHeader -> GridItemSpan(maxLineSpan)
-                                    is IconItem<*> -> GridItemSpan(1)
-                                }
-                            },
-                            key = { it.id },
-                        ) { item ->
-                            when (item) {
-                                is CategoryHeader -> CategoryHeader(title = item.categoryName)
-                                is IconItem<*> -> {
-                                    val icon = item.icon as IconModel
-
-                                    IconCard(
-                                        name = icon.name,
-                                        selected = icon == selectedIcon,
-                                        onClick = {
-                                            selectedIcon = icon
-                                            onSelectIcon(icon)
-                                        },
-                                        iconContent = {
-                                            FontIcon(
-                                                modifier = Modifier.fillMaxSize(),
-                                                icon = Char(icon.codepoint),
-                                                contentDescription = null,
-                                            )
-                                        },
+                    MaterialIconGrid(
+                        gridItems = state.gridItems,
+                        lazyGridState = lazyGridState,
+                        iconContent = { icon ->
+                            IconCard(
+                                name = icon.name,
+                                selected = icon == selectedIcon,
+                                onClick = {
+                                    selectedIcon = icon
+                                    onSelectIcon(icon)
+                                },
+                                iconContent = {
+                                    FontIcon(
+                                        modifier = Modifier.fillMaxSize(),
+                                        icon = Char(icon.codepoint),
+                                        contentDescription = null,
                                     )
-                                }
-                            }
-                        }
-                    }
+                                },
+                            )
+                        },
+                    )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MaterialIconGrid(
+    gridItems: List<GridItem>,
+    lazyGridState: LazyGridState,
+    iconContent: @Composable (IconModel) -> Unit,
+) {
+    IconGrid(state = lazyGridState) {
+        items(
+            items = gridItems,
+            span = { item: GridItem ->
+                when (item) {
+                    is CategoryHeader -> GridItemSpan(maxLineSpan)
+                    is IconItem<*> -> GridItemSpan(1)
+                }
+            },
+            key = { it.id },
+        ) { item: GridItem ->
+            when (item) {
+                is CategoryHeader -> CategoryHeader(title = item.categoryName)
+                is IconItem<*> -> iconContent(item.icon as IconModel)
             }
         }
     }
