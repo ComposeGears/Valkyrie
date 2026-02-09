@@ -73,8 +73,8 @@ fun LucideCustomization(
                 Spacer(8.dp)
                 Slider(
                     value = size,
-                    onValueChange = { size = it },
-                    onValueChangeFinished = {
+                    onValueChange = {
+                        size = it
                         onSettingsChange(settings.copy(size = size.roundToInt()))
                     },
                     valueRange = 16f..48f,
