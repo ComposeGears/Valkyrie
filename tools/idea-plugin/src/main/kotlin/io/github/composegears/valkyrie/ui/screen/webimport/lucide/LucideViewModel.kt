@@ -113,7 +113,6 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
                     updateSuccess { it.copy(fontByteArray = bytes) }
                 }.onFailure { error ->
                     LOG.error("Error loading Lucide font", error)
-                    lucideRecord.value = LucideState.Error("Error loading Lucide font: ${error.message}")
                 }
             } else {
                 updateSuccess { it.copy(fontByteArray = cachedFont) }
