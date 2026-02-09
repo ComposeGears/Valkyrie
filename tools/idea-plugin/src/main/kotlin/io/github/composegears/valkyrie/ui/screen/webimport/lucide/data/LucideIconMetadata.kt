@@ -5,8 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LucideIconMetadata(
-    @SerialName("\$schema")
-    val schema: String? = null,
     @SerialName("contributors")
     val contributors: List<String> = emptyList(),
     @SerialName("tags")
