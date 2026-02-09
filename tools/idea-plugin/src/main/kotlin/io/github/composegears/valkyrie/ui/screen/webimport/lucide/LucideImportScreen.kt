@@ -18,17 +18,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.size
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
+import dev.tclement.fonticons.ExperimentalFontIconsApi
+import dev.tclement.fonticons.FontIcon
+import dev.tclement.fonticons.IconFont
+import dev.tclement.fonticons.ProvideIconParameters
+import dev.tclement.fonticons.rememberVariableIconFont
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
+import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
@@ -38,18 +47,18 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideCustomization
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideIconDisplay
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideTopActions
 import io.github.composegears.valkyrie.util.stringResource
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
 
 val LucideImportScreen by navDestination<Unit> {
     val navController = navController()
@@ -82,8 +91,6 @@ val LucideImportScreen by navDestination<Unit> {
         onSelectCategory = viewModel::selectCategory,
         onSearchQueryChange = viewModel::updateSearchQuery,
         onSettingsChange = viewModel::updateSettings,
-        onLoadIconForDisplay = viewModel::loadIconForDisplay,
-        getIconCacheKey = viewModel::getIconCacheKey,
     )
 }
 
@@ -95,8 +102,6 @@ private fun LucideImportScreenUI(
     onSelectCategory: (Category) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (LucideSettings) -> Unit,
-    onLoadIconForDisplay: (LucideIcon) -> Job,
-    getIconCacheKey: (String, LucideSettings) -> String,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Toolbar {
@@ -137,8 +142,6 @@ private fun LucideImportScreenUI(
                         onSelectCategory = onSelectCategory,
                         onSearchQueryChange = onSearchQueryChange,
                         onSettingsChange = onSettingsChange,
-                        onLoadIconForDisplay = onLoadIconForDisplay,
-                        getIconCacheKey = getIconCacheKey,
                     )
                 }
             }
@@ -153,8 +156,6 @@ private fun IconsContent(
     onSelectCategory: (Category) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (LucideSettings) -> Unit,
-    onLoadIconForDisplay: (LucideIcon) -> Job,
-    getIconCacheKey: (String, LucideSettings) -> String,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -189,54 +190,84 @@ private fun IconsContent(
                 onSearchQueryChange = onSearchQueryChange,
             )
 
-            if (state.gridItems.isEmpty()) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
+            when {
+                state.gridItems.isEmpty() -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
+                    }
                 }
-            } else {
-                IconGrid(state = lazyGridState) {
-                    items(
-                        items = state.gridItems,
-                        key = { it.id },
-                        span = { item ->
+                state.fontByteArray == null -> {
+                    IconGrid(state = lazyGridState) {
+                        items(
+                            items = state.gridItems,
+                            key = { it.id },
+                            span = { item ->
+                                when (item) {
+                                    is CategoryHeader -> GridItemSpan(maxLineSpan)
+                                    is IconItem<*> -> GridItemSpan(1)
+                                }
+                            },
+                        ) { item ->
                             when (item) {
-                                is CategoryHeader -> GridItemSpan(maxLineSpan)
-                                is IconItem<*> -> GridItemSpan(1)
+                                is CategoryHeader -> CategoryHeader(title = item.categoryName)
+                                is IconItem<*> -> {
+                                    val lucideIcon = item.icon as LucideIcon
+                                    LucideIconStub(
+                                        icon = lucideIcon,
+                                        shimmer = shimmer,
+                                    )
+                                }
                             }
-                        },
-                    ) { item ->
-                        when (item) {
-                            is CategoryHeader -> CategoryHeader(title = item.categoryName)
-                            is IconItem<*> -> {
-                                val lucideIcon = item.icon as LucideIcon
-                                val iconCacheKey = getIconCacheKey(lucideIcon.name, state.settings)
-                                val iconLoadState = state.loadedIcons[iconCacheKey]
-                                    ?.takeIf { it is IconLoadState.Success }
-                                    ?: state.getLatestSuccessfulState(lucideIcon.name)
+                        }
+                    }
+                }
+                else -> {
+                    val iconFont = rememberLucideFont(
+                        font = state.fontByteArray.bytes,
+                    )
+                    val iconSizeDp = state.settings.size.dp
 
-                                IconCard(
-                                    name = lucideIcon.displayName,
-                                    selected = lucideIcon == selectedIcon,
-                                    onClick = {
-                                        if (iconLoadState is IconLoadState.Success) {
-                                            selectedIcon = lucideIcon
-                                            onSelectIcon(lucideIcon)
-                                        }
-                                    },
-                                    iconContent = {
-                                        LucideIconDisplay(
-                                            icon = lucideIcon,
-                                            iconCacheKey = iconCacheKey,
-                                            iconLoadState = iconLoadState,
-                                            onLoadIcon = onLoadIconForDisplay,
-                                            shimmer = shimmer,
-                                            modifier = Modifier.fillMaxSize(),
+                    ProvideIconParameters(
+                        iconFont = iconFont,
+                        tint = LocalContentColor.current,
+                        weight = FontWeight.W400,
+                    ) {
+                        IconGrid(state = lazyGridState) {
+                            items(
+                                items = state.gridItems,
+                                key = { it.id },
+                                span = { item ->
+                                    when (item) {
+                                        is CategoryHeader -> GridItemSpan(maxLineSpan)
+                                        is IconItem<*> -> GridItemSpan(1)
+                                    }
+                                },
+                            ) { item ->
+                                when (item) {
+                                    is CategoryHeader -> CategoryHeader(title = item.categoryName)
+                                    is IconItem<*> -> {
+                                        val lucideIcon = item.icon as LucideIcon
+
+                                        IconCard(
+                                            name = lucideIcon.displayName,
+                                            selected = lucideIcon == selectedIcon,
+                                            onClick = {
+                                                selectedIcon = lucideIcon
+                                                onSelectIcon(lucideIcon)
+                                            },
+                                            iconContent = {
+                                                FontIcon(
+                                                    modifier = Modifier.size(iconSizeDp),
+                                                    icon = Char(lucideIcon.codepoint),
+                                                    contentDescription = null,
+                                                )
+                                            },
                                         )
-                                    },
-                                )
+                                    }
+                                }
                             }
                         }
                     }
@@ -257,3 +288,28 @@ private fun IconsContent(
         )
     }
 }
+
+@Composable
+private fun LucideIconStub(
+    icon: LucideIcon,
+    shimmer: Shimmer,
+) {
+    IconCard(
+        name = icon.displayName,
+        selected = false,
+        onClick = { /* No-op during loading */ },
+        iconContent = {
+            IconLoadingPlaceholder(shimmer = shimmer)
+        },
+    )
+}
+
+@OptIn(ExperimentalFontIconsApi::class)
+@Composable
+private fun rememberLucideFont(
+    font: ByteArray,
+): IconFont = rememberVariableIconFont(
+    alias = "lucide",
+    data = font,
+    weights = arrayOf(FontWeight.W400),
+)

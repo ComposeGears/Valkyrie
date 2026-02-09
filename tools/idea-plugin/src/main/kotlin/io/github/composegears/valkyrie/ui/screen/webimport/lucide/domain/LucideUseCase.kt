@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.C
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.font.FontByteArray
 
 /**
  * Category keyword mapping with priority (lower number = higher priority).
@@ -68,11 +69,14 @@ class LucideUseCase(
 ) {
     suspend fun loadConfig(): LucideConfig {
         val iconMetadataList = repository.loadIconList()
+        val codepoints = repository.loadCodepoints()
 
-        val icons = iconMetadataList.map { (name, metadata) ->
+        val icons = iconMetadataList.mapNotNull { (name, metadata) ->
+            val codepoint = codepoints[name] ?: return@mapNotNull null
             LucideIcon(
                 name = name,
                 displayName = name.toDisplayName(),
+                codepoint = codepoint,
                 tags = metadata.tags,
                 category = inferCategoryFromTags(name, metadata.tags),
             )
@@ -123,12 +127,17 @@ class LucideUseCase(
         return Category(id = categoryName.lowercase(), title = categoryName)
     }
 
-    suspend fun getRawSvg(iconName: String): String {
-        return repository.getRawSvg(iconName)
+    suspend fun loadFontBytes(): FontByteArray {
+        return FontByteArray(repository.loadFontBytes())
     }
 
-    fun applyCustomizations(rawSvg: String, settings: LucideSettings): String {
-        return repository.applySvgCustomizations(rawSvg, settings)
+    suspend fun downloadSvg(icon: LucideIcon, settings: LucideSettings): String {
+        val rawSvg = repository.downloadSvg(icon.name)
+        return if (settings.isModified) {
+            LucideSvgCustomizer.applySettings(rawSvg, settings)
+        } else {
+            rawSvg
+        }
     }
 }
 

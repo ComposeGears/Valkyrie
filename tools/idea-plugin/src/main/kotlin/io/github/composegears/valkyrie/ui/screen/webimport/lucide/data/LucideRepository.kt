@@ -1,14 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.lucide.data
 
-import androidx.collection.LruCache
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import io.github.composegears.valkyrie.parser.jvm.svg.SvgManipulator
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsChannel
 import io.ktor.client.statement.bodyAsText
-import java.util.Locale
+import io.ktor.utils.io.toByteArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -24,20 +20,14 @@ class LucideRepository(
 ) {
     companion object {
         private const val UNPKG_BASE = "https://unpkg.com/lucide-static@latest"
-        private const val CACHE_MAX_SIZE = 300
-
-        private const val ATTR_STROKE_WIDTH = "stroke-width"
-        private const val ATTR_WIDTH = "width"
-        private const val ATTR_HEIGHT = "height"
-        private const val ATTR_STROKE = "stroke"
-
-        private const val DEFAULT_STROKE_WIDTH = "2"
-        private const val DEFAULT_SIZE = "24"
-        private const val DEFAULT_STROKE_COLOR = "currentColor"
+        private const val FONT_URL = "$UNPKG_BASE/font/lucide.ttf"
+        private const val CSS_URL = "https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css"
     }
 
-    private val rawSvgCache = LruCache<String, String>(CACHE_MAX_SIZE)
-    private val cacheMutex = Mutex()
+    private val fontMutex = Mutex()
+    private val codepointMutex = Mutex()
+    private var fontBytesCache: ByteArray? = null
+    private var codepointsCache: Map<String, Int>? = null
 
     suspend fun loadIconList(): List<Pair<String, LucideIconMetadata>> = withContext(Dispatchers.IO) {
         val response = httpClient.get("$UNPKG_BASE/tags.json")
@@ -52,45 +42,39 @@ class LucideRepository(
         }
     }
 
-    suspend fun getRawSvg(iconName: String): String = withContext(Dispatchers.IO) {
-        cacheMutex.withLock {
-            rawSvgCache[iconName] ?: run {
-                val url = "$UNPKG_BASE/icons/$iconName.svg"
-                val downloaded = httpClient.get(url).bodyAsText()
-                rawSvgCache.put(iconName, downloaded)
-                downloaded
+    suspend fun loadFontBytes(): ByteArray = withContext(Dispatchers.IO) {
+        fontMutex.withLock {
+            fontBytesCache ?: run {
+                val bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
+                fontBytesCache = bytes
+                bytes
             }
         }
     }
 
-    fun applySvgCustomizations(svgContent: String, settings: LucideSettings): String {
-        return SvgManipulator.modifySvg(svgContent) { svgElement ->
-            if (settings.strokeWidth != DEFAULT_STROKE_WIDTH.toFloat()) {
-                SvgManipulator.updateAttributeRecursively(
-                    element = svgElement,
-                    attributeName = ATTR_STROKE_WIDTH,
-                    newValue = settings.adjustedStrokeWidth().toString(),
-                )
-            }
-
-            if (settings.size != DEFAULT_SIZE.toInt()) {
-                svgElement.setAttribute(ATTR_WIDTH, settings.size.toString())
-                svgElement.setAttribute(ATTR_HEIGHT, settings.size.toString())
-            }
-
-            if (settings.color != Color.Unspecified) {
-                SvgManipulator.updateAttributeConditionally(
-                    element = svgElement,
-                    attributeName = ATTR_STROKE,
-                    currentValue = DEFAULT_STROKE_COLOR,
-                    newValue = settings.color.toHexString(),
-                )
+    suspend fun loadCodepoints(): Map<String, Int> = withContext(Dispatchers.IO) {
+        codepointMutex.withLock {
+            codepointsCache ?: run {
+                val cssText = httpClient.get(CSS_URL).bodyAsText()
+                val codepoints = parseCodepoints(cssText)
+                codepointsCache = codepoints
+                codepoints
             }
         }
     }
 
-    private fun Color.toHexString(): String {
-        val argb = this.toArgb()
-        return String.format(Locale.ROOT, "#%06X", 0xFFFFFF and argb)
+    suspend fun downloadSvg(iconName: String): String = withContext(Dispatchers.IO) {
+        httpClient.get("$UNPKG_BASE/icons/$iconName.svg").bodyAsText()
+    }
+
+    private fun parseCodepoints(cssText: String): Map<String, Int> {
+        val pattern = Regex("""\.icon-([a-z0-9-]+)::?before\s*\{\s*content:\s*["']\\([a-fA-F0-9]+)["'];\s*}""")
+
+        return pattern.findAll(cssText).mapNotNull { match ->
+            val name = match.groupValues[1]
+            val codepointHex = match.groupValues[2]
+            val codepoint = codepointHex.toIntOrNull(16) ?: return@mapNotNull null
+            name to codepoint
+        }.toMap()
     }
 }

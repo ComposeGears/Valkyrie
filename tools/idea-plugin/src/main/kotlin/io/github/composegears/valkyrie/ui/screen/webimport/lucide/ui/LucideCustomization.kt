@@ -19,7 +19,6 @@ import io.github.composegears.valkyrie.jewel.CloseAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
-import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
@@ -44,7 +43,6 @@ fun LucideCustomization(
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var strokeWidth by remember { mutableFloatStateOf(settings.strokeWidth) }
     var size by remember { mutableFloatStateOf(settings.size.toFloat()) }
 
     Column(modifier = modifier) {
@@ -55,7 +53,6 @@ fun LucideCustomization(
             Link(
                 text = stringResource("web.import.font.customize.reset"),
                 onClick = {
-                    strokeWidth = LucideSettings.DEFAULT_STROKE_WIDTH
                     size = LucideSettings.DEFAULT_SIZE.toFloat()
 
                     onSettingsChange(LucideSettings())
@@ -67,22 +64,6 @@ fun LucideCustomization(
         HorizontalDivider(color = LocalGroupHeaderStyle.current.colors.divider)
         VerticallyScrollableContainer {
             Column(modifier = Modifier.padding(horizontal = 12.dp)) {
-                Spacer(16.dp)
-                CenterVerticalRow(modifier = Modifier.padding(horizontal = 4.dp)) {
-                    Text(text = stringResource("web.import.font.customize.lucide.stroke.width"))
-                    WeightSpacer()
-                    InfoText(text = String.format("%.1f", strokeWidth))
-                }
-                Spacer(8.dp)
-                Slider(
-                    value = strokeWidth,
-                    onValueChange = { strokeWidth = it },
-                    onValueChangeFinished = {
-                        onSettingsChange(settings.copy(strokeWidth = strokeWidth))
-                    },
-                    valueRange = 0.5f..4.0f,
-                    steps = 34,
-                )
                 Spacer(16.dp)
                 CenterVerticalRow(modifier = Modifier.padding(horizontal = 4.dp)) {
                     Text(text = stringResource("web.import.font.customize.lucide.size"))
@@ -97,14 +78,6 @@ fun LucideCustomization(
                         onSettingsChange(settings.copy(size = size.roundToInt()))
                     },
                     valueRange = 16f..48f,
-                    steps = 31,
-                )
-                Spacer(16.dp)
-                CheckboxSettingsRow(
-                    checked = settings.absoluteStrokeWidth,
-                    onCheckedChange = { onSettingsChange(settings.copy(absoluteStrokeWidth = it)) },
-                    text = stringResource("web.import.font.customize.lucide.absolute.stroke.width"),
-                    infoText = stringResource("web.import.font.customize.lucide.absolute.stroke.width.description"),
                 )
                 Spacer(16.dp)
             }
