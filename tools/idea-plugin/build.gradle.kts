@@ -1,5 +1,5 @@
+
 import org.jetbrains.changelog.Changelog
-import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -104,10 +104,7 @@ intellijPlatform {
     pluginVerification {
         failureLevel = VerifyPluginTask.FailureLevel.ALL.toList()
         ides {
-            create(
-                type = IntelliJPlatformType.IntellijIdea,
-                version = "2025.3",
-            )
+            recommended()
         }
     }
     signing {
