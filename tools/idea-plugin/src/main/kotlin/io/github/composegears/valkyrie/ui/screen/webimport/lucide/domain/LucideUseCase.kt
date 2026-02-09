@@ -1,12 +1,12 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain
 
 import io.github.composegears.valkyrie.parser.unified.ext.capitalized
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.data.LucideRepository
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.font.FontByteArray
 
 /**
  * Category keyword mapping with priority (lower number = higher priority).

@@ -10,13 +10,13 @@ import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.diagnostic.Logger
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.di.LucideModule
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.font.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.toGridItems
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview

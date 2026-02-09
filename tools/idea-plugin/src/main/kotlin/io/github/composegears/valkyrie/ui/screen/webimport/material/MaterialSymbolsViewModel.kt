@@ -16,7 +16,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.di.MaterialS
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontByteArray
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.toGridItems
