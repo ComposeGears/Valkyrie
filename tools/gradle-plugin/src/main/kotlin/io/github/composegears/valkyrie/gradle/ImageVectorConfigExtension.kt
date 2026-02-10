@@ -62,4 +62,15 @@ abstract class ImageVectorConfigExtension @Inject constructor(objects: ObjectFac
     val addTrailingComma: Property<Boolean> = objects
         .property<Boolean>()
         .convention(false)
+
+    /**
+     * Generate addPath with pathData strings instead of path builder calls.
+     *
+     * Note: Using pathData strings is less optimal due to pre-rendering parsing.
+     *
+     * Default: `false`
+     */
+    val usePathDataString: Property<Boolean> = objects
+        .property<Boolean>()
+        .convention(false)
 }

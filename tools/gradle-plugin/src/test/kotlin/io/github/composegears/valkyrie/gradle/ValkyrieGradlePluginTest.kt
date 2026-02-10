@@ -135,6 +135,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
                         generatePreview = true
                         previewAnnotationType = PreviewAnnotationType.Jetbrains
                         addTrailingComma = true
+                        usePathDataString = true
                     }
                 }
             """.trimIndent(),
@@ -159,6 +160,9 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             .first { it.name == "LinearGradient.kt" }
             .readText()
         assertThat(linearGradientKt).contains("public val LinearGradient: ImageVector")
+
+        // and usePathDataString is applied (path builder calls not present when using pathData strings)
+        assertThat(linearGradientKt).contains("addPathNodes")
     }
 
     @Test
