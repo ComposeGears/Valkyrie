@@ -39,7 +39,6 @@ internal object ClassNames {
  */
 internal object MemberNames {
     val Path = MemberName(PackageNames.VectorPackage.packageName, "path")
-    val AddPath = MemberName(PackageNames.VectorPackage.packageName, "addPath")
     val AddPathNodes = MemberName(PackageNames.VectorPackage.packageName, "addPathNodes")
 
     val Group = MemberName(PackageNames.VectorPackage.packageName, "group")
