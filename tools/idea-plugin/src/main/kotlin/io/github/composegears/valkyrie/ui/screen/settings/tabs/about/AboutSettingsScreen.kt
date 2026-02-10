@@ -34,7 +34,6 @@ val AboutSettingsScreen by navDestination {
 private fun AboutSettingsUi() {
     VerticallyScrollableContainer {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-            Spacer(16.dp)
             CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Image(
                     modifier = Modifier.size(48.dp),
@@ -63,6 +62,11 @@ private fun AboutSettingsUi() {
             ExternalLink(
                 uri = "https://github.com/ComposeGears/Valkyrie/issues",
                 text = stringResource("settings.about.issue"),
+            )
+            Spacer(16.dp)
+            ExternalLink(
+                uri = "https://plugins.jetbrains.com/plugin/24786-valkyrie",
+                text = stringResource("settings.rate.marketplace"),
             )
             GroupSpacing()
         }
