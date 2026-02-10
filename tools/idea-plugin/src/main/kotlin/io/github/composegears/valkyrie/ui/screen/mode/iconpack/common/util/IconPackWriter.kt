@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.util
 
-import com.intellij.openapi.application.ReadResult.Companion.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
@@ -46,8 +45,6 @@ object IconPackWriter {
             )
         }
 
-        writeAction {
-            VirtualFileManager.getInstance().syncRefresh()
-        }
+        VirtualFileManager.getInstance().asyncRefresh()
     }
 }
