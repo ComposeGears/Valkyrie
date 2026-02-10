@@ -68,10 +68,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
 
                 lucideRecord.value = LucideState.Success(
                     config = config,
-                    gridItems = config.gridItems.toGridItems(
-                        sortKey = { title },
-                        idExtractor = { name },
-                    ),
+                    gridItems = config.gridItems.toGridItems(),
                 )
                 downloadFont()
             }.onFailure { error ->
@@ -160,15 +157,12 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
         config: LucideConfig,
         category: Category,
         searchQuery: String = "",
-    ): List<GridItem> {
-        val categoryForFilter = category.takeUnless { it == Category.All }
-        return config.gridItems.filterGridItems(
-            category = categoryForFilter,
+    ): List<GridItem> = config
+        .gridItems
+        .filterGridItems(
+            category = category.takeUnless { it == Category.All },
             searchQuery = searchQuery,
-            idExtractor = { name },
-            categoryMatcher = { it.id == category.id },
         )
-    }
 
     private inline fun updateSuccess(crossinline transform: (LucideState.Success) -> LucideState.Success) {
         val current = lucideRecord.value

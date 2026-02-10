@@ -4,58 +4,52 @@ import com.github.androidpasswordstore.sublimefuzzy.Fuzzy
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebIcon
 
 /**
  * Converts a map of categories to icons into a flat list of grid items.
  *
- * @param sortKey Function to extract the sortable key from a category
- * @param idExtractor Function to extract the ID string from an icon item
  * @return A list of [GridItem] containing [CategoryHeader] and [IconItem] elements,
  *         sorted by category and preserving icon order within each category
  */
-fun <C, T> Map<C, List<T>>.toGridItems(
-    sortKey: C.() -> String,
-    idExtractor: T.() -> String,
-): List<GridItem> {
-    return toSortedMap(compareBy { it.sortKey() })
-        .flatMap { (category, icons) ->
-            listOf(CategoryHeader(category.sortKey())) + icons.map { IconItem(it, it.idExtractor()) }
+fun <Category : WebCategory, Icon : WebIcon> Map<Category, List<Icon>>.toGridItems(): List<GridItem> = this
+    .toSortedMap(compareBy { it.name })
+    .flatMap { (category, icons) ->
+        buildList {
+            add(CategoryHeader(category.name))
+            icons.onEach {
+                add(IconItem(it, it.name))
+            }
         }
-}
+    }
 
 /**
  * Filters and searches through a grid of icons using fuzzy matching.
  *
  * @param category The category to filter by, or null to show all
  * @param searchQuery The search query to filter by (uses fuzzy matching)
- * @param sortKey Function to extract the sortable key from a category (for category filtering only)
- * @param idExtractor Function to extract the ID string from an icon item
- * @param categoryMatcher Function to check if a category matches the selected one
  * @return A list of [GridItem] containing either [CategoryHeader] or [IconItem] elements
  */
-fun <C, T> Map<C, List<T>>.filterGridItems(
-    category: C?,
+fun <Category : WebCategory, Icon : WebIcon> Map<Category, List<Icon>>.filterGridItems(
+    category: Category?,
     searchQuery: String = "",
-    sortKey: C.() -> String = { toString() },
-    idExtractor: T.() -> String,
-    categoryMatcher: (C) -> Boolean = { it == category },
 ): List<GridItem> {
-    val categoryFiltered = if (category == null) {
-        this
-    } else {
-        filterKeys(categoryMatcher)
+    val categoryFiltered = when (category) {
+        null -> this
+        else -> filterKeys { it.name == category.name }
     }
 
     return if (searchQuery.isBlank()) {
-        categoryFiltered.toGridItems(sortKey, idExtractor)
+        categoryFiltered.toGridItems()
     } else {
         categoryFiltered
             .asSequence()
             .flatMap { it.value }
-            .map { it to Fuzzy.fuzzyMatch(searchQuery, it.idExtractor()) }
+            .map { it to Fuzzy.fuzzyMatch(searchQuery, it.name) }
             .filter { it.second.first }
             .sortedByDescending { it.second.second }
-            .map { IconItem(it.first, it.first.idExtractor()) }
+            .map { IconItem(it.first, it.first.name) }
             .toList()
     }
 }

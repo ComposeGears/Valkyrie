@@ -59,10 +59,7 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
                 val config = materialSymbolsConfigUseCase.loadConfig()
                 materialRecord.value = MaterialState.Success(
                     config = config,
-                    gridItems = config.gridItems.toGridItems(
-                        sortKey = { name },
-                        idExtractor = { originalName },
-                    ),
+                    gridItems = config.gridItems.toGridItems(),
                 )
                 downloadFont(IconFontFamily.OUTLINED)
             }.onFailure {
@@ -162,14 +159,12 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
         config: MaterialConfig,
         category: Category,
         searchQuery: String = "",
-    ): List<GridItem> {
-        val categoryForFilter = category.takeUnless { it == Category.All }
-        return config.gridItems.filterGridItems(
-            category = categoryForFilter,
+    ): List<GridItem> = config
+        .gridItems
+        .filterGridItems(
+            category = category.takeUnless { it == Category.All },
             searchQuery = searchQuery,
-            idExtractor = { originalName },
         )
-    }
 
     fun updateFontSettings(fontSettings: FontSettings) {
         viewModelScope.launch {

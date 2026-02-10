@@ -31,7 +31,7 @@ fun LucideTopActions(
                 modifier = Modifier.width(140.dp),
                 selected = selectedCategory,
                 items = categories,
-                transform = { it.title },
+                transform = { it.name },
                 onSelectItem = onSelectCategory,
             )
         },

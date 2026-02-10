@@ -85,7 +85,7 @@ class LucideUseCase(
         val categories = icons
             .map { it.category }
             .distinctBy { it.id }
-            .sortedBy { it.title }
+            .sortedBy { it.name }
 
         val groupedIcons = icons.groupBy { it.category }
 
@@ -120,11 +120,11 @@ class LucideUseCase(
         val allMatches = nameMatches + tagMatches
         val bestMatch = allMatches.minByOrNull { it.priority }
 
-        return bestMatch?.toCategory() ?: Category(id = "general", title = "General")
+        return bestMatch?.toCategory() ?: Category(id = "general", name = "General")
     }
 
     private fun CategoryKeyword.toCategory(): Category {
-        return Category(id = categoryName.lowercase(), title = categoryName)
+        return Category(id = categoryName.lowercase(), name = categoryName)
     }
 
     suspend fun loadFontBytes(): FontByteArray {
