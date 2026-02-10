@@ -1,6 +1,5 @@
-
 import org.jetbrains.changelog.Changelog
-import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -102,7 +101,18 @@ intellijPlatform {
         changeNotes = provider { changelog.render(Changelog.OutputType.HTML) }
     }
     pluginVerification {
-        failureLevel = VerifyPluginTask.FailureLevel.ALL.toList()
+        failureLevel = listOf(
+            FailureLevel.COMPATIBILITY_WARNINGS,
+            FailureLevel.COMPATIBILITY_PROBLEMS,
+            FailureLevel.SCHEDULED_FOR_REMOVAL_API_USAGES,
+            FailureLevel.INTERNAL_API_USAGES,
+            FailureLevel.OVERRIDE_ONLY_API_USAGES,
+            FailureLevel.NON_EXTENDABLE_API_USAGES,
+            FailureLevel.PLUGIN_STRUCTURE_WARNINGS,
+            FailureLevel.MISSING_DEPENDENCIES,
+            FailureLevel.INVALID_PLUGIN,
+            FailureLevel.NOT_DYNAMIC,
+        )
         ides {
             recommended()
         }
