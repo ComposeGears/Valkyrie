@@ -1,0 +1,74 @@
+name: IDEA Plugin Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    env:
+      CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+      PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Prepare release information
+        run: |
+          VERSION_NAME=$(grep "^idea-plugin-version" gradle/plugin.versions.toml | cut -d '"' -f 2)
+          RELEASE_TAG="idea-plugin-$VERSION_NAME"
+
+          # Determine if this is a snapshot version
+          IS_SNAPSHOT=false
+          [[ $VERSION_NAME == *-SNAPSHOT ]] && IS_SNAPSHOT=true
+
+          # Set pre-release flag based on snapshot status
+          PRE_RELEASE_FLAG=""
+          [[ $IS_SNAPSHOT == true ]] && PRE_RELEASE_FLAG="--prerelease"
+
+          echo "VERSION_NAME=$VERSION_NAME"
+          echo "RELEASE_TAG=$RELEASE_TAG"
+          echo "IS_SNAPSHOT=$IS_SNAPSHOT"
+          echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG"
+
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+          echo "IS_SNAPSHOT=$IS_SNAPSHOT" >> $GITHUB_ENV
+          echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG" >> $GITHUB_ENV
+
+      - name: Build signed plugin
+        run: ./gradlew signPlugin
+
+      - name: Verify IntelliJ plugin
+        run: ./gradlew verifyPlugin
+
+      - name: Publish to Marketplace
+        if: env.IS_SNAPSHOT == 'false'
+        run: ./gradlew publishPlugin
+
+      - name: Clean up existing release
+        run: |
+          gh release view ${{ env.RELEASE_TAG }} && gh release delete ${{ env.RELEASE_TAG }} -y --cleanup-tag || true
+
+      - name: Clean up previous snapshot release
+        if: env.IS_SNAPSHOT == 'false'
+        run: |
+          gh release view idea-plugin-${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete idea-plugin-${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag || true
+
+      - name: Create GitHub release
+        run: |
+          gh release create ${{ env.RELEASE_TAG }} tools/idea-plugin/build/distributions/*-signed.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
