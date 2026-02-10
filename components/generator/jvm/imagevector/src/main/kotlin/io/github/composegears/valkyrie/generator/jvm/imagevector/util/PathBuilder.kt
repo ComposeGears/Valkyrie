@@ -90,7 +90,7 @@ internal fun CodeBlock.Builder.addPathData(path: IrVectorNode.IrPath) {
 
     add(
         codeBlock = buildCodeBlock {
-            add("%M(\n", MemberNames.AddPath)
+            add("addPath(\n")
             withIndent {
                 pathParams.forEach { param ->
                     fillPathArgs(param)

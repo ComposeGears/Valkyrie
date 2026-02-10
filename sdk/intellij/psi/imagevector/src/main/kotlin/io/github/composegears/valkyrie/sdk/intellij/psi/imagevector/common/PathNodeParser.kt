@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common
 
+import io.github.composegears.valkyrie.parser.common.PathParser
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.util.childrenOfType
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.ArcTo
@@ -27,6 +28,13 @@ import org.jetbrains.kotlin.psi.KtCallExpression
 internal fun KtCallExpression.parseClipPath(): List<IrPathNode> {
     val clipPathArg = valueArguments
         .find { it.getArgumentName()?.asName?.identifier == "clipPathData" } ?: return emptyList()
+
+    val clipPathCall = clipPathArg.getArgumentExpression() as? KtCallExpression
+    if (clipPathCall?.calleeExpression?.text == "addPathNodes") {
+        val raw = clipPathCall.valueArguments.firstOrNull()?.getArgumentExpression()?.text ?: return emptyList()
+        val pathData = raw.stripQuotes()
+        return runCatching { PathParser.parsePathString(pathData) }.getOrElse { emptyList() }
+    }
 
     return clipPathArg
         .childrenOfType<KtCallExpression>()
@@ -181,3 +189,10 @@ private fun List<String>.allFloatOrBoolean() = all(String::isFloatOrBoolean)
 private fun String.isFloat() = toFloatOrNull() != null
 
 private fun String.isFloatOrBoolean() = isFloat() || this == "true" || this == "false" || this == "0" || this == "1"
+
+private fun String.stripQuotes(): String {
+    return when {
+        startsWith("\"\"\"") && endsWith("\"\"\"") -> removeSurrounding("\"\"\"")
+        else -> removeSurrounding("\"")
+    }
+}

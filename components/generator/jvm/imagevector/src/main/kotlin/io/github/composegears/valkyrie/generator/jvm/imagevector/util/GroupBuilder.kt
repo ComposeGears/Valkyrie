@@ -8,6 +8,7 @@ import io.github.composegears.valkyrie.generator.jvm.ext.builderBlock
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
+import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.asPathDataString
 import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.asStatement
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.ClipPathParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.NameParam
@@ -73,6 +74,7 @@ internal fun CodeBlock.Builder.addGroup(
     }
 }
 
+context(config: ImageVectorSpecConfig)
 private fun CodeBlock.Builder.fillGroupArgs(param: GroupParams) {
     when (param) {
         is NameParam -> nameArg(param)
@@ -119,12 +121,18 @@ private fun CodeBlock.Builder.translationYArg(param: TranslationYParam) {
     add("translationY = %L", param.translationY.formatFloat())
 }
 
+context(config: ImageVectorSpecConfig)
 private fun CodeBlock.Builder.clipPathArg(param: ClipPathParam) {
     newLine()
     withIndent {
-        builderBlock("clipPathData = %M {", MemberNames.PathData) {
-            param.clipPath.forEach { pathNode ->
-                addStatement("%L", pathNode.asStatement().replace(' ', '·'))
+        if (config.usePathDataString) {
+            val pathData = param.clipPath.asPathDataString()
+            add("clipPathData = %M(%S)", MemberNames.AddPathNodes, pathData)
+        } else {
+            builderBlock("clipPathData = %M {", MemberNames.PathData) {
+                param.clipPath.forEach { pathNode ->
+                    addStatement("%L", pathNode.asStatement().replace(' ', '·'))
+                }
             }
         }
     }
