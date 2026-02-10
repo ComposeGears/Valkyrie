@@ -17,6 +17,7 @@ import io.github.composegears.valkyrie.cli.SvgXmlCommand.PackageName
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.UseComposeColors
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.UseExplicitMode
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.UseFlatPackage
+import io.github.composegears.valkyrie.cli.SvgXmlCommand.UsePathDataString
 import io.github.composegears.valkyrie.cli.common.CliTestType
 import io.github.composegears.valkyrie.cli.common.CliTestType.DirectMain
 import io.github.composegears.valkyrie.cli.common.CliTestType.JarTerminal
@@ -303,6 +304,17 @@ class SvgXmlToImageVectorCliTest(
     }
 
     @Test
+    fun `icon with path data string`() {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_only_path.xml",
+            expectedKtName = "OnlyPathWithPathData.kt",
+            actualKtName = "OnlyPath.kt",
+            iconPackName = IconPackName("ValkyrieIcons"),
+            usePathDataString = UsePathDataString(true),
+        )
+    }
+
+    @Test
     fun `icon with all path params`() {
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_path_params.xml",
@@ -457,6 +469,7 @@ class SvgXmlToImageVectorCliTest(
         previewAnnotationType: ImageVectorPreviewAnnotationType? = null,
         addTrailingComma: AddTrailingComma? = null,
         autoMirror: AutoMirror? = null,
+        usePathDataString: UsePathDataString? = null,
     ) {
         val (cliTestType, outputFormat) = this
         val input = getResourcePath(inputResource)
@@ -478,6 +491,7 @@ class SvgXmlToImageVectorCliTest(
                 indentSize,
                 useComposeColors,
                 autoMirror,
+                usePathDataString,
             ),
         )
 
@@ -587,5 +601,9 @@ private sealed interface SvgXmlCommand {
 
     data class AutoMirror(val autoMirror: Boolean) : SvgXmlCommand {
         override val command: String = "--auto-mirror=$autoMirror"
+    }
+
+    data class UsePathDataString(val value: Boolean) : SvgXmlCommand {
+        override val command: String = "--use-path-data-string=$value"
     }
 }
