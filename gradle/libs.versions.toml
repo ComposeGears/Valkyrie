@@ -6,7 +6,7 @@ jacoco = "0.8.13"
 jdkRelease = "21"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
 kotlin = "2.2.20"
-kover = "0.9.5"
+kover = "0.9.6"
 leviathan = "3.1.0"
 # Support Kotlin 2.2.20 https://github.com/ktorio/ktor/releases/tag/3.3.1
 ktor = "3.3.1"
@@ -53,7 +53,7 @@ kover-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.r
 [plugins]
 buildconfig = "com.github.gmazzo.buildconfig:6.0.7"
 compose-hot-reload = "org.jetbrains.compose.hot-reload:1.0.0"
-jetbrains-changelog = "org.jetbrains.changelog:2.4.0"
+jetbrains-changelog = "org.jetbrains.changelog:2.5.0"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
 jetbrains-intellij-module = { id = "org.jetbrains.intellij.platform.module", version.ref = "intellij" }

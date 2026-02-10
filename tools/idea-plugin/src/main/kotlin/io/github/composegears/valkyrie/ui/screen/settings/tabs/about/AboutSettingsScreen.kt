@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.colored.PluginIcon
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
+import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.PluginIcon
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -34,7 +34,6 @@ val AboutSettingsScreen by navDestination {
 private fun AboutSettingsUi() {
     VerticallyScrollableContainer {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-            Spacer(16.dp)
             CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Image(
                     modifier = Modifier.size(48.dp),
@@ -63,6 +62,11 @@ private fun AboutSettingsUi() {
             ExternalLink(
                 uri = "https://github.com/ComposeGears/Valkyrie/issues",
                 text = stringResource("settings.about.issue"),
+            )
+            Spacer(16.dp)
+            ExternalLink(
+                uri = "https://plugins.jetbrains.com/plugin/24786-valkyrie",
+                text = stringResource("settings.rate.marketplace"),
             )
             GroupSpacing()
         }

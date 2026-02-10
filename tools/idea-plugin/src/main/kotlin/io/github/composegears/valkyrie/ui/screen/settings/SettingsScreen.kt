@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.settings
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -86,7 +87,7 @@ private fun Tabs(
     selectedTabIndex: () -> Int,
     onTabClick: (Int) -> Unit,
 ) {
-    Column {
+    Column(modifier = Modifier.padding(horizontal = 4.dp)) {
         TabStrip(
             tabs = tabNames.mapIndexed { index, string ->
                 TabData.Default(

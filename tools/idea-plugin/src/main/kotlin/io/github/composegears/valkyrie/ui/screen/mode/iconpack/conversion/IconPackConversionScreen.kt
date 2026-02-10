@@ -33,7 +33,6 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
-import com.intellij.openapi.application.writeAction
 import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
@@ -93,10 +92,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
                         )
                     }
                     is ConversionEvent.ImportCompleted -> {
-                        @Suppress("UnstableApiUsage")
-                        writeAction {
-                            VirtualFileManager.getInstance().syncRefresh()
-                        }
+                        VirtualFileManager.getInstance().asyncRefresh()
                     }
                     is ConversionEvent.NothingToImport -> {
                         bannerManager.show(message = WarningBanner(text = message("iconpack.conversion.nothing.import")))

@@ -12,12 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.colored.GoogleMaterialLogo
-import io.github.composegears.valkyrie.compose.icons.outlined.BatchProcessing
 import io.github.composegears.valkyrie.jewel.core.FocusContainer
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
+import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.BatchProcessing
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Icon

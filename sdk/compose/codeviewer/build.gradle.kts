@@ -9,7 +9,6 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.sdk.compose.foundation)
             implementation(projects.sdk.compose.highlightsCore)
-            implementation(projects.compose.ui)
 
             implementation(compose.material3)
         }

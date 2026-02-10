@@ -42,7 +42,6 @@ dependencyResolutionManagement {
         maven("https://www.jetbrains.com/intellij-repository/releases")
         maven("https://www.jetbrains.com/intellij-repository/snapshots")
         maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
-        maven(url = file("m2"))
 
         versionCatalogs {
             create("cli") {
@@ -50,6 +49,9 @@ dependencyResolutionManagement {
             }
             create("gradlePluginVersions") {
                 from(files("gradle/gradle.versions.toml"))
+            }
+            create("ideaPluginVersions") {
+                from(files("gradle/plugin.versions.toml"))
             }
         }
     }
@@ -81,6 +83,7 @@ include("components:parser:unified")
 
 include("sdk:compose:codeviewer")
 include("sdk:compose:highlights-core")
+include("sdk:compose:icons")
 include("sdk:compose:foundation")
 include("sdk:core:extensions")
 include("sdk:core:xml")
@@ -94,8 +97,5 @@ include("sdk:ir:util")
 include("sdk:ir:xml")
 include("sdk:test:coverage")
 include("sdk:test:resource-loader")
-
-include("compose:icons")
-include("compose:ui")
 
 include("shared")

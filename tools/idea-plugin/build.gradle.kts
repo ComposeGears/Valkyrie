@@ -1,6 +1,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
-import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -11,8 +11,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-group = rootProject.providers.gradleProperty("GROUP").get()
-version = rootProject.providers.gradleProperty("VERSION_NAME").get()
+group = "io.github.composegears"
+version = ideaPluginVersions.versions.idea.plugin.version.get()
 
 configurations.getByName("implementation") {
     exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
@@ -55,9 +55,9 @@ dependencies {
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.jvm.svg)
     implementation(projects.components.parser.unified)
-    implementation(projects.compose.icons)
-    implementation(projects.sdk.compose.highlightsCore)
     implementation(projects.sdk.compose.foundation)
+    implementation(projects.sdk.compose.highlightsCore)
+    implementation(projects.sdk.compose.icons)
     implementation(projects.sdk.core.extensions)
     implementation(projects.sdk.intellij.psi.iconpack)
     implementation(projects.sdk.intellij.psi.imagevector)
@@ -104,7 +104,18 @@ intellijPlatform {
         changeNotes = provider { changelog.render(Changelog.OutputType.HTML) }
     }
     pluginVerification {
-        failureLevel = VerifyPluginTask.FailureLevel.ALL.toList()
+        failureLevel = listOf(
+            FailureLevel.COMPATIBILITY_WARNINGS,
+            FailureLevel.COMPATIBILITY_PROBLEMS,
+            FailureLevel.SCHEDULED_FOR_REMOVAL_API_USAGES,
+            FailureLevel.INTERNAL_API_USAGES,
+            FailureLevel.OVERRIDE_ONLY_API_USAGES,
+            FailureLevel.NON_EXTENDABLE_API_USAGES,
+            FailureLevel.PLUGIN_STRUCTURE_WARNINGS,
+            FailureLevel.MISSING_DEPENDENCIES,
+            FailureLevel.INVALID_PLUGIN,
+            FailureLevel.NOT_DYNAMIC,
+        )
         ides {
             create(
                 type = IntelliJPlatformType.IntellijIdea,

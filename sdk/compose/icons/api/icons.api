@@ -1,0 +1,67 @@
+public final class io/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/GoogleMaterialLogoKt {
+	public static final fun getGoogleMaterialLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/LucideLogoKt {
+	public static final fun getLucideLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/PluginIconKt {
+	public static final fun getPluginIcon (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/BackKt {
+	public static final fun getBack (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/BatchProcessingKt {
+	public static final fun getBatchProcessing (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/ConversionKt {
+	public static final fun getConversion (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/DarkKt {
+	public static final fun getDark (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/EditorKt {
+	public static final fun getEditor (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/FileImportKt {
+	public static final fun getFileImport (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/KtSvgKt {
+	public static final fun getKtSvg (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/KtXmlKt {
+	public static final fun getKtXml (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/LightKt {
+	public static final fun getLight (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
+public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/SettingsKt {
+	public static final fun getSettings (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
