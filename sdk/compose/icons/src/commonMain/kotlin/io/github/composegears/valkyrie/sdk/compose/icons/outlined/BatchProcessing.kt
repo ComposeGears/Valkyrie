@@ -1,11 +1,11 @@
-package io.github.composegears.valkyrie.compose.icons.outlined
+package io.github.composegears.valkyrie.sdk.compose.icons.outlined
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 
 val ValkyrieIcons.Outlined.BatchProcessing: ImageVector
     get() {

@@ -16,13 +16,6 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.KT_TO_SVG_ENABLED
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.outlined.BatchProcessing
-import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
-import io.github.composegears.valkyrie.compose.icons.outlined.Editor
-import io.github.composegears.valkyrie.compose.icons.outlined.FileImport
-import io.github.composegears.valkyrie.compose.icons.outlined.KtSvg
-import io.github.composegears.valkyrie.compose.icons.outlined.KtXml
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.InfoCard
 import io.github.composegears.valkyrie.jewel.SettingsAction
@@ -30,6 +23,13 @@ import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.BatchProcessing
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Conversion
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Editor
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.FileImport
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtSvg
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtXml
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
