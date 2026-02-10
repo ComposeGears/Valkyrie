@@ -53,36 +53,36 @@ needs.
 
 - [Key features](#key-features)
 - 🔌 [IDEA plugin](#idea-plugin)
-  - [Plugin features](#plugin-features)
-  - [Simple mode](#simple-mode)
-  - [IconPack mode](#iconpack-mode)
-    - [Create new icon pack](#new-icon-pack)
-    - [Update existing icon pack](#existing-icon-pack)
-  - [ImageVector previewer](#imagevector-previewer)
-    - [Embedded previewer](#embedded-previewer)
-    - [AutoCompletion previewer](#autocompletion-previewer)
-    - [Gutter previewer](#gutter-previewer)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Build plugin](#build-plugin)
+    - [Plugin features](#plugin-features)
+    - [Simple mode](#simple-mode)
+    - [IconPack mode](#iconpack-mode)
+        - [Create new icon pack](#new-icon-pack)
+        - [Update existing icon pack](#existing-icon-pack)
+    - [ImageVector previewer](#imagevector-previewer)
+        - [Embedded previewer](#embedded-previewer)
+        - [AutoCompletion previewer](#autocompletion-previewer)
+        - [Gutter previewer](#gutter-previewer)
+    - [Requirements](#requirements)
+    - [Installation](#installation)
+    - [Build plugin](#build-plugin)
 - 🖥️ [CLI tool](#cli-tool)
-  - [Install](#install-cli)
-  - [Available commands](#available-commands)
-    - [`iconpack` command](#iconpack-command)
-    - [`svgxml2imagevector` command](#svgxml2imagevector-command)
-    - [`changelog` command](#changelog-command)
-  - [Build](#build-cli)
+    - [Install](#install-cli)
+    - [Available commands](#available-commands)
+        - [`iconpack` command](#iconpack-command)
+        - [`svgxml2imagevector` command](#svgxml2imagevector-command)
+        - [`changelog` command](#changelog-command)
+    - [Build](#build-cli)
 - 🐘 [Gradle plugin](#gradle-plugin)
-  - [Plugin configuration](#plugin-configuration)
-  - [Samples](#gradle-plugin-samples)
-    - [Basic conversion](#basic-conversion)
-    - [Icon pack configuration](#icon-pack-configuration)
-    - [Icon pack with nested packs configuration](#icon-pack-with-nested-packs-configuration)
-  - [Tips and tricks](#tips-and-tricks)
+    - [Plugin configuration](#plugin-configuration)
+    - [Samples](#gradle-plugin-samples)
+        - [Basic conversion](#basic-conversion)
+        - [Icon pack configuration](#icon-pack-configuration)
+        - [Icon pack with nested packs configuration](#icon-pack-with-nested-packs-configuration)
+    - [Tips and tricks](#tips-and-tricks)
 - [Other](#other)
-  - [Output formats](#output-formats)
-  - [Comparison with other solutions](#comparison-with-other-solutions)
-  - [Migration guide](#migration-guide)
+    - [Output formats](#output-formats)
+    - [Comparison with other solutions](#comparison-with-other-solutions)
+    - [Migration guide](#migration-guide)
 
 ## Key features
 
@@ -90,13 +90,13 @@ needs.
 
 - Support conversion from SVG and XML
 - Custom [kotlinpoet](https://github.com/square/kotlinpoet) generator with streamlined code formatting:
-  * code alignment and formatting
-  * remove redundant code by default (e.g. `public` keyword)
-  * remove unused imports (e.g. `kotlin.*` package)
-  * skip default ImageVector parameters
-  * support generation as [backing property or lazy property](#output-formats)
-  * optional trailing comma and explicit mode
-  * customize code indent
+    * code alignment and formatting
+    * remove redundant code by default (e.g. `public` keyword)
+    * remove unused imports (e.g. `kotlin.*` package)
+    * skip default ImageVector parameters
+    * support generation as [backing property or lazy property](#output-formats)
+    * optional trailing comma and explicit mode
+    * customize code indent
 - Ability to create your unique project icon pack (+nested packs if necessary)
 - High performance (6k icons processing ~5sec)
 
@@ -217,7 +217,8 @@ opened in the editor with embedded previewer.
 | Plugin version | Min IntelliJ IDEA / Android Studio           |
 |----------------|----------------------------------------------|
 | 0.1.0 - 0.14.0 | IntelliJ IDEA 2024.1, Android Studio Koala   |
-| 0.15.0+        | IntelliJ IDEA 2024.2, Android Studio Ladybug |
+| 0.15.0         | IntelliJ IDEA 2024.2, Android Studio Ladybug |
+| 1.0.0          | IntelliJ IDEA 2025.3, Android Studio Panda 1 |
 
 ### Installation
 
@@ -391,7 +392,7 @@ Add the plugin to your `build.gradle.kts`:
 
 ```kotlin
 plugins {
-  alias(libs.plugins.valkyrie)
+    alias(libs.plugins.valkyrie)
 }
 ```
 
@@ -401,85 +402,85 @@ Full gradle plugin API specification (see [practical examples below](#gradle-plu
 
 ```kotlin
 valkyrie {
-  // Required: Package name for generated icons
-  // Defaults to Android 'namespace' if Android Gradle Plugin is applied
-  packageName = "com.example.app.icons"
+    // Required: Package name for generated icons
+    // Defaults to Android 'namespace' if Android Gradle Plugin is applied
+    packageName = "com.example.app.icons"
 
-  // Optional: Custom output directory (default: build/generated/sources/valkyrie)
-  outputDirectory = layout.buildDirectory.dir("generated/valkyrie")
+    // Optional: Custom output directory (default: build/generated/sources/valkyrie)
+    outputDirectory = layout.buildDirectory.dir("generated/valkyrie")
 
-  // Optional: Resource directory name containing icon files (default: "valkyrieResources")
-  // Icons will be discovered in src/{sourceSet}/{resourceDirectoryName}/
-  // Example: src/commonMain/valkyrieResources/, src/androidMain/valkyrieResources/
-  resourceDirectoryName = "valkyrieResources"
+    // Optional: Resource directory name containing icon files (default: "valkyrieResources")
+    // Icons will be discovered in src/{sourceSet}/{resourceDirectoryName}/
+    // Example: src/commonMain/valkyrieResources/, src/androidMain/valkyrieResources/
+    resourceDirectoryName = "valkyrieResources"
 
-  // Optional: Generate during IDE sync for better developer experience (default: false)
-  generateAtSync = false
+    // Optional: Generate during IDE sync for better developer experience (default: false)
+    generateAtSync = false
 
-  // Optional: Force all generated ImageVectors to have a specific autoMirror value (default: not specified)
-  // When set to true, all icons will have autoMirror = true
-  // When set to false, all icons will have autoMirror = false
-  // When not specified, the autoMirror value from the original icon file will be preserved
-  // This can be overridden at the icon pack or nested pack level
-  autoMirror = false
+    // Optional: Force all generated ImageVectors to have a specific autoMirror value (default: not specified)
+    // When set to true, all icons will have autoMirror = true
+    // When set to false, all icons will have autoMirror = false
+    // When not specified, the autoMirror value from the original icon file will be preserved
+    // This can be overridden at the icon pack or nested pack level
+    autoMirror = false
 
-  // Optional: Code style configuration for generated code
-  codeStyle {
-    // Add explicit `public` modifier to generated declarations (default: false)
-    useExplicitMode = false
+    // Optional: Code style configuration for generated code
+    codeStyle {
+        // Add explicit `public` modifier to generated declarations (default: false)
+        useExplicitMode = false
 
-    // Number of spaces used for each level of indentation in generated code (default: 4)
-    indentSize = 4
-  }
-
-  // Optional: ImageVector generation configuration
-  imageVector {
-    // Output format for generated ImageVectors (default: BackingProperty)
-    outputFormat = OutputFormat.BackingProperty // or OutputFormat.LazyProperty
-
-    // Use predefined Compose colors instead of hex color codes (e.g. Color.Black instead of Color(0xFF000000)) (default: true)
-    useComposeColors = true
-
-    // Generate `@Preview` function for ImageVector (default: false)
-    generatePreview = false
-
-    // Specifies the type of Preview annotation to generate for @Preview
-    previewAnnotationType = PreviewAnnotationType.AndroidX
-
-    // Insert a trailing comma after the last element of ImageVector.Builder block and path params (default: false)
-    addTrailingComma = false
-  }
-
-  // Optional icon pack object configuration
-  iconPack {
-    // Required: Name of the root icon pack object
-    name = "ValkyrieIcons"
-
-    // Required: Target source set for generated icon pack object
-    targetSourceSet = "commonMain"
-
-    // Optional: Generate flat package structure without subfolders (default: false)
-    useFlatPackage = false
-
-    // Optional: Force all ImageVectors in this icon pack to have a specific autoMirror value (default: not specified)
-    // When set, overrides the root level autoMirror setting
-    // This can be overridden at the nested pack level
-    autoMirror = true
-
-    // Optional: Nested icon packs configuration
-    nested {
-      // Required: Name of the nested icon pack object
-      name = "Outlined"
-
-      // Required: The source folder path containing icons for this nested pack, relative to the `resourceDirectoryName`.
-      sourceFolder = "outlined"
-
-      // Optional: Force all ImageVectors in this nested pack to have a specific autoMirror value (default: not specified)
-      // When set, overrides the icon pack level and root level autoMirror settings
-      autoMirror = false
+        // Number of spaces used for each level of indentation in generated code (default: 4)
+        indentSize = 4
     }
-    // You can add more nested packs if necessary
-  }
+
+    // Optional: ImageVector generation configuration
+    imageVector {
+        // Output format for generated ImageVectors (default: BackingProperty)
+        outputFormat = OutputFormat.BackingProperty // or OutputFormat.LazyProperty
+
+        // Use predefined Compose colors instead of hex color codes (e.g. Color.Black instead of Color(0xFF000000)) (default: true)
+        useComposeColors = true
+
+        // Generate `@Preview` function for ImageVector (default: false)
+        generatePreview = false
+
+        // Specifies the type of Preview annotation to generate for @Preview
+        previewAnnotationType = PreviewAnnotationType.AndroidX
+
+        // Insert a trailing comma after the last element of ImageVector.Builder block and path params (default: false)
+        addTrailingComma = false
+    }
+
+    // Optional icon pack object configuration
+    iconPack {
+        // Required: Name of the root icon pack object
+        name = "ValkyrieIcons"
+
+        // Required: Target source set for generated icon pack object
+        targetSourceSet = "commonMain"
+
+        // Optional: Generate flat package structure without subfolders (default: false)
+        useFlatPackage = false
+
+        // Optional: Force all ImageVectors in this icon pack to have a specific autoMirror value (default: not specified)
+        // When set, overrides the root level autoMirror setting
+        // This can be overridden at the nested pack level
+        autoMirror = true
+
+        // Optional: Nested icon packs configuration
+        nested {
+            // Required: Name of the nested icon pack object
+            name = "Outlined"
+
+            // Required: The source folder path containing icons for this nested pack, relative to the `resourceDirectoryName`.
+            sourceFolder = "outlined"
+
+            // Optional: Force all ImageVectors in this nested pack to have a specific autoMirror value (default: not specified)
+            // When set, overrides the icon pack level and root level autoMirror settings
+            autoMirror = false
+        }
+        // You can add more nested packs if necessary
+    }
 }
 ```
 
@@ -515,12 +516,12 @@ For this example, we will use a multiplatform project structure.
 
 ```kotlin
 plugins {
-  kotlin("multiplatform")
-  alias(libs.plugins.valkyrie)
+    kotlin("multiplatform")
+    alias(libs.plugins.valkyrie)
 }
 
 valkyrie {
-  packageName = "com.example.app.icons"
+    packageName = "com.example.app.icons"
 }
 
 // other code
@@ -556,10 +557,10 @@ Use icon from your Compose code:
 ```kotlin
 @Composable
 fun Demo() {
-  Image(
-    imageVector = ComposeColor,
-    contentDescription = "Color"
-  )
+    Image(
+        imageVector = ComposeColor,
+        contentDescription = "Color"
+    )
 }
 ```
 
@@ -570,17 +571,17 @@ For this example, we will use a multiplatform project structure.
 
 ```kotlin
 plugins {
-  kotlin("multiplatform")
-  alias(libs.plugins.valkyrie)
+    kotlin("multiplatform")
+    alias(libs.plugins.valkyrie)
 }
 
 valkyrie {
-  packageName = "com.example.app.icons"
+    packageName = "com.example.app.icons"
 
-  iconPack {
-    name = "ValkyrieIcons"
-    targetSourceSet = "commonMain" // icon pack object will be generated in commonMain source set
-  }
+    iconPack {
+        name = "ValkyrieIcons"
+        targetSourceSet = "commonMain" // icon pack object will be generated in commonMain source set
+    }
 }
 ```
 
@@ -614,10 +615,10 @@ Use icon from your Compose code:
 ```kotlin
 @Composable
 fun Demo() {
-  Image(
-    imageVector = ValkyrieIcons.LinearGradient,
-    contentDescription = null
-  )
+    Image(
+        imageVector = ValkyrieIcons.LinearGradient,
+        contentDescription = null
+    )
 }
 ```
 
@@ -630,27 +631,27 @@ For this example, we will use a multiplatform project structure.
 
 ```kotlin
 plugins {
-  kotlin("multiplatform")
-  alias(libs.plugins.valkyrie)
+    kotlin("multiplatform")
+    alias(libs.plugins.valkyrie)
 }
 
 valkyrie {
-  packageName = "com.example.app.icons"
+    packageName = "com.example.app.icons"
 
-  iconPack {
-    name = "ValkyrieIcons"
-    targetSourceSet = "commonMain"
+    iconPack {
+        name = "ValkyrieIcons"
+        targetSourceSet = "commonMain"
 
-    nested {
-      name = "Outlined"
-      sourceFolder = "outlined"
+        nested {
+            name = "Outlined"
+            sourceFolder = "outlined"
+        }
+
+        nested {
+            name = "Filled"
+            sourceFolder = "filled"
+        }
     }
-
-    nested {
-      name = "Filled"
-      sourceFolder = "filled"
-    }
-  }
 }
 ```
 
@@ -687,15 +688,15 @@ Use icons from your Compose code:
 ```kotlin
 @Composable
 fun Demo() {
-  Image(
-    imageVector = ValkyrieIcons.Outlined.Add,
-    contentDescription = "Add"
-  )
+    Image(
+        imageVector = ValkyrieIcons.Outlined.Add,
+        contentDescription = "Add"
+    )
 
-  Image(
-    imageVector = ValkyrieIcons.Filled.Home,
-    contentDescription = "Home"
-  )
+    Image(
+        imageVector = ValkyrieIcons.Filled.Home,
+        contentDescription = "Home"
+    )
 }
 ```
 
@@ -708,19 +709,19 @@ the generated files after the generation task.
 
 ```kotlin
 val copyTask = tasks.register<Copy>("copyValkyrieIcons") {
-  dependsOn(tasks.named("generateValkyrieImageVector"))
+    dependsOn(tasks.named("generateValkyrieImageVector"))
 
-  from(layout.buildDirectory.dir("generated/sources/valkyrie"))
-  into(layout.projectDirectory.dir("src"))
+    from(layout.buildDirectory.dir("generated/sources/valkyrie"))
+    into(layout.projectDirectory.dir("src"))
 }
 
 val cleanTask = tasks.register<Delete>("cleanValkyrieGenerated") {
-  delete(layout.buildDirectory.dir("generated/sources/valkyrie"))
+    delete(layout.buildDirectory.dir("generated/sources/valkyrie"))
 }
 
 tasks.register("updateValkyrieIcons") {
-  dependsOn(copyTask)
-  finalizedBy(cleanTask)
+    dependsOn(copyTask)
+    finalizedBy(cleanTask)
 }
 ```
 
@@ -741,24 +742,24 @@ For example, to force enable RTL support for icons in the `Navigation` nested pa
 
 ```kotlin
 valkyrie {
-  packageName = "com.example.app.icons"
+    packageName = "com.example.app.icons"
 
-  iconPack {
-    name = "ValkyrieIcons"
-    targetSourceSet = "commonMain"
+    iconPack {
+        name = "ValkyrieIcons"
+        targetSourceSet = "commonMain"
 
-    nested {
-      name = "Navigation"
-      sourceFolder = "navigation"
+        nested {
+            name = "Navigation"
+            sourceFolder = "navigation"
 
-      autoMirror = true
+            autoMirror = true
+        }
+
+        nested {
+            name = "Logos"
+            sourceFolder = "logos"
+        }
     }
-
-    nested {
-      name = "Logos"
-      sourceFolder = "logos"
-    }
-  }
 }
 ```
 
@@ -794,35 +795,35 @@ import io.github.composegears.valkyrie.backing.BackingIcons
 
 val BackingIcons.Outlined.Add: ImageVector
 get() {
-  if (_Add != null) {
-    return _Add!!
-  }
-  _Add = ImageVector.Builder(
-    name = "Outlined.Add",
-    defaultWidth = 24.dp,
-    defaultHeight = 24.dp,
-    viewportWidth = 24f,
-    viewportHeight = 24f,
-  ).apply {
-    path(fill = SolidColor(Color(0xFF232F34))) {
-      moveTo(19f, 13f)
-      lineTo(13f, 13f)
-      lineTo(13f, 19f)
-      lineTo(11f, 19f)
-      lineTo(11f, 13f)
-      lineTo(5f, 13f)
-      lineTo(5f, 11f)
-      lineTo(11f, 11f)
-      lineTo(11f, 5f)
-      lineTo(13f, 5f)
-      lineTo(13f, 11f)
-      lineTo(19f, 11f)
-      lineTo(19f, 13f)
-      close()
+    if (_Add != null) {
+        return _Add!!
     }
-  }.build()
+    _Add = ImageVector.Builder(
+        name = "Outlined.Add",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f,
+    ).apply {
+        path(fill = SolidColor(Color(0xFF232F34))) {
+            moveTo(19f, 13f)
+            lineTo(13f, 13f)
+            lineTo(13f, 19f)
+            lineTo(11f, 19f)
+            lineTo(11f, 13f)
+            lineTo(5f, 13f)
+            lineTo(5f, 11f)
+            lineTo(11f, 11f)
+            lineTo(11f, 5f)
+            lineTo(13f, 5f)
+            lineTo(13f, 11f)
+            lineTo(19f, 11f)
+            lineTo(19f, 13f)
+            close()
+        }
+    }.build()
 
-  return _Add!!
+    return _Add!!
 }
 
 @Suppress("ObjectPropertyName")
@@ -843,30 +844,30 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.lazy.LazyIcons
 
 val LazyIcons.Outlined.Add: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
-  ImageVector.Builder(
-    name = "Outlined.Add",
-    defaultWidth = 24.dp,
-    defaultHeight = 24.dp,
-    viewportWidth = 24f,
-    viewportHeight = 24f,
-  ).apply {
-    path(fill = SolidColor(Color(0xFF232F34))) {
-      moveTo(19f, 13f)
-      lineTo(13f, 13f)
-      lineTo(13f, 19f)
-      lineTo(11f, 19f)
-      lineTo(11f, 13f)
-      lineTo(5f, 13f)
-      lineTo(5f, 11f)
-      lineTo(11f, 11f)
-      lineTo(11f, 5f)
-      lineTo(13f, 5f)
-      lineTo(13f, 11f)
-      lineTo(19f, 11f)
-      lineTo(19f, 13f)
-      close()
-    }
-  }.build()
+    ImageVector.Builder(
+        name = "Outlined.Add",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f,
+    ).apply {
+        path(fill = SolidColor(Color(0xFF232F34))) {
+            moveTo(19f, 13f)
+            lineTo(13f, 13f)
+            lineTo(13f, 19f)
+            lineTo(11f, 19f)
+            lineTo(11f, 13f)
+            lineTo(5f, 13f)
+            lineTo(5f, 11f)
+            lineTo(11f, 11f)
+            lineTo(11f, 5f)
+            lineTo(13f, 5f)
+            lineTo(13f, 11f)
+            lineTo(19f, 11f)
+            lineTo(19f, 13f)
+            close()
+        }
+    }.build()
 }
 ```
 
@@ -881,8 +882,8 @@ Source SVG icon:
 ```svg
 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#e8eaed">
-  <path d="M0 0h24v24H0V0z" fill="none"/>
-  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
 </svg>
 ```
 
@@ -907,35 +908,35 @@ import androidx.compose.ui.unit.dp
 
 val Add: ImageVector
 get() {
-  if (_Add != null) {
-    return _Add!!
-  }
-  _Add = ImageVector.Builder(
-    name = "Add",
-    defaultWidth = 24.dp,
-    defaultHeight = 24.dp,
-    viewportWidth = 24f,
-    viewportHeight = 24f
-  ).apply {
-    path(fill = SolidColor(Color(0xFFE8EAED))) {
-      moveTo(19f, 13f)
-      horizontalLineToRelative(-6f)
-      verticalLineToRelative(6f)
-      horizontalLineToRelative(-2f)
-      verticalLineToRelative(-6f)
-      horizontalLineTo(5f)
-      verticalLineToRelative(-2f)
-      horizontalLineToRelative(6f)
-      verticalLineTo(5f)
-      horizontalLineToRelative(2f)
-      verticalLineToRelative(6f)
-      horizontalLineToRelative(6f)
-      verticalLineToRelative(2f)
-      close()
+    if (_Add != null) {
+        return _Add!!
     }
-  }.build()
+    _Add = ImageVector.Builder(
+        name = "Add",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color(0xFFE8EAED))) {
+            moveTo(19f, 13f)
+            horizontalLineToRelative(-6f)
+            verticalLineToRelative(6f)
+            horizontalLineToRelative(-2f)
+            verticalLineToRelative(-6f)
+            horizontalLineTo(5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(6f)
+            verticalLineTo(5f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(6f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(2f)
+            close()
+        }
+    }.build()
 
-  return _Add!!
+    return _Add!!
 }
 
 @Suppress("ObjectPropertyName")
@@ -962,62 +963,62 @@ private var _Add: ImageVector? = null
 
 public val Add: ImageVector
 get() {
-  if (_Add != null) {
+    if (_Add != null) {
+        return _Add!!
+    }
+    _Add = ImageVector.Builder(
+        name = "Add",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(
+            fill = null,
+            fillAlpha = 1.0f,
+            stroke = null,
+            strokeAlpha = 1.0f,
+            strokeLineWidth = 1.0f,
+            strokeLineCap = StrokeCap.Butt,
+            strokeLineJoin = StrokeJoin.Miter,
+            strokeLineMiter = 1.0f,
+            pathFillType = PathFillType.NonZero
+        ) {
+            moveTo(0f, 0f)
+            horizontalLineToRelative(24f)
+            verticalLineToRelative(24f)
+            horizontalLineTo(0f)
+            verticalLineTo(0f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFFE8EAED)),
+            fillAlpha = 1.0f,
+            stroke = null,
+            strokeAlpha = 1.0f,
+            strokeLineWidth = 1.0f,
+            strokeLineCap = StrokeCap.Butt,
+            strokeLineJoin = StrokeJoin.Miter,
+            strokeLineMiter = 1.0f,
+            pathFillType = PathFillType.NonZero
+        ) {
+            moveTo(19f, 13f)
+            horizontalLineToRelative(-6f)
+            verticalLineToRelative(6f)
+            horizontalLineToRelative(-2f)
+            verticalLineToRelative(-6f)
+            horizontalLineTo(5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(6f)
+            verticalLineTo(5f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(6f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(2f)
+            close()
+        }
+    }.build()
     return _Add!!
-  }
-  _Add = ImageVector.Builder(
-    name = "Add",
-    defaultWidth = 24.dp,
-    defaultHeight = 24.dp,
-    viewportWidth = 24f,
-    viewportHeight = 24f
-  ).apply {
-    path(
-      fill = null,
-      fillAlpha = 1.0f,
-      stroke = null,
-      strokeAlpha = 1.0f,
-      strokeLineWidth = 1.0f,
-      strokeLineCap = StrokeCap.Butt,
-      strokeLineJoin = StrokeJoin.Miter,
-      strokeLineMiter = 1.0f,
-      pathFillType = PathFillType.NonZero
-    ) {
-      moveTo(0f, 0f)
-      horizontalLineToRelative(24f)
-      verticalLineToRelative(24f)
-      horizontalLineTo(0f)
-      verticalLineTo(0f)
-      close()
-    }
-    path(
-      fill = SolidColor(Color(0xFFE8EAED)),
-      fillAlpha = 1.0f,
-      stroke = null,
-      strokeAlpha = 1.0f,
-      strokeLineWidth = 1.0f,
-      strokeLineCap = StrokeCap.Butt,
-      strokeLineJoin = StrokeJoin.Miter,
-      strokeLineMiter = 1.0f,
-      pathFillType = PathFillType.NonZero
-    ) {
-      moveTo(19f, 13f)
-      horizontalLineToRelative(-6f)
-      verticalLineToRelative(6f)
-      horizontalLineToRelative(-2f)
-      verticalLineToRelative(-6f)
-      horizontalLineTo(5f)
-      verticalLineToRelative(-2f)
-      horizontalLineToRelative(6f)
-      verticalLineTo(5f)
-      horizontalLineToRelative(2f)
-      verticalLineToRelative(6f)
-      horizontalLineToRelative(6f)
-      verticalLineToRelative(2f)
-      close()
-    }
-  }.build()
-  return _Add!!
 }
 
 ```
