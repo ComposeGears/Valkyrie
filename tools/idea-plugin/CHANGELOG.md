@@ -28,31 +28,6 @@
 - Rename "Export" to "Import" across IDEA plugin
 - Update plugin icon
 
-## 1.0.0-SNAPSHOT - 2026-02-10
-
-### Added
-
-- Add a new mode for backward conversion from ImageVector to XML
-- Implement fuzzi-search for web import feature
-- Allow to disable icons preview in ProjectView
-- Add Settings action on picker screens
-- Add error handling for Simple mode and XML to ImageVector conversion
-- Add `Lucide` icon provider into Web import feature
-
-### Fixed
-
-- Fix main screen description text being cut off or truncated
-- Icons with gradient not drawing in gutter and autocomplete dialog
-- Fix parsing material icon with multiple material paths
-- Fix description text truncation on main screen
-
-### Changed
-
-- Min supported IntelliJ IDEA version 2025.3
-- Full plugin redesign and migration to Jewel
-- Rename "Export" to "Import" across IDEA plugin
-- Update plugin icon
-
 ## 0.18.0 - 2025-11-06
 
 ### Added
