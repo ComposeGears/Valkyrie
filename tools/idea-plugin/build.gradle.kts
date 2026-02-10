@@ -149,7 +149,6 @@ kotlin {
 
 changelog {
     groups.empty()
-    repositoryUrl = "https://github.com/ComposeGears/Valkyrie"
     versionPrefix = ""
 }
 

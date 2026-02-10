@@ -1,6 +1,34 @@
 # Plugin Changelog
 
-## [Unreleased]
+## Unreleased
+
+## 1.0.0 - 2026-02-10
+
+### Added
+
+- Add a new mode for backward conversion from ImageVector to XML
+- Implement fuzzi-search for web import feature
+- Allow to disable icons preview in ProjectView
+- Add Settings action on picker screens
+- Add error handling for Simple mode and XML to ImageVector conversion
+- Add `Lucide` icon provider into Web import feature
+
+### Fixed
+
+- Fix main screen description text being cut off or truncated
+- Icons with gradient not drawing in gutter and autocomplete dialog
+- Fix parsing material icon with multiple material paths
+- Fix description text truncation on main screen
+
+### Changed
+
+- Min supported IntelliJ IDEA version 2025.3
+- Full plugin redesign and migration to Jewel
+- Reduce the plugin size by 10 times (from 128mb to 11mb)
+- Rename "Export" to "Import" across IDEA plugin
+- Update plugin icon
+
+## 1.0.0-SNAPSHOT - 2026-02-10
 
 ### Added
 
@@ -25,7 +53,7 @@
 - Rename "Export" to "Import" across IDEA plugin
 - Update plugin icon
 
-## [0.18.0] - 2025-11-06
+## 0.18.0 - 2025-11-06
 
 ### Added
 
@@ -41,20 +69,20 @@
 - Simple mode will not generate `package` name anymore
 - Enhance contrast of Snackbar colors for better visibility
 
-## [0.17.4] - 2025-10-22
+## 0.17.4 - 2025-10-22
 
 ### Fixed
 
 - Rollback Compose Multiplatform to 1.8.2 due to incompatibility with IntelliJ IDEA
 
-## [0.17.3] - 2025-10-14
+## 0.17.3 - 2025-10-14
 
 ### Added
 
 - Setup of changelog plugin
 - Dynamically set the gutter icon's background to maintain contrast when its dominant color matches the IDE theme color
 
-## [0.17.2] - 2025-10-11
+## 0.17.2 - 2025-10-11
 
 ### Fixed
 
@@ -66,13 +94,13 @@
 - Move :extensions into :sdk:core:extensions
 - Simplify navigation transitions across screens
 
-## [0.17.1] - 2025-10-09
+## 0.17.1 - 2025-10-09
 
 ### Fixed
 
 - Fix PSI parsing when nullable KtProperty on top of file
 
-## [0.17.0] - 2025-10-09
+## 0.17.0 - 2025-10-09
 
 ### Added
 
@@ -90,13 +118,13 @@
 - Optimize ImageVectorIcon rendering by removing scale dependency and introducing a constant for icon size
 - Refactor path utilities: move toPathString and toPathArgs to new PathNode
 
-## [0.16.0] - 2025-07-24
+## 0.16.0 - 2025-07-24
 
 ### Changed
 
 - No notable changes
 
-## [0.15.0] - 2025-06-28
+## 0.15.0 - 2025-06-28
 
 ### Added
 
@@ -111,7 +139,7 @@
 - "Auto resolve issues" cleared all processing icons
 - Export issues should consider nested pack duplicates
 
-## [0.14.0] - 2025-04-28
+## 0.14.0 - 2025-04-28
 
 ### Added
 
@@ -123,30 +151,8 @@
 - [IconPack] Preview action crash if icon pasted from clipboard
 - Fix plugin not dynamic due to missing id
 
-## [0.13.0] - 2025-03-08
+## 0.13.0 - 2025-03-08
 
 ### Added
 
 - Introduce separate Preview annotation for AndroidX and Jetbrains package
-
-[Unreleased]: https://github.com/ComposeGears/Valkyrie/compare/0.18.0...HEAD
-
-[0.18.0]: https://github.com/ComposeGears/Valkyrie/compare/0.17.4...0.18.0
-
-[0.17.4]: https://github.com/ComposeGears/Valkyrie/compare/0.17.3...0.17.4
-
-[0.17.3]: https://github.com/ComposeGears/Valkyrie/compare/0.17.2...0.17.3
-
-[0.17.2]: https://github.com/ComposeGears/Valkyrie/compare/0.17.1...0.17.2
-
-[0.17.1]: https://github.com/ComposeGears/Valkyrie/compare/0.17.0...0.17.1
-
-[0.17.0]: https://github.com/ComposeGears/Valkyrie/compare/0.16.0...0.17.0
-
-[0.16.0]: https://github.com/ComposeGears/Valkyrie/compare/0.15.0...0.16.0
-
-[0.15.0]: https://github.com/ComposeGears/Valkyrie/compare/0.14.0...0.15.0
-
-[0.14.0]: https://github.com/ComposeGears/Valkyrie/compare/0.13.0...0.14.0
-
-[0.13.0]: https://github.com/ComposeGears/Valkyrie/commits/0.13.0
