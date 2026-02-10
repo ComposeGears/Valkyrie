@@ -39,7 +39,6 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.sdk.compose.foundation)
             implementation(projects.compose.icons)
-            implementation(projects.compose.ui)
             implementation(projects.shared)
 
             implementation(compose.material3)

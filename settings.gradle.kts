@@ -98,6 +98,5 @@ include("sdk:test:coverage")
 include("sdk:test:resource-loader")
 
 include("compose:icons")
-include("compose:ui")
 
 include("shared")
