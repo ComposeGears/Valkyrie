@@ -18,12 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
 import io.github.composegears.valkyrie.sdk.compose.foundation.dim
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Conversion
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.ui.InfoCard
 import org.jetbrains.compose.resources.stringResource

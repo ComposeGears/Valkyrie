@@ -83,6 +83,7 @@ include("components:parser:unified")
 
 include("sdk:compose:codeviewer")
 include("sdk:compose:highlights-core")
+include("sdk:compose:icons")
 include("sdk:compose:foundation")
 include("sdk:core:extensions")
 include("sdk:core:xml")
@@ -96,7 +97,5 @@ include("sdk:ir:util")
 include("sdk:ir:xml")
 include("sdk:test:coverage")
 include("sdk:test:resource-loader")
-
-include("compose:icons")
 
 include("shared")

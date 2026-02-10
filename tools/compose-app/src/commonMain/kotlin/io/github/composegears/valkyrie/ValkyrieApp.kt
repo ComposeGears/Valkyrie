@@ -18,15 +18,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.rememberNavController
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
-import io.github.composegears.valkyrie.compose.icons.colored.PluginIcon
-import io.github.composegears.valkyrie.compose.icons.outlined.Dark
-import io.github.composegears.valkyrie.compose.icons.outlined.Light
-import io.github.composegears.valkyrie.compose.icons.outlined.Settings
 import io.github.composegears.valkyrie.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.screen.mode.simple.SimpleConversionScreen
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
+import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.PluginIcon
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Dark
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Light
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Settings
 import io.github.composegears.valkyrie.ui.theme.LocalTheme
 import io.github.composegears.valkyrie.ui.theme.ValkyrieTheme
 

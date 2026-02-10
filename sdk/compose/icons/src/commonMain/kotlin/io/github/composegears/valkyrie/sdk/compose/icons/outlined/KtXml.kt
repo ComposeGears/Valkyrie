@@ -1,19 +1,19 @@
-package io.github.composegears.valkyrie.compose.icons.outlined
+package io.github.composegears.valkyrie.sdk.compose.icons.outlined
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 
-val ValkyrieIcons.Outlined.KtSvg: ImageVector
+val ValkyrieIcons.Outlined.KtXml: ImageVector
     get() {
-        if (_KtSvg != null) {
-            return _KtSvg!!
+        if (_KtXml != null) {
+            return _KtXml!!
         }
-        _KtSvg = ImageVector.Builder(
-            name = "Outlined.KtSvg",
+        _KtXml = ImageVector.Builder(
+            name = "Outlined.KtXml",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,
@@ -149,69 +149,60 @@ val ValkyrieIcons.Outlined.KtSvg: ImageVector
                 close()
             }
             path(fill = SolidColor(Color.Black)) {
-                moveToRelative(14.73f, 17.21f)
-                verticalLineToRelative(0.14f)
-                curveToRelative(0f, 0.19f, 0.06f, 0.3f, 0.21f, 0.3f)
-                reflectiveCurveToRelative(0.2f, -0.13f, 0.2f, -0.32f)
-                curveToRelative(0f, -0.26f, -0.06f, -0.35f, -0.31f, -0.54f)
-                curveToRelative(-0.25f, -0.2f, -0.38f, -0.32f, -0.38f, -0.67f)
-                curveToRelative(0f, -0.3f, 0.09f, -0.6f, 0.49f, -0.6f)
-                curveToRelative(0.4f, 0f, 0.47f, 0.28f, 0.47f, 0.55f)
-                verticalLineToRelative(0.12f)
-                horizontalLineToRelative(-0.31f)
-                verticalLineToRelative(-0.11f)
-                curveToRelative(0f, -0.18f, -0.03f, -0.29f, -0.17f, -0.29f)
-                reflectiveCurveToRelative(-0.17f, 0.12f, -0.17f, 0.28f)
-                curveToRelative(0f, 0.19f, 0.04f, 0.27f, 0.25f, 0.42f)
-                curveToRelative(0.34f, 0.25f, 0.44f, 0.4f, 0.44f, 0.79f)
-                curveToRelative(0f, 0.33f, -0.11f, 0.64f, -0.53f, 0.64f)
-                reflectiveCurveToRelative(-0.51f, -0.26f, -0.51f, -0.57f)
-                verticalLineToRelative(-0.14f)
-                horizontalLineToRelative(0.31f)
-                close()
-            }
-            path(fill = SolidColor(Color.Black)) {
-                moveToRelative(16.14f, 17.9f)
-                lineToRelative(-0.41f, -2.33f)
-                horizontalLineToRelative(0.34f)
-                lineToRelative(0.14f, 0.99f)
-                curveToRelative(0.04f, 0.32f, 0.1f, 0.68f, 0.12f, 0.94f)
+                moveToRelative(15.02f, 18.01f)
+                lineToRelative(-0.28f, -0.99f)
                 horizontalLineToRelative(0f)
-                curveToRelative(0.02f, -0.25f, 0.08f, -0.61f, 0.12f, -0.93f)
-                lineToRelative(0.13f, -1f)
-                horizontalLineToRelative(0.33f)
-                lineToRelative(-0.4f, 2.33f)
-                horizontalLineToRelative(-0.39f)
+                lineToRelative(-0.3f, 0.99f)
+                horizontalLineToRelative(-0.36f)
+                lineToRelative(0.46f, -1.33f)
+                lineToRelative(-0.44f, -1.26f)
+                horizontalLineToRelative(0.38f)
+                lineToRelative(0.27f, 0.9f)
+                horizontalLineToRelative(0f)
+                lineToRelative(0.26f, -0.9f)
+                horizontalLineToRelative(0.36f)
+                lineToRelative(-0.44f, 1.21f)
+                lineToRelative(0.47f, 1.38f)
+                horizontalLineToRelative(-0.38f)
                 close()
             }
             path(fill = SolidColor(Color.Black)) {
-                moveToRelative(18.29f, 17.9f)
-                horizontalLineToRelative(-0.25f)
-                reflectiveCurveToRelative(-0.01f, -0.14f, -0.02f, -0.19f)
-                curveToRelative(-0.06f, 0.16f, -0.2f, 0.22f, -0.35f, 0.22f)
-                curveToRelative(-0.33f, 0f, -0.44f, -0.24f, -0.44f, -0.63f)
-                verticalLineToRelative(-1.13f)
-                curveToRelative(0f, -0.38f, 0.15f, -0.64f, 0.53f, -0.64f)
-                curveToRelative(0.46f, 0f, 0.52f, 0.33f, 0.52f, 0.6f)
-                verticalLineToRelative(0.07f)
-                horizontalLineToRelative(-0.31f)
-                verticalLineToRelative(-0.08f)
-                curveToRelative(0f, -0.14f, -0.02f, -0.3f, -0.21f, -0.3f)
-                curveToRelative(-0.14f, 0f, -0.21f, 0.1f, -0.21f, 0.32f)
-                verticalLineToRelative(1.2f)
-                curveToRelative(0f, 0.21f, 0.06f, 0.32f, 0.2f, 0.32f)
-                curveToRelative(0.18f, 0f, 0.22f, -0.16f, 0.22f, -0.42f)
-                verticalLineToRelative(-0.35f)
-                horizontalLineToRelative(-0.23f)
-                verticalLineToRelative(-0.27f)
-                horizontalLineToRelative(0.54f)
-                verticalLineToRelative(1.29f)
+                moveToRelative(16.95f, 17f)
+                curveToRelative(0f, -0.45f, 0f, -0.99f, 0.01f, -1.28f)
+                horizontalLineToRelative(0f)
+                curveToRelative(-0.06f, 0.44f, -0.23f, 1.53f, -0.35f, 2.29f)
+                horizontalLineToRelative(-0.33f)
+                curveToRelative(-0.09f, -0.67f, -0.26f, -1.82f, -0.32f, -2.29f)
+                horizontalLineToRelative(0f)
+                curveToRelative(0f, 0.3f, 0.02f, 0.89f, 0.02f, 1.33f)
+                verticalLineToRelative(0.96f)
+                horizontalLineToRelative(-0.32f)
+                verticalLineToRelative(-2.59f)
+                horizontalLineToRelative(0.52f)
+                curveToRelative(0.12f, 0.7f, 0.25f, 1.53f, 0.28f, 1.88f)
+                horizontalLineToRelative(0f)
+                curveToRelative(0.04f, -0.35f, 0.21f, -1.22f, 0.33f, -1.88f)
+                horizontalLineToRelative(0.5f)
+                verticalLineToRelative(2.59f)
+                horizontalLineToRelative(-0.33f)
+                verticalLineToRelative(-1.01f)
+                horizontalLineToRelative(-0.01f)
+                close()
+            }
+            path(fill = SolidColor(Color.Black)) {
+                moveToRelative(17.65f, 15.42f)
+                horizontalLineToRelative(0.35f)
+                verticalLineToRelative(2.28f)
+                horizontalLineToRelative(0.65f)
+                lineToRelative(-0.03f, 0.31f)
+                horizontalLineToRelative(-0.97f)
+                reflectiveCurveToRelative(0f, -2.59f, 0f, -2.59f)
                 close()
             }
         }.build()
 
-        return _KtSvg!!
+        return _KtXml!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _KtSvg: ImageVector? = null
+private var _KtXml: ImageVector? = null
