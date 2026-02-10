@@ -1,10 +1,11 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.material
+package io.github.composegears.valkyrie.ui.screen.webimport.lucide
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.items
@@ -13,19 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.font.FontVariation
-import androidx.compose.ui.text.font.FontVariation.grade
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
@@ -55,30 +51,28 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
-import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.FontCustomization
-import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialTopActions
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideCustomization
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideTopActions
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 
-val MaterialSymbolsImportScreen by navDestination {
+val LucideImportScreen by navDestination<Unit> {
     val navController = navController()
     val parentNavController = navController.parent
-
-    val viewModel = saveableViewModel { MaterialSymbolsViewModel(savedState = it) }
-    val state by viewModel.materialState.collectAsState()
+    val viewModel = saveableViewModel { LucideViewModel(savedState = it) }
+    val state by viewModel.lucideState.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.events
             .onEach {
                 when (it) {
-                    is MaterialEvent.IconDownloaded -> {
+                    is LucideEvent.IconDownloaded -> {
                         parentNavController?.navigate(
                             dest = SimpleConversionScreen,
                             navArgs = TextSource(
@@ -92,46 +86,42 @@ val MaterialSymbolsImportScreen by navDestination {
             .launchIn(this)
     }
 
-    MaterialSymbolsImportUI(
+    LucideImportScreenUI(
         state = state,
         onBack = navController::back,
         onSelectIcon = viewModel::downloadIcon,
-        onSelectFontFamily = viewModel::downloadFont,
         onSelectCategory = viewModel::selectCategory,
-        onSettingsChange = viewModel::updateFontSettings,
         onSearchQueryChange = viewModel::updateSearchQuery,
+        onSettingsChange = viewModel::updateSettings,
     )
 }
 
 @Composable
-private fun MaterialSymbolsImportUI(
-    state: MaterialState,
+private fun LucideImportScreenUI(
+    state: LucideState,
     onBack: () -> Unit,
-    onSelectIcon: (IconModel) -> Unit,
-    onSelectFontFamily: (IconFontFamily) -> Unit,
+    onSelectIcon: (LucideIcon) -> Unit,
     onSelectCategory: (Category) -> Unit,
-    onSettingsChange: (FontSettings) -> Unit,
     onSearchQueryChange: (String) -> Unit,
+    onSettingsChange: (LucideSettings) -> Unit,
 ) {
-    var isSidePanelOpen by rememberSaveable { mutableStateOf(false) }
-
     Column(modifier = Modifier.fillMaxSize()) {
         Toolbar {
             BackAction(onBack = onBack)
-            Title(text = stringResource("web.import.title.material"))
+            Title(text = stringResource("web.import.title.lucide"))
         }
         AnimatedContent(
             targetState = state,
             contentKey = {
                 when (it) {
-                    is MaterialState.Loading -> "loading"
-                    is MaterialState.Error -> "error"
-                    is MaterialState.Success -> "success"
+                    is LucideState.Loading -> "loading"
+                    is LucideState.Error -> "error"
+                    is LucideState.Success -> "success"
                 }
             },
         ) { current ->
             when (current) {
-                is MaterialState.Loading -> {
+                is LucideState.Loading -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
@@ -139,7 +129,7 @@ private fun MaterialSymbolsImportUI(
                         LoadingPlaceholder(text = stringResource("web.import.placeholder.loading"))
                     }
                 }
-                is MaterialState.Error -> {
+                is LucideState.Error -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
@@ -147,28 +137,14 @@ private fun MaterialSymbolsImportUI(
                         ErrorPlaceholder(message = current.message)
                     }
                 }
-                is MaterialState.Success -> {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        IconsContent(
-                            state = current,
-                            onSelectIcon = onSelectIcon,
-                            onSelectFontFamily = onSelectFontFamily,
-                            onSelectCategory = onSelectCategory,
-                            onToggleSidePanel = { isSidePanelOpen = !isSidePanelOpen },
-                            onSearchQueryChange = onSearchQueryChange,
-                        )
-                        SidePanel(
-                            isOpen = isSidePanelOpen,
-                            onClose = { isSidePanelOpen = false },
-                            content = {
-                                FontCustomization(
-                                    fontSettings = current.fontSettings,
-                                    onClose = { isSidePanelOpen = false },
-                                    onSettingsChange = onSettingsChange,
-                                )
-                            },
-                        )
-                    }
+                is LucideState.Success -> {
+                    IconsContent(
+                        state = current,
+                        onSelectIcon = onSelectIcon,
+                        onSelectCategory = onSelectCategory,
+                        onSearchQueryChange = onSearchQueryChange,
+                        onSettingsChange = onSettingsChange,
+                    )
                 }
             }
         }
@@ -177,142 +153,149 @@ private fun MaterialSymbolsImportUI(
 
 @Composable
 private fun IconsContent(
-    state: MaterialState.Success,
-    onSelectIcon: (IconModel) -> Unit,
-    onSelectFontFamily: (IconFontFamily) -> Unit,
+    state: LucideState.Success,
+    onSelectIcon: (LucideIcon) -> Unit,
     onSelectCategory: (Category) -> Unit,
-    onToggleSidePanel: () -> Unit,
     onSearchQueryChange: (String) -> Unit,
+    onSettingsChange: (LucideSettings) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
-    var selectedIcon by rememberMutableState<IconModel?> { null }
+    var selectedIcon by rememberMutableState<LucideIcon?> { null }
+    var isSidePanelOpen by rememberMutableState { false }
     val lazyGridState = rememberLazyGridState()
-    val fontSettings = state.fontSettings
-
-    val fontByteArray = state.fontByteArray
-    val iconFontFamily = state.iconFontFamily
+    val shimmer = rememberShimmer()
 
     val focusManager = LocalFocusManager.current
 
-    Column(
-        modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        focusManager.clearFocus()
-                    },
-                )
-            },
-    ) {
-        MaterialTopActions(
-            categories = state.config.categories,
-            selectedCategory = state.selectedCategory,
-            iconFontFamily = iconFontFamily,
-            onToggleSidePanel = onToggleSidePanel,
-            onSelectFontFamily = onSelectFontFamily,
-            onSelectCategory = { category ->
-                scope.launch {
-                    lazyGridState.scrollToItem(0)
-                }
-                onSelectCategory(category)
-            },
-            onSearchQueryChange = onSearchQueryChange,
-        )
-        if (fontByteArray == null) {
-            val shimmer = rememberShimmer()
-
-            MaterialIconGrid(
-                gridItems = state.gridItems,
-                lazyGridState = lazyGridState,
-                iconContent = { materialIcon ->
-                    MaterialIconStub(
-                        icon = materialIcon,
-                        shimmer = shimmer,
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onTap = {
+                            focusManager.clearFocus()
+                        },
                     )
                 },
-            )
-        } else {
-            val iconFont = rememberMaterialSymbolsFont(
-                name = iconFontFamily.fontFamily,
-                font = fontByteArray.bytes,
-                fill = fontSettings.fill,
-                grade = fontSettings.grade,
-                opticalSize = fontSettings.opticalSize,
+        ) {
+            LucideTopActions(
+                categories = state.config.categories,
+                selectedCategory = state.selectedCategory,
+                onToggleCustomization = { isSidePanelOpen = !isSidePanelOpen },
+                onSelectCategory = { category ->
+                    scope.launch {
+                        lazyGridState.scrollToItem(0)
+                    }
+                    onSelectCategory(category)
+                },
+                onSearchQueryChange = onSearchQueryChange,
             )
 
-            ProvideIconParameters(
-                iconFont = iconFont,
-                tint = LocalContentColor.current,
-                weight = FontWeight(fontSettings.weight),
-            ) {
-                if (state.gridItems.isEmpty()) {
+            when {
+                state.gridItems.isEmpty() -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
                         EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
                     }
-                } else {
-                    MaterialIconGrid(
+                }
+                state.fontByteArray == null -> {
+                    LucideIconGrid(
                         gridItems = state.gridItems,
                         lazyGridState = lazyGridState,
-                        iconContent = { icon ->
-                            IconCard(
-                                name = icon.name,
-                                selected = icon == selectedIcon,
-                                onClick = {
-                                    selectedIcon = icon
-                                    onSelectIcon(icon)
-                                },
-                                iconContent = {
-                                    FontIcon(
-                                        modifier = Modifier.fillMaxSize(),
-                                        icon = Char(icon.codepoint),
-                                        contentDescription = null,
-                                    )
-                                },
+                        iconContent = { lucideIcon ->
+                            LucideIconStub(
+                                icon = lucideIcon,
+                                shimmer = shimmer,
                             )
                         },
                     )
                 }
+                else -> {
+                    val iconFont = rememberLucideFont(
+                        font = state.fontByteArray.bytes,
+                    )
+                    val iconSizeDp = state.settings.size.dp
+
+                    ProvideIconParameters(
+                        iconFont = iconFont,
+                        tint = LocalContentColor.current,
+                        weight = FontWeight.W400,
+                    ) {
+                        LucideIconGrid(
+                            gridItems = state.gridItems,
+                            lazyGridState = lazyGridState,
+                            iconContent = { lucideIcon ->
+                                IconCard(
+                                    name = lucideIcon.displayName,
+                                    selected = lucideIcon == selectedIcon,
+                                    onClick = {
+                                        selectedIcon = lucideIcon
+                                        onSelectIcon(lucideIcon)
+                                    },
+                                    iconContent = {
+                                        FontIcon(
+                                            modifier = Modifier.size(iconSizeDp),
+                                            icon = Char(lucideIcon.codepoint),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
+                            },
+                        )
+                    }
+                }
             }
         }
+
+        SidePanel(
+            isOpen = isSidePanelOpen,
+            onClose = { isSidePanelOpen = false },
+            content = {
+                LucideCustomization(
+                    settings = state.settings,
+                    onClose = { isSidePanelOpen = false },
+                    onSettingsChange = onSettingsChange,
+                )
+            },
+        )
     }
 }
 
 @Composable
-private fun MaterialIconGrid(
+private fun LucideIconGrid(
     gridItems: List<GridItem>,
     lazyGridState: LazyGridState,
-    iconContent: @Composable (IconModel) -> Unit,
+    iconContent: @Composable (LucideIcon) -> Unit,
 ) {
     IconGrid(state = lazyGridState) {
         items(
             items = gridItems,
+            key = { it.id },
             span = { item: GridItem ->
                 when (item) {
                     is CategoryHeader -> GridItemSpan(maxLineSpan)
                     is IconItem<*> -> GridItemSpan(1)
                 }
             },
-            key = { it.id },
         ) { item: GridItem ->
             when (item) {
                 is CategoryHeader -> CategoryHeader(title = item.categoryName)
-                is IconItem<*> -> iconContent(item.icon as IconModel)
+                is IconItem<*> -> iconContent(item.icon as LucideIcon)
             }
         }
     }
 }
 
 @Composable
-private fun MaterialIconStub(
-    icon: IconModel,
+private fun LucideIconStub(
+    icon: LucideIcon,
     shimmer: Shimmer,
 ) {
     IconCard(
-        name = icon.name,
+        name = icon.displayName,
         selected = false,
         onClick = { /* No-op during loading */ },
         iconContent = {
@@ -323,27 +306,10 @@ private fun MaterialIconStub(
 
 @OptIn(ExperimentalFontIconsApi::class)
 @Composable
-private fun rememberMaterialSymbolsFont(
-    name: String,
+private fun rememberLucideFont(
     font: ByteArray,
-    fill: Boolean,
-    grade: Int,
-    opticalSize: Float,
 ): IconFont = rememberVariableIconFont(
-    alias = name,
+    alias = "lucide",
     data = font,
-    weights = arrayOf(
-        FontWeight.W100,
-        FontWeight.W200,
-        FontWeight.W300,
-        FontWeight.W400,
-        FontWeight.W500,
-        FontWeight.W600,
-        FontWeight.W700,
-    ),
-    fontVariationSettings = FontVariation.Settings(
-        FontVariation.Setting("FILL", if (fill) 1f else 0f),
-        grade(grade),
-        FontVariation.opticalSizing(TextUnit(opticalSize, TextUnitType.Sp)),
-    ),
+    weights = arrayOf(FontWeight.W400),
 )

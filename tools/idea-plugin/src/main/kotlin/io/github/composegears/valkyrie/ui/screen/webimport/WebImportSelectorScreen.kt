@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,10 +19,12 @@ import io.github.composegears.valkyrie.jewel.InfoCard
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
-import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.LucideLogo
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
+import io.github.composegears.valkyrie.ui.screen.webimport.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -36,6 +39,7 @@ val WebImportSelectorScreen by navDestination {
         onClick = {
             val screen = when (it) {
                 GoogleMaterialSymbols -> MaterialSymbolsImportScreen
+                Lucide -> LucideImportScreen
             }
 
             navController.navigate(dest = screen)
@@ -60,15 +64,22 @@ private fun WebImportSelectorScreenUI(
                     .align(Alignment.TopCenter)
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 InfoCard(
                     onClick = { onClick(GoogleMaterialSymbols) },
                     icon = ValkyrieIcons.Colored.GoogleMaterialLogo,
+                    tint = Color.Unspecified,
                     title = stringResource("web.import.selector.google.title"),
                     description = stringResource("web.import.selector.google.description"),
-                    tint = Color.Unspecified,
                 )
-                Spacer(16.dp)
+                InfoCard(
+                    onClick = { onClick(Lucide) },
+                    icon = ValkyrieIcons.Colored.LucideLogo,
+                    tint = Color.Unspecified,
+                    title = stringResource("web.import.selector.lucide.title"),
+                    description = stringResource("web.import.selector.lucide.description"),
+                )
                 InfoText(
                     text = stringResource("web.import.selector.coming.soon"),
                     maxLines = 2,
@@ -80,6 +91,7 @@ private fun WebImportSelectorScreenUI(
 
 enum class IconProviders {
     GoogleMaterialSymbols,
+    Lucide,
 }
 
 @Preview

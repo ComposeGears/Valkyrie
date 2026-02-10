@@ -1,4 +1,5 @@
 [versions]
+collection = "1.5.0"
 compose = "1.9.0"
 intellij = "2.11.0"
 jacoco = "0.8.13"
@@ -11,6 +12,7 @@ leviathan = "3.1.0"
 ktor = "3.3.1"
 
 [libraries]
+androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
 android-build-tools = "com.android.tools:sdk-common:31.13.2"
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"

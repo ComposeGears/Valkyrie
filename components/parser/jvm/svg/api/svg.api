@@ -1,3 +1,10 @@
+public final class io/github/composegears/valkyrie/parser/jvm/svg/SvgManipulator {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/jvm/svg/SvgManipulator;
+	public final fun modifySvg (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public final fun updateAttributeConditionally (Lorg/w3c/dom/Element;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun updateAttributeRecursively (Lorg/w3c/dom/Element;Ljava/lang/String;Ljava/lang/String;)V
+}
+
 public final class io/github/composegears/valkyrie/parser/jvm/svg/SvgToXmlParser {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/jvm/svg/SvgToXmlParser;
 	public final fun parse (Ljava/lang/String;)Ljava/lang/String;
