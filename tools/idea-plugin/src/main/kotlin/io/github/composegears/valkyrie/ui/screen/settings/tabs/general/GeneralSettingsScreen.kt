@@ -96,16 +96,23 @@ private fun GeneralSettingsUi(
                     ImageVectorToXml -> stringResource("settings.general.mode.imagevector.xml")
                     Unspecified, WebImport -> stringResource("settings.general.mode.unspecified")
                 }
-                InfoSettingsRow(
-                    text = stringResource("settings.general.current.mode", name),
-                    infoText = stringResource("settings.general.current.mode.description"),
-                    trailing = {
-                        Link(
-                            text = stringResource("settings.general.current.mode.action"),
-                            onClick = { if (mode != Unspecified) onChangeMode() },
-                        )
-                    },
-                )
+                if (mode == Unspecified) {
+                    InfoSettingsRow(
+                        text = stringResource("settings.general.current.mode", name),
+                        infoText = stringResource("settings.general.current.mode.unspecified.description"),
+                    )
+                } else {
+                    InfoSettingsRow(
+                        text = stringResource("settings.general.current.mode", name),
+                        infoText = stringResource("settings.general.current.mode.description"),
+                        trailing = {
+                            Link(
+                                text = stringResource("settings.general.current.mode.action"),
+                                onClick = onChangeMode,
+                            )
+                        },
+                    )
+                }
 
                 val projectAccessor = rememberProjectAccessor()
                 InfoSettingsRow(
