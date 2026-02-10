@@ -33,6 +33,7 @@ import dev.tclement.fonticons.IconFont
 import dev.tclement.fonticons.ProvideIconParameters
 import dev.tclement.fonticons.rememberVariableIconFont
 import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
@@ -191,6 +192,7 @@ private fun IconsContent(
                 },
                 onSearchQueryChange = onSearchQueryChange,
             )
+            HorizontalDivider()
 
             when {
                 state.gridItems.isEmpty() -> {
