@@ -107,6 +107,11 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
         help = "Insert a comma after the last element of ImageVector.Builder block and path params",
     )
 
+    private val usePathDataString by booleanOption(
+        "--use-path-data-string",
+        help = "Generate addPath with pathData strings instead of path builder calls (less optimal due to pre-rendering parsing)",
+    )
+
     private val indentSize by intOption(
         "--indent-size",
         help = "Determines the number of spaces used for each level of indentation in the icon",
@@ -142,6 +147,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
             useFlatPackage = useFlatPackage,
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
+            usePathDataString = usePathDataString,
             indentSize = indentSize,
             autoMirror = autoMirror,
             verbose = verbose,
@@ -187,6 +193,7 @@ private fun svgXml2ImageVector(
     useFlatPackage: Boolean,
     useExplicitMode: Boolean,
     addTrailingComma: Boolean,
+    usePathDataString: Boolean,
     indentSize: Int,
     autoMirror: Boolean?,
     verbose: Boolean,
@@ -239,7 +246,7 @@ private fun svgXml2ImageVector(
         useFlatPackage = useFlatPackage,
         useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,
-        usePathDataString = false,
+        usePathDataString = usePathDataString,
         indentSize = indentSize,
         fullQualifiedImports = FullQualifiedImports(
             brush = "Brush" in fullQualifiedNames,
