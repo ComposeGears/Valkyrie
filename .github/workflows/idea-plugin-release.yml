@@ -2,6 +2,12 @@ name: IDEA Plugin Release
 
 on:
   workflow_dispatch:
+    inputs:
+      force_snapshot:
+        description: 'Force release as snapshot (pre-release)'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -33,8 +39,7 @@ jobs:
           RELEASE_TAG="idea-plugin-$VERSION_NAME"
 
           # Determine if this is a snapshot version
-          IS_SNAPSHOT=false
-          [[ $VERSION_NAME == *-SNAPSHOT ]] && IS_SNAPSHOT=true
+          IS_SNAPSHOT="${{ inputs.force_snapshot }}"
 
           # Set pre-release flag based on snapshot status
           PRE_RELEASE_FLAG=""
