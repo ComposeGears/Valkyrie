@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.compose.ui
+package io.github.composegears.valkyrie.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.composegears.valkyrie.sdk.compose.foundation.dim
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 
 @Composable

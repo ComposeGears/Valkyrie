@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.compose.ui.foundation
+package io.github.composegears.valkyrie.sdk.compose.codeviewer.ui
 
 import androidx.compose.foundation.HorizontalScrollbar
 import androidx.compose.foundation.LocalScrollbarStyle
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BoxScope.VerticalScrollbar(
+internal fun BoxScope.VerticalScrollbar(
     adapter: ScrollbarAdapter,
     modifier: Modifier = Modifier,
 ) {
@@ -35,7 +35,7 @@ fun BoxScope.VerticalScrollbar(
 }
 
 @Composable
-fun BoxScope.HorizontalScrollbar(
+internal fun BoxScope.HorizontalScrollbar(
     adapter: ScrollbarAdapter,
     modifier: Modifier = Modifier,
 ) {
