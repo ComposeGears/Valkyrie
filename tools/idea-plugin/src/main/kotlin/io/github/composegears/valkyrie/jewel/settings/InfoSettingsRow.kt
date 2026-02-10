@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.debugBounds
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import org.jetbrains.annotations.Nls
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -41,7 +42,9 @@ fun InfoSettingsRow(
 @Composable
 private fun InfoSettingsRowPreview() = PreviewTheme(alignment = Alignment.Center) {
     InfoSettingsRow(
-        modifier = Modifier.padding(horizontal = 32.dp),
+        modifier = Modifier
+            .padding(horizontal = 32.dp)
+            .debugBounds(),
         text = "Title",
         infoText = "Description",
         trailing = {

@@ -15,6 +15,7 @@ import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 import io.github.composegears.valkyrie.jewel.colors.errorFocused
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
+import io.github.composegears.valkyrie.sdk.compose.foundation.dim
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
@@ -74,7 +75,7 @@ fun Modifier.debugBounds(): Modifier {
             alignment = Stroke.Alignment.Outside,
             width = Dp.Hairline,
             shape = RectangleShape,
-            color = JewelTheme.errorFocused,
+            color = JewelTheme.errorFocused.dim(),
             expand = 2.dp,
         )
 }
