@@ -1086,7 +1086,7 @@ limitations under the License.
 
 [badge:marketplace-version]: https://img.shields.io/jetbrains/plugin/v/24786?label=JB%20Marketplace&style=for-the-badge&labelColor=black&color=white
 
-[badge:idea-release]: https://img.shields.io/badge/Github%20IDEA%20Plugin-0.18.0-white?style=for-the-badge&labelColor=black
+[badge:idea-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?filter=idea-*&style=for-the-badge&label=Latest&labelColor=black&color=white
 
 [badge:cli-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?filter=cli-*&style=for-the-badge&label=CLI&labelColor=black&color=white
 
