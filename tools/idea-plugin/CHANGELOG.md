@@ -9,6 +9,7 @@
 - Allow to disable icons preview in ProjectView
 - Add Settings action on picker screens
 - Add error handling for Simple mode and XML to ImageVector conversion
+- Add `Lucide` icon provider into Web import feature
 
 ### Fixed
 
