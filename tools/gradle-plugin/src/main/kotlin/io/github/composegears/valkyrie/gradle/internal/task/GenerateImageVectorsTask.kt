@@ -61,6 +61,9 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
     @get:Input
     abstract val indentSize: Property<Int>
 
+    @get:Input
+    abstract val usePathDataString: Property<Boolean>
+
     @get:Optional
     @get:Input
     abstract val autoMirror: Property<Boolean>
@@ -88,7 +91,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             useFlatPackage = false,
             useExplicitMode = useExplicitMode.get(),
             addTrailingComma = addTrailingComma.get(),
-            usePathDataString = false,
+            usePathDataString = usePathDataString.get(),
             indentSize = indentSize.get(),
         )
 

@@ -20,6 +20,7 @@ public abstract class io/github/composegears/valkyrie/gradle/ImageVectorConfigEx
 	public final fun getOutputFormat ()Lorg/gradle/api/provider/Property;
 	public final fun getPreviewAnnotationType ()Lorg/gradle/api/provider/Property;
 	public final fun getUseComposeColors ()Lorg/gradle/api/provider/Property;
+	public final fun getUsePathDataString ()Lorg/gradle/api/provider/Property;
 }
 
 public abstract class io/github/composegears/valkyrie/gradle/NestedPack {
