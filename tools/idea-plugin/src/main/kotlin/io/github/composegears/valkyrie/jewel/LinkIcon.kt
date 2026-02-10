@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import java.awt.datatransfer.StringSelection
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -20,7 +21,6 @@ import org.jetbrains.jewel.ui.component.ContextMenuItemOption
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import org.jetbrains.jewel.ui.util.LocalMessageResourceResolverProvider
 
 @OptIn(InternalJewelApi::class)
 @Composable
@@ -31,7 +31,6 @@ fun LinkIcon(
     modifier: Modifier = Modifier,
 ) {
     val clipboard = LocalClipboard.current
-    val stringProvider = LocalMessageResourceResolverProvider.current
     val uriHandler = LocalUriHandler.current
 
     val scope = rememberCoroutineScope()
@@ -40,14 +39,14 @@ fun LinkIcon(
         items = {
             listOf(
                 ContextMenuItemOption(
-                    label = stringProvider.resolveIdeBundleMessage("action.text.open.link.in.browser"),
+                    label = message("action.text.open.link.in.browser"),
                     action = {
                         openUri(uriHandler, url)
                     },
                     icon = AllIconsKeys.Nodes.PpWeb,
                 ),
                 ContextMenuItemOption(
-                    label = stringProvider.resolveIdeBundleMessage("action.text.copy.link.address"),
+                    label = message("action.text.copy.link.address"),
                     action = {
                         scope.launch {
                             clipboard.setClipEntry(ClipEntry(StringSelection(url)))
