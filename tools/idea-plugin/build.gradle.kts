@@ -11,8 +11,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-group = rootProject.providers.gradleProperty("GROUP").get()
-version = rootProject.providers.gradleProperty("VERSION_NAME").get()
+group = "io.github.composegears"
+version = ideaPluginVersions.versions.idea.plugin.version.get()
 
 configurations.getByName("implementation") {
     exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")

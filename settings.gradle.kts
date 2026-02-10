@@ -50,6 +50,9 @@ dependencyResolutionManagement {
             create("gradlePluginVersions") {
                 from(files("gradle/gradle.versions.toml"))
             }
+            create("ideaPluginVersions") {
+                from(files("gradle/plugin.versions.toml"))
+            }
         }
     }
 }
