@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added
+
+- Add option to generate ImageVector paths using pathData strings
+- Support pathData strings in addPath/clipPathData in Preview
+
 ## 1.0.0 - 2026-02-10
 
 ### Added
