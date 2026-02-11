@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Add `usePathDataString` configuration option in `imageVector` block to generate addPath with pathData strings instead of path builder calls
+
 ## [0.3.0] - 2025-12-11
 
 ### Added
