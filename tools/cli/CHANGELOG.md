@@ -6,6 +6,10 @@
 
 - Add `--use-path-data-string` option to generate addPath with pathData strings instead of path builder calls
 
+### Fixed
+
+- Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser
+
 ## [1.0.1] - 2025-11-20
 
 - Limited changelog output to the last 5 releases

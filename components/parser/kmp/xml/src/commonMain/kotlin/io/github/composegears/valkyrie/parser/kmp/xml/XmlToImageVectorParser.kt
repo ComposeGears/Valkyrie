@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.parser.kmp.xml
 
+import io.github.composegears.valkyrie.parser.common.AndroidColorParser
 import io.github.composegears.valkyrie.parser.common.PathParser
 import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor

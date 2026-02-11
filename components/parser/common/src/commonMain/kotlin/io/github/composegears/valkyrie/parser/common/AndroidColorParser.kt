@@ -1,10 +1,10 @@
-package io.github.composegears.valkyrie.parser.kmp.xml
+package io.github.composegears.valkyrie.parser.common
 
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 
 private const val ANDROID_COLOR_PREFIX = "@android:color/"
 
-internal object AndroidColorParser {
+object AndroidColorParser {
 
     fun parse(value: String): IrColor? {
         return androidColorsMap[value.substringAfter(ANDROID_COLOR_PREFIX)]

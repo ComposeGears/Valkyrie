@@ -6,6 +6,13 @@
 // - Show declarations: true
 
 // Library unique name: <valkyrie.components.parser:common>
+final object io.github.composegears.valkyrie.parser.common/AndroidColorParser { // io.github.composegears.valkyrie.parser.common/AndroidColorParser|null[0]
+    final val androidColorsMap // io.github.composegears.valkyrie.parser.common/AndroidColorParser.androidColorsMap|{}androidColorsMap[0]
+        final fun <get-androidColorsMap>(): kotlin.collections/Map<kotlin/String, kotlin/String> // io.github.composegears.valkyrie.parser.common/AndroidColorParser.androidColorsMap.<get-androidColorsMap>|<get-androidColorsMap>(){}[0]
+
+    final fun parse(kotlin/String): io.github.composegears.valkyrie.sdk.ir.core/IrColor? // io.github.composegears.valkyrie.parser.common/AndroidColorParser.parse|parse(kotlin.String){}[0]
+}
+
 final object io.github.composegears.valkyrie.parser.common/PathParser { // io.github.composegears.valkyrie.parser.common/PathParser|null[0]
     final fun parsePathString(kotlin/String): kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> // io.github.composegears.valkyrie.parser.common/PathParser.parsePathString|parsePathString(kotlin.String){}[0]
 }
