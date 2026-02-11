@@ -11,7 +11,6 @@ sealed interface NewPackModeState {
 
     data class PickedState(
         val packEditState: PackEditState = PackEditState(),
-        val useMaterialPack: Boolean = false,
-        val nextAvailable: Boolean = true,
+        val nextAvailable: Boolean = false,
     ) : NewPackModeState
 }

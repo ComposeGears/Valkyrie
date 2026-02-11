@@ -7,6 +7,10 @@
 - Add option to generate ImageVector paths using pathData strings
 - Support pathData strings in addPath/clipPathData in Preview
 
+### Removed
+
+- Remove support for `Material` icon pack from `androidx.compose.material.icons` package
+
 ## 1.0.0 - 2026-02-10
 
 ### Added
