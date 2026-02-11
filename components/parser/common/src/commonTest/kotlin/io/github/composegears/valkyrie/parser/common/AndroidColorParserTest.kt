@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.kmp.xml
+package io.github.composegears.valkyrie.parser.common
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo

@@ -6,6 +6,10 @@
 
 - Add `usePathDataString` configuration option in `imageVector` block to generate addPath with pathData strings instead of path builder calls
 
+### Fixed
+
+- Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser
+
 ## [0.3.0] - 2025-12-11
 
 ### Added

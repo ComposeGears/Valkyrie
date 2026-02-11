@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.parser.jvm.xml.ext
 
+import io.github.composegears.valkyrie.parser.common.AndroidColorParser
 import io.github.composegears.valkyrie.parser.common.PathParser
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
@@ -36,5 +37,7 @@ internal fun XmlPullParser.valueAsStrokeLineJoin(): IrStrokeLineJoin {
 }
 
 internal fun XmlPullParser.valueAsIrColor(name: String): IrColor? {
-    return getAttribute(name)?.let { IrColor(it) }
+    return getAttribute(name)?.let { value ->
+        AndroidColorParser.parse(value) ?: IrColor(value).takeUnless { it.isTransparent() }
+    }
 }

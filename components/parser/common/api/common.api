@@ -1,3 +1,9 @@
+public final class io/github/composegears/valkyrie/parser/common/AndroidColorParser {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/common/AndroidColorParser;
+	public final fun getAndroidColorsMap ()Ljava/util/Map;
+	public final fun parse-AzGxbLk (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/ir/core/IrColor;
+}
+
 public final class io/github/composegears/valkyrie/parser/common/PathParser {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/common/PathParser;
 	public final fun parsePathString (Ljava/lang/String;)Ljava/util/List;

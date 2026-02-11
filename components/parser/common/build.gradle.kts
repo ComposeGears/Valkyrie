@@ -9,5 +9,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.sdk.ir.core)
         }
+        commonTest.dependencies {
+            implementation(libs.bundles.kmp.test)
+        }
     }
 }
