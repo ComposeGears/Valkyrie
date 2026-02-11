@@ -1,5 +1,11 @@
 # CLI Changelog
 
+## Unreleased
+
+### Added
+
+- Add `--use-path-data-string` option to generate addPath with pathData strings instead of path builder calls
+
 ## [1.0.1] - 2025-11-20
 
 - Limited changelog output to the last 5 releases

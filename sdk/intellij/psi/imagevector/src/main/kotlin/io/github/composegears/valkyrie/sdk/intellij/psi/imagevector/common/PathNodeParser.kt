@@ -190,7 +190,7 @@ private fun String.isFloat() = toFloatOrNull() != null
 
 private fun String.isFloatOrBoolean() = isFloat() || this == "true" || this == "false" || this == "0" || this == "1"
 
-private fun String.stripQuotes(): String {
+internal fun String.stripQuotes(): String {
     return when {
         startsWith("\"\"\"") && endsWith("\"\"\"") -> removeSurrounding("\"\"\"")
         else -> removeSurrounding("\"")

@@ -103,10 +103,3 @@ private fun parseColorWithAlpha(value: String): IrColor? {
     val argb = ((alpha * 0xFF).toInt() shl 24) or (baseColorArgb.argb and 0xFFFFFF)
     return IrColor(argb = argb)
 }
-
-private fun String.stripQuotes(): String {
-    return when {
-        startsWith("\"\"\"") && endsWith("\"\"\"") -> removeSurrounding("\"\"\"")
-        else -> removeSurrounding("\"")
-    }
-}
