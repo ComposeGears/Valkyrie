@@ -8,7 +8,6 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedIm
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.gradle.IconPackExtension
 import io.github.composegears.valkyrie.gradle.NestedPack
 import io.github.composegears.valkyrie.parser.unified.ParserType
@@ -50,9 +49,6 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
     abstract val generatePreview: Property<Boolean>
 
     @get:Input
-    abstract val previewAnnotationType: Property<PreviewAnnotationType>
-
-    @get:Input
     abstract val useExplicitMode: Property<Boolean>
 
     @get:Input
@@ -87,7 +83,6 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             outputFormat = outputFormat.get(),
             useComposeColors = useComposeColors.get(),
             generatePreview = generatePreview.get(),
-            previewAnnotationType = previewAnnotationType.get(),
             useFlatPackage = false,
             useExplicitMode = useExplicitMode.get(),
             addTrailingComma = addTrailingComma.get(),

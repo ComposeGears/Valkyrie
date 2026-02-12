@@ -15,7 +15,6 @@ internal data class ImageVectorSpecConfig(
     val outputFormat: OutputFormat,
     val useComposeColors: Boolean,
     val generatePreview: Boolean,
-    val previewAnnotationType: PreviewAnnotationType,
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,

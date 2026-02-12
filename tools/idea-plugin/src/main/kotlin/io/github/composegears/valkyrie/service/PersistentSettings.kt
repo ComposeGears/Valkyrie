@@ -39,7 +39,6 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var nestedPacks: String? by string()
 
         var generatePreview: Boolean by property(false)
-        var previewAnnotationType by string()
 
         var outputFormat: String? by string()
         var useComposeColors: Boolean by property(true)

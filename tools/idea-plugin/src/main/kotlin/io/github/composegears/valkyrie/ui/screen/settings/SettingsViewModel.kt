@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.composegears.leviathan.compose.inject
 import com.intellij.collaboration.async.mapState
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.settings.updateOutputFormat
-import io.github.composegears.valkyrie.settings.updatePreviewAnnotationType
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.ui.di.DI
@@ -19,7 +17,6 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateImageVectorPreview
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIndentSize
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
-import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUsePathDataString
@@ -39,7 +36,6 @@ class SettingsViewModel : ViewModel() {
             addTrailingComma = it.addTrailingComma,
             usePathDataString = it.usePathDataString,
             indentSize = it.indentSize,
-            previewAnnotationType = it.previewAnnotationType,
         )
     }
 
@@ -72,7 +68,6 @@ class SettingsViewModel : ViewModel() {
             is UpdateUsePathDataString -> usePathDataString = settingsAction.usePathDataString
             is UpdateIndentSize -> indentSize = settingsAction.indent
             is SettingsAction.UpdatePreviewType -> previewType = settingsAction.previewType
-            is UpdatePreviewAnnotationType -> updatePreviewAnnotationType(settingsAction.annotationType)
         }
     }
 
@@ -92,7 +87,6 @@ data class GeneratorSettings(
     val usePathDataString: Boolean,
     val indentSize: Int,
     val generatePreview: Boolean,
-    val previewAnnotationType: PreviewAnnotationType,
 )
 
 data class GeneralSettings(

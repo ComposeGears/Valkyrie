@@ -10,6 +10,10 @@
 ### Removed
 
 - Remove support for `Material` icon pack from `androidx.compose.material.icons` package
+- Remove support for `androidx.compose.desktop.ui.tooling.preview.Preview` annotation as
+  `androidx.compose.ui.tooling.preview.Preview`
+  became [multiplatform](https://kotlinlang.org/docs/multiplatform/whats-new-compose-110.html#unified-preview-annotation)
+  in Compose 1.10.0
 
 ### Fixed
 

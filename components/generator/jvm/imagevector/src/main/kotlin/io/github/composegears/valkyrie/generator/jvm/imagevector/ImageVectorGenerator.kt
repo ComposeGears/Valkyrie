@@ -10,7 +10,6 @@ data class ImageVectorGeneratorConfig(
     val outputFormat: OutputFormat,
     val useComposeColors: Boolean,
     val generatePreview: Boolean,
-    val previewAnnotationType: PreviewAnnotationType,
     val useFlatPackage: Boolean,
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
@@ -26,16 +25,6 @@ data class FullQualifiedImports(
 ) {
     companion object {
         val reservedComposeQualifiers = listOf("Brush", "Color", "Offset")
-    }
-}
-
-enum class PreviewAnnotationType(val key: String) {
-    AndroidX("androidx"),
-    Jetbrains("jetbrains"),
-    ;
-
-    companion object {
-        fun from(key: String?) = entries.find { it.key == key } ?: AndroidX
     }
 }
 
@@ -70,7 +59,6 @@ object ImageVectorGenerator {
             outputFormat = config.outputFormat,
             useComposeColors = config.useComposeColors,
             generatePreview = config.generatePreview,
-            previewAnnotationType = config.previewAnnotationType,
             useFlatPackage = config.useFlatPackage,
             useExplicitMode = config.useExplicitMode,
             addTrailingComma = config.addTrailingComma,

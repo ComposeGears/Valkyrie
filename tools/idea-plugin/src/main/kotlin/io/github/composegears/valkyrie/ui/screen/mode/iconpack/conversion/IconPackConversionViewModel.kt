@@ -80,7 +80,7 @@ class IconPackConversionViewModel(
             .onEach {
                 iconsRecord.value = when (val state = _state.value) {
                     is BatchProcessing.IconPackCreationState -> state.icons
-                    else -> emptyList<BatchIcon>()
+                    else -> emptyList()
                 }
             }
             .launchIn(viewModelScope)
@@ -145,20 +145,9 @@ class IconPackConversionViewModel(
         val output = ImageVectorGenerator.convert(
             vector = icon.irImageVector,
             iconName = icon.iconName.name,
-            config = ImageVectorGeneratorConfig(
+            config = settings.toImageVectorConfig(
                 packageName = icon.iconPack.iconPackage,
-                iconPackPackage = settings.iconPackPackage,
-                packName = settings.iconPackName,
                 nestedPackName = icon.iconPack.currentNestedPack,
-                outputFormat = settings.outputFormat,
-                useComposeColors = settings.useComposeColors,
-                generatePreview = settings.generatePreview,
-                previewAnnotationType = settings.previewAnnotationType,
-                useFlatPackage = settings.flatPackage,
-                useExplicitMode = settings.useExplicitMode,
-                addTrailingComma = settings.addTrailingComma,
-                usePathDataString = settings.usePathDataString,
-                indentSize = settings.indentSize,
             ),
         )
 
@@ -183,20 +172,9 @@ class IconPackConversionViewModel(
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             vector = icon.irImageVector,
                             iconName = icon.iconName.name,
-                            config = ImageVectorGeneratorConfig(
+                            config = settings.toImageVectorConfig(
                                 packageName = icon.iconPack.iconPackage,
-                                iconPackPackage = settings.iconPackPackage,
-                                packName = settings.iconPackName,
                                 nestedPackName = iconPack.currentNestedPack,
-                                outputFormat = settings.outputFormat,
-                                useComposeColors = settings.useComposeColors,
-                                generatePreview = settings.generatePreview,
-                                previewAnnotationType = settings.previewAnnotationType,
-                                useFlatPackage = settings.flatPackage,
-                                useExplicitMode = settings.useExplicitMode,
-                                addTrailingComma = settings.addTrailingComma,
-                                usePathDataString = settings.usePathDataString,
-                                indentSize = settings.indentSize,
                             ),
                         )
 
@@ -214,20 +192,9 @@ class IconPackConversionViewModel(
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             vector = icon.irImageVector,
                             iconName = icon.iconName.name,
-                            config = ImageVectorGeneratorConfig(
+                            config = settings.toImageVectorConfig(
                                 packageName = icon.iconPack.iconPackage,
-                                iconPackPackage = settings.iconPackPackage,
-                                packName = settings.iconPackName,
                                 nestedPackName = "",
-                                outputFormat = settings.outputFormat,
-                                useComposeColors = settings.useComposeColors,
-                                generatePreview = settings.generatePreview,
-                                previewAnnotationType = settings.previewAnnotationType,
-                                useFlatPackage = settings.flatPackage,
-                                useExplicitMode = settings.useExplicitMode,
-                                addTrailingComma = settings.addTrailingComma,
-                                usePathDataString = settings.usePathDataString,
-                                indentSize = settings.indentSize,
                             ),
                         )
 
@@ -404,6 +371,26 @@ class IconPackConversionViewModel(
                 nestedPacks = nestedPacks,
             )
         }
+    }
+
+    private fun ValkyriesSettings.toImageVectorConfig(
+        packageName: String,
+        nestedPackName: String = "",
+    ): ImageVectorGeneratorConfig {
+        return ImageVectorGeneratorConfig(
+            packageName = packageName,
+            iconPackPackage = iconPackPackage,
+            packName = iconPackName,
+            nestedPackName = nestedPackName,
+            outputFormat = outputFormat,
+            useComposeColors = useComposeColors,
+            generatePreview = generatePreview,
+            useFlatPackage = flatPackage,
+            useExplicitMode = useExplicitMode,
+            addTrailingComma = addTrailingComma,
+            usePathDataString = usePathDataString,
+            indentSize = indentSize,
+        )
     }
 }
 

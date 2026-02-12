@@ -38,7 +38,6 @@ internal fun registerTask(
         task.outputFormat.convention(extension.imageVector.outputFormat)
         task.useComposeColors.convention(extension.imageVector.useComposeColors)
         task.generatePreview.convention(extension.imageVector.generatePreview)
-        task.previewAnnotationType.convention(extension.imageVector.previewAnnotationType)
         task.useExplicitMode.convention(extension.codeStyle.useExplicitMode)
         task.addTrailingComma.convention(extension.imageVector.addTrailingComma)
         task.indentSize.convention(extension.codeStyle.indentSize)

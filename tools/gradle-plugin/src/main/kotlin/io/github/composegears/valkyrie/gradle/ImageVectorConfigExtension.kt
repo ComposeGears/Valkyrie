@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.gradle
 
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.gradle.dsl.property
 import javax.inject.Inject
 import org.gradle.api.model.ObjectFactory
@@ -38,21 +37,6 @@ abstract class ImageVectorConfigExtension @Inject constructor(objects: ObjectFac
     val generatePreview: Property<Boolean> = objects
         .property<Boolean>()
         .convention(false)
-
-    /**
-     * Specifies the type of Preview annotation to generate for @Preview.
-     *
-     * Available options:
-     * - [PreviewAnnotationType.AndroidX]: Use AndroidX Preview annotation
-     *   (`androidx.compose.ui.tooling.preview.Preview`).
-     * - [PreviewAnnotationType.Jetbrains]: Use JetBrains (Desktop) Preview annotation
-     *   (`androidx.compose.desktop.ui.tooling.preview.Preview`).
-     *
-     * Default: [PreviewAnnotationType.AndroidX]
-     */
-    val previewAnnotationType: Property<PreviewAnnotationType> = objects
-        .property<PreviewAnnotationType>()
-        .convention(PreviewAnnotationType.AndroidX)
 
     /**
      * Insert a trailing comma after the last element of ImageVector.Builder block and path params.

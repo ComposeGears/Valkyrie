@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.settings.model
 
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 
 sealed interface SettingsAction {
@@ -12,7 +11,6 @@ sealed interface SettingsAction {
     data class UpdateAddTrailingComma(val addTrailingComma: Boolean) : SettingsAction
     data class UpdateUsePathDataString(val usePathDataString: Boolean) : SettingsAction
     data class UpdatePreviewGeneration(val generate: Boolean) : SettingsAction
-    data class UpdatePreviewAnnotationType(val annotationType: PreviewAnnotationType) : SettingsAction
     data class UpdateIndentSize(val indent: Int) : SettingsAction
 
     data class UpdateImageVectorPreview(val enabled: Boolean) : SettingsAction

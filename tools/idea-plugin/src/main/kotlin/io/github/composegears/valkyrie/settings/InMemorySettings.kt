@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.settings
 import com.composegears.tiamat.navigation.SavedState
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.service.PersistentSettings
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 import io.github.composegears.valkyrie.shared.Mode
@@ -48,7 +47,6 @@ class InMemorySettings(project: Project) {
         updateOutputFormat(OutputFormat.BackingProperty)
         useComposeColors = true
         generatePreview = false
-        updatePreviewAnnotationType(PreviewAnnotationType.AndroidX)
         flatPackage = false
         useExplicitMode = false
         addTrailingComma = false
@@ -74,7 +72,6 @@ class InMemorySettings(project: Project) {
                 .split(",")
                 .filter { it.isNotEmpty() },
             generatePreview = generatePreview,
-            previewAnnotationType = PreviewAnnotationType.from(previewAnnotationType),
             outputFormat = OutputFormat.from(outputFormat),
             useComposeColors = useComposeColors,
             indentSize = indentSize,
@@ -100,7 +97,6 @@ data class ValkyriesSettings(
     val nestedPacks: List<String>,
 
     val generatePreview: Boolean,
-    val previewAnnotationType: PreviewAnnotationType,
 
     val outputFormat: OutputFormat,
     val useComposeColors: Boolean,
@@ -123,8 +119,4 @@ fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {
 
 fun PersistentSettings.ValkyrieState.updateOutputFormat(format: OutputFormat) {
     outputFormat = format.key
-}
-
-fun PersistentSettings.ValkyrieState.updatePreviewAnnotationType(type: PreviewAnnotationType) {
-    previewAnnotationType = type.key
 }

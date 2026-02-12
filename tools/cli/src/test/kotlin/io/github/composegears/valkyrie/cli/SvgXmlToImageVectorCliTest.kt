@@ -8,7 +8,6 @@ import io.github.composegears.valkyrie.cli.SvgXmlCommand.AutoMirror
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.GeneratePreview
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.IconPackName
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.ImageVectorOutputFormat
-import io.github.composegears.valkyrie.cli.SvgXmlCommand.ImageVectorPreviewAnnotationType
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.IndentSize
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.InputPath
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.NestedPackName
@@ -24,9 +23,6 @@ import io.github.composegears.valkyrie.cli.common.CliTestType.JarTerminal
 import io.github.composegears.valkyrie.cli.common.CommandLineTestRunner
 import io.github.composegears.valkyrie.cli.common.toResourceText
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.AndroidX
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType.Jetbrains
 import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourcePath
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
@@ -199,18 +195,6 @@ class SvgXmlToImageVectorCliTest(
             expectedKtName = "WithoutPath.preview.androidx.kt",
             actualKtName = "WithoutPath.kt",
             generatePreview = GeneratePreview(true),
-            previewAnnotationType = ImageVectorPreviewAnnotationType(AndroidX),
-        )
-    }
-
-    @Test
-    fun `jetbrains preview generation without icon pack`() {
-        arg.testConversion(
-            inputResource = "imagevector/xml/ic_without_path.xml",
-            expectedKtName = "WithoutPath.preview.jetbrains.kt",
-            actualKtName = "WithoutPath.kt",
-            generatePreview = GeneratePreview(true),
-            previewAnnotationType = ImageVectorPreviewAnnotationType(Jetbrains),
         )
     }
 
@@ -222,19 +206,6 @@ class SvgXmlToImageVectorCliTest(
             actualKtName = "WithoutPath.kt",
             iconPackName = IconPackName("ValkyrieIcons"),
             generatePreview = GeneratePreview(true),
-            previewAnnotationType = ImageVectorPreviewAnnotationType(AndroidX),
-        )
-    }
-
-    @Test
-    fun `jetbrains preview generation with icon pack`() {
-        arg.testConversion(
-            inputResource = "imagevector/xml/ic_without_path.xml",
-            expectedKtName = "WithoutPath.pack.preview.jetbrains.kt",
-            actualKtName = "WithoutPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
-            generatePreview = GeneratePreview(true),
-            previewAnnotationType = ImageVectorPreviewAnnotationType(Jetbrains),
         )
     }
 
@@ -247,20 +218,6 @@ class SvgXmlToImageVectorCliTest(
             iconPackName = IconPackName("ValkyrieIcons"),
             nestedPackName = NestedPackName("Filled"),
             generatePreview = GeneratePreview(true),
-            previewAnnotationType = ImageVectorPreviewAnnotationType(AndroidX),
-        )
-    }
-
-    @Test
-    fun `jetbrains preview generation with nested pack`() {
-        arg.testConversion(
-            inputResource = "imagevector/xml/ic_without_path.xml",
-            expectedKtName = "WithoutPath.pack.nested.preview.jetbrains.kt",
-            actualKtName = "filled/WithoutPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
-            nestedPackName = NestedPackName("Filled"),
-            generatePreview = GeneratePreview(true),
-            previewAnnotationType = ImageVectorPreviewAnnotationType(Jetbrains),
         )
     }
 
@@ -466,7 +423,6 @@ class SvgXmlToImageVectorCliTest(
         useFlatPackage: UseFlatPackage? = null,
         indentSize: IndentSize? = null,
         generatePreview: GeneratePreview? = null,
-        previewAnnotationType: ImageVectorPreviewAnnotationType? = null,
         addTrailingComma: AddTrailingComma? = null,
         autoMirror: AutoMirror? = null,
         usePathDataString: UsePathDataString? = null,
@@ -484,7 +440,6 @@ class SvgXmlToImageVectorCliTest(
                 nestedPackName,
                 ImageVectorOutputFormat(outputFormat),
                 generatePreview,
-                previewAnnotationType,
                 useFlatPackage,
                 useExplicitMode,
                 addTrailingComma,
@@ -566,17 +521,6 @@ private sealed interface SvgXmlCommand {
 
     data class GeneratePreview(val value: Boolean) : SvgXmlCommand {
         override val command: String = "--generate-preview=$value"
-    }
-
-    data class ImageVectorPreviewAnnotationType(val previewAnnotationType: PreviewAnnotationType) : SvgXmlCommand {
-        override val command: String
-            get() {
-                val type = when (previewAnnotationType) {
-                    AndroidX -> "androidx"
-                    Jetbrains -> "jetbrains"
-                }
-                return "--preview-annotation-type=$type"
-            }
     }
 
     data class UseFlatPackage(val value: Boolean) : SvgXmlCommand {

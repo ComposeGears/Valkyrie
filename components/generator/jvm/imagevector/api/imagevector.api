@@ -26,24 +26,23 @@ public final class io/github/composegears/valkyrie/generator/jvm/imagevector/Ima
 }
 
 public final class io/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;ZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;ZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component10 ()Z
 	public final fun component11 ()Z
-	public final fun component12 ()Z
-	public final fun component13 ()I
-	public final fun component14 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;
+	public final fun component12 ()I
+	public final fun component13 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/lang/String;
 	public final fun component5 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
 	public final fun component6 ()Z
 	public final fun component7 ()Z
-	public final fun component8 ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
+	public final fun component8 ()Z
 	public final fun component9 ()Z
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;ZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;
-	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZLio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;ZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;ILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;ZZZZZZILio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;ILjava/lang/Object;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/ImageVectorGeneratorConfig;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddTrailingComma ()Z
 	public final fun getFullQualifiedImports ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/FullQualifiedImports;
@@ -54,7 +53,6 @@ public final class io/github/composegears/valkyrie/generator/jvm/imagevector/Ima
 	public final fun getOutputFormat ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
 	public final fun getPackName ()Ljava/lang/String;
 	public final fun getPackageName ()Ljava/lang/String;
-	public final fun getPreviewAnnotationType ()Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
 	public final fun getUseComposeColors ()Z
 	public final fun getUseExplicitMode ()Z
 	public final fun getUseFlatPackage ()Z
@@ -88,19 +86,5 @@ public final class io/github/composegears/valkyrie/generator/jvm/imagevector/Out
 
 public final class io/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat$Companion {
 	public final fun from (Ljava/lang/String;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/OutputFormat;
-}
-
-public final class io/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType : java/lang/Enum {
-	public static final field AndroidX Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
-	public static final field Companion Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType$Companion;
-	public static final field Jetbrains Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public final fun getKey ()Ljava/lang/String;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
-	public static fun values ()[Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
-}
-
-public final class io/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType$Companion {
-	public final fun from (Ljava/lang/String;)Lio/github/composegears/valkyrie/generator/jvm/imagevector/PreviewAnnotationType;
 }
 

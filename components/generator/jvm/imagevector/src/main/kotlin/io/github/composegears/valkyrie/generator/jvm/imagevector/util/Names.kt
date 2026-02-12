@@ -28,7 +28,6 @@ internal object ClassNames {
     val StrokeJoin = PackageNames.GraphicsPackage.className("StrokeJoin")
     val Brush = PackageNames.GraphicsPackage.className("Brush")
     val AndroidXPreview = PackageNames.PreviewPackage.className("Preview")
-    val JetbrainsPreview = ClassName.bestGuess("androidx.compose.desktop.ui.tooling.preview.Preview")
     val Composable = PackageNames.RuntimePackage.className("Composable")
     val LazyThreadSafetyMode = ClassName.bestGuess("kotlin.LazyThreadSafetyMode")
     val Suppress = ClassName.bestGuess("kotlin.Suppress")
