@@ -15,6 +15,10 @@
 
 - Remove support for `Material` icon pack from `androidx.compose.material.icons` package
 
+### Fixed
+
+- [PSI] Fix parsing `materialIcon` block with regular `path` calls
+
 ## 1.0.0 - 2026-02-10
 
 ### Added

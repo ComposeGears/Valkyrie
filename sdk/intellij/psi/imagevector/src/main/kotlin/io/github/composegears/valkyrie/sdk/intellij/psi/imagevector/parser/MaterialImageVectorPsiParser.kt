@@ -9,6 +9,7 @@ import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.mater
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.name
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseFloatArg
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parsePath
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parsePathNode
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.viewportHeight
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.viewportWidth
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.util.childrenOfType
@@ -61,8 +62,9 @@ internal object MaterialImageVectorPsiParser {
 
     private fun KtBlockExpression.parseMaterialPath(): List<IrVectorNode> {
         val materialPathCalls = materialPathCalls()
+        val pathCalls = pathCalls()
 
-        return materialPathCalls.mapNotNull { materialPathCall ->
+        val materialPaths = materialPathCalls.mapNotNull { materialPathCall ->
             val pathLambda = materialPathCall.lambdaArguments.firstOrNull()?.getLambdaExpression()
             val pathBody = pathLambda?.bodyExpression ?: return@mapNotNull null
 
@@ -77,11 +79,23 @@ internal object MaterialImageVectorPsiParser {
                 paths = pathBody.parsePath(),
             )
         }
+
+        val regularPaths = pathCalls.map { pathCall ->
+            pathCall.parsePathNode()
+        }
+
+        return materialPaths + regularPaths
     }
 }
 
 private fun KtBlockExpression.materialPathCalls(): List<KtCallExpression> {
     return childrenOfType<KtCallExpression>().filter {
         it.calleeExpression?.text == "materialPath"
+    }
+}
+
+private fun KtBlockExpression.pathCalls(): List<KtCallExpression> {
+    return childrenOfType<KtCallExpression>().filter {
+        it.calleeExpression?.text == "path"
     }
 }
