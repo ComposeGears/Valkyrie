@@ -9,6 +9,7 @@ import java.awt.Component
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.Image
+import java.io.Serializable
 import javax.swing.Icon
 
 class ImageVectorIcon(
@@ -16,9 +17,11 @@ class ImageVectorIcon(
     private val size: Int = 16,
     private val aspectRatio: Float,
     private val dominantShade: DominantShade,
-) : Icon {
+) : Icon,
+    Serializable {
 
     @Volatile
+    @Transient
     private var cachedImage: Image? = null
 
     override fun paintIcon(c: Component?, g: Graphics?, x: Int, y: Int) {
