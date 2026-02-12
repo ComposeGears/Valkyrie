@@ -22,7 +22,7 @@ object ImageVectorPsiParser {
             val fqName = it.importedFqName
 
             fqName?.asString() == "androidx.compose.material.icons.materialPath" ||
-                fqName?.asString() == "androidx.compose.material.icons.materialFilled"
+                fqName?.asString() == "androidx.compose.material.icons.materialIcon"
         }
     }
 }

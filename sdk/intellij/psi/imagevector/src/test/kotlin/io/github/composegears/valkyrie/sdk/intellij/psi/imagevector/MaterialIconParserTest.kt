@@ -7,6 +7,7 @@ import io.github.composegears.valkyrie.psi.TEST_DATA_PATH
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedIconWithImportMember
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedMaterialIcon
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedMaterialIconOnlyWithPath
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedMaterialIconWithPath
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedMaterialIconWithoutParam
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedMaterialIconWithoutParam2
 import io.github.composegears.valkyrie.sdk.intellij.testfixtures.KotlinCodeInsightTest
@@ -53,6 +54,14 @@ class MaterialIconParserTest : KotlinCodeInsightTest() {
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedIconWithImportMember)
+    }
+
+    @Test
+    fun `parse material icon with path`() = runInEdtAndGet {
+        val ktFile = loadKtFile("backing/MaterialIcon.path.kt")
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+
+        assertThat(imageVector).isEqualTo(ExpectedMaterialIconWithPath)
     }
 
     override fun getTestDataPath() = TEST_DATA_PATH

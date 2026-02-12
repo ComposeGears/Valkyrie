@@ -11,8 +11,8 @@ import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.name
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseClipPath
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseFill
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseFloatArg
-import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parsePath
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parsePathDataArg
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parsePathNode
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseStringArg
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.parseStroke
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common.viewportHeight
@@ -71,7 +71,7 @@ internal object RegularImageVectorPsiParser {
     private fun KtCallExpression.parseVectorNode(): IrVectorNode? {
         var node: IrVectorNode? = null
         if (calleeExpression?.text == "path") {
-            node = parsePath()
+            node = parsePathNode()
         }
         if (calleeExpression?.text == "addPath") {
             node = parseAddPath()
@@ -101,25 +101,6 @@ internal object RegularImageVectorPsiParser {
                 ?.mapNotNull { it.parseVectorNode() }
                 .orEmpty()
                 .toMutableList(),
-        )
-    }
-
-    private fun KtCallExpression.parsePath(): IrVectorNode.IrPath {
-        val pathLambda = lambdaArguments.firstOrNull()?.getLambdaExpression()
-        val pathBody = pathLambda?.bodyExpression
-
-        return IrVectorNode.IrPath(
-            name = parseStringArg("name").orEmpty(),
-            fill = parseFill(),
-            fillAlpha = parseFloatArg("fillAlpha") ?: 1f,
-            stroke = parseStroke(),
-            strokeAlpha = parseFloatArg("strokeAlpha") ?: 1f,
-            strokeLineWidth = parseFloatArg("strokeLineWidth") ?: 0f,
-            strokeLineCap = extractStrokeCap(),
-            strokeLineJoin = extractStrokeJoin(),
-            strokeLineMiter = parseFloatArg("strokeLineMiter") ?: 4f,
-            pathFillType = extractPathFillType(),
-            paths = pathBody?.parsePath().orEmpty(),
         )
     }
 
