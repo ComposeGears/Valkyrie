@@ -26,6 +26,10 @@ class ImageVectorIcon(
 
     override fun paintIcon(c: Component?, g: Graphics?, x: Int, y: Int) {
         if (g !is Graphics2D) return
+
+        // Validate aspect ratio before proceeding
+        if (!aspectRatio.isFinite()) return
+
         drawBackground(g = g, x = x, y = y)
 
         if (cachedImage == null) {

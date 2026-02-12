@@ -7,17 +7,15 @@
 - Add option to generate ImageVector paths using pathData strings
 - Support pathData strings in addPath/clipPathData in Preview
 
-### Fixed
-
-- Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser
-
 ### Removed
 
 - Remove support for `Material` icon pack from `androidx.compose.material.icons` package
 
 ### Fixed
 
+- Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser
 - [PSI] Fix parsing `materialIcon` block with regular `path` calls
+- [PSI] Fix ArithmeticException in ImageVectorIcon
 
 ## 1.0.0 - 2026-02-10
 

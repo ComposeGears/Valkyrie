@@ -51,10 +51,10 @@ internal object MaterialImageVectorPsiParser {
 
         return IrImageVector(
             name = builder.name().ifEmpty { property.name.orEmpty() },
-            defaultWidth = builder.defaultWidth(0f),
-            defaultHeight = builder.defaultHeight(0f),
-            viewportWidth = builder.viewportWidth(0f),
-            viewportHeight = builder.viewportHeight(0f),
+            defaultWidth = builder.defaultWidth(24f),
+            defaultHeight = builder.defaultHeight(24f),
+            viewportWidth = builder.viewportWidth(24f),
+            viewportHeight = builder.viewportHeight(24f),
             autoMirror = builder.autoMirror(),
             nodes = blockBody.parseMaterialPath(),
         )
