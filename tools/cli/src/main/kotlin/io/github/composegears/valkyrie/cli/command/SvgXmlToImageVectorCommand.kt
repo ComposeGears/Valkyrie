@@ -21,7 +21,6 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedIm
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.isSvg
@@ -90,8 +89,6 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
         help = "Generate @Preview",
     )
 
-    private val previewAnnotationType by previewAnnotationType()
-
     private val useFlatPackage by booleanOption(
         "--flatpackage",
         help = "Import all icons into a single package without dividing by nested pack folders",
@@ -141,7 +138,6 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
             iconPackName = iconPackName,
             nestedPackName = nestedPackName,
             generatePreview = generatePreview,
-            previewAnnotationType = previewAnnotationType,
             outputFormat = outputFormat,
             useComposeColors = useComposeColors,
             useFlatPackage = useFlatPackage,
@@ -166,17 +162,6 @@ private fun CliktCommand.outputFormatOption() = option(
     }
 }.default(OutputFormat.BackingProperty)
 
-private fun CliktCommand.previewAnnotationType() = option(
-    "--preview-annotation-type",
-    help = "Specifies the type of Preview annotation, must be 'androidx' or 'jetbrains'",
-).convert {
-    when (it.lowercase()) {
-        "androidx" -> PreviewAnnotationType.AndroidX
-        "jetbrains" -> PreviewAnnotationType.Jetbrains
-        else -> outputError("Invalid preview annotation type, must be 'androidx' or 'jetbrains'")
-    }
-}.default(PreviewAnnotationType.AndroidX)
-
 /**
  * Converts SVG or XML files to ImageVector files.
  */
@@ -187,7 +172,6 @@ private fun svgXml2ImageVector(
     iconPackName: String,
     nestedPackName: String,
     generatePreview: Boolean,
-    previewAnnotationType: PreviewAnnotationType,
     outputFormat: OutputFormat,
     useComposeColors: Boolean,
     useFlatPackage: Boolean,
@@ -242,7 +226,6 @@ private fun svgXml2ImageVector(
         outputFormat = outputFormat,
         useComposeColors = useComposeColors,
         generatePreview = generatePreview,
-        previewAnnotationType = previewAnnotationType,
         useFlatPackage = useFlatPackage,
         useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,

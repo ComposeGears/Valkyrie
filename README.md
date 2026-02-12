@@ -444,9 +444,6 @@ valkyrie {
         // Generate `@Preview` function for ImageVector (default: false)
         generatePreview = false
 
-        // Specifies the type of Preview annotation to generate for @Preview
-        previewAnnotationType = PreviewAnnotationType.AndroidX
-
         // Insert a trailing comma after the last element of ImageVector.Builder block and path params (default: false)
         addTrailingComma = false
     }

@@ -8,14 +8,13 @@ import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.buildCodeBlock
 import io.github.composegears.valkyrie.generator.jvm.ext.funSpecBuilder
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 
 context(config: ImageVectorSpecConfig)
 internal fun iconPreviewSpecForNestedPack(
     iconPackClassName: ClassName,
 ): FunSpec = funSpecBuilder("${config.iconName}Preview") {
     addModifiers(KModifier.PRIVATE)
-    addPreviewAnnotation(config.previewAnnotationType)
+    addPreviewAnnotation()
     addComposableAnnotation()
     addCode(
         codeBlock = buildCodeBlock {
@@ -41,7 +40,7 @@ internal fun iconPreviewSpec(
     iconPackage: String,
 ): FunSpec = funSpecBuilder("${config.iconName}Preview") {
     addModifiers(KModifier.PRIVATE)
-    addPreviewAnnotation(config.previewAnnotationType)
+    addPreviewAnnotation()
     addComposableAnnotation()
     addCode(
         codeBlock = buildCodeBlock {
@@ -65,12 +64,8 @@ internal fun iconPreviewSpec(
     )
 }
 
-private fun FunSpec.Builder.addPreviewAnnotation(annotationType: PreviewAnnotationType) {
-    val previewClassName = when (annotationType) {
-        PreviewAnnotationType.AndroidX -> ClassNames.AndroidXPreview
-        PreviewAnnotationType.Jetbrains -> ClassNames.JetbrainsPreview
-    }
-    addAnnotation(AnnotationSpec.builder(previewClassName).build())
+private fun FunSpec.Builder.addPreviewAnnotation() {
+    addAnnotation(AnnotationSpec.builder(ClassNames.AndroidXPreview).build())
 }
 
 private fun FunSpec.Builder.addComposableAnnotation() {

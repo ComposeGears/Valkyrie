@@ -114,7 +114,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.resolve("build.gradle.kts").writeText(
             """
                 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
-                import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 
                 plugins {
                     kotlin("jvm")
@@ -133,7 +132,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
                         outputFormat = OutputFormat.LazyProperty
                         useComposeColors = false
                         generatePreview = true
-                        previewAnnotationType = PreviewAnnotationType.Jetbrains
                         addTrailingComma = true
                         usePathDataString = true
                     }

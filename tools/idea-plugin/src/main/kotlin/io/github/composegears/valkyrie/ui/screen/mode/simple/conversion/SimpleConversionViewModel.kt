@@ -191,7 +191,6 @@ class SimpleConversionViewModel(
             outputFormat = valkyriesSettings.outputFormat,
             useComposeColors = valkyriesSettings.useComposeColors,
             generatePreview = valkyriesSettings.generatePreview,
-            previewAnnotationType = valkyriesSettings.previewAnnotationType,
             useFlatPackage = false,
             useExplicitMode = valkyriesSettings.useExplicitMode,
             addTrailingComma = valkyriesSettings.addTrailingComma,

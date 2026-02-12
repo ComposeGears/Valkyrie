@@ -14,7 +14,6 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.LazyProperty
-import io.github.composegears.valkyrie.generator.jvm.imagevector.PreviewAnnotationType
 import io.github.composegears.valkyrie.jewel.highlight.KtCodeViewer
 import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
 import io.github.composegears.valkyrie.jewel.settings.DropdownSettingsRow
@@ -33,11 +32,9 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateFlatPackage
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIndentSize
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
-import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewAnnotationType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUsePathDataString
-import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.ui.PreviewAnnotationSection
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -136,11 +133,11 @@ private fun GeneratorSettingsUi(
                     checked = generatorSettings.usePathDataString,
                     onCheckedChange = { onAction(UpdateUsePathDataString(it)) },
                 )
-                PreviewAnnotationSection(
-                    generatePreview = generatorSettings.generatePreview,
-                    previewAnnotationType = generatorSettings.previewAnnotationType,
-                    onGeneratePreviewChange = { onAction(UpdatePreviewGeneration(it)) },
-                    onAnnotationTypeChange = { onAction(UpdatePreviewAnnotationType(it)) },
+                CheckboxSettingsRow(
+                    text = stringResource("settings.generator.preview.block"),
+                    infoText = stringResource("settings.generator.preview.block.description"),
+                    checked = generatorSettings.generatePreview,
+                    onCheckedChange = { onAction(UpdatePreviewGeneration(it)) },
                 )
             }
             GroupSpacing()
@@ -181,7 +178,6 @@ private fun GeneratorSettingsPreview() = PreviewTheme {
     var addTrailingComma by rememberMutableState { false }
     var usePathDataString by rememberMutableState { false }
     var indentSize by rememberMutableState { 4 }
-    var previewAnnotationType by rememberMutableState { PreviewAnnotationType.Jetbrains }
 
     val onAction = { action: SettingsAction ->
         when (action) {
@@ -193,7 +189,6 @@ private fun GeneratorSettingsPreview() = PreviewTheme {
             is UpdateAddTrailingComma -> addTrailingComma = action.addTrailingComma
             is UpdateUsePathDataString -> usePathDataString = action.usePathDataString
             is UpdateIndentSize -> indentSize = action.indent
-            is UpdatePreviewAnnotationType -> previewAnnotationType = action.annotationType
             else -> {}
         }
     }
@@ -208,7 +203,6 @@ private fun GeneratorSettingsPreview() = PreviewTheme {
             addTrailingComma = addTrailingComma,
             usePathDataString = usePathDataString,
             indentSize = indentSize,
-            previewAnnotationType = previewAnnotationType,
         ),
     )
 }

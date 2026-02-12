@@ -18,7 +18,6 @@ public abstract class io/github/composegears/valkyrie/gradle/ImageVectorConfigEx
 	public final fun getAddTrailingComma ()Lorg/gradle/api/provider/Property;
 	public final fun getGeneratePreview ()Lorg/gradle/api/provider/Property;
 	public final fun getOutputFormat ()Lorg/gradle/api/provider/Property;
-	public final fun getPreviewAnnotationType ()Lorg/gradle/api/provider/Property;
 	public final fun getUseComposeColors ()Lorg/gradle/api/provider/Property;
 	public final fun getUsePathDataString ()Lorg/gradle/api/provider/Property;
 }

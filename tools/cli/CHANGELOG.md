@@ -6,6 +6,13 @@
 
 - Add `--use-path-data-string` option to generate addPath with pathData strings instead of path builder calls
 
+### Removed
+
+- Remove support for `androidx.compose.desktop.ui.tooling.preview.Preview` and corresponding `--preview-annotation-type`
+  command as `androidx.compose.ui.tooling.preview.Preview`
+  became [multiplatform](https://kotlinlang.org/docs/multiplatform/whats-new-compose-110.html#unified-preview-annotation)
+  in Compose 1.10.0
+
 ### Fixed
 
 - Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser

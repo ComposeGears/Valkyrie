@@ -25,25 +25,4 @@ class ImageVectorGeneratorPropertiesTest {
         val result = OutputFormat.from(null)
         assertEquals(OutputFormat.BackingProperty, result)
     }
-
-    @Test
-    fun `PreviewAnnotationType from function with valid key`() {
-        val result = PreviewAnnotationType.from("androidx")
-        assertEquals(PreviewAnnotationType.AndroidX, result)
-
-        val resultJetbrains = PreviewAnnotationType.from("jetbrains")
-        assertEquals(PreviewAnnotationType.Jetbrains, resultJetbrains)
-    }
-
-    @Test
-    fun `PreviewAnnotationType from function with invalid key`() {
-        val result = PreviewAnnotationType.from("invalid_key")
-        assertEquals(PreviewAnnotationType.AndroidX, result)
-    }
-
-    @Test
-    fun `PreviewAnnotationType from function with null key`() {
-        val result = PreviewAnnotationType.from(null)
-        assertEquals(PreviewAnnotationType.AndroidX, result)
-    }
 }

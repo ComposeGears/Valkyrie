@@ -4,7 +4,15 @@
 
 ### Added
 
-- Add `usePathDataString` configuration option in `imageVector` block to generate addPath with pathData strings instead of path builder calls
+- Add `usePathDataString` configuration option in `imageVector` block to generate addPath with pathData strings instead
+  of path builder calls
+
+### Removed
+
+- Remove support for `androidx.compose.desktop.ui.tooling.preview.Preview` and corresponding `previewAnnotationType`
+  configuration property as `androidx.compose.ui.tooling.preview.Preview`
+  became [multiplatform](https://kotlinlang.org/docs/multiplatform/whats-new-compose-110.html#unified-preview-annotation)
+  in Compose 1.10.0
 
 ### Fixed
 
@@ -32,31 +40,31 @@ Example configuration:
 
 ```kotlin
 valkyrie {
-  packageName = "com.example.app.icons"
+    packageName = "com.example.app.icons"
 
-  // Force all icons to support RTL by default
-  autoMirror = true
+    // Force all icons to support RTL by default
+    autoMirror = true
 
-  iconPack {
-    name = "ValkyrieIcons"
-    targetSourceSet = "commonMain"
+    iconPack {
+        name = "ValkyrieIcons"
+        targetSourceSet = "commonMain"
 
-    // Override: icons in this pack won't auto-mirror
-    autoMirror = false
+        // Override: icons in this pack won't auto-mirror
+        autoMirror = false
 
-    nested {
-      name = "Navigation"
-      sourceFolder = "navigation"
-      // Override: navigation icons should auto-mirror for RTL
-      autoMirror = true
+        nested {
+            name = "Navigation"
+            sourceFolder = "navigation"
+            // Override: navigation icons should auto-mirror for RTL
+            autoMirror = true
+        }
+
+        nested {
+            name = "Logos"
+            sourceFolder = "logos"
+            // Logos inherit autoMirror = false from icon pack level
+        }
     }
-
-    nested {
-      name = "Logos"
-      sourceFolder = "logos"
-      // Logos inherit autoMirror = false from icon pack level
-    }
-  }
 }
 ```
 
@@ -81,13 +89,13 @@ Breaking changes:
 ```kotlin
 valkyrie {
 // Optional: Code style configuration for generated code
-  codeStyle {
-    // Add explicit `public` modifier to generated declarations (default: false)
-    useExplicitMode = false
+    codeStyle {
+        // Add explicit `public` modifier to generated declarations (default: false)
+        useExplicitMode = false
 
-    // Number of spaces used for each level of indentation in generated code (default: 4)
-    indentSize = 4
-  }
+        // Number of spaces used for each level of indentation in generated code (default: 4)
+        indentSize = 4
+    }
 }
 ```
 
@@ -106,12 +114,12 @@ For simple icon pack generation, you can use the following configuration:
 
 ```kotlin
 valkyrie {
-  packageName = "com.example.app.icons"
+    packageName = "com.example.app.icons"
 
-  iconPack {
-    name = "ValkyrieIcons"
-    targetSourceSet = "commonMain" // icon pack object will be generated in commonMain source set
-  }
+    iconPack {
+        name = "ValkyrieIcons"
+        targetSourceSet = "commonMain" // icon pack object will be generated in commonMain source set
+    }
 }
 ```
 
@@ -119,22 +127,22 @@ For nested icon packs, you can define multiple `nested` icon packs within the `i
 
 ```kotlin
 valkyrie {
-  packageName = "com.example.app.icons"
+    packageName = "com.example.app.icons"
 
-  iconPack {
-    name = "ValkyrieIcons"
-    targetSourceSet = "commonMain" // icon pack object will be generated in commonMain source set
+    iconPack {
+        name = "ValkyrieIcons"
+        targetSourceSet = "commonMain" // icon pack object will be generated in commonMain source set
 
-    nested {
-      name = "Outlined"
-      sourceFolder = "outlined"
+        nested {
+            name = "Outlined"
+            sourceFolder = "outlined"
+        }
+
+        nested {
+            name = "Filled"
+            sourceFolder = "filled"
+        }
     }
-
-    nested {
-      name = "Filled"
-      sourceFolder = "filled"
-    }
-  }
 }
 ```
 

@@ -40,25 +40,6 @@ class SvgXmlToImageVectorCommandTest {
     }
 
     @Test
-    fun `previewAnnotationType should throw error for invalid value`() {
-        mockkStatic(::outputError)
-        every { outputError(any()) } answers { error("") }
-
-        SvgXmlToImageVectorCommand().test(
-            "--input-path",
-            "/some/input",
-            "--output-path",
-            "/some/output",
-            "--package-name",
-            "com.example",
-            "--preview-annotation-type",
-            "invalid-value",
-        )
-
-        verify { outputError("Invalid preview annotation type, must be 'androidx' or 'jetbrains'") }
-    }
-
-    @Test
     fun `should throw error if input file is not SVG or XML`() {
         val mockMessage = "The input file must be an SVG or XML file."
         mockkStatic(::outputError)
