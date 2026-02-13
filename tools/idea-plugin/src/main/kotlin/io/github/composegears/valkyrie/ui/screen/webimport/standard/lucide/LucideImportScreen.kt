@@ -11,7 +11,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.StandardImpo
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.di.LucideModule
 import io.github.composegears.valkyrie.util.stringResource
 
-val LucideImportScreen by navDestination<Unit> {
+val LucideImportScreen by navDestination {
     val navController = navController()
     StandardImportScreen(
         title = stringResource("web.import.title.lucide"),
