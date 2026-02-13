@@ -9,8 +9,8 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.DropdownList
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.WebImportTopActions
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

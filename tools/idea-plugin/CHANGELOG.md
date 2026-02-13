@@ -35,6 +35,7 @@
 
 - Add option to generate ImageVector paths using pathData strings
 - Support pathData strings in addPath/clipPathData in Preview
+- Add `Bootstrap` icon provider into Web import feature
 
 ### Removed
 

@@ -17,7 +17,7 @@ val LucideImportScreen by navDestination<Unit> {
         title = stringResource("web.import.title.lucide"),
         provider = inject(LucideModule.lucideUseCase),
         onBack = navController::back,
-        onIconDownloaded = {
+        onIconDownload = {
             navController.parent?.navigate(
                 dest = SimpleConversionScreen,
                 navArgs = TextSource(
@@ -25,6 +25,6 @@ val LucideImportScreen by navDestination<Unit> {
                     text = it.svgContent,
                 ),
             )
-        }
+        },
     )
 }

@@ -64,7 +64,7 @@ fun IconSizeCustomization(
         VerticallyScrollableContainer {
             Column(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 CenterVerticalRow(modifier = Modifier.padding(horizontal = 4.dp)) {
                     Text(text = stringResource(sizeLabel))
