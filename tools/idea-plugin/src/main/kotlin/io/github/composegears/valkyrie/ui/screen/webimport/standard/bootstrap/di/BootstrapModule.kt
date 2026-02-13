@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.di
 
 import com.composegears.leviathan.Leviathan
+import io.github.composegears.valkyrie.ui.screen.webimport.common.di.NetworkModule
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.data.BootstrapRepository
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.domain.BootstrapUseCase
-import io.github.composegears.valkyrie.ui.screen.webimport.common.di.NetworkModule
 
 object BootstrapModule : Leviathan() {
     private val network = NetworkModule

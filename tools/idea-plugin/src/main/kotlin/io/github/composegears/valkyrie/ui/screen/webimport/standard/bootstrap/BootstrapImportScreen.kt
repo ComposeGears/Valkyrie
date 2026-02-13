@@ -17,7 +17,7 @@ val BootstrapImportScreen by navDestination<Unit> {
         title = stringResource("web.import.title.bootstrap"),
         provider = inject(BootstrapModule.bootstrapUseCase),
         onBack = navController::back,
-        onIconDownloaded = {
+        onIconDownload = {
             navController.parent?.navigate(
                 dest = SimpleConversionScreen,
                 navArgs = TextSource(
@@ -25,6 +25,6 @@ val BootstrapImportScreen by navDestination<Unit> {
                     text = it.svgContent,
                 ),
             )
-        }
+        },
     )
 }

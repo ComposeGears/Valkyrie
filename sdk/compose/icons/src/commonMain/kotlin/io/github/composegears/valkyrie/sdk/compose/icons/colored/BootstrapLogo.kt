@@ -19,17 +19,17 @@ val ValkyrieIcons.Colored.BootstrapLogo: ImageVector
             defaultWidth = 512.dp,
             defaultHeight = 408.dp,
             viewportWidth = 512f,
-            viewportHeight = 408f
+            viewportHeight = 408f,
         ).apply {
             path(
                 fill = Brush.linearGradient(
                     colorStops = arrayOf(
                         0f to Color(0xFF9013FE),
-                        1f to Color(0xFF6610F2)
+                        1f to Color(0xFF6610F2),
                     ),
                     start = Offset(76.08f, 10.8f),
-                    end = Offset(523.48f, 365.94f)
-                )
+                    end = Offset(523.48f, 365.94f),
+                ),
             ) {
                 moveTo(56.48f, 53.32f)
                 curveTo(55.51f, 25.58f, 77.13f, 0f, 106.34f, 0f)
@@ -54,13 +54,13 @@ val ValkyrieIcons.Colored.BootstrapLogo: ImageVector
                 fill = Brush.linearGradient(
                     colorStops = arrayOf(
                         0f to Color.White,
-                        1f to Color(0xFFF1E5FC)
+                        1f to Color(0xFFF1E5FC),
                     ),
                     start = Offset(193.51f, 109.74f),
-                    end = Offset(293.51f, 278.87f)
+                    end = Offset(293.51f, 278.87f),
                 ),
                 stroke = SolidColor(Color.White),
-                strokeLineWidth = 1f
+                strokeLineWidth = 1f,
             ) {
                 moveTo(267.1f, 312.46f)
                 curveToRelative(47.3f, 0f, 75.8f, -23.16f, 75.8f, -61.35f)

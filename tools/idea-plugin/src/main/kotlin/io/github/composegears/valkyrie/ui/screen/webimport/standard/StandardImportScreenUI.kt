@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +63,7 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 internal fun StandardImportScreen(
     title: String,
     provider: StandardIconProvider,
-    onIconDownloaded: (event: StandardIconEvent.IconDownloaded) -> Unit,
+    onIconDownload: (event: StandardIconEvent.IconDownloaded) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -70,13 +71,14 @@ internal fun StandardImportScreen(
         StandardIconViewModel(savedState = it, provider = provider)
     }
     val state by viewModel.state.collectAsState()
+    val currentOnIconDownloaded by rememberUpdatedState(onIconDownload)
 
     LaunchedEffect(Unit) {
         viewModel.events
             .onEach {
                 when (it) {
                     is StandardIconEvent.IconDownloaded -> {
-                        onIconDownloaded(it)
+                        currentOnIconDownloaded(it)
                     }
                 }
             }
@@ -92,7 +94,7 @@ internal fun StandardImportScreen(
         onSelectCategory = viewModel::selectCategory,
         onSearchQueryChange = viewModel::updateSearchQuery,
         onSettingsChange = viewModel::updateSettings,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -106,12 +108,12 @@ private fun StandardImportScreenUI(
     onSelectCategory: (InferredCategory) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (SizeSettings) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .then(modifier)
+            .then(modifier),
     ) {
         Toolbar {
             BackAction(onBack = onBack)
