@@ -20,7 +20,7 @@ class LucideRepository(
 ) {
     companion object {
         private const val UNPKG_BASE = "https://unpkg.com/lucide-static@latest"
-        private const val FONT_URL = "$UNPKG_BASE/font/lucide.ttf"
+        private const val FONT_URL = "$UNPKG_BASE/font/lucide.woff2"
         private const val CSS_URL = "https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css"
     }
 
