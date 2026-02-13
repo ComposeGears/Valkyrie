@@ -38,7 +38,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
  * @param settings Current size settings
  * @param onSettingsChange Callback when settings change
  * @param onClose Callback when close is clicked
- * @param sizeLabel String resource key for size label (e.g., "web.import.font.customize.lucide.size")
+ * @param sizeLabel String resource key for size label
  * @param modifier Modifier for the panel
  */
 @Composable
