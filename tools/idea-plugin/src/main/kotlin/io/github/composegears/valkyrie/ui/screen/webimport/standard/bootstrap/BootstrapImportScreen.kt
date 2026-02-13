@@ -11,7 +11,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.StandardImpo
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.di.BootstrapModule
 import io.github.composegears.valkyrie.util.stringResource
 
-val BootstrapImportScreen by navDestination<Unit> {
+val BootstrapImportScreen by navDestination {
     val navController = navController()
     StandardImportScreen(
         title = stringResource("web.import.title.bootstrap"),
