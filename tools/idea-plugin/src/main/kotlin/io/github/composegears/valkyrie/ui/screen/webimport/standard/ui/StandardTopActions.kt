@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.ui
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -9,16 +9,16 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.DropdownList
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.WebImportTopActions
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun LucideTopActions(
-    categories: List<Category>,
-    selectedCategory: Category,
+fun StandardTopActions(
+    categories: List<InferredCategory>,
+    selectedCategory: InferredCategory,
     onToggleCustomization: () -> Unit,
-    onSelectCategory: (Category) -> Unit,
+    onSelectCategory: (InferredCategory) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -40,14 +40,14 @@ fun LucideTopActions(
 
 @Preview
 @Composable
-private fun MaterialTopActionsPreview() = PreviewTheme {
-    var category by rememberMutableState { Category("1", "Accessibility") }
+private fun StandardTopActionsPreview() = PreviewTheme {
+    var category by rememberMutableState { InferredCategory("accessibility", "Accessibility") }
 
-    LucideTopActions(
+    StandardTopActions(
         categories = listOf(
-            Category("1", "Accessibility"),
-            Category("2", "Communication"),
-            Category("3", "Tools"),
+            InferredCategory("accessibility", "Accessibility"),
+            InferredCategory("communication", "Communication"),
+            InferredCategory("tools", "Tools"),
         ),
         onSelectCategory = { category = it },
         selectedCategory = category,
