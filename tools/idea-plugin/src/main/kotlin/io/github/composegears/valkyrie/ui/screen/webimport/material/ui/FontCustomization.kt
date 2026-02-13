@@ -13,24 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.jewel.CloseAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.LinkIcon
-import io.github.composegears.valkyrie.jewel.Title
-import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.settings.DropdownSettingsRow
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CustomizationToolbar
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.CheckboxRow
-import org.jetbrains.jewel.ui.component.Link
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
@@ -50,19 +46,11 @@ fun FontCustomization(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        Toolbar {
-            CloseAction(onClose = onClose)
-            Title(text = stringResource("web.import.font.customize.header"))
-            WeightSpacer()
-            Link(
-                text = stringResource("web.import.font.customize.reset"),
-                onClick = {
-                    onSettingsChange(FontSettings())
-                },
-                enabled = fontSettings.isModified,
-            )
-            Spacer(4.dp)
-        }
+        CustomizationToolbar(
+            onClose = onClose,
+            onReset = { onSettingsChange(FontSettings()) },
+            isModified = fontSettings.isModified,
+        )
         HorizontalDivider(color = LocalGroupHeaderStyle.current.colors.divider)
         FontPlayground(
             fontSettings = fontSettings,
