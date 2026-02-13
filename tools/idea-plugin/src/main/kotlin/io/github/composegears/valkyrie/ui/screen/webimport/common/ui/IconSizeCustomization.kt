@@ -1,6 +1,7 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui
+package io.github.composegears.valkyrie.ui.screen.webimport.common.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -15,71 +16,69 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.jewel.CloseAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
-import io.github.composegears.valkyrie.jewel.Title
-import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
-import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.math.roundToInt
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.InfoText
-import org.jetbrains.jewel.ui.component.Link
 import org.jetbrains.jewel.ui.component.Slider
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 
+/**
+ * Generic customization panel for icon size settings
+ *
+ * @param settings Current size settings
+ * @param onSettingsChange Callback when settings change
+ * @param onClose Callback when close is clicked
+ * @param sizeLabel String resource key for size label (e.g., "web.import.font.customize.lucide.size")
+ * @param modifier Modifier for the panel
+ */
 @Composable
-fun LucideCustomization(
-    settings: LucideSettings,
-    onSettingsChange: (LucideSettings) -> Unit,
+fun IconSizeCustomization(
+    settings: SizeSettings,
+    onSettingsChange: (SizeSettings) -> Unit,
     onClose: () -> Unit,
+    sizeLabel: String,
     modifier: Modifier = Modifier,
 ) {
     var size by remember { mutableFloatStateOf(settings.size.toFloat()) }
 
     Column(modifier = modifier) {
-        Toolbar {
-            CloseAction(onClose = onClose)
-            Title(text = stringResource("web.import.font.customize.header"))
-            WeightSpacer()
-            Link(
-                text = stringResource("web.import.font.customize.reset"),
-                onClick = {
-                    size = LucideSettings.DEFAULT_SIZE.toFloat()
-
-                    onSettingsChange(LucideSettings())
-                },
-                enabled = settings.isModified,
-            )
-            Spacer(4.dp)
-        }
+        CustomizationToolbar(
+            onClose = onClose,
+            onReset = {
+                size = SizeSettings.DEFAULT_SIZE.toFloat()
+                onSettingsChange(SizeSettings())
+            },
+            isModified = settings.isModified,
+        )
         HorizontalDivider(color = LocalGroupHeaderStyle.current.colors.divider)
         VerticallyScrollableContainer {
-            Column(modifier = Modifier.padding(horizontal = 12.dp)) {
-                Spacer(16.dp)
+            Column(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 CenterVerticalRow(modifier = Modifier.padding(horizontal = 4.dp)) {
-                    Text(text = stringResource("web.import.font.customize.lucide.size"))
+                    Text(text = stringResource(sizeLabel))
                     WeightSpacer()
-                    InfoText(text = stringResource("web.import.font.customize.lucide.px.suffix", size.roundToInt()))
+                    InfoText(text = stringResource("web.import.font.customize.px.suffix", size.roundToInt()))
                 }
-                Spacer(8.dp)
                 Slider(
                     value = size,
                     onValueChange = {
                         size = it
                         onSettingsChange(settings.copy(size = size.roundToInt()))
                     },
-                    valueRange = 16f..48f,
+                    valueRange = SizeSettings.MIN_SIZE.toFloat()..SizeSettings.MAX_SIZE.toFloat(),
                 )
-                Spacer(16.dp)
             }
         }
     }
@@ -87,16 +86,17 @@ fun LucideCustomization(
 
 @Preview
 @Composable
-private fun FontCustomizationPreview() = PreviewTheme(alignment = Alignment.TopEnd) {
-    var settings by rememberMutableState { LucideSettings() }
+private fun IconSizeCustomizationPreview() = PreviewTheme(alignment = Alignment.TopEnd) {
+    var settings by rememberMutableState { SizeSettings() }
 
-    LucideCustomization(
+    IconSizeCustomization(
         modifier = Modifier
             .width(300.dp)
             .fillMaxHeight()
             .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
             .background(JewelTheme.globalColors.borders.normal),
         settings = settings,
+        sizeLabel = "web.import.font.customize.size",
         onClose = {},
         onSettingsChange = { settings = it },
     )

@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.lucide
+package io.github.composegears.valkyrie.ui.screen.webimport.standard
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -22,10 +22,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.compose.back
-import com.composegears.tiamat.compose.navController
-import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
 import dev.tclement.fonticons.ExperimentalFontIconsApi
 import dev.tclement.fonticons.FontIcon
@@ -42,8 +38,6 @@ import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
@@ -51,78 +45,90 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHea
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.Category
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideIcon
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideCustomization
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideTopActions
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.ui.StandardTopActions
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 
-val LucideImportScreen by navDestination<Unit> {
-    val navController = navController()
-    val parentNavController = navController.parent
-    val viewModel = saveableViewModel { LucideViewModel(savedState = it) }
-    val state by viewModel.lucideState.collectAsState()
+@Composable
+internal fun StandardImportScreen(
+    title: String,
+    provider: StandardIconProvider,
+    onIconDownloaded: (event: StandardIconEvent.IconDownloaded) -> Unit,
+    onBack: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel = saveableViewModel {
+        StandardIconViewModel(savedState = it, provider = provider)
+    }
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.events
             .onEach {
                 when (it) {
-                    is LucideEvent.IconDownloaded -> {
-                        parentNavController?.navigate(
-                            dest = SimpleConversionScreen,
-                            navArgs = TextSource(
-                                name = it.name,
-                                text = it.svgContent,
-                            ),
-                        )
+                    is StandardIconEvent.IconDownloaded -> {
+                        onIconDownloaded(it)
                     }
                 }
             }
             .launchIn(this)
     }
 
-    LucideImportScreenUI(
+    StandardImportScreenUI(
         state = state,
-        onBack = navController::back,
+        title = title,
+        fontAlias = provider.fontAlias,
+        onBack = onBack,
         onSelectIcon = viewModel::downloadIcon,
         onSelectCategory = viewModel::selectCategory,
         onSearchQueryChange = viewModel::updateSearchQuery,
         onSettingsChange = viewModel::updateSettings,
+        modifier = modifier
     )
 }
 
 @Composable
-private fun LucideImportScreenUI(
-    state: LucideState,
+private fun StandardImportScreenUI(
+    state: StandardState,
+    title: String,
+    fontAlias: String,
     onBack: () -> Unit,
-    onSelectIcon: (LucideIcon) -> Unit,
-    onSelectCategory: (Category) -> Unit,
+    onSelectIcon: (StandardIcon) -> Unit,
+    onSelectCategory: (InferredCategory) -> Unit,
     onSearchQueryChange: (String) -> Unit,
-    onSettingsChange: (LucideSettings) -> Unit,
+    onSettingsChange: (SizeSettings) -> Unit,
+    modifier: Modifier,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .then(modifier)
+    ) {
         Toolbar {
             BackAction(onBack = onBack)
-            Title(text = stringResource("web.import.title.lucide"))
+            Title(text = title)
         }
         AnimatedContent(
             targetState = state,
             contentKey = {
                 when (it) {
-                    is LucideState.Loading -> "loading"
-                    is LucideState.Error -> "error"
-                    is LucideState.Success -> "success"
+                    is StandardState.Loading -> "loading"
+                    is StandardState.Error -> "error"
+                    is StandardState.Success -> "success"
                 }
             },
         ) { current ->
             when (current) {
-                is LucideState.Loading -> {
+                is StandardState.Loading -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
@@ -130,7 +136,7 @@ private fun LucideImportScreenUI(
                         LoadingPlaceholder(text = stringResource("web.import.placeholder.loading"))
                     }
                 }
-                is LucideState.Error -> {
+                is StandardState.Error -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
@@ -138,9 +144,10 @@ private fun LucideImportScreenUI(
                         ErrorPlaceholder(message = current.message)
                     }
                 }
-                is LucideState.Success -> {
+                is StandardState.Success -> {
                     IconsContent(
                         state = current,
+                        fontAlias = fontAlias,
                         onSelectIcon = onSelectIcon,
                         onSelectCategory = onSelectCategory,
                         onSearchQueryChange = onSearchQueryChange,
@@ -154,15 +161,16 @@ private fun LucideImportScreenUI(
 
 @Composable
 private fun IconsContent(
-    state: LucideState.Success,
-    onSelectIcon: (LucideIcon) -> Unit,
-    onSelectCategory: (Category) -> Unit,
+    state: StandardState.Success,
+    fontAlias: String,
+    onSelectIcon: (StandardIcon) -> Unit,
+    onSelectCategory: (InferredCategory) -> Unit,
     onSearchQueryChange: (String) -> Unit,
-    onSettingsChange: (LucideSettings) -> Unit,
+    onSettingsChange: (SizeSettings) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
-    var selectedIcon by rememberMutableState<LucideIcon?> { null }
+    var selectedIcon by rememberMutableState<StandardIcon?> { null }
     var isSidePanelOpen by rememberMutableState { false }
     val lazyGridState = rememberLazyGridState()
     val shimmer = rememberShimmer()
@@ -180,7 +188,7 @@ private fun IconsContent(
                     )
                 },
         ) {
-            LucideTopActions(
+            StandardTopActions(
                 categories = state.config.categories,
                 selectedCategory = state.selectedCategory,
                 onToggleCustomization = { isSidePanelOpen = !isSidePanelOpen },
@@ -204,20 +212,21 @@ private fun IconsContent(
                     }
                 }
                 state.fontByteArray == null -> {
-                    LucideIconGrid(
+                    StandardIconGrid(
                         gridItems = state.gridItems,
                         lazyGridState = lazyGridState,
-                        iconContent = { lucideIcon ->
-                            LucideIconStub(
-                                icon = lucideIcon,
+                        iconContent = { icon ->
+                            StandardIconStub(
+                                icon = icon,
                                 shimmer = shimmer,
                             )
                         },
                     )
                 }
                 else -> {
-                    val iconFont = rememberLucideFont(
+                    val iconFont = rememberStandardFont(
                         font = state.fontByteArray.bytes,
+                        alias = fontAlias,
                     )
                     val iconSizeDp = state.settings.size.dp
 
@@ -226,21 +235,21 @@ private fun IconsContent(
                         tint = LocalContentColor.current,
                         weight = FontWeight.W400,
                     ) {
-                        LucideIconGrid(
+                        StandardIconGrid(
                             gridItems = state.gridItems,
                             lazyGridState = lazyGridState,
-                            iconContent = { lucideIcon ->
+                            iconContent = { icon ->
                                 IconCard(
-                                    name = lucideIcon.displayName,
-                                    selected = lucideIcon == selectedIcon,
+                                    name = icon.displayName,
+                                    selected = icon == selectedIcon,
                                     onClick = {
-                                        selectedIcon = lucideIcon
-                                        onSelectIcon(lucideIcon)
+                                        selectedIcon = icon
+                                        onSelectIcon(icon)
                                     },
                                     iconContent = {
                                         FontIcon(
                                             modifier = Modifier.size(iconSizeDp),
-                                            icon = Char(lucideIcon.codepoint),
+                                            icon = Char(icon.codepoint),
                                             contentDescription = null,
                                         )
                                     },
@@ -256,10 +265,11 @@ private fun IconsContent(
             isOpen = isSidePanelOpen,
             onClose = { isSidePanelOpen = false },
             content = {
-                LucideCustomization(
+                IconSizeCustomization(
                     settings = state.settings,
-                    onClose = { isSidePanelOpen = false },
                     onSettingsChange = onSettingsChange,
+                    onClose = { isSidePanelOpen = false },
+                    sizeLabel = "web.import.font.customize.size",
                 )
             },
         )
@@ -267,10 +277,10 @@ private fun IconsContent(
 }
 
 @Composable
-private fun LucideIconGrid(
+private fun StandardIconGrid(
     gridItems: List<GridItem>,
     lazyGridState: LazyGridState,
-    iconContent: @Composable (LucideIcon) -> Unit,
+    iconContent: @Composable (StandardIcon) -> Unit,
 ) {
     IconGrid(state = lazyGridState) {
         items(
@@ -285,15 +295,15 @@ private fun LucideIconGrid(
         ) { item: GridItem ->
             when (item) {
                 is CategoryHeader -> CategoryHeader(title = item.categoryName)
-                is IconItem<*> -> iconContent(item.icon as LucideIcon)
+                is IconItem<*> -> iconContent(item.icon as StandardIcon)
             }
         }
     }
 }
 
 @Composable
-private fun LucideIconStub(
-    icon: LucideIcon,
+private fun StandardIconStub(
+    icon: StandardIcon,
     shimmer: Shimmer,
 ) {
     IconCard(
@@ -308,10 +318,11 @@ private fun LucideIconStub(
 
 @OptIn(ExperimentalFontIconsApi::class)
 @Composable
-private fun rememberLucideFont(
+private fun rememberStandardFont(
     font: ByteArray,
+    alias: String,
 ): IconFont = rememberVariableIconFont(
-    alias = "lucide",
+    alias = alias,
     data = font,
     weights = arrayOf(FontWeight.W400),
 )
