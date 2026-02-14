@@ -125,7 +125,14 @@ object WoffToTtfConverter {
             val buffer = ByteArray(4096)
 
             while (!inflater.finished()) {
-                output.write(buffer, 0, inflater.inflate(buffer))
+                val bytesInflated = inflater.inflate(buffer)
+                if (bytesInflated == 0) {
+                    when {
+                        inflater.needsDictionary() -> error("Decompression requires preset dictionary (not supported)")
+                        inflater.needsInput() -> error("Truncated or corrupt WOFF table data")
+                    }
+                }
+                output.write(buffer, 0, bytesInflated)
             }
 
             return output.toByteArray().also {
