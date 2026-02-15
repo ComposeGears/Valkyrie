@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.1.0 - 2026-02-13
+
 ### Added
 
 - Add option to generate ImageVector paths using pathData strings
