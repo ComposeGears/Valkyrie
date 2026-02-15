@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion
+package io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.composegears.tiamat.compose.back
@@ -15,43 +16,38 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.jewel.BackAction
+import io.github.composegears.valkyrie.jewel.CopyAction
+import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.editor.IntellijEditorTextField
 import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
-import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
-import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorSource
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlAction
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlState
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.XmlContent
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
+import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import io.github.composegears.valkyrie.util.IR_STUB
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgSource
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlAction
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlParams
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlState
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.XmlContent
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
+val SvgXmlConversionScreen by navDestination<SvgXmlParams> {
     val navController = navController()
     val params = navArgs()
     val bannerManager = rememberBannerManager()
 
-    val project = LocalProject.current
-
     val viewModel = saveableViewModel {
-        ImageVectorToXmlViewModel(
-            project = project,
+        SvgXmlViewModel(
             savedState = it,
             params = params,
         )
@@ -59,8 +55,8 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
     val state by viewModel.state.collectAsState()
 
     when (val currentState = state) {
-        is ImageVectorToXmlState.Content -> {
-            ImageVectorToXmlContent(
+        is SvgXmlState.Content -> {
+            SvgXmlContent(
                 state = currentState,
                 onBack = navController::back,
                 openSettings = {
@@ -68,22 +64,19 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
                 },
                 onAction = { action ->
                     when (action) {
-                        is ImageVectorToXmlAction.OnCopyInClipboard -> {
+                        is SvgXmlAction.OnCopyInClipboard -> {
                             copyInClipboard(action.text)
                             bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
-                        }
-                        is ImageVectorToXmlAction.OnIconNameChange -> {
-                            viewModel.changeIconName(action.name)
                         }
                     }
                 },
             )
         }
-        is ImageVectorToXmlState.Error -> {
+        is SvgXmlState.Error -> {
             Column(modifier = Modifier.fillMaxSize()) {
                 Toolbar {
                     BackAction(onBack = navController::back)
-                    Title(text = stringResource("imagevectortoxml.conversion.title"))
+                    Title(text = stringResource("svg.to.xml.picker.title"))
                     WeightSpacer()
                     SettingsAction(
                         openSettings = {
@@ -100,7 +93,7 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
                 WeightSpacer(weight = 0.7f)
             }
         }
-        is ImageVectorToXmlState.Loading -> {
+        is SvgXmlState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -112,46 +105,39 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
 }
 
 @Composable
-private fun ImageVectorToXmlContent(
-    state: ImageVectorToXmlState.Content,
+private fun SvgXmlContent(
+    state: SvgXmlState.Content,
     onBack: () -> Unit,
     openSettings: () -> Unit,
-    onAction: (ImageVectorToXmlAction) -> Unit,
+    onAction: (SvgXmlAction) -> Unit,
 ) {
-    GenericConversionScreen(
-        title = stringResource("imagevectortoxml.conversion.title"),
-        iconName = state.xmlContent.name,
-        codeContent = state.xmlContent.xmlCode,
-        irImageVector = state.xmlContent.irImageVector,
-        language = SyntaxLanguage.XML,
-        onBack = onBack,
-        onIconNameChange = { onAction(ImageVectorToXmlAction.OnIconNameChange(it)) },
-        onCopyCode = { onAction(ImageVectorToXmlAction.OnCopyInClipboard(it)) },
-        onOpenSettings = openSettings,
-        editPanel = { name, onNameChange ->
-            EditActionContent(
-                iconName = name,
-                onNameChange = onNameChange,
-            )
-        },
-        previewPanel = { irImageVector ->
-            PreviewActionContent(
-                irImageVector = irImageVector,
-                previewType = PreviewType.Pixel,
-            )
-        },
-    )
+    var latestCode by rememberMutableState { state.xmlContent.xmlCode }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Toolbar {
+            BackAction(onBack = onBack)
+            Title(text = stringResource("svg.to.xml.picker.title"))
+            WeightSpacer()
+            CopyAction(onCopy = { onAction(SvgXmlAction.OnCopyInClipboard(latestCode)) })
+            SettingsAction(openSettings = openSettings)
+        }
+        HorizontalDivider()
+        IntellijEditorTextField(
+            modifier = Modifier.fillMaxSize(),
+            language = SyntaxLanguage.XML,
+            text = state.xmlContent.xmlCode,
+            onValueChange = { latestCode = it },
+        )
+    }
 }
 
 @Preview
 @Composable
-private fun ImageVectorToXmlContentPreview() = ProjectPreviewTheme {
-    ImageVectorToXmlContent(
-        state = ImageVectorToXmlState.Content(
-            iconSource = ImageVectorSource.TextBasedIcon(""),
+private fun SvgXmlContentPreview() = ProjectPreviewTheme {
+    SvgXmlContent(
+        state = SvgXmlState.Content(
+            svgSource = SvgSource.TextBasedIcon(""),
             xmlContent = XmlContent(
-                name = "IconName",
-                irImageVector = IR_STUB,
                 xmlCode = """
                     <vector xmlns:android="http://schemas.android.com/apk/res/android"
                         android:width="24dp"

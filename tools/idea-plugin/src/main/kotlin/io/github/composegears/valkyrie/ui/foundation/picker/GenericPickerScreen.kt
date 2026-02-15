@@ -2,10 +2,12 @@ package io.github.composegears.valkyrie.ui.foundation.picker
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
@@ -75,6 +77,7 @@ fun GenericPickerScreen(
         }
         WeightSpacer(weight = 0.3f)
         PickerBox(
+            modifier = Modifier.widthIn(max = 450.dp),
             description = description,
             onDragAndDrop = onFilePick,
             onBrowseClick = onBrowseClick,
@@ -129,7 +132,10 @@ private fun PickerBox(
                 )
             }
             if (description != null) {
-                InfoText(text = description)
+                InfoText(
+                    text = description,
+                    textAlign = TextAlign.Center,
+                )
                 Spacer(4.dp)
             }
             InfoText(
@@ -137,6 +143,7 @@ private fun PickerBox(
                     Os.MacOS -> stringResource("generic.picker.clipboard.mac")
                     else -> stringResource("generic.picker.clipboard.other")
                 },
+                textAlign = TextAlign.Center,
             )
         }
     }

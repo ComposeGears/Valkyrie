@@ -39,14 +39,14 @@ fun LinkIcon(
         items = {
             listOf(
                 ContextMenuItemOption(
-                    label = message("action.text.open.link.in.browser"),
+                    label = message("general.action.text.open.link.in.browser"),
                     action = {
                         openUri(uriHandler, url)
                     },
                     icon = AllIconsKeys.Nodes.PpWeb,
                 ),
                 ContextMenuItemOption(
-                    label = message("action.text.copy.link.address"),
+                    label = message("general.action.text.copy.link.address"),
                     action = {
                         scope.launch {
                             clipboard.setClipEntry(ClipEntry(StringSelection(url)))

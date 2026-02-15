@@ -41,6 +41,18 @@ fun rememberSvgXmlPathPicker(): Picker<Path?> {
     }
 }
 
+@Composable
+fun rememberSvgPathPicker(): Picker<Path?> {
+    val project = LocalProject.current
+
+    return remember {
+        FilePicker(
+            project = project,
+            filterCondition = { it.isSvg },
+        )
+    }
+}
+
 private class FilePicker(
     private val project: Project,
     filterCondition: Condition<VirtualFile> = Condition { true },

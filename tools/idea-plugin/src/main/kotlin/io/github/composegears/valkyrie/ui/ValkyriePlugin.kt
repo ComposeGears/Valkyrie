@@ -25,12 +25,8 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
-import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
-import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
-import io.github.composegears.valkyrie.shared.Mode.Unspecified
-import io.github.composegears.valkyrie.shared.Mode.WebImport
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen
@@ -45,6 +41,8 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleCo
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.SvgXmlConversionScreen
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.picker.SvgXmlPickerScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -106,6 +104,9 @@ fun ValkyriePlugin(
                 ImageVectorPickerScreen,
                 ImageVectorToXmlScreen,
 
+                SvgXmlPickerScreen,
+                SvgXmlConversionScreen,
+
                 CodePreviewScreen,
 
                 SettingsScreen,
@@ -130,8 +131,7 @@ private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     val screen = when (settings.mode) {
         Simple -> SimplePickerScreen
         IconPack -> IconPackConversionScreen
-        ImageVectorToXml -> ImageVectorPickerScreen
-        Unspecified, Editor, WebImport -> IntroScreen
+        else -> IntroScreen
     }
 
     if (getCurrentNavEntry()?.destination != screen) {

@@ -24,12 +24,9 @@ import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
-import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
-import io.github.composegears.valkyrie.shared.Mode.WebImport
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.GeneralSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
@@ -92,9 +89,7 @@ private fun GeneralSettingsUi(
                 val name = when (currentMode) {
                     Simple -> stringResource("settings.general.mode.simple")
                     IconPack -> stringResource("settings.general.mode.iconpack")
-                    Editor -> stringResource("settings.general.mode.editor")
-                    ImageVectorToXml -> stringResource("settings.general.mode.imagevector.xml")
-                    Unspecified, WebImport -> stringResource("settings.general.mode.unspecified")
+                    else -> stringResource("settings.general.mode.unspecified")
                 }
                 if (mode == Unspecified) {
                     InfoSettingsRow(

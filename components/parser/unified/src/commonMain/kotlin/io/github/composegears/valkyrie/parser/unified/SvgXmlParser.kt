@@ -19,4 +19,10 @@ expect object SvgXmlParser {
         value: String,
         iconName: String,
     ): IconParserOutput
+
+    @Throws(IllegalStateException::class)
+    fun svgToXml(parser: ParserType, path: Path): String
+
+    @Throws(IllegalStateException::class)
+    fun svgToXml(parser: ParserType, text: String): String
 }

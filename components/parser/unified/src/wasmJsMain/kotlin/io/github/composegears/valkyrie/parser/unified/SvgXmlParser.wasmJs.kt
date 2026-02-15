@@ -63,4 +63,12 @@ actual object SvgXmlParser {
             iconType = iconType,
         )
     }
+
+    actual fun svgToXml(parser: ParserType, path: Path): String {
+        error("not supported on WASM")
+    }
+
+    actual fun svgToXml(parser: ParserType, text: String): String {
+        error("not supported on WASM")
+    }
 }

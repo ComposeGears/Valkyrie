@@ -79,4 +79,32 @@ actual object SvgXmlParser {
             iconType = iconType,
         )
     }
+
+    actual fun svgToXml(parser: ParserType, path: Path): String {
+        val iconType = IconType.from(path) ?: error("$path must be an SVG")
+
+        return when (parser) {
+            ParserType.Jvm -> {
+                when (iconType) {
+                    SVG -> SvgToXmlParser.parse(path.toJvmPath())
+                    XML -> error("Unsupported icon type")
+                }
+            }
+            ParserType.Kmp -> error("Unsupported parser")
+        }
+    }
+
+    actual fun svgToXml(parser: ParserType, text: String): String {
+        val iconType = IconType.from(text) ?: error("Unsupported icon type")
+
+        return when (parser) {
+            ParserType.Jvm -> {
+                when (iconType) {
+                    SVG -> SvgToXmlParser.parse(text)
+                    XML -> error("Unsupported icon type")
+                }
+            }
+            ParserType.Kmp -> error("Unsupported parser")
+        }
+    }
 }

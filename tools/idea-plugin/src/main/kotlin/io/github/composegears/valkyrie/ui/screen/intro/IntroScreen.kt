@@ -30,11 +30,13 @@ import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Editor
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.FileImport
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtSvg
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtXml
+import io.github.composegears.valkyrie.sdk.compose.icons.outlined.SvgXml
 import io.github.composegears.valkyrie.shared.Mode
 import io.github.composegears.valkyrie.shared.Mode.Editor
 import io.github.composegears.valkyrie.shared.Mode.IconPack
 import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
 import io.github.composegears.valkyrie.shared.Mode.Simple
+import io.github.composegears.valkyrie.shared.Mode.SvgToXml
 import io.github.composegears.valkyrie.shared.Mode.Unspecified
 import io.github.composegears.valkyrie.shared.Mode.WebImport
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
@@ -43,6 +45,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScree
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.picker.SvgXmlPickerScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -66,6 +69,7 @@ val IntroScreen by navDestination {
                 Editor -> navController.navigate(dest = EditorSelectScreen)
                 WebImport -> navController.navigate(dest = WebImportFlow)
                 ImageVectorToXml -> navController.navigate(dest = ImageVectorPickerScreen)
+                SvgToXml -> navController.navigate(dest = SvgXmlPickerScreen)
                 Unspecified -> {}
             }
         },
@@ -122,6 +126,12 @@ private fun IntroScreenUI(
                             description = stringResource("intro.card.editor.description"),
                         )
                     }
+                    InfoCard(
+                        onClick = { onModeChange(SvgToXml) },
+                        icon = ValkyrieIcons.Outlined.SvgXml,
+                        title = stringResource("intro.card.svg.to.xml.title"),
+                        description = stringResource("intro.card.svg.to.xml.description"),
+                    )
                     InfoCard(
                         onClick = { onModeChange(ImageVectorToXml) },
                         icon = ValkyrieIcons.Outlined.KtXml,
