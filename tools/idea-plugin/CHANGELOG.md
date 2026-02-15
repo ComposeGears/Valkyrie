@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Add new tool to convert SVG into XML
+
 ## 1.1.0 - 2026-02-13
 
 ### Added

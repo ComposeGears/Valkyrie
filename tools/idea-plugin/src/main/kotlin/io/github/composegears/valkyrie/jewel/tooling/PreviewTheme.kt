@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 import io.github.composegears.valkyrie.jewel.colors.errorFocused
@@ -41,8 +42,10 @@ fun BannerPreviewTheme(
 fun ProjectPreviewTheme(
     modifier: Modifier = Modifier,
     alignment: Alignment = Alignment.TopStart,
-    content: @Composable BoxScope.() -> Unit,
+    content: @Composable BoxScope.(Project) -> Unit,
 ) {
+    GlobalPreviewState.isPreview = true
+
     val projectAccessor = rememberProjectAccessor()
     val project = projectAccessor.project ?: error("No project available in preview")
 
@@ -50,7 +53,7 @@ fun ProjectPreviewTheme(
         PreviewTheme(
             modifier = modifier,
             alignment = alignment,
-            content = content,
+            content = { content(project) },
         )
     }
 }

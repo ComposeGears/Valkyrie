@@ -10,8 +10,7 @@ import io.github.composegears.valkyrie.action.RefreshPluginAction
 import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
-import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
-import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.ui.ValkyriePlugin
 import io.github.composegears.valkyrie.ui.di.DI
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -49,13 +48,8 @@ private fun Valkyrie(project: Project) {
 
 @Preview
 @Composable
-private fun ValkyriePluginPreview() {
-    GlobalPreviewState.isPreview = true
+private fun ValkyriePluginPreview() = ProjectPreviewTheme {
+    DI.initWith(it)
 
-    val projectAccessor = rememberProjectAccessor()
-    val project = projectAccessor.project ?: error("No project available in preview")
-
-    DI.initWith(project)
-
-    Valkyrie(project)
+    Valkyrie(it)
 }

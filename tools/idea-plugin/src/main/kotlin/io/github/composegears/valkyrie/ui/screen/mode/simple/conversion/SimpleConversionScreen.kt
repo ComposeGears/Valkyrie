@@ -76,7 +76,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                     when (it) {
                         is OnCopyInClipboard -> {
                             copyInClipboard(it.text)
-                            bannerManager.show(message = SuccessBanner(text = message("simple.action.copy.text")))
+                            bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
                         }
                         is OnIconNameChange -> viewModel.changeIconName(it.name)
                     }

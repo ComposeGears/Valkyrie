@@ -9,6 +9,8 @@ public final class io/github/composegears/valkyrie/parser/unified/ParserType : j
 public final class io/github/composegears/valkyrie/parser/unified/SvgXmlParser {
 	public static final field INSTANCE Lio/github/composegears/valkyrie/parser/unified/SvgXmlParser;
 	public final fun getAvailableParsers ()Ljava/util/List;
+	public final fun svgToXml (Lio/github/composegears/valkyrie/parser/unified/ParserType;Ljava/lang/String;)Ljava/lang/String;
+	public final fun svgToXml (Lio/github/composegears/valkyrie/parser/unified/ParserType;Lkotlinx/io/files/Path;)Ljava/lang/String;
 	public final fun toIrImageVector (Lio/github/composegears/valkyrie/parser/unified/ParserType;Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
 	public final fun toIrImageVector (Lio/github/composegears/valkyrie/parser/unified/ParserType;Lkotlinx/io/files/Path;)Lio/github/composegears/valkyrie/parser/unified/model/IconParserOutput;
 }
