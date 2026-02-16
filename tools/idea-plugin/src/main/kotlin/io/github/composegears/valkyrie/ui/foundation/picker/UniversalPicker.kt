@@ -65,7 +65,6 @@ fun UniversalPicker(
 
     ClipboardEventColumn(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
         onPaste = { dataType ->
             when (dataType) {
                 is ClipboardDataType.Files -> onPickerEvent(PickFiles(paths = dataType.paths))

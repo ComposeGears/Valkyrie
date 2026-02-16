@@ -8,12 +8,19 @@ import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
-import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgSource
+import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlAction
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlEvent
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlEvent.CopyInClipboard
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlEvent.ExportXmlFile
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlParams
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.SvgXmlState
-import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.XmlContent
+import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.model.XmlCode
 import java.nio.file.Path
+import kotlin.io.path.nameWithoutExtension
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class SvgXmlViewModel(
@@ -27,6 +34,9 @@ class SvgXmlViewModel(
     )
     val state = stateRecord.asStateFlow()
 
+    private val _events = Channel<SvgXmlEvent>()
+    val events = _events.receiveAsFlow()
+
     init {
         when (params) {
             is SvgXmlParams.PathSource -> convertFromPath(params.path)
@@ -34,11 +44,37 @@ class SvgXmlViewModel(
         }
     }
 
+    fun onAction(event: SvgXmlAction) {
+        val state = stateRecord.value.safeAs<SvgXmlState.Content>() ?: return
+
+        viewModelScope.launch {
+            when (event) {
+                is SvgXmlAction.OnCopyInClipboard -> {
+                    _events.send(CopyInClipboard(text = state.xmlCode.value))
+                }
+                is SvgXmlAction.OnExportFile -> {
+                    _events.send(
+                        ExportXmlFile(
+                            fileName = "${state.fileName}.xml",
+                            content = state.xmlCode.value,
+                        ),
+                    )
+                }
+                is SvgXmlAction.OnNameChange -> {
+                    stateRecord.value = state.copy(fileName = event.name)
+                }
+                is SvgXmlAction.OnCodeChange -> {
+                    stateRecord.value = state.copy(xmlCode = XmlCode(value = event.newCode))
+                }
+            }
+        }
+    }
+
     private fun convertFromPath(path: Path) = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
             val xmlOutput = SvgXmlParser.svgToXml(parser = ParserType.Jvm, path.toIOPath())
 
-            XmlContent(xmlCode = xmlOutput)
+            XmlCode(value = xmlOutput)
         }.onFailure {
             stateRecord.value = SvgXmlState.Error(
                 message = "Failed to convert SVG to XML",
@@ -46,8 +82,8 @@ class SvgXmlViewModel(
             )
         }.onSuccess {
             stateRecord.value = SvgXmlState.Content(
-                svgSource = SvgSource.FileBasedIcon(path),
-                xmlContent = it,
+                fileName = path.nameWithoutExtension,
+                xmlCode = it,
             )
         }
     }
@@ -56,7 +92,7 @@ class SvgXmlViewModel(
         runCatching {
             val xmlOutput = SvgXmlParser.svgToXml(parser = ParserType.Jvm, text = svg)
 
-            XmlContent(xmlCode = xmlOutput)
+            XmlCode(value = xmlOutput)
         }.onFailure {
             stateRecord.value = SvgXmlState.Error(
                 message = "Failed to convert SVG to XML",
@@ -64,8 +100,8 @@ class SvgXmlViewModel(
             )
         }.onSuccess {
             stateRecord.value = SvgXmlState.Content(
-                svgSource = SvgSource.TextBasedIcon(svg),
-                xmlContent = it,
+                fileName = "ic_temp",
+                xmlCode = it,
             )
         }
     }

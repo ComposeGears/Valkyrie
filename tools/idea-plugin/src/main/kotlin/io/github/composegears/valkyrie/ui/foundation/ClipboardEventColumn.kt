@@ -26,12 +26,28 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import io.github.composegears.valkyrie.jewel.platform.ClipboardDataType
 import io.github.composegears.valkyrie.jewel.platform.pasteFromClipboard
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ClipboardEventColumn(
-    horizontalAlignment: Alignment.Horizontal,
     onPaste: (ClipboardDataType) -> Unit,
     modifier: Modifier = Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    FocusableColumn(
+        modifier = modifier
+            .onPasteEvent {
+                pasteFromClipboard()?.let(onPaste)
+            },
+        horizontalAlignment = horizontalAlignment,
+        content = content,
+    )
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun FocusableColumn(
+    modifier: Modifier = Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -40,16 +56,13 @@ fun ClipboardEventColumn(
         modifier = modifier
             .fillMaxSize()
             .focusRequester(focusRequester)
-            .focusProperties { onExit = { focusRequester } }
+            .focusProperties { onExit = { focusRequester.freeFocus() } }
             .focusable()
             .onPointerEvent(PointerEventType.Enter) {
                 focusRequester.requestFocus()
             }
             .onPointerEvent(PointerEventType.Exit) {
                 focusRequester.freeFocus()
-            }
-            .onPasteEvent {
-                pasteFromClipboard()?.let(onPaste)
             },
         content = content,
         horizontalAlignment = horizontalAlignment,

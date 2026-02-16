@@ -24,21 +24,6 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 
 @Composable
-fun BannerPreviewTheme(
-    modifier: Modifier = Modifier,
-    alignment: Alignment = Alignment.TopStart,
-    content: @Composable BoxScope.() -> Unit,
-) {
-    CompositionLocalProvider(LocalGlobalBannerState provides rememberBannerState()) {
-        PreviewTheme(
-            modifier = modifier,
-            alignment = alignment,
-            content = content,
-        )
-    }
-}
-
-@Composable
 fun ProjectPreviewTheme(
     modifier: Modifier = Modifier,
     alignment: Alignment = Alignment.TopStart,
@@ -49,7 +34,10 @@ fun ProjectPreviewTheme(
     val projectAccessor = rememberProjectAccessor()
     val project = projectAccessor.project ?: error("No project available in preview")
 
-    CompositionLocalProvider(LocalProject provides project) {
+    CompositionLocalProvider(
+        LocalProject provides project,
+        LocalGlobalBannerState provides rememberBannerState(),
+    ) {
         PreviewTheme(
             modifier = modifier,
             alignment = alignment,
