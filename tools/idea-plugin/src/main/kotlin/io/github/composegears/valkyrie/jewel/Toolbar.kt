@@ -89,6 +89,20 @@ fun CloseAction(
 }
 
 @Composable
+fun ExportAction(
+    modifier: Modifier = Modifier,
+    onExport: () -> Unit,
+) {
+    TooltipIconButton(
+        modifier = modifier,
+        key = AllIconsKeys.General.Export,
+        contentDescription = stringResource("accessibility.export"),
+        onClick = onExport,
+        tooltipText = stringResource("component.toolbar.export.tooltip"),
+    )
+}
+
+@Composable
 fun CopyAction(
     modifier: Modifier = Modifier,
     onCopy: () -> Unit,
@@ -299,6 +313,7 @@ private fun ToolbarPreview() = PreviewTheme {
             WeightSpacer()
             CloseAction {}
             CopyAction {}
+            ExportAction {}
             EditToggleAction(
                 selected = isEdit,
                 onEdit = { isEdit = it },

@@ -75,7 +75,6 @@ fun BatchProcessingStateUi(
 
     ClipboardEventColumn(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
         onPaste = { dataType ->
             when (dataType) {
                 is ClipboardDataType.Files -> onPasteEvent(PickFiles(paths = dataType.paths))

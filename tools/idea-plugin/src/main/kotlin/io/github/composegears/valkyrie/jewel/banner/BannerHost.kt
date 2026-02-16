@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
-import io.github.composegears.valkyrie.jewel.tooling.BannerPreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.tooling.randomLorem
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -90,7 +90,7 @@ internal fun BannerDuration.toMillis(): Long {
 
 @Preview
 @Composable
-private fun BannerPreview() = BannerPreviewTheme {
+private fun BannerPreview() = ProjectPreviewTheme {
     Column(
         modifier = Modifier.align(Alignment.Center),
         horizontalAlignment = Alignment.CenterHorizontally,
