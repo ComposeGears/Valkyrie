@@ -12,7 +12,7 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.CopyAction
 import io.github.composegears.valkyrie.jewel.EditToggleAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
-import io.github.composegears.valkyrie.jewel.PreviewToggleAction
+import io.github.composegears.valkyrie.jewel.PreviewIconToggleAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
@@ -80,7 +80,7 @@ fun GenericConversionScreen(
                 },
                 selected = expandedAction == ConversionExpandedAction.Edit,
             )
-            PreviewToggleAction(
+            PreviewIconToggleAction(
                 onPreview = { selected ->
                     expandedAction = if (selected) ConversionExpandedAction.Preview else ConversionExpandedAction.None
                 },

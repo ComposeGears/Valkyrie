@@ -9,6 +9,7 @@
 ### Changed
 
 - Rollback feature to use `Material` icon pack
+- Update toolbar icons for code and icon preview
 
 ## 1.1.0 - 2026-02-13
 

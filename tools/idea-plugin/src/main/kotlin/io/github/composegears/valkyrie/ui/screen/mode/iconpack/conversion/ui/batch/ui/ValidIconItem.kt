@@ -106,7 +106,7 @@ fun ValidIconItem(
                             selected = false,
                             enabled = icon.iconName.name.isNotEmpty(),
                             onClick = { onPreview(icon) },
-                            iconKey = AllIconsKeys.Actions.Preview,
+                            iconKey = AllIconsKeys.General.IndentDetected,
                             content = {
                                 Text(text = "Preview")
                             },

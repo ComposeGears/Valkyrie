@@ -238,13 +238,13 @@ fun FitContentAction(
 }
 
 @Composable
-fun PreviewAction(
+fun PreviewCodeAction(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
     TooltipIconButton(
         modifier = modifier,
-        key = AllIconsKeys.Actions.Preview,
+        key = AllIconsKeys.General.IndentDetected,
         contentDescription = stringResource("accessibility.preview"),
         onClick = onClick,
         tooltipText = stringResource("component.toolbar.preview.tooltip"),
@@ -268,14 +268,14 @@ fun EditToggleAction(
 }
 
 @Composable
-fun PreviewToggleAction(
+fun PreviewIconToggleAction(
     selected: Boolean,
     modifier: Modifier = Modifier,
     onPreview: (Boolean) -> Unit,
 ) {
     TooltipToggleButton(
         modifier = modifier,
-        key = AllIconsKeys.Actions.Preview,
+        key = AllIconsKeys.General.LayoutPreviewOnly,
         contentDescription = stringResource("accessibility.preview"),
         value = selected,
         onValueChange = onPreview,
@@ -314,11 +314,12 @@ private fun ToolbarPreview() = PreviewTheme {
             CloseAction {}
             CopyAction {}
             ExportAction {}
+            PreviewCodeAction {}
             EditToggleAction(
                 selected = isEdit,
                 onEdit = { isEdit = it },
             )
-            PreviewToggleAction(
+            PreviewIconToggleAction(
                 selected = isPreview,
                 onPreview = { isPreview = it },
             )
