@@ -20,13 +20,14 @@ import com.composegears.tiamat.navigation.Route
 import io.github.composegears.valkyrie.jewel.banner.BannerHost
 import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.IconPack
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.Simple
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.Unspecified
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.Companion.globalEventsHandler
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.ImportIcons
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
-import io.github.composegears.valkyrie.shared.ValkyrieMode.IconPack
-import io.github.composegears.valkyrie.shared.ValkyrieMode.Simple
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen
@@ -131,7 +132,7 @@ private fun NavController.initialFlow(inMemorySettings: InMemorySettings) {
     val screen = when (settings.mode) {
         Simple -> SimplePickerScreen
         IconPack -> IconPackConversionScreen
-        else -> IntroScreen
+        Unspecified -> IntroScreen
     }
 
     if (getCurrentNavEntry()?.destination != screen) {

@@ -7,8 +7,8 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.service.PersistentSettings.ValkyrieState
-import io.github.composegears.valkyrie.shared.ValkyrieMode
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 
 @State(name = "Valkyrie.Settings", storages = [Storage("valkyrie_settings.xml")])

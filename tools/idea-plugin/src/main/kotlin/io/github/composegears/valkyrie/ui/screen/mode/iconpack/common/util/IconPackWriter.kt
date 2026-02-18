@@ -5,9 +5,9 @@ import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.updateNestedPack
-import io.github.composegears.valkyrie.shared.ValkyrieMode
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
 
 object IconPackWriter {

@@ -24,9 +24,9 @@ import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.shared.ValkyrieMode.IconPack
-import io.github.composegears.valkyrie.shared.ValkyrieMode.Simple
-import io.github.composegears.valkyrie.shared.ValkyrieMode.Unspecified
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.IconPack
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.Simple
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.Unspecified
 import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.settings.GeneralSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
