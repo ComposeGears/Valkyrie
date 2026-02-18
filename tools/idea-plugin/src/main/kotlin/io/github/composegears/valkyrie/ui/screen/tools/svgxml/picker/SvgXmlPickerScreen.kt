@@ -11,7 +11,6 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberSvgPathPicker
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
-import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.SvgXmlConversionScreen
@@ -72,7 +71,5 @@ val SvgXmlPickerScreen by navDestination {
 @Preview
 @Composable
 private fun SvgVectorPickerScreenPreview() = ProjectPreviewTheme {
-    DI.initWith(it)
-
     TiamatPreview(SvgXmlPickerScreen)
 }
