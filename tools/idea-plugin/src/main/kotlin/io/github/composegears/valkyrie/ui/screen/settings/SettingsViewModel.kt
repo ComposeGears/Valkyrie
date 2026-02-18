@@ -5,8 +5,8 @@ import com.composegears.leviathan.compose.inject
 import com.intellij.collaboration.async.mapState
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.settings.updateOutputFormat
-import io.github.composegears.valkyrie.shared.Mode
-import io.github.composegears.valkyrie.shared.Mode.Unspecified
+import io.github.composegears.valkyrie.shared.ValkyrieMode
+import io.github.composegears.valkyrie.shared.ValkyrieMode.Unspecified
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
@@ -90,7 +90,7 @@ data class GeneratorSettings(
 )
 
 data class GeneralSettings(
-    val mode: Mode,
+    val mode: ValkyrieMode,
     val packageName: String,
     val iconPackDestination: String,
 )

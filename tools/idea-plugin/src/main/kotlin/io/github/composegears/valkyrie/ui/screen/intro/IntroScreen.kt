@@ -31,14 +31,8 @@ import io.github.composegears.valkyrie.sdk.compose.icons.outlined.FileImport
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtSvg
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtXml
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.SvgXml
-import io.github.composegears.valkyrie.shared.Mode
-import io.github.composegears.valkyrie.shared.Mode.Editor
-import io.github.composegears.valkyrie.shared.Mode.IconPack
-import io.github.composegears.valkyrie.shared.Mode.ImageVectorToXml
-import io.github.composegears.valkyrie.shared.Mode.Simple
-import io.github.composegears.valkyrie.shared.Mode.SvgToXml
-import io.github.composegears.valkyrie.shared.Mode.Unspecified
-import io.github.composegears.valkyrie.shared.Mode.WebImport
+import io.github.composegears.valkyrie.shared.ValkyrieMode
+import io.github.composegears.valkyrie.shared.ValkyrieTool
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
@@ -62,15 +56,19 @@ val IntroScreen by navDestination {
         openSettings = {
             navController.navigate(dest = SettingsScreen)
         },
-        onModeChange = {
+        onModeSelect = {
             when (it) {
-                Simple -> navController.navigate(dest = SimplePickerScreen)
-                IconPack -> navController.navigate(dest = IconPackModeScreen)
-                Editor -> navController.navigate(dest = EditorSelectScreen)
-                WebImport -> navController.navigate(dest = WebImportFlow)
-                ImageVectorToXml -> navController.navigate(dest = ImageVectorPickerScreen)
-                SvgToXml -> navController.navigate(dest = SvgXmlPickerScreen)
-                Unspecified -> {}
+                ValkyrieMode.Simple -> navController.navigate(dest = SimplePickerScreen)
+                ValkyrieMode.IconPack -> navController.navigate(dest = IconPackModeScreen)
+                ValkyrieMode.Unspecified -> {}
+            }
+        },
+        onToolSelect = {
+            when (it) {
+                ValkyrieTool.Editor -> navController.navigate(dest = EditorSelectScreen)
+                ValkyrieTool.WebImport -> navController.navigate(dest = WebImportFlow)
+                ValkyrieTool.ImageVectorToXml -> navController.navigate(dest = ImageVectorPickerScreen)
+                ValkyrieTool.SvgToXml -> navController.navigate(dest = SvgXmlPickerScreen)
             }
         },
     )
@@ -79,7 +77,8 @@ val IntroScreen by navDestination {
 @Composable
 private fun IntroScreenUI(
     openSettings: () -> Unit,
-    onModeChange: (Mode) -> Unit,
+    onModeSelect: (ValkyrieMode) -> Unit,
+    onToolSelect: (ValkyrieTool) -> Unit = { },
 ) {
     Column {
         Toolbar {
@@ -100,13 +99,13 @@ private fun IntroScreenUI(
                         color = JewelTheme.globalColors.text.info,
                     )
                     InfoCard(
-                        onClick = { onModeChange(Simple) },
+                        onClick = { onModeSelect(ValkyrieMode.Simple) },
                         icon = ValkyrieIcons.Outlined.Conversion,
                         title = stringResource("intro.card.simple.title"),
                         description = stringResource("intro.card.simple.description"),
                     )
                     InfoCard(
-                        onClick = { onModeChange(IconPack) },
+                        onClick = { onModeSelect(ValkyrieMode.IconPack) },
                         icon = ValkyrieIcons.Outlined.BatchProcessing,
                         title = stringResource("intro.card.iconpack.title"),
                         description = stringResource("intro.card.iconpack.description"),
@@ -120,20 +119,20 @@ private fun IntroScreenUI(
                     )
                     if (ICON_EDITOR_FEATURE_ENABLED) {
                         InfoCard(
-                            onClick = { onModeChange(Editor) },
+                            onClick = { onToolSelect(ValkyrieTool.Editor) },
                             icon = ValkyrieIcons.Outlined.Editor,
                             title = stringResource("intro.card.editor.title"),
                             description = stringResource("intro.card.editor.description"),
                         )
                     }
                     InfoCard(
-                        onClick = { onModeChange(SvgToXml) },
+                        onClick = { onToolSelect(ValkyrieTool.SvgToXml) },
                         icon = ValkyrieIcons.Outlined.SvgXml,
                         title = stringResource("intro.card.svg.to.xml.title"),
                         description = stringResource("intro.card.svg.to.xml.description"),
                     )
                     InfoCard(
-                        onClick = { onModeChange(ImageVectorToXml) },
+                        onClick = { onToolSelect(ValkyrieTool.ImageVectorToXml) },
                         icon = ValkyrieIcons.Outlined.KtXml,
                         title = stringResource("intro.card.imagevectortoxml.title"),
                         description = stringResource("intro.card.imagevectortoxml.description"),
@@ -147,7 +146,7 @@ private fun IntroScreenUI(
                         )
                     }
                     InfoCard(
-                        onClick = { onModeChange(WebImport) },
+                        onClick = { onToolSelect(ValkyrieTool.WebImport) },
                         icon = ValkyrieIcons.Outlined.FileImport,
                         title = stringResource("intro.card.webimport.title"),
                         description = stringResource("intro.card.webimport.description"),
@@ -170,6 +169,6 @@ private fun IntroScreenUI(
 private fun IntroScreenUIPreview() = PreviewTheme {
     IntroScreenUI(
         openSettings = {},
-        onModeChange = {},
+        onModeSelect = {},
     )
 }

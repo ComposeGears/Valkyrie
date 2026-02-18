@@ -1,13 +1,8 @@
 package io.github.composegears.valkyrie.shared
 
-enum class Mode {
-    Simple,
-    IconPack,
-
-    // other tools
+enum class ValkyrieTool {
     Editor,
     WebImport,
     SvgToXml,
     ImageVectorToXml,
-    Unspecified,
 }

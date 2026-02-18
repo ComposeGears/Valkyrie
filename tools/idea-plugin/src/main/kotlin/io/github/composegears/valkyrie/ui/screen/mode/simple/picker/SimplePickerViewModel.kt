@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.simple.picker
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
-import io.github.composegears.valkyrie.shared.Mode
+import io.github.composegears.valkyrie.shared.ValkyrieMode
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.PathSource
@@ -45,7 +45,7 @@ class SimplePickerViewModel : ViewModel() {
 
     private fun updateCurrentMode() {
         inMemorySettings.update {
-            mode = Mode.Simple
+            mode = ValkyrieMode.Simple
         }
     }
 }
