@@ -1,21 +1,26 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.viewmodel
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack
 
+import io.github.composegears.valkyrie.parser.unified.util.PackageExtractor
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.inputhandler.BasicInputHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 
-class ExistingPackInputHandler : BasicInputHandler(initialState = existingPackInputFieldState) {
+class NewPackInputHandler(
+    settings: ValkyriesSettings,
+) : BasicInputHandler(initialState = settings.newPackInputState) {
 
     override fun provideInputFieldState(
         settings: ValkyriesSettings,
-    ): InputFieldState = existingPackInputFieldState
+    ): InputFieldState = settings.newPackInputState
 
     companion object {
-        private val existingPackInputFieldState: InputFieldState
+        private val ValkyriesSettings.newPackInputState: InputFieldState
             get() = InputFieldState(
                 iconPackName = InputState(),
-                packageName = InputState(),
+                packageName = InputState(
+                    text = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
+                ),
                 nestedPacks = emptyList(),
             )
     }

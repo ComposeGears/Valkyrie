@@ -29,18 +29,16 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableSta
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction.PreviewPackObject
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackEvent
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackModeState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackModeState.ChooserState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackModeState.ExistingPackEditState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.ChooseExistingPackFile
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.ExistingPackEditor
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.PreviewPackObject
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackEvent
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ChooserState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ExistingPackEditState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.viewmodel.ExistingPackViewModel
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.util.stringResource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -51,7 +49,7 @@ val ExistingPackScreen by navDestination<PendingPathData> {
     val pendingData = navArgsOrNull()
 
     val viewModel = viewModel<ExistingPackViewModel>()
-    val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.events
@@ -95,7 +93,7 @@ private fun ExistingPackUi(
             Title(stringResource("iconpack.existing.pack.title"))
             WeightSpacer()
             WeightSpacer()
-            if (state is ExistingPackEditState && state.nextAvailable) {
+            if (state is ExistingPackEditState && state.inputFieldState.isValid) {
                 PreviewCodeAction(onClick = { onAction(PreviewPackObject) })
             }
         }

@@ -5,6 +5,7 @@
 ### Added
 
 - Add new tool to convert SVG into XML
+- Add separate "Material pack" option
 
 ### Changed
 

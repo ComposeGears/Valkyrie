@@ -22,6 +22,7 @@ import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ExistingPackScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.MaterialPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.NewPackScreen
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,7 +40,9 @@ val IconPackModeScreen by navDestination {
         onExistingPack = {
             navController.navigate(ExistingPackScreen)
         },
-        onMaterialPack = {}
+        onMaterialPack = {
+            navController.navigate(MaterialPackScreen)
+        },
     )
 }
 

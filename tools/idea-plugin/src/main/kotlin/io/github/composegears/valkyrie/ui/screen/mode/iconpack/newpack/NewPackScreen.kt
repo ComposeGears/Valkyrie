@@ -27,25 +27,26 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackDirectoryPicker
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.DirectoryState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.ChoosePackDirectory
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackAction.AddNestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackAction.PreviewPackObject
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackAction.RemoveNestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackAction.SaveDestination
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackAction.SelectDestinationFolder
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackEvent
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackModeState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackModeState.ChooseDestinationDirectoryState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.NewPackModeState.PickedState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.NewIconPackCreation
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.AddNestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.PreviewPackObject
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.RemoveNestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseDestinationDirectoryState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.PickedState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.viewmodel.NewPackViewModel
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.random.Random
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -56,7 +57,7 @@ val NewPackScreen by navDestination<PendingPathData> {
     val pendingData = navArgsOrNull()
 
     val viewModel = viewModel<NewPackViewModel>()
-    val state by viewModel.state.collectAsState(Dispatchers.Main.immediate)
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.events
@@ -99,7 +100,7 @@ private fun NewPackContent(
             BackAction(onBack = onBack)
             Title(stringResource("iconpack.newpack.title"))
             WeightSpacer()
-            if (state is PickedState && state.nextAvailable) {
+            if (state is PickedState && state.inputFieldState.isValid) {
                 PreviewCodeAction(onClick = { onAction(PreviewPackObject) })
             }
         }
@@ -111,9 +112,10 @@ private fun NewPackContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 when (state) {
-                    is ChooseDestinationDirectoryState -> ChoosePackDirectory(
-                        state = state,
-                        onAction = onAction,
+                    is ChooseDestinationDirectoryState -> IconPackDirectoryPicker(
+                        state = state.directoryState,
+                        onSelectPath = { onAction(SelectDestinationFolder(it)) },
+                        onNext = { onAction(SaveDestination) },
                     )
                     is PickedState -> NewIconPackCreation(
                         state = state,
@@ -131,9 +133,11 @@ private fun NewPackContent(
 private fun NewPackFlowPreview() = PreviewTheme {
     var state by rememberMutableState<NewPackModeState> {
         ChooseDestinationDirectoryState(
-            iconPackDestination = "path/to/import",
-            predictedPackage = "com.example.iconpack",
-            nextAvailable = true,
+            directoryState = DirectoryState(
+                iconPackDestination = "path/to/import",
+                predictedPackage = "com.example.iconpack",
+                nextAvailable = true,
+            ),
         )
     }
 
@@ -149,10 +153,8 @@ private fun NewPackFlowPreview() = PreviewTheme {
                     val newPack = NestedPack(id = Random.nextLong().toString(), inputFieldState = InputState())
 
                     state = picked.copy(
-                        packEditState = picked.packEditState.copy(
-                            inputFieldState = picked.packEditState.inputFieldState.copy(
-                                nestedPacks = picked.packEditState.inputFieldState.nestedPacks + newPack,
-                            ),
+                        inputFieldState = picked.inputFieldState.copy(
+                            nestedPacks = picked.inputFieldState.nestedPacks + newPack,
                         ),
                     )
                 }
@@ -160,11 +162,8 @@ private fun NewPackFlowPreview() = PreviewTheme {
                     val picked = state as? PickedState ?: return@NewPackContent
 
                     state = picked.copy(
-                        packEditState = picked.packEditState.copy(
-                            inputFieldState = picked.packEditState.inputFieldState.copy(
-                                nestedPacks = picked.packEditState.inputFieldState.nestedPacks
-                                    .filterNot { it.id == action.nestedPack.id },
-                            ),
+                        inputFieldState = picked.inputFieldState.copy(
+                            nestedPacks = picked.inputFieldState.nestedPacks.filterNot { it.id == action.nestedPack.id },
                         ),
                     )
                 }
@@ -178,9 +177,11 @@ private fun NewPackFlowPreview() = PreviewTheme {
             .align(Alignment.BottomCenter),
         onBack = {
             state = ChooseDestinationDirectoryState(
-                iconPackDestination = "path/to/import",
-                predictedPackage = "com.example.iconpack",
-                nextAvailable = true,
+                directoryState = DirectoryState(
+                    iconPackDestination = "path/to/import",
+                    predictedPackage = "com.example.iconpack",
+                    nextAvailable = true,
+                ),
             )
         },
         onForward = {

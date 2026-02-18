@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model
 
 sealed interface ExistingPackEvent {
     data class PreviewIconPackObject(val code: String) : ExistingPackEvent

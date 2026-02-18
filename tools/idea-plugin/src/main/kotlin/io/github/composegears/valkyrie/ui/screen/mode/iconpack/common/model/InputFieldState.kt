@@ -1,19 +1,11 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model
 
-data class PackEditState(
-    val inputFieldState: InputFieldState = InputFieldState(
-        iconPackName = InputState(),
-        packageName = InputState(),
-        nestedPacks = emptyList(),
-    ),
-)
-
 data class InputFieldState(
     val iconPackName: InputState,
     val packageName: InputState,
     val nestedPacks: List<NestedPack>,
     val iconPackPackage: InputState = packageName,
-    val allowAddNestedPack: Boolean = true,
+    val allowEditing: Boolean = true,
 ) {
     val isValid: Boolean = iconPackName.isValid() &&
         packageName.isValid() &&

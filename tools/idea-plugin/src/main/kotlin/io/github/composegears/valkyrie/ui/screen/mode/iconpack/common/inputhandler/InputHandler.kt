@@ -28,11 +28,10 @@ abstract class BasicInputHandler(initialState: InputFieldState) : InputHandler {
     override fun addNestedPack() {
         _state.updateState {
             copy(
-                nestedPacks = nestedPacks +
-                    NestedPack(
-                        id = nestedPacks.size.toString(),
-                        inputFieldState = InputState(),
-                    ),
+                nestedPacks = nestedPacks + NestedPack(
+                    id = nestedPacks.size.toString(),
+                    inputFieldState = InputState(),
+                ),
             )
         }
     }

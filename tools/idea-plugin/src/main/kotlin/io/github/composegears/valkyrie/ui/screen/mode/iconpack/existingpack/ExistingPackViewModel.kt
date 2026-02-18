@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.viewmodel
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,28 +16,23 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.Inpu
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.PackEditState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.util.IconPackWriter
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.AddNestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.PreviewPackObject
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.RemoveNestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.SavePack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.SelectKotlinFile
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackEvent
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackEvent.OnSettingsUpdated
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackEvent.PreviewIconPackObject
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ChooserState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ExistingPackEditState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackEvent
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackModeState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackModeState.ExistingPackEditState
 import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExistingPackViewModel : ViewModel() {
 
@@ -48,38 +43,35 @@ class ExistingPackViewModel : ViewModel() {
     private val currentState: ExistingPackModeState
         get() = state.value
 
-    private val _state = MutableStateFlow<ExistingPackModeState>(ChooserState)
+    private val _state = MutableStateFlow<ExistingPackModeState>(ExistingPackModeState.ChooserState)
     val state = _state.asStateFlow()
 
     private val _events = MutableSharedFlow<ExistingPackEvent>()
     val events = _events.asSharedFlow()
 
     init {
-        viewModelScope.launch {
-            inputHandler.state.collect { inputFieldState ->
+        inputHandler.state
+            .onEach { inputFieldState ->
                 _state.updateState {
                     if (this is ExistingPackEditState) {
-                        copy(
-                            packEditState = packEditState.copy(inputFieldState = inputFieldState),
-                            nextAvailable = inputFieldState.isValid,
-                        )
+                        copy(inputFieldState = inputFieldState)
                     } else {
                         this
                     }
                 }
             }
-        }
+            .launchIn(viewModelScope)
     }
 
     fun onValueChange(inputChange: InputChange) = inputHandler.handleInput(inputChange)
 
     fun onAction(existingPackAction: ExistingPackAction) {
         when (existingPackAction) {
-            is SelectKotlinFile -> onChooseFile(existingPackAction.path, existingPackAction.project)
-            is AddNestedPack -> inputHandler.addNestedPack()
-            is RemoveNestedPack -> inputHandler.removeNestedPack(existingPackAction.nestedPack)
-            is PreviewPackObject -> previewIconPackObject()
-            is SavePack -> saveIconPack()
+            is ExistingPackAction.SelectKotlinFile -> onChooseFile(existingPackAction.path, existingPackAction.project)
+            is ExistingPackAction.AddNestedPack -> inputHandler.addNestedPack()
+            is ExistingPackAction.RemoveNestedPack -> inputHandler.removeNestedPack(existingPackAction.nestedPack)
+            is ExistingPackAction.PreviewPackObject -> previewIconPackObject()
+            is ExistingPackAction.SavePack -> saveIconPack()
         }
     }
 
@@ -92,15 +84,14 @@ class ExistingPackViewModel : ViewModel() {
 
         _state.updateState {
             ExistingPackEditState(
-                packEditState = PackEditState(inputFieldState = inputFieldState),
+                inputFieldState = inputFieldState,
                 importDirectory = path.parent.absolutePathString(),
             )
         }
     }
 
     private fun previewIconPackObject() = viewModelScope.launch {
-        val editState = currentState.safeAs<ExistingPackEditState>()?.packEditState ?: return@launch
-        val inputFieldState = editState.inputFieldState
+        val inputFieldState = currentState.safeAs<ExistingPackEditState>()?.inputFieldState ?: return@launch
 
         val iconPackCode = IconPackGenerator.create(
             config = IconPackGeneratorConfig(
@@ -114,22 +105,25 @@ class ExistingPackViewModel : ViewModel() {
             ),
         ).content
 
-        _events.emit(PreviewIconPackObject(code = iconPackCode))
+        _events.emit(ExistingPackEvent.PreviewIconPackObject(code = iconPackCode))
     }
 
     private fun saveIconPack() {
         val editState = currentState.safeAs<ExistingPackEditState>() ?: return
-        val inputFieldState = editState.packEditState.inputFieldState
+        val inputFieldState = editState.inputFieldState
 
         viewModelScope.launch {
             inMemorySettings.update {
                 iconPackDestination = editState.importDirectory
+                flatPackage = false
             }
-            IconPackWriter.savePack(
-                inMemorySettings = inMemorySettings,
-                inputFieldState = inputFieldState,
-            )
-            _events.emit(OnSettingsUpdated)
+            withContext(Dispatchers.IO) {
+                IconPackWriter.savePack(
+                    inMemorySettings = inMemorySettings,
+                    inputFieldState = inputFieldState,
+                )
+            }
+            _events.emit(ExistingPackEvent.OnSettingsUpdated)
         }
     }
 
