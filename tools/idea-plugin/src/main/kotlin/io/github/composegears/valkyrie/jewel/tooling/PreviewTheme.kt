@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -17,6 +18,7 @@ import io.github.composegears.valkyrie.jewel.colors.errorFocused
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
 import io.github.composegears.valkyrie.sdk.compose.foundation.dim
+import io.github.composegears.valkyrie.ui.di.DI
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
@@ -29,10 +31,13 @@ fun ProjectPreviewTheme(
     alignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.(Project) -> Unit,
 ) {
-    GlobalPreviewState.isPreview = true
-
     val projectAccessor = rememberProjectAccessor()
     val project = projectAccessor.project ?: error("No project available in preview")
+
+    LaunchedEffect(Unit) {
+        GlobalPreviewState.isPreview = true
+        DI.initWith(project)
+    }
 
     CompositionLocalProvider(
         LocalProject provides project,

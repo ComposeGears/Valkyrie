@@ -49,7 +49,5 @@ private fun Valkyrie(project: Project) {
 @Preview
 @Composable
 private fun ValkyriePluginPreview() = ProjectPreviewTheme {
-    DI.initWith(it)
-
     Valkyrie(it)
 }
