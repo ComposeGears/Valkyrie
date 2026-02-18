@@ -30,6 +30,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
     class ValkyrieState : BaseState() {
         var mode: Mode by enum(Mode.Unspecified)
         var previewType by enum(PreviewType.Pixel)
+        var useMaterialPack: Boolean by property(false)
 
         var packageName: String? by string()
         var iconPackPackage: String? by string()

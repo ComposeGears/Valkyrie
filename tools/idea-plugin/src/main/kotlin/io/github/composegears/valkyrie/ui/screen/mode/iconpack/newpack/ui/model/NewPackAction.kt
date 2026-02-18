@@ -12,4 +12,6 @@ sealed interface NewPackAction {
 
     data object PreviewPackObject : NewPackAction
     data object SavePack : NewPackAction
+
+    data class UseMaterialPack(val value: Boolean) : NewPackAction
 }

@@ -39,6 +39,7 @@ class InMemorySettings(project: Project) {
     fun clear() = update {
         mode = Mode.Unspecified
         previewType = PreviewType.Pixel
+        useMaterialPack = false
         packageName = ""
         iconPackPackage = ""
         iconPackName = ""
@@ -64,6 +65,7 @@ class InMemorySettings(project: Project) {
         return ValkyriesSettings(
             mode = mode,
             previewType = previewType,
+            useMaterialPack = useMaterialPack,
             packageName = packageName.or("io.github.composegears.valkyrie"),
             iconPackName = iconPackName.or("ValkyrieIcons"),
             iconPackPackage = iconPackPackage.or(packageName.or("io.github.composegears.valkyrie")),
@@ -88,6 +90,7 @@ class InMemorySettings(project: Project) {
 data class ValkyriesSettings(
     val mode: Mode,
     val previewType: PreviewType,
+    val useMaterialPack: Boolean,
 
     val packageName: String,
     val iconPackName: String,

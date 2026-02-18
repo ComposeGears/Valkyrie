@@ -21,6 +21,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SaveDestination
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SavePack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SelectDestinationFolder
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.UseMaterialPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent.OnSettingsUpdated
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackEvent.PreviewIconPackObject
@@ -86,6 +87,20 @@ class NewPackViewModel : ViewModel() {
             is RemoveNestedPack -> inputHandler.removeNestedPack(action.nestedPack)
             is PreviewPackObject -> previewIconPackObject()
             is SavePack -> saveIconPack()
+            is UseMaterialPack -> {
+                inMemorySettings.update {
+                    useMaterialPack = action.value
+                    flatPackage = action.value
+                }
+
+                _state.updateState {
+                    if (this is PickedState) {
+                        copy(useMaterialPack = action.value)
+                    } else {
+                        this
+                    }
+                }
+            }
         }
     }
 
@@ -111,7 +126,12 @@ class NewPackViewModel : ViewModel() {
 
     private fun initDefaultPack() {
         _state.updateState {
-            PickedState(packEditState = PackEditState(inputFieldState = inputHandler.state.value))
+            PickedState(
+                packEditState = PackEditState(
+                    inputFieldState = inputHandler.state.value,
+                ),
+                useMaterialPack = inMemorySettings.current.useMaterialPack,
+            )
         }
     }
 
@@ -138,6 +158,7 @@ class NewPackViewModel : ViewModel() {
 
         viewModelScope.launch {
             IconPackWriter.savePack(
+                writeToFile = !pickedState.useMaterialPack,
                 inMemorySettings = inMemorySettings,
                 inputFieldState = pickedState.packEditState.inputFieldState,
             )
