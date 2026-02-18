@@ -8,7 +8,7 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
 import io.github.composegears.valkyrie.service.PersistentSettings.ValkyrieState
-import io.github.composegears.valkyrie.shared.Mode
+import io.github.composegears.valkyrie.shared.ValkyrieMode
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 
 @State(name = "Valkyrie.Settings", storages = [Storage("valkyrie_settings.xml")])
@@ -28,7 +28,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
     }
 
     class ValkyrieState : BaseState() {
-        var mode: Mode by enum(Mode.Unspecified)
+        var mode: ValkyrieMode by enum(ValkyrieMode.Unspecified)
         var previewType by enum(PreviewType.Pixel)
         var useMaterialPack: Boolean by property(false)
 

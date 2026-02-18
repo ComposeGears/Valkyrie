@@ -25,8 +25,8 @@ import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.RefreshPlugin
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PluginEvents.SetupIconPackMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
-import io.github.composegears.valkyrie.shared.Mode.IconPack
-import io.github.composegears.valkyrie.shared.Mode.Simple
+import io.github.composegears.valkyrie.shared.ValkyrieMode.IconPack
+import io.github.composegears.valkyrie.shared.ValkyrieMode.Simple
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.editor.edit.EditScreen

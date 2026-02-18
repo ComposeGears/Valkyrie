@@ -24,7 +24,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Conversion
-import io.github.composegears.valkyrie.shared.Mode
+import io.github.composegears.valkyrie.shared.ValkyrieMode
 import io.github.composegears.valkyrie.ui.InfoCard
 import org.jetbrains.compose.resources.stringResource
 import valkyrie.tools.compose_app.generated.resources.Res
@@ -39,7 +39,7 @@ val IntroScreen by navDestination {
     IntroUI(
         onModeChange = {
             when (it) {
-                Mode.Simple -> navController.navigate(SimpleConversionScreen)
+                ValkyrieMode.Simple -> navController.navigate(SimpleConversionScreen)
                 else -> {}
             }
         },
@@ -47,7 +47,7 @@ val IntroScreen by navDestination {
 }
 
 @Composable
-private fun IntroUI(onModeChange: (Mode) -> Unit) {
+private fun IntroUI(onModeChange: (ValkyrieMode) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -72,7 +72,7 @@ private fun IntroUI(onModeChange: (Mode) -> Unit) {
         Spacer(8.dp)
         InfoCard(
             modifier = Modifier.padding(horizontal = 16.dp),
-            onClick = { onModeChange(Mode.Simple) },
+            onClick = { onModeChange(ValkyrieMode.Simple) },
             icon = ValkyrieIcons.Outlined.Conversion,
             title = stringResource(Res.string.intro_card_simple_title),
             description = stringResource(Res.string.intro_card_simple_description),

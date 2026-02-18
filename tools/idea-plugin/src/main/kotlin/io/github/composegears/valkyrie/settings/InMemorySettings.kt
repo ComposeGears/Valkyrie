@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.service.PersistentSettings
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
-import io.github.composegears.valkyrie.shared.Mode
+import io.github.composegears.valkyrie.shared.ValkyrieMode
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
@@ -37,7 +37,7 @@ class InMemorySettings(project: Project) {
     }
 
     fun clear() = update {
-        mode = Mode.Unspecified
+        mode = ValkyrieMode.Unspecified
         previewType = PreviewType.Pixel
         useMaterialPack = false
         packageName = ""
@@ -88,7 +88,7 @@ class InMemorySettings(project: Project) {
 }
 
 data class ValkyriesSettings(
-    val mode: Mode,
+    val mode: ValkyrieMode,
     val previewType: PreviewType,
     val useMaterialPack: Boolean,
 
