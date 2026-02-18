@@ -98,6 +98,7 @@ private fun IntroScreenUI(
                     Text(
                         text = stringResource("intro.modes.header"),
                         color = JewelTheme.globalColors.text.info,
+                        maxLines = 1,
                     )
                     InfoCard(
                         onClick = { onModeChange(Simple) },
@@ -117,6 +118,7 @@ private fun IntroScreenUI(
                     Text(
                         text = stringResource("intro.tools.header"),
                         color = JewelTheme.globalColors.text.info,
+                        maxLines = 1,
                     )
                     if (ICON_EDITOR_FEATURE_ENABLED) {
                         InfoCard(
@@ -160,6 +162,7 @@ private fun IntroScreenUI(
                     .padding(end = 16.dp, bottom = 8.dp),
                 style = JewelTheme.typography.small,
                 text = rememberPluginVersion(),
+                maxLines = 1,
             )
         }
     }
