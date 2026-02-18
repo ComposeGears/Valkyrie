@@ -12,11 +12,11 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackEditor
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.AddNestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.RemoveNestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction.SavePack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackModeState.ExistingPackEditState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction.AddNestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction.RemoveNestedPack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction.SavePack
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackModeState.ExistingPackEditState
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.DefaultButton
@@ -37,7 +37,7 @@ fun ExistingPackEditor(
     ) {
         IconPackEditor(
             modifier = Modifier.fillMaxWidth(),
-            packEditState = state.packEditState,
+            inputFieldState = state.inputFieldState,
             onValueChange = onValueChange,
             onAddNestedPack = { onAction(AddNestedPack) },
             onRemoveNestedPack = { onAction(RemoveNestedPack(it)) },
@@ -46,7 +46,7 @@ fun ExistingPackEditor(
         DefaultButton(
             modifier = Modifier.align(Alignment.End),
             onClick = { onAction(SavePack) },
-            enabled = state.nextAvailable,
+            enabled = state.inputFieldState.isValid,
         ) {
             Text(text = stringResource("iconpack.existingpack.editor.update.continue"))
         }

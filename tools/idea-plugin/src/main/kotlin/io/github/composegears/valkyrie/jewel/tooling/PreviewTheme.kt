@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -34,10 +33,8 @@ fun ProjectPreviewTheme(
     val projectAccessor = rememberProjectAccessor()
     val project = projectAccessor.project ?: error("No project available in preview")
 
-    LaunchedEffect(Unit) {
-        GlobalPreviewState.isPreview = true
-        DI.initWith(project)
-    }
+    GlobalPreviewState.isPreview = true
+    DI.initWith(project)
 
     CompositionLocalProvider(
         LocalProject provides project,

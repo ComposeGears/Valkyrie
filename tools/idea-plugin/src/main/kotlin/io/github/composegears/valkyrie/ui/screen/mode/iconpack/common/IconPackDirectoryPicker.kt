@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,11 +21,9 @@ import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.DragAndDropBox
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SaveDestination
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackAction.SelectDestinationFolder
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model.NewPackModeState.ChooseDestinationDirectoryState
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.DirectoryState
 import io.github.composegears.valkyrie.util.stringResource
+import java.nio.file.Path
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.DefaultButton
@@ -34,16 +32,13 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 @Composable
-fun ChoosePackDirectory(
-    state: ChooseDestinationDirectoryState,
+fun IconPackDirectoryPicker(
+    state: DirectoryState,
+    onSelectPath: (Path) -> Unit,
+    onNext: () -> Unit,
     modifier: Modifier = Modifier,
-    onAction: (NewPackAction) -> Unit,
 ) {
-    val dragAndDropHandler = rememberDragAndDropFolderHandler(
-        onDrop = { path ->
-            onAction(SelectDestinationFolder(path))
-        },
-    )
+    val dragAndDropHandler = rememberDragAndDropFolderHandler(onDrop = onSelectPath)
     val isDragging by remember(dragAndDropHandler.isDragging) { mutableStateOf(dragAndDropHandler.isDragging) }
 
     val scope = rememberCoroutineScope()
@@ -63,7 +58,7 @@ fun ChoosePackDirectory(
                     val path = directoryPicker.launch()
 
                     if (path != null) {
-                        onAction(SelectDestinationFolder(path))
+                        onSelectPath(path)
                     }
                 }
             },
@@ -107,7 +102,7 @@ fun ChoosePackDirectory(
         DefaultButton(
             modifier = Modifier.align(Alignment.End),
             enabled = state.nextAvailable,
-            onClick = { onAction(SaveDestination) },
+            onClick = onNext,
         ) {
             Text(text = stringResource("iconpack.newpack.choose.directory.continue"))
         }
@@ -116,15 +111,16 @@ fun ChoosePackDirectory(
 
 @Preview
 @Composable
-private fun ChoosePackDirectoryPreview() = PreviewTheme(alignment = Alignment.Center) {
+private fun IconPackDirectoryPickerPreview() = PreviewTheme(alignment = Alignment.Center) {
     val projectAccessor = rememberProjectAccessor()
 
-    ChoosePackDirectory(
-        state = ChooseDestinationDirectoryState(
+    IconPackDirectoryPicker(
+        state = DirectoryState(
             iconPackDestination = "${projectAccessor.path}/tools/idea-plugin/src/main/kotlin/io/github/composegears/valkyrie/icons",
             predictedPackage = "io.github.composegears.valkyrie.icons",
             nextAvailable = true,
         ),
-        onAction = {},
+        onSelectPath = {},
+        onNext = {},
     )
 }

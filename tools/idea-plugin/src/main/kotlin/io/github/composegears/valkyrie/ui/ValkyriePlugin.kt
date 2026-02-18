@@ -35,6 +35,7 @@ import io.github.composegears.valkyrie.ui.screen.intro.IntroScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ExistingPackScreen
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.MaterialPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.NewPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
 import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
@@ -101,6 +102,7 @@ fun ValkyriePlugin(
                 NewPackScreen,
                 ExistingPackScreen,
                 IconPackConversionScreen,
+                MaterialPackScreen,
 
                 ImageVectorPickerScreen,
                 ImageVectorToXmlScreen,

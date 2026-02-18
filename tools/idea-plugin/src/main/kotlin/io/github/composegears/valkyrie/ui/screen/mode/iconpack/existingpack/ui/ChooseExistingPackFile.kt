@@ -20,7 +20,7 @@ import io.github.composegears.valkyrie.jewel.platform.rememberFileDragAndDropHan
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.DragAndDropBox
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model.ExistingPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch

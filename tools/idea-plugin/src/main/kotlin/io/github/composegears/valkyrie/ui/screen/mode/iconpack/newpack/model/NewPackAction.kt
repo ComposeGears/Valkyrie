@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.model
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model
 
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 import java.nio.file.Path
@@ -12,6 +12,4 @@ sealed interface NewPackAction {
 
     data object PreviewPackObject : NewPackAction
     data object SavePack : NewPackAction
-
-    data class UseMaterialPack(val value: Boolean) : NewPackAction
 }

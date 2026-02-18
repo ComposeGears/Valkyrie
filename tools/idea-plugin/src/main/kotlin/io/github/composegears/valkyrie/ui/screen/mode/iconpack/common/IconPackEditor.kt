@@ -26,7 +26,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.Inpu
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.PackEditState
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.random.Random
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -36,14 +35,12 @@ import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 @Composable
 fun IconPackEditor(
-    packEditState: PackEditState,
+    inputFieldState: InputFieldState,
     onValueChange: (InputChange) -> Unit,
     onAddNestedPack: () -> Unit,
     modifier: Modifier = Modifier,
     onRemoveNestedPack: (NestedPack) -> Unit,
 ) {
-    val inputFieldState = packEditState.inputFieldState
-
     Column(modifier = modifier) {
         val packageName = inputFieldState.packageName
         val iconPackName = inputFieldState.iconPackName
@@ -85,7 +82,7 @@ fun IconPackEditor(
         } else {
             NestedPacks(
                 nestedPacks = inputFieldState.nestedPacks,
-                allowAddNestedPack = inputFieldState.allowAddNestedPack,
+                allowEditing = inputFieldState.allowEditing,
                 onRemove = onRemoveNestedPack,
                 onValueChange = onValueChange,
                 onAddNestedPack = onAddNestedPack,
@@ -97,7 +94,7 @@ fun IconPackEditor(
 @Composable
 private fun NestedPacks(
     nestedPacks: List<NestedPack>,
-    allowAddNestedPack: Boolean,
+    allowEditing: Boolean,
     onRemove: (NestedPack) -> Unit,
     onAddNestedPack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -135,7 +132,7 @@ private fun NestedPacks(
                 Spacer(8.dp)
             }
         }
-        if (allowAddNestedPack) {
+        if (allowEditing) {
             Spacer(8.dp)
             AddPackButton(onClick = onAddNestedPack)
         }
@@ -158,22 +155,20 @@ private fun AddPackButton(
 @Composable
 private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
     var state by rememberMutableState {
-        PackEditState(
-            inputFieldState = InputFieldState(
-                packageName = InputState(text = "com.example.iconpack"),
-                iconPackName = InputState(text = "ValkyrieIcons"),
-                nestedPacks = listOf(
-                    NestedPack(
-                        id = "0",
-                        inputFieldState = InputState(
-                            text = "Outlined",
-                            enabled = false,
-                        ),
+        InputFieldState(
+            packageName = InputState(text = "com.example.iconpack"),
+            iconPackName = InputState(text = "ValkyrieIcons"),
+            nestedPacks = listOf(
+                NestedPack(
+                    id = "0",
+                    inputFieldState = InputState(
+                        text = "Outlined",
+                        enabled = false,
                     ),
-                    NestedPack(
-                        id = "1",
-                        inputFieldState = InputState(),
-                    ),
+                ),
+                NestedPack(
+                    id = "1",
+                    inputFieldState = InputState(),
                 ),
             ),
         )
@@ -183,35 +178,27 @@ private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCent
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        packEditState = state,
+        inputFieldState = state,
         onValueChange = {
             when (it) {
                 is PackageName -> state = state.copy(
-                    inputFieldState = state.inputFieldState.copy(
-                        packageName = state.inputFieldState.packageName.copy(text = it.text),
-                    ),
+                    packageName = state.packageName.copy(text = it.text),
                 )
                 is PackageNameValidation -> state = state.copy(
-                    inputFieldState = state.inputFieldState.copy(
-                        packageName = state.inputFieldState.packageName.copy(
-                            isValid = it.validationResult is ValidationResult.Success,
-                        ),
+                    packageName = state.packageName.copy(
+                        isValid = it.validationResult is ValidationResult.Success,
                     ),
                 )
                 is IconPackName -> state = state.copy(
-                    inputFieldState = state.inputFieldState.copy(
-                        iconPackName = state.inputFieldState.iconPackName.copy(text = it.text),
-                    ),
+                    iconPackName = state.iconPackName.copy(text = it.text),
                 )
                 is IconPackNameValidation -> state = state.copy(
-                    inputFieldState = state.inputFieldState.copy(
-                        iconPackName = state.inputFieldState.iconPackName.copy(
-                            isValid = it.validationResult is ValidationResult.Success,
-                        ),
+                    iconPackName = state.iconPackName.copy(
+                        isValid = it.validationResult is ValidationResult.Success,
                     ),
                 )
                 is NestedPackName -> {
-                    val updatedNestedPacks = state.inputFieldState.nestedPacks.map { nestedPack ->
+                    val updatedNestedPacks = state.nestedPacks.map { nestedPack ->
                         when (nestedPack.id) {
                             it.id -> nestedPack.copy(
                                 inputFieldState = nestedPack.inputFieldState.copy(text = it.text),
@@ -219,10 +206,10 @@ private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCent
                             else -> nestedPack
                         }
                     }
-                    state = state.copy(inputFieldState = state.inputFieldState.copy(nestedPacks = updatedNestedPacks))
+                    state = state.copy(nestedPacks = updatedNestedPacks)
                 }
                 is NestedPackNameValidation -> {
-                    val updatedNestedPacks = state.inputFieldState.nestedPacks.map { nestedPack ->
+                    val updatedNestedPacks = state.nestedPacks.map { nestedPack ->
                         when (nestedPack.id) {
                             it.id -> nestedPack.copy(
                                 inputFieldState = nestedPack.inputFieldState.copy(
@@ -232,7 +219,7 @@ private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCent
                             else -> nestedPack
                         }
                     }
-                    state = state.copy(inputFieldState = state.inputFieldState.copy(nestedPacks = updatedNestedPacks))
+                    state = state.copy(nestedPacks = updatedNestedPacks)
                 }
             }
         },
@@ -241,12 +228,12 @@ private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCent
                 id = Random.nextLong().toString(),
                 inputFieldState = InputState(),
             )
-            val updatedNestedPacks = state.inputFieldState.nestedPacks + newPack
-            state = state.copy(inputFieldState = state.inputFieldState.copy(nestedPacks = updatedNestedPacks))
+            val updatedNestedPacks = state.nestedPacks + newPack
+            state = state.copy(nestedPacks = updatedNestedPacks)
         },
         onRemoveNestedPack = { pack ->
-            val updatedNestedPacks = state.inputFieldState.nestedPacks.filter { pack.id != it.id }
-            state = state.copy(inputFieldState = state.inputFieldState.copy(nestedPacks = updatedNestedPacks))
+            val updatedNestedPacks = state.nestedPacks.filter { pack.id != it.id }
+            state = state.copy(nestedPacks = updatedNestedPacks)
         },
     )
 
@@ -254,6 +241,6 @@ private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCent
         modifier = Modifier
             .align(alignment = Alignment.TopEnd)
             .padding(end = 16.dp),
-        text = "Input valid: ${state.inputFieldState.isValid}",
+        text = "Input valid: ${state.isValid}",
     )
 }

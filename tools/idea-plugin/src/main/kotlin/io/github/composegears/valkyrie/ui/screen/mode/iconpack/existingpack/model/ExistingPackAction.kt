@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ui.model
+package io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model
 
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
