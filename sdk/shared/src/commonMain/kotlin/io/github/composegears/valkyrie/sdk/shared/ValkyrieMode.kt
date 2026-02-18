@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.shared
+package io.github.composegears.valkyrie.sdk.shared
 
 enum class ValkyrieMode {
     // If corrupted or not set, IDEA fallback to first enum value

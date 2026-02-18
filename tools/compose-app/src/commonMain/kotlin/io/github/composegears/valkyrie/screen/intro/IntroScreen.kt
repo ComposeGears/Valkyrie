@@ -24,7 +24,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.Conversion
-import io.github.composegears.valkyrie.shared.ValkyrieMode
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.ui.InfoCard
 import org.jetbrains.compose.resources.stringResource
 import valkyrie.tools.compose_app.generated.resources.Res

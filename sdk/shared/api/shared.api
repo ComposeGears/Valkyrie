@@ -1,0 +1,19 @@
+public final class io/github/composegears/valkyrie/sdk/shared/ValkyrieMode : java/lang/Enum {
+	public static final field IconPack Lio/github/composegears/valkyrie/sdk/shared/ValkyrieMode;
+	public static final field Simple Lio/github/composegears/valkyrie/sdk/shared/ValkyrieMode;
+	public static final field Unspecified Lio/github/composegears/valkyrie/sdk/shared/ValkyrieMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/shared/ValkyrieMode;
+	public static fun values ()[Lio/github/composegears/valkyrie/sdk/shared/ValkyrieMode;
+}
+
+public final class io/github/composegears/valkyrie/sdk/shared/ValkyrieTool : java/lang/Enum {
+	public static final field Editor Lio/github/composegears/valkyrie/sdk/shared/ValkyrieTool;
+	public static final field ImageVectorToXml Lio/github/composegears/valkyrie/sdk/shared/ValkyrieTool;
+	public static final field SvgToXml Lio/github/composegears/valkyrie/sdk/shared/ValkyrieTool;
+	public static final field WebImport Lio/github/composegears/valkyrie/sdk/shared/ValkyrieTool;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/shared/ValkyrieTool;
+	public static fun values ()[Lio/github/composegears/valkyrie/sdk/shared/ValkyrieTool;
+}
+

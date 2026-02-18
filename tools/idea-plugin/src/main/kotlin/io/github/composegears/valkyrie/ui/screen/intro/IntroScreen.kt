@@ -31,8 +31,8 @@ import io.github.composegears.valkyrie.sdk.compose.icons.outlined.FileImport
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtSvg
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.KtXml
 import io.github.composegears.valkyrie.sdk.compose.icons.outlined.SvgXml
-import io.github.composegears.valkyrie.shared.ValkyrieMode
-import io.github.composegears.valkyrie.shared.ValkyrieTool
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
+import io.github.composegears.valkyrie.sdk.shared.ValkyrieTool
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
@@ -78,7 +78,7 @@ val IntroScreen by navDestination {
 private fun IntroScreenUI(
     openSettings: () -> Unit,
     onModeSelect: (ValkyrieMode) -> Unit,
-    onToolSelect: (ValkyrieTool) -> Unit = { },
+    onToolSelect: (ValkyrieTool) -> Unit,
 ) {
     Column {
         Toolbar {
@@ -170,5 +170,6 @@ private fun IntroScreenUIPreview() = PreviewTheme {
     IntroScreenUI(
         openSettings = {},
         onModeSelect = {},
+        onToolSelect = {},
     )
 }

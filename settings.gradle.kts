@@ -95,7 +95,6 @@ include("sdk:ir:compose")
 include("sdk:ir:core")
 include("sdk:ir:util")
 include("sdk:ir:xml")
+include("sdk:shared")
 include("sdk:test:coverage")
 include("sdk:test:resource-loader")
-
-include("shared")

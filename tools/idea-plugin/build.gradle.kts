@@ -65,7 +65,7 @@ dependencies {
     implementation(projects.sdk.ir.compose)
     implementation(projects.sdk.ir.util)
     implementation(projects.sdk.ir.xml)
-    implementation(projects.shared)
+    implementation(projects.sdk.shared)
 
     implementation(libs.android.build.tools)
     implementation(libs.androidx.collection)
