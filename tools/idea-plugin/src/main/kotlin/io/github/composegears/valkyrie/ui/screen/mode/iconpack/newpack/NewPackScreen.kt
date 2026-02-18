@@ -19,7 +19,7 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.replace
 import io.github.composegears.valkyrie.jewel.BackAction
-import io.github.composegears.valkyrie.jewel.PreviewAction
+import io.github.composegears.valkyrie.jewel.PreviewCodeAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
@@ -100,7 +100,7 @@ private fun NewPackContent(
             Title(stringResource("iconpack.newpack.title"))
             WeightSpacer()
             if (state is PickedState && state.nextAvailable) {
-                PreviewAction(onClick = { onAction(PreviewPackObject) })
+                PreviewCodeAction(onClick = { onAction(PreviewPackObject) })
             }
         }
         VerticallyScrollableContainer {
