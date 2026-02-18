@@ -13,6 +13,7 @@ data class InputFieldState(
     val packageName: InputState,
     val nestedPacks: List<NestedPack>,
     val iconPackPackage: InputState = packageName,
+    val allowAddNestedPack: Boolean = true,
 ) {
     val isValid: Boolean = iconPackName.isValid() &&
         packageName.isValid() &&

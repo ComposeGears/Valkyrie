@@ -6,6 +6,10 @@
 
 - Add new tool to convert SVG into XML
 
+### Changed
+
+- Rollback feature to use `Material` icon pack
+
 ## 1.1.0 - 2026-02-13
 
 ### Added

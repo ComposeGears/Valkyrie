@@ -85,6 +85,7 @@ fun IconPackEditor(
         } else {
             NestedPacks(
                 nestedPacks = inputFieldState.nestedPacks,
+                allowAddNestedPack = inputFieldState.allowAddNestedPack,
                 onRemove = onRemoveNestedPack,
                 onValueChange = onValueChange,
                 onAddNestedPack = onAddNestedPack,
@@ -96,6 +97,7 @@ fun IconPackEditor(
 @Composable
 private fun NestedPacks(
     nestedPacks: List<NestedPack>,
+    allowAddNestedPack: Boolean,
     onRemove: (NestedPack) -> Unit,
     onAddNestedPack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -133,8 +135,10 @@ private fun NestedPacks(
                 Spacer(8.dp)
             }
         }
-        Spacer(8.dp)
-        AddPackButton(onClick = onAddNestedPack)
+        if (allowAddNestedPack) {
+            Spacer(8.dp)
+            AddPackButton(onClick = onAddNestedPack)
+        }
     }
 }
 
