@@ -59,6 +59,7 @@ fun InfoCard(
                             .align(Alignment.Top)
                             .size(iconSize),
                         key = it,
+                        tint = tint,
                         contentDescription = null,
                     )
                 }
@@ -73,7 +74,7 @@ fun InfoCard(
                     )
                     InfoText(
                         text = description,
-                        maxLines = 2,
+                        maxLines = 3,
                     )
                 }
             }
