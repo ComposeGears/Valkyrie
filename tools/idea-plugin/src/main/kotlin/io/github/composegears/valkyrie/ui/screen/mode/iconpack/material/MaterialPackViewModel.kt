@@ -14,6 +14,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.Ma
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackAction.SaveDestination
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackAction.SavePack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackAction.SelectDestinationFolder
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackAction.UpdateFlatPackageStructure
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackEvent.FinishSetup
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackState
@@ -70,6 +71,12 @@ class MaterialPackViewModel : ViewModel() {
     fun onAction(action: MaterialPackAction) {
         when (action) {
             is SelectDestinationFolder -> updateDestinationPath(action.path)
+            is UpdateFlatPackageStructure -> {
+                val pickedState = currentState.safeAs<PickedState>() ?: return
+                _state.updateState {
+                    pickedState.copy(flatPackageStructure = action.value)
+                }
+            }
             is SaveDestination -> {
                 saveDestination()
                 initMaterialPack()
@@ -111,7 +118,7 @@ class MaterialPackViewModel : ViewModel() {
 
         viewModelScope.launch {
             inMemorySettings.update {
-                flatPackage = true
+                flatPackage = pickedState.flatPackageStructure
             }
             withContext(Dispatchers.IO) {
                 IconPackWriter.savePack(

@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
+import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackEditor
@@ -18,6 +21,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.Inpu
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackAction
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackAction.UpdateFlatPackageStructure
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackState
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -44,6 +48,17 @@ fun MaterialPackCreation(
             onAddNestedPack = { },
             onRemoveNestedPack = { },
         )
+        Spacer(32.dp)
+        Group(
+            paddingValues = PaddingValues(0.dp),
+            text = stringResource("iconpack.material.additional.options"),
+        ) {
+            CheckboxSettingsRow(
+                text = stringResource("iconpack.material.flat.package.structure"),
+                checked = state.flatPackageStructure,
+                onCheckedChange = { onAction(UpdateFlatPackageStructure(it)) },
+            )
+        }
         Spacer(32.dp)
         Row(
             modifier = Modifier.fillMaxWidth(),
