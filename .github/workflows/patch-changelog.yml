@@ -1,0 +1,126 @@
+name: Patch Changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Increment version"
+        required: false
+        type: boolean
+        default: true
+      bump_kind:
+        description: "major, minor or patch"
+        required: false
+        default: "minor"
+      custom_version:
+        description: "Exact version (used if provided)"
+        required: false
+        default: ""
+
+jobs:
+  patch-changelog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Optionally bump version in TOML
+        id: bump
+        if: ${{ inputs.bump }}
+        env:
+          KIND: ${{ inputs.bump_kind }}
+          CUSTOM: ${{ inputs.custom_version }}
+        run: |
+          set -euo pipefail
+          CURRENT=$(grep "^idea-plugin-version" gradle/plugin.versions.toml | cut -d '"' -f 2)
+          echo "Current version: $CURRENT"
+
+          # If a custom version was provided, prefer it (allow optional suffix like -SNAPSHOT)
+          if [ -n "$CUSTOM" ]; then
+            # validate custom version: digits.digits... with optional -suffix (letters/digits/dots/hyphens)
+            if ! echo "$CUSTOM" | grep -Eq '^[0-9]+(\.[0-9]+)*(-[A-Za-z0-9.-]+)?$'; then
+              echo "Invalid custom_version: $CUSTOM" >&2
+              exit 1
+            fi
+            NEW="$CUSTOM"
+          else
+            # Strip suffix after '-' (e.g., -SNAPSHOT) before parsing numbers
+            BASE=$(echo "$CURRENT" | sed 's/-.*$//')
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$BASE"
+            MAJOR=${MAJOR:-0}
+            MINOR=${MINOR:-0}
+            PATCH=${PATCH:-0}
+
+            case "$KIND" in
+              patch)
+                PATCH=$((PATCH + 1))
+                ;;
+              minor)
+                MINOR=$((MINOR + 1))
+                PATCH=0
+                ;;
+              major)
+                MAJOR=$((MAJOR + 1))
+                MINOR=0
+                PATCH=0
+                ;;
+              *)
+                echo "Unknown bump_kind: $KIND. Expected one of: major, minor, patch" >&2
+                exit 1
+                ;;
+            esac
+
+            NEW="$MAJOR.$MINOR.$PATCH"
+          fi
+
+          echo "New version: $NEW"
+
+          # Update the TOML file
+          sed -E -i "s/^(idea-plugin-version\s*=\s*\").*(\")$/\1$NEW\2/" gradle/plugin.versions.toml
+
+      - name: Get actual version from TOML
+        id: version
+        run: |
+          VERSION=$(grep "^idea-plugin-version" gradle/plugin.versions.toml | cut -d '"' -f 2)
+          echo "number=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Run patchChangelog
+        run: |
+          ./gradlew patchChangelog
+
+      - name: Commit and push changes
+        run: |
+          BRANCH="task/prepare_idea_changelog_${{ github.run_id }}"
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add .
+
+          VERSION_FOR_COMMIT="${{ steps.version.outputs.number }}"
+
+          git commit -m "chore: patch changelog for version $VERSION_FOR_COMMIT"
+          git push origin "$BRANCH"
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="task/prepare_idea_changelog_${{ github.run_id }}"
+          
+          gh pr create \
+            --title "chore: patch changelog for version ${{ steps.version.outputs.number }}" \
+            --body "" \
+            --label "changelog" \
+            --base main \
+            --head $BRANCH
