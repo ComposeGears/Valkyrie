@@ -18,6 +18,14 @@ data class InputFieldState(
         val packs = nestedPacks.map { it.inputFieldState.text }
         return packs.size != packs.distinct().size
     }
+
+    companion object {
+        val Empty = InputFieldState(
+            iconPackName = InputState(),
+            packageName = InputState(),
+            nestedPacks = emptyList(),
+        )
+    }
 }
 
 data class NestedPack(
