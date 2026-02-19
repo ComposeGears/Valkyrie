@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.data
 
-import io.github.composegears.valkyrie.util.font.WoffToTtfConverter
+import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsChannel
@@ -20,7 +20,7 @@ class BootstrapRepository(
 ) {
     companion object {
         private const val UNPKG_BASE = "https://unpkg.com/bootstrap-icons@latest"
-        private const val FONT_URL = "$UNPKG_BASE/font/fonts/bootstrap-icons.woff"
+        private const val FONT_URL = "$UNPKG_BASE/font/fonts/bootstrap-icons.woff2"
         private const val JSON_URL = "$UNPKG_BASE/font/bootstrap-icons.json"
         private const val ICONS_BASE_URL = "$UNPKG_BASE/icons"
     }
@@ -35,8 +35,9 @@ class BootstrapRepository(
     suspend fun loadFontBytes(): ByteArray = withContext(Dispatchers.IO) {
         fontMutex.withLock {
             fontBytesCache ?: run {
-                val woffBytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
-                val ttfBytes = WoffToTtfConverter.convert(woffBytes)
+                val woff2Bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
+                val ttfBytes = Woff2Decoder.decodeBytes(woff2Bytes)
+                    ?: error("Failed to decode WOFF2 font")
                 fontBytesCache = ttfBytes
                 ttfBytes
             }
