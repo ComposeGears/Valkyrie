@@ -1,0 +1,223 @@
+name: Build Native Libraries
+
+# Triggered manually from the Actions tab, or via workflow_dispatch API
+on:
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Clone google/woff2
+        run: git clone --recursive --depth 1 https://github.com/google/woff2.git /tmp/woff2
+
+      - name: Build brotli (static)
+        run: |
+          cmake -S /tmp/woff2/brotli -B /tmp/brotli-build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_INSTALL_PREFIX=/tmp/install \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build /tmp/brotli-build --config Release -j$(nproc)
+          cmake --install /tmp/brotli-build
+
+      - name: Build woff2 (static)
+        run: |
+          cmake -S /tmp/woff2 -B /tmp/woff2-build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_PREFIX_PATH=/tmp/install \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build /tmp/woff2-build --config Release -j$(nproc)
+
+      - name: Build JNI shared library
+        run: |
+          g++ -shared -std=c++11 -O2 -fPIC \
+            -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" \
+            -I/tmp/woff2/include -I/tmp/install/include \
+            tools/idea-plugin/native/woff2decoder.cpp \
+            /tmp/woff2-build/libwoff2dec.a \
+            /tmp/woff2-build/libwoff2common.a \
+            /tmp/install/lib/libbrotlidec-static.a \
+            /tmp/install/lib/libbrotlicommon-static.a \
+            -o libwoff2decoder.so
+
+      - name: Verify library
+        run: |
+          file libwoff2decoder.so
+          ls -lh libwoff2decoder.so
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-linux-x64
+          path: libwoff2decoder.so
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Clone google/woff2
+        run: git clone --recursive --depth 1 https://github.com/google/woff2.git C:\woff2
+
+      - name: Build brotli (static)
+        run: |
+          cmake -S C:\woff2\brotli -B C:\brotli-build `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DBUILD_SHARED_LIBS=OFF `
+            -DCMAKE_INSTALL_PREFIX=C:\install `
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build C:\brotli-build --config Release -j $env:NUMBER_OF_PROCESSORS
+          cmake --install C:\brotli-build --config Release
+
+      - name: Build woff2 (static)
+        run: |
+          cmake -S C:\woff2 -B C:\woff2-build `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DBUILD_SHARED_LIBS=OFF `
+            -DCMAKE_PREFIX_PATH=C:\install `
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build C:\woff2-build --config Release -j $env:NUMBER_OF_PROCESSORS
+
+      - name: Build JNI DLL
+        run: |
+          $jni_include = "$env:JAVA_HOME\include"
+          $jni_include_win = "$env:JAVA_HOME\include\win32"
+
+          # Find the static libs (MSVC puts them in Release/ subdirectory)
+          $woff2dec = Get-ChildItem -Path C:\woff2-build -Recurse -Filter "woff2dec.lib" | Select-Object -First 1
+          $woff2common = Get-ChildItem -Path C:\woff2-build -Recurse -Filter "woff2common.lib" | Select-Object -First 1
+          $brotlidec = Get-ChildItem -Path C:\install -Recurse -Filter "brotlidec*.lib" | Where-Object { $_.Name -match 'static' -or $_.Name -eq 'brotlidec.lib' } | Select-Object -First 1
+          $brotlicommon = Get-ChildItem -Path C:\install -Recurse -Filter "brotlicommon*.lib" | Where-Object { $_.Name -match 'static' -or $_.Name -eq 'brotlicommon.lib' } | Select-Object -First 1
+
+          Write-Host "woff2dec: $($woff2dec.FullName)"
+          Write-Host "woff2common: $($woff2common.FullName)"
+          Write-Host "brotlidec: $($brotlidec.FullName)"
+          Write-Host "brotlicommon: $($brotlicommon.FullName)"
+
+          cl /EHsc /O2 /std:c++14 /LD `
+            /I"$jni_include" /I"$jni_include_win" `
+            /I"C:\woff2\include" /I"C:\install\include" `
+            tools\idea-plugin\native\woff2decoder.cpp `
+            $($woff2dec.FullName) `
+            $($woff2common.FullName) `
+            $($brotlidec.FullName) `
+            $($brotlicommon.FullName) `
+            /Fe:woff2decoder.dll /link /DLL
+
+      - name: Verify DLL
+        run: |
+          Get-Item woff2decoder.dll | Select-Object Name, Length
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-windows-x64
+          path: woff2decoder.dll
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Clone google/woff2
+        run: git clone --recursive --depth 1 https://github.com/google/woff2.git /tmp/woff2
+
+      - name: Build arm64
+        run: |
+          # Brotli
+          cmake -S /tmp/woff2/brotli -B /tmp/brotli-arm64 \
+            -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_INSTALL_PREFIX=/tmp/install-arm64 \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build /tmp/brotli-arm64 --config Release -j$(sysctl -n hw.ncpu)
+          cmake --install /tmp/brotli-arm64
+
+          # Woff2
+          cmake -S /tmp/woff2 -B /tmp/woff2-arm64 \
+            -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_PREFIX_PATH=/tmp/install-arm64 \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build /tmp/woff2-arm64 --config Release -j$(sysctl -n hw.ncpu)
+
+          # JNI bridge
+          c++ -shared -std=c++11 -O2 -arch arm64 \
+            -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/darwin" \
+            -I/tmp/woff2/include -I/tmp/install-arm64/include \
+            tools/idea-plugin/native/woff2decoder.cpp \
+            /tmp/woff2-arm64/libwoff2dec.a \
+            /tmp/woff2-arm64/libwoff2common.a \
+            /tmp/install-arm64/lib/libbrotlidec-static.a \
+            /tmp/install-arm64/lib/libbrotlicommon-static.a \
+            -o /tmp/libwoff2decoder-arm64.dylib
+
+      - name: Build x86_64
+        run: |
+          # Brotli
+          cmake -S /tmp/woff2/brotli -B /tmp/brotli-x64 \
+            -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_INSTALL_PREFIX=/tmp/install-x64 \
+            -DCMAKE_OSX_ARCHITECTURES=x86_64 \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build /tmp/brotli-x64 --config Release -j$(sysctl -n hw.ncpu)
+          cmake --install /tmp/brotli-x64
+
+          # Woff2
+          cmake -S /tmp/woff2 -B /tmp/woff2-x64 \
+            -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_PREFIX_PATH=/tmp/install-x64 \
+            -DCMAKE_OSX_ARCHITECTURES=x86_64 \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake --build /tmp/woff2-x64 --config Release -j$(sysctl -n hw.ncpu)
+
+          # JNI bridge
+          c++ -shared -std=c++11 -O2 -arch x86_64 \
+            -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/darwin" \
+            -I/tmp/woff2/include -I/tmp/install-x64/include \
+            tools/idea-plugin/native/woff2decoder.cpp \
+            /tmp/woff2-x64/libwoff2dec.a \
+            /tmp/woff2-x64/libwoff2common.a \
+            /tmp/install-x64/lib/libbrotlidec-static.a \
+            /tmp/install-x64/lib/libbrotlicommon-static.a \
+            -o /tmp/libwoff2decoder-x64.dylib
+
+      - name: Create universal binary
+        run: |
+          lipo -create \
+            /tmp/libwoff2decoder-arm64.dylib \
+            /tmp/libwoff2decoder-x64.dylib \
+            -output libwoff2decoder.dylib
+          file libwoff2decoder.dylib
+          ls -lh libwoff2decoder.dylib
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-macos
+          path: libwoff2decoder.dylib
