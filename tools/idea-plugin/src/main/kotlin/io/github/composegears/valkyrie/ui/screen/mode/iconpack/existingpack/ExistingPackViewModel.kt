@@ -80,7 +80,7 @@ class ExistingPackViewModel : ViewModel() {
         val iconPackInfo = IconPackPsiParser.parse(ktFile) ?: return@launch
 
         val inputFieldState = iconPackInfo.toInputFieldState()
-        inputHandler.updateState(inputFieldState)
+        inputHandler.setState(inputFieldState)
 
         _state.updateState {
             ExistingPackEditState(

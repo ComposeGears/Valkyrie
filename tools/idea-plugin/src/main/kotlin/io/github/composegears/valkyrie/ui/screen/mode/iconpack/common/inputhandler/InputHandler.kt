@@ -7,6 +7,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.Inpu
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
+import io.github.composegears.valkyrie.util.extension.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,7 +30,7 @@ abstract class BasicInputHandler(initialState: InputFieldState) : InputHandler {
         _state.updateState {
             copy(
                 nestedPacks = nestedPacks + NestedPack(
-                    id = nestedPacks.size.toString(),
+                    id = Uuid.random(),
                     inputFieldState = InputState(),
                 ),
             )
@@ -43,63 +44,53 @@ abstract class BasicInputHandler(initialState: InputFieldState) : InputHandler {
     }
 
     override fun handleInput(change: InputChange) {
-        when (change) {
-            is InputChange.IconPackName -> {
-                _state.updateState {
-                    copy(iconPackName = iconPackName.copy(text = change.text))
-                }
-            }
-            is InputChange.IconPackNameValidation -> {
-                _state.updateState {
-                    copy(iconPackName = iconPackName.copy(isValid = change.validationResult is ValidationResult.Success))
-                }
-            }
-            is InputChange.PackageName -> {
-                _state.updateState {
-                    copy(packageName = packageName.copy(text = change.text))
-                }
-            }
-            is InputChange.PackageNameValidation -> {
-                _state.updateState {
-                    copy(packageName = packageName.copy(isValid = change.validationResult is ValidationResult.Success))
-                }
-            }
-            is InputChange.NestedPackName -> {
-                _state.updateState {
-                    copy(
-                        nestedPacks = nestedPacks.map {
-                            if (it.id == change.id) {
-                                it.copy(inputFieldState = it.inputFieldState.copy(text = change.text))
-                            } else {
-                                it
-                            }
-                        },
-                    )
-                }
-            }
-            is InputChange.NestedPackNameValidation -> {
-                _state.updateState {
-                    copy(
-                        nestedPacks = nestedPacks.map {
-                            if (it.id == change.id) {
-                                it.copy(inputFieldState = it.inputFieldState.copy(isValid = change.validationResult is ValidationResult.Success))
-                            } else {
-                                it
-                            }
-                        },
-                    )
-                }
-            }
-        }
+        _state.updateState { applyChange(change) }
     }
 
-    fun updateState(inputFieldState: InputFieldState) {
-        _state.updateState { inputFieldState }
+    fun setState(inputFieldState: InputFieldState) {
+        _state.value = inputFieldState
     }
 
     fun invalidate(settings: ValkyriesSettings) {
-        _state.updateState { provideInputFieldState(settings) }
+        _state.updateState { invalidateInputFieldState(this, settings) }
     }
 
-    abstract fun provideInputFieldState(settings: ValkyriesSettings): InputFieldState
+    protected open fun invalidateInputFieldState(
+        currentState: InputFieldState,
+        settings: ValkyriesSettings,
+    ): InputFieldState = currentState
+}
+
+private fun InputFieldState.applyChange(change: InputChange): InputFieldState = when (change) {
+    is InputChange.IconPackName ->
+        copy(iconPackName = iconPackName.updateText(change.text))
+    is InputChange.IconPackNameValidation ->
+        copy(iconPackName = iconPackName.updateValidation(change.validationResult))
+    is InputChange.PackageName ->
+        copy(packageName = packageName.updateText(change.text))
+    is InputChange.PackageNameValidation ->
+        copy(packageName = packageName.updateValidation(change.validationResult))
+    is InputChange.NestedPackName ->
+        copy(nestedPacks = nestedPacks.updateText(change.id, change.text))
+    is InputChange.NestedPackNameValidation ->
+        copy(nestedPacks = nestedPacks.updateValidation(change.id, change.validationResult))
+}
+
+private fun InputState.updateText(text: String): InputState = copy(text = text)
+
+private fun InputState.updateValidation(result: ValidationResult): InputState = copy(isValid = result is ValidationResult.Success)
+
+private fun List<NestedPack>.updateText(id: String, text: String): List<NestedPack> = updateById(id) { copy(text = text) }
+
+private fun List<NestedPack>.updateValidation(id: String, result: ValidationResult): List<NestedPack> = updateById(id) { copy(isValid = result is ValidationResult.Success) }
+
+private inline fun List<NestedPack>.updateById(
+    id: String,
+    transform: InputState.() -> InputState,
+): List<NestedPack> = map { pack ->
+    if (pack.id == id) {
+        pack.copy(inputFieldState = pack.inputFieldState.transform())
+    } else {
+        pack
+    }
 }
