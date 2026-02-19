@@ -10,9 +10,17 @@ class NewPackInputHandler(
     settings: ValkyriesSettings,
 ) : BasicInputHandler(initialState = settings.newPackInputState) {
 
-    override fun provideInputFieldState(
+    override fun invalidateInputFieldState(
+        currentState: InputFieldState,
         settings: ValkyriesSettings,
-    ): InputFieldState = settings.newPackInputState
+    ): InputFieldState {
+        // Preserve user's input, only update packageName if empty
+        val packageNameText = currentState.packageName.text.ifEmpty {
+            PackageExtractor.getFrom(path = settings.iconPackDestination).orEmpty()
+        }
+
+        return currentState.copy(packageName = currentState.packageName.copy(text = packageNameText))
+    }
 
     companion object {
         private val ValkyriesSettings.newPackInputState: InputFieldState
