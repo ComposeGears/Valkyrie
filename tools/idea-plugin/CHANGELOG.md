@@ -12,6 +12,10 @@
 - Rollback feature to use `Material` icon pack
 - Update toolbar icons for code and icon preview
 
+### Fixed
+
+- Fix icon renaming in batch processing - changes now properly saved when focus is lost from TextField
+
 ## 1.1.0 - 2026-02-13
 
 ### Added
