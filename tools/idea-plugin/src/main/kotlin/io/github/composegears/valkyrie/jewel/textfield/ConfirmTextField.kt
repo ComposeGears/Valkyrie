@@ -48,13 +48,20 @@ fun ConfirmTextField(
         modifier = modifier
             .heightIn(min = 32.dp)
             .onFocusChanged {
+                if (focused && !it.isFocused && !isError) {
+                    // Lost focus - commit the changes if valid
+                    val newText = state.text.toString()
+                    if (newText != currentText) {
+                        onValueChange(newText)
+                    }
+                }
                 focused = it.isFocused
             }
             .onKeyEvent {
                 when (it.key) {
                     Key.Escape -> {
-                        focusManager.clearFocus()
                         state.setTextAndPlaceCursorAtEnd(currentText)
+                        focusManager.clearFocus()
                         true
                     }
                     Key.Enter -> {
