@@ -1,7 +1,5 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,16 +16,14 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.replace
-import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.PreviewCodeAction
-import io.github.composegears.valkyrie.jewel.Title
-import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackDirectoryPicker
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackScreenScaffold
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.DirectoryState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
@@ -50,7 +46,6 @@ import kotlin.random.Random
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val NewPackScreen by navDestination<PendingPathData> {
     val navController = navController()
@@ -95,35 +90,27 @@ private fun NewPackContent(
     onAction: (NewPackAction) -> Unit,
     onValueChange: (InputChange) -> Unit,
 ) {
-    Column {
-        Toolbar {
-            BackAction(onBack = onBack)
-            Title(stringResource("iconpack.newpack.title"))
+    IconPackScreenScaffold(
+        title = stringResource("iconpack.newpack.title"),
+        onBack = onBack,
+        toolbarExtras = {
             WeightSpacer()
             if (state is PickedState && state.inputFieldState.isValid) {
                 PreviewCodeAction(onClick = { onAction(PreviewPackObject) })
             }
-        }
-        VerticallyScrollableContainer {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                when (state) {
-                    is ChooseDestinationDirectoryState -> IconPackDirectoryPicker(
-                        state = state.directoryState,
-                        onSelectPath = { onAction(SelectDestinationFolder(it)) },
-                        onNext = { onAction(SaveDestination) },
-                    )
-                    is PickedState -> NewIconPackCreation(
-                        state = state,
-                        onAction = onAction,
-                        onValueChange = onValueChange,
-                    )
-                }
-            }
+        },
+    ) {
+        when (state) {
+            is ChooseDestinationDirectoryState -> IconPackDirectoryPicker(
+                state = state.directoryState,
+                onSelectPath = { onAction(SelectDestinationFolder(it)) },
+                onNext = { onAction(SaveDestination) },
+            )
+            is PickedState -> NewIconPackCreation(
+                state = state,
+                onAction = onAction,
+                onValueChange = onValueChange,
+            )
         }
     }
 }
