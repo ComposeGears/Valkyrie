@@ -118,7 +118,7 @@ jobs:
           Write-Host "brotlidec: $($brotlidec.FullName)"
           Write-Host "brotlicommon: $($brotlicommon.FullName)"
 
-          cl /EHsc /O2 /std:c++14 /LD `
+          cl /EHsc /O2 /MD /std:c++14 /LD `
             /I"$jni_include" /I"$jni_include_win" `
             /I"C:\woff2\include" /I"C:\install\include" `
             tools\idea-plugin\native\woff2decoder.cpp `
