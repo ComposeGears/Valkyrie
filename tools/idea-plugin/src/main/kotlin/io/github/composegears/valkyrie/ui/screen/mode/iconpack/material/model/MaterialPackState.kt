@@ -10,5 +10,6 @@ sealed interface MaterialPackState {
 
     data class PickedState(
         val inputFieldState: InputFieldState,
+        val flatPackageStructure: Boolean = false,
     ) : MaterialPackState
 }
