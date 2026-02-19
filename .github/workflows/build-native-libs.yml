@@ -1,7 +1,12 @@
 name: Build Native Libraries
 
-# Triggered manually from the Actions tab, or via workflow_dispatch API
 on:
+  push:
+    branches:
+      - feature/bootstrap-icons
+    paths:
+      - 'tools/idea-plugin/native/**'
+      - '.github/workflows/build-native-libs.yml'
   workflow_dispatch:
 
 jobs:
