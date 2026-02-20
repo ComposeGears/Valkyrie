@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion
+package io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,20 +29,20 @@ import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorSource
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlAction
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlParams
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.ImageVectorToXmlState
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model.XmlContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorSource
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlAction
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlParams
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlState
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.XmlContent
 import io.github.composegears.valkyrie.util.IR_STUB
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
+val ImageVectorXmlScreen by navDestination<ImageVectorXmlParams> {
     val navController = navController()
     val params = navArgs()
     val bannerManager = rememberBannerManager()
@@ -50,7 +50,7 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
     val project = LocalProject.current
 
     val viewModel = saveableViewModel {
-        ImageVectorToXmlViewModel(
+        ImageVectorXmlViewModel(
             project = project,
             savedState = it,
             params = params,
@@ -59,7 +59,7 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
     val state by viewModel.state.collectAsState()
 
     when (val currentState = state) {
-        is ImageVectorToXmlState.Content -> {
+        is ImageVectorXmlState.Content -> {
             ImageVectorToXmlContent(
                 state = currentState,
                 onBack = navController::back,
@@ -68,18 +68,18 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
                 },
                 onAction = { action ->
                     when (action) {
-                        is ImageVectorToXmlAction.OnCopyInClipboard -> {
+                        is ImageVectorXmlAction.OnCopyInClipboard -> {
                             copyInClipboard(action.text)
                             bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
                         }
-                        is ImageVectorToXmlAction.OnIconNameChange -> {
+                        is ImageVectorXmlAction.OnIconNameChange -> {
                             viewModel.changeIconName(action.name)
                         }
                     }
                 },
             )
         }
-        is ImageVectorToXmlState.Error -> {
+        is ImageVectorXmlState.Error -> {
             Column(modifier = Modifier.fillMaxSize()) {
                 Toolbar {
                     BackAction(onBack = navController::back)
@@ -100,7 +100,7 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
                 WeightSpacer(weight = 0.7f)
             }
         }
-        is ImageVectorToXmlState.Loading -> {
+        is ImageVectorXmlState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -113,10 +113,10 @@ val ImageVectorToXmlScreen by navDestination<ImageVectorToXmlParams> {
 
 @Composable
 private fun ImageVectorToXmlContent(
-    state: ImageVectorToXmlState.Content,
+    state: ImageVectorXmlState.Content,
     onBack: () -> Unit,
     openSettings: () -> Unit,
-    onAction: (ImageVectorToXmlAction) -> Unit,
+    onAction: (ImageVectorXmlAction) -> Unit,
 ) {
     GenericConversionScreen(
         title = stringResource("imagevectortoxml.conversion.title"),
@@ -125,8 +125,8 @@ private fun ImageVectorToXmlContent(
         irImageVector = state.xmlContent.irImageVector,
         language = SyntaxLanguage.XML,
         onBack = onBack,
-        onIconNameChange = { onAction(ImageVectorToXmlAction.OnIconNameChange(it)) },
-        onCopyCode = { onAction(ImageVectorToXmlAction.OnCopyInClipboard(it)) },
+        onIconNameChange = { onAction(ImageVectorXmlAction.OnIconNameChange(it)) },
+        onCopyCode = { onAction(ImageVectorXmlAction.OnCopyInClipboard(it)) },
         onOpenSettings = openSettings,
         editPanel = { name, onNameChange ->
             EditActionContent(
@@ -147,7 +147,7 @@ private fun ImageVectorToXmlContent(
 @Composable
 private fun ImageVectorToXmlContentPreview() = ProjectPreviewTheme {
     ImageVectorToXmlContent(
-        state = ImageVectorToXmlState.Content(
+        state = ImageVectorXmlState.Content(
             iconSource = ImageVectorSource.TextBasedIcon(""),
             xmlContent = XmlContent(
                 name = "IconName",

@@ -1,23 +1,23 @@
-package io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.model
+package io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model
 
 import androidx.compose.runtime.Stable
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 import java.nio.file.Path
 
 @Stable
-sealed interface ImageVectorToXmlState {
+sealed interface ImageVectorXmlState {
 
     data class Content(
         val iconSource: ImageVectorSource,
         val xmlContent: XmlContent,
-    ) : ImageVectorToXmlState
+    ) : ImageVectorXmlState
 
     data class Error(
         val message: String,
         val stacktrace: String? = null,
-    ) : ImageVectorToXmlState
+    ) : ImageVectorXmlState
 
-    data object Loading : ImageVectorToXmlState
+    data object Loading : ImageVectorXmlState
 }
 
 @Stable

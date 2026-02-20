@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker
+package io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.picker
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -9,26 +9,26 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberKtPathPicker
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerAction
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.model.ImageVectorPickerEvent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.ImageVectorXmlScreen
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.picker.model.ImageVectorXmlPickerAction
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.picker.model.ImageVectorXmlPickerEvent
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
 
-val ImageVectorPickerScreen by navDestination {
+val ImageVectorXmlPickerScreen by navDestination {
     val navController = navController()
     val coroutineScope = rememberCoroutineScope()
     val filePicker = rememberKtPathPicker()
 
-    val viewModel = viewModel { ImageVectorPickerViewModel() }
+    val viewModel = viewModel { ImageVectorXmlPickerViewModel() }
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is ImageVectorPickerEvent.NavigateToConversion -> {
+                is ImageVectorXmlPickerEvent.NavigateToConversion -> {
                     navController.navigate(
-                        dest = ImageVectorToXmlScreen,
+                        dest = ImageVectorXmlScreen,
                         navArgs = event.params,
                     )
                 }
@@ -43,16 +43,16 @@ val ImageVectorPickerScreen by navDestination {
         onBack = navController::back,
         onFilePick = { path ->
             coroutineScope.launch {
-                viewModel.onAction(ImageVectorPickerAction.OnDragAndDropPath(path))
+                viewModel.onAction(ImageVectorXmlPickerAction.OnDragAndDropPath(path))
             }
         },
         onTextPaste = { text ->
-            viewModel.onAction(ImageVectorPickerAction.OnPasteFromClipboard(text))
+            viewModel.onAction(ImageVectorXmlPickerAction.OnPasteFromClipboard(text))
         },
         onBrowseClick = {
             coroutineScope.launch {
                 filePicker.launch()?.let { path ->
-                    viewModel.onAction(ImageVectorPickerAction.OnDragAndDropPath(path))
+                    viewModel.onAction(ImageVectorXmlPickerAction.OnDragAndDropPath(path))
                 }
             }
         },
