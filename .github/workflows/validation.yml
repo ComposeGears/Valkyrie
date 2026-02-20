@@ -55,7 +55,7 @@ jobs:
 
           # Extract changed tools under tools/<tool-name>/
           TOOLS_JSON=$(echo "$CHANGED_FILES" \
-            | grep '^tools/' \
+            | grep '^tools/' || true \
             | cut -d'/' -f2 \
             | sort -u \
             | jq -R -s -c 'split("\n")[:-1]')
