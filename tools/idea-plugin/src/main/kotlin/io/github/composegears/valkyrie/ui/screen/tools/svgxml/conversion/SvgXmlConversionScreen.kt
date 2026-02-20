@@ -33,6 +33,7 @@ import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.editor.IntellijEditorTextField
 import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
+import io.github.composegears.valkyrie.jewel.platform.picker.SaveResult
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberFileSaver
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
@@ -74,11 +75,14 @@ val SvgXmlConversionScreen by navDestination<SvgXmlParams> {
             .onEach {
                 when (it) {
                     is SvgXmlEvent.ExportXmlFile -> {
-                        val saved = fileSaver.save(it.fileName, it.content)
-                        if (saved) {
-                            bannerManager.show(message = SuccessBanner(text = message("svg.to.xml.export.success")))
-                        } else {
-                            bannerManager.show(message = ErrorBanner(text = message("svg.to.xml.export.error")))
+                        when (val result = fileSaver.save(it.fileName, it.content)) {
+                            is SaveResult.Success -> bannerManager.show(
+                                message = SuccessBanner(text = message("svg.to.xml.export.success")),
+                            )
+                            is SaveResult.Error -> bannerManager.show(
+                                message = ErrorBanner(text = message("svg.to.xml.export.error", result.message)),
+                            )
+                            is SaveResult.Cancelled -> Unit
                         }
                     }
                     is SvgXmlEvent.CopyInClipboard -> {

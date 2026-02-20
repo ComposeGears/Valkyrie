@@ -21,7 +21,7 @@ fun rememberFileSaver(
     val project = LocalProject.current
 
     return remember {
-        FileSaver(
+        FileSaverImpl(
             project = project,
             title = title,
             description = description,
@@ -29,16 +29,28 @@ fun rememberFileSaver(
     }
 }
 
-class FileSaver(
+interface FileSaver {
+    suspend fun save(fileName: String, content: String): SaveResult
+}
+
+sealed interface SaveResult {
+    data object Success : SaveResult
+    data object Cancelled : SaveResult
+    data class Error(val message: String) : SaveResult
+}
+
+private class FileSaverImpl(
     private val project: Project,
     private val title: String,
     private val description: String,
-) {
-    suspend fun save(fileName: String, content: String): Boolean = withContext(Dispatchers.EDT) {
+) : FileSaver {
+
+    override suspend fun save(fileName: String, content: String): SaveResult = withContext(Dispatchers.EDT) {
         val descriptor = FileSaverDescriptor(title, description)
         val dialog = FileChooserFactory.getInstance().createSaveFileDialog(descriptor, project)
 
-        val fileWrapper = dialog.save(null as? Path, fileName) ?: return@withContext false
+        val fileWrapper = dialog.save(null as? Path, fileName)
+            ?: return@withContext SaveResult.Cancelled
 
         return@withContext runCatching {
             ApplicationManager.getApplication().runWriteAction {
@@ -46,6 +58,9 @@ class FileSaver(
                 file.writeText(content)
                 LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file)
             }
-        }.isSuccess
+            SaveResult.Success
+        }.getOrElse {
+            SaveResult.Error(message = it.message ?: "Unknown error")
+        }
     }
 }
