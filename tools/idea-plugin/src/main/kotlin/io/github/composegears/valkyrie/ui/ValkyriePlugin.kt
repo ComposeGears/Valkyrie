@@ -37,12 +37,12 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPa
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.ExistingPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.MaterialPackScreen
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.NewPackScreen
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.conversion.ImageVectorToXmlScreen
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.ImageVectorXmlScreen
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.picker.ImageVectorXmlPickerScreen
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.SvgXmlConversionScreen
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.picker.SvgXmlPickerScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
@@ -104,8 +104,8 @@ fun ValkyriePlugin(
                 IconPackConversionScreen,
                 MaterialPackScreen,
 
-                ImageVectorPickerScreen,
-                ImageVectorToXmlScreen,
+                ImageVectorXmlPickerScreen,
+                ImageVectorXmlScreen,
 
                 SvgXmlPickerScreen,
                 SvgXmlConversionScreen,

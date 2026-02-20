@@ -36,9 +36,9 @@ import io.github.composegears.valkyrie.sdk.shared.ValkyrieTool
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
 import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
-import io.github.composegears.valkyrie.ui.screen.mode.imagevectortoxml.picker.ImageVectorPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.picker.ImageVectorXmlPickerScreen
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.picker.SvgXmlPickerScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
 import io.github.composegears.valkyrie.util.stringResource
@@ -67,7 +67,7 @@ val IntroScreen by navDestination {
             when (it) {
                 ValkyrieTool.Editor -> navController.navigate(dest = EditorSelectScreen)
                 ValkyrieTool.WebImport -> navController.navigate(dest = WebImportFlow)
-                ValkyrieTool.ImageVectorToXml -> navController.navigate(dest = ImageVectorPickerScreen)
+                ValkyrieTool.ImageVectorToXml -> navController.navigate(dest = ImageVectorXmlPickerScreen)
                 ValkyrieTool.SvgToXml -> navController.navigate(dest = SvgXmlPickerScreen)
             }
         },
