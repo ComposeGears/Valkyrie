@@ -9,9 +9,14 @@ on:
         type: boolean
         default: true
       bump_kind:
-        description: "major, minor or patch"
-        required: false
-        default: "minor"
+        description: "Increment type"
+        required: true
+        type: choice
+        default: minor
+        options:
+          - major
+          - minor
+          - patch
       custom_version:
         description: "Custom version"
         required: false
