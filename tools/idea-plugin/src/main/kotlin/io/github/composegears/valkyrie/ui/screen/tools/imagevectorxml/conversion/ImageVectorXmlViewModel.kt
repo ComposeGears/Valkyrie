@@ -11,6 +11,10 @@ import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.ImageVectorPsiParser
 import io.github.composegears.valkyrie.sdk.ir.xml.toVectorXmlString
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorSource
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlAction
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlEvent
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlEvent.CopyInClipboard
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlEvent.ExportXmlFile
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlParams
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlParams.PathSource
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlParams.TextSource
@@ -20,6 +24,8 @@ import io.github.composegears.valkyrie.util.extension.PsiKtFileFactory
 import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.kotlin.psi.KtFile
@@ -36,10 +42,36 @@ class ImageVectorXmlViewModel(
     )
     val state = stateRecord.asStateFlow()
 
+    private val _events = Channel<ImageVectorXmlEvent>()
+    val events = _events.receiveAsFlow()
+
     init {
         when (params) {
             is PathSource -> convertFromPath(params.path)
             is TextSource -> convertFromText(params.kotlinCode)
+        }
+    }
+
+    fun onAction(action: ImageVectorXmlAction) {
+        val state = stateRecord.value.safeAs<ImageVectorXmlState.Content>() ?: return
+
+        viewModelScope.launch {
+            when (action) {
+                is ImageVectorXmlAction.OnExport -> {
+                    _events.send(
+                        ExportXmlFile(
+                            fileName = "${state.xmlContent.name}.xml",
+                            content = action.text,
+                        ),
+                    )
+                }
+                is ImageVectorXmlAction.OnCopyInClipboard -> {
+                    _events.send(CopyInClipboard(action.text))
+                }
+                is ImageVectorXmlAction.OnIconNameChange -> {
+                    changeIconName(action.name)
+                }
+            }
         }
     }
 
@@ -93,8 +125,8 @@ class ImageVectorXmlViewModel(
             }
     }
 
-    fun changeIconName(name: String) = viewModelScope.launch(Dispatchers.IO) {
-        val currentState = stateRecord.value.safeAs<ImageVectorXmlState.Content>() ?: return@launch
+    private suspend fun changeIconName(name: String) = withContext(Dispatchers.Default) {
+        val currentState = stateRecord.value.safeAs<ImageVectorXmlState.Content>() ?: return@withContext
 
         val newXml = currentState.xmlContent.irImageVector
             .copy(name = name)
@@ -116,7 +148,7 @@ class ImageVectorXmlViewModel(
                         ?: error("Failed to parse image vector psi")
 
                     val xmlCode = irImageVector.toVectorXmlString()
-                    val iconName = irImageVector.name.ifEmpty { "Icon" }
+                    val iconName = irImageVector.name.lowercase().ifEmpty { "Icon" }
 
                     XmlContent(
                         name = iconName,

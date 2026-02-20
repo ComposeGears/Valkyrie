@@ -16,14 +16,21 @@ import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource.FileBasedIcon
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource.StringBasedIcon
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionEvent
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionEvent.CopyInClipboard
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionEvent.ExportKtFile
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionState.ConversionState
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SimpleConversionViewModel(
     savedState: MutableSavedState,
@@ -37,6 +44,9 @@ class SimpleConversionViewModel(
         initialValue = SimpleConversionState.Loading,
     )
     val state = stateRecord.asStateFlow()
+
+    private val _events = Channel<SimpleConversionEvent>()
+    val events = _events.receiveAsFlow()
 
     init {
         when (params) {
@@ -76,6 +86,29 @@ class SimpleConversionViewModel(
             .launchIn(viewModelScope)
     }
 
+    fun onAction(action: SimpleConversionAction) {
+        val state = stateRecord.value.safeAs<ConversionState>() ?: return
+
+        viewModelScope.launch {
+            when (action) {
+                is SimpleConversionAction.OnExport -> {
+                    _events.send(
+                        ExportKtFile(
+                            fileName = "${state.iconContent.name}.kt",
+                            content = action.text,
+                        ),
+                    )
+                }
+                is SimpleConversionAction.OnCopyInClipboard -> {
+                    _events.send(CopyInClipboard(action.text))
+                }
+                is SimpleConversionAction.OnIconNameChange -> {
+                    changeIconName(action.name)
+                }
+            }
+        }
+    }
+
     fun selectPath(path: Path) = viewModelScope.launch(Dispatchers.Default) {
         parseIcon(path)
             .onFailure {
@@ -113,8 +146,8 @@ class SimpleConversionViewModel(
             }
     }
 
-    fun changeIconName(name: String) = viewModelScope.launch(Dispatchers.Default) {
-        val conversionState = stateRecord.value.safeAs<ConversionState>() ?: return@launch
+    private suspend fun changeIconName(name: String) = withContext(Dispatchers.Default) {
+        val conversionState = stateRecord.value.safeAs<ConversionState>() ?: return@withContext
 
         when (val source = conversionState.iconSource) {
             is FileBasedIcon -> {

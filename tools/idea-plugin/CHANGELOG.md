@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Add export as file action for `Simple mode` and `ImageVector to XML` tool
+
 ### Fixed
 
 - Fix an incorrect error message when the user cancels the save dialog during export
