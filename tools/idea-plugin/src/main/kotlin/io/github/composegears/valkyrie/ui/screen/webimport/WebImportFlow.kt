@@ -6,8 +6,9 @@ import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigationSlideInOut
 import com.composegears.tiamat.compose.rememberNavController
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
 
 val WebImportFlow by navDestination {
     Navigation(
@@ -19,6 +20,7 @@ val WebImportFlow by navDestination {
             WebImportSelectorScreen,
             MaterialSymbolsImportScreen,
             LucideImportScreen,
+            BootstrapImportScreen,
         ),
         contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
     )

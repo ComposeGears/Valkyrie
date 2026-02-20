@@ -20,12 +20,15 @@ import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.BootstrapLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.LucideLogo
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Bootstrap
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
-import io.github.composegears.valkyrie.ui.screen.webimport.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.InfoText
@@ -40,6 +43,7 @@ val WebImportSelectorScreen by navDestination {
             val screen = when (it) {
                 GoogleMaterialSymbols -> MaterialSymbolsImportScreen
                 Lucide -> LucideImportScreen
+                Bootstrap -> BootstrapImportScreen
             }
 
             navController.navigate(dest = screen)
@@ -80,6 +84,13 @@ private fun WebImportSelectorScreenUI(
                     title = stringResource("web.import.selector.lucide.title"),
                     description = stringResource("web.import.selector.lucide.description"),
                 )
+                InfoCard(
+                    onClick = { onClick(Bootstrap) },
+                    icon = ValkyrieIcons.Colored.BootstrapLogo,
+                    tint = Color.Unspecified,
+                    title = stringResource("web.import.selector.bootstrap.title"),
+                    description = stringResource("web.import.selector.bootstrap.description"),
+                )
                 InfoText(
                     text = stringResource("web.import.selector.coming.soon"),
                     maxLines = 2,
@@ -92,6 +103,7 @@ private fun WebImportSelectorScreenUI(
 enum class IconProviders {
     GoogleMaterialSymbols,
     Lucide,
+    Bootstrap,
 }
 
 @Preview

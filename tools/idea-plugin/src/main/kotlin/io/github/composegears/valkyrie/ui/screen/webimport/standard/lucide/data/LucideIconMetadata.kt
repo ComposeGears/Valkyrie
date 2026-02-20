@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.lucide.data
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
