@@ -45,7 +45,7 @@ jobs:
         id: changes
         shell: bash
         run: |
-          DIFF_RANGE="${{ github.base_ref }}...${{ github.head_ref }}"
+          DIFF_RANGE="${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}"
 
           echo "Diff range: $DIFF_RANGE"
 
