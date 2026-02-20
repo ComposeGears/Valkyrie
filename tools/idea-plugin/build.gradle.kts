@@ -30,7 +30,7 @@ configurations.getByName("implementation") {
     exclude(group = "org.jetbrains.compose.ui")
     exclude(group = "org.jetbrains.compose.components")
     exclude(group = "org.jetbrains.skiko")
-exclude(group = "org.jetbrains.skiko")
+    exclude(group = "org.jetbrains.skiko")
 
     exclude(group = "androidx.annotation")
     exclude(group = "androidx.lifecycle")
