@@ -1,27 +1,22 @@
 name: Validation
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - 'tools/idea-plugin/CHANGELOG.md'
-      - 'gradle.properties'
   pull_request:
-    paths-ignore:
-      - 'tools/idea-plugin/CHANGELOG.md'
-      - 'gradle.properties'
-  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # -----------------------------
+  # Links validation (always)
+  # -----------------------------
   check-links:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6
 
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
@@ -31,12 +26,70 @@ jobs:
           filter_mode: nofilter
           fail_level: any
 
+  # -----------------------------
+  # Impact analysis
+  # -----------------------------
+  determine-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      tools: ${{ steps.changes.outputs.tools }}
+      outside_tools: ${{ steps.changes.outputs.outside_tools }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Determine changed files and tools
+        id: changes
+        shell: bash
+        run: |
+          DIFF_RANGE="${{ github.base_ref }}...${{ github.head_ref }}"
+
+          echo "Diff range: $DIFF_RANGE"
+
+          CHANGED_FILES=$(git diff --name-only "$DIFF_RANGE")
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Extract changed tools under tools/<tool-name>/
+          TOOLS_JSON=$(echo "$CHANGED_FILES" \
+            | grep '^tools/' \
+            | cut -d'/' -f2 \
+            | sort -u \
+            | jq -R -s -c 'split("\n")[:-1]')
+
+          # Check if there are changes outside tools/
+          OUTSIDE_TOOLS=$(echo "$CHANGED_FILES" | grep -v '^tools/' || true)
+
+          echo "Detected tools: $TOOLS_JSON"
+
+          echo "tools=$TOOLS_JSON" >> "$GITHUB_OUTPUT"
+
+          if [[ -n "$OUTSIDE_TOOLS" ]]; then
+            echo "outside_tools=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "outside_tools=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # -----------------------------
+  # Build
+  # -----------------------------
   build:
+    needs:
+      - check-links
+      - determine-changes
+    runs-on: ubuntu-latest
+
     strategy:
+      fail-fast: false
       matrix:
-        # os: [ ubuntu-latest, windows-latest ]
-        os: [ ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+        tool:
+          - cli
+          - compose-app
+          - gradle-plugin
+          - idea-plugin
 
     steps:
       - uses: actions/checkout@v6
@@ -47,9 +100,16 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v5
-        with:
-          cache-disabled: true
-
-      - name: Run build
-        run: ./gradlew build
+      - name: Build
+        shell: bash
+        if: |
+          needs.determine-changes.outputs.outside_tools == 'true' ||
+          contains(fromJson(needs.determine-changes.outputs.tools), matrix.tool)
+        run: |
+          if [[ "${{ needs.determine-changes.outputs.outside_tools }}" == "true" ]]; then
+            echo "Changes outside tools/, running full build"
+            ./gradlew build
+          else
+            echo "Building tool: ${{ matrix.tool }}"
+            ./gradlew :tools:${{ matrix.tool }}:build
+          fi
