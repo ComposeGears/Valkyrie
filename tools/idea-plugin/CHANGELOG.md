@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+- Fix an incorrect error message when the user cancels the save dialog during export
+
 ## 1.2.0 - 2026-02-20
 
 ### Added
