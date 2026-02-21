@@ -2,5 +2,6 @@ package io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversio
 
 sealed interface ImageVectorXmlAction {
     data class OnCopyInClipboard(val text: String) : ImageVectorXmlAction
+    data class OnExport(val text: String) : ImageVectorXmlAction
     data class OnIconNameChange(val name: String) : ImageVectorXmlAction
 }

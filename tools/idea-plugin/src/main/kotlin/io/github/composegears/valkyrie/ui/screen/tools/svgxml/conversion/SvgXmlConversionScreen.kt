@@ -77,10 +77,10 @@ val SvgXmlConversionScreen by navDestination<SvgXmlParams> {
                     is SvgXmlEvent.ExportXmlFile -> {
                         when (val result = fileSaver.save(it.fileName, it.content)) {
                             is SaveResult.Success -> bannerManager.show(
-                                message = SuccessBanner(text = message("svg.to.xml.export.success")),
+                                message = SuccessBanner(text = message("general.export.success")),
                             )
                             is SaveResult.Error -> bannerManager.show(
-                                message = ErrorBanner(text = message("svg.to.xml.export.error", result.message)),
+                                message = ErrorBanner(text = message("general.export.error", result.message)),
                             )
                             is SaveResult.Cancelled -> Unit
                         }

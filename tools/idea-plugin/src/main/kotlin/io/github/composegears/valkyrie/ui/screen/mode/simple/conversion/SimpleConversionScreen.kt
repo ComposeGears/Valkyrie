@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
@@ -18,30 +20,34 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
+import io.github.composegears.valkyrie.jewel.platform.picker.SaveResult
+import io.github.composegears.valkyrie.jewel.platform.picker.rememberFileSaver
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconContent
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction.OnCopyInClipboard
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction.OnExport
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionAction.OnIconNameChange
+import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionEvent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.SimpleConversionState.ConversionState
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.EditActionContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.action.PreviewActionContent
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
-import io.github.composegears.valkyrie.util.IR_STUB
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import java.nio.file.Path
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 sealed interface SimpleConversionParamsSource {
@@ -60,8 +66,38 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
             params = params,
         )
     }
+
+    val fileSaver = rememberFileSaver(
+        title = stringResource("simple.export.dialog.title"),
+        description = stringResource("simple.export.dialog.description"),
+    )
+
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.events
+            .onEach {
+                when (it) {
+                    is SimpleConversionEvent.ExportKtFile -> {
+                        when (val result = fileSaver.save(it.fileName, it.content)) {
+                            is SaveResult.Success -> bannerManager.show(
+                                message = SuccessBanner(text = message("general.export.success")),
+                            )
+                            is SaveResult.Error -> bannerManager.show(
+                                message = ErrorBanner(text = message("general.export.error", result.message)),
+                            )
+                            is SaveResult.Cancelled -> Unit
+                        }
+                    }
+                    is SimpleConversionEvent.CopyInClipboard -> {
+                        copyInClipboard(it.text)
+                        bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
+                    }
+                }
+            }
+            .launchIn(this)
+    }
 
     when (val state = state) {
         is ConversionState -> {
@@ -72,15 +108,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                 openSettings = {
                     navController.navigate(SettingsScreen)
                 },
-                onAction = {
-                    when (it) {
-                        is OnCopyInClipboard -> {
-                            copyInClipboard(it.text)
-                            bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
-                        }
-                        is OnIconNameChange -> viewModel.changeIconName(it.name)
-                    }
-                },
+                onAction = viewModel::onAction,
             )
         }
         is SimpleConversionState.Error -> {
@@ -131,6 +159,7 @@ private fun SimpleConversionContent(
         language = SyntaxLanguage.KOTLIN,
         onBack = onBack,
         onIconNameChange = { onAction(OnIconNameChange(it)) },
+        onExport = { onAction(OnExport(it)) },
         onCopyCode = { onAction(OnCopyInClipboard(it)) },
         onOpenSettings = openSettings,
         editPanel = { name, onNameChange ->
@@ -151,41 +180,18 @@ private fun SimpleConversionContent(
 @Preview
 @Composable
 private fun SimpleConversionPreviewUiPreview() = ProjectPreviewTheme {
-    SimpleConversionContent(
-        state = ConversionState(
-            iconSource = IconSource.StringBasedIcon(""),
-            iconContent = IconContent(
-                name = "IconName",
-                irImageVector = IR_STUB,
-                code = """
-                    import androidx.compose.ui.graphics.vector.ImageVector
-                    import androidx.compose.ui.unit.dp
-
-                    val WithoutPath: ImageVector
-                        get() {
-                            if (_WithoutPath != null) {
-                                return _WithoutPath!!
-                            }
-                            _WithoutPath = ImageVector.Builder(
-                                name = "WithoutPath",
-                                defaultWidth = 24.dp,
-                                defaultHeight = 24.dp,
-                                viewportWidth = 18f,
-                                viewportHeight = 18f
-                            ).build()
-
-                            return _WithoutPath!!
-                        }
-
-                    @Suppress("ObjectPropertyName")
-                    private var _WithoutPath: ImageVector? = null
-
-                """.trimIndent(),
-            ),
+    TiamatPreview(
+        destination = SimpleConversionScreen,
+        navArgs = SimpleConversionParamsSource.TextSource(
+            name = "IconName",
+            text = """
+                <vector xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:width="24dp"
+                    android:height="24dp"
+                    android:viewportWidth="18"
+                    android:viewportHeight="18">
+                </vector>
+            """.trimIndent(),
         ),
-        previewType = PreviewType.Auto,
-        onBack = {},
-        openSettings = {},
-        onAction = {},
     )
 }

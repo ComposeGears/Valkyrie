@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.ui.foundation.conversion
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +10,7 @@ import androidx.compose.ui.Modifier
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.CopyAction
 import io.github.composegears.valkyrie.jewel.EditToggleAction
+import io.github.composegears.valkyrie.jewel.ExportAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.PreviewIconToggleAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
@@ -22,6 +22,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Expanded
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
+import io.github.composegears.valkyrie.ui.foundation.FocusableColumn
 
 /**
  * Represents the expanded action panels in conversion screens.
@@ -35,7 +36,7 @@ enum class ConversionExpandedAction {
 /**
  * Generic conversion screen layout that can be reused for different conversion modes.
  * Provides a consistent structure with:
- * - Top app bar with common actions (Back, Edit, Preview, Copy, Settings)
+ * - Top app bar with common actions (Back, Edit, Preview, Copy, Export, Settings)
  * - Expandable panels for editing and preview
  * - Code viewer area
  *
@@ -46,6 +47,7 @@ enum class ConversionExpandedAction {
  * @param language Language for Editor
  * @param onBack Callback when back button is clicked
  * @param onIconNameChange Callback when icon name is changed
+ * @param onExport Callback to export the code content
  * @param onCopyCode Callback to copy code to clipboard
  * @param onOpenSettings Callback to open settings
  * @param editPanel Composable for the edit action panel
@@ -60,6 +62,7 @@ fun GenericConversionScreen(
     language: SyntaxLanguage,
     onBack: () -> Unit,
     onIconNameChange: (String) -> Unit,
+    onExport: (String) -> Unit,
     onCopyCode: (String) -> Unit,
     onOpenSettings: () -> Unit,
     editPanel: @Composable (iconName: String, onNameChange: (String) -> Unit) -> Unit,
@@ -69,7 +72,7 @@ fun GenericConversionScreen(
     var latestCode by rememberMutableState { codeContent }
     var expandedAction by rememberMutableState { ConversionExpandedAction.None }
 
-    Column(modifier = modifier.fillMaxSize()) {
+    FocusableColumn(modifier = modifier.fillMaxSize()) {
         Toolbar {
             BackAction(onBack = onBack)
             Title(text = title)
@@ -86,6 +89,7 @@ fun GenericConversionScreen(
                 },
                 selected = expandedAction == ConversionExpandedAction.Preview,
             )
+            ExportAction(onExport = { onExport(latestCode) })
             CopyAction(onCopy = { onCopyCode(latestCode) })
             SettingsAction(openSettings = onOpenSettings)
         }

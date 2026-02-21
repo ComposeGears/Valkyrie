@@ -44,11 +44,11 @@ class SvgXmlViewModel(
         }
     }
 
-    fun onAction(event: SvgXmlAction) {
+    fun onAction(action: SvgXmlAction) {
         val state = stateRecord.value.safeAs<SvgXmlState.Content>() ?: return
 
         viewModelScope.launch {
-            when (event) {
+            when (action) {
                 is SvgXmlAction.OnCopyInClipboard -> {
                     _events.send(CopyInClipboard(text = state.xmlCode.value))
                 }
@@ -61,10 +61,10 @@ class SvgXmlViewModel(
                     )
                 }
                 is SvgXmlAction.OnNameChange -> {
-                    stateRecord.value = state.copy(fileName = event.name)
+                    stateRecord.value = state.copy(fileName = action.name)
                 }
                 is SvgXmlAction.OnCodeChange -> {
-                    stateRecord.value = state.copy(xmlCode = XmlCode(value = event.newCode))
+                    stateRecord.value = state.copy(xmlCode = XmlCode(value = action.newCode))
                 }
             }
         }

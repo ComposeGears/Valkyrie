@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -18,11 +19,14 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.SuccessBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.editor.SyntaxLanguage
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.platform.copyInClipboard
+import io.github.composegears.valkyrie.jewel.platform.picker.SaveResult
+import io.github.composegears.valkyrie.jewel.platform.picker.rememberFileSaver
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
@@ -34,12 +38,15 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.ui.actio
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorSource
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlAction
+import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlEvent
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlParams
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.ImageVectorXmlState
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.model.XmlContent
 import io.github.composegears.valkyrie.util.IR_STUB
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val ImageVectorXmlScreen by navDestination<ImageVectorXmlParams> {
@@ -56,7 +63,37 @@ val ImageVectorXmlScreen by navDestination<ImageVectorXmlParams> {
             params = params,
         )
     }
+
+    val fileSaver = rememberFileSaver(
+        title = stringResource("imagevectortoxml.export.dialog.title"),
+        description = stringResource("imagevectortoxml.export.dialog.description"),
+    )
+
     val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.events
+            .onEach {
+                when (it) {
+                    is ImageVectorXmlEvent.ExportXmlFile -> {
+                        when (val result = fileSaver.save(it.fileName, it.content)) {
+                            is SaveResult.Success -> bannerManager.show(
+                                message = SuccessBanner(text = message("general.export.success")),
+                            )
+                            is SaveResult.Error -> bannerManager.show(
+                                message = ErrorBanner(text = message("general.export.error", result.message)),
+                            )
+                            is SaveResult.Cancelled -> Unit
+                        }
+                    }
+                    is ImageVectorXmlEvent.CopyInClipboard -> {
+                        copyInClipboard(it.text)
+                        bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
+                    }
+                }
+            }
+            .launchIn(this)
+    }
 
     when (val currentState = state) {
         is ImageVectorXmlState.Content -> {
@@ -66,17 +103,7 @@ val ImageVectorXmlScreen by navDestination<ImageVectorXmlParams> {
                 openSettings = {
                     navController.navigate(dest = SettingsScreen)
                 },
-                onAction = { action ->
-                    when (action) {
-                        is ImageVectorXmlAction.OnCopyInClipboard -> {
-                            copyInClipboard(action.text)
-                            bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
-                        }
-                        is ImageVectorXmlAction.OnIconNameChange -> {
-                            viewModel.changeIconName(action.name)
-                        }
-                    }
-                },
+                onAction = viewModel::onAction,
             )
         }
         is ImageVectorXmlState.Error -> {
@@ -126,6 +153,7 @@ private fun ImageVectorToXmlContent(
         language = SyntaxLanguage.XML,
         onBack = onBack,
         onIconNameChange = { onAction(ImageVectorXmlAction.OnIconNameChange(it)) },
+        onExport = { onAction(ImageVectorXmlAction.OnExport(it)) },
         onCopyCode = { onAction(ImageVectorXmlAction.OnCopyInClipboard(it)) },
         onOpenSettings = openSettings,
         editPanel = { name, onNameChange ->
