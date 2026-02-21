@@ -36,7 +36,7 @@ enum class ConversionExpandedAction {
 /**
  * Generic conversion screen layout that can be reused for different conversion modes.
  * Provides a consistent structure with:
- * - Top app bar with common actions (Back, Edit, Preview, Copy, Settings)
+ * - Top app bar with common actions (Back, Edit, Preview, Copy, Export, Settings)
  * - Expandable panels for editing and preview
  * - Code viewer area
  *
@@ -47,6 +47,7 @@ enum class ConversionExpandedAction {
  * @param language Language for Editor
  * @param onBack Callback when back button is clicked
  * @param onIconNameChange Callback when icon name is changed
+ * @param onExport Callback to export the code content
  * @param onCopyCode Callback to copy code to clipboard
  * @param onOpenSettings Callback to open settings
  * @param editPanel Composable for the edit action panel
