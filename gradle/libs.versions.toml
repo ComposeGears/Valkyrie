@@ -13,7 +13,7 @@ ktor = "3.3.1"
 
 [libraries]
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
-android-build-tools = "com.android.tools:sdk-common:31.13.2"
+android-build-tools = "com.android.tools:sdk-common:32.0.1"
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 highlights = "dev.snipme:highlights:1.1.0"
