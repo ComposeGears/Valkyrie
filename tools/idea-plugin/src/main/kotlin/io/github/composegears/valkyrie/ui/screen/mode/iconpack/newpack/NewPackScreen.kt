@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -19,6 +18,7 @@ import com.composegears.tiamat.compose.replace
 import io.github.composegears.valkyrie.jewel.PreviewCodeAction
 import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
@@ -43,8 +43,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.ui.NewIco
 import io.github.composegears.valkyrie.ui.screen.preview.CodePreviewScreen
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.random.Random
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val NewPackScreen by navDestination<PendingPathData> {
@@ -54,25 +52,21 @@ val NewPackScreen by navDestination<PendingPathData> {
     val viewModel = viewModel<NewPackViewModel>()
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is NewPackEvent.OnSettingsUpdated -> {
-                        navController.replace(
-                            dest = IconPackConversionScreen,
-                            navArgs = pendingData,
-                        )
-                    }
-                    is NewPackEvent.PreviewIconPackObject -> {
-                        navController.navigate(
-                            dest = CodePreviewScreen,
-                            navArgs = it.code,
-                        )
-                    }
-                }
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is NewPackEvent.OnSettingsUpdated -> {
+                navController.replace(
+                    dest = IconPackConversionScreen,
+                    navArgs = pendingData,
+                )
             }
-            .launchIn(this)
+            is NewPackEvent.PreviewIconPackObject -> {
+                navController.navigate(
+                    dest = CodePreviewScreen,
+                    navArgs = event.code,
+                )
+            }
+        }
     }
 
     NewPackContent(

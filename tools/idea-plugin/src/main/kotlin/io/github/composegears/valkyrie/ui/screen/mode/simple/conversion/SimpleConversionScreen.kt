@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +29,7 @@ import io.github.composegears.valkyrie.jewel.platform.picker.rememberFileSaver
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.foundation.conversion.GenericConversionScreen
@@ -46,8 +46,6 @@ import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import java.nio.file.Path
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 sealed interface SimpleConversionParamsSource {
@@ -75,28 +73,24 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is SimpleConversionEvent.ExportKtFile -> {
-                        when (val result = fileSaver.save(it.fileName, it.content)) {
-                            is SaveResult.Success -> bannerManager.show(
-                                message = SuccessBanner(text = message("general.export.success")),
-                            )
-                            is SaveResult.Error -> bannerManager.show(
-                                message = ErrorBanner(text = message("general.export.error", result.message)),
-                            )
-                            is SaveResult.Cancelled -> Unit
-                        }
-                    }
-                    is SimpleConversionEvent.CopyInClipboard -> {
-                        copyInClipboard(it.text)
-                        bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
-                    }
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is SimpleConversionEvent.ExportKtFile -> {
+                when (val result = fileSaver.save(event.fileName, event.content)) {
+                    is SaveResult.Success -> bannerManager.show(
+                        message = SuccessBanner(text = message("general.export.success")),
+                    )
+                    is SaveResult.Error -> bannerManager.show(
+                        message = ErrorBanner(text = message("general.export.error", result.message)),
+                    )
+                    is SaveResult.Cancelled -> Unit
                 }
             }
-            .launchIn(this)
+            is SimpleConversionEvent.CopyInClipboard -> {
+                copyInClipboard(event.text)
+                bannerManager.show(message = SuccessBanner(text = message("general.action.text.copy.clipboard")))
+            }
+        }
     }
 
     when (val state = state) {

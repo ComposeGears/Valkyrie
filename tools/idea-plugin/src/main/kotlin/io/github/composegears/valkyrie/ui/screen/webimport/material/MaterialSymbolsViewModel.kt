@@ -21,8 +21,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
@@ -36,8 +36,8 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
     )
     val materialState = materialRecord.asStateFlow()
 
-    private val _events = MutableSharedFlow<MaterialEvent>()
-    val events = _events.asSharedFlow()
+    private val _events = Channel<MaterialEvent>()
+    val events = _events.receiveAsFlow()
 
     private var currentFontFamily: IconFontFamily = IconFontFamily.OUTLINED
     private var iconLoadJob: Job? = null
@@ -118,7 +118,7 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
                 fontSettings = state.fontSettings,
             )
 
-            _events.emit(
+            _events.send(
                 MaterialEvent.IconDownloaded(
                     svgContent = svgContent,
                     name = IconNameFormatter.format(icon.name),

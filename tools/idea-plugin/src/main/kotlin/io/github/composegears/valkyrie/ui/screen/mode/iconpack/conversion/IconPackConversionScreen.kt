@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +41,7 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
 import io.github.composegears.valkyrie.parser.unified.model.IconType
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.service.GlobalEventsHandler.PendingPathData
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
@@ -61,8 +61,6 @@ import io.github.composegears.valkyrie.util.IR_STUB
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Text
@@ -81,24 +79,21 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
     val state by viewModel.state.collectAsState()
     val settings by viewModel.inMemorySettings.settings.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is ConversionEvent.OpenPreview -> {
-                        navController.navigate(
-                            dest = CodePreviewScreen,
-                            navArgs = it.iconContent,
-                        )
-                    }
-                    is ConversionEvent.ImportCompleted -> {
-                        VirtualFileManager.getInstance().asyncRefresh()
-                    }
-                    is ConversionEvent.NothingToImport -> {
-                        bannerManager.show(message = WarningBanner(text = message("iconpack.conversion.nothing.import")))
-                    }
-                }
-            }.launchIn(this)
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is ConversionEvent.OpenPreview -> {
+                navController.navigate(
+                    dest = CodePreviewScreen,
+                    navArgs = event.iconContent,
+                )
+            }
+            is ConversionEvent.ImportCompleted -> {
+                VirtualFileManager.getInstance().asyncRefresh()
+            }
+            is ConversionEvent.NothingToImport -> {
+                bannerManager.show(message = WarningBanner(text = message("iconpack.conversion.nothing.import")))
+            }
+        }
     }
 
     IconPackConversionUi(

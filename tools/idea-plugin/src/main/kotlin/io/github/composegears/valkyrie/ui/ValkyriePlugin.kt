@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.composegears.leviathan.compose.inject
@@ -20,6 +19,7 @@ import com.composegears.tiamat.navigation.Route
 import io.github.composegears.valkyrie.jewel.banner.BannerHost
 import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.IconPack
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.Simple
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.Unspecified
@@ -46,8 +46,6 @@ import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.picker.Ima
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.SvgXmlConversionScreen
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.picker.SvgXmlPickerScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.WebImportFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun ValkyriePlugin(
@@ -65,21 +63,12 @@ fun ValkyriePlugin(
         },
     )
 
-    LaunchedEffect(Unit) {
-        val globalEventsHandler = project.globalEventsHandler
-
-        globalEventsHandler
-            .events
-            .onEach { event ->
-                when (event) {
-                    is ImportIcons -> navController.openConversionFlow(event)
-                    is SetupIconPackMode -> navController.openSetupIconPackWithPendingData(event)
-                    is RefreshPlugin -> navController.initialFlow(inMemorySettings)
-                }.also {
-                    globalEventsHandler.resetCache()
-                }
-            }
-            .launchIn(this)
+    ObserveEvent(project.globalEventsHandler.events) { event ->
+        when (event) {
+            is ImportIcons -> navController.openConversionFlow(event)
+            is SetupIconPackMode -> navController.openSetupIconPackWithPendingData(event)
+            is RefreshPlugin -> navController.initialFlow(inMemorySettings)
+        }
     }
 
     DisposableEffect(Unit) {

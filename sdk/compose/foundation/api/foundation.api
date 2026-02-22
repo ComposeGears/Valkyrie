@@ -3,6 +3,10 @@ public final class io/github/composegears/valkyrie/sdk/compose/foundation/ColorK
 	public static final fun disabled-8_81llA (J)J
 }
 
+public final class io/github/composegears/valkyrie/sdk/compose/foundation/EffectKt {
+	public static final fun ObserveEvent (Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+}
+
 public final class io/github/composegears/valkyrie/sdk/compose/foundation/ModifierKt {
 	public static final fun animatedBorder-jIwJxvA (Landroidx/compose/ui/Modifier;Ljava/util/List;Landroidx/compose/ui/graphics/Shape;FILandroidx/compose/animation/core/Easing;Landroidx/compose/runtime/Composer;II)Landroidx/compose/ui/Modifier;
 	public static final fun applyIf (Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;

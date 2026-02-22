@@ -21,8 +21,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.L
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.LucideSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
@@ -37,8 +37,8 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     )
     val lucideState = lucideRecord.asStateFlow()
 
-    private val _events = MutableSharedFlow<LucideEvent>()
-    val events = _events.asSharedFlow()
+    private val _events = Channel<LucideEvent>()
+    val events = _events.receiveAsFlow()
 
     private var downloadJob: Job? = null
     private var fontLoadJob: Job? = null
@@ -105,7 +105,7 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
             runCatching {
                 val svgContent = lucideUseCase.downloadSvg(icon, state.settings)
 
-                _events.emit(
+                _events.send(
                     LucideEvent.IconDownloaded(
                         svgContent = svgContent,
                         name = IconNameFormatter.format(icon.displayName),

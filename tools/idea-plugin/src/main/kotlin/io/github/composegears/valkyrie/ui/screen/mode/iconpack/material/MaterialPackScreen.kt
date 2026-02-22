@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.material
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -11,6 +10,7 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.replace
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackDirectoryPicker
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackScreenScaffold
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
@@ -22,8 +22,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.Ma
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.model.MaterialPackState.ChooseDestinationDirectoryState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.material.ui.MaterialPackCreation
 import io.github.composegears.valkyrie.util.stringResource
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val MaterialPackScreen by navDestination {
@@ -32,16 +30,12 @@ val MaterialPackScreen by navDestination {
     val viewModel = viewModel<MaterialPackViewModel>()
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is MaterialPackEvent.FinishSetup -> {
-                        navController.replace(dest = IconPackConversionScreen)
-                    }
-                }
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is MaterialPackEvent.FinishSetup -> {
+                navController.replace(dest = IconPackConversionScreen)
             }
-            .launchIn(this)
+        }
     }
 
     MaterialPackContent(

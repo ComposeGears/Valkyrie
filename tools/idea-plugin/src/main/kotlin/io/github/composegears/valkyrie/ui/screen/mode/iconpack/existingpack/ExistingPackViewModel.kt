@@ -25,12 +25,12 @@ import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -46,8 +46,8 @@ class ExistingPackViewModel : ViewModel() {
     private val _state = MutableStateFlow<ExistingPackModeState>(ExistingPackModeState.ChooserState)
     val state = _state.asStateFlow()
 
-    private val _events = MutableSharedFlow<ExistingPackEvent>()
-    val events = _events.asSharedFlow()
+    private val _events = Channel<ExistingPackEvent>()
+    val events = _events.receiveAsFlow()
 
     init {
         inputHandler.state
@@ -105,7 +105,7 @@ class ExistingPackViewModel : ViewModel() {
             ),
         ).content
 
-        _events.emit(ExistingPackEvent.PreviewIconPackObject(code = iconPackCode))
+        _events.send(ExistingPackEvent.PreviewIconPackObject(code = iconPackCode))
     }
 
     private fun saveIconPack() {
@@ -123,7 +123,7 @@ class ExistingPackViewModel : ViewModel() {
                     inputFieldState = inputFieldState,
                 )
             }
-            _events.emit(ExistingPackEvent.OnSettingsUpdated)
+            _events.send(ExistingPackEvent.OnSettingsUpdated)
         }
     }
 
