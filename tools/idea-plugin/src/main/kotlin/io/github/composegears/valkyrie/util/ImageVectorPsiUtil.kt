@@ -79,18 +79,14 @@ private fun IrImageVector.toIcon(): Icon = ImageVectorIcon(
 )
 
 private fun parseImageVectorProperty(property: KtProperty): IrImageVector? {
-    // Try parsing the current file
-    val containingFile = property.containingKtFile
-    ImageVectorPsiParser.parseToIrImageVector(containingFile)?.let { return it }
+    ImageVectorPsiParser.parseToIrImageVector(property)?.let { return it }
 
     // For properties from libraries, navigate to decompiled/attached source
-    val navigationElement = property.navigationElement
-    if (navigationElement is KtProperty && navigationElement != property) {
-        val sourceFile = navigationElement.containingKtFile
-
+    val psiElement = property.navigationElement
+    if (psiElement is KtProperty && psiElement != property) {
         // Only parse if we have actual source code (not a stub)
-        if (COMPILED_CODE_MARKER !in sourceFile.text) {
-            return ImageVectorPsiParser.parseToIrImageVector(sourceFile)
+        if (COMPILED_CODE_MARKER !in psiElement.text) {
+            return ImageVectorPsiParser.parseToIrImageVector(psiElement)
         }
     }
 

@@ -32,14 +32,22 @@ internal object RegularImageVectorPsiParser {
             .firstOrNull { it.typeReference?.text == "ImageVector" }
             ?: return null
 
-        val blockBody = property.getter?.bodyBlockExpression
-            ?: property.delegateExpression?.childrenOfType<KtBlockExpression>()?.firstOrNull()
+        return property.parseImageVector()
+    }
+
+    fun parse(ktProperty: KtProperty): IrImageVector? {
+        return ktProperty.parseImageVector()
+    }
+
+    internal fun KtProperty.parseImageVector(): IrImageVector? {
+        val blockBody = getter?.bodyBlockExpression
+            ?: delegateExpression?.childrenOfType<KtBlockExpression>()?.firstOrNull()
             ?: return null
 
         val builder = blockBody.builderExpression() ?: return null
 
         return IrImageVector(
-            name = builder.name().ifEmpty { property.name.orEmpty() },
+            name = builder.name().ifEmpty { name.orEmpty() },
             defaultWidth = builder.defaultWidth(0f),
             defaultHeight = builder.defaultHeight(0f),
             viewportWidth = builder.viewportWidth(0f),

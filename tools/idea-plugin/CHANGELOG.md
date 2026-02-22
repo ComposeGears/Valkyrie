@@ -9,6 +9,7 @@
 - Add validation for case-insensitive duplicate icon names to prevent file overwrites on macOS/Windows
 - Add automatic re-validation when `useFlatPackage` setting changes to detect new conflicts immediately
 - [Web Import] Add `Bootstrap` icons provider
+- [Gutter] Add support for multiple icons in kt file
 
 ### Fixed
 

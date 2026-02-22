@@ -31,7 +31,15 @@ internal object MaterialImageVectorPsiParser {
             .firstOrNull { it.typeReference?.text == "ImageVector" }
             ?: return null
 
-        val blockBody = property.getter?.bodyBlockExpression ?: return null
+        return property.parseImageVector()
+    }
+
+    fun parse(ktProperty: KtProperty): IrImageVector? {
+        return ktProperty.parseImageVector()
+    }
+
+    internal fun KtProperty.parseImageVector(): IrImageVector? {
+        val blockBody = getter?.bodyBlockExpression ?: return null
 
         val materialIconCall = blockBody.materialIconCall()
 
@@ -50,7 +58,7 @@ internal object MaterialImageVectorPsiParser {
         val builder = blockBody.builderExpression() ?: return null
 
         return IrImageVector(
-            name = builder.name().ifEmpty { property.name.orEmpty() },
+            name = builder.name().ifEmpty { name.orEmpty() },
             defaultWidth = builder.defaultWidth(24f),
             defaultHeight = builder.defaultHeight(24f),
             viewportWidth = builder.viewportWidth(24f),
