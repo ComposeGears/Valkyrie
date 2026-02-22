@@ -1,6 +1,7 @@
 import io.github.composegears.valkyrie.excludeAndroidBuildTools
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -68,12 +69,23 @@ dependencies {
     implementation(libs.leviathan.compose)
     implementation(libs.tiamat)
 
+    testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
     testImplementation(libs.bundles.kmp.test)
-    testImplementation(libs.junit4)
+    testImplementation(libs.junit5.jupiter)
+    testRuntimeOnly(libs.junit.launcher)
 
     intellijPlatform {
         zipSigner()
         pluginVerifier()
+
+        testFramework(TestFrameworkType.Platform)
+        testFramework(TestFrameworkType.JUnit5)
+    }
+}
+
+configurations {
+    testImplementation {
+        exclude(group = "org.jetbrains.kotlinx")
     }
 }
 
