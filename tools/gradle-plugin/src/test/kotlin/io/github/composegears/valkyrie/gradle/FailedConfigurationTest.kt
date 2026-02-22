@@ -3,8 +3,10 @@ package io.github.composegears.valkyrie.gradle
 import assertk.assertThat
 import assertk.assertions.contains
 import io.github.composegears.valkyrie.gradle.common.CommonGradleTest
+import io.github.composegears.valkyrie.gradle.internal.DEFAULT_RESOURCE_DIRECTORY
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
 import java.nio.file.Path
+import kotlin.io.path.createDirectories
 import kotlin.io.path.writeText
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -312,5 +314,40 @@ class FailedConfigurationTest : CommonGradleTest() {
 
         val result = failTask(root, TASK_NAME)
         assertThat(result.output).contains("Duplicate sourceFolder found: \"outlined\"")
+    }
+
+    @Test
+    fun `case-insensitive duplicate icon names`(@TempDir root: Path) {
+        root.writeSettingsFile()
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+                }
+            """.trimIndent(),
+        )
+
+        val svgDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY").createDirectories()
+
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        // test-icon.svg -> TestIcon.kt
+        svgDir.resolve("test-icon.svg").writeText(svgContent)
+        // testicon.svg -> Testicon.kt
+        // On case-insensitive file systems (macOS/Windows), TestIcon.kt and Testicon.kt collide
+        svgDir.resolve("testicon.svg").writeText(svgContent)
+
+        val result = failTask(root, TASK_NAME)
+        assertThat(result.output).contains("Found icon names that would collide on case-insensitive file systems")
+        assertThat(result.output).contains("TestIcon, Testicon")
     }
 }

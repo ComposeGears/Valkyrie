@@ -151,4 +151,35 @@ class IconValidationTest {
         assertThat(icons.checkImportIssues())
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("Test"))))
     }
+
+    @Test
+    fun `single, detect case-insensitive duplicates on macOS file system`() {
+        // On macOS with case-insensitive file system, TestIcon.kt and Testicon.kt collide
+        val icons = listOf(
+            validIcon("TestIcon", singlePack),
+            validIcon("Testicon", singlePack),
+        )
+        assertThat(icons.checkImportIssues())
+            .isEqualTo(mapOf(ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("TestIcon"), IconName("Testicon"))))
+    }
+
+    @Test
+    fun `nested, detect case-insensitive duplicates on macOS file system`() {
+        // On macOS with case-insensitive file system, TestIcon.kt and Testicon.kt collide
+        val icons = listOf(
+            validIcon("TestIcon", nestedPack),
+            validIcon("Testicon", nestedPack),
+        )
+        assertThat(icons.checkImportIssues())
+            .isEqualTo(mapOf(ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("TestIcon"), IconName("Testicon"))))
+    }
+
+    @Test
+    fun `nested, allow same case-insensitive names in different nested packs`() {
+        val icons = listOf(
+            validIcon("TestIcon", nestedPack.copy(currentNestedPack = "Filled")),
+            validIcon("Testicon", nestedPack.copy(currentNestedPack = "Outlined")),
+        )
+        assertThat(icons.checkImportIssues()).isEqualTo(emptyMap())
+    }
 }

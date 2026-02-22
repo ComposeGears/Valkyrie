@@ -135,4 +135,44 @@ class SvgXmlToImageVectorCommandTest {
             verify { outputInfo("process = $path") }
         }
     }
+
+    @Test
+    fun `should throw error for case-insensitive duplicate icon names`() {
+        val mockMessage = "Found icon names that would collide on case-insensitive file systems (macOS/Windows): " +
+            "TestIcon, Testicon. " +
+            "These icons would overwrite each other during generation. " +
+            "Please rename the source files to avoid case-insensitive duplicates."
+
+        mockkStatic(::outputError)
+        every { outputError(mockMessage) } answers { error(mockMessage) }
+
+        val tempDir = createTempDirectory()
+
+        // Create two SVG files that produce case-insensitive duplicates:
+        // test-icon.svg -> TestIcon.kt
+        // testicon.svg -> Testicon.kt
+        // On case-insensitive file systems, these would collide
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        tempDir.resolve("test-icon.svg").toFile().writeText(svgContent)
+        tempDir.resolve("testicon.svg").toFile().writeText(svgContent)
+
+        val exception = assertFailsWith<IllegalStateException> {
+            SvgXmlToImageVectorCommand().test(
+                "--input-path",
+                tempDir.absolutePathString(),
+                "--output-path",
+                createTempDirectory().absolutePathString(),
+                "--package-name",
+                "com.example",
+            )
+        }
+
+        assertThat(exception.message).isEqualTo(mockMessage)
+        verify { outputError(mockMessage) }
+    }
 }

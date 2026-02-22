@@ -105,14 +105,31 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         outputDirectory.mkdirs()
 
         // Detect icons with names conflicting with reserved Compose qualifiers
-        val fullQualifiedNames = iconFiles.files
-            .map { IconNameFormatter.format(name = it.name) }
-            .filter { reservedComposeQualifiers.contains(it) }
+        val iconNames = iconFiles.files.map { IconNameFormatter.format(name = it.name) }
+
+        val fullQualifiedNames = iconNames.filter { reservedComposeQualifiers.contains(it) }
 
         if (fullQualifiedNames.isNotEmpty()) {
             logger.lifecycle(
                 "Found icons names that conflict with reserved Compose qualifiers. " +
                     "Full qualified import will be used for: \"${fullQualifiedNames.joinToString(", ")}\"",
+            )
+        }
+
+        // Check for case-insensitive duplicates that would cause file overwrites on case-insensitive file systems
+        val caseInsensitiveDuplicates = iconNames
+            .groupBy { it.lowercase() }
+            .filter { it.value.size > 1 && it.value.distinct().size > 1 }
+            .values
+            .flatten()
+            .distinct()
+
+        if (caseInsensitiveDuplicates.isNotEmpty()) {
+            throw GradleException(
+                "Found icon names that would collide on case-insensitive file systems (macOS/Windows): " +
+                    "${caseInsensitiveDuplicates.joinToString(", ")}. " +
+                    "These icons would overwrite each other during generation. " +
+                    "Please rename the source files to avoid case-insensitive duplicates.",
             )
         }
 

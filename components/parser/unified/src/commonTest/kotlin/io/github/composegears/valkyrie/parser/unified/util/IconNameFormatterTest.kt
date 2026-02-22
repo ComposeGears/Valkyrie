@@ -49,4 +49,18 @@ class IconNameFormatterTest {
             assertThat(iconName).isEqualTo(it.expected)
         }
     }
+
+    @Test
+    fun `check case-insensitive collision detection`() {
+        // These files produce different icon names that collide on case-insensitive file systems
+        val testCases = listOf(
+            IconTest(fileName = "test-icon.svg", expected = "TestIcon"),
+            IconTest(fileName = "testicon.svg", expected = "Testicon"),
+        )
+
+        testCases.forEach {
+            val iconName = IconNameFormatter.format(it.fileName)
+            assertThat(iconName).isEqualTo(it.expected)
+        }
+    }
 }
