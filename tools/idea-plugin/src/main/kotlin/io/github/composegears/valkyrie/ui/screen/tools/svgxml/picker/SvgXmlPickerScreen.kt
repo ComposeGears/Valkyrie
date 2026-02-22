@@ -1,7 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.tools.svgxml.picker
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.TiamatPreview
@@ -11,6 +10,7 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberSvgPathPicker
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion.SvgXmlConversionScreen
@@ -29,15 +29,13 @@ val SvgXmlPickerScreen by navDestination {
 
     val viewModel = viewModel { SvgXmlPickerViewModel() }
 
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is NavigateToConversion -> {
-                    navController.navigate(
-                        dest = SvgXmlConversionScreen,
-                        navArgs = event.params,
-                    )
-                }
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is NavigateToConversion -> {
+                navController.navigate(
+                    dest = SvgXmlConversionScreen,
+                    navArgs = event.params,
+                )
             }
         }
     }

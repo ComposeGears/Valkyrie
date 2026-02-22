@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.picker
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.back
@@ -8,6 +7,7 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberKtPathPicker
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
 import io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion.ImageVectorXmlScreen
@@ -23,15 +23,13 @@ val ImageVectorXmlPickerScreen by navDestination {
 
     val viewModel = viewModel { ImageVectorXmlPickerViewModel() }
 
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is ImageVectorXmlPickerEvent.NavigateToConversion -> {
-                    navController.navigate(
-                        dest = ImageVectorXmlScreen,
-                        navArgs = event.params,
-                    )
-                }
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is ImageVectorXmlPickerEvent.NavigateToConversion -> {
+                navController.navigate(
+                    dest = ImageVectorXmlScreen,
+                    navArgs = event.params,
+                )
             }
         }
     }

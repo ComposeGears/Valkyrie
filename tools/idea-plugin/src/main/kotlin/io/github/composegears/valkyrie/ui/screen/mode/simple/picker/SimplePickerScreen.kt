@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.picker
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.back
@@ -8,6 +7,7 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberSvgXmlPathPicker
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.ui.foundation.picker.GenericPickerScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnDragAndDropPath
@@ -24,15 +24,13 @@ val SimplePickerScreen by navDestination {
 
     val viewModel = viewModel { SimplePickerViewModel() }
 
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is SimplePickerEvent.NavigateToConversion -> {
-                    navController.navigate(
-                        dest = SimpleConversionScreen,
-                        navArgs = event.params,
-                    )
-                }
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is SimplePickerEvent.NavigateToConversion -> {
+                navController.navigate(
+                    dest = SimpleConversionScreen,
+                    navArgs = event.params,
+                )
             }
         }
     }

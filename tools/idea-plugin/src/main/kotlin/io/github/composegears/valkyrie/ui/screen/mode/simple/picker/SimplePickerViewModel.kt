@@ -13,16 +13,16 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.Simple
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerAction.OnPasteFromClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerEvent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.model.SimplePickerEvent.NavigateToConversion
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class SimplePickerViewModel : ViewModel() {
 
     private val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val _events = MutableSharedFlow<SimplePickerEvent>()
-    val events = _events.asSharedFlow()
+    private val _events = Channel<SimplePickerEvent>()
+    val events = _events.receiveAsFlow()
 
     fun onAction(action: SimplePickerAction) {
         when (action) {
@@ -39,7 +39,7 @@ class SimplePickerViewModel : ViewModel() {
     private fun navigateToConversion(params: SimpleConversionParamsSource) {
         viewModelScope.launch {
             updateCurrentMode()
-            _events.emit(NavigateToConversion(params))
+            _events.send(NavigateToConversion(params))
         }
     }
 

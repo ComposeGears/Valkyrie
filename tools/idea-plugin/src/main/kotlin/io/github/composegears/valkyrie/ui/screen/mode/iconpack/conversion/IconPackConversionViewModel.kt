@@ -28,12 +28,12 @@ import kotlin.io.path.isRegularFile
 import kotlin.io.path.listDirectoryEntries
 import kotlin.io.path.name
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -49,8 +49,8 @@ class IconPackConversionViewModel(
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()
 
-    private val _events = MutableSharedFlow<ConversionEvent>()
-    val events = _events.asSharedFlow()
+    private val _events = Channel<ConversionEvent>()
+    val events = _events.receiveAsFlow()
 
     private val isFlatPackage: Boolean
         get() = inMemorySettings.current.flatPackage
@@ -167,7 +167,7 @@ class IconPackConversionViewModel(
             ),
         )
 
-        _events.emit(OpenPreview(output.content))
+        _events.send(OpenPreview(output.content))
     }
 
     fun import() = viewModelScope.launch(Dispatchers.Default) {
@@ -224,7 +224,7 @@ class IconPackConversionViewModel(
                 }
             }
 
-        _events.emit(ConversionEvent.ImportCompleted)
+        _events.send(ConversionEvent.ImportCompleted)
         reset()
     }
 
@@ -354,7 +354,7 @@ class IconPackConversionViewModel(
         }
 
         if (resolvedIcons.isEmpty()) {
-            _events.emit(ConversionEvent.NothingToImport)
+            _events.send(ConversionEvent.NothingToImport)
             reset()
         } else {
             _state.updateState {

@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -39,6 +38,7 @@ import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
+import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
@@ -58,8 +58,6 @@ import io.github.composegears.valkyrie.ui.screen.webimport.lucide.domain.model.L
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.lucide.ui.LucideTopActions
 import io.github.composegears.valkyrie.util.stringResource
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 
@@ -69,22 +67,18 @@ val LucideImportScreen by navDestination<Unit> {
     val viewModel = saveableViewModel { LucideViewModel(savedState = it) }
     val state by viewModel.lucideState.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.events
-            .onEach {
-                when (it) {
-                    is LucideEvent.IconDownloaded -> {
-                        parentNavController?.navigate(
-                            dest = SimpleConversionScreen,
-                            navArgs = TextSource(
-                                name = it.name,
-                                text = it.svgContent,
-                            ),
-                        )
-                    }
-                }
+    ObserveEvent(viewModel.events) { event ->
+        when (event) {
+            is LucideEvent.IconDownloaded -> {
+                parentNavController?.navigate(
+                    dest = SimpleConversionScreen,
+                    navArgs = TextSource(
+                        name = event.name,
+                        text = event.svgContent,
+                    ),
+                )
             }
-            .launchIn(this)
+        }
     }
 
     LucideImportScreenUI(

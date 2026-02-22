@@ -4,22 +4,16 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
 import java.nio.file.Path
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class GlobalEventsHandler {
 
-    private val _events = MutableSharedFlow<PluginEvents>(replay = 1)
-    val events = _events.asSharedFlow()
+    private val _events = Channel<PluginEvents>(Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
 
     fun send(event: PluginEvents) {
-        _events.tryEmit(event)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun resetCache() {
-        _events.resetReplayCache()
+        _events.trySend(event)
     }
 
     sealed interface PluginEvents {
