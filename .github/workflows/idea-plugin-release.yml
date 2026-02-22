@@ -33,47 +33,24 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Prepare release information
-        run: |
-          VERSION_NAME=$(grep "^idea-plugin-version" gradle/plugin.versions.toml | cut -d '"' -f 2)
-          RELEASE_TAG="idea-plugin-$VERSION_NAME"
-
-          # Determine if this is a snapshot version
-          IS_SNAPSHOT="${{ inputs.force_snapshot }}"
-
-          # Set pre-release flag based on snapshot status
-          PRE_RELEASE_FLAG=""
-          [[ $IS_SNAPSHOT == true ]] && PRE_RELEASE_FLAG="--prerelease"
-
-          echo "VERSION_NAME=$VERSION_NAME"
-          echo "RELEASE_TAG=$RELEASE_TAG"
-          echo "IS_SNAPSHOT=$IS_SNAPSHOT"
-          echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG"
-
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
-          echo "IS_SNAPSHOT=$IS_SNAPSHOT" >> $GITHUB_ENV
-          echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG" >> $GITHUB_ENV
-
       - name: Build signed plugin
         run: ./gradlew signPlugin
 
       - name: Verify IntelliJ plugin
-        run: ./gradlew verifyPlugin
-
-      - name: Publish to Marketplace
-        if: env.IS_SNAPSHOT == 'false'
-        run: ./gradlew publishPlugin
-
-      - name: Clean up existing release
-        run: |
-          gh release view ${{ env.RELEASE_TAG }} && gh release delete ${{ env.RELEASE_TAG }} -y --cleanup-tag || true
-
-      - name: Clean up previous snapshot release
-        if: env.IS_SNAPSHOT == 'false'
-        run: |
-          gh release view idea-plugin-${{ env.VERSION_NAME }}-SNAPSHOT && gh release delete idea-plugin-${{ env.VERSION_NAME }}-SNAPSHOT -y --cleanup-tag || true
-
-      - name: Create GitHub release
-        run: |
-          gh release create ${{ env.RELEASE_TAG }} tools/idea-plugin/build/distributions/*-signed.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
+        # https://www.jetbrains.com/idea/download/other.html
+        uses: ChrisCarini/intellij-platform-plugin-verifier-action@ChrisCarini/fix86
+        with:
+          plugin-location: tools/idea-plugin/build/distributions/*-signed.zip
+          # We can't verify all revisions due to the disk size limitation on GHA.
+          ide-versions: |
+            ideaIC:2025.3
+          failure-levels: |
+            COMPATIBILITY_WARNINGS
+            COMPATIBILITY_PROBLEMS
+            DEPRECATED_API_USAGES
+            OVERRIDE_ONLY_API_USAGES
+            NON_EXTENDABLE_API_USAGES
+            PLUGIN_STRUCTURE_WARNINGS
+            MISSING_DEPENDENCIES
+            INVALID_PLUGIN
+            NOT_DYNAMIC

@@ -39,7 +39,7 @@ Allows to create organized icon pack with an extension property of you pack obje
             popup="true">
 
             <separator/>
-            <group id="valkyrie.SubGroup">
+            <group>
                 <action id="valkyrie.ImportFromAction"
                         icon="com.intellij.icons.AllIcons.ToolbarDecorator.Import"
                         class="io.github.composegears.valkyrie.action.ImportFromDirectoryOrFileAction"
@@ -48,7 +48,7 @@ Allows to create organized icon pack with an extension property of you pack obje
                 <action id="valkyrie.SetImportDirectory"
                         class="io.github.composegears.valkyrie.action.SetImportDirectoryAction"
                         icon="com.intellij.icons.AllIcons.Actions.ModuleDirectory"
-                        text="Set import directory"/>
+                        text="Set Import Directory"/>
             </group>
             <separator/>
             <add-to-group group-id="ProjectViewPopupMenu"/>
