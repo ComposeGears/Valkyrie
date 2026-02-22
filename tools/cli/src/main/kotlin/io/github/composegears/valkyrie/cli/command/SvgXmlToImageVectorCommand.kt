@@ -207,14 +207,31 @@ private fun svgXml2ImageVector(
 
     outputInfo("Start processing...")
 
-    val fullQualifiedNames = iconPaths
-        .map { IconNameFormatter.format(name = it.name) }
-        .filter { reservedComposeQualifiers.contains(it) }
+    val iconNames = iconPaths.map { IconNameFormatter.format(name = it.name) }
+
+    val fullQualifiedNames = iconNames.filter { reservedComposeQualifiers.contains(it) }
 
     if (fullQualifiedNames.isNotEmpty()) {
         outputInfo(
             "Found icons names that conflict with reserved Compose qualifiers. " +
                 "Full qualified import will be used for: ${fullQualifiedNames.joinToString(", ")}",
+        )
+    }
+
+    // Check for case-insensitive duplicates that would cause file overwrites on case-insensitive file systems
+    val caseInsensitiveDuplicates = iconNames
+        .groupBy { it.lowercase() }
+        .filter { it.value.size > 1 && it.value.distinct().size > 1 }
+        .values
+        .flatten()
+        .distinct()
+
+    if (caseInsensitiveDuplicates.isNotEmpty()) {
+        outputError(
+            "Found icon names that would collide on case-insensitive file systems (macOS/Windows): " +
+                "${caseInsensitiveDuplicates.joinToString(", ")}. " +
+                "These icons would overwrite each other during generation. " +
+                "Please rename the source files to avoid case-insensitive duplicates.",
         )
     }
 

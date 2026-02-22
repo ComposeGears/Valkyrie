@@ -5,6 +5,7 @@
 ### Added
 
 - Add `--use-path-data-string` option to generate addPath with pathData strings instead of path builder calls
+- Add validation for case-insensitive duplicate icon names to prevent file overwrites on macOS/Windows
 
 ### Removed
 
@@ -16,6 +17,9 @@
 ### Fixed
 
 - Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser
+- Fix batch processing where icons with case-insensitive duplicate names (e.g., `test-icon.svg` and `testicon.svg`)
+  would overwrite each other on case-insensitive file systems (macOS APFS, Windows NTFS). CLI now terminates with a
+  clear error message before attempting to write files
 
 ## [1.0.1] - 2025-11-20
 

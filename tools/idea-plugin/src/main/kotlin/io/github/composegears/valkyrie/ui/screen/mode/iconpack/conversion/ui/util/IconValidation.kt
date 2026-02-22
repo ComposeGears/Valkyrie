@@ -7,6 +7,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconSo
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.FailedToParseClipboard
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.FailedToParseFile
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.HasCaseInsensitiveDuplicates
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.HasDuplicates
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameContainsSpace
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameEmpty
@@ -56,6 +57,29 @@ fun List<BatchIcon>.checkImportIssues(): Map<ValidationError, List<IconName>> {
             .distinct()
 
         addIfNotEmpty(error = HasDuplicates, icons = duplicates)
+
+        // Check for case-insensitive duplicates (file system collision on macOS/Windows)
+        val caseInsensitiveDuplicates = this@checkImportIssues
+            .filterIsInstance<BatchIcon.Valid>()
+            .groupBy {
+                val packIdentifier = when (val pack = it.iconPack) {
+                    is IconPack.Single -> pack.iconPackName
+                    is IconPack.Nested -> "${pack.iconPackName}.${pack.currentNestedPack}"
+                }
+                packIdentifier to it.iconName.name.lowercase()
+            }
+            .filter {
+                // Filter groups where there are multiple icons with the same lowercase name
+                // but they are not already exact duplicates
+                it.value.size > 1 &&
+                it.value.map { icon -> icon.iconName.name }.distinct().size > 1
+            }
+            .values
+            .flatten()
+            .map { it.iconName }
+            .distinct()
+
+        addIfNotEmpty(error = HasCaseInsensitiveDuplicates, icons = caseInsensitiveDuplicates)
     }
 }
 
@@ -79,6 +103,7 @@ fun Map<ValidationError, List<IconName>>.toMessageText(): String {
             IconNameEmpty -> "• Contains icon${if (isPlural) "s" else ""} with empty name"
             IconNameContainsSpace -> "• Contains icon${if (isPlural) "s" else ""} with space in name: $value"
             HasDuplicates -> "• Contains duplicate icon${if (isPlural) "s" else ""}: $value"
+            HasCaseInsensitiveDuplicates -> "• Contains icon${if (isPlural) "s" else ""} that collide on case-insensitive file systems (macOS/Windows): $value"
         }
     }
 }

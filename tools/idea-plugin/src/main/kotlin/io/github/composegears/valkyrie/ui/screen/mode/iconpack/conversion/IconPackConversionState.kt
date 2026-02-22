@@ -75,4 +75,5 @@ enum class ValidationError {
     IconNameEmpty,
     IconNameContainsSpace,
     HasDuplicates,
+    HasCaseInsensitiveDuplicates,
 }
