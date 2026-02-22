@@ -85,6 +85,10 @@ class ImageVectorIcon(
     override fun getIconWidth(): Int = size
     override fun getIconHeight(): Int = size
 
+    override fun toString(): String {
+        return "ImageVectorIcon(size=$size, aspectRatio=$aspectRatio, dominantShade=$dominantShade, vectorXml=${vectorXml.take(100)})"
+    }
+
     companion object {
         private const val ICON_SCALE_FACTOR = 4
 

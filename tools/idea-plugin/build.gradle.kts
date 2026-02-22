@@ -83,12 +83,6 @@ dependencies {
     }
 }
 
-configurations {
-    testImplementation {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-}
-
 compose.resources {
     generateResClass = never
 }
