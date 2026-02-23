@@ -1,3 +1,4 @@
+import io.github.composegears.valkyrie.excludeAndroidBuildTools
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask.FailureLevel
@@ -34,20 +35,7 @@ configurations.getByName("implementation") {
     exclude(group = "androidx.annotation")
     exclude(group = "androidx.lifecycle")
 
-    // Android Build Tools
-    exclude(group = "com.android.tools.analytics-library")
-    exclude(group = "com.android.tools.build", module = "aapt2-proto")
-    exclude(group = "com.android.tools.ddms")
-    exclude(group = "com.android.tools.layoutlib")
-    exclude(group = "com.android.tools", module = "sdklib")
-    exclude(group = "com.google.code.gson")
-    exclude(group = "com.google.guava")
-    exclude(group = "com.google.protobuf")
-    exclude(group = "org.apache.commons")
-    exclude(group = "org.bouncycastle")
-    exclude(group = "org.glassfish.jaxb")
-    exclude(group = "net.java.dev.jna")
-    exclude(group = "net.sf.kxml")
+    excludeAndroidBuildTools()
 }
 
 dependencies {

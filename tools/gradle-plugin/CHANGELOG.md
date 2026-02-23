@@ -11,6 +11,10 @@
 - Add nested pack aware validation that correctly handles `useFlatPackage` mode - when enabled, duplicates are detected
   across all nested packs since they write to the same output folder
 
+### Changed
+
+- Reduce gradle plugin size from 46mb to 10mb
+
 ### Removed
 
 - Remove support for `androidx.compose.desktop.ui.tooling.preview.Preview` and corresponding `previewAnnotationType`

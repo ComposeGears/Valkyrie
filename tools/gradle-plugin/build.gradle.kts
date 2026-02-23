@@ -1,3 +1,4 @@
+import io.github.composegears.valkyrie.excludeAndroidBuildTools
 import java.nio.file.Paths
 import java.util.Properties
 import kotlin.io.path.exists
@@ -87,6 +88,10 @@ val testPluginClasspath by configurations.registering {
 tasks.pluginUnderTestMetadata {
     // Plugins used in tests could be resolved in classpath.
     pluginClasspath.from(testPluginClasspath)
+}
+
+configurations.getByName("implementation") {
+    excludeAndroidBuildTools()
 }
 
 dependencies {
