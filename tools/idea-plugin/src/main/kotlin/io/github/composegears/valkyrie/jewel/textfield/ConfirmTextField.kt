@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -40,6 +41,13 @@ fun ConfirmTextField(
     val currentText by rememberUpdatedState(text)
     val state = rememberTextFieldState(text)
     val focusManager = LocalFocusManager.current
+
+    // Update text field state when external text changes
+    LaunchedEffect(text) {
+        if (state.text.toString() != text) {
+            state.setTextAndPlaceCursorAtEnd(text)
+        }
+    }
 
     val isError by remember { derivedStateOf { state.text.isEmpty() } }
     var focused by rememberMutableState { false }

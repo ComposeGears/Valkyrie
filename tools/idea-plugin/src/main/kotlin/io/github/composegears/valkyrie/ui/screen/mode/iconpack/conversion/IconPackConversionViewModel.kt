@@ -148,7 +148,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = updatedIcons,
-                        importIssues = updatedIcons.checkImportIssues(useFlatPackage = isFlatPackage)
+                        importIssues = updatedIcons.checkImportIssues(useFlatPackage = isFlatPackage),
                     )
                 }
                 else -> this
@@ -271,35 +271,96 @@ class IconPackConversionViewModel(
                 }
             }
 
-        val nameGroups = processedIcons.groupBy { it.iconName.name }
-        val nameCounters = mutableMapOf<String, Int>()
-
-        val icons = processedIcons.map { icon ->
-            val originalName = icon.iconName.name
-            val group = nameGroups[originalName]
-
-            if (group != null && group.size > 1) {
-                val counter = nameCounters.getOrDefault(originalName, 0) + 1
-                nameCounters[originalName] = counter
-
-                if (counter > 1) {
-                    icon.copy(iconName = IconName("$originalName${counter - 1}"))
-                } else {
-                    icon
+        // Group icons by their output location (considering useFlatPackage)
+        val iconsByLocation = processedIcons.groupBy { icon ->
+            when (val pack = icon.iconPack) {
+                is IconPack.Single -> pack.iconPackName
+                is IconPack.Nested -> when {
+                    isFlatPackage -> pack.iconPackName // All in same location when flat
+                    else -> "${pack.iconPackName}.${pack.currentNestedPack}" // Separate locations
                 }
-            } else {
-                icon
             }
         }
 
-        if (icons.isEmpty()) {
+        // Process duplicates within each location group
+        val resolvedIcons = iconsByLocation.flatMap { (_, iconsInLocation) ->
+            // Track all committed names to ensure uniqueness across both passes
+            val committedNames = mutableSetOf<String>()
+
+            // First, resolve exact duplicates
+            val nameGroups = iconsInLocation.groupBy { it.iconName.name }
+            val nameCounters = mutableMapOf<String, Int>()
+
+            val iconsWithResolvedExactDuplicates = iconsInLocation.map { icon ->
+                val originalName = icon.iconName.name
+                val group = nameGroups[originalName]
+
+                if (group != null && group.size > 1) {
+                    val counter = nameCounters.getOrDefault(originalName, 0) + 1
+                    nameCounters[originalName] = counter
+
+                    if (counter > 1) {
+                        // Generate unique name by incrementing suffix until not in committedNames
+                        var suffix = counter - 1
+                        var candidateName = "$originalName$suffix"
+                        while (committedNames.any { it.equals(candidateName, ignoreCase = true) }) {
+                            suffix++
+                            candidateName = "$originalName$suffix"
+                        }
+                        committedNames.add(candidateName)
+                        icon.copy(iconName = IconName(candidateName))
+                    } else {
+                        committedNames.add(originalName)
+                        icon
+                    }
+                } else {
+                    committedNames.add(originalName)
+                    icon
+                }
+            }
+
+            // Then, resolve case-insensitive duplicates
+            val lowercaseGroups = iconsWithResolvedExactDuplicates.groupBy { it.iconName.name.lowercase() }
+            val lowercaseCounters = mutableMapOf<String, Int>()
+
+            iconsWithResolvedExactDuplicates.map { icon ->
+                val currentName = icon.iconName.name
+                val lowercaseKey = currentName.lowercase()
+                val group = lowercaseGroups[lowercaseKey]
+
+                // Only process if there are multiple icons with same lowercase name but different actual names
+                if (group != null && group.size > 1 && group.map { it.iconName.name }.distinct().size > 1) {
+                    val counter = lowercaseCounters.getOrDefault(lowercaseKey, 0) + 1
+                    lowercaseCounters[lowercaseKey] = counter
+
+                    if (counter > 1) {
+                        // Generate unique name by incrementing suffix until not in committedNames
+                        var suffix = counter - 1
+                        var candidateName = "$currentName$suffix"
+                        while (committedNames.any { it.equals(candidateName, ignoreCase = true) }) {
+                            suffix++
+                            candidateName = "$currentName$suffix"
+                        }
+                        committedNames.add(candidateName)
+                        icon.copy(iconName = IconName(candidateName))
+                    } else {
+                        // First in group - name is already in committedNames from exact duplicate pass
+                        icon
+                    }
+                } else {
+                    icon
+                }
+            }
+        }
+
+        if (resolvedIcons.isEmpty()) {
             _events.emit(ConversionEvent.NothingToImport)
             reset()
         } else {
             _state.updateState {
                 creationState.copy(
-                    icons = icons,
-                    importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
+                    icons = resolvedIcons,
+                    importIssues = resolvedIcons.checkImportIssues(useFlatPackage = isFlatPackage),
                 )
             }
         }

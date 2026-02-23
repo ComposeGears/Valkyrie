@@ -348,7 +348,8 @@ class FailedConfigurationTest : CommonGradleTest() {
 
         val result = failTask(root, TASK_NAME)
         assertThat(result.output).contains("Found icon names that would collide on case-insensitive file systems")
-        assertThat(result.output).contains("TestIcon, Testicon")
+        assertThat(result.output).contains("TestIcon")
+        assertThat(result.output).contains("Testicon")
     }
 
     @Test
@@ -581,5 +582,7 @@ class FailedConfigurationTest : CommonGradleTest() {
         val result = failTask(root, TASK_NAME)
         assertThat(result.output).contains("Found icon names that would collide on case-insensitive file systems")
         assertThat(result.output).contains("ValkyrieIcons.Outlined")
+        assertThat(result.output).contains("TestIcon")
+        assertThat(result.output).contains("Testicon")
     }
 }

@@ -7,7 +7,7 @@
 - Add export as file action for `Simple mode` and `ImageVector to XML` tool
 - Add validation for exact duplicate icon names (e.g., `test-icon.svg` and `test_icon.svg` both produce `TestIcon.kt`)
 - Add validation for case-insensitive duplicate icon names to prevent file overwrites on macOS/Windows
-- Add automatic re-validation when `useFlatPackage` setting changes to immediately detect new conflicts
+- Add automatic re-validation when `useFlatPackage` setting changes to detect new conflicts immediately
 
 ### Fixed
 
