@@ -7,6 +7,10 @@
 - Add `usePathDataString` configuration option in `imageVector` block to generate addPath with pathData strings instead
   of path builder calls
 
+### Changed
+
+- Reduce gradle plugin size from 46mb to 10mb
+
 ### Removed
 
 - Remove support for `androidx.compose.desktop.ui.tooling.preview.Preview` and corresponding `previewAnnotationType`
