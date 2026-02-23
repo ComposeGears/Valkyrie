@@ -5,13 +5,13 @@
 ### Added
 
 - Add export as file action for `Simple mode` and `ImageVector to XML` tool
+- Add validation for exact duplicate icon names (e.g., `test-icon.svg` and `test_icon.svg` both produce `TestIcon.kt`)
 - Add validation for case-insensitive duplicate icon names to prevent file overwrites on macOS/Windows
+- Add automatic re-validation when `useFlatPackage` setting changes to immediately detect new conflicts
 
 ### Fixed
 
 - Fix an incorrect error message when the user cancels the save dialog during export
-- Fix batch processing where icons with case-insensitive duplicate names (e.g., `test-icon.svg` and `testicon.svg`)
-  would overwrite each other on case-insensitive file systems (macOS APFS, Windows NTFS)
 
 ## 1.2.0 - 2026-02-20
 

@@ -116,22 +116,9 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             )
         }
 
-        // Check for case-insensitive duplicates that would cause file overwrites on case-insensitive file systems
-        val caseInsensitiveDuplicates = iconNames
-            .groupBy { it.lowercase() }
-            .filter { it.value.size > 1 && it.value.distinct().size > 1 }
-            .values
-            .flatten()
-            .distinct()
+        // Check for duplicates with nested pack awareness
+        validateDuplicates(iconFiles.files.toList(), iconNames)
 
-        if (caseInsensitiveDuplicates.isNotEmpty()) {
-            throw GradleException(
-                "Found icon names that would collide on case-insensitive file systems (macOS/Windows): " +
-                    "${caseInsensitiveDuplicates.joinToString(", ")}. " +
-                    "These icons would overwrite each other during generation. " +
-                    "Please rename the source files to avoid case-insensitive duplicates.",
-            )
-        }
 
         if (iconPack.isPresent && iconPack.get().targetSourceSet.get() == sourceSet.get()) {
             generateIconPack(outputDirectory = outputDirectory)
@@ -407,5 +394,107 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         }
 
         return null
+    }
+
+    private fun validateDuplicates(files: List<File>, iconNames: List<String>) {
+        if (iconPack.isPresent) {
+            val pack = iconPack.get()
+            val nestedPacks = pack.nestedPacks.get()
+            val useFlatPackage = pack.useFlatPackage.get()
+
+            if (nestedPacks.isNotEmpty()) {
+                // Build map: file -> nested pack name
+                val sourceFolderToNestedPack = nestedPacks.associateBy { it.sourceFolder.get() }
+                val fileToNestedPack = files.associateWith { file ->
+                    sourceFolderToNestedPack[file.parentFile.name]?.name?.get()
+                }
+
+                // Group by nested pack (or single group if useFlatPackage)
+                val iconsByPack = files.groupBy { file ->
+                    if (useFlatPackage) {
+                        pack.name.get() // All in same pack when flat
+                    } else {
+                        val nestedPackName = fileToNestedPack[file]
+                        if (nestedPackName != null) "${pack.name.get()}.$nestedPackName" else pack.name.get()
+                    }
+                }
+
+                iconsByPack.forEach { (packIdentifier, filesInPack) ->
+                    val names = filesInPack.map { IconNameFormatter.format(name = it.name) }
+
+                    // Check exact duplicates within this pack/group
+                    val exactDuplicates = names
+                        .groupBy { it }
+                        .filter { it.value.size > 1 }
+                        .keys
+                        .toList()
+
+                    if (exactDuplicates.isNotEmpty()) {
+                        throw GradleException(
+                            "Found duplicate icon names in \"$packIdentifier\": ${exactDuplicates.joinToString(", ")}. " +
+                                "Each icon must have a unique name. " +
+                                "Please rename the source files to avoid duplicates.",
+                        )
+                    }
+
+                    // Check case-insensitive duplicates within this pack/group
+                    val caseInsensitiveDuplicates = names
+                        .groupBy { it.lowercase() }
+                        .filter { it.value.size > 1 && it.value.distinct().size > 1 }
+                        .values
+                        .flatten()
+                        .distinct()
+
+                    if (caseInsensitiveDuplicates.isNotEmpty()) {
+                        throw GradleException(
+                            "Found icon names that would collide on case-insensitive file systems (macOS/Windows) in \"$packIdentifier\": " +
+                                "${caseInsensitiveDuplicates.joinToString(", ")}. " +
+                                "These icons would overwrite each other during generation. " +
+                                "Please rename the source files to avoid case-insensitive duplicates.",
+                        )
+                    }
+                }
+            } else {
+                // Single pack - check all files together
+                checkDuplicatesInIconNames(iconNames, "icon pack \"${pack.name.get()}\"")
+            }
+        } else {
+            // No icon pack - check all files together
+            checkDuplicatesInIconNames(iconNames, "package \"${packageName.get()}\"")
+        }
+    }
+
+    private fun checkDuplicatesInIconNames(names: List<String>, context: String) {
+        // Check exact duplicates
+        val exactDuplicates = names
+            .groupBy { it }
+            .filter { it.value.size > 1 }
+            .keys
+            .toList()
+
+        if (exactDuplicates.isNotEmpty()) {
+            throw GradleException(
+                "Found duplicate icon names in $context: ${exactDuplicates.joinToString(", ")}. " +
+                    "Each icon must have a unique name. " +
+                    "Please rename the source files to avoid duplicates.",
+            )
+        }
+
+        // Check case-insensitive duplicates
+        val caseInsensitiveDuplicates = names
+            .groupBy { it.lowercase() }
+            .filter { it.value.size > 1 && it.value.distinct().size > 1 }
+            .values
+            .flatten()
+            .distinct()
+
+        if (caseInsensitiveDuplicates.isNotEmpty()) {
+            throw GradleException(
+                "Found icon names that would collide on case-insensitive file systems (macOS/Windows) in $context: " +
+                    "${caseInsensitiveDuplicates.joinToString(", ")}. " +
+                    "These icons would overwrite each other during generation. " +
+                    "Please rename the source files to avoid case-insensitive duplicates.",
+            )
+        }
     }
 }

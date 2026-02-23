@@ -175,4 +175,42 @@ class SvgXmlToImageVectorCommandTest {
         assertThat(exception.message).isEqualTo(mockMessage)
         verify { outputError(mockMessage) }
     }
+
+    @Test
+    fun `should throw error for exact duplicate icon names`() {
+        val mockMessage = "Found duplicate icon names: TestIcon. " +
+            "Each icon must have a unique name. " +
+            "Please rename the source files to avoid duplicates."
+
+        mockkStatic(::outputError)
+        every { outputError(mockMessage) } answers { error(mockMessage) }
+
+        val tempDir = createTempDirectory()
+
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        // Create two SVG files that produce the exact same icon name:
+        // test-icon.svg -> TestIcon.kt
+        // test_icon.svg -> TestIcon.kt (same result!)
+        tempDir.resolve("test-icon.svg").toFile().writeText(svgContent)
+        tempDir.resolve("test_icon.svg").toFile().writeText(svgContent)
+
+        val exception = assertFailsWith<IllegalStateException> {
+            SvgXmlToImageVectorCommand().test(
+                "--input-path",
+                tempDir.absolutePathString(),
+                "--output-path",
+                createTempDirectory().absolutePathString(),
+                "--package-name",
+                "com.example",
+            )
+        }
+
+        assertThat(exception.message).isEqualTo(mockMessage)
+        verify { outputError(mockMessage) }
+    }
 }

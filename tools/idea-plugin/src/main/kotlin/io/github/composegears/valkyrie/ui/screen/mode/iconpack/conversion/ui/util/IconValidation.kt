@@ -12,7 +12,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.Valida
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameContainsSpace
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError.IconNameEmpty
 
-fun List<BatchIcon>.checkImportIssues(): Map<ValidationError, List<IconName>> {
+fun List<BatchIcon>.checkImportIssues(useFlatPackage: Boolean = false): Map<ValidationError, List<IconName>> {
     return buildMap {
         val brokenIcons = this@checkImportIssues.filterIsInstance<BatchIcon.Broken>()
 
@@ -44,13 +44,18 @@ fun List<BatchIcon>.checkImportIssues(): Map<ValidationError, List<IconName>> {
         val duplicates = this@checkImportIssues
             .filterIsInstance<BatchIcon.Valid>()
             .groupBy {
+                // When useFlatPackage is true, all icons go to the same folder regardless of nested pack
+                // So we need to check for duplicates across all nested packs within the same icon pack
                 val packIdentifier = when (val pack = it.iconPack) {
                     is IconPack.Single -> pack.iconPackName
-                    is IconPack.Nested -> "${pack.iconPackName}.${pack.currentNestedPack}"
+                    is IconPack.Nested -> when {
+                        useFlatPackage -> pack.iconPackName  // Flat package: check across all nested packs
+                        else -> "${pack.iconPackName}.${pack.currentNestedPack}"  // Separate folders per nested pack
+                    }
                 }
                 packIdentifier to it.iconName.name
             }
-            .filter { it.value.size > 1 && it.value.any { it.iconName.name.isNotEmpty() } }
+            .filter { it.value.size > 1 }
             .values
             .flatten()
             .map { it.iconName }
@@ -62,9 +67,14 @@ fun List<BatchIcon>.checkImportIssues(): Map<ValidationError, List<IconName>> {
         val caseInsensitiveDuplicates = this@checkImportIssues
             .filterIsInstance<BatchIcon.Valid>()
             .groupBy {
+                // When useFlatPackage is true, all icons go to the same folder regardless of nested pack
+                // So we need to check for duplicates across all nested packs within the same icon pack
                 val packIdentifier = when (val pack = it.iconPack) {
                     is IconPack.Single -> pack.iconPackName
-                    is IconPack.Nested -> "${pack.iconPackName}.${pack.currentNestedPack}"
+                    is IconPack.Nested -> when {
+                        useFlatPackage -> pack.iconPackName  // Flat package: check across all nested packs
+                        else -> "${pack.iconPackName}.${pack.currentNestedPack}"  // Separate folders per nested pack
+                    }
                 }
                 packIdentifier to it.iconName.name.lowercase()
             }
