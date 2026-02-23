@@ -119,7 +119,6 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         // Check for duplicates with nested pack awareness
         validateDuplicates(iconFiles.files.toList(), iconNames)
 
-
         if (iconPack.isPresent && iconPack.get().targetSourceSet.get() == sourceSet.get()) {
             generateIconPack(outputDirectory = outputDirectory)
         }
@@ -405,12 +404,21 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             if (nestedPacks.isNotEmpty()) {
                 // Build map: file -> nested pack name
                 val sourceFolderToNestedPack = nestedPacks.associateBy { it.sourceFolder.get() }
-                val fileToNestedPack = files.associateWith { file ->
+
+                // When useFlatPackage is false, only validate files that are in configured nested pack folders
+                // (matching the behavior of generateIconsForNestedPacks)
+                val filesToValidate = if (useFlatPackage) {
+                    files
+                } else {
+                    files.filter { file -> sourceFolderToNestedPack.containsKey(file.parentFile.name) }
+                }
+
+                val fileToNestedPack = filesToValidate.associateWith { file ->
                     sourceFolderToNestedPack[file.parentFile.name]?.name?.get()
                 }
 
                 // Group by nested pack (or single group if useFlatPackage)
-                val iconsByPack = files.groupBy { file ->
+                val iconsByPack = filesToValidate.groupBy { file ->
                     if (useFlatPackage) {
                         pack.name.get() // All in same pack when flat
                     } else {
@@ -428,6 +436,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                         .filter { it.value.size > 1 }
                         .keys
                         .toList()
+                        .sorted()
 
                     if (exactDuplicates.isNotEmpty()) {
                         throw GradleException(
@@ -444,6 +453,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                         .values
                         .flatten()
                         .distinct()
+                        .sorted()
 
                     if (caseInsensitiveDuplicates.isNotEmpty()) {
                         throw GradleException(
@@ -471,6 +481,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             .filter { it.value.size > 1 }
             .keys
             .toList()
+            .sorted()
 
         if (exactDuplicates.isNotEmpty()) {
             throw GradleException(
@@ -487,6 +498,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             .values
             .flatten()
             .distinct()
+            .sorted()
 
         if (caseInsensitiveDuplicates.isNotEmpty()) {
             throw GradleException(

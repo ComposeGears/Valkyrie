@@ -224,6 +224,7 @@ private fun svgXml2ImageVector(
         .filter { it.value.size > 1 }
         .keys
         .toList()
+        .sorted()
 
     if (exactDuplicates.isNotEmpty()) {
         outputError(
@@ -240,6 +241,7 @@ private fun svgXml2ImageVector(
         .values
         .flatten()
         .distinct()
+        .sorted()
 
     if (caseInsensitiveDuplicates.isNotEmpty()) {
         outputError(

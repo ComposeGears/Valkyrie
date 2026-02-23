@@ -49,8 +49,8 @@ fun List<BatchIcon>.checkImportIssues(useFlatPackage: Boolean = false): Map<Vali
                 val packIdentifier = when (val pack = it.iconPack) {
                     is IconPack.Single -> pack.iconPackName
                     is IconPack.Nested -> when {
-                        useFlatPackage -> pack.iconPackName  // Flat package: check across all nested packs
-                        else -> "${pack.iconPackName}.${pack.currentNestedPack}"  // Separate folders per nested pack
+                        useFlatPackage -> pack.iconPackName // Flat package: check across all nested packs
+                        else -> "${pack.iconPackName}.${pack.currentNestedPack}" // Separate folders per nested pack
                     }
                 }
                 packIdentifier to it.iconName.name
@@ -60,6 +60,7 @@ fun List<BatchIcon>.checkImportIssues(useFlatPackage: Boolean = false): Map<Vali
             .flatten()
             .map { it.iconName }
             .distinct()
+            .sortedBy { it.name }
 
         addIfNotEmpty(error = HasDuplicates, icons = duplicates)
 
@@ -72,8 +73,8 @@ fun List<BatchIcon>.checkImportIssues(useFlatPackage: Boolean = false): Map<Vali
                 val packIdentifier = when (val pack = it.iconPack) {
                     is IconPack.Single -> pack.iconPackName
                     is IconPack.Nested -> when {
-                        useFlatPackage -> pack.iconPackName  // Flat package: check across all nested packs
-                        else -> "${pack.iconPackName}.${pack.currentNestedPack}"  // Separate folders per nested pack
+                        useFlatPackage -> pack.iconPackName // Flat package: check across all nested packs
+                        else -> "${pack.iconPackName}.${pack.currentNestedPack}" // Separate folders per nested pack
                     }
                 }
                 packIdentifier to it.iconName.name.lowercase()
@@ -81,13 +82,13 @@ fun List<BatchIcon>.checkImportIssues(useFlatPackage: Boolean = false): Map<Vali
             .filter {
                 // Filter groups where there are multiple icons with the same lowercase name
                 // but they are not already exact duplicates
-                it.value.size > 1 &&
-                it.value.map { icon -> icon.iconName.name }.distinct().size > 1
+                it.value.size > 1 && it.value.map { icon -> icon.iconName.name }.distinct().size > 1
             }
             .values
             .flatten()
             .map { it.iconName }
             .distinct()
+            .sortedBy { it.name }
 
         addIfNotEmpty(error = HasCaseInsensitiveDuplicates, icons = caseInsensitiveDuplicates)
     }
