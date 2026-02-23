@@ -6,7 +6,10 @@
 
 - Add `usePathDataString` configuration option in `imageVector` block to generate addPath with pathData strings instead
   of path builder calls
+- Add validation for exact duplicate icon names (e.g., `test-icon.svg` and `test_icon.svg` both produce `TestIcon.kt`)
 - Add validation for case-insensitive duplicate icon names to prevent file overwrites on macOS/Windows
+- Add nested pack aware validation that correctly handles `useFlatPackage` mode - when enabled, duplicates are detected
+  across all nested packs since they write to the same output folder
 
 ### Removed
 
@@ -18,9 +21,6 @@
 ### Fixed
 
 - Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser
-- Fix build task where icons with case-insensitive duplicate names (e.g., `test-icon.svg` and `testicon.svg`) would
-  overwrite each other on case-insensitive file systems (macOS APFS, Windows NTFS). Build now fails with a clear error
-  message indicating the conflicting icon names
 
 ## [0.3.0] - 2025-12-11
 

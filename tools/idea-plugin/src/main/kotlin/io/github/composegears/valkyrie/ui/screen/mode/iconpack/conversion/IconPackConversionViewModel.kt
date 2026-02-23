@@ -52,6 +52,9 @@ class IconPackConversionViewModel(
     private val _events = MutableSharedFlow<ConversionEvent>()
     val events = _events.asSharedFlow()
 
+    private val isFlatPackage: Boolean
+        get() = inMemorySettings.current.flatPackage
+
     init {
         val restoredState = iconsRecord.value
 
@@ -63,7 +66,7 @@ class IconPackConversionViewModel(
                     _state.updateState {
                         BatchProcessing.IconPackCreationState(
                             icons = restoredState,
-                            importIssues = restoredState.checkImportIssues(),
+                            importIssues = restoredState.checkImportIssues(useFlatPackage = isFlatPackage),
                         )
                     }
                 }
@@ -81,6 +84,19 @@ class IconPackConversionViewModel(
                 iconsRecord.value = when (val state = _state.value) {
                     is BatchProcessing.IconPackCreationState -> state.icons
                     else -> emptyList()
+                }
+            }
+            .launchIn(viewModelScope)
+
+        inMemorySettings.settings
+            .onEach { settings ->
+                _state.updateState {
+                    when (this) {
+                        is BatchProcessing.IconPackCreationState -> {
+                            copy(importIssues = icons.checkImportIssues(useFlatPackage = settings.flatPackage))
+                        }
+                        else -> this
+                    }
                 }
             }
             .launchIn(viewModelScope)
@@ -105,7 +121,7 @@ class IconPackConversionViewModel(
                     } else {
                         copy(
                             icons = iconsToProcess,
-                            importIssues = iconsToProcess.checkImportIssues(),
+                            importIssues = iconsToProcess.checkImportIssues(useFlatPackage = isFlatPackage),
                         )
                     }
                 }
@@ -132,7 +148,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = updatedIcons,
-                        importIssues = updatedIcons.checkImportIssues(),
+                        importIssues = updatedIcons.checkImportIssues(useFlatPackage = isFlatPackage)
                     )
                 }
                 else -> this
@@ -228,7 +244,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = icons,
-                        importIssues = icons.checkImportIssues(),
+                        importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
                     )
                 }
                 else -> this
@@ -283,7 +299,7 @@ class IconPackConversionViewModel(
             _state.updateState {
                 creationState.copy(
                     icons = icons,
-                    importIssues = icons.checkImportIssues(),
+                    importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
                 )
             }
         }
@@ -311,7 +327,7 @@ class IconPackConversionViewModel(
 
             BatchProcessing.IconPackCreationState(
                 icons = icons,
-                importIssues = icons.checkImportIssues(),
+                importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
             )
         }
     }
@@ -350,7 +366,7 @@ class IconPackConversionViewModel(
 
                 BatchProcessing.IconPackCreationState(
                     icons = icons,
-                    importIssues = icons.checkImportIssues(),
+                    importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
                 )
             }
         }

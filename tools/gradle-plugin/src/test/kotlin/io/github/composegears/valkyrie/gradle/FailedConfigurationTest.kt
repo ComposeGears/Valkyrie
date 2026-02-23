@@ -350,4 +350,236 @@ class FailedConfigurationTest : CommonGradleTest() {
         assertThat(result.output).contains("Found icon names that would collide on case-insensitive file systems")
         assertThat(result.output).contains("TestIcon, Testicon")
     }
+
+    @Test
+    fun `nested packs with flatPackage - exact duplicates across different nested packs`(@TempDir root: Path) {
+        root.writeSettingsFile()
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+
+                    iconPack {
+                        name = "ValkyrieIcons"
+                        targetSourceSet = "main"
+                        useFlatPackage = true
+
+                        nested {
+                            name = "Filled"
+                            sourceFolder = "filled"
+                        }
+                        nested {
+                            name = "Outlined"
+                            sourceFolder = "outlined"
+                        }
+                    }
+                }
+            """.trimIndent(),
+        )
+
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        // Create same icon name in different nested packs
+        val filledDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/filled").createDirectories()
+        filledDir.resolve("test-icon.svg").writeText(svgContent)
+
+        val outlinedDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/outlined").createDirectories()
+        outlinedDir.resolve("test-icon.svg").writeText(svgContent)
+
+        val result = failTask(root, TASK_NAME)
+        assertThat(result.output).contains("Found duplicate icon names in \"ValkyrieIcons\": TestIcon")
+    }
+
+    @Test
+    fun `nested packs with flatPackage - case-insensitive duplicates across different nested packs`(@TempDir root: Path) {
+        root.writeSettingsFile()
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+
+                    iconPack {
+                        name = "ValkyrieIcons"
+                        targetSourceSet = "main"
+                        useFlatPackage = true
+
+                        nested {
+                            name = "Filled"
+                            sourceFolder = "filled"
+                        }
+                        nested {
+                            name = "Outlined"
+                            sourceFolder = "outlined"
+                        }
+                    }
+                }
+            """.trimIndent(),
+        )
+
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        // Create case-insensitive duplicates in different nested packs
+        val filledDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/filled").createDirectories()
+        filledDir.resolve("test-icon.svg").writeText(svgContent)
+
+        val outlinedDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/outlined").createDirectories()
+        outlinedDir.resolve("testicon.svg").writeText(svgContent)
+
+        val result = failTask(root, TASK_NAME)
+        assertThat(result.output).contains("Found icon names that would collide on case-insensitive file systems")
+        assertThat(result.output).contains("ValkyrieIcons")
+        assertThat(result.output).contains("TestIcon")
+        assertThat(result.output).contains("Testicon")
+    }
+
+    @Test
+    fun `nested packs without flatPackage - allow duplicates in different nested packs`(@TempDir root: Path) {
+        root.writeSettingsFile()
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+
+                    iconPack {
+                        name = "ValkyrieIcons"
+                        targetSourceSet = "main"
+                        useFlatPackage = false
+
+                        nested {
+                            name = "Filled"
+                            sourceFolder = "filled"
+                        }
+                        nested {
+                            name = "Outlined"
+                            sourceFolder = "outlined"
+                        }
+                    }
+                }
+            """.trimIndent(),
+        )
+
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        // Create same icon name in different nested packs - should be OK without flatPackage
+        val filledDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/filled").createDirectories()
+        filledDir.resolve("test-icon.svg").writeText(svgContent)
+
+        val outlinedDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/outlined").createDirectories()
+        outlinedDir.resolve("test-icon.svg").writeText(svgContent)
+
+        val result = runTask(root, TASK_NAME)
+        assertThat(result).taskWasSuccessful(":$TASK_NAME")
+    }
+
+    @Test
+    fun `nested packs without flatPackage - detect duplicates within same nested pack`(@TempDir root: Path) {
+        root.writeSettingsFile()
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+
+                    iconPack {
+                        name = "ValkyrieIcons"
+                        targetSourceSet = "main"
+                        useFlatPackage = false
+
+                        nested {
+                            name = "Filled"
+                            sourceFolder = "filled"
+                        }
+                    }
+                }
+            """.trimIndent(),
+        )
+
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        // Create exact duplicates within same nested pack
+        val filledDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/filled").createDirectories()
+        filledDir.resolve("test-icon.svg").writeText(svgContent)
+        filledDir.resolve("test_icon.svg").writeText(svgContent) // Same name after formatting
+
+        val result = failTask(root, TASK_NAME)
+        assertThat(result.output).contains("Found duplicate icon names in \"ValkyrieIcons.Filled\": TestIcon")
+    }
+
+    @Test
+    fun `nested packs without flatPackage - detect case-insensitive duplicates within same nested pack`(@TempDir root: Path) {
+        root.writeSettingsFile()
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("jvm")
+                    id("io.github.composegears.valkyrie")
+                }
+
+                valkyrie {
+                    packageName = "x.y.z"
+
+                    iconPack {
+                        name = "ValkyrieIcons"
+                        targetSourceSet = "main"
+                        useFlatPackage = false
+
+                        nested {
+                            name = "Outlined"
+                            sourceFolder = "outlined"
+                        }
+                    }
+                }
+            """.trimIndent(),
+        )
+
+        val svgContent = """
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        """.trimIndent()
+
+        // Create case-insensitive duplicates within same nested pack
+        val outlinedDir = root.resolve("src/main/$DEFAULT_RESOURCE_DIRECTORY/outlined").createDirectories()
+        outlinedDir.resolve("test-icon.svg").writeText(svgContent)
+        outlinedDir.resolve("testicon.svg").writeText(svgContent)
+
+        val result = failTask(root, TASK_NAME)
+        assertThat(result.output).contains("Found icon names that would collide on case-insensitive file systems")
+        assertThat(result.output).contains("ValkyrieIcons.Outlined")
+    }
 }

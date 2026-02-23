@@ -218,6 +218,21 @@ private fun svgXml2ImageVector(
         )
     }
 
+    // Check for exact duplicates
+    val exactDuplicates = iconNames
+        .groupBy { it }
+        .filter { it.value.size > 1 }
+        .keys
+        .toList()
+
+    if (exactDuplicates.isNotEmpty()) {
+        outputError(
+            "Found duplicate icon names: ${exactDuplicates.joinToString(", ")}. " +
+                "Each icon must have a unique name. " +
+                "Please rename the source files to avoid duplicates.",
+        )
+    }
+
     // Check for case-insensitive duplicates that would cause file overwrites on case-insensitive file systems
     val caseInsensitiveDuplicates = iconNames
         .groupBy { it.lowercase() }

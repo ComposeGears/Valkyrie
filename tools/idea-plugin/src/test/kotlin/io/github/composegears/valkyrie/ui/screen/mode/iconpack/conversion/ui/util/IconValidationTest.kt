@@ -153,6 +153,28 @@ class IconValidationTest {
     }
 
     @Test
+    fun `nested with flatPackage, detect exact duplicates across different nested packs`() {
+        // When useFlatPackage = true, Test.kt from "Filled" and Test.kt from "Outlined"
+        // would overwrite each other since they go to the same folder
+        val icons = listOf(
+            validIcon("Test", nestedPack.copy(currentNestedPack = "Filled")),
+            validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
+        )
+        assertThat(icons.checkImportIssues(useFlatPackage = true))
+            .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("Test"))))
+    }
+
+    @Test
+    fun `nested without flatPackage, allow exact duplicates in different nested packs`() {
+        // Without useFlatPackage, Filled/Test.kt and Outlined/Test.kt are in different folders
+        val icons = listOf(
+            validIcon("Test", nestedPack.copy(currentNestedPack = "Filled")),
+            validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
+        )
+        assertThat(icons.checkImportIssues(useFlatPackage = false)).isEqualTo(emptyMap())
+    }
+
+    @Test
     fun `single, detect case-insensitive duplicates on macOS file system`() {
         // On macOS with case-insensitive file system, TestIcon.kt and Testicon.kt collide
         val icons = listOf(
@@ -181,5 +203,27 @@ class IconValidationTest {
             validIcon("Testicon", nestedPack.copy(currentNestedPack = "Outlined")),
         )
         assertThat(icons.checkImportIssues()).isEqualTo(emptyMap())
+    }
+
+    @Test
+    fun `nested with flatPackage, detect case-insensitive duplicates across different nested packs`() {
+        // When useFlatPackage = true, all icons go to the same folder
+        // So TestIcon.kt and Testicon.kt would collide even if they're in different nested packs
+        val icons = listOf(
+            validIcon("TestIcon", nestedPack.copy(currentNestedPack = "Filled")),
+            validIcon("Testicon", nestedPack.copy(currentNestedPack = "Outlined")),
+        )
+        assertThat(icons.checkImportIssues(useFlatPackage = true))
+            .isEqualTo(mapOf(ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("TestIcon"), IconName("Testicon"))))
+    }
+
+    @Test
+    fun `nested with flatPackage, allow case-insensitive names in different icon packs`() {
+        // Even with useFlatPackage = true, different icon packs have separate folders
+        val icons = listOf(
+            validIcon("TestIcon", nestedPack.copy(iconPackName = "ValkyrieIcons", currentNestedPack = "Filled")),
+            validIcon("Testicon", nestedPack.copy(iconPackName = "AnotherIconPack", currentNestedPack = "Outlined")),
+        )
+        assertThat(icons.checkImportIssues(useFlatPackage = true)).isEqualTo(emptyMap())
     }
 }
