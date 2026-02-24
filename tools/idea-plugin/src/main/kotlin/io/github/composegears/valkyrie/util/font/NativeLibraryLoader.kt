@@ -29,7 +29,7 @@ internal object NativeLibraryLoader {
             )
 
         val extension = fileName.substringAfterLast('.', "")
-        val suffix = if (extension.isNotEmpty()) ".${extension}" else null
+        val suffix = if (extension.isNotEmpty()) ".$extension" else null
         val tempDir = Files.createTempDirectory("valkyrie-native-").toFile()
         val tempFile = Files.createTempFile(tempDir.toPath(), "$libName-", suffix).toFile()
 
