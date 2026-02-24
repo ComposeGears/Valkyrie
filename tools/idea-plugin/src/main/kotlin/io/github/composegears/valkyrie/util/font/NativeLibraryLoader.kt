@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.util.font
 
-import java.io.File
 import java.io.FileNotFoundException
+import java.nio.file.Files
 
 /**
  * Loads platform-specific native libraries from JAR resources.
@@ -28,16 +28,19 @@ internal object NativeLibraryLoader {
                 "Native library not found for platform '$platform': $resourcePath",
             )
 
-        val tempDir = File(System.getProperty("java.io.tmpdir"), "valkyrie-native")
-        tempDir.mkdirs()
+        val extension = fileName.substringAfterLast('.', "")
+        val suffix = if (extension.isNotEmpty()) ".${extension}" else null
+        val tempDir = Files.createTempDirectory("valkyrie-native-").toFile()
+        val tempFile = Files.createTempFile(tempDir.toPath(), "$libName-", suffix).toFile()
 
-        val tempFile = File(tempDir, fileName)
+        tempDir.deleteOnExit()
+        tempFile.deleteOnExit()
+
         resourceStream.use { input ->
             tempFile.outputStream().use { output ->
                 input.copyTo(output)
             }
         }
-        tempFile.deleteOnExit()
 
         System.load(tempFile.absolutePath)
         loaded.add(libName)
