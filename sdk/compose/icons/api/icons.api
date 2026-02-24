@@ -17,6 +17,10 @@ public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/Boo
 	public static final fun getBootstrapLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/FontAwesomeLogoKt {
+	public static final fun getFontAwesomeLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/GoogleMaterialLogoKt {
 	public static final fun getGoogleMaterialLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
