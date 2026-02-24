@@ -8,6 +8,8 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconNa
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPack
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconSource
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.BatchIconsValidator.toMessageText
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.BatchIconsValidator.validate
 import io.github.composegears.valkyrie.util.IR_STUB
 import kotlin.test.Test
 
@@ -44,7 +46,7 @@ class IconValidationTest {
             validIcon("SampleIcon", singlePack),
             validIcon("", singlePack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.IconNameEmpty to listOf(IconName(""))))
     }
 
@@ -54,14 +56,14 @@ class IconValidationTest {
             validIcon("SampleIcon", singlePack),
             validIcon("Icon With Space", singlePack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.IconNameContainsSpace to listOf(IconName("Icon With Space"))))
     }
 
     @Test
     fun `simple, detect failed to parse file icons`() {
         val icons = listOf(brokenIcon("BrokenFileIcon", IconSource.File))
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.FailedToParseFile to listOf(IconName("BrokenFileIcon"))))
     }
 
@@ -70,7 +72,7 @@ class IconValidationTest {
         val icons = listOf(
             brokenIcon("BrokenClipboardIcon", IconSource.Clipboard),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.FailedToParseClipboard to listOf(IconName("BrokenClipboardIcon"))))
     }
 
@@ -80,7 +82,7 @@ class IconValidationTest {
             validIcon("DuplicateIcon", singlePack),
             validIcon("DuplicateIcon", singlePack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("DuplicateIcon"))))
     }
 
@@ -93,7 +95,7 @@ class IconValidationTest {
             validIcon("DuplicateIcon", singlePack),
             validIcon("DuplicateIcon", singlePack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(
                 mapOf(
                     ValidationError.IconNameEmpty to listOf(IconName("")),
@@ -112,7 +114,7 @@ class IconValidationTest {
             validIcon("DuplicateIcon", nestedPack),
             validIcon("DuplicateIcon", nestedPack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(
                 mapOf(
                     ValidationError.IconNameEmpty to listOf(IconName("")),
@@ -128,7 +130,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack),
             validIcon("Test", nestedPack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("Test"))))
     }
 
@@ -138,7 +140,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack.copy(currentNestedPack = "Filled")),
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkImportIssues()).isEqualTo(emptyMap())
+        assertThat(validate(batchIcons = icons)).isEqualTo(emptyMap())
     }
 
     @Test
@@ -148,7 +150,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("Test"))))
     }
 
@@ -160,7 +162,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack.copy(currentNestedPack = "Filled")),
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkImportIssues(useFlatPackage = true))
+        assertThat(validate(batchIcons = icons, useFlatPackage = true))
             .isEqualTo(mapOf(ValidationError.HasDuplicates to listOf(IconName("Test"))))
     }
 
@@ -171,7 +173,7 @@ class IconValidationTest {
             validIcon("Test", nestedPack.copy(currentNestedPack = "Filled")),
             validIcon("Test", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkImportIssues(useFlatPackage = false)).isEqualTo(emptyMap())
+        assertThat(validate(batchIcons = icons, useFlatPackage = false)).isEqualTo(emptyMap())
     }
 
     @Test
@@ -181,7 +183,7 @@ class IconValidationTest {
             validIcon("TestIcon", singlePack),
             validIcon("Testicon", singlePack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("TestIcon"), IconName("Testicon"))))
     }
 
@@ -192,7 +194,7 @@ class IconValidationTest {
             validIcon("TestIcon", nestedPack),
             validIcon("Testicon", nestedPack),
         )
-        assertThat(icons.checkImportIssues())
+        assertThat(validate(batchIcons = icons))
             .isEqualTo(mapOf(ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("TestIcon"), IconName("Testicon"))))
     }
 
@@ -202,7 +204,7 @@ class IconValidationTest {
             validIcon("TestIcon", nestedPack.copy(currentNestedPack = "Filled")),
             validIcon("Testicon", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkImportIssues()).isEqualTo(emptyMap())
+        assertThat(validate(batchIcons = icons)).isEqualTo(emptyMap())
     }
 
     @Test
@@ -213,7 +215,7 @@ class IconValidationTest {
             validIcon("TestIcon", nestedPack.copy(currentNestedPack = "Filled")),
             validIcon("Testicon", nestedPack.copy(currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkImportIssues(useFlatPackage = true))
+        assertThat(validate(batchIcons = icons, useFlatPackage = true))
             .isEqualTo(mapOf(ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("TestIcon"), IconName("Testicon"))))
     }
 
@@ -224,6 +226,165 @@ class IconValidationTest {
             validIcon("TestIcon", nestedPack.copy(iconPackName = "ValkyrieIcons", currentNestedPack = "Filled")),
             validIcon("Testicon", nestedPack.copy(iconPackName = "AnotherIconPack", currentNestedPack = "Outlined")),
         )
-        assertThat(icons.checkImportIssues(useFlatPackage = true)).isEqualTo(emptyMap())
+        assertThat(validate(batchIcons = icons, useFlatPackage = true)).isEqualTo(emptyMap())
+    }
+
+    @Test
+    fun `empty list returns empty map`() {
+        assertThat(validate(batchIcons = emptyList())).isEqualTo(emptyMap())
+    }
+
+    @Test
+    fun `all valid icons with unique names return empty map`() {
+        val icons = listOf(
+            validIcon("IconA", singlePack),
+            validIcon("IconB", singlePack),
+            validIcon("IconC", singlePack),
+        )
+        assertThat(validate(batchIcons = icons)).isEqualTo(emptyMap())
+    }
+
+    @Test
+    fun `single, exact and case-insensitive duplicates reported separately`() {
+        val icons = listOf(
+            validIcon("Test", singlePack),
+            validIcon("Test", singlePack),
+            validIcon("test", singlePack),
+        )
+        assertThat(validate(batchIcons = icons))
+            .isEqualTo(
+                mapOf(
+                    ValidationError.HasDuplicates to listOf(IconName("Test")),
+                    ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("Test"), IconName("test")),
+                ),
+            )
+    }
+
+    @Test
+    fun `multiple broken file icons are accumulated`() {
+        val icons = listOf(
+            brokenIcon("Broken1", IconSource.File),
+            brokenIcon("Broken2", IconSource.File),
+            brokenIcon("Broken3", IconSource.Clipboard),
+        )
+        assertThat(validate(batchIcons = icons))
+            .isEqualTo(
+                mapOf(
+                    ValidationError.FailedToParseFile to listOf(IconName("Broken1"), IconName("Broken2")),
+                    ValidationError.FailedToParseClipboard to listOf(IconName("Broken3")),
+                ),
+            )
+    }
+
+    @Test
+    fun `multiple empty names and multiple names with spaces are accumulated`() {
+        val icons = listOf(
+            validIcon("", singlePack),
+            validIcon("", singlePack),
+            validIcon("Has Space", singlePack),
+            validIcon("Also Space", singlePack),
+        )
+        assertThat(validate(batchIcons = icons))
+            .isEqualTo(
+                mapOf(
+                    ValidationError.IconNameEmpty to listOf(IconName(""), IconName("")),
+                    ValidationError.IconNameContainsSpace to listOf(IconName("Has Space"), IconName("Also Space")),
+                    ValidationError.HasDuplicates to listOf(IconName("")),
+                ),
+            )
+    }
+
+    @Test
+    fun `toMessageText, single broken file`() {
+        val errors = mapOf(
+            ValidationError.FailedToParseFile to listOf(IconName("BadFile")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Failed to parse: \"BadFile\"")
+    }
+
+    @Test
+    fun `toMessageText, single broken clipboard`() {
+        val errors = mapOf(
+            ValidationError.FailedToParseClipboard to listOf(IconName("ClipIcon")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Failed to parse some icon from clipboard")
+    }
+
+    @Test
+    fun `toMessageText, single empty name`() {
+        val errors = mapOf(
+            ValidationError.IconNameEmpty to listOf(IconName("")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Contains icon with empty name")
+    }
+
+    @Test
+    fun `toMessageText, multiple empty names uses plural`() {
+        val errors = mapOf(
+            ValidationError.IconNameEmpty to listOf(IconName(""), IconName("")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Contains icons with empty name")
+    }
+
+    @Test
+    fun `toMessageText, single space name`() {
+        val errors = mapOf(
+            ValidationError.IconNameContainsSpace to listOf(IconName("My Icon")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Contains icon with space in name: \"My Icon\"")
+    }
+
+    @Test
+    fun `toMessageText, multiple space names uses plural`() {
+        val errors = mapOf(
+            ValidationError.IconNameContainsSpace to listOf(IconName("My Icon"), IconName("Other Icon")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Contains icons with space in name: \"My Icon\", \"Other Icon\"")
+    }
+
+    @Test
+    fun `toMessageText, single duplicate`() {
+        val errors = mapOf(
+            ValidationError.HasDuplicates to listOf(IconName("Dup")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Contains duplicate icon: \"Dup\"")
+    }
+
+    @Test
+    fun `toMessageText, multiple duplicates uses plural`() {
+        val errors = mapOf(
+            ValidationError.HasDuplicates to listOf(IconName("Dup1"), IconName("Dup2")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Contains duplicate icons: \"Dup1\", \"Dup2\"")
+    }
+
+    @Test
+    fun `toMessageText, case-insensitive duplicates`() {
+        val errors = mapOf(
+            ValidationError.HasCaseInsensitiveDuplicates to listOf(IconName("TestIcon"), IconName("Testicon")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo("• Contains icons that collide on case-insensitive file systems (macOS/Windows): \"TestIcon\", \"Testicon\"")
+    }
+
+    @Test
+    fun `toMessageText, multiple errors joined with newline`() {
+        val errors = mapOf(
+            ValidationError.IconNameEmpty to listOf(IconName("")),
+            ValidationError.HasDuplicates to listOf(IconName("Dup")),
+        )
+        assertThat(errors.toMessageText())
+            .isEqualTo(
+                "• Contains icon with empty name\n" +
+                    "• Contains duplicate icon: \"Dup\"",
+            )
     }
 }

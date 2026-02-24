@@ -16,7 +16,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerti
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ValidationError
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.toMessageText
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.BatchIconsValidator.toMessageText
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
