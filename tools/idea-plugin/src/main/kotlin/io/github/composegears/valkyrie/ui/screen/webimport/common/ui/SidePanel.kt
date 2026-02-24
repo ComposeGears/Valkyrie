@@ -20,8 +20,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.FontCustomization
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialFontCustomization
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.DefaultButton
@@ -81,9 +81,9 @@ private fun SidePanelPreview() = PreviewTheme {
             isOpen = isOpen,
             onClose = { isOpen = false },
             content = {
-                FontCustomization(
+                MaterialFontCustomization(
                     modifier = Modifier.fillMaxHeight(),
-                    fontSettings = FontSettings(fill = true),
+                    fontSettings = MaterialFontSettings(fill = true),
                     onClose = { isOpen = false },
                     onSettingsChange = { },
                 )

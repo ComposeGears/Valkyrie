@@ -58,9 +58,9 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoading
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
-import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.FontCustomization
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialIconFontFamily
+import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialFontCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialTopActions
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
@@ -103,9 +103,9 @@ private fun MaterialSymbolsImportUI(
     state: MaterialState,
     onBack: () -> Unit,
     onSelectIcon: (IconModel) -> Unit,
-    onSelectFontFamily: (IconFontFamily) -> Unit,
+    onSelectFontFamily: (MaterialIconFontFamily) -> Unit,
     onSelectCategory: (Category) -> Unit,
-    onSettingsChange: (FontSettings) -> Unit,
+    onSettingsChange: (MaterialFontSettings) -> Unit,
     onSearchQueryChange: (String) -> Unit,
 ) {
     var isSidePanelOpen by rememberSaveable { mutableStateOf(false) }
@@ -156,7 +156,7 @@ private fun MaterialSymbolsImportUI(
                             isOpen = isSidePanelOpen,
                             onClose = { isSidePanelOpen = false },
                             content = {
-                                FontCustomization(
+                                MaterialFontCustomization(
                                     fontSettings = current.fontSettings,
                                     onClose = { isSidePanelOpen = false },
                                     onSettingsChange = onSettingsChange,
@@ -174,7 +174,7 @@ private fun MaterialSymbolsImportUI(
 private fun IconsContent(
     state: MaterialState.Success,
     onSelectIcon: (IconModel) -> Unit,
-    onSelectFontFamily: (IconFontFamily) -> Unit,
+    onSelectFontFamily: (MaterialIconFontFamily) -> Unit,
     onSelectCategory: (Category) -> Unit,
     onToggleSidePanel: () -> Unit,
     onSearchQueryChange: (String) -> Unit,

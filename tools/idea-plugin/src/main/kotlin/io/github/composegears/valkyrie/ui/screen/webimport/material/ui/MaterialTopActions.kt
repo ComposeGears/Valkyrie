@@ -11,16 +11,16 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.WebImportTopActions
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialIconFontFamily
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MaterialTopActions(
     categories: List<Category>,
     selectedCategory: Category,
-    iconFontFamily: IconFontFamily,
+    iconFontFamily: MaterialIconFontFamily,
     onToggleSidePanel: () -> Unit,
-    onSelectFontFamily: (IconFontFamily) -> Unit,
+    onSelectFontFamily: (MaterialIconFontFamily) -> Unit,
     onSelectCategory: (Category) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -30,7 +30,7 @@ fun MaterialTopActions(
         onToggleCustomization = onToggleSidePanel,
         onSearchQueryChange = onSearchQueryChange,
         actionsContent = {
-            FontFamilyDropdown(
+            MaterialFontFamilyDropdown(
                 modifier = Modifier.width(100.dp),
                 fontFamily = iconFontFamily,
                 onSelectFontFamily = onSelectFontFamily,
@@ -51,7 +51,7 @@ fun MaterialTopActions(
 @Composable
 private fun MaterialTopActionsPreview() = PreviewTheme {
     var category by rememberMutableState { Category("Action") }
-    var fontFamily by rememberMutableState { IconFontFamily.OUTLINED }
+    var fontFamily by rememberMutableState { MaterialIconFontFamily.Outlined }
 
     MaterialTopActions(
         selectedCategory = category,

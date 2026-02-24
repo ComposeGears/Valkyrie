@@ -10,6 +10,11 @@ import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.service.PersistentSettings.ValkyrieState
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_FILL
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_GRADE
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_WEIGHT
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings.Companion.DEFAULT_SIZE
 
 @State(name = "Valkyrie.Settings", storages = [Storage("valkyrie_settings.xml")])
 class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(ValkyrieState()) {
@@ -50,6 +55,18 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
         var showImageVectorPreview: Boolean by property(true)
         var showIconsInProjectView: Boolean by property(true)
         var indentSize: Int by property(4)
+
+        // MaterialSymbols
+        var materialFontFill: Boolean by property(DEFAULT_FILL)
+        var materialFontWeight: Int by property(DEFAULT_WEIGHT)
+        var materialFontGrade: Int by property(DEFAULT_GRADE)
+        var materialFontOpticalSize: Float by property(DEFAULT_OPTICAL_SIZE)
+
+        // Lucide
+        var lucideSize: Int by property(DEFAULT_SIZE)
+
+        // Bootstrap
+        var bootstrapSize: Int by property(DEFAULT_SIZE)
     }
 
     companion object {

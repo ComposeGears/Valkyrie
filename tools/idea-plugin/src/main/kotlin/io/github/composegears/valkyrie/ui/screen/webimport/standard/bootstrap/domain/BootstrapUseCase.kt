@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.domain
 
+import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.data.BootstrapRepository
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
@@ -13,11 +14,19 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.toStan
 
 class BootstrapUseCase(
     private val repository: BootstrapRepository,
+    private val inMemorySettings: InMemorySettings,
 ) : StandardIconProvider {
 
     override val providerName: String = "Bootstrap"
     override val stateKey: String = "bootstrap"
     override val fontAlias: String = "bootstrap-icons"
+    override val persistentSize: Int = inMemorySettings.readState { bootstrapSize }
+
+    override fun updatePersistentSize(value: Int) {
+        inMemorySettings.update {
+            bootstrapSize = value
+        }
+    }
 
     override suspend fun loadConfig(): StandardIconConfig {
         val codepoints = repository.loadIconList()
