@@ -10,18 +10,18 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.DropdownList
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialIconFontFamily
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun FontFamilyDropdown(
-    fontFamily: IconFontFamily,
+fun MaterialFontFamilyDropdown(
+    fontFamily: MaterialIconFontFamily,
     modifier: Modifier = Modifier,
-    onSelectFontFamily: (IconFontFamily) -> Unit,
+    onSelectFontFamily: (MaterialIconFontFamily) -> Unit,
 ) {
     DropdownList(
         modifier = modifier,
-        items = IconFontFamily.entries,
+        items = MaterialIconFontFamily.entries,
         selected = fontFamily,
         transform = { it.displayName },
         onSelectItem = onSelectFontFamily,
@@ -30,10 +30,10 @@ fun FontFamilyDropdown(
 
 @Preview
 @Composable
-private fun FontFamilyDropdownPreview() = PreviewTheme(alignment = Alignment.Center) {
-    var fontFamily by rememberMutableState { IconFontFamily.OUTLINED }
+private fun MaterialFontFamilyDropdownPreview() = PreviewTheme(alignment = Alignment.Center) {
+    var fontFamily by rememberMutableState { MaterialIconFontFamily.Outlined }
 
-    FontFamilyDropdown(
+    MaterialFontFamilyDropdown(
         modifier = Modifier.width(100.dp),
         fontFamily = fontFamily,
         onSelectFontFamily = { fontFamily = it },

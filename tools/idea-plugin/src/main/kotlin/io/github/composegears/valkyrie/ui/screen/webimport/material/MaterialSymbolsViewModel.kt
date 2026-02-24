@@ -9,6 +9,7 @@ import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.util.filterGridItems
@@ -17,8 +18,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.di.MaterialS
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialIconFontFamily
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -27,8 +28,9 @@ import kotlinx.coroutines.launch
 
 class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
 
-    private val fontCache = mutableMapOf<IconFontFamily, FontByteArray>()
+    private val fontCache = mutableMapOf<MaterialIconFontFamily, FontByteArray>()
     private val materialSymbolsConfigUseCase = inject(MaterialSymbolsModule.materialSymbolsConfigUseCase)
+    private val inMemorySettings = inject(DI.core.inMemorySettings)
 
     private val materialRecord = savedState.recordOf<MaterialState>(
         key = "materialSymbols",
@@ -39,7 +41,7 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
     private val _events = Channel<MaterialEvent>()
     val events = _events.receiveAsFlow()
 
-    private var currentFontFamily: IconFontFamily = IconFontFamily.OUTLINED
+    private var currentFontFamily: MaterialIconFontFamily = MaterialIconFontFamily.Outlined
     private var iconLoadJob: Job? = null
 
     init {
@@ -56,19 +58,28 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
             materialRecord.value = MaterialState.Loading
 
             runCatching {
+                val initialSettings = inMemorySettings.readState {
+                    MaterialFontSettings(
+                        fill = materialFontFill,
+                        weight = materialFontWeight,
+                        grade = materialFontGrade,
+                        opticalSize = materialFontOpticalSize,
+                    )
+                }
                 val config = materialSymbolsConfigUseCase.loadConfig()
                 materialRecord.value = MaterialState.Success(
                     config = config,
                     gridItems = config.gridItems.toGridItems(),
+                    fontSettings = initialSettings,
                 )
-                downloadFont(IconFontFamily.OUTLINED)
+                downloadFont(MaterialIconFontFamily.Outlined)
             }.onFailure {
                 materialRecord.value = MaterialState.Error("Error loading Material Symbols config: ${it.message}")
             }
         }
     }
 
-    fun downloadFont(iconFontFamily: IconFontFamily) {
+    fun downloadFont(iconFontFamily: MaterialIconFontFamily) {
         currentFontFamily = iconFontFamily
         viewModelScope.launch {
             val cachedFont = fontCache[iconFontFamily]
@@ -166,8 +177,14 @@ class MaterialSymbolsViewModel(savedState: MutableSavedState) : ViewModel() {
             searchQuery = searchQuery,
         )
 
-    fun updateFontSettings(fontSettings: FontSettings) {
+    fun updateFontSettings(fontSettings: MaterialFontSettings) {
         viewModelScope.launch {
+            inMemorySettings.update {
+                materialFontFill = fontSettings.fill
+                materialFontWeight = fontSettings.weight
+                materialFontGrade = fontSettings.grade
+                materialFontOpticalSize = fontSettings.opticalSize
+            }
             updateSuccess { state ->
                 state.copy(fontSettings = fontSettings)
             }
@@ -198,8 +215,8 @@ sealed interface MaterialState {
         val config: MaterialConfig,
         val gridItems: List<GridItem> = emptyList(),
         val selectedCategory: Category = Category.All,
-        val fontSettings: FontSettings = FontSettings(),
-        val iconFontFamily: IconFontFamily = IconFontFamily.OUTLINED,
+        val fontSettings: MaterialFontSettings,
+        val iconFontFamily: MaterialIconFontFamily = MaterialIconFontFamily.Outlined,
         val fontByteArray: FontByteArray? = null,
     ) : MaterialState
 

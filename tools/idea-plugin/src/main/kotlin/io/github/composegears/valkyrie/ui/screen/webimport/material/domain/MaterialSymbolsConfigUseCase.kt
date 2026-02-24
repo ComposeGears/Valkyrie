@@ -7,8 +7,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.data.font.Ma
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.MaterialConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.IconFontFamily
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialIconFontFamily
 
 class MaterialSymbolsConfigUseCase(
     private val configRepository: MaterialSymbolsConfigRepository,
@@ -45,7 +45,7 @@ class MaterialSymbolsConfigUseCase(
         )
     }
 
-    suspend fun loadFont(iconFontFamily: IconFontFamily): FontByteArray {
+    suspend fun loadFont(iconFontFamily: MaterialIconFontFamily): FontByteArray {
         val bytes = fontRepository.downloadFont(iconFontFamily.cdnUrl)
 
         return FontByteArray(bytes = bytes)
@@ -54,7 +54,7 @@ class MaterialSymbolsConfigUseCase(
     suspend fun loadIcon(
         name: String,
         fontFamily: String,
-        fontSettings: FontSettings,
+        fontSettings: MaterialFontSettings,
     ): String {
         return fontRepository.downloadSvg(
             name = name,

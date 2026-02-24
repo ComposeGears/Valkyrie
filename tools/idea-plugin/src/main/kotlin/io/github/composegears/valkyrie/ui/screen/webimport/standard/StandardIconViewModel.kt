@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
-import com.intellij.openapi.diagnostic.Logger
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
@@ -43,8 +42,6 @@ class StandardIconViewModel(
     private var downloadJob: Job? = null
     private var fontLoadJob: Job? = null
 
-    private val log = Logger.getInstance("StandardIconViewModel-${provider.providerName}")
-
     init {
         when (val initialState = stateRecord.value) {
             is StandardState.Success if initialState.fontByteArray == null -> downloadFont()
@@ -69,10 +66,10 @@ class StandardIconViewModel(
                 stateRecord.value = StandardState.Success(
                     config = config,
                     gridItems = config.gridItems.toGridItems(),
+                    settings = SizeSettings(size = provider.persistentSize),
                 )
                 downloadFont()
             }.onFailure { error ->
-                log.error("Error loading ${provider.providerName} icons", error)
                 stateRecord.value = StandardState.Error(
                     "Error loading ${provider.providerName} icons: ${error.message}",
                 )
@@ -90,8 +87,6 @@ class StandardIconViewModel(
                     val bytes = provider.loadFontBytes()
                     fontCache = bytes
                     updateSuccess { it.copy(fontByteArray = bytes) }
-                }.onFailure { error ->
-                    log.error("Error loading ${provider.providerName} font", error)
                 }
             } else {
                 updateSuccess { it.copy(fontByteArray = cachedFont) }
@@ -113,8 +108,6 @@ class StandardIconViewModel(
                         name = IconNameFormatter.format(icon.displayName),
                     ),
                 )
-            }.onFailure { error ->
-                log.error("Failed to download icon '${icon.name}'", error)
             }
         }
     }
@@ -145,6 +138,7 @@ class StandardIconViewModel(
 
     fun updateSettings(settings: SizeSettings) {
         viewModelScope.launch(Dispatchers.Default) {
+            provider.updatePersistentSize(settings.size)
             updateSuccess { state ->
                 state.copy(settings = settings)
             }

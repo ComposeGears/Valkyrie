@@ -9,6 +9,11 @@ import io.github.composegears.valkyrie.service.PersistentSettings.Companion.pers
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_FILL
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_GRADE
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_WEIGHT
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings.Companion.DEFAULT_SIZE
 import java.util.Collections.emptyList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,6 +41,8 @@ class InMemorySettings(project: Project) {
         _settings.updateState { persistentSettings.state.toValkyriesSettings() }
     }
 
+    fun <T> readState(selector: PersistentSettings.ValkyrieState.() -> T): T = selector(persistentSettings.state)
+
     fun clear() = update {
         mode = ValkyrieMode.Unspecified
         previewType = PreviewType.Pixel
@@ -54,6 +61,12 @@ class InMemorySettings(project: Project) {
         showImageVectorPreview = true
         showIconsInProjectView = true
         indentSize = 4
+        materialFontFill = DEFAULT_FILL
+        materialFontWeight = DEFAULT_WEIGHT
+        materialFontGrade = DEFAULT_GRADE
+        materialFontOpticalSize = DEFAULT_OPTICAL_SIZE
+        lucideSize = DEFAULT_SIZE
+        bootstrapSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {

@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerti
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CustomizationToolbar
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,16 +39,16 @@ private const val GRADE_HELP_URL = "$BASE_URL#3ad55207-1cb0-43af-8092-fad2762f69
 private const val OPTICAL_SIZE_HELP_URL = "$BASE_URL#b41cbc01-9b49-4a44-a525-d153d1ea1425"
 
 @Composable
-fun FontCustomization(
-    fontSettings: FontSettings,
-    onSettingsChange: (FontSettings) -> Unit,
+fun MaterialFontCustomization(
+    fontSettings: MaterialFontSettings,
+    onSettingsChange: (MaterialFontSettings) -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         CustomizationToolbar(
             onClose = onClose,
-            onReset = { onSettingsChange(FontSettings()) },
+            onReset = { onSettingsChange(MaterialFontSettings()) },
             isModified = fontSettings.isModified,
         )
         HorizontalDivider(color = LocalGroupHeaderStyle.current.colors.divider)
@@ -61,8 +61,8 @@ fun FontCustomization(
 
 @Composable
 private fun FontPlayground(
-    fontSettings: FontSettings,
-    onSettingsChange: (FontSettings) -> Unit,
+    fontSettings: MaterialFontSettings,
+    onSettingsChange: (MaterialFontSettings) -> Unit,
 ) {
     val dropdownWidth = 80.dp
 
@@ -148,10 +148,10 @@ private fun FontPlayground(
 
 @Preview
 @Composable
-private fun FontCustomizationPreview() = PreviewTheme(alignment = Alignment.TopEnd) {
-    var settings by rememberMutableState { FontSettings(fill = true) }
+private fun MaterialFontCustomizationPreview() = PreviewTheme(alignment = Alignment.TopEnd) {
+    var settings by rememberMutableState { MaterialFontSettings(fill = true) }
 
-    FontCustomization(
+    MaterialFontCustomization(
         modifier = Modifier
             .width(300.dp)
             .fillMaxHeight()

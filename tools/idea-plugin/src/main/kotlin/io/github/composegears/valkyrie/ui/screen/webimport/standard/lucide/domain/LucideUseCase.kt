@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.domain
 
+import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.SvgSizeCustomizer
@@ -13,11 +14,19 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.toStan
 
 class LucideUseCase(
     private val repository: LucideRepository,
+    private val inMemorySettings: InMemorySettings,
 ) : StandardIconProvider {
 
     override val providerName: String = "Lucide"
     override val stateKey: String = "lucide"
     override val fontAlias: String = "lucide"
+    override val persistentSize: Int = inMemorySettings.readState { lucideSize }
+
+    override fun updatePersistentSize(value: Int) {
+        inMemorySettings.update {
+            lucideSize = value
+        }
+    }
 
     override suspend fun loadConfig(): StandardIconConfig {
         val iconMetadataList = repository.loadIconList()

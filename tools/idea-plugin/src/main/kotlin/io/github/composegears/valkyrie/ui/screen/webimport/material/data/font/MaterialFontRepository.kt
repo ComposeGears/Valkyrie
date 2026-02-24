@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.material.data.font
 
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.FontSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsChannel
@@ -20,7 +20,7 @@ class MaterialFontRepository(
     suspend fun downloadSvg(
         name: String,
         fontFamily: String,
-        fontSettings: FontSettings,
+        fontSettings: MaterialFontSettings,
     ): String = withContext(Dispatchers.IO) {
         val iconOption = fontSettings.iconOption()
         val iconSize = fontSettings.iconSize()
@@ -29,7 +29,7 @@ class MaterialFontRepository(
         httpClient.get(url).bodyAsText()
     }
 
-    private fun FontSettings.iconOption(): String {
+    private fun MaterialFontSettings.iconOption(): String {
         if (!isModified) {
             return "default"
         }
@@ -50,5 +50,5 @@ class MaterialFontRepository(
         }
     }
 
-    private fun FontSettings.iconSize() = "${opticalSize.toInt()}px"
+    private fun MaterialFontSettings.iconSize() = "${opticalSize.toInt()}px"
 }
