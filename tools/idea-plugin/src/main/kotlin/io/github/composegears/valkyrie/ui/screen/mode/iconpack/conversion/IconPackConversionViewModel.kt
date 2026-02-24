@@ -21,7 +21,8 @@ import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
-import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.checkImportIssues
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.BatchIconsIssuesResolver.resolve
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ui.util.BatchIconsValidator.validate
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
@@ -66,7 +67,7 @@ class IconPackConversionViewModel(
                     _state.updateState {
                         BatchProcessing.IconPackCreationState(
                             icons = restoredState,
-                            importIssues = restoredState.checkImportIssues(useFlatPackage = isFlatPackage),
+                            importIssues = validate(batchIcons = restoredState, useFlatPackage = isFlatPackage),
                         )
                     }
                 }
@@ -93,7 +94,7 @@ class IconPackConversionViewModel(
                 _state.updateState {
                     when (this) {
                         is BatchProcessing.IconPackCreationState -> {
-                            copy(importIssues = icons.checkImportIssues(useFlatPackage = settings.flatPackage))
+                            copy(importIssues = validate(batchIcons = icons, useFlatPackage = settings.flatPackage))
                         }
                         else -> this
                     }
@@ -121,7 +122,7 @@ class IconPackConversionViewModel(
                     } else {
                         copy(
                             icons = iconsToProcess,
-                            importIssues = iconsToProcess.checkImportIssues(useFlatPackage = isFlatPackage),
+                            importIssues = validate(batchIcons = iconsToProcess, useFlatPackage = isFlatPackage),
                         )
                     }
                 }
@@ -148,7 +149,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = updatedIcons,
-                        importIssues = updatedIcons.checkImportIssues(useFlatPackage = isFlatPackage),
+                        importIssues = validate(batchIcons = updatedIcons, useFlatPackage = isFlatPackage),
                     )
                 }
                 else -> this
@@ -244,7 +245,7 @@ class IconPackConversionViewModel(
                     }
                     copy(
                         icons = icons,
-                        importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
+                        importIssues = validate(icons, useFlatPackage = isFlatPackage),
                     )
                 }
                 else -> this
@@ -259,99 +260,7 @@ class IconPackConversionViewModel(
     fun resolveImportIssues() = viewModelScope.launch {
         val creationState = _state.value.safeAs<BatchProcessing.IconPackCreationState>() ?: return@launch
 
-        val processedIcons = creationState.icons
-            .filterIsInstance<BatchIcon.Valid>()
-            .map { icon ->
-                val name = icon.iconName.name
-
-                when {
-                    name.isEmpty() -> icon.copy(iconName = IconName("IconName"))
-                    name.contains(" ") -> icon.copy(iconName = IconName(name.replace(" ", "")))
-                    else -> icon
-                }
-            }
-
-        // Group icons by their output location (considering useFlatPackage)
-        val iconsByLocation = processedIcons.groupBy { icon ->
-            when (val pack = icon.iconPack) {
-                is IconPack.Single -> pack.iconPackName
-                is IconPack.Nested -> when {
-                    isFlatPackage -> pack.iconPackName // All in same location when flat
-                    else -> "${pack.iconPackName}.${pack.currentNestedPack}" // Separate locations
-                }
-            }
-        }
-
-        // Process duplicates within each location group
-        val resolvedIcons = iconsByLocation.flatMap { (_, iconsInLocation) ->
-            // Track all committed names to ensure uniqueness across both passes
-            val committedNames = mutableSetOf<String>()
-
-            // First, resolve exact duplicates
-            val nameGroups = iconsInLocation.groupBy { it.iconName.name }
-            val nameCounters = mutableMapOf<String, Int>()
-
-            val iconsWithResolvedExactDuplicates = iconsInLocation.map { icon ->
-                val originalName = icon.iconName.name
-                val group = nameGroups[originalName]
-
-                if (group != null && group.size > 1) {
-                    val counter = nameCounters.getOrDefault(originalName, 0) + 1
-                    nameCounters[originalName] = counter
-
-                    if (counter > 1) {
-                        // Generate unique name by incrementing suffix until not in committedNames
-                        var suffix = counter - 1
-                        var candidateName = "$originalName$suffix"
-                        while (committedNames.any { it.equals(candidateName, ignoreCase = true) }) {
-                            suffix++
-                            candidateName = "$originalName$suffix"
-                        }
-                        committedNames.add(candidateName)
-                        icon.copy(iconName = IconName(candidateName))
-                    } else {
-                        committedNames.add(originalName)
-                        icon
-                    }
-                } else {
-                    committedNames.add(originalName)
-                    icon
-                }
-            }
-
-            // Then, resolve case-insensitive duplicates
-            val lowercaseGroups = iconsWithResolvedExactDuplicates.groupBy { it.iconName.name.lowercase() }
-            val lowercaseCounters = mutableMapOf<String, Int>()
-
-            iconsWithResolvedExactDuplicates.map { icon ->
-                val currentName = icon.iconName.name
-                val lowercaseKey = currentName.lowercase()
-                val group = lowercaseGroups[lowercaseKey]
-
-                // Only process if there are multiple icons with same lowercase name but different actual names
-                if (group != null && group.size > 1 && group.map { it.iconName.name }.distinct().size > 1) {
-                    val counter = lowercaseCounters.getOrDefault(lowercaseKey, 0) + 1
-                    lowercaseCounters[lowercaseKey] = counter
-
-                    if (counter > 1) {
-                        // Generate unique name by incrementing suffix until not in committedNames
-                        var suffix = counter - 1
-                        var candidateName = "$currentName$suffix"
-                        while (committedNames.any { it.equals(candidateName, ignoreCase = true) }) {
-                            suffix++
-                            candidateName = "$currentName$suffix"
-                        }
-                        committedNames.add(candidateName)
-                        icon.copy(iconName = IconName(candidateName))
-                    } else {
-                        // First in group - name is already in committedNames from exact duplicate pass
-                        icon
-                    }
-                } else {
-                    icon
-                }
-            }
-        }
+        val resolvedIcons = resolve(batchIcons = creationState.icons, useFlatPackage = isFlatPackage)
 
         if (resolvedIcons.isEmpty()) {
             _events.send(ConversionEvent.NothingToImport)
@@ -360,7 +269,7 @@ class IconPackConversionViewModel(
             _state.updateState {
                 creationState.copy(
                     icons = resolvedIcons,
-                    importIssues = resolvedIcons.checkImportIssues(useFlatPackage = isFlatPackage),
+                    importIssues = validate(batchIcons = resolvedIcons, useFlatPackage = isFlatPackage),
                 )
             }
         }
@@ -388,7 +297,7 @@ class IconPackConversionViewModel(
 
             BatchProcessing.IconPackCreationState(
                 icons = icons,
-                importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
+                importIssues = validate(batchIcons = icons, useFlatPackage = isFlatPackage),
             )
         }
     }
@@ -427,7 +336,7 @@ class IconPackConversionViewModel(
 
                 BatchProcessing.IconPackCreationState(
                     icons = icons,
-                    importIssues = icons.checkImportIssues(useFlatPackage = isFlatPackage),
+                    importIssues = validate(batchIcons = icons, useFlatPackage = isFlatPackage),
                 )
             }
         }
