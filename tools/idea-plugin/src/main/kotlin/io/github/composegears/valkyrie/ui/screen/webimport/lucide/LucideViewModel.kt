@@ -7,7 +7,6 @@ import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
-import com.intellij.openapi.diagnostic.Logger
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
@@ -43,10 +42,6 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
     private var downloadJob: Job? = null
     private var fontLoadJob: Job? = null
 
-    companion object {
-        private val LOG = Logger.getInstance(LucideViewModel::class.java)
-    }
-
     init {
         when (val initialState = lucideRecord.value) {
             is LucideState.Success if initialState.fontByteArray == null -> downloadFont()
@@ -72,7 +67,6 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
                 )
                 downloadFont()
             }.onFailure { error ->
-                LOG.error("Error loading Lucide icons", error)
                 lucideRecord.value = LucideState.Error("Error loading Lucide icons: ${error.message}")
             }
         }
@@ -88,8 +82,6 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
                     val bytes = lucideUseCase.loadFontBytes()
                     fontCache = bytes
                     updateSuccess { it.copy(fontByteArray = bytes) }
-                }.onFailure { error ->
-                    LOG.error("Error loading Lucide font", error)
                 }
             } else {
                 updateSuccess { it.copy(fontByteArray = cachedFont) }
@@ -111,8 +103,6 @@ class LucideViewModel(savedState: MutableSavedState) : ViewModel() {
                         name = IconNameFormatter.format(icon.displayName),
                     ),
                 )
-            }.onFailure { error ->
-                LOG.error("Failed to download icon '${icon.name}'", error)
             }
         }
     }
