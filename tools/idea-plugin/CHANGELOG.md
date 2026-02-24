@@ -8,7 +8,7 @@
 - Add validation for exact duplicate icon names (e.g., `test-icon.svg` and `test_icon.svg` both produce `TestIcon.kt`)
 - Add validation for case-insensitive duplicate icon names to prevent file overwrites on macOS/Windows
 - Add automatic re-validation when `useFlatPackage` setting changes to detect new conflicts immediately
-- [Web Import] Add `Bootstrap` icons
+- [Web Import] Add `Bootstrap` icons provider
 
 ### Fixed
 
@@ -36,7 +36,6 @@
 
 - Add option to generate ImageVector paths using pathData strings
 - Support pathData strings in addPath/clipPathData in Preview
-- Add `Bootstrap` icon provider into Web import feature
 
 ### Removed
 

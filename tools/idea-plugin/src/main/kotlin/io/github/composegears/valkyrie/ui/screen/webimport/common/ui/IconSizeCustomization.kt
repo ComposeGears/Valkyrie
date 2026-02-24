@@ -38,7 +38,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
  * @param settings Current size settings
  * @param onSettingsChange Callback when settings change
  * @param onClose Callback when close is clicked
- * @param sizeLabel String resource key for size label
+ * @param sizeLabel The label text displayed next to the current size value
  * @param modifier Modifier for the panel
  */
 @Composable
@@ -67,7 +67,7 @@ fun IconSizeCustomization(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 CenterVerticalRow(modifier = Modifier.padding(horizontal = 4.dp)) {
-                    Text(text = stringResource(sizeLabel))
+                    Text(text = sizeLabel)
                     WeightSpacer()
                     InfoText(text = stringResource("web.import.font.customize.px.suffix", size.roundToInt()))
                 }
@@ -96,7 +96,7 @@ private fun IconSizeCustomizationPreview() = PreviewTheme(alignment = Alignment.
             .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
             .background(JewelTheme.globalColors.borders.normal),
         settings = settings,
-        sizeLabel = "web.import.font.customize.size",
+        sizeLabel = stringResource("web.import.font.customize.size"),
         onClose = {},
         onSettingsChange = { settings = it },
     )

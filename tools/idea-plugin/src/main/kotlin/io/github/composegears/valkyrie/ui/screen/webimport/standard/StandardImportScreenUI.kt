@@ -265,7 +265,7 @@ private fun IconsContent(
                     settings = state.settings,
                     onSettingsChange = onSettingsChange,
                     onClose = { isSidePanelOpen = false },
-                    sizeLabel = "web.import.font.customize.size",
+                    sizeLabel = stringResource("web.import.font.customize.size"),
                 )
             },
         )
