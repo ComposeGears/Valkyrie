@@ -22,7 +22,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
 import dev.tclement.fonticons.ExperimentalFontIconsApi
 import dev.tclement.fonticons.FontIcon
@@ -40,8 +39,6 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
-import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
@@ -77,7 +74,7 @@ internal fun StandardImportScreen(
     ObserveEvent(viewModel.events) { event ->
         when (event) {
             is StandardIconEvent.IconDownloaded -> {
-                currentOnIconDownloaded(it)
+                currentOnIconDownloaded(event)
             }
         }
     }
