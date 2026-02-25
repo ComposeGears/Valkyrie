@@ -67,6 +67,9 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         // Bootstrap
         var bootstrapSize: Int by property(DEFAULT_SIZE)
+
+        // Remix
+        var remixSize: Int by property(DEFAULT_SIZE)
     }
 
     companion object {
