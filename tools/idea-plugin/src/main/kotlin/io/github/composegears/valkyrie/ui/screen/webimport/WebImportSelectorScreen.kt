@@ -23,12 +23,15 @@ import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.BootstrapLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.LucideLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.RemixLogo
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Bootstrap
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Remix
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.InfoText
@@ -44,6 +47,7 @@ val WebImportSelectorScreen by navDestination {
                 GoogleMaterialSymbols -> MaterialSymbolsImportScreen
                 Lucide -> LucideImportScreen
                 Bootstrap -> BootstrapImportScreen
+                Remix -> RemixImportScreen
             }
 
             navController.navigate(dest = screen)
@@ -91,6 +95,13 @@ private fun WebImportSelectorScreenUI(
                     title = stringResource("web.import.selector.bootstrap.title"),
                     description = stringResource("web.import.selector.bootstrap.description"),
                 )
+                InfoCard(
+                    onClick = { onClick(Remix) },
+                    icon = ValkyrieIcons.Colored.RemixLogo,
+                    tint = Color.Unspecified,
+                    title = stringResource("web.import.selector.remix.title"),
+                    description = stringResource("web.import.selector.remix.description"),
+                )
                 InfoText(
                     text = stringResource("web.import.selector.coming.soon"),
                     maxLines = 2,
@@ -104,6 +115,7 @@ enum class IconProviders {
     GoogleMaterialSymbols,
     Lucide,
     Bootstrap,
+    Remix,
 }
 
 @Preview

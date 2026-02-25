@@ -29,6 +29,10 @@ public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/Plu
 	public static final fun getPluginIcon (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/RemixLogoKt {
+	public static final fun getRemixLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/sdk/compose/icons/outlined/BackKt {
 	public static final fun getBack (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Outlined;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }

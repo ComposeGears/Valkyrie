@@ -67,6 +67,7 @@ class InMemorySettings(project: Project) {
         materialFontOpticalSize = DEFAULT_OPTICAL_SIZE
         lucideSize = DEFAULT_SIZE
         bootstrapSize = DEFAULT_SIZE
+        remixSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {
