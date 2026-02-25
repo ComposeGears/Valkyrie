@@ -12,6 +12,7 @@
 - [Web Import] Add `Bootstrap` icons provider
 - [Web Import] Add persistent settings for font customization for all providers
 - [Gutter] Add support for multiple icons in kt file
+- [Web Import] Add `Remix` icons provider
 
 ### Fixed
 
