@@ -12,6 +12,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByte
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toGridItems
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIcon
@@ -67,6 +68,8 @@ class StandardIconViewModel(
                     config = config,
                     gridItems = config.gridItems.toGridItems(),
                     settings = SizeSettings(size = provider.persistentSize),
+                    selectedStyle = config.styles.firstOrNull { it.id == "regular" }
+                        ?: config.styles.firstOrNull(),
                 )
                 downloadFont()
             }.onFailure { error ->
@@ -105,7 +108,7 @@ class StandardIconViewModel(
                 _events.send(
                     StandardIconEvent.IconDownloaded(
                         svgContent = svgContent,
-                        name = IconNameFormatter.format(icon.displayName),
+                        name = IconNameFormatter.format(icon.exportName),
                     ),
                 )
             }
@@ -117,7 +120,26 @@ class StandardIconViewModel(
             updateSuccess { state ->
                 state.copy(
                     selectedCategory = category,
-                    gridItems = state.config.filterByCategory(category),
+                    gridItems = state.config.filterByCategory(
+                        category = category,
+                        style = state.selectedStyle,
+                        searchQuery = state.searchQuery,
+                    ),
+                )
+            }
+        }
+    }
+
+    fun selectStyle(style: IconStyle) {
+        viewModelScope.launch(Dispatchers.Default) {
+            updateSuccess { state ->
+                state.copy(
+                    selectedStyle = style,
+                    gridItems = state.config.filterByCategory(
+                        category = state.selectedCategory,
+                        style = style,
+                        searchQuery = state.searchQuery,
+                    ),
                 )
             }
         }
@@ -127,8 +149,10 @@ class StandardIconViewModel(
         viewModelScope.launch(Dispatchers.Default) {
             updateSuccess { state ->
                 state.copy(
+                    searchQuery = query,
                     gridItems = state.config.filterByCategory(
                         category = state.selectedCategory,
+                        style = state.selectedStyle,
                         searchQuery = query,
                     ),
                 )
@@ -169,6 +193,8 @@ sealed interface StandardState {
         val config: StandardIconConfig,
         val gridItems: List<GridItem> = emptyList(),
         val selectedCategory: InferredCategory = InferredCategory.All,
+        val selectedStyle: IconStyle? = null,
+        val searchQuery: String = "",
         val settings: SizeSettings = SizeSettings(),
         val fontByteArray: FontByteArray? = null,
     ) : StandardState

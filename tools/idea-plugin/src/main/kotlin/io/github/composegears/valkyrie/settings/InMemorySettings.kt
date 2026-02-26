@@ -68,6 +68,7 @@ class InMemorySettings(project: Project) {
         lucideSize = DEFAULT_SIZE
         bootstrapSize = DEFAULT_SIZE
         remixSize = DEFAULT_SIZE
+        boxiconsSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {
