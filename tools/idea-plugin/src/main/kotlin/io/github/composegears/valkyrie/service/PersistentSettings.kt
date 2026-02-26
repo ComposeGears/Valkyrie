@@ -70,6 +70,9 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         // Remix
         var remixSize: Int by property(DEFAULT_SIZE)
+
+        // BoxIcons
+        var boxiconsSize: Int by property(DEFAULT_SIZE)
     }
 
     companion object {

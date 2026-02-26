@@ -49,6 +49,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoading
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIcon
@@ -86,6 +87,7 @@ internal fun StandardImportScreen(
         onBack = onBack,
         onSelectIcon = viewModel::downloadIcon,
         onSelectCategory = viewModel::selectCategory,
+        onSelectStyle = viewModel::selectStyle,
         onSearchQueryChange = viewModel::updateSearchQuery,
         onSettingsChange = viewModel::updateSettings,
         modifier = modifier,
@@ -100,6 +102,7 @@ private fun StandardImportScreenUI(
     onBack: () -> Unit,
     onSelectIcon: (StandardIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
+    onSelectStyle: (IconStyle) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (SizeSettings) -> Unit,
     modifier: Modifier = Modifier,
@@ -146,6 +149,7 @@ private fun StandardImportScreenUI(
                         fontAlias = fontAlias,
                         onSelectIcon = onSelectIcon,
                         onSelectCategory = onSelectCategory,
+                        onSelectStyle = onSelectStyle,
                         onSearchQueryChange = onSearchQueryChange,
                         onSettingsChange = onSettingsChange,
                     )
@@ -161,6 +165,7 @@ private fun IconsContent(
     fontAlias: String,
     onSelectIcon: (StandardIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
+    onSelectStyle: (IconStyle) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (SizeSettings) -> Unit,
 ) {
@@ -186,8 +191,16 @@ private fun IconsContent(
         ) {
             StandardTopActions(
                 categories = state.config.categories,
+                styles = state.config.styles,
                 selectedCategory = state.selectedCategory,
+                selectedStyle = state.selectedStyle,
                 onToggleCustomization = { isSidePanelOpen = !isSidePanelOpen },
+                onSelectStyle = { style ->
+                    scope.launch {
+                        lazyGridState.scrollToItem(0)
+                    }
+                    onSelectStyle(style)
+                },
                 onSelectCategory = { category ->
                     scope.launch {
                         lazyGridState.scrollToItem(0)
