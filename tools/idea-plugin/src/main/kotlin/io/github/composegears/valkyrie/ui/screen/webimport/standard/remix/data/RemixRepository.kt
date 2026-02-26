@@ -23,9 +23,9 @@ class RemixRepository(
         private const val CDN_BASE = "https://cdn.jsdelivr.net/npm/remixicon@latest"
         private const val PACKAGE_JSON_URL = "$CDN_BASE/package.json"
         private const val FONT_URL = "$CDN_BASE/fonts/remixicon.woff2"
-        private const val GLYPH_URL = "$CDN_BASE/fonts/remixicon.glyph.json"
+        private const val CSS_URL = "$CDN_BASE/fonts/remixicon.css"
         private const val FLAT_INDEX_URL_TEMPLATE = "https://data.jsdelivr.com/v1/package/npm/remixicon@%s/flat"
-        private val UNICODE_REGEX = Regex("&#x([a-fA-F0-9]+);")
+        private val CODEPOINT_REGEX = Regex("""\.ri-([a-z0-9-]+)::?before\s*\{\s*content:\s*["']\\([a-fA-F0-9]+)["'];?\s*}""")
     }
 
     private val fontMutex = Mutex()
@@ -73,8 +73,8 @@ class RemixRepository(
     private suspend fun loadCodepoints(): Map<String, Int> = withContext(Dispatchers.IO) {
         codepointMutex.withLock {
             codepointsCache ?: run {
-                val glyphJson = httpClient.get(GLYPH_URL).bodyAsText()
-                val codepoints = parseCodepoints(glyphJson)
+                val cssText = httpClient.get(CSS_URL).bodyAsText()
+                val codepoints = parseCodepoints(cssText)
                 codepointsCache = codepoints
                 codepoints
             }
@@ -116,18 +116,15 @@ class RemixRepository(
         }
     }
 
-    private fun parseCodepoints(jsonText: String): Map<String, Int> {
-        val glyphMap = json.parseToJsonElement(jsonText).jsonObject
-
-        return glyphMap.entries.mapNotNull { (name, glyphMetaElement) ->
-            val unicode = glyphMetaElement.jsonObject["unicode"]?.jsonPrimitive?.content
-                ?: return@mapNotNull null
-            val codepointHex = UNICODE_REGEX.find(unicode)?.groupValues?.getOrNull(1)
-                ?: return@mapNotNull null
+    private fun parseCodepoints(cssText: String): Map<String, Int> = CODEPOINT_REGEX
+        .findAll(cssText)
+        .mapNotNull { match ->
+            val iconName = match.groupValues[1]
+            val codepointHex = match.groupValues[2]
             val codepoint = codepointHex.toIntOrNull(16) ?: return@mapNotNull null
-            name to codepoint
-        }.toMap()
-    }
+            iconName to codepoint
+        }
+        .toMap()
 
     private fun parseSvgMetadata(jsonText: String): Pair<Map<String, String>, Map<String, String>> {
         val root = json.parseToJsonElement(jsonText).jsonObject
