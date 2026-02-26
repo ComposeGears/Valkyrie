@@ -8,6 +8,10 @@
 
 - Fix `changelog` output command due to new format
 
+### Changed
+
+- Remove "Unreleased" section from changelog output
+
 ## 1.1.0 - 2026-02-26
 
 ### Added
