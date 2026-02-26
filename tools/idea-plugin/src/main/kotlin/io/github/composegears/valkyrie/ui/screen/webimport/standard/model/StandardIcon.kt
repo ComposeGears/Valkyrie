@@ -5,7 +5,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebIcon
 /**
  * Standard icon model for icon providers that use inferred categories.
  *
- * @property name The icon name/id used for API calls and file naming
+ * @property name The raw icon name/id used for API calls
  * @property displayName The human-readable name shown in the UI
  * @property exportName The canonical name used for generated symbol/file names
  * @property codepoint The Unicode codepoint for font-based icons
@@ -16,7 +16,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebIcon
 data class StandardIcon(
     override val name: String,
     val displayName: String,
-    val exportName: String = displayName,
+    val exportName: String = name,
     val codepoint: Int,
     val tags: List<String>,
     val category: InferredCategory,
