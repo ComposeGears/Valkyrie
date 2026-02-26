@@ -40,6 +40,8 @@ Update changelog with new version: `./gradlew patchChangelog`
 
 Build CLI: `./gradlew buildCLI`
 
+Changelog: `./gradlew tools:cli:patchChangelog`
+
 ## Gradle Plugin
 
 Test plugin locally: `./gradlew :tools:gradle-plugin:publishToMavenLocal`

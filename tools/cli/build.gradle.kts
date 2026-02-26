@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.shadow)
     alias(libs.plugins.valkyrie.kover)
     alias(libs.plugins.valkyrie.abi)
+    alias(libs.plugins.jetbrains.changelog)
     application
 }
 
@@ -91,6 +92,10 @@ tasks.test {
 }
 
 val r8: Configuration by configurations.creating
+
+changelog {
+    groups.empty()
+}
 
 dependencies {
     implementation(projects.components.generator.iconpack)
