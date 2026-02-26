@@ -22,7 +22,7 @@
 
 - print test coverage: `./gradlew components:test:coverage:koverLog`
 
-## Plugin
+## IDEA Plugin
 
 ### Development
 
@@ -32,13 +32,7 @@ Run plugin in IDE sandbox: `./gradlew runIde`
 
 ### Changelog
 
-Print current changelog: `./gradlew getChangelog`
-
-Update changelog with new version: `./gradlew patchChangelog`
-
-## Gradle Plugin
-
-Test plugin locally: `./gradlew :tools:gradle-plugin:publishToMavenLocal`
+Update changelog: `./gradlew tools:idea-plugin:patchChangelog`
 
 ## WEB
 
