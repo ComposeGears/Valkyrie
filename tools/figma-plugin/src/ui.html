@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valkyrie Figma Export</title>
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --panel: #ffffff;
+      --text: #182028;
+      --muted: #5f6b76;
+      --accent: #145dff;
+      --error: #b42318;
+      --border: #d9dee6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #e9f0ff 0, var(--bg) 45%);
+      color: var(--text);
+      font: 13px/1.4 "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      height: 100vh;
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      overflow: auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font: 600 16px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font: 600 13px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      font: inherit;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font: inherit;
+      background: #e4e9f1;
+      cursor: pointer;
+    }
+
+    button#run {
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+
+    #status {
+      color: var(--muted);
+      margin: 8px 0 0;
+      min-height: 20px;
+    }
+
+    #results {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fbfcfd;
+    }
+
+    .result-card h3 {
+      margin: 0 0 8px;
+      font: 600 12px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+
+    .result-card .actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .result-card textarea {
+      width: 100%;
+      min-height: 180px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      resize: vertical;
+      font: 12px/1.3 "JetBrains Mono", monospace;
+    }
+
+    .error {
+      color: var(--error);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="panel">
+    <h1>Valkyrie Export</h1>
+    <h2>Simple mode</h2>
+
+    <label class="field">
+      <span>Package name</span>
+      <input id="package" type="text" value="com.example.icons" />
+    </label>
+
+    <label class="row"><input id="compose-colors" type="checkbox" checked /> Use Compose colors</label>
+    <label class="row"><input id="trailing-comma" type="checkbox" /> Trailing comma</label>
+    <label class="row"><input id="explicit-mode" type="checkbox" /> Explicit public mode</label>
+    <label class="row"><input id="path-data" type="checkbox" /> Use pathData string</label>
+
+    <label class="field">
+      <span>Auto mirror override</span>
+      <select id="auto-mirror">
+        <option value="">Keep source value</option>
+        <option value="true">Force true</option>
+        <option value="false">Force false</option>
+      </select>
+    </label>
+
+    <div class="row">
+      <button id="run">Export selected</button>
+      <button id="copy-all">Copy all</button>
+    </div>
+
+    <p id="status">Ready.</p>
+  </aside>
+
+  <main class="panel">
+    <div id="results"></div>
+  </main>
+</div>
+
+<script type="module">/*__WASM_BRIDGE__*/</script>
+<script>/*__UI_SCRIPT__*/</script>
+</body>
+</html>

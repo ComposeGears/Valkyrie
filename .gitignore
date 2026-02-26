@@ -41,3 +41,5 @@ bin/
 .kotlin
 local.properties
 kotlin-js-store/
+tools/figma-plugin/node_modules/
+tools/figma-plugin/dist/
