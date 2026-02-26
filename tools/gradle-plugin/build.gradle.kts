@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.shadow)
     alias(gradlePluginVersions.plugins.plugin.publish)
+    alias(libs.plugins.jetbrains.changelog)
     `java-gradle-plugin`
 }
 
@@ -111,6 +112,11 @@ dependencies {
 
     testPluginClasspath(gradlePluginVersions.agp.full)
     testPluginClasspath(libs.kotlin.gradle.plugin)
+}
+
+changelog {
+    groups.empty()
+    versionPrefix = ""
 }
 
 fun androidHome(): String? {

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.4.0 - 2026-02-26
+
 ### Added
 
 - Add `usePathDataString` configuration option in `imageVector` block to generate addPath with pathData strings instead
@@ -26,7 +28,7 @@
 
 - Fix parsing of Android system colors (e.g., `@android:color/white`) in XML parser
 
-## [0.3.0] - 2025-12-11
+## 0.3.0 - 2025-12-11
 
 ### Added
 
@@ -83,7 +85,7 @@ When `autoMirror` is not specified at any level, the original value from the sou
 - Generated files are now placed in a `kotlin` subdirectory within each source set output directory (e.g.,
   `build/generated/valkyrie/{sourceSetName}/kotlin` instead of `build/generated/valkyrie/{sourceSetName}`)
 
-## [0.2.0] - 2025-12-08
+## 0.2.0 - 2025-12-08
 
 ### Added
 
