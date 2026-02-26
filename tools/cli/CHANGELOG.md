@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 1.1.1 - 2026-02-26
+
+### Fixed
+
+- Fix `changelog` output command due to new format
+
 ## 1.1.0 - 2026-02-26
 
 ### Added

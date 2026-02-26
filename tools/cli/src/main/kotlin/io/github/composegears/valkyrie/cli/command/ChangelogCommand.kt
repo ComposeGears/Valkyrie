@@ -27,7 +27,7 @@ internal class ChangelogCommand : CliktCommand(name = "changelog") {
     private fun getLatestReleases(changelog: String, count: Int = 5): String {
         val lines = changelog.lines()
         val releaseIndices = lines.indices.filter { index ->
-            lines[index].trimStart().startsWith("## [")
+            lines[index].trimStart().startsWith("## ")
         }
 
         if (releaseIndices.size <= count) {
