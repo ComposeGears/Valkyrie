@@ -17,6 +17,7 @@ class ChangelogCommandTest {
         assertThat(result.output).contains("CLI Changelog")
         assertThat(result.output).contains("Showing 5 latest releases")
         assertThat(result.output).contains("Use \"--show-all\" to see the full changelog")
+        assertThat(result.output).doesNotContain("## Unreleased")
     }
 
     @Test
@@ -25,6 +26,7 @@ class ChangelogCommandTest {
 
         assertThat(result.output).contains("CLI Changelog")
         assertThat(result.output).doesNotContain("Showing 5 latest releases")
+        assertThat(result.output).doesNotContain("## Unreleased")
         // Should contain all releases including the initial one
         assertThat(result.output).contains("Initial release of Valkyrie CLI tool")
     }
@@ -39,6 +41,9 @@ class ChangelogCommandTest {
 
         // Full version should not have this message
         assertThat(fullResult.output).doesNotContain("Showing 5 latest releases")
+
+        assertThat(limitedResult.output).doesNotContain("## Unreleased")
+        assertThat(fullResult.output).doesNotContain("## Unreleased")
 
         // Limited version should be shorter than full version
         assertThat(limitedResult.output.length).isLessThan(fullResult.output.length)

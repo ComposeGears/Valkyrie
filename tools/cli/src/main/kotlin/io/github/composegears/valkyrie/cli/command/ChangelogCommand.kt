@@ -14,10 +14,11 @@ internal class ChangelogCommand : CliktCommand(name = "changelog") {
 
     override fun run() {
         val changelog = loadResourceText("CHANGELOG.md")
+        val filteredChangelog = changelog.replace("## Unreleased\n", "")
 
         val markdownContent = when {
-            showAll -> changelog
-            else -> getLatestReleases(changelog)
+            showAll -> filteredChangelog
+            else -> getLatestReleases(filteredChangelog)
         }
         echo(Markdown(markdown = markdownContent))
     }
