@@ -15,6 +15,7 @@
 - [Web Import] Add `Remix` icons provider
 - [Web Import] Add `Box` icons provider
 - [Web Import] Force `Material Symbols` and `Lucide` icon providers to use woff2 font
+- [Web Import] Enable persistent cache to avoid re-fetching icons on every plugin restart
 
 ### Fixed
 
