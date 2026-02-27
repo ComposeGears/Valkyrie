@@ -29,7 +29,7 @@ class BootstrapUseCase(
     }
 
     override suspend fun loadConfig(): StandardIconConfig {
-        val codepoints = repository.loadIconList()
+        val codepoints = repository.loadCodepoints()
 
         val icons: List<StandardIcon> = codepoints.map { (name, codepoint) ->
             StandardIcon(
