@@ -11,8 +11,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 
 class BootstrapRepository(
     private val httpClient: HttpClient,
@@ -30,8 +28,6 @@ class BootstrapRepository(
     private var fontBytesCache: ByteArray? = null
     private var codepointsCache: Map<String, Int>? = null
 
-    suspend fun loadIconList(): Map<String, Int> = loadCodepoints()
-
     suspend fun loadFontBytes(): ByteArray = withContext(Dispatchers.IO) {
         fontMutex.withLock {
             fontBytesCache ?: run {
@@ -48,7 +44,7 @@ class BootstrapRepository(
         codepointMutex.withLock {
             codepointsCache ?: run {
                 val jsonText = httpClient.get(JSON_URL).bodyAsText()
-                val codepoints = parseCodepoints(jsonText)
+                val codepoints = json.decodeFromString<Map<String, Int>>(jsonText)
                 codepointsCache = codepoints
                 codepoints
             }
@@ -57,13 +53,5 @@ class BootstrapRepository(
 
     suspend fun downloadSvg(iconName: String): String = withContext(Dispatchers.IO) {
         httpClient.get("$ICONS_BASE_URL/$iconName.svg").bodyAsText()
-    }
-
-    private fun parseCodepoints(jsonText: String): Map<String, Int> {
-        val jsonObject = json.parseToJsonElement(jsonText).jsonObject
-        return jsonObject.entries.mapNotNull { (name, value) ->
-            val codepoint = value.jsonPrimitive.content.toIntOrNull() ?: return@mapNotNull null
-            name to codepoint
-        }.toMap()
     }
 }
