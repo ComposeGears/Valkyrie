@@ -18,6 +18,7 @@
 ### Fixed
 
 - Fix an incorrect error message when the user cancels the save dialog during export
+- [Web Import] Fix state restoration when hiding and reopening the plugin
 
 ## 1.2.0 - 2026-02-20
 
