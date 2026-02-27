@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.data
 
+import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -7,8 +8,6 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.client.statement.bodyAsText
 import io.ktor.utils.io.toByteArray
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonArray
@@ -28,15 +27,45 @@ class RemixRepository(
         private val CODEPOINT_REGEX = Regex("""\.ri-([a-z0-9-]+)::?before\s*\{\s*content:\s*["']\\([a-fA-F0-9]+)["'];?\s*}""")
     }
 
-    private val fontMutex = Mutex()
-    private val codepointMutex = Mutex()
-    private val metadataMutex = Mutex()
-    private val versionMutex = Mutex()
+    private val fontBytes = suspendLazy {
+        withContext(Dispatchers.IO) {
+            val woff2Bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
+            withContext(Dispatchers.Default) {
+                Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode WOFF2 font")
+            }
+        }
+    }
 
-    private var fontBytesCache: ByteArray? = null
-    private var codepointsCache: Map<String, Int>? = null
-    private var svgMetadataCache: RemixSvgMetadata? = null
-    private var remixVersionCache: String? = null
+    private val codepoints = suspendLazy {
+        withContext(Dispatchers.IO) {
+            val cssText = httpClient.get(CSS_URL).bodyAsText()
+            parseCodepoints(cssText)
+        }
+    }
+
+    private val svgMetadata = suspendLazy {
+        withContext(Dispatchers.IO) {
+            val flatIndexJson = httpClient.get(loadFlatIndexUrl()).bodyAsText()
+            val (svgPathByName, categoryByName) = parseSvgMetadata(flatIndexJson)
+            RemixSvgMetadata(
+                svgPathByName = svgPathByName,
+                categoryByName = categoryByName,
+            )
+        }
+    }
+
+    suspend fun loadFontBytes(): ByteArray = fontBytes()
+
+    private val remixVersion = suspendLazy {
+        withContext(Dispatchers.IO) {
+            val packageJson = httpClient.get(PACKAGE_JSON_URL).bodyAsText()
+            json.parseToJsonElement(packageJson)
+                .jsonObject["version"]
+                ?.jsonPrimitive
+                ?.content
+                ?: error("Failed to resolve Remix package version")
+        }
+    }
 
     suspend fun loadIconList(): Map<String, RemixIconMetadata> {
         val codepoints = loadCodepoints()
@@ -51,18 +80,6 @@ class RemixRepository(
         }
     }
 
-    suspend fun loadFontBytes(): ByteArray = withContext(Dispatchers.IO) {
-        fontMutex.withLock {
-            fontBytesCache ?: run {
-                val woff2Bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
-                val ttfBytes = Woff2Decoder.decodeBytes(woff2Bytes)
-                    ?: error("Failed to decode WOFF2 font")
-                fontBytesCache = ttfBytes
-                ttfBytes
-            }
-        }
-    }
-
     suspend fun downloadSvg(iconName: String): String = withContext(Dispatchers.IO) {
         val iconPath = loadSvgMetadata().svgPathByName[iconName]
             ?: error("SVG path not found for Remix icon: $iconName")
@@ -70,51 +87,16 @@ class RemixRepository(
         httpClient.get("$CDN_BASE/$iconPath").bodyAsText()
     }
 
-    private suspend fun loadCodepoints(): Map<String, Int> = withContext(Dispatchers.IO) {
-        codepointMutex.withLock {
-            codepointsCache ?: run {
-                val cssText = httpClient.get(CSS_URL).bodyAsText()
-                val codepoints = parseCodepoints(cssText)
-                codepointsCache = codepoints
-                codepoints
-            }
-        }
-    }
+    private suspend fun loadCodepoints(): Map<String, Int> = codepoints()
 
-    private suspend fun loadSvgMetadata(): RemixSvgMetadata = withContext(Dispatchers.IO) {
-        metadataMutex.withLock {
-            svgMetadataCache ?: run {
-                val flatIndexJson = httpClient.get(loadFlatIndexUrl()).bodyAsText()
-                val (svgPathByName, categoryByName) = parseSvgMetadata(flatIndexJson)
-                RemixSvgMetadata(
-                    svgPathByName = svgPathByName,
-                    categoryByName = categoryByName,
-                ).also { metadata ->
-                    svgMetadataCache = metadata
-                }
-            }
-        }
-    }
+    private suspend fun loadSvgMetadata(): RemixSvgMetadata = svgMetadata()
 
     private suspend fun loadFlatIndexUrl(): String {
         val version = loadPackageVersion()
         return FLAT_INDEX_URL_TEMPLATE.format(version)
     }
 
-    private suspend fun loadPackageVersion(): String = withContext(Dispatchers.IO) {
-        versionMutex.withLock {
-            remixVersionCache ?: run {
-                val packageJson = httpClient.get(PACKAGE_JSON_URL).bodyAsText()
-                val version = json.parseToJsonElement(packageJson)
-                    .jsonObject["version"]
-                    ?.jsonPrimitive
-                    ?.content
-                    ?: error("Failed to resolve Remix package version")
-                remixVersionCache = version
-                version
-            }
-        }
-    }
+    private suspend fun loadPackageVersion(): String = remixVersion()
 
     private fun parseCodepoints(cssText: String): Map<String, Int> = CODEPOINT_REGEX
         .findAll(cssText)

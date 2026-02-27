@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.data
 
+import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -7,8 +8,6 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.client.statement.bodyAsText
 import io.ktor.utils.io.toByteArray
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -25,10 +24,26 @@ class LucideRepository(
         private const val CSS_URL = "https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css"
     }
 
-    private val fontMutex = Mutex()
-    private val codepointMutex = Mutex()
-    private var fontBytesCache: ByteArray? = null
-    private var codepointsCache: Map<String, Int>? = null
+    private val fontBytes = suspendLazy {
+        withContext(Dispatchers.IO) {
+            val woff2Bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
+
+            withContext(Dispatchers.Default) {
+                Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode WOFF2 font")
+            }
+        }
+    }
+
+    private val codepoints = suspendLazy {
+        withContext(Dispatchers.IO) {
+            val cssText = httpClient.get(CSS_URL).bodyAsText()
+            parseCodepoints(cssText)
+        }
+    }
+
+    suspend fun loadFontBytes(): ByteArray = fontBytes()
+
+    suspend fun loadCodepoints(): Map<String, Int> = codepoints()
 
     suspend fun loadIconList(): List<Pair<String, LucideIconMetadata>> = withContext(Dispatchers.IO) {
         val response = httpClient.get("$UNPKG_BASE/tags.json")
@@ -40,28 +55,6 @@ class LucideRepository(
                 tags = tags,
                 categories = emptyList(), // Categories will be inferred from tags
             )
-        }
-    }
-
-    suspend fun loadFontBytes(): ByteArray = withContext(Dispatchers.IO) {
-        fontMutex.withLock {
-            fontBytesCache ?: run {
-                val woff2Bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
-                val ttfBytes = Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode WOFF2 font")
-                fontBytesCache = ttfBytes
-                ttfBytes
-            }
-        }
-    }
-
-    suspend fun loadCodepoints(): Map<String, Int> = withContext(Dispatchers.IO) {
-        codepointMutex.withLock {
-            codepointsCache ?: run {
-                val cssText = httpClient.get(CSS_URL).bodyAsText()
-                val codepoints = parseCodepoints(cssText)
-                codepointsCache = codepoints
-                codepoints
-            }
         }
     }
 
