@@ -13,7 +13,11 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
 internal fun collectImports(config: ImageVectorRenderConfig, vector: IrImageVector): List<String> {
     val usage = UsageFlags.scan(config, vector)
     val imports = mutableListOf<String>()
-    if (config.iconPack.isNotEmpty() && config.iconPackPackage != config.resolvePackageName()) {
+    if (
+        config.iconPack.isNotEmpty() &&
+        config.iconPackPackage.isNotBlank() &&
+        config.iconPackPackage != config.resolvePackageName()
+    ) {
         imports += "import ${config.iconPackPackage}.${config.iconPack}"
     }
 

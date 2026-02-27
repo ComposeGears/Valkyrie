@@ -166,13 +166,16 @@ internal object ImageVectorRenderer {
     ) {
         val params = collectPathParams(node, config)
         if (config.usePathDataString) {
-            writer.line("${writer.indent(level)}addPath(")
-            params.forEach { writer.line("${writer.indent(level + 1)}$it,") }
-            val tailComma = if (config.addTrailingComma) "," else ""
-            writer.line(
-                "${writer.indent(level + 1)}pathData = addPathNodes(\"${node.paths.asPathDataString().escapeKotlin()}\")$tailComma",
+            writeCall(
+                writer = writer,
+                level = level,
+                call = "addPath",
+                params = params + "pathData = addPathNodes(\"${node.paths.asPathDataString().escapeKotlin()}\")",
+                addTrailingComma = config.addTrailingComma,
+                indentMultilineContent = true,
+                opensBlock = false,
+                forceMultiline = true,
             )
-            writer.line("${writer.indent(level)})")
             return
         }
 

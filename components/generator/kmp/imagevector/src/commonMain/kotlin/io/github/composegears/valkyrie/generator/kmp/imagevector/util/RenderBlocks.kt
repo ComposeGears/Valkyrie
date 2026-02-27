@@ -8,12 +8,36 @@ internal fun writeBlockCall(
     addTrailingComma: Boolean,
     indentMultilineContent: Boolean,
 ) {
+    writeCall(
+        writer = writer,
+        level = level,
+        call = call,
+        params = params,
+        addTrailingComma = addTrailingComma,
+        indentMultilineContent = indentMultilineContent,
+        opensBlock = true,
+        forceMultiline = false,
+    )
+}
+
+internal fun writeCall(
+    writer: CodeWriter,
+    level: Int,
+    call: String,
+    params: List<String>,
+    addTrailingComma: Boolean,
+    indentMultilineContent: Boolean,
+    opensBlock: Boolean,
+    forceMultiline: Boolean,
+) {
+    val callSuffix = if (opensBlock) " {" else ""
     when {
         params.isEmpty() -> {
-            writer.line("${writer.indent(level)}$call {")
+            val noArgCall = if (opensBlock) call else "$call()"
+            writer.line("${writer.indent(level)}$noArgCall$callSuffix")
         }
-        params.size == 1 && !params.first().contains('\n') -> {
-            writer.line("${writer.indent(level)}$call(${params.first()}) {")
+        params.size == 1 && !params.first().contains('\n') && !forceMultiline -> {
+            writer.line("${writer.indent(level)}$call(${params.first()})$callSuffix")
         }
         else -> {
             writer.line("${writer.indent(level)}$call(")
@@ -36,7 +60,7 @@ internal fun writeBlockCall(
                     writer.line("${writer.indent(level + 1)}$param$comma")
                 }
             }
-            writer.line("${writer.indent(level)}) {")
+            writer.line("${writer.indent(level)})$callSuffix")
         }
     }
 }
