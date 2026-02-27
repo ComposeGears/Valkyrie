@@ -42,6 +42,11 @@ final enum class io.github.composegears.valkyrie.sdk.ir.core/IrStrokeLineJoin : 
 }
 
 sealed interface io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill|null[0]
+    sealed interface Gradient : io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Gradient|null[0]
+        abstract val colorStops // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Gradient.colorStops|{}colorStops[0]
+            abstract fun <get-colorStops>(): kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Gradient.colorStops.<get-colorStops>|<get-colorStops>(){}[0]
+    }
+
     final class Color : io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color|null[0]
         constructor <init>(io.github.composegears.valkyrie.sdk.ir.core/IrColor) // io.github.composegears.valkyrie.sdk.ir.core/IrFill.Color.<init>|<init>(io.github.composegears.valkyrie.sdk.ir.core.IrColor){}[0]
 
@@ -71,7 +76,7 @@ sealed interface io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.gith
         final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop.toString|toString(){}[0]
     }
 
-    final class LinearGradient : io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient|null[0]
+    final class LinearGradient : io.github.composegears.valkyrie.sdk.ir.core/IrFill.Gradient { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient|null[0]
         constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> = ...) // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrFill.ColorStop>){}[0]
 
         final val colorStops // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.colorStops|{}colorStops[0]
@@ -96,7 +101,7 @@ sealed interface io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.gith
         final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.ir.core/IrFill.LinearGradient.toString|toString(){}[0]
     }
 
-    final class RadialGradient : io.github.composegears.valkyrie.sdk.ir.core/IrFill { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient|null[0]
+    final class RadialGradient : io.github.composegears.valkyrie.sdk.ir.core/IrFill.Gradient { // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient|null[0]
         constructor <init>(kotlin/Float, kotlin/Float, kotlin/Float, kotlin.collections/MutableList<io.github.composegears.valkyrie.sdk.ir.core/IrFill.ColorStop> = ...) // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.collections.MutableList<io.github.composegears.valkyrie.sdk.ir.core.IrFill.ColorStop>){}[0]
 
         final val centerX // io.github.composegears.valkyrie.sdk.ir.core/IrFill.RadialGradient.centerX|{}centerX[0]

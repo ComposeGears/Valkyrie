@@ -71,6 +71,7 @@ include("tools:gradle-plugin")
 include("tools:idea-plugin")
 
 include("components:generator:core")
+include("components:generator:kmp:imagevector")
 include("components:generator:iconpack")
 include("components:generator:jvm:poet-extensions")
 include("components:generator:jvm:imagevector")
