@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.data
 
+import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsChannel
@@ -20,7 +21,7 @@ class LucideRepository(
 ) {
     companion object {
         private const val UNPKG_BASE = "https://unpkg.com/lucide-static@latest"
-        private const val FONT_URL = "$UNPKG_BASE/font/lucide.ttf"
+        private const val FONT_URL = "$UNPKG_BASE/font/lucide.woff2"
         private const val CSS_URL = "https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css"
     }
 
@@ -45,9 +46,10 @@ class LucideRepository(
     suspend fun loadFontBytes(): ByteArray = withContext(Dispatchers.IO) {
         fontMutex.withLock {
             fontBytesCache ?: run {
-                val bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
-                fontBytesCache = bytes
-                bytes
+                val woff2Bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
+                val ttfBytes = Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode WOFF2 font")
+                fontBytesCache = ttfBytes
+                ttfBytes
             }
         }
     }

@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.material.data.font
 
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
+import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsChannel
@@ -14,7 +15,9 @@ class MaterialFontRepository(
     private val httpClient: HttpClient,
 ) {
     suspend fun downloadFont(url: String): ByteArray = withContext(Dispatchers.IO) {
-        httpClient.get(url).bodyAsChannel().toByteArray()
+        val woff2Bytes = httpClient.get(url).bodyAsChannel().toByteArray()
+
+        Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode WOFF2 font")
     }
 
     suspend fun downloadSvg(

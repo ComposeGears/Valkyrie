@@ -14,6 +14,7 @@
 - [Gutter] Add support for multiple icons in kt file
 - [Web Import] Add `Remix` icons provider
 - [Web Import] Add `Box` icons provider
+- [Web Import] Force `Material Symbols` and `Lucide` icon providers to use woff2 font
 
 ### Fixed
 
