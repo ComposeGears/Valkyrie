@@ -3,20 +3,24 @@ package io.github.composegears.valkyrie.sdk.ir.core
 sealed interface IrFill {
     data class Color(val irColor: IrColor) : IrFill
 
+    sealed interface Gradient : IrFill {
+        val colorStops: MutableList<ColorStop>
+    }
+
     data class LinearGradient(
         val startY: Float,
         val startX: Float,
         val endY: Float,
         val endX: Float,
-        val colorStops: MutableList<ColorStop> = mutableListOf(),
-    ) : IrFill
+        override val colorStops: MutableList<ColorStop> = mutableListOf(),
+    ) : Gradient
 
     data class RadialGradient(
         val radius: Float,
         val centerX: Float,
         val centerY: Float,
-        val colorStops: MutableList<ColorStop> = mutableListOf(),
-    ) : IrFill
+        override val colorStops: MutableList<ColorStop> = mutableListOf(),
+    ) : Gradient
 
     data class ColorStop(
         val offset: Float,

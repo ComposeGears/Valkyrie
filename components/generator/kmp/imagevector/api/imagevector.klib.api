@@ -1,0 +1,108 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.components.generator.kmp:imagevector>
+final enum class io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat : kotlin/Enum<io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat> { // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat|null[0]
+    enum entry BackingProperty // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.BackingProperty|null[0]
+    enum entry LazyProperty // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.LazyProperty|null[0]
+
+    final val entries // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat> // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.entries.<get-entries>|<get-entries>#static(){}[0]
+    final val key // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.key|{}key[0]
+        final fun <get-key>(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.key.<get-key>|<get-key>(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat> // io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat.values|values#static(){}[0]
+}
+
+final class io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports { // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports|null[0]
+    constructor <init>(kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ...) // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.<init>|<init>(kotlin.Boolean;kotlin.Boolean;kotlin.Boolean){}[0]
+
+    final val brush // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.brush|{}brush[0]
+        final fun <get-brush>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.brush.<get-brush>|<get-brush>(){}[0]
+    final val color // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.color|{}color[0]
+        final fun <get-color>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.color.<get-color>|<get-color>(){}[0]
+    final val offset // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.offset|{}offset[0]
+        final fun <get-offset>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.offset.<get-offset>|<get-offset>(){}[0]
+
+    final fun component1(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.component1|component1(){}[0]
+    final fun component2(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.component2|component2(){}[0]
+    final fun component3(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.component3|component3(){}[0]
+    final fun copy(kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ...): io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.copy|copy(kotlin.Boolean;kotlin.Boolean;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports.toString|toString(){}[0]
+}
+
+final class io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig { // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String, kotlin/String, io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat, kotlin/Boolean, kotlin/Boolean, kotlin/Boolean, kotlin/Boolean, kotlin/Boolean, kotlin/Boolean, kotlin/Int, io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports = ...) // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;kotlin.String;io.github.composegears.valkyrie.generator.kmp.imagevector.OutputFormat;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Int;io.github.composegears.valkyrie.generator.kmp.imagevector.FullQualifiedImports){}[0]
+
+    final val addTrailingComma // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.addTrailingComma|{}addTrailingComma[0]
+        final fun <get-addTrailingComma>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.addTrailingComma.<get-addTrailingComma>|<get-addTrailingComma>(){}[0]
+    final val fullQualifiedImports // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.fullQualifiedImports|{}fullQualifiedImports[0]
+        final fun <get-fullQualifiedImports>(): io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.fullQualifiedImports.<get-fullQualifiedImports>|<get-fullQualifiedImports>(){}[0]
+    final val generatePreview // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.generatePreview|{}generatePreview[0]
+        final fun <get-generatePreview>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.generatePreview.<get-generatePreview>|<get-generatePreview>(){}[0]
+    final val iconPackPackage // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.iconPackPackage|{}iconPackPackage[0]
+        final fun <get-iconPackPackage>(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.iconPackPackage.<get-iconPackPackage>|<get-iconPackPackage>(){}[0]
+    final val indentSize // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.indentSize|{}indentSize[0]
+        final fun <get-indentSize>(): kotlin/Int // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.indentSize.<get-indentSize>|<get-indentSize>(){}[0]
+    final val nestedPackName // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.nestedPackName|{}nestedPackName[0]
+        final fun <get-nestedPackName>(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.nestedPackName.<get-nestedPackName>|<get-nestedPackName>(){}[0]
+    final val outputFormat // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.outputFormat|{}outputFormat[0]
+        final fun <get-outputFormat>(): io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.outputFormat.<get-outputFormat>|<get-outputFormat>(){}[0]
+    final val packName // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.packName|{}packName[0]
+        final fun <get-packName>(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.packName.<get-packName>|<get-packName>(){}[0]
+    final val packageName // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.packageName|{}packageName[0]
+        final fun <get-packageName>(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.packageName.<get-packageName>|<get-packageName>(){}[0]
+    final val useComposeColors // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.useComposeColors|{}useComposeColors[0]
+        final fun <get-useComposeColors>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.useComposeColors.<get-useComposeColors>|<get-useComposeColors>(){}[0]
+    final val useExplicitMode // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.useExplicitMode|{}useExplicitMode[0]
+        final fun <get-useExplicitMode>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.useExplicitMode.<get-useExplicitMode>|<get-useExplicitMode>(){}[0]
+    final val useFlatPackage // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.useFlatPackage|{}useFlatPackage[0]
+        final fun <get-useFlatPackage>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.useFlatPackage.<get-useFlatPackage>|<get-useFlatPackage>(){}[0]
+    final val usePathDataString // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.usePathDataString|{}usePathDataString[0]
+        final fun <get-usePathDataString>(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.usePathDataString.<get-usePathDataString>|<get-usePathDataString>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component1|component1(){}[0]
+    final fun component10(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component10|component10(){}[0]
+    final fun component11(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component11|component11(){}[0]
+    final fun component12(): kotlin/Int // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component12|component12(){}[0]
+    final fun component13(): io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component13|component13(){}[0]
+    final fun component2(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component2|component2(){}[0]
+    final fun component3(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component3|component3(){}[0]
+    final fun component4(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component4|component4(){}[0]
+    final fun component5(): io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component5|component5(){}[0]
+    final fun component6(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component6|component6(){}[0]
+    final fun component7(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component7|component7(){}[0]
+    final fun component8(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component8|component8(){}[0]
+    final fun component9(): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.component9|component9(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., io.github.composegears.valkyrie.generator.kmp.imagevector/OutputFormat = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Int = ..., io.github.composegears.valkyrie.generator.kmp.imagevector/FullQualifiedImports = ...): io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.copy|copy(kotlin.String;kotlin.String;kotlin.String;kotlin.String;io.github.composegears.valkyrie.generator.kmp.imagevector.OutputFormat;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Int;io.github.composegears.valkyrie.generator.kmp.imagevector.FullQualifiedImports){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig.toString|toString(){}[0]
+}
+
+final class io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput { // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput|null[0]
+    constructor <init>(kotlin/String, kotlin/String) // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.<init>|<init>(kotlin.String;kotlin.String){}[0]
+
+    final val content // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.content|{}content[0]
+        final fun <get-content>(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.content.<get-content>|<get-content>(){}[0]
+    final val name // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.name|{}name[0]
+        final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.name.<get-name>|<get-name>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.component1|component1(){}[0]
+    final fun component2(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.component2|component2(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ...): io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.copy|copy(kotlin.String;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput.toString|toString(){}[0]
+}
+
+final object io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGenerator { // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGenerator|null[0]
+    final fun convert(io.github.composegears.valkyrie.sdk.ir.core/IrImageVector, kotlin/String, io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGeneratorConfig): io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorOutput // io.github.composegears.valkyrie.generator.kmp.imagevector/ImageVectorGenerator.convert|convert(io.github.composegears.valkyrie.sdk.ir.core.IrImageVector;kotlin.String;io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorGeneratorConfig){}[0]
+}
