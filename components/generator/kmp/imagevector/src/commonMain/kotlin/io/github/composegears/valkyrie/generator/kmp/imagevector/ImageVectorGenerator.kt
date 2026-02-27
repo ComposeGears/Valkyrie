@@ -22,19 +22,11 @@ data class FullQualifiedImports(
     val brush: Boolean = false,
     val color: Boolean = false,
     val offset: Boolean = false,
-) {
-    companion object {
-        val reservedComposeQualifiers = listOf("Brush", "Color", "Offset")
-    }
-}
+)
 
 enum class OutputFormat(val key: String) {
     BackingProperty(key = "backing_property"),
-    LazyProperty(key = "lazy_property");
-
-    companion object {
-        fun from(key: String?) = entries.find { it.key == key } ?: BackingProperty
-    }
+    LazyProperty(key = "lazy_property"),
 }
 
 data class ImageVectorOutput(

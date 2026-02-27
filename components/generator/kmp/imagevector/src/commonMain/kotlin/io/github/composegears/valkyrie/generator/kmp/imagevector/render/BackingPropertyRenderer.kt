@@ -6,10 +6,8 @@ import io.github.composegears.valkyrie.generator.kmp.imagevector.util.ImageVecto
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
 internal class BackingPropertyRenderer(private val config: ImageVectorRenderConfig) {
-    fun render(irVector: IrImageVector): ImageVectorOutput {
-        return ImageVectorOutput(
-            content = ImageVectorRenderer.renderBacking(config = config, vector = irVector),
-            name = config.iconName,
-        )
-    }
+    fun render(irVector: IrImageVector): ImageVectorOutput = ImageVectorOutput(
+        content = ImageVectorRenderer.renderBacking(config = config, vector = irVector),
+        name = config.iconName,
+    )
 }

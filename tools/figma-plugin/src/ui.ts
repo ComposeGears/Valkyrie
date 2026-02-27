@@ -1,49 +1,24 @@
-import { convert, isConverterReady, normalizeIconName, type ConvertOptions, type ConvertResult } from "./converterAdapter";
+import { zipSync, strToU8 } from "fflate";
+import { convert, isConverterReady, normalizeIconName } from "./converterAdapter";
+import type { ExportedIcon, PluginMessage, ConvertResultWithSvg } from "./types";
+import { runButton, copyAllButton, downloadAllButton } from "./dom";
+import { conversionResults, setPendingTimeout, clearPendingTimeout } from "./state";
+import { getConvertOptions, applySettings, initSettingsListeners } from "./settings";
+import { sendMessage, onMessage, onError } from "./api";
+import { setStatus } from "./status";
+import { updateSelectionPreview, renderResults } from "./render";
+import { copyText, flashButton } from "./utils";
 
-type ExportedIcon = {
-  id: string;
-  name: string;
-  svg: string;
-};
-
-type ConversionReadyMessage = {
-  type: "conversion-ready";
-  icons: ExportedIcon[];
-  error?: string;
-};
-
-type ConversionStartedMessage = {
-  type: "conversion-started";
-  selectedCount: number;
-};
-
-type PluginMessage = ConversionReadyMessage | ConversionStartedMessage;
-
-const runButton = document.querySelector<HTMLButtonElement>("#run")!;
-const copyAllButton = document.querySelector<HTMLButtonElement>("#copy-all")!;
-const statusText = document.querySelector<HTMLParagraphElement>("#status")!;
-const packageInput = document.querySelector<HTMLInputElement>("#package")!;
-const useComposeColorsInput = document.querySelector<HTMLInputElement>("#compose-colors")!;
-const addTrailingCommaInput = document.querySelector<HTMLInputElement>("#trailing-comma")!;
-const useExplicitModeInput = document.querySelector<HTMLInputElement>("#explicit-mode")!;
-const usePathDataStringInput = document.querySelector<HTMLInputElement>("#path-data")!;
-const autoMirrorInput = document.querySelector<HTMLSelectElement>("#auto-mirror")!;
-const resultsContainer = document.querySelector<HTMLDivElement>("#results")!;
-
-const conversionResults: ConvertResult[] = [];
-let pendingTimeoutId: number | null = null;
-
-statusText.textContent = "UI script loaded. Ready.";
+initSettingsListeners();
+setStatus("Ready");
 
 runButton.addEventListener("click", () => {
-  statusText.textContent = "Requesting export from Figma...";
-  if (pendingTimeoutId !== null) {
-    window.clearTimeout(pendingTimeoutId);
-  }
-  pendingTimeoutId = window.setTimeout(() => {
-    statusText.textContent = "No response from Figma main thread yet. Check plugin console for errors.";
+  setStatus("Requesting export from Figma...", "working");
+  clearPendingTimeout();
+  setPendingTimeout(() => {
+    setStatus("No response from Figma main thread. Check plugin console.", "error");
   }, 5000);
-  parent.postMessage({ pluginMessage: { type: "run-conversion" } }, "*");
+  sendMessage({ type: "run-conversion" });
 });
 
 copyAllButton.addEventListener("click", async () => {
@@ -53,59 +28,85 @@ copyAllButton.addEventListener("click", async () => {
   }
   const text = successful.map((item) => `// ${item.fileName}\n${item.content}`).join("\n\n");
   const copied = await copyText(text);
-  statusText.textContent = copied
-    ? `Copied ${successful.length} generated file(s).`
-    : "Copy failed. Use Download instead.";
+  if (copied) {
+    flashButton(copyAllButton, "Copied!");
+    setStatus(`Copied ${successful.length} generated file(s).`);
+  } else {
+    setStatus("Copy failed. Use Download instead.", "error");
+  }
 });
 
-window.onmessage = (event: MessageEvent<{ pluginMessage: PluginMessage }>) => {
-  const message = event.data.pluginMessage;
-  if (!message) {
+downloadAllButton.addEventListener("click", () => {
+  const successful = conversionResults.filter((item) => item.ok);
+  if (successful.length === 0) {
     return;
   }
 
-  if (message.type === "conversion-started") {
-    statusText.textContent = `Exporting ${message.selectedCount} selected node(s)...`;
-    return;
+  const files: Record<string, Uint8Array> = {};
+  for (const result of successful) {
+    files[result.fileName] = strToU8(result.content);
   }
 
-  if (message.type !== "conversion-ready") {
-    return;
+  const zipped = zipSync(files, { level: 6 });
+  const blob = new Blob([zipped.buffer as ArrayBuffer], { type: "application/zip" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "valkyrie-icons.zip";
+  link.click();
+  URL.revokeObjectURL(url);
+
+  flashButton(downloadAllButton, "Downloaded!");
+  setStatus(`Downloaded ${successful.length} file(s) as ZIP.`);
+});
+
+onMessage((message: PluginMessage) => {
+  switch (message.type) {
+    case "selection-changed":
+      updateSelectionPreview(message.count, message.names);
+      break;
+
+    case "settings-loaded":
+      if (message.settings) {
+        applySettings(message.settings);
+      }
+      break;
+
+    case "conversion-started":
+      setStatus(`Exporting ${message.selectedCount} selected node(s)...`, "working");
+      break;
+
+    case "conversion-ready":
+      clearPendingTimeout();
+      if (message.error) {
+        setStatus(message.error, "error");
+      }
+      runConversion(message.icons);
+      break;
   }
+});
 
-  if (pendingTimeoutId !== null) {
-    window.clearTimeout(pendingTimeoutId);
-    pendingTimeoutId = null;
-  }
-
-  if (message.error) {
-    statusText.textContent = message.error;
-  }
-
-  runConversion(message.icons);
-};
-
-window.addEventListener("error", (event) => {
-  statusText.textContent = `UI error: ${event.message}`;
+onError((event) => {
+  setStatus(`UI error: ${event.message}`, "error");
 });
 
 function runConversion(icons: ExportedIcon[]): void {
-  const options = getOptions();
+  const options = getConvertOptions();
   conversionResults.length = 0;
 
   if (!options.packageName) {
-    statusText.textContent = "Package name is required.";
+    setStatus("Package name is required.", "error");
     return;
   }
 
   if (icons.length === 0) {
-    statusText.textContent = "No exportable selected icons.";
-    resultsContainer.innerHTML = "";
+    setStatus("No exportable selected icons.", "error");
+    renderResults([]);
     return;
   }
 
   if (!isConverterReady()) {
-    statusText.textContent = "Converter runtime not loaded in UI. Check ui.html converter script hook.";
+    setStatus("Converter not loaded. Run pnpm build:all and reload.", "error");
   }
 
   const seenExact = new Set<string>();
@@ -139,110 +140,17 @@ function runConversion(icons: ExportedIcon[]): void {
 
     seenExact.add(normalized);
     seenInsensitive.add(lowered);
-    conversionResults.push(convert(icon.svg, icon.name, options));
+
+    const result: ConvertResultWithSvg = { ...convert(icon.svg, icon.name, options), svg: icon.svg };
+    conversionResults.push(result);
   }
 
   renderResults(conversionResults);
 
   const successCount = conversionResults.filter((item) => item.ok).length;
   const failCount = conversionResults.length - successCount;
-  statusText.textContent = `Converted ${successCount}/${conversionResults.length} icon(s). Errors: ${failCount}.`;
-}
-
-function getOptions(): ConvertOptions {
-  return {
-    packageName: packageInput.value.trim(),
-    useComposeColors: useComposeColorsInput.checked,
-    addTrailingComma: addTrailingCommaInput.checked,
-    useExplicitMode: useExplicitModeInput.checked,
-    usePathDataString: usePathDataStringInput.checked,
-    indentSize: 4,
-    autoMirror: autoMirrorInput.value as "" | "true" | "false",
-  };
-}
-
-function renderResults(results: ConvertResult[]): void {
-  resultsContainer.innerHTML = "";
-
-  for (const result of results) {
-    const card = document.createElement("section");
-    card.className = "result-card";
-
-    const title = document.createElement("h3");
-    title.textContent = result.iconName;
-    card.appendChild(title);
-
-    if (!result.ok) {
-      const error = document.createElement("p");
-      error.className = "error";
-      error.textContent = result.error ?? "Unknown conversion error";
-      card.appendChild(error);
-      resultsContainer.appendChild(card);
-      continue;
-    }
-
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    const copyButton = document.createElement("button");
-    copyButton.textContent = "Copy";
-    copyButton.addEventListener("click", async () => {
-      const copied = await copyText(result.content);
-      statusText.textContent = copied ? `Copied ${result.fileName}.` : "Copy failed. Use Download instead.";
-    });
-    actions.appendChild(copyButton);
-
-    const downloadButton = document.createElement("button");
-    downloadButton.textContent = "Download";
-    downloadButton.addEventListener("click", () => {
-      const blob = new Blob([result.content], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = result.fileName;
-      link.click();
-      URL.revokeObjectURL(url);
-    });
-    actions.appendChild(downloadButton);
-
-    card.appendChild(actions);
-
-    const code = document.createElement("textarea");
-    code.value = result.content;
-    code.readOnly = true;
-    card.appendChild(code);
-
-    resultsContainer.appendChild(card);
-  }
-}
-
-async function copyText(text: string): Promise<boolean> {
-  try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
-  } catch {
-    // fallback below
-  }
-
-  const area = document.createElement("textarea");
-  area.value = text;
-  area.setAttribute("readonly", "");
-  area.style.position = "fixed";
-  area.style.opacity = "0";
-  area.style.pointerEvents = "none";
-  document.body.appendChild(area);
-  area.focus();
-  area.select();
-
-  let copied = false;
-  try {
-    copied = document.execCommand("copy");
-  } catch {
-    copied = false;
-  }
-
-  document.body.removeChild(area);
-  return copied;
+  const statusMsg = failCount > 0
+    ? `Converted ${successCount}/${conversionResults.length} icon(s). ${failCount} error(s).`
+    : `Converted ${successCount} icon(s) successfully.`;
+  setStatus(statusMsg, failCount > 0 ? "error" : "ready");
 }

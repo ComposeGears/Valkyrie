@@ -14,5 +14,8 @@
     "@figma/plugin-typings": "^1.122.0",
     "esbuild": "^0.25.10",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2"
   }
 }

@@ -9,6 +9,17 @@ type ConversionStartedMessage = {
   selectedCount: number;
 };
 
+type SelectionChangedMessage = {
+  type: "selection-changed";
+  count: number;
+  names: string[];
+};
+
+type SettingsLoadedMessage = {
+  type: "settings-loaded";
+  settings: Record<string, unknown> | null;
+};
+
 type RunConversionMessage = {
   type: "run-conversion";
 };
@@ -17,16 +28,61 @@ type CloseMessage = {
   type: "close-plugin";
 };
 
-type UiMessage = RunConversionMessage | CloseMessage;
+type SaveSettingsMessage = {
+  type: "save-settings";
+  settings: Record<string, unknown>;
+};
+
+type LoadSettingsMessage = {
+  type: "load-settings";
+};
+
+type UiMessage = RunConversionMessage | CloseMessage | SaveSettingsMessage | LoadSettingsMessage;
 
 const PLUGIN_UI_SIZE = { width: 1080, height: 760 };
+const SETTINGS_KEY = "valkyrie-export-settings";
+const MAX_SELECTION_NAMES = 8;
 
 figma.showUI(__html__, PLUGIN_UI_SIZE);
+
+// Send initial selection state
+sendSelectionUpdate();
+
+// Listen for selection changes
+figma.on("selectionchange", () => {
+  sendSelectionUpdate();
+});
+
+function sendSelectionUpdate(): void {
+  const selected = figma.currentPage.selection;
+  const exportable = selected.filter((node): node is SceneNode & ExportMixin => "exportAsync" in node);
+  const names = exportable.slice(0, MAX_SELECTION_NAMES).map((node) => node.name);
+
+  figma.ui.postMessage({
+    type: "selection-changed",
+    count: exportable.length,
+    names,
+  } satisfies SelectionChangedMessage);
+}
 
 figma.ui.onmessage = async (message: UiMessage) => {
   try {
     if (message.type === "close-plugin") {
       figma.closePlugin();
+      return;
+    }
+
+    if (message.type === "load-settings") {
+      const settings = await figma.clientStorage.getAsync(SETTINGS_KEY);
+      figma.ui.postMessage({
+        type: "settings-loaded",
+        settings: settings != null ? settings : null,
+      } satisfies SettingsLoadedMessage);
+      return;
+    }
+
+    if (message.type === "save-settings") {
+      await figma.clientStorage.setAsync(SETTINGS_KEY, message.settings);
       return;
     }
 

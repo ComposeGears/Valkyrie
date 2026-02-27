@@ -23,6 +23,9 @@ const sharedOptions = {
 
 const codeConfig = {
   ...sharedOptions,
+  // Figma's plugin sandbox uses a limited JS engine — target ES2017 to
+  // ensure operators like ?? and ?. are compiled down.
+  target: "es2017",
   entryPoints: [resolve(srcDir, "code.ts")],
   outfile: resolve(distDir, "code.js"),
   format: "iife",

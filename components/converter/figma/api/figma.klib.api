@@ -1,0 +1,10 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.components.converter:figma>
+final fun io.github.composegears.valkyrie.converter.figma/convertSvg(kotlin/String, kotlin/String, kotlin/String, kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Int = ..., kotlin/String = ...): kotlin/String // io.github.composegears.valkyrie.converter.figma/convertSvg|convertSvg(kotlin.String;kotlin.String;kotlin.String;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Int;kotlin.String){}[0]
+final fun io.github.composegears.valkyrie.converter.figma/normalizeIconName(kotlin/String): kotlin/String // io.github.composegears.valkyrie.converter.figma/normalizeIconName|normalizeIconName(kotlin.String){}[0]

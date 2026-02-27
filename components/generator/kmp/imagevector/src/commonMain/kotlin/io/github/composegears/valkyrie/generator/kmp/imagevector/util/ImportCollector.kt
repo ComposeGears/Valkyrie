@@ -73,7 +73,6 @@ private data class UsageFlags(
                         }
                         node.nodes.forEach(::visit)
                     }
-
                     is IrVectorNode.IrPath -> {
                         when {
                             config.usePathDataString -> flags.usesAddPathNodes = true
@@ -86,7 +85,6 @@ private data class UsageFlags(
                                     flags.usesColor = true
                                 }
                             }
-
                             is IrFill.LinearGradient -> {
                                 flags.usesBrush = true
                                 flags.usesOffset = true
@@ -98,13 +96,11 @@ private data class UsageFlags(
                                     flags.usesColor = true
                                 }
                             }
-
                             is IrFill.RadialGradient -> {
                                 flags.usesBrush = true
                                 flags.usesOffset = true
                                 flags.usesColor = true
                             }
-
                             null -> Unit
                         }
 

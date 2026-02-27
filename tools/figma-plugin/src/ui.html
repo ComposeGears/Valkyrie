@@ -6,168 +6,599 @@
   <title>Valkyrie Figma Export</title>
   <style>
     :root {
-      --bg: #f5f6f8;
-      --panel: #ffffff;
-      --text: #182028;
-      --muted: #5f6b76;
-      --accent: #145dff;
-      --error: #b42318;
-      --border: #d9dee6;
+      --bg: #2c2c2c;
+      --panel: #383838;
+      --panel-hover: #404040;
+      --surface: #2c2c2c;
+      --text: #e5e5e5;
+      --text-secondary: #b3b3b3;
+      --text-muted: #8c8c8c;
+      --accent: #0d99ff;
+      --accent-hover: #0b87e0;
+      --error: #f24822;
+      --success: #14ae5c;
+      --border: #4b4b4b;
+      --border-light: #3e3e3e;
+      --code-bg: #1e1e1e;
+      --code-text: #d4d4d4;
+      --radius: 6px;
+      --radius-sm: 4px;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      background: radial-gradient(circle at top left, #e9f0ff 0, var(--bg) 45%);
+      background: var(--bg);
       color: var(--text);
-      font: 13px/1.4 "IBM Plex Sans", "Segoe UI", sans-serif;
+      font: 11px/1.5 "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
     }
 
+    /* === Layout === */
     .layout {
       display: grid;
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 260px 1fr;
       height: 100vh;
-      gap: 12px;
+    }
+
+    /* === Sidebar === */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
       padding: 12px;
     }
 
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      overflow: auto;
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 6px;
     }
 
-    h1 {
-      margin: 0 0 10px;
-      font: 600 16px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background: transparent;
     }
 
-    h2 {
-      margin: 0 0 8px;
-      font: 600 13px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
     }
 
-    .field {
-      display: grid;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .row {
+    /* === Header === */
+    .plugin-header {
       display: flex;
       align-items: center;
       gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .plugin-header h1 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .plugin-header .badge {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: rgba(13, 153, 255, 0.12);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    /* === Section === */
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
       margin-bottom: 8px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 12px 0;
+    }
+
+    /* === Selection preview === */
+    .selection-preview {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      margin-bottom: 12px;
+    }
+
+    .selection-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .selection-count .num {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .selection-names {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .selection-empty {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* === Form controls === */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
     }
 
     input[type="text"],
     select {
       width: 100%;
+      height: 28px;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px;
-      font: inherit;
+      border-radius: var(--radius-sm);
+      padding: 0 8px;
+      font: 11px "Inter", sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
     }
 
-    button {
-      border: none;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font: inherit;
-      background: #e4e9f1;
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    select {
       cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M1 1l3 3 3-3' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 24px;
     }
 
-    button#run {
+    /* Checkbox row */
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 11px;
+      color: var(--text-secondary);
+      user-select: none;
+    }
+
+    .check-row input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--surface);
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .check-row input[type="checkbox"]:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .check-row input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      left: 3.5px;
+      top: 1px;
+      width: 5px;
+      height: 8px;
+      border: solid white;
+      border-width: 0 1.5px 1.5px 0;
+      transform: rotate(45deg);
+    }
+
+    .check-row input[type="checkbox"]:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    /* === Buttons === */
+    .actions-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      height: 30px;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0 12px;
+      font: 11px/30px "Inter", sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn:active { opacity: 0.85; }
+
+    .btn-primary {
       background: var(--accent);
       color: white;
       font-weight: 600;
+      flex: 1;
+    }
+
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    .btn-secondary {
+      background: var(--panel-hover);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover { background: var(--border); }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* === Status bar === */
+    .status-bar {
+      border-top: 1px solid var(--border);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+    }
+
+    .status-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status-icon.ready { background: var(--success); }
+    .status-icon.working { background: var(--accent); animation: pulse 1.2s ease-in-out infinite; }
+    .status-icon.error { background: var(--error); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
     #status {
-      color: var(--muted);
-      margin: 8px 0 0;
-      min-height: 20px;
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* === Main panel === */
+    .main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .main-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .main-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .main-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .main-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
     }
 
     #results {
-      display: grid;
-      gap: 12px;
-    }
-
-    .result-card {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
-      background: #fbfcfd;
-    }
-
-    .result-card h3 {
-      margin: 0 0 8px;
-      font: 600 12px/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
-    }
-
-    .result-card .actions {
       display: flex;
+      flex-direction: column;
       gap: 8px;
-      margin-bottom: 8px;
     }
 
-    .result-card textarea {
-      width: 100%;
-      min-height: 180px;
+    /* === Empty state === */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .empty-state-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px;
-      resize: vertical;
-      font: 12px/1.3 "JetBrains Mono", monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
     }
 
-    .error {
-      color: var(--error);
-      margin: 0;
+    .empty-state-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--text-muted);
     }
+
+    .empty-state h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 11px;
+      color: var(--text-muted);
+      max-width: 240px;
+      line-height: 1.5;
+    }
+
+    /* === Result cards === */
+    .result-card {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .card-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .card-preview img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-info h3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-info .filename {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .card-btn {
+      height: 24px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-secondary);
+      font: 10px "Inter", sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-btn:hover {
+      background: var(--panel-hover);
+      color: var(--text);
+    }
+
+    .card-btn.copied {
+      border-color: var(--success);
+      color: var(--success);
+      background: rgba(20, 174, 92, 0.08);
+    }
+
+    .card-code {
+      max-height: 280px;
+      overflow: auto;
+      background: var(--code-bg);
+    }
+
+    .card-code::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .card-code::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .card-code::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    .card-code pre {
+      margin: 0;
+      padding: 10px 12px;
+      font: 11px/1.5 "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      color: var(--code-text);
+      white-space: pre;
+      tab-size: 4;
+    }
+
+    .card-error {
+      padding: 8px 10px;
+      color: var(--error);
+      font-size: 11px;
+    }
+
+    /* === Utilities === */
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 <div class="layout">
-  <aside class="panel">
-    <h1>Valkyrie Export</h1>
-    <h2>Simple mode</h2>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-scroll">
+      <div class="plugin-header">
+        <h1>Valkyrie Export</h1>
+        <span class="badge">ImageVector</span>
+      </div>
 
-    <label class="field">
-      <span>Package name</span>
-      <input id="package" type="text" value="com.example.icons" />
-    </label>
+      <!-- Selection preview -->
+      <div class="selection-preview" id="selection-preview">
+        <div class="selection-empty">No nodes selected</div>
+      </div>
 
-    <label class="row"><input id="compose-colors" type="checkbox" checked /> Use Compose colors</label>
-    <label class="row"><input id="trailing-comma" type="checkbox" /> Trailing comma</label>
-    <label class="row"><input id="explicit-mode" type="checkbox" /> Explicit public mode</label>
-    <label class="row"><input id="path-data" type="checkbox" /> Use pathData string</label>
+      <div class="divider"></div>
 
-    <label class="field">
-      <span>Auto mirror override</span>
-      <select id="auto-mirror">
-        <option value="">Keep source value</option>
-        <option value="true">Force true</option>
-        <option value="false">Force false</option>
-      </select>
-    </label>
+      <!-- Options -->
+      <div class="section">
+        <div class="section-label">Options</div>
 
-    <div class="row">
-      <button id="run">Export selected</button>
-      <button id="copy-all">Copy all</button>
+        <div class="field">
+          <span class="field-label">Package name</span>
+          <input id="package" type="text" value="com.example.icons" />
+        </div>
+
+        <label class="check-row"><input id="compose-colors" type="checkbox" checked /> Use Compose colors</label>
+        <label class="check-row"><input id="trailing-comma" type="checkbox" /> Trailing comma</label>
+        <label class="check-row"><input id="explicit-mode" type="checkbox" /> Explicit public mode</label>
+        <label class="check-row"><input id="path-data" type="checkbox" /> Use pathData string</label>
+
+        <div class="field" style="margin-top: 8px;">
+          <span class="field-label">Auto mirror override</span>
+          <select id="auto-mirror">
+            <option value="">Keep source value</option>
+            <option value="true">Force true</option>
+            <option value="false">Force false</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Actions -->
+      <div class="section">
+        <div class="actions-row">
+          <button class="btn btn-primary" id="run">Export selected</button>
+        </div>
+        <div class="actions-row" style="margin-top: 6px;">
+          <button class="btn btn-secondary" id="copy-all">Copy all</button>
+          <button class="btn btn-secondary" id="download-all">Download .zip</button>
+        </div>
+      </div>
     </div>
 
-    <p id="status">Ready.</p>
-  </aside>
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-icon ready" id="status-icon"></div>
+      <span id="status">Ready</span>
+    </div>
+  </div>
 
-  <main class="panel">
-    <div id="results"></div>
-  </main>
+  <!-- Main panel -->
+  <div class="main">
+    <div class="main-scroll" id="main-scroll">
+      <div id="results"></div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-state-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
+            <line x1="12" y1="22.08" x2="12" y2="11.73"/>
+          </svg>
+        </div>
+        <h3>No icons exported yet</h3>
+        <p>Select one or more icon nodes in Figma and click "Export selected" to generate Kotlin ImageVector code.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="module">/*__WASM_BRIDGE__*/</script>

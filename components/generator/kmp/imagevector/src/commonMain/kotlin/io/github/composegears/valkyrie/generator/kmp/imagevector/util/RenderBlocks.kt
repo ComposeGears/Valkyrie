@@ -22,7 +22,11 @@ internal fun writeBlockCall(
                 if (param.contains('\n')) {
                     val lines = param.lines()
                     lines.forEachIndexed { lineIndex, line ->
-                        val prefix = if (indentMultilineContent) writer.indent(level + 1) else if (lineIndex == 0) writer.indent(level + 1) else ""
+                        val prefix = when {
+                            indentMultilineContent -> writer.indent(level + 1)
+                            lineIndex == 0 -> writer.indent(level + 1)
+                            else -> ""
+                        }
                         writer.line("$prefix$line")
                     }
                     if (comma.isNotEmpty()) {

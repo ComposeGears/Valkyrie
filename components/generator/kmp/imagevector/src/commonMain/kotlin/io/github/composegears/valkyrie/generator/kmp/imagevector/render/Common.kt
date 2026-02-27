@@ -16,5 +16,5 @@ internal fun ImageVectorRenderConfig.resolveReceiverName(): String = when {
 
 internal fun ImageVectorRenderConfig.resolveIconBuilderName(): String = when {
     iconNestedPack.isEmpty() -> iconName
-    else -> "${iconNestedPack}.${iconName}"
+    else -> "$iconNestedPack.$iconName"
 }

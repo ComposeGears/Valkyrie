@@ -1,0 +1,6 @@
+public final class io/github/composegears/valkyrie/converter/figma/FigmaWasmConverterKt {
+	public static final fun convertSvg (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZZILjava/lang/String;)Ljava/lang/String;
+	public static synthetic fun convertSvg$default (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZZILjava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun normalizeIconName (Ljava/lang/String;)Ljava/lang/String;
+}
+

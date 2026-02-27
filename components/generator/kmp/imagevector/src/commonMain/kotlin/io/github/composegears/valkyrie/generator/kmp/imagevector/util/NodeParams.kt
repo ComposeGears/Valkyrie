@@ -100,8 +100,7 @@ internal fun IrColor.renderColor(config: ImageVectorRenderConfig): String {
     return "$colorRef(${toHexLiteral()})"
 }
 
-internal fun String.escapeKotlin(): String =
-    replace("\\", "\\\\").replace("\"", "\\\"")
+internal fun String.escapeKotlin(): String = replace("\\", "\\\\").replace("\"", "\\\"")
 
 private fun IrFill.Gradient.renderGradientParams(
     config: ImageVectorRenderConfig,
@@ -120,7 +119,7 @@ private fun IrFill.Gradient.renderGradientParams(
     }
 
     return "fill = $brush.$gradientType(\n" +
-        "${nestedIndent}colorStops = arrayOf(\n$colorStops\n${nestedIndent}),\n" +
+        "${nestedIndent}colorStops = arrayOf(\n$colorStops\n$nestedIndent),\n" +
         extraParams +
         ")"
 }
