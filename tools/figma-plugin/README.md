@@ -16,6 +16,12 @@ This package contains a Figma plugin shell for exporting selected icons into Kot
 - `pnpm watch` - watch mode for development
 - `pnpm typecheck` - TypeScript checks
 
+## Rerun in Figma
+
+1. Run `pnpm build:all`
+2. In Figma desktop, open `Plugins -> Development -> Reload plugins`
+3. Reopen `Valkyrie ImageVector Export`
+
 ## Files
 
 - `manifest.json` - Figma plugin manifest

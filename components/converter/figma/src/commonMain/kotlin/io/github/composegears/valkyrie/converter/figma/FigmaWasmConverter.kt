@@ -2,8 +2,9 @@
 
 package io.github.composegears.valkyrie.converter.figma
 
-import io.github.composegears.valkyrie.generator.kmp.imagevector.SimpleImageVectorGenerator
-import io.github.composegears.valkyrie.generator.kmp.imagevector.SimpleImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorGenerator
+import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.generator.kmp.imagevector.OutputFormat
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
@@ -37,12 +38,18 @@ fun convertSvg(
             }
         }
 
-        val output = SimpleImageVectorGenerator.convert(
+        val output = ImageVectorGenerator.convert(
             vector = parseOutput.irImageVector,
             iconName = parseOutput.iconName,
-            config = SimpleImageVectorGeneratorConfig(
+            config = ImageVectorGeneratorConfig(
                 packageName = packageName,
+                iconPackPackage = packageName,
+                packName = "",
+                nestedPackName = "",
+                outputFormat = OutputFormat.BackingProperty,
                 useComposeColors = useComposeColors,
+                generatePreview = false,
+                useFlatPackage = false,
                 addTrailingComma = addTrailingComma,
                 useExplicitMode = useExplicitMode,
                 usePathDataString = usePathDataString,
