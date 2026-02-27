@@ -45,7 +45,9 @@ class StandardIconViewModel(
 
     init {
         when (val initialState = stateRecord.value) {
-            is StandardState.Success if initialState.fontByteArray == null -> downloadFont()
+            is StandardState.Success -> if (initialState.fontByteArray == null) {
+                downloadFont()
+            }
             else -> loadConfig()
         }
     }
