@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -48,12 +48,12 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIcon
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.ui.StandardTopActions
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.ui.StandardTopActions
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.theme.LocalContentColor

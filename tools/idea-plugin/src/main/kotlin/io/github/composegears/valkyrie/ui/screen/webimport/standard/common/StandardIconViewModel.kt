@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
@@ -11,13 +11,13 @@ import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toGridItems
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIcon
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIconConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.util.filterByCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.util.filterByCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel

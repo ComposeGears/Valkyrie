@@ -1,10 +1,10 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard.util
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.util
 
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.util.filterGridItems
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
 
 /**
  * Filters grid items from a [StandardIconConfig] with support for category, style, and search.

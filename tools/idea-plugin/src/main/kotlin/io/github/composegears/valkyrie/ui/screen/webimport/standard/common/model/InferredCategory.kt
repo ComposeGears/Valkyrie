@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard.model
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model
 
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebCategory
 

@@ -1,8 +1,8 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard.domain
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain
 
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
 
 interface StandardIconProvider {
     val providerName: String

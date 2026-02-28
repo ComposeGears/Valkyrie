@@ -1,7 +1,7 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard.domain
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain
 
 import io.github.composegears.valkyrie.parser.jvm.svg.SvgManipulator
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
 
 /**
  * Utility for applying size settings to SVG content.

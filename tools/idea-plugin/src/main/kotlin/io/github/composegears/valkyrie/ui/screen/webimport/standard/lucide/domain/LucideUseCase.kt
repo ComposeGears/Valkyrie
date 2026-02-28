@@ -2,15 +2,15 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.doma
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.StandardIconProvider
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.SvgSizeCustomizer
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.inferCategoryFromTags
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.domain.toDisplayName
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.SvgSizeCustomizer
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.toStandardIconConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.data.LucideRepository
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.SizeSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIcon
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.StandardIconConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.toStandardIconConfig
 
 class LucideUseCase(
     private val repository: LucideRepository,
