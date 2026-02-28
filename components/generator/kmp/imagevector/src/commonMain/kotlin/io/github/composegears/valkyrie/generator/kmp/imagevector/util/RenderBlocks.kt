@@ -51,10 +51,8 @@ internal fun writeCall(
                             lineIndex == 0 -> writer.indent(level + 1)
                             else -> ""
                         }
-                        writer.line("$prefix$line")
-                    }
-                    if (comma.isNotEmpty()) {
-                        writer.line("${writer.indent(level + 1)}$comma")
+                        val lineComma = if (lineIndex == lines.lastIndex) comma else ""
+                        writer.line("$prefix$line$lineComma")
                     }
                 } else {
                     writer.line("${writer.indent(level + 1)}$param$comma")

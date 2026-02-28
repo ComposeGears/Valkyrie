@@ -37,3 +37,8 @@ public final class io/github/composegears/valkyrie/generator/core/PackBuilder {
 	public static synthetic fun pack$default (Lio/github/composegears/valkyrie/generator/core/PackBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
+public final class io/github/composegears/valkyrie/generator/core/PathNodeRendererKt {
+	public static final fun asPathDataString (Ljava/util/List;)Ljava/lang/String;
+	public static final fun asStatement (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode;)Ljava/lang/String;
+}
+

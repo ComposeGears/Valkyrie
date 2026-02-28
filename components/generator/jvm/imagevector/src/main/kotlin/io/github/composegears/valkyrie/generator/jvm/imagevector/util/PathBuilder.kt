@@ -3,12 +3,12 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.util
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import io.github.composegears.valkyrie.generator.core.asPathDataString
 import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.jvm.ext.argumentBlock
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
-import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.asPathDataString
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.NameParam

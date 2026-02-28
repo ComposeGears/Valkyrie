@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.spec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
+import io.github.composegears.valkyrie.generator.core.asStatement
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.addGroup
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.addPath

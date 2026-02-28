@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.generator.kmp.imagevector.util
 
+import io.github.composegears.valkyrie.generator.core.asPathDataString
+import io.github.composegears.valkyrie.generator.core.asStatement
 import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.core.trimTrailingZero
 import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorRenderConfig
-import io.github.composegears.valkyrie.generator.kmp.imagevector.render.asPathDataString
-import io.github.composegears.valkyrie.generator.kmp.imagevector.render.asStatement
 import io.github.composegears.valkyrie.generator.kmp.imagevector.render.resolveIconBuilderName
 import io.github.composegears.valkyrie.generator.kmp.imagevector.render.resolvePackageName
 import io.github.composegears.valkyrie.generator.kmp.imagevector.render.resolveReceiverName
