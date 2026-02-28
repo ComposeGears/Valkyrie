@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.3.0 - 2026-02-28
+
 ### Added
 
 - Add export as file action for `Simple mode` and `ImageVector to XML` tool
