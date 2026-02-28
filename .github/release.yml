@@ -20,12 +20,12 @@ changelog:
     - title: 🐘🐛 Gradle plugin bugfixes
       labels:
         - bugfix-gradle
-    - title: ✨ Features
+    - title: ✨ SDK Features
       labels:
-        - feature
-    - title: 🐛 Bugfixes
+        - feature-sdk
+    - title: 🧩🐛 SDK Bugfixes
       labels:
-        - bugfix
+        - bugfix-sdk
     - title: 🧹 Housekeeping
       labels:
         - housekeeping
