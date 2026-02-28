@@ -3,13 +3,13 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.util
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import io.github.composegears.valkyrie.generator.core.asPathDataString
+import io.github.composegears.valkyrie.generator.core.asStatement
 import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.jvm.ext.builderBlock
 import io.github.composegears.valkyrie.generator.jvm.ext.newLine
 import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
-import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.asPathDataString
-import io.github.composegears.valkyrie.generator.jvm.imagevector.spec.asStatement
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.ClipPathParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.NameParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.GroupParams.PivotXParam
