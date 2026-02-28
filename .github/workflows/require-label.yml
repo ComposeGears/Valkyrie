@@ -6,7 +6,7 @@ on:
 
 jobs:
   check-label:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Check for Label
         uses: actions/github-script@v8
