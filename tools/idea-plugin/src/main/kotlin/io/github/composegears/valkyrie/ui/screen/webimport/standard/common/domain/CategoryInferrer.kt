@@ -1,6 +1,6 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard.domain
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
 
 /**
  * Category keyword mapping with priority (lower number = higher priority).

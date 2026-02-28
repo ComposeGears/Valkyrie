@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.standard.model
+package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model
 
 /**
  * Configuration model for standard icon providers (Lucide, Bootstrap, etc.).

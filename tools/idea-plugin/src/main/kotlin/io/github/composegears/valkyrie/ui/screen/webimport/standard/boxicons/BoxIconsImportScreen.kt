@@ -7,8 +7,8 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionParamsSource.TextSource
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.SimpleConversionScreen
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.StandardImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.di.BoxIconsModule
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.StandardImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 
 val BoxIconsImportScreen by navDestination {
