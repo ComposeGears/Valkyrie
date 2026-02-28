@@ -82,7 +82,7 @@ internal object ImageVectorRenderer {
 
     private fun builderStart(config: ImageVectorRenderConfig, vector: IrImageVector, level: Int): String {
         val args = buildList {
-            add("name = \"${config.resolveIconBuilderName()}\"")
+            add("name = \"${config.resolveIconBuilderName().escapeKotlin()}\"")
             add("defaultWidth = ${vector.defaultWidth.trimTrailingZero()}.dp")
             add("defaultHeight = ${vector.defaultHeight.trimTrailingZero()}.dp")
             add("viewportWidth = ${vector.viewportWidth.formatFloat()}")

@@ -100,7 +100,7 @@ internal fun IrColor.renderColor(config: ImageVectorRenderConfig): String {
     return "$colorRef(${toHexLiteral()})"
 }
 
-internal fun String.escapeKotlin(): String = replace("\\", "\\\\").replace("\"", "\\\"")
+internal fun String.escapeKotlin(): String = replace("\\", "\\\\").replace("\"", "\\\"").replace("$", "\\$")
 
 private fun IrFill.Gradient.renderGradientParams(
     config: ImageVectorRenderConfig,
