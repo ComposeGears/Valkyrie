@@ -58,12 +58,6 @@
 
 - Migrate to hierarchical icon pack structure. CLI options `--iconpack-name` and `--nested-packs` removed in favour of
   `--iconpack`
-
-| Old syntax example                                                       | New syntax example                                                 |
-|--------------------------------------------------------------------------|--------------------------------------------------------------------|
-| `./valkyrie --iconpack-name=ValkyrieIcons`                               | `./valkyrie --iconpack=ValkyrieIcons`                              |
-| `./valkyrie --iconpack-name=ValkyrieIcons --nested-packs=Colored,Filled` | `./valkyrie --iconpack=ValkyrieIcons.Colored,ValkyrieIcons.Filled` |
-
 - Added `--use-compose-colors` option to use predefined Compose colors instead of hex color codes (e.g. Color.Black
   instead of Color(0xFF000000))
 
