@@ -31,16 +31,16 @@ class BoxIconsUseCase(
 
     override suspend fun loadConfig(): StandardIconConfig {
         val icons = repository.loadCodepoints().map { entry ->
-            val style = entry.iconName.toStyle()
-            val displayName = entry.iconName.toDisplayNameWithoutPrefix(style)
+            val style = entry.key.toStyle()
+            val displayName = entry.key.toDisplayNameWithoutPrefix(style)
 
             StandardIcon(
-                name = entry.iconName,
+                name = entry.key,
                 displayName = displayName,
-                exportName = entry.iconName.toExportName(),
-                codepoint = entry.codepoint,
+                exportName = entry.key.toExportName(),
+                codepoint = entry.value,
                 tags = emptyList(),
-                category = inferCategoryFromTags(entry.iconName, emptyList()),
+                category = inferCategoryFromTags(entry.key, emptyList()),
                 style = style.value,
             )
         }

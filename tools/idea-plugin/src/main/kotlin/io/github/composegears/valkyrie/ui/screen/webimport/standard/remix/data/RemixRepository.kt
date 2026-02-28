@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.data
 
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.data.CodepointParser
 import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
@@ -17,6 +18,7 @@ import kotlinx.serialization.json.jsonPrimitive
 class RemixRepository(
     private val httpClient: HttpClient,
     private val json: Json,
+    private val codepointParser: CodepointParser,
 ) {
     companion object {
         private const val CDN_BASE = "https://cdn.jsdelivr.net/npm/remixicon@latest"
@@ -24,7 +26,6 @@ class RemixRepository(
         private const val FONT_URL = "$CDN_BASE/fonts/remixicon.woff2"
         private const val CSS_URL = "$CDN_BASE/fonts/remixicon.css"
         private const val FLAT_INDEX_URL_TEMPLATE = "https://data.jsdelivr.com/v1/package/npm/remixicon@%s/flat"
-        private val CODEPOINT_REGEX = Regex("""\.ri-([a-z0-9-]+)::?before\s*\{\s*content:\s*["']\\([a-fA-F0-9]+)["'];?\s*}""")
     }
 
     private val fontBytes = suspendLazy {
@@ -39,7 +40,7 @@ class RemixRepository(
     private val codepoints = suspendLazy {
         withContext(Dispatchers.IO) {
             val cssText = httpClient.get(CSS_URL).bodyAsText()
-            parseCodepoints(cssText)
+            codepointParser.parse(cssText)
         }
     }
 
@@ -97,16 +98,6 @@ class RemixRepository(
     }
 
     private suspend fun loadPackageVersion(): String = remixVersion()
-
-    private fun parseCodepoints(cssText: String): Map<String, Int> = CODEPOINT_REGEX
-        .findAll(cssText)
-        .mapNotNull { match ->
-            val iconName = match.groupValues[1]
-            val codepointHex = match.groupValues[2]
-            val codepoint = codepointHex.toIntOrNull(16) ?: return@mapNotNull null
-            iconName to codepoint
-        }
-        .toMap()
 
     private fun parseSvgMetadata(jsonText: String): Pair<Map<String, String>, Map<String, String>> {
         val root = json.parseToJsonElement(jsonText).jsonObject
