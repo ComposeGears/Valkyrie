@@ -101,7 +101,7 @@ jobs:
 
       - name: Run patchChangelog
         run: |
-          ./gradlew : tools:idea-plugin:patchChangelog
+          ./gradlew :tools:idea-plugin:patchChangelog
 
       - name: Commit and push changes
         run: |
