@@ -40,11 +40,11 @@ changelog:
           - bugfix-cli
           - bugfix-gradle
           - bugfix-plugin
-          - bugfix
+          - bugfix-sdk
           - feature-cli
           - feature-gradle
           - feature-plugin
-          - feature
+          - feature-sdk
           - housekeeping
           - dependencies
           - changelog
