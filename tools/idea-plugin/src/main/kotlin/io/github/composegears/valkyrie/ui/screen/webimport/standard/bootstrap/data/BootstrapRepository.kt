@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.data
 
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.data.CodepointParser
 import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
@@ -9,11 +10,10 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.utils.io.toByteArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 
 class BootstrapRepository(
     private val httpClient: HttpClient,
-    private val json: Json,
+    private val codepointParser: CodepointParser,
 ) {
     companion object {
         private const val UNPKG_BASE = "https://unpkg.com/bootstrap-icons@latest"
@@ -35,8 +35,7 @@ class BootstrapRepository(
     private val codepoints = suspendLazy {
         withContext(Dispatchers.IO) {
             val jsonText = httpClient.get(JSON_URL).bodyAsText()
-
-            json.decodeFromString<Map<String, Int>>(jsonText)
+            codepointParser.parse(jsonText)
         }
     }
 

@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.data
 
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.data.CodepointParser
 import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient
@@ -12,6 +13,8 @@ import kotlinx.coroutines.withContext
 
 class BoxIconsRepository(
     private val httpClient: HttpClient,
+    private val codepointParser: CodepointParser,
+
 ) {
     companion object {
         private const val UNPKG_BASE = "https://unpkg.com/boxicons@latest"
@@ -22,7 +25,7 @@ class BoxIconsRepository(
     private val codepoints = suspendLazy {
         withContext(Dispatchers.IO) {
             val cssText = httpClient.get(CSS_URL).bodyAsText()
-            parseBoxIconsCodepoints(cssText)
+            codepointParser.parse(cssText)
         }
     }
 
@@ -36,7 +39,7 @@ class BoxIconsRepository(
         }
     }
 
-    suspend fun loadCodepoints(): List<BoxIconsCodepoint> = codepoints()
+    suspend fun loadCodepoints(): Map<String, Int> = codepoints()
 
     suspend fun loadFontBytes(): ByteArray = fontBytes()
 
@@ -50,24 +53,3 @@ class BoxIconsRepository(
         httpClient.get("$UNPKG_BASE/svg/$stylePath/$iconName.svg").bodyAsText()
     }
 }
-
-internal fun parseBoxIconsCodepoints(cssText: String): List<BoxIconsCodepoint> {
-    val pattern = Regex(
-        """\.((?:bx|bxs|bxl)-[a-z0-9-]+)::?before\s*\{\s*content\s*:\s*"\\([A-Fa-f0-9]+)"\s*;?\s*}""",
-    )
-
-    return pattern
-        .findAll(cssText)
-        .mapNotNull { match ->
-            val iconName = match.groupValues[1]
-            val codepointHex = match.groupValues[2]
-            val codepoint = codepointHex.toIntOrNull(16) ?: return@mapNotNull null
-            BoxIconsCodepoint(iconName = iconName, codepoint = codepoint)
-        }
-        .toList()
-}
-
-data class BoxIconsCodepoint(
-    val iconName: String,
-    val codepoint: Int,
-)
