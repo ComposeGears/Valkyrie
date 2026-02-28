@@ -15,8 +15,8 @@ jobs:
           script: |
             const requiredLabels = [
               'housekeeping',
-              'feature',
-              'bugfix',
+              'feature-sdk',
+              'bugfix-sdk',
               'dependencies',
               'feature-cli',
               'feature-gradle',
