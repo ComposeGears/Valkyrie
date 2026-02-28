@@ -101,7 +101,7 @@ jobs:
 
       - name: Run patchChangelog
         run: |
-          ./gradlew patchChangelog
+          ./gradlew : tools:idea-plugin:patchChangelog
 
       - name: Commit and push changes
         run: |
@@ -114,7 +114,7 @@ jobs:
 
           VERSION_FOR_COMMIT="${{ steps.version.outputs.number }}"
 
-          git commit -m "chore: patch changelog for version $VERSION_FOR_COMMIT"
+          git commit -m "chore: patch idea changelog for version $VERSION_FOR_COMMIT"
           git push origin "$BRANCH"
 
       - name: Create Pull Request
