@@ -14,7 +14,6 @@ import kotlinx.coroutines.withContext
 class BoxIconsRepository(
     private val httpClient: HttpClient,
     private val codepointParser: CodepointParser,
-
 ) {
     companion object {
         private const val UNPKG_BASE = "https://unpkg.com/boxicons@latest"
