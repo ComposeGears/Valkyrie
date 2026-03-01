@@ -21,9 +21,9 @@ class LucideRepository(
     private val codepointParser: CodepointParser,
 ) {
     companion object {
-        private const val UNPKG_BASE = "https://unpkg.com/lucide-static@latest"
-        private const val FONT_URL = "$UNPKG_BASE/font/lucide.woff2"
-        private const val CSS_URL = "https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css"
+        private const val CDN_BASE = "https://cdn.jsdelivr.net/npm/lucide-static@latest"
+        private const val FONT_URL = "$CDN_BASE/font/lucide.woff2"
+        private const val CSS_URL = "$CDN_BASE/font/lucide.css"
     }
 
     private val fontBytes = suspendLazy {
@@ -48,7 +48,7 @@ class LucideRepository(
     suspend fun loadCodepoints(): Map<String, Int> = codepoints()
 
     suspend fun loadIconList(): List<Pair<String, LucideIconMetadata>> = withContext(Dispatchers.IO) {
-        val response = httpClient.get("$UNPKG_BASE/tags.json")
+        val response = httpClient.get("$CDN_BASE/tags.json")
         val tagsJson = json.parseToJsonElement(response.bodyAsText()) as JsonObject
 
         tagsJson.entries.map { (iconName, tagsArray) ->
@@ -61,6 +61,6 @@ class LucideRepository(
     }
 
     suspend fun downloadSvg(iconName: String): String = withContext(Dispatchers.IO) {
-        httpClient.get("$UNPKG_BASE/icons/$iconName.svg").bodyAsText()
+        httpClient.get("$CDN_BASE/icons/$iconName.svg").bodyAsText()
     }
 }

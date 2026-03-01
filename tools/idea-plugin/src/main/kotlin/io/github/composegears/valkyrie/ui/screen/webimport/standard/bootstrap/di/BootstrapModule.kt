@@ -11,9 +11,7 @@ object BootstrapModule : Leviathan() {
     private val network = NetworkModule
     private val coreModule = coreModule()
 
-    private val bootstrapCodepointParser by factoryOf {
-        BootstrapCodepointParser(json = inject(network.json))
-    }
+    private val bootstrapCodepointParser by factoryOf { BootstrapCodepointParser() }
 
     private val bootstrapRepository by instanceOf {
         BootstrapRepository(

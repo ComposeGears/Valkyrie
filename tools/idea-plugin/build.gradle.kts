@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.leviathan.compose)
     implementation(libs.tiamat)
 
+    testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
     testImplementation(libs.bundles.kmp.test)
     testImplementation(libs.junit5.jupiter)

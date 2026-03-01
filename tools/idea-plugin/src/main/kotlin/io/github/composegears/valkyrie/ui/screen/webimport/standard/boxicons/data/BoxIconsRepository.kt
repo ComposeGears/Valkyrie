@@ -16,9 +16,9 @@ class BoxIconsRepository(
     private val codepointParser: CodepointParser,
 ) {
     companion object {
-        private const val UNPKG_BASE = "https://unpkg.com/boxicons@latest"
-        private const val CSS_URL = "$UNPKG_BASE/css/boxicons.min.css"
-        private const val FONT_WOFF2_URL = "$UNPKG_BASE/fonts/boxicons.woff2"
+        private const val CDN_BASE = "https://cdn.jsdelivr.net/npm/boxicons@latest"
+        private const val CSS_URL = "$CDN_BASE/css/boxicons.min.css"
+        private const val FONT_URL = "$CDN_BASE/fonts/boxicons.woff2"
     }
 
     private val codepoints = suspendLazy {
@@ -30,7 +30,7 @@ class BoxIconsRepository(
 
     private val fontBytes = suspendLazy {
         withContext(Dispatchers.IO) {
-            val woff2Bytes = httpClient.get(FONT_WOFF2_URL).bodyAsChannel().toByteArray()
+            val woff2Bytes = httpClient.get(FONT_URL).bodyAsChannel().toByteArray()
 
             withContext(Dispatchers.Default) {
                 Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode BoxIcons WOFF2 font")
@@ -49,6 +49,6 @@ class BoxIconsRepository(
             else -> "regular"
         }
 
-        httpClient.get("$UNPKG_BASE/svg/$stylePath/$iconName.svg").bodyAsText()
+        httpClient.get("$CDN_BASE/svg/$stylePath/$iconName.svg").bodyAsText()
     }
 }
