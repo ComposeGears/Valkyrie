@@ -16,10 +16,10 @@ class BootstrapRepository(
     private val codepointParser: CodepointParser,
 ) {
     companion object {
-        private const val UNPKG_BASE = "https://unpkg.com/bootstrap-icons@latest"
-        private const val FONT_URL = "$UNPKG_BASE/font/fonts/bootstrap-icons.woff2"
-        private const val JSON_URL = "$UNPKG_BASE/font/bootstrap-icons.json"
-        private const val ICONS_BASE_URL = "$UNPKG_BASE/icons"
+        private const val CDN_BASE = "https://cdn.jsdelivr.net/npm/bootstrap-icons@latest"
+        private const val FONT_URL = "$CDN_BASE/font/fonts/bootstrap-icons.woff2"
+        private const val CSS_URL = "$CDN_BASE/font/bootstrap-icons.min.css"
+        private const val ICONS_BASE_URL = "$CDN_BASE/icons"
     }
 
     private val fontBytes = suspendLazy {
@@ -34,8 +34,8 @@ class BootstrapRepository(
 
     private val codepoints = suspendLazy {
         withContext(Dispatchers.IO) {
-            val jsonText = httpClient.get(JSON_URL).bodyAsText()
-            codepointParser.parse(jsonText)
+            val cssText = httpClient.get(CSS_URL).bodyAsText()
+            codepointParser.parse(cssText)
         }
     }
 

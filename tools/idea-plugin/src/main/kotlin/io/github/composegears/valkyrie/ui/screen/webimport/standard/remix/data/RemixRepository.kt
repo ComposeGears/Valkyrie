@@ -24,7 +24,7 @@ class RemixRepository(
         private const val CDN_BASE = "https://cdn.jsdelivr.net/npm/remixicon@latest"
         private const val PACKAGE_JSON_URL = "$CDN_BASE/package.json"
         private const val FONT_URL = "$CDN_BASE/fonts/remixicon.woff2"
-        private const val CSS_URL = "$CDN_BASE/fonts/remixicon.css"
+        private const val CSS_URL = "$CDN_BASE/fonts/remixicon.min.css"
         private const val FLAT_INDEX_URL_TEMPLATE = "https://data.jsdelivr.com/v1/package/npm/remixicon@%s/flat"
     }
 
