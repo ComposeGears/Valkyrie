@@ -2,6 +2,8 @@
 
 package io.github.composegears.valkyrie.converter.figma
 
+import io.github.composegears.valkyrie.converter.figma.ConverterResult.Error
+import io.github.composegears.valkyrie.converter.figma.ConverterResult.Success
 import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.generator.kmp.imagevector.OutputFormat
@@ -64,17 +66,17 @@ fun convertSvg(
             ),
         )
 
-        ConverterResult.Success(
+        Success(
             iconName = output.name,
             fileName = "${output.name}.kt",
             code = output.content,
         )
     }.getOrElse { error ->
-        ConverterResult.Error(
+        Error(
             iconName = iconName,
             error = error.message ?: "Unknown conversion error",
         )
-    }.let { json.encodeToString(it) }
+    }.let { Json.encodeToString(it) }
 }
 
 private fun resolveOutputFormat(outputFormat: String): OutputFormat = when (outputFormat) {
@@ -93,8 +95,8 @@ private fun resolveOutputFormat(outputFormat: String): OutputFormat = when (outp
 fun normalizeIconName(iconName: String): String = IconNameFormatter.format(iconName)
 
 @Serializable
-private sealed class ConverterResult {
-    abstract val iconName: String
+sealed interface ConverterResult {
+    val iconName: String
 
     @Serializable
     @SerialName("success")
@@ -102,17 +104,12 @@ private sealed class ConverterResult {
         override val iconName: String,
         val fileName: String,
         val code: String,
-    ) : ConverterResult()
+    ) : ConverterResult
 
     @Serializable
     @SerialName("error")
     data class Error(
         override val iconName: String,
         val error: String,
-    ) : ConverterResult()
-}
-
-private val json = Json {
-    encodeDefaults = true
-    classDiscriminator = "type"
+    ) : ConverterResult
 }

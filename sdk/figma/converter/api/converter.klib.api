@@ -1,0 +1,81 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.figma:converter>
+sealed interface io.github.composegears.valkyrie.converter.figma/ConverterResult { // io.github.composegears.valkyrie.converter.figma/ConverterResult|null[0]
+    abstract val iconName // io.github.composegears.valkyrie.converter.figma/ConverterResult.iconName|{}iconName[0]
+        abstract fun <get-iconName>(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.iconName.<get-iconName>|<get-iconName>(){}[0]
+
+    final class Error : io.github.composegears.valkyrie.converter.figma/ConverterResult { // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error|null[0]
+        constructor <init>(kotlin/String, kotlin/String) // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.<init>|<init>(kotlin.String;kotlin.String){}[0]
+
+        final val error // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.error|{}error[0]
+            final fun <get-error>(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.error.<get-error>|<get-error>(){}[0]
+        final val iconName // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.iconName|{}iconName[0]
+            final fun <get-iconName>(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.iconName.<get-iconName>|<get-iconName>(){}[0]
+
+        final fun component1(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.component1|component1(){}[0]
+        final fun component2(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.component2|component2(){}[0]
+        final fun copy(kotlin/String = ..., kotlin/String = ...): io.github.composegears.valkyrie.converter.figma/ConverterResult.Error // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.copy|copy(kotlin.String;kotlin.String){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.toString|toString(){}[0]
+
+        final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.composegears.valkyrie.converter.figma/ConverterResult.Error> { // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.$serializer|null[0]
+            final val descriptor // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.$serializer.descriptor|{}descriptor[0]
+                final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+            final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.$serializer.childSerializers|childSerializers(){}[0]
+            final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.composegears.valkyrie.converter.figma/ConverterResult.Error // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+            final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.composegears.valkyrie.converter.figma/ConverterResult.Error) // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.composegears.valkyrie.converter.figma.ConverterResult.Error){}[0]
+        }
+
+        final object Companion { // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.Companion|null[0]
+            final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.converter.figma/ConverterResult.Error> // io.github.composegears.valkyrie.converter.figma/ConverterResult.Error.Companion.serializer|serializer(){}[0]
+        }
+    }
+
+    final class Success : io.github.composegears.valkyrie.converter.figma/ConverterResult { // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success|null[0]
+        constructor <init>(kotlin/String, kotlin/String, kotlin/String) // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.<init>|<init>(kotlin.String;kotlin.String;kotlin.String){}[0]
+
+        final val code // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.code|{}code[0]
+            final fun <get-code>(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.code.<get-code>|<get-code>(){}[0]
+        final val fileName // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.fileName|{}fileName[0]
+            final fun <get-fileName>(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.fileName.<get-fileName>|<get-fileName>(){}[0]
+        final val iconName // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.iconName|{}iconName[0]
+            final fun <get-iconName>(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.iconName.<get-iconName>|<get-iconName>(){}[0]
+
+        final fun component1(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.component1|component1(){}[0]
+        final fun component2(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.component2|component2(){}[0]
+        final fun component3(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.component3|component3(){}[0]
+        final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String = ...): io.github.composegears.valkyrie.converter.figma/ConverterResult.Success // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.copy|copy(kotlin.String;kotlin.String;kotlin.String){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.toString|toString(){}[0]
+
+        final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<io.github.composegears.valkyrie.converter.figma/ConverterResult.Success> { // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.$serializer|null[0]
+            final val descriptor // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.$serializer.descriptor|{}descriptor[0]
+                final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+            final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.$serializer.childSerializers|childSerializers(){}[0]
+            final fun deserialize(kotlinx.serialization.encoding/Decoder): io.github.composegears.valkyrie.converter.figma/ConverterResult.Success // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+            final fun serialize(kotlinx.serialization.encoding/Encoder, io.github.composegears.valkyrie.converter.figma/ConverterResult.Success) // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;io.github.composegears.valkyrie.converter.figma.ConverterResult.Success){}[0]
+        }
+
+        final object Companion { // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.Companion|null[0]
+            final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.converter.figma/ConverterResult.Success> // io.github.composegears.valkyrie.converter.figma/ConverterResult.Success.Companion.serializer|serializer(){}[0]
+        }
+    }
+
+    final object Companion : kotlinx.serialization.internal/SerializerFactory { // io.github.composegears.valkyrie.converter.figma/ConverterResult.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<io.github.composegears.valkyrie.converter.figma/ConverterResult> // io.github.composegears.valkyrie.converter.figma/ConverterResult.Companion.serializer|serializer(){}[0]
+        final fun serializer(kotlin/Array<out kotlinx.serialization/KSerializer<*>>...): kotlinx.serialization/KSerializer<*> // io.github.composegears.valkyrie.converter.figma/ConverterResult.Companion.serializer|serializer(kotlin.Array<out|kotlinx.serialization.KSerializer<*>>...){}[0]
+    }
+}
+
+final fun io.github.composegears.valkyrie.converter.figma/convertSvg(kotlin/String, kotlin/String, kotlin/String, kotlin/String = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Int = ..., kotlin/Boolean? = ...): kotlin/String // io.github.composegears.valkyrie.converter.figma/convertSvg|convertSvg(kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Int;kotlin.Boolean?){}[0]
+final fun io.github.composegears.valkyrie.converter.figma/normalizeIconName(kotlin/String): kotlin/String // io.github.composegears.valkyrie.converter.figma/normalizeIconName|normalizeIconName(kotlin.String){}[0]
