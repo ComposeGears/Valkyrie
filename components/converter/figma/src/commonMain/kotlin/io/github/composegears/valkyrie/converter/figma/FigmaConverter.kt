@@ -10,6 +10,7 @@ import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -66,18 +67,14 @@ fun convertSvg(
             ),
         )
 
-        ConverterResult(
-            success = true,
+        ConverterResult.Success(
             iconName = output.name,
             fileName = "${output.name}.kt",
             code = output.content,
         )
     }.getOrElse { error ->
-        ConverterResult(
-            success = false,
+        ConverterResult.Error(
             iconName = iconName,
-            fileName = "",
-            code = "",
             error = error.message ?: "Unknown conversion error",
         )
     }.let { json.encodeToString(it) }
@@ -90,14 +87,26 @@ fun convertSvg(
 fun normalizeIconName(iconName: String): String = IconNameFormatter.format(iconName)
 
 @Serializable
-private data class ConverterResult(
-    val success: Boolean,
-    val iconName: String,
-    val fileName: String,
-    val code: String,
-    val error: String? = null,
-)
+private sealed class ConverterResult {
+    abstract val iconName: String
+
+    @Serializable
+    @SerialName("success")
+    data class Success(
+        override val iconName: String,
+        val fileName: String,
+        val code: String,
+    ) : ConverterResult()
+
+    @Serializable
+    @SerialName("error")
+    data class Error(
+        override val iconName: String,
+        val error: String,
+    ) : ConverterResult()
+}
 
 private val json = Json {
     encodeDefaults = true
+    classDiscriminator = "type"
 }
