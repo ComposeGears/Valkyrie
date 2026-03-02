@@ -45,7 +45,6 @@ dependencies {
     implementation(projects.components.parser.jvm.svg)
     implementation(projects.components.parser.unified)
     implementation(projects.sdk.compose.foundation)
-    implementation(projects.sdk.compose.highlightsCore)
     implementation(projects.sdk.compose.icons)
     implementation(projects.sdk.core.extensions)
     implementation(projects.sdk.intellij.psi.iconpack)

@@ -2,12 +2,11 @@ package io.github.composegears.valkyrie.jewel.highlight
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
-import dev.snipme.highlights.Highlights
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
-import io.github.composegears.valkyrie.sdk.compose.highlights.core.rememberCodeHighlight
+import androidx.compose.ui.Alignment
+import io.github.composegears.valkyrie.jewel.EditorText
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
@@ -15,12 +14,12 @@ import org.jetbrains.jewel.ui.icons.AllIconsKeys
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CodeTooltip(
-    highlights: Highlights,
+    code: HighlightedCode,
     content: @Composable () -> Unit,
 ) {
     Tooltip(
         tooltip = {
-            KtCodeViewer(highlights = highlights)
+            EditorText(code = code)
         },
         content = content,
     )
@@ -28,9 +27,9 @@ fun CodeTooltip(
 
 @Preview
 @Composable
-private fun CodeTooltipPreview() = PreviewTheme {
+private fun CodeTooltipPreview() = ProjectPreviewTheme(alignment = Alignment.Center) {
     CodeTooltip(
-        highlights = rememberCodeHighlight(codeBlock = "", isDark = JewelTheme.isDark),
+        code = rememberCodeHighlight(text = "val t: Int = 0"),
         content = {
             Icon(
                 key = AllIconsKeys.General.ContextHelp,
