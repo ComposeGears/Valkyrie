@@ -6,6 +6,10 @@
 
 - [Web Import] Add `Font Awesome` icons provider
 
+### Changed
+
+- Migrate to Jewel 0.34 and IntelliJ IDEA 2025.3.3
+
 ## 1.4.0 - 2026-03-15
 
 ### Changed
