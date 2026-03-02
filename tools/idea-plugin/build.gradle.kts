@@ -94,7 +94,8 @@ intellijPlatform {
     projectName = "valkyrie-plugin"
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "253"
+            // 2025.3.3 https://www.jetbrains.com/idea/download/other/
+            sinceBuild = "253.31033.145"
             untilBuild = provider { null }
         }
         changeNotes = provider { changelog.render(Changelog.OutputType.HTML) }
@@ -115,7 +116,7 @@ intellijPlatform {
         ides {
             create(
                 type = IntelliJPlatformType.IntellijIdea,
-                version = "2025.3",
+                version = "2025.3.3",
             )
         }
     }
