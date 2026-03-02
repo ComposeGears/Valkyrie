@@ -8,18 +8,18 @@ changelog:
     - title: 🖥️🐛 CLI bugfixes
       labels:
         - bugfix-cli
-    - title: 🔌✨ Plugin features
+    - title: 🔌✨ IntelliJ Plugin features
       labels:
-        - feature-plugin
-    - title: 🔌🐛 Plugin bugfixes
+        - feature-intellij-plugin
+    - title: 🔌🐛 IntelliJ Plugin bugfixes
       labels:
-        - bugfix-plugin
-    - title: 🐘✨ Gradle plugin features
+        - bugfix-intellij-plugin
+    - title: 🐘✨ Gradle Plugin features
       labels:
-        - feature-gradle
-    - title: 🐘🐛 Gradle plugin bugfixes
+        - feature-gradle-plugin
+    - title: 🐘🐛 Gradle Plugin bugfixes
       labels:
-        - bugfix-gradle
+        - bugfix-gradle-plugin
     - title: ✨ SDK Features
       labels:
         - feature-sdk
@@ -38,12 +38,12 @@ changelog:
       exclude:
         labels:
           - bugfix-cli
-          - bugfix-gradle
-          - bugfix-plugin
+          - bugfix-gradle-plugin
+          - bugfix-intellij-plugin
           - bugfix-sdk
           - feature-cli
-          - feature-gradle
-          - feature-plugin
+          - feature-gradle-plugin
+          - feature-intellij-plugin
           - feature-sdk
           - housekeeping
           - dependencies
