@@ -214,11 +214,12 @@ opened in the editor with embedded previewer.
 
 ### Requirements
 
-| Plugin version | Min IntelliJ IDEA / Android Studio           |
-|----------------|----------------------------------------------|
-| 0.1.0 - 0.14.0 | IntelliJ IDEA 2024.1, Android Studio Koala   |
-| 0.15.0         | IntelliJ IDEA 2024.2, Android Studio Ladybug |
-| 1.0.0          | IntelliJ IDEA 2025.3, Android Studio Panda 1 |
+| Plugin version | Min IntelliJ IDEA / Android Studio             |
+|----------------|------------------------------------------------|
+| 0.1.0 - 0.14.0 | IntelliJ IDEA 2024.1, Android Studio Koala     |
+| 0.15.0         | IntelliJ IDEA 2024.2, Android Studio Ladybug   |
+| 1.0.0          | IntelliJ IDEA 2025.3, Android Studio Panda 1   |
+| 1.5.0          | IntelliJ IDEA 2025.3.3, Android Studio Panda 3 |
 
 ### Installation
 

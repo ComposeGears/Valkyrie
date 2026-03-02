@@ -51,7 +51,7 @@ private class ImageVectorPreviewEditor(
     }
 
     private val composePanel by lazy {
-        compose(focusOnClickInside = true) {
+        compose {
             CompositionLocalProvider(LocalProject provides project) {
                 VirtualFileImageVector(
                     modifier = Modifier.fillMaxSize(),
