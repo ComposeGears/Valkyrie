@@ -14,16 +14,18 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const requiredLabels = [
-              'housekeeping',
-              'feature-sdk',
-              'bugfix-sdk',
-              'dependencies',
               'feature-cli',
+              'feature-figma-plugin',
               'feature-gradle-plugin',
               'feature-intellij-plugin',
+              'feature-sdk',
               'bugfix-cli',
+              'bugfix-figma-plugin',
               'bugfix-gradle-plugin',
               'bugfix-intellij-plugin',
+              'bugfix-sdk',
+              'housekeeping',
+              'dependencies',
               'changelog'
             ];
 

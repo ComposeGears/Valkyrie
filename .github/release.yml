@@ -20,6 +20,12 @@ changelog:
     - title: 🐘🐛 Gradle Plugin bugfixes
       labels:
         - bugfix-gradle-plugin
+    - title: 🎨✨ Figma Plugin features
+      labels:
+        - feature-figma-plugin
+    - title: 🎨🐛 Figma Plugin bugfixes
+      labels:
+        - bugfix-figma-plugin
     - title: ✨ SDK Features
       labels:
         - feature-sdk
@@ -37,14 +43,16 @@ changelog:
         - '*'
       exclude:
         labels:
-          - bugfix-cli
-          - bugfix-gradle-plugin
-          - bugfix-intellij-plugin
-          - bugfix-sdk
           - feature-cli
+          - feature-figma-plugin
           - feature-gradle-plugin
           - feature-intellij-plugin
           - feature-sdk
+          - bugfix-cli
+          - bugfix-figma-plugin
+          - bugfix-gradle-plugin
+          - bugfix-intellij-plugin
+          - bugfix-sdk
           - housekeeping
           - dependencies
           - changelog
