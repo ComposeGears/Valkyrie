@@ -53,10 +53,7 @@ fun convertSvg(
                 iconPackPackage = packageName,
                 packName = "",
                 nestedPackName = "",
-                outputFormat = when (outputFormat) {
-                    OutputFormat.LazyProperty.key -> OutputFormat.LazyProperty
-                    else -> OutputFormat.BackingProperty
-                },
+                outputFormat = resolveOutputFormat(outputFormat),
                 useComposeColors = useComposeColors,
                 generatePreview = false,
                 useFlatPackage = false,
@@ -78,6 +75,15 @@ fun convertSvg(
             error = error.message ?: "Unknown conversion error",
         )
     }.let { json.encodeToString(it) }
+}
+
+private fun resolveOutputFormat(outputFormat: String): OutputFormat = when (outputFormat) {
+    OutputFormat.BackingProperty.key -> OutputFormat.BackingProperty
+    OutputFormat.LazyProperty.key -> OutputFormat.LazyProperty
+    else -> throw IllegalArgumentException(
+        "Unsupported outputFormat '$outputFormat'. Supported values: " +
+            "'${OutputFormat.BackingProperty.key}', '${OutputFormat.LazyProperty.key}'.",
+    )
 }
 
 /**
