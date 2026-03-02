@@ -26,7 +26,7 @@ class ValkyrieToolWindow :
         DI.initWith(project)
 
         toolWindow.setTitleActions(listOf(RefreshPluginAction()))
-        toolWindow.addComposeTab(focusOnClickInside = false) {
+        toolWindow.addComposeTab(focusOnClickInside = true) {
             Valkyrie(project)
         }
     }
