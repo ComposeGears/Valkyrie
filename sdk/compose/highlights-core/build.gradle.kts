@@ -7,7 +7,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.foundation)
+            implementation(libs.compose.foundation)
 
             api(libs.highlights)
         }

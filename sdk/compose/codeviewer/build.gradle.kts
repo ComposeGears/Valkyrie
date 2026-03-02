@@ -10,7 +10,7 @@ kotlin {
             implementation(projects.sdk.compose.foundation)
             implementation(projects.sdk.compose.highlightsCore)
 
-            implementation(compose.material3)
+            implementation(libs.compose.material3)
         }
     }
 }
