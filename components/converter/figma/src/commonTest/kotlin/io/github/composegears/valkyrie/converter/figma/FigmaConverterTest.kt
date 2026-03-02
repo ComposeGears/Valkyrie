@@ -27,7 +27,7 @@ class FigmaConverterTest {
             ),
         )
 
-        assertEquals("true", result["success"]?.jsonPrimitive?.content)
+        assertEquals("success", result["type"]?.jsonPrimitive?.content)
         assertEquals("TestIcon.kt", result["fileName"]?.jsonPrimitive?.content)
         assertEquals(result["code"]?.jsonPrimitive?.content?.contains("ImageVector"), true)
     }
@@ -42,8 +42,8 @@ class FigmaConverterTest {
             ),
         )
 
-        assertEquals("false", result["success"]?.jsonPrimitive?.content)
-        assertEquals("", result["code"]?.jsonPrimitive?.content)
+        assertEquals("error", result["type"]?.jsonPrimitive?.content)
+        assertEquals(null, result["code"])
         assertEquals(result["error"]?.jsonPrimitive?.content?.isNotBlank(), true)
     }
 
