@@ -1,3 +1,4 @@
+import org.gradle.internal.classpath.Instrumented.systemProperty
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
@@ -40,13 +41,13 @@ dependencies {
     implementation(projects.sdk.core.extensions)
     implementation(projects.components.parser.common)
 
-    compileOnly(compose.runtime)
+    compileOnly(libs.compose.runtime)
 
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
-    testImplementation(compose.ui)
     testImplementation(projects.sdk.ir.compose)
     testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.assertk)
+    testImplementation(libs.compose.ui)
     testImplementation(kotlin("stdlib"))
     testRuntimeOnly(libs.junit.launcher)
 
