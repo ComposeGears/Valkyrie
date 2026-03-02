@@ -19,11 +19,11 @@ jobs:
               'bugfix-sdk',
               'dependencies',
               'feature-cli',
-              'feature-gradle',
-              'feature-plugin',
+              'feature-gradle-plugin',
+              'feature-intellij-plugin',
               'bugfix-cli',
-              'bugfix-gradle',
-              'bugfix-plugin',
+              'bugfix-gradle-plugin',
+              'bugfix-intellij-plugin',
               'changelog'
             ];
 
