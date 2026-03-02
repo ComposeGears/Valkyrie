@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.button.OutlineIconButton
 import io.github.composegears.valkyrie.jewel.textfield.validation.ValidationResult
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
@@ -47,7 +47,7 @@ fun IconPackEditor(
 
         CodeTooltipHeader(
             text = stringResource("iconpack.editor.package"),
-            highlights = buildPackPackageHighlight(
+            code = buildPackPackageHighlight(
                 packageName = packageName.text,
                 iconPackName = iconPackName.text,
             ),
@@ -62,7 +62,7 @@ fun IconPackEditor(
         Spacer(32.dp)
         CodeTooltipHeader(
             text = stringResource("iconpack.editor.iconpack.name"),
-            highlights = buildIconPackHighlight(iconPackName.text),
+            code = buildIconPackHighlight(iconPackName.text),
         )
         Spacer(8.dp)
         IconPackTextField(
@@ -153,7 +153,7 @@ private fun AddPackButton(
 
 @Preview
 @Composable
-private fun IconPackEditorPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+private fun IconPackEditorPreview() = ProjectPreviewTheme(alignment = Alignment.TopCenter) {
     var state by rememberMutableState {
         InputFieldState(
             packageName = InputState(text = "com.example.iconpack"),

@@ -14,16 +14,16 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.BackingProperty
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.LazyProperty
-import io.github.composegears.valkyrie.jewel.highlight.KtCodeViewer
+import io.github.composegears.valkyrie.jewel.EditorText
+import io.github.composegears.valkyrie.jewel.highlight.rememberCodeHighlight
 import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
 import io.github.composegears.valkyrie.jewel.settings.DropdownSettingsRow
 import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.settings.RadioButtonGroup
 import io.github.composegears.valkyrie.jewel.settings.RadioButtonTooltipRow
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.sdk.compose.highlights.core.rememberCodeHighlight
 import io.github.composegears.valkyrie.ui.screen.settings.GeneratorSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
@@ -37,7 +37,6 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUsePathDataString
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val GeneratorSettingsScreen by navDestination {
@@ -86,12 +85,7 @@ private fun GeneratorSettingsUi(
                             selected = generatorSettings.outputFormat == BackingProperty,
                             onClick = { onAction(UpdateOutputFormat(BackingProperty)) },
                             tooltipContent = {
-                                KtCodeViewer(
-                                    highlights = rememberCodeHighlight(
-                                        codeBlock = BackingPropertyHint,
-                                        isDark = JewelTheme.isDark,
-                                    ),
-                                )
+                                EditorText(code = rememberCodeHighlight(text = BackingPropertyHint))
                             },
                         )
                         RadioButtonTooltipRow(
@@ -99,12 +93,7 @@ private fun GeneratorSettingsUi(
                             selected = generatorSettings.outputFormat == LazyProperty,
                             onClick = { onAction(UpdateOutputFormat(LazyProperty)) },
                             tooltipContent = {
-                                KtCodeViewer(
-                                    highlights = rememberCodeHighlight(
-                                        codeBlock = LazyDelegatePropertyHint,
-                                        isDark = JewelTheme.isDark,
-                                    ),
-                                )
+                                EditorText(code = rememberCodeHighlight(text = LazyDelegatePropertyHint))
                             },
                         )
                     },
@@ -161,7 +150,7 @@ private val BackingPropertyHint = """
 """.trimIndent()
 
 private val LazyDelegatePropertyHint = """
-    val ArrowLeft by lazy {
+    val ArrowLeft by lazy(LazyThreadSafetyMode.NONE) {
         ImageVector.Builder(...)
             .build()
     }
@@ -169,7 +158,7 @@ private val LazyDelegatePropertyHint = """
 
 @Preview
 @Composable
-private fun GeneratorSettingsPreview() = PreviewTheme {
+private fun GeneratorSettingsPreview() = ProjectPreviewTheme {
     var outputFormat by rememberMutableState { BackingProperty }
     var useComposeColors by rememberMutableState { true }
     var generatePreview by rememberMutableState { true }
