@@ -19,8 +19,7 @@ export type ConversionReadyMessage = {
   error?: string;
   attemptedCount?: number;
   exportFailedCount?: number;
-  canceled?: boolean;
-  canceledReason?: "user" | "superseded";
+  superseded?: boolean;
 };
 
 export type SettingsErrorMessage = {
@@ -37,7 +36,6 @@ export type SelectionChangedMessage = {
 export type SettingsLoadedMessage = {
   type: "settings-loaded";
   settings: PluginSettings | null;
-  launchCommand?: "open-exporter" | "re-export";
 };
 
 export type MainToUiMessage =
@@ -52,14 +50,6 @@ export type RunConversionMessage = {
   requestId: number;
 };
 
-export type RequestSelectionMessage = {
-  type: "request-selection";
-};
-
-export type CloseMessage = {
-  type: "close-plugin";
-};
-
 export type SaveSettingsMessage = {
   type: "save-settings";
   settings: PluginSettings;
@@ -69,15 +59,7 @@ export type LoadSettingsMessage = {
   type: "load-settings";
 };
 
-export type CancelConversionMessage = {
-  type: "cancel-conversion";
-  requestId: number;
-};
-
 export type UiToMainMessage =
   | RunConversionMessage
-  | CancelConversionMessage
-  | RequestSelectionMessage
-  | CloseMessage
   | SaveSettingsMessage
   | LoadSettingsMessage;

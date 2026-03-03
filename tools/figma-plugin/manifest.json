@@ -4,25 +4,5 @@
   "api": "1.0.0",
   "main": "dist/code.js",
   "ui": "dist/ui.html",
-  "menu": [
-    {
-      "name": "Open exporter",
-      "command": "open-exporter"
-    },
-    {
-      "name": "Re-export selection",
-      "command": "re-export"
-    }
-  ],
-  "relaunchButtons": [
-    {
-      "name": "Open exporter",
-      "command": "open-exporter"
-    },
-    {
-      "name": "Re-export",
-      "command": "re-export"
-    }
-  ],
   "editorType": ["figma"]
 }

@@ -4,18 +4,16 @@ import { setStatus } from "./status";
 
 const REQUEST_TIMEOUT_MS = 5000;
 
+type RequestState = "requested" | "started";
+
 type RequestControllerDeps = {
-  onRunningChanged?: (running: boolean) => void;
+  onTimedOut?: () => void;
 };
 
 export function createRequestController(deps: RequestControllerDeps = {}) {
   let latestRequestId = 0;
-  let activeRequestId: number | null = null;
+  let activeRequest: { id: number; state: RequestState } | null = null;
   let pendingTimeoutId: number | null = null;
-
-  const setRunning = (running: boolean): void => {
-    deps.onRunningChanged?.(running);
-  };
 
   const clearPendingTimeout = (): void => {
     if (pendingTimeoutId !== null) {
@@ -31,11 +29,10 @@ export function createRequestController(deps: RequestControllerDeps = {}) {
 
   return {
     requestConversion(): void {
-      const hadActiveRequest = activeRequestId !== null;
+      const hadActiveRequest = activeRequest !== null;
       latestRequestId += 1;
       const requestId = latestRequestId;
-      activeRequestId = requestId;
-      setRunning(true);
+      activeRequest = { id: requestId, state: "requested" };
 
       setStatus(
         hadActiveRequest
@@ -45,42 +42,36 @@ export function createRequestController(deps: RequestControllerDeps = {}) {
       );
       clearPendingTimeout();
       setPendingTimeout(() => {
-        if (requestId !== latestRequestId) {
+        if (!activeRequest || activeRequest.id !== requestId || activeRequest.state !== "requested") {
           return;
         }
-        activeRequestId = null;
-        setRunning(false);
-        setStatus(formatPluginError(createTimeoutError()), "error");
+        activeRequest = null;
+        if (deps.onTimedOut) {
+          deps.onTimedOut();
+        } else {
+          setStatus(formatPluginError(createTimeoutError()), "error");
+        }
       }, REQUEST_TIMEOUT_MS);
 
       sendMessage({ type: "run-conversion", requestId });
     },
 
-    cancelActiveRequest(): boolean {
-      if (activeRequestId === null) {
+    acknowledgeRequestStart(requestId: number): boolean {
+      if (!activeRequest || activeRequest.id !== requestId || activeRequest.state !== "requested") {
         return false;
       }
 
-      const requestId = activeRequestId;
-      activeRequestId = null;
-      setRunning(false);
       clearPendingTimeout();
-      sendMessage({ type: "cancel-conversion", requestId });
-      setStatus("Run canceled. Start a new export when ready.", "ready");
+      activeRequest.state = "started";
       return true;
     },
 
-    isLatestRequest(requestId: number): boolean {
-      return requestId === latestRequestId;
-    },
-
     completeRequest(requestId: number): boolean {
-      if (requestId !== latestRequestId) {
+      if (!activeRequest || activeRequest.id !== requestId) {
         return false;
       }
 
-      activeRequestId = null;
-      setRunning(false);
+      activeRequest = null;
       clearPendingTimeout();
       return true;
     },

@@ -9,9 +9,16 @@ type SelectionControllerDeps = {
   updateBulkActionState: () => void;
 };
 
-type SettingsLoadedOptions = {
-  suppressAutoRun?: boolean;
-};
+type SelectionUiState = "default-empty" | "auto-export-disabled" | "auto-export-ready";
+
+function showSelectionEmptyState(state: Exclude<SelectionUiState, "auto-export-ready">): void {
+  if (state === "auto-export-disabled") {
+    showAutoExportDisabledEmptyState();
+    return;
+  }
+
+  showDefaultEmptyState();
+}
 
 export function createSelectionController(deps: SelectionControllerDeps) {
   let autoRunTimeoutId: number | null = null;
@@ -44,6 +51,18 @@ export function createSelectionController(deps: SelectionControllerDeps) {
     return true;
   };
 
+  const deriveSelectionUiState = (): SelectionUiState => {
+    if (latestSelectionCount === 0 || !settingsInitialized) {
+      return "default-empty";
+    }
+
+    if (!autoExportInput.checked) {
+      return "auto-export-disabled";
+    }
+
+    return "auto-export-ready";
+  };
+
   return {
     handleSelectionChanged(count: number, names: string[]): void {
       latestSelectionCount = count;
@@ -54,18 +73,19 @@ export function createSelectionController(deps: SelectionControllerDeps) {
         clearConversionResults();
         renderResults([]);
         deps.updateBulkActionState();
-        showDefaultEmptyState();
+        showSelectionEmptyState("default-empty");
         return;
       }
 
-      if (!settingsInitialized) {
-        showDefaultEmptyState();
+      const uiState = deriveSelectionUiState();
+      if (uiState === "default-empty") {
+        showSelectionEmptyState(uiState);
         return;
       }
 
-      if (!autoExportInput.checked) {
+      if (uiState === "auto-export-disabled") {
         scheduleAutoConversion();
-        showAutoExportDisabledEmptyState();
+        showSelectionEmptyState(uiState);
         return;
       }
 
@@ -75,22 +95,18 @@ export function createSelectionController(deps: SelectionControllerDeps) {
       }
     },
 
-    handleSettingsLoaded(options: SettingsLoadedOptions = {}): void {
+    handleSettingsLoaded(): void {
       settingsInitialized = true;
 
-      if (latestSelectionCount === 0) {
-        showDefaultEmptyState();
+      const uiState = deriveSelectionUiState();
+      if (uiState === "default-empty") {
+        showSelectionEmptyState(uiState);
         return;
       }
 
-      if (!autoExportInput.checked) {
+      if (uiState === "auto-export-disabled") {
         scheduleAutoConversion();
-        showAutoExportDisabledEmptyState();
-        return;
-      }
-
-      if (options.suppressAutoRun) {
-        showLoadingEmptyState();
+        showSelectionEmptyState(uiState);
         return;
       }
 
@@ -100,18 +116,20 @@ export function createSelectionController(deps: SelectionControllerDeps) {
     },
 
     handleSettingsInputChanged(): void {
+      const uiState = deriveSelectionUiState();
+
+      if (uiState === "default-empty") {
+        showSelectionEmptyState(uiState);
+        return;
+      }
+
+      if (uiState === "auto-export-disabled") {
+        scheduleAutoConversion();
+        showSelectionEmptyState(uiState);
+        return;
+      }
+
       const isScheduled = scheduleAutoConversion();
-
-      if (latestSelectionCount === 0) {
-        showDefaultEmptyState();
-        return;
-      }
-
-      if (!autoExportInput.checked) {
-        showAutoExportDisabledEmptyState();
-        return;
-      }
-
       if (isScheduled) {
         showLoadingEmptyState();
       }

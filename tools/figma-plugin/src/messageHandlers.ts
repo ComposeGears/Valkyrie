@@ -1,24 +1,17 @@
 import type { MainToUiMessage } from "./messages";
-import { getConversionResultsCount, getConversionResults } from "./state";
 import { applySettings } from "./settings";
 import { setStatus } from "./status";
-import {
-  isLoadingResultsVisible,
-  renderLoadingResults,
-  renderResults,
-  showCanceledEmptyState,
-  showLoadingEmptyState,
-} from "./render";
+import { renderLoadingResults, showLoadingEmptyState } from "./render";
 import { runConversion } from "./conversion";
+import { applyTerminalRunState } from "./runTerminalState";
 
 type SelectionController = {
   handleSelectionChanged: (count: number, names: string[]) => void;
-  handleSettingsLoaded: (options?: { suppressAutoRun?: boolean }) => void;
+  handleSettingsLoaded: () => void;
 };
 
 type RequestController = {
-  requestConversion: () => void;
-  isLatestRequest: (requestId: number) => boolean;
+  acknowledgeRequestStart: (requestId: number) => boolean;
   completeRequest: (requestId: number) => boolean;
 };
 
@@ -37,16 +30,12 @@ export function createMainMessageHandler(deps: MessageHandlerDeps): (message: Ma
 
       case "settings-loaded": {
         applySettings(message.settings);
-        const shouldReexport = message.launchCommand === "re-export";
-        deps.selectionController.handleSettingsLoaded({ suppressAutoRun: shouldReexport });
-        if (shouldReexport) {
-          deps.requestController.requestConversion();
-        }
+        deps.selectionController.handleSettingsLoaded();
         return;
       }
 
       case "conversion-started": {
-        if (!deps.requestController.isLatestRequest(message.requestId)) {
+        if (!deps.requestController.acknowledgeRequestStart(message.requestId)) {
           return;
         }
         renderLoadingResults(message.selectedCount);
@@ -60,22 +49,8 @@ export function createMainMessageHandler(deps: MessageHandlerDeps): (message: Ma
           return;
         }
 
-        if (message.canceled) {
-          setStatus(
-            message.canceledReason === "superseded"
-              ? "Run superseded by a newer request."
-              : "Run canceled.",
-            "ready",
-          );
-
-          if (getConversionResultsCount() > 0) {
-            if (isLoadingResultsVisible()) {
-              renderResults(Array.from(getConversionResults()));
-            }
-          } else if (message.canceledReason === "user") {
-            renderResults([]);
-            showCanceledEmptyState();
-          }
+        if (message.superseded) {
+          applyTerminalRunState("superseded");
           return;
         }
 

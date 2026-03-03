@@ -14,26 +14,18 @@ const PLUGIN_UI_SIZE = { width: 1080, height: 760, themeColors: true };
 const SETTINGS_KEY = "valkyrie-export-settings";
 const MAX_SELECTION_NAMES = 8;
 const MAX_EXPORT_CONCURRENCY = 4;
-const OPEN_EXPORTER_COMMAND = "open-exporter";
-const REEXPORT_COMMAND = "re-export";
-type LaunchCommand = typeof OPEN_EXPORTER_COMMAND | typeof REEXPORT_COMMAND;
-const RELAUNCH_DATA: Record<LaunchCommand, string> = {
-  [OPEN_EXPORTER_COMMAND]: "Open exporter",
-  [REEXPORT_COMMAND]: "Re-export with current settings",
-};
-
-type CancelReason = "user" | "superseded";
+const RELAUNCH_DATA = {
+  "open-exporter": "Open exporter",
+} as const;
 
 type ActiveRun = {
   requestId: number;
-  token: {
-    cancelled: boolean;
-    reason: CancelReason | null;
+  supersedeToken: {
+    superseded: boolean;
   };
 };
 
 let activeRun: ActiveRun | null = null;
-let pendingLaunchCommand: LaunchCommand = normalizeLaunchCommand(figma.command);
 
 figma.showUI(__html__, PLUGIN_UI_SIZE);
 
@@ -58,22 +50,13 @@ function sendSelectionUpdate(): void {
 }
 
 figma.ui.onmessage = async (message: UiToMainMessage) => {
-  if (message.type === "close-plugin") {
-    figma.closePlugin();
-    return;
-  }
-
   if (message.type === "load-settings") {
-    const launchCommand = pendingLaunchCommand;
-    pendingLaunchCommand = OPEN_EXPORTER_COMMAND;
-
     try {
       const savedSettings = await figma.clientStorage.getAsync(SETTINGS_KEY);
       const settings = sanitizePluginSettings(savedSettings);
       figma.ui.postMessage({
         type: "settings-loaded",
         settings,
-        launchCommand,
       } satisfies SettingsLoadedMessage);
     } catch (error) {
       figma.ui.postMessage({
@@ -86,7 +69,6 @@ figma.ui.onmessage = async (message: UiToMainMessage) => {
       figma.ui.postMessage({
         type: "settings-loaded",
         settings: null,
-        launchCommand,
       } satisfies SettingsLoadedMessage);
     }
 
@@ -107,34 +89,19 @@ figma.ui.onmessage = async (message: UiToMainMessage) => {
     return;
   }
 
-  if (message.type === "request-selection") {
-    sendSelectionUpdate();
-    return;
-  }
-
-  if (message.type === "cancel-conversion") {
-    if (activeRun && activeRun.requestId === message.requestId) {
-      activeRun.token.cancelled = true;
-      activeRun.token.reason = "user";
-    }
-    return;
-  }
-
   if (message.type !== "run-conversion") {
     return;
   }
 
   const requestId = message.requestId;
   if (activeRun && activeRun.requestId !== requestId) {
-    activeRun.token.cancelled = true;
-    activeRun.token.reason = "superseded";
+    activeRun.supersedeToken.superseded = true;
   }
 
-  const cancelToken: ActiveRun["token"] = {
-    cancelled: false,
-    reason: null,
+  const supersedeToken: ActiveRun["supersedeToken"] = {
+    superseded: false,
   };
-  activeRun = { requestId, token: cancelToken };
+  activeRun = { requestId, supersedeToken };
 
   try {
     const selected = figma.currentPage.selection;
@@ -161,15 +128,14 @@ figma.ui.onmessage = async (message: UiToMainMessage) => {
       return;
     }
 
-    const { icons, firstError, failedCount, canceledReason } = await exportNodesAsSvg(exportableNodes, cancelToken);
+    const { icons, firstError, failedCount, superseded } = await exportNodesAsSvg(exportableNodes, supersedeToken);
 
-    if (canceledReason) {
+    if (superseded) {
       figma.ui.postMessage({
         type: "conversion-ready",
         requestId,
         icons: [],
-        canceled: true,
-        canceledReason,
+        superseded: true,
       } satisfies ConversionReadyMessage);
       return;
     }
@@ -234,8 +200,8 @@ function decodeUtf8(bytes: Uint8Array): string {
 
 async function exportNodesAsSvg(
   nodes: Array<SceneNode & ExportMixin>,
-  cancelToken: ActiveRun["token"],
-): Promise<{ icons: ExportedIcon[]; firstError: string | null; failedCount: number; canceledReason: CancelReason | null }> {
+  supersedeToken: ActiveRun["supersedeToken"],
+): Promise<{ icons: ExportedIcon[]; firstError: string | null; failedCount: number; superseded: boolean }> {
   const icons: Array<ExportedIcon | null> = new Array(nodes.length).fill(null);
   let firstError: string | null = null;
   let failedCount = 0;
@@ -245,7 +211,7 @@ async function exportNodesAsSvg(
 
   const workers = Array.from({ length: workerCount }, async () => {
     while (nextIndex < nodes.length) {
-      if (cancelToken.cancelled) {
+      if (supersedeToken.superseded) {
         break;
       }
 
@@ -272,7 +238,7 @@ async function exportNodesAsSvg(
     icons: icons.filter((icon): icon is ExportedIcon => icon !== null),
     firstError,
     failedCount,
-    canceledReason: cancelToken.cancelled ? cancelToken.reason ?? "user" : null,
+    superseded: supersedeToken.superseded,
   };
 }
 
@@ -285,12 +251,4 @@ function applyRelaunchData(nodes: Array<SceneNode & ExportMixin>, successfulIcon
 
     node.setRelaunchData(RELAUNCH_DATA);
   }
-}
-
-function normalizeLaunchCommand(command: string | undefined): LaunchCommand {
-  if (command === REEXPORT_COMMAND) {
-    return REEXPORT_COMMAND;
-  }
-
-  return OPEN_EXPORTER_COMMAND;
 }

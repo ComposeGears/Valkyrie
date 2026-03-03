@@ -10,16 +10,16 @@ const EMPTY_TITLE_LOADING = "Generating code...";
 const EMPTY_MESSAGE_LOADING = "Exporting your selected node(s).";
 const EMPTY_TITLE_AUTO_EXPORT_OFF = "Auto export is off";
 const EMPTY_MESSAGE_AUTO_EXPORT_OFF = "Select icon nodes and click Refresh to export.";
-const EMPTY_TITLE_CANCELED = "Export canceled";
-const EMPTY_MESSAGE_CANCELED = "You canceled the current run. Click Refresh to start again.";
 const LARGE_BATCH_COLLAPSE_THRESHOLD = 20;
-const CODE_RENDER_BATCH_SIZE = 10;
+const CODE_RENDER_BATCH_SIZE = 20;
 const EXPAND_COLLAPSE_BATCH_SIZE = 80;
 
 let activePreviewObserver: IntersectionObserver | null = null;
 let activeCodeObserver: IntersectionObserver | null = null;
 let queuedCodeRenderTasks: Array<() => void> = [];
 let codeRenderFrameId: number | null = null;
+let expanderBatchFrameId: number | null = null;
+let activeExpanderBatchToken = 0;
 let loadingResultsVisible = false;
 
 function clearCodeRenderQueue(): void {
@@ -54,14 +54,27 @@ function enqueueCodeRenderTask(task: () => void): void {
 function applyExpanderBatch(
   expanders: Array<{ expand: (renderCode: boolean) => void; collapse: () => void }>,
   action: "expand" | "collapse",
+  renderCodeOnExpand = false,
 ): void {
+  activeExpanderBatchToken += 1;
+  const token = activeExpanderBatchToken;
+  if (expanderBatchFrameId !== null) {
+    window.cancelAnimationFrame(expanderBatchFrameId);
+    expanderBatchFrameId = null;
+  }
+
   let index = 0;
 
   const runBatch = (): void => {
+    if (token !== activeExpanderBatchToken) {
+      expanderBatchFrameId = null;
+      return;
+    }
+
     const end = Math.min(index + EXPAND_COLLAPSE_BATCH_SIZE, expanders.length);
     while (index < end) {
       if (action === "expand") {
-        expanders[index].expand(false);
+        expanders[index].expand(renderCodeOnExpand);
       } else {
         expanders[index].collapse();
       }
@@ -69,8 +82,11 @@ function applyExpanderBatch(
     }
 
     if (index < expanders.length) {
-      window.requestAnimationFrame(runBatch);
+      expanderBatchFrameId = window.requestAnimationFrame(runBatch);
+      return;
     }
+
+    expanderBatchFrameId = null;
   };
 
   runBatch();
@@ -133,6 +149,11 @@ export function updateSelectionPreview(count: number, names: string[]): void {
 
 export function renderResults(results: ConvertResultWithSvg[]): void {
   loadingResultsVisible = false;
+  activeExpanderBatchToken += 1;
+  if (expanderBatchFrameId !== null) {
+    window.cancelAnimationFrame(expanderBatchFrameId);
+    expanderBatchFrameId = null;
+  }
   const previousMainScrollTop = mainScroll.scrollTop;
   const previousMainScrollLeft = mainScroll.scrollLeft;
   clearCodeRenderQueue();
@@ -177,6 +198,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
   emptyState.classList.add("hidden");
 
   const successfulCount = results.filter((result) => result.success).length;
+  const showExpandControls = successfulCount > 1;
   const collapseByDefault = successfulCount >= LARGE_BATCH_COLLAPSE_THRESHOLD;
   const expanders: Array<{ expand: (renderCode: boolean) => void; collapse: () => void }> = [];
   const codeRenderers = new WeakMap<HTMLElement, () => void>();
@@ -218,19 +240,19 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
       }
     }, {
       root: mainScroll,
-      rootMargin: "200px",
+      rootMargin: "1200px",
       threshold: 0,
     })
     : null;
   activeCodeObserver = codeObserver;
 
-  if (collapseByDefault) {
+  if (showExpandControls) {
     const toolbar = document.createElement("div");
     toolbar.className = "results-toolbar";
 
     const label = document.createElement("span");
     label.className = "results-toolbar-label";
-    label.textContent = `Large batch (${successfulCount} files)`;
+    label.textContent = collapseByDefault ? `Large batch (${successfulCount} files)` : `${successfulCount} files`;
     toolbar.appendChild(label);
 
     const controls = document.createElement("div");
@@ -240,7 +262,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
     expandAllButton.className = "card-btn";
     expandAllButton.textContent = "Expand all";
     expandAllButton.addEventListener("click", () => {
-      applyExpanderBatch(expanders, "expand");
+      applyExpanderBatch(expanders, "expand", !codeObserver);
     });
     controls.appendChild(expandAllButton);
 
@@ -385,7 +407,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
       actions.appendChild(downloadButton);
 
       let toggleButton: HTMLButtonElement | null = null;
-      if (collapseByDefault) {
+      if (showExpandControls) {
         toggleButton = document.createElement("button");
         toggleButton.className = "card-btn";
         toggleButton.textContent = "Expand";
@@ -410,8 +432,9 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
         codeObserver.observe(codeWrapper);
       }
 
-      if (collapseByDefault) {
-        setExpanded(false, toggleButton, false);
+      if (showExpandControls) {
+        const startExpanded = !collapseByDefault;
+        setExpanded(startExpanded, toggleButton, startExpanded);
         expanders.push({
           expand: (renderCode: boolean) => setExpanded(true, toggleButton, renderCode),
           collapse: () => setExpanded(false, toggleButton, false),
@@ -464,11 +487,6 @@ export function showDefaultEmptyState(): void {
 export function showAutoExportDisabledEmptyState(): void {
   emptyStateTitle.textContent = EMPTY_TITLE_AUTO_EXPORT_OFF;
   emptyStateDescription.textContent = EMPTY_MESSAGE_AUTO_EXPORT_OFF;
-}
-
-export function showCanceledEmptyState(): void {
-  emptyStateTitle.textContent = EMPTY_TITLE_CANCELED;
-  emptyStateDescription.textContent = EMPTY_MESSAGE_CANCELED;
 }
 
 export function isLoadingResultsVisible(): boolean {

@@ -1,5 +1,5 @@
 import { build, context } from "esbuild";
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const watch = process.argv.includes("--watch");
@@ -116,30 +116,6 @@ if (watch) {
   await Promise.all([codeCtx.watch(), uiCtx.watch()]);
 } else {
   await Promise.all([build(codeConfig), build(uiConfig)]);
-}
-
-const converterFiles = [
-  "valkyrie-sdk-figma-converter.mjs",
-  "valkyrie-sdk-figma-converter.uninstantiated.mjs",
-  "valkyrie-sdk-figma-converter.wasm",
-];
-
-const staleConverterFiles = [
-  "valkyrie-components-converter-figma.mjs",
-  "valkyrie-components-converter-figma.uninstantiated.mjs",
-  "valkyrie-components-converter-figma.wasm",
-];
-
-await Promise.all(staleConverterFiles.map((file) => rm(resolve(distDir, file), { force: true })));
-
-for (const file of converterFiles) {
-  try {
-    await cp(resolve(converterDistDir, file), resolve(distDir, file));
-  } catch {
-    process.stderr.write(
-      `Missing converter artifact: ${file}. Run ../../gradlew :sdk:figma:converter:compileProductionExecutableKotlinWasmJs first.\n`,
-    );
-  }
 }
 
 if (!watch) {

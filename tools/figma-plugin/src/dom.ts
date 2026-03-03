@@ -1,5 +1,4 @@
 export const runButton = document.querySelector<HTMLButtonElement>("#run")!;
-export const cancelButton = document.querySelector<HTMLButtonElement>("#cancel")!;
 export const copyAllButton = document.querySelector<HTMLButtonElement>("#copy-all")!;
 export const downloadAllButton = document.querySelector<HTMLButtonElement>("#download-all")!;
 export const statusText = document.querySelector<HTMLSpanElement>("#status")!;
