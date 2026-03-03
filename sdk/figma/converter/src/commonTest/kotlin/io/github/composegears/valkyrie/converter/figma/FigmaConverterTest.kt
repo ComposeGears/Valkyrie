@@ -31,8 +31,7 @@ class FigmaConverterTest {
         val result = Json.decodeFromString<ConverterResult>(json)
 
         assertThat(result).isInstanceOf<ConverterResult.Success>()
-        assertThat(Json.parseToJsonElement(json).jsonObject.getValue("type").jsonPrimitive.content)
-            .isEqualTo("success")
+        assertThat(json.jsonType()).isEqualTo("success")
 
         val success = result as ConverterResult.Success
         assertThat(success.iconName).isEqualTo("TestIcon")
@@ -53,8 +52,7 @@ class FigmaConverterTest {
         val result = Json.decodeFromString<ConverterResult>(json)
 
         assertThat(result).isInstanceOf<ConverterResult.Error>()
-        assertThat(Json.parseToJsonElement(json).jsonObject.getValue("type").jsonPrimitive.content)
-            .isEqualTo("error")
+        assertThat(json.jsonType()).isEqualTo("error")
         val error = result as ConverterResult.Error
         assertThat(error.error).isEqualTo("Unsupported icon type")
         assertThat(error.iconName).isEqualTo("broken_icon")
@@ -81,4 +79,6 @@ class FigmaConverterTest {
         assertThat(error.error).contains("Unsupported outputFormat")
         assertThat(error.iconName).isEqualTo("ic_test_icon")
     }
+
+    private fun String.jsonType(): String = Json.parseToJsonElement(this).jsonObject.getValue("type").jsonPrimitive.content
 }
