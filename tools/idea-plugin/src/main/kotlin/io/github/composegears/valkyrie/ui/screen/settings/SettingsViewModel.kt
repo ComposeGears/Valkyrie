@@ -47,6 +47,10 @@ class SettingsViewModel : ViewModel() {
         )
     }
 
+    val parserSettings = inMemorySettings.settings.mapState {
+        it.parserSettings
+    }
+
     val previewSettings = inMemorySettings.settings.mapState {
         PreviewSettings(
             previewType = it.previewType,
@@ -68,6 +72,7 @@ class SettingsViewModel : ViewModel() {
             is UpdateUsePathDataString -> usePathDataString = settingsAction.usePathDataString
             is UpdateIndentSize -> indentSize = settingsAction.indent
             is SettingsAction.UpdatePreviewType -> previewType = settingsAction.previewType
+            is SettingsAction.ParserStrictMode -> parserStrictMode = settingsAction.strictMode
         }
     }
 

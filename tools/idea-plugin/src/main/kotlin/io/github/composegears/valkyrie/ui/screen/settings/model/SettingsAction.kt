@@ -13,6 +13,8 @@ sealed interface SettingsAction {
     data class UpdatePreviewGeneration(val generate: Boolean) : SettingsAction
     data class UpdateIndentSize(val indent: Int) : SettingsAction
 
+    data class ParserStrictMode(val strictMode: Boolean) : SettingsAction
+
     data class UpdateImageVectorPreview(val enabled: Boolean) : SettingsAction
     data class UpdateIconsInProjectView(val enabled: Boolean) : SettingsAction
     data class UpdatePreviewType(val previewType: PreviewType) : SettingsAction

@@ -61,6 +61,10 @@ class InMemorySettings(project: Project) {
         showImageVectorPreview = true
         showIconsInProjectView = true
         indentSize = 4
+
+        // Parser
+        parserStrictMode = false
+
         materialFontFill = DEFAULT_FILL
         materialFontWeight = DEFAULT_WEIGHT
         materialFontGrade = DEFAULT_GRADE
@@ -96,6 +100,10 @@ class InMemorySettings(project: Project) {
             usePathDataString = usePathDataString,
             showImageVectorPreview = showImageVectorPreview,
             showIconsInProjectView = showIconsInProjectView,
+
+            parserSettings = ParserSettings(
+                strictMode = parserStrictMode,
+            ),
         )
     }
 }
@@ -123,6 +131,12 @@ data class ValkyriesSettings(
 
     val showImageVectorPreview: Boolean,
     val showIconsInProjectView: Boolean,
+
+    val parserSettings: ParserSettings,
+)
+
+data class ParserSettings(
+    val strictMode: Boolean,
 )
 
 fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {

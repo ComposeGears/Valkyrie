@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.BackingProperty
@@ -23,7 +23,6 @@ import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.settings.RadioButtonGroup
 import io.github.composegears.valkyrie.jewel.settings.RadioButtonTooltipRow
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
-import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.settings.GeneratorSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction
@@ -159,39 +158,5 @@ private val LazyDelegatePropertyHint = """
 @Preview
 @Composable
 private fun GeneratorSettingsPreview() = ProjectPreviewTheme {
-    var outputFormat by rememberMutableState { BackingProperty }
-    var useComposeColors by rememberMutableState { true }
-    var generatePreview by rememberMutableState { true }
-    var useFlatPackage by rememberMutableState { true }
-    var useExplicitMode by rememberMutableState { false }
-    var addTrailingComma by rememberMutableState { false }
-    var usePathDataString by rememberMutableState { false }
-    var indentSize by rememberMutableState { 4 }
-
-    val onAction = { action: SettingsAction ->
-        when (action) {
-            is UpdateOutputFormat -> outputFormat = action.outputFormat
-            is UpdateUseComposeColors -> useComposeColors = action.useComposeColor
-            is UpdatePreviewGeneration -> generatePreview = action.generate
-            is UpdateFlatPackage -> useFlatPackage = action.useFlatPackage
-            is UpdateExplicitMode -> useExplicitMode = action.useExplicitMode
-            is UpdateAddTrailingComma -> addTrailingComma = action.addTrailingComma
-            is UpdateUsePathDataString -> usePathDataString = action.usePathDataString
-            is UpdateIndentSize -> indentSize = action.indent
-            else -> {}
-        }
-    }
-    GeneratorSettingsUi(
-        onAction = onAction,
-        generatorSettings = GeneratorSettings(
-            outputFormat = outputFormat,
-            useComposeColors = useComposeColors,
-            generatePreview = generatePreview,
-            useFlatPackage = useFlatPackage,
-            useExplicitMode = useExplicitMode,
-            addTrailingComma = addTrailingComma,
-            usePathDataString = usePathDataString,
-            indentSize = indentSize,
-        ),
-    )
+    TiamatPreview(GeneratorSettingsScreen)
 }

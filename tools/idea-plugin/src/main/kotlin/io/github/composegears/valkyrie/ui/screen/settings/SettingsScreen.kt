@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.Navigation
+import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.currentNavDestinationAsState
 import com.composegears.tiamat.compose.navController
@@ -21,12 +21,12 @@ import com.composegears.tiamat.navigation.NavDestination
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
-import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.about.AboutSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.general.GeneralSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.generator.GeneratorSettingsScreen
+import io.github.composegears.valkyrie.ui.screen.settings.tabs.parser.ParserSettingsScreen
 import io.github.composegears.valkyrie.ui.screen.settings.tabs.preview.ImageVectorPreviewSettingsScreen
 import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
@@ -44,6 +44,7 @@ val SettingsScreen by navDestination {
         listOf(
             TabItem(name = message("settings.tab.general"), screen = GeneralSettingsScreen),
             TabItem(name = message("settings.tab.generator"), screen = GeneratorSettingsScreen),
+            TabItem(name = message("settings.tab.parser"), screen = ParserSettingsScreen),
             TabItem(name = message("settings.tab.preview"), screen = ImageVectorPreviewSettingsScreen),
             TabItem(name = message("settings.tab.about"), screen = AboutSettingsScreen),
         )
@@ -57,9 +58,7 @@ val SettingsScreen by navDestination {
             Title(text = stringResource("settings.header"))
         }
 
-        val tabsNavController = rememberNavController(
-            startDestination = GeneralSettingsScreen,
-        )
+        val tabsNavController = rememberNavController(startDestination = GeneralSettingsScreen)
         val tabsDestination by tabsNavController.currentNavDestinationAsState()
 
         Tabs(
@@ -112,13 +111,6 @@ private data class TabItem(
 
 @Preview
 @Composable
-private fun SettingsScreenPreview() = PreviewTheme {
-    var selectedTabIndex by rememberMutableState { 0 }
-    val tabNames = listOf("General", "Generator", "Preview", "About")
-
-    Tabs(
-        tabNames = tabNames,
-        selectedTabIndex = { selectedTabIndex },
-        onTabClick = { selectedTabIndex = it },
-    )
+private fun SettingsScreenPreview() = ProjectPreviewTheme {
+    TiamatPreview(SettingsScreen)
 }
