@@ -1,4 +1,4 @@
-import type { MainToUiMessage, UiToMainMessage } from "./messages";
+import type { MainToUiMessage, UiToMainMessage } from "../../shared/messages";
 
 export function sendMessage(message: UiToMainMessage): void {
   parent.postMessage({ pluginMessage: message }, "*");

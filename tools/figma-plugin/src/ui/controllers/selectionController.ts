@@ -1,6 +1,6 @@
-import { autoExportInput } from "./dom";
-import { renderResults, showAutoExportDisabledEmptyState, showDefaultEmptyState, showLoadingEmptyState, updateSelectionPreview } from "./render";
-import { clearConversionResults } from "./state";
+import { autoExportInput, runButton } from "../core/dom";
+import { renderResults, showAutoExportDisabledEmptyState, showDefaultEmptyState, showLoadingEmptyState, updateSelectionPreview } from "../features/render";
+import { clearConversionResults } from "../core/state";
 
 const AUTO_RUN_DEBOUNCE_MS = 300;
 
@@ -10,6 +10,10 @@ type SelectionControllerDeps = {
 };
 
 type SelectionUiState = "default-empty" | "auto-export-disabled" | "auto-export-ready";
+
+function updateRunButtonLabel(): void {
+  runButton.textContent = autoExportInput.checked ? "Refresh" : "Export";
+}
 
 function showSelectionEmptyState(state: Exclude<SelectionUiState, "auto-export-ready">): void {
   if (state === "auto-export-disabled") {
@@ -66,6 +70,7 @@ export function createSelectionController(deps: SelectionControllerDeps) {
   return {
     handleSelectionChanged(count: number, names: string[]): void {
       latestSelectionCount = count;
+      updateRunButtonLabel();
       updateSelectionPreview(count, names);
 
       if (count === 0) {
@@ -97,6 +102,7 @@ export function createSelectionController(deps: SelectionControllerDeps) {
 
     handleSettingsLoaded(): void {
       settingsInitialized = true;
+      updateRunButtonLabel();
 
       const uiState = deriveSelectionUiState();
       if (uiState === "default-empty") {
@@ -116,6 +122,7 @@ export function createSelectionController(deps: SelectionControllerDeps) {
     },
 
     handleSettingsInputChanged(): void {
+      updateRunButtonLabel();
       const uiState = deriveSelectionUiState();
 
       if (uiState === "default-empty") {

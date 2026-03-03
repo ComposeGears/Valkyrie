@@ -5,6 +5,8 @@ import { resolve } from "node:path";
 const watch = process.argv.includes("--watch");
 const root = resolve(process.cwd());
 const srcDir = resolve(root, "src");
+const mainDir = resolve(srcDir, "main");
+const uiDir = resolve(srcDir, "ui");
 const distDir = resolve(root, "dist");
 const repoRoot = resolve(root, "../..");
 const converterDistDir = resolve(
@@ -26,13 +28,13 @@ const codeConfig = {
   // Figma's plugin sandbox uses a limited JS engine — target ES2017 to
   // ensure operators like ?? and ?. are compiled down.
   target: "es2017",
-  entryPoints: [resolve(srcDir, "code.ts")],
+  entryPoints: [resolve(mainDir, "code.ts")],
   outfile: resolve(distDir, "code.js"),
   format: "iife",
   platform: "browser",
 };
 
-const srcUiHtmlPath = resolve(srcDir, "ui.html");
+const srcUiHtmlPath = resolve(uiDir, "ui.html");
 const distUiJsPath = resolve(distDir, "ui.js");
 const distUiHtmlPath = resolve(distDir, "ui.html");
 
@@ -84,7 +86,7 @@ async function writeInlinedUiHtml() {
 
 const uiConfig = {
   ...sharedOptions,
-  entryPoints: [resolve(srcDir, "ui.ts")],
+  entryPoints: [resolve(uiDir, "ui.ts")],
   outfile: resolve(distDir, "ui.js"),
   format: "iife",
   platform: "browser",

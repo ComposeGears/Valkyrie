@@ -1,4 +1,4 @@
-import type { AutoMirrorOption, OutputFormat } from "./pluginSettings";
+import type { AutoMirrorOption, OutputFormat } from "../../shared/pluginSettings";
 
 export type ConvertOptions = {
   packageName: string;

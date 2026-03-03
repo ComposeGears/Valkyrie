@@ -1,8 +1,8 @@
-import { packageInput, outputFormatInput, useComposeColorsInput, addTrailingCommaInput, useExplicitModeInput, usePathDataStringInput, autoMirrorInput, autoExportInput, settingsInputs } from "./dom";
+import { packageInput, outputFormatInput, useComposeColorsInput, addTrailingCommaInput, useExplicitModeInput, usePathDataStringInput, autoMirrorInput, autoExportInput, settingsInputs } from "../core/dom";
 import type { ConvertOptions } from "./converterAdapter";
-import { sendMessage } from "./api";
-import type { PluginSettings } from "./pluginSettings";
-import { sanitizePluginSettings } from "./pluginSettings";
+import { sendMessage } from "../core/api";
+import type { PluginSettings } from "../../shared/pluginSettings";
+import { autoMirrorOptionToSelectValue, parseAutoMirrorOption, sanitizePluginSettings } from "../../shared/pluginSettings";
 
 let saveSettingsTimeoutId: number | null = null;
 
@@ -21,21 +21,9 @@ export function getSettingsValues(): PluginSettings {
     addTrailingComma: addTrailingCommaInput.checked,
     useExplicitMode: useExplicitModeInput.checked,
     usePathDataString: usePathDataStringInput.checked,
-    autoMirror: parseAutoMirrorInput(autoMirrorInput.value),
+    autoMirror: parseAutoMirrorOption(autoMirrorInput.value),
     autoExport: autoExportInput.checked,
   };
-}
-
-function parseAutoMirrorInput(value: string): boolean | null {
-  if (value === "") return null;
-  if (value === "true") return true;
-  if (value === "false") return false;
-  return null;
-}
-
-function autoMirrorToSelectValue(value: boolean | null): string {
-  if (value === null) return "";
-  return value.toString();
 }
 
 export function applySettings(settings: PluginSettings | null): void {
@@ -50,7 +38,7 @@ export function applySettings(settings: PluginSettings | null): void {
   addTrailingCommaInput.checked = parsed.addTrailingComma;
   useExplicitModeInput.checked = parsed.useExplicitMode;
   usePathDataStringInput.checked = parsed.usePathDataString;
-  autoMirrorInput.value = autoMirrorToSelectValue(parsed.autoMirror);
+  autoMirrorInput.value = autoMirrorOptionToSelectValue(parsed.autoMirror);
   autoExportInput.checked = parsed.autoExport;
 }
 
@@ -78,6 +66,6 @@ export function getConvertOptions(): ConvertOptions {
     useExplicitMode: useExplicitModeInput.checked,
     usePathDataString: usePathDataStringInput.checked,
     indentSize: 4,
-    autoMirror: parseAutoMirrorInput(autoMirrorInput.value),
+    autoMirror: parseAutoMirrorOption(autoMirrorInput.value),
   };
 }

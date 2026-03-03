@@ -34,13 +34,18 @@ function asOutputFormat(value: unknown): OutputFormat | null {
   return value === "backing_property" || value === "lazy_property" ? value : null;
 }
 
-function asAutoMirrorOption(value: unknown): AutoMirrorOption | null {
+export function parseAutoMirrorOption(value: unknown): AutoMirrorOption | null {
   if (value === null || value === undefined) return null;
   if (typeof value === "boolean") return value;
   if (value === "") return null;
   if (value === "true") return true;
   if (value === "false") return false;
   return null;
+}
+
+export function autoMirrorOptionToSelectValue(value: AutoMirrorOption): string {
+  if (value === null) return "";
+  return value.toString();
 }
 
 export function sanitizePluginSettings(value: unknown): PluginSettings | null {
@@ -68,7 +73,7 @@ export function sanitizePluginSettings(value: unknown): PluginSettings | null {
       typeof raw.usePathDataString === "boolean"
         ? raw.usePathDataString
         : DEFAULT_PLUGIN_SETTINGS.usePathDataString,
-    autoMirror: asAutoMirrorOption(raw.autoMirror) ?? DEFAULT_PLUGIN_SETTINGS.autoMirror,
+    autoMirror: parseAutoMirrorOption(raw.autoMirror) ?? DEFAULT_PLUGIN_SETTINGS.autoMirror,
     autoExport: typeof raw.autoExport === "boolean" ? raw.autoExport : DEFAULT_PLUGIN_SETTINGS.autoExport,
   };
 }

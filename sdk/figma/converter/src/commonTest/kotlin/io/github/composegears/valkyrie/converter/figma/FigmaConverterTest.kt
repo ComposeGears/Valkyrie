@@ -79,5 +79,6 @@ class FigmaConverterTest {
         assertThat(error.error).contains("Unsupported outputFormat")
         assertThat(error.iconName).isEqualTo("ic_test_icon")
     }
+
     private fun String.jsonType(): String = Json.parseToJsonElement(this).jsonObject.getValue("type").jsonPrimitive.content
 }

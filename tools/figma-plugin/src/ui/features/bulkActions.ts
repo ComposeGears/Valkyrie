@@ -1,8 +1,8 @@
 import { zipSync, strToU8 } from "fflate";
-import { copyAllButton, downloadAllButton } from "./dom";
-import { getSuccessfulConversionResults, hasSuccessfulConversionResults } from "./state";
-import { setStatus } from "./status";
-import { copyText, flashButton } from "./utils";
+import { copyAllButton, downloadAllButton } from "../core/dom";
+import { getSuccessfulConversionResults, hasSuccessfulConversionResults } from "../core/state";
+import { setStatus } from "../core/status";
+import { copyText, flashButton } from "../core/utils";
 
 export function initializeBulkActions(): void {
   copyAllButton.addEventListener("click", async () => {

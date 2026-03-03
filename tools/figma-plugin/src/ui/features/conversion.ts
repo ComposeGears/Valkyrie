@@ -1,12 +1,12 @@
 import { convert, isConverterReady, normalizeIconName } from "./converterAdapter";
-import { packageInput } from "./dom";
-import { createConverterUnavailableError, createSelectionError, createSettingsError, formatPluginError } from "./errorFormatter";
-import type { ExportedIcon } from "./messages";
+import { packageInput } from "../core/dom";
+import { createConverterUnavailableError, createSelectionError, createSettingsError, formatPluginError } from "../../shared/errorFormatter";
+import type { ExportedIcon } from "../../shared/messages";
 import { renderResults } from "./render";
 import { getConvertOptions } from "./settings";
-import { replaceConversionResults } from "./state";
-import { setStatus } from "./status";
-import type { ConvertResultWithSvg, StatusType } from "./types";
+import { replaceConversionResults } from "../core/state";
+import { setStatus } from "../core/status";
+import type { ConvertResultWithSvg, StatusType } from "../core/types";
 import { updateBulkActionState } from "./bulkActions";
 
 const CONVERSION_CHUNK_SIZE = 40;
@@ -59,7 +59,7 @@ async function runConversionAsync(icons: ExportedIcon[], context: ConversionCont
     } else {
       setStatus(
         formatPluginError(
-          createSelectionError("No exportable selected icons.", "Select one or more exportable icon nodes in Figma and retry."),
+          createSelectionError("No exportable selected icons.", "Select one or more exportable icons in Figma and retry."),
         ),
         "error",
       );

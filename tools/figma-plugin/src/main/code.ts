@@ -6,17 +6,14 @@ import type {
   SettingsErrorMessage,
   SettingsLoadedMessage,
   UiToMainMessage,
-} from "./messages";
-import { createExportError, createInternalError, createSelectionError, formatPluginError } from "./errorFormatter";
-import { sanitizePluginSettings } from "./pluginSettings";
+} from "../shared/messages";
+import { createExportError, createInternalError, createSelectionError, formatPluginError } from "../shared/errorFormatter";
+import { sanitizePluginSettings } from "../shared/pluginSettings";
 
 const PLUGIN_UI_SIZE = { width: 1080, height: 760, themeColors: true };
 const SETTINGS_KEY = "valkyrie-export-settings";
 const MAX_SELECTION_NAMES = 8;
 const MAX_EXPORT_CONCURRENCY = 4;
-const RELAUNCH_DATA = {
-  "open-exporter": "Open exporter",
-} as const;
 
 type ActiveRun = {
   requestId: number;
@@ -120,8 +117,8 @@ figma.ui.onmessage = async (message: UiToMainMessage) => {
         icons: [],
         error: formatPluginError(
           createSelectionError(
-            "Select at least one exportable node.",
-            "Pick icon nodes in the canvas and run export again.",
+            "Select at least one exportable icon.",
+            "Pick icons in the canvas and run export again.",
           ),
         ),
       } satisfies ConversionReadyMessage);
@@ -139,8 +136,6 @@ figma.ui.onmessage = async (message: UiToMainMessage) => {
       } satisfies ConversionReadyMessage);
       return;
     }
-
-    applyRelaunchData(exportableNodes, icons);
 
     if (failedCount > 0 && icons.length > 0) {
       figma.notify(firstError ?? `Some icons failed to export (${failedCount}).`);
@@ -240,15 +235,4 @@ async function exportNodesAsSvg(
     failedCount,
     superseded: supersedeToken.superseded,
   };
-}
-
-function applyRelaunchData(nodes: Array<SceneNode & ExportMixin>, successfulIcons: ExportedIcon[]): void {
-  const successfulIds = new Set(successfulIcons.map((icon) => icon.id));
-  for (const node of nodes) {
-    if (!successfulIds.has(node.id)) {
-      continue;
-    }
-
-    node.setRelaunchData(RELAUNCH_DATA);
-  }
 }

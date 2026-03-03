@@ -1,4 +1,4 @@
-# Valkyrie Figma Plugin (Simple Mode)
+# Valkyrie Figma Plugin
 
 This package contains a Figma plugin shell for exporting selected icons into Kotlin `ImageVector` source.
 
@@ -28,9 +28,13 @@ This package contains a Figma plugin shell for exporting selected icons into Kot
 ## Files
 
 - `manifest.json` - Figma plugin manifest
-- `src/code.ts` - plugin main thread (selection and SVG export)
-- `src/ui.ts` - plugin UI logic (conversion and result rendering)
-- `src/converterAdapter.ts` - runtime bridge to Wasm converter
+- `src/main/code.ts` - plugin main thread (selection and SVG export)
+- `src/ui/ui.ts` - plugin UI entry and orchestration
+- `src/ui/core/` - UI runtime primitives (dom, status, state, api, utils)
+- `src/ui/controllers/` - UI request/selection lifecycle controllers
+- `src/ui/features/` - conversion, rendering, settings, and bulk actions
+- `src/ui/features/converterAdapter.ts` - runtime bridge to Wasm converter
+- `src/shared/messages.ts` - typed message contracts between main and UI
 
 ## Runtime hookup
 

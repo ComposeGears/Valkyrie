@@ -1,9 +1,9 @@
-import type { MainToUiMessage } from "./messages";
-import { applySettings } from "./settings";
-import { setStatus } from "./status";
-import { renderLoadingResults, showLoadingEmptyState } from "./render";
-import { runConversion } from "./conversion";
-import { applyTerminalRunState } from "./runTerminalState";
+import type { MainToUiMessage } from "../../shared/messages";
+import { applySettings } from "../features/settings";
+import { setStatus } from "../core/status";
+import { renderLoadingResults, showLoadingEmptyState } from "../features/render";
+import { runConversion } from "../features/conversion";
+import { applyRunLifecycleState } from "./runLifecycleState";
 
 type SelectionController = {
   handleSelectionChanged: (count: number, names: string[]) => void;
@@ -40,7 +40,7 @@ export function createMainMessageHandler(deps: MessageHandlerDeps): (message: Ma
         }
         renderLoadingResults(message.selectedCount);
         showLoadingEmptyState();
-        setStatus(`Exporting ${message.selectedCount} selected node(s)...`, "working");
+        setStatus(`Exporting ${message.selectedCount} selected icon(s)...`, "working");
         return;
       }
 
@@ -50,7 +50,7 @@ export function createMainMessageHandler(deps: MessageHandlerDeps): (message: Ma
         }
 
         if (message.superseded) {
-          applyTerminalRunState("superseded");
+          applyRunLifecycleState("superseded");
           return;
         }
 

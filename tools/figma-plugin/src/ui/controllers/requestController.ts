@@ -1,6 +1,6 @@
-import { sendMessage } from "./api";
-import { createTimeoutError, formatPluginError } from "./errorFormatter";
-import { setStatus } from "./status";
+import { sendMessage } from "../core/api";
+import { createTimeoutError, formatPluginError } from "../../shared/errorFormatter";
+import { setStatus } from "../core/status";
 
 const REQUEST_TIMEOUT_MS = 5000;
 

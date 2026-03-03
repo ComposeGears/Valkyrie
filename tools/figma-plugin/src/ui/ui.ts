@@ -1,16 +1,16 @@
-import { runButton } from "./dom";
-import { addSettingsInputListeners, initSettingsListeners } from "./settings";
-import { onMessage, onError } from "./api";
-import { setStatus } from "./status";
-import { initializeBulkActions, updateBulkActionState } from "./bulkActions";
-import { createSelectionController } from "./selectionController";
-import { createRequestController } from "./requestController";
-import { createMainMessageHandler } from "./messageHandlers";
-import { applyTerminalRunState } from "./runTerminalState";
+import { runButton } from "./core/dom";
+import { addSettingsInputListeners, initSettingsListeners } from "./features/settings";
+import { onMessage, onError } from "./core/api";
+import { setStatus } from "./core/status";
+import { initializeBulkActions, updateBulkActionState } from "./features/bulkActions";
+import { createSelectionController } from "./controllers/selectionController";
+import { createRequestController } from "./controllers/requestController";
+import { createMainMessageHandler } from "./controllers/messageHandlers";
+import { applyRunLifecycleState } from "./controllers/runLifecycleState";
 
 const requestController = createRequestController({
   onTimedOut: () => {
-    applyTerminalRunState("timed-out");
+    applyRunLifecycleState("timed-out");
   },
 });
 

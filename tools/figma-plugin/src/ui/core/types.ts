@@ -1,4 +1,4 @@
-import type { ConvertResult } from "./converterAdapter";
+import type { ConvertResult } from "../features/converterAdapter";
 
 export type ConvertResultWithSvg = ConvertResult & { svg?: string };
 

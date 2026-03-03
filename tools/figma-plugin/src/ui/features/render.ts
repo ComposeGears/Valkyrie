@@ -1,15 +1,15 @@
-import type { ConvertResultWithSvg } from "./types";
-import { resultsContainer, emptyState, emptyStateTitle, emptyStateDescription, selectionPreview, mainScroll } from "./dom";
-import { escapeHtml, escapeAttr, copyText, flashButton, toBase64Utf8 } from "./utils";
-import { setStatus } from "./status";
+import type { ConvertResultWithSvg } from "../core/types";
+import { resultsContainer, emptyState, emptyStateTitle, emptyStateDescription, selectionPreview, mainScroll } from "../core/dom";
+import { escapeHtml, escapeAttr, copyText, flashButton, toBase64Utf8 } from "../core/utils";
+import { setStatus } from "../core/status";
 import { highlightKotlin } from "./highlight";
 
 const EMPTY_TITLE_DEFAULT = "No icons exported yet";
-const EMPTY_MESSAGE_DEFAULT = "Select one or more icon nodes in Figma to generate Kotlin ImageVector code automatically.";
+const EMPTY_MESSAGE_DEFAULT = "Select one or more icons in Figma to generate Kotlin ImageVector code automatically.";
 const EMPTY_TITLE_LOADING = "Generating code...";
-const EMPTY_MESSAGE_LOADING = "Exporting your selected node(s).";
+const EMPTY_MESSAGE_LOADING = "Exporting your selected icon(s).";
 const EMPTY_TITLE_AUTO_EXPORT_OFF = "Auto export is off";
-const EMPTY_MESSAGE_AUTO_EXPORT_OFF = "Select icon nodes and click Refresh to export.";
+const EMPTY_MESSAGE_AUTO_EXPORT_OFF = "Select icons and click Export.";
 const LARGE_BATCH_COLLAPSE_THRESHOLD = 20;
 const CODE_RENDER_BATCH_SIZE = 20;
 const EXPAND_COLLAPSE_BATCH_SIZE = 80;
@@ -135,11 +135,11 @@ export function renderLoadingResults(selectedCount: number): void {
 
 export function updateSelectionPreview(count: number, names: string[]): void {
   if (count === 0) {
-    selectionPreview.innerHTML = `<div class="selection-empty">No nodes selected</div>`;
+    selectionPreview.innerHTML = `<div class="selection-empty">No icons selected</div>`;
     return;
   }
 
-  const label = count === 1 ? "node" : "nodes";
+  const label = count === 1 ? "icon" : "icons";
   const nameList = names.join(", ") + (count > names.length ? `, +${count - names.length} more` : "");
 
   selectionPreview.innerHTML =

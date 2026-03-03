@@ -1,4 +1,4 @@
-import { escapeHtml } from "./utils";
+import { escapeHtml } from "../core/utils";
 
 const KEYWORDS = new Set([
   "package",

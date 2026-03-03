@@ -1,9 +1,9 @@
-import { getConversionResults, getConversionResultsCount } from "./state";
-import { isLoadingResultsVisible, renderResults } from "./render";
-import { setStatus } from "./status";
-import { createTimeoutError, formatPluginError } from "./errorFormatter";
+import { getConversionResults, getConversionResultsCount } from "../core/state";
+import { isLoadingResultsVisible, renderResults } from "../features/render";
+import { setStatus } from "../core/status";
+import { createTimeoutError, formatPluginError } from "../../shared/errorFormatter";
 
-export type TerminalRunState = "superseded" | "timed-out";
+export type RunLifecycleState = "superseded" | "timed-out";
 
 function restorePreviousResultsWhenLoading(): void {
   if (getConversionResultsCount() === 0) {
@@ -15,7 +15,7 @@ function restorePreviousResultsWhenLoading(): void {
   }
 }
 
-export function applyTerminalRunState(state: TerminalRunState): void {
+export function applyRunLifecycleState(state: RunLifecycleState): void {
   switch (state) {
     case "superseded": {
       setStatus("Run superseded by a newer request.", "ready");

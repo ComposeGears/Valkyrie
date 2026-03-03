@@ -1,5 +1,75 @@
+public abstract interface class io/github/composegears/valkyrie/converter/figma/ConverterResult {
+	public static final field Companion Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Companion;
+	public abstract fun getIconName ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/converter/figma/ConverterResult$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/converter/figma/ConverterResult$Error : io/github/composegears/valkyrie/converter/figma/ConverterResult {
+	public static final field Companion Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Error$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Error;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Error;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Error;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getError ()Ljava/lang/String;
+	public fun getIconName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/composegears/valkyrie/converter/figma/ConverterResult$Error$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Error$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Error;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Error;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/converter/figma/ConverterResult$Error$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/converter/figma/ConverterResult$Success : io/github/composegears/valkyrie/converter/figma/ConverterResult {
+	public static final field Companion Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Success$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Success;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Success;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Success;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCode ()Ljava/lang/String;
+	public final fun getFileName ()Ljava/lang/String;
+	public fun getIconName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/composegears/valkyrie/converter/figma/ConverterResult$Success$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Success$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Success;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/composegears/valkyrie/converter/figma/ConverterResult$Success;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/composegears/valkyrie/converter/figma/ConverterResult$Success$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class io/github/composegears/valkyrie/converter/figma/FigmaConverterKt {
 	public static final fun convertSvg (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZZILjava/lang/Boolean;)Ljava/lang/String;
 	public static synthetic fun convertSvg$default (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZZILjava/lang/Boolean;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun normalizeIconName (Ljava/lang/String;)Ljava/lang/String;
 }
+

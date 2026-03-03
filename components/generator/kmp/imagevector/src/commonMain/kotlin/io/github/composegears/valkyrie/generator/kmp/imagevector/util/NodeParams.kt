@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie.generator.kmp.imagevector.util
 
+import io.github.composegears.valkyrie.generator.core.asPathDataString
+import io.github.composegears.valkyrie.generator.core.asStatement
 import io.github.composegears.valkyrie.generator.core.formatFloat
 import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorRenderConfig
-import io.github.composegears.valkyrie.generator.kmp.imagevector.render.asPathDataString
-import io.github.composegears.valkyrie.generator.kmp.imagevector.render.asStatement
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import io.github.composegears.valkyrie.sdk.ir.core.IrFill
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType

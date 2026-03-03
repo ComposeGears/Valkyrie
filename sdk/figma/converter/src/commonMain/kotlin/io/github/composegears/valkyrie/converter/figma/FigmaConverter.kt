@@ -83,8 +83,8 @@ private fun resolveOutputFormat(outputFormat: String): OutputFormat = when (outp
     OutputFormat.BackingProperty.key -> OutputFormat.BackingProperty
     OutputFormat.LazyProperty.key -> OutputFormat.LazyProperty
     else -> throw IllegalArgumentException(
-            "Unsupported outputFormat '$outputFormat'. Supported values: " +
-                "'${OutputFormat.BackingProperty.key}', '${OutputFormat.LazyProperty.key}'.",
+        "Unsupported outputFormat '$outputFormat'. Supported values: " +
+            "'${OutputFormat.BackingProperty.key}', '${OutputFormat.LazyProperty.key}'.",
     )
 }
 
