@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valkyrie Figma Export</title>
+  <style>
+    :root {
+      --bg: var(--figma-color-bg, #2c2c2c);
+      --panel: var(--figma-color-bg-secondary, #383838);
+      --panel-hover: var(--figma-color-bg-tertiary, #404040);
+      --surface: var(--figma-color-bg-secondary, #2c2c2c);
+      --text: var(--figma-color-text, #e5e5e5);
+      --text-secondary: var(--figma-color-text-secondary, #b3b3b3);
+      --text-muted: var(--figma-color-text-tertiary, #8c8c8c);
+      --accent: var(--figma-color-bg-brand, #0d99ff);
+      --accent-hover: var(--figma-color-bg-brand-hover, #0b87e0);
+      --warning: var(--figma-color-text-warning, #f3a712);
+      --error: var(--figma-color-text-danger, #f24822);
+      --success: var(--figma-color-text-success, #14ae5c);
+      --border: var(--figma-color-border, #4b4b4b);
+      --border-light: var(--figma-color-border, #3e3e3e);
+      --code-bg: var(--figma-color-bg, #1e1e1e);
+      --code-text: var(--figma-color-text, #d4d4d4);
+      --control-bg: var(--figma-color-bg-secondary, #2f2f2f);
+      --control-border: var(--figma-color-border, #4f4f4f);
+      --control-border-hover: var(--figma-color-border-strong, #616161);
+      --control-check: var(--figma-color-text-secondary, #d7d7d7);
+      --control-label: var(--figma-color-text, #e8e8e8);
+      --button-secondary-bg: var(--figma-color-bg-secondary, #383838);
+      --button-secondary-bg-hover: var(--figma-color-bg-tertiary, #404040);
+      --button-secondary-bg-pressed: var(--figma-color-bg-quaternary, #4a4a4a);
+      --button-secondary-text: var(--figma-color-text, #e5e5e5);
+      --button-secondary-border: var(--figma-color-border, #4b4b4b);
+      --tok-keyword: #cc7832;
+      --tok-type: #a9b7c6;
+      --tok-string: #6a8759;
+      --tok-number: #6897bb;
+      --tok-comment: #808080;
+      --tok-annotation: #bbb529;
+      --radius: 6px;
+      --radius-sm: 4px;
+    }
+
+    .figma-light {
+      --tok-keyword: #0033b3;
+      --tok-type: #1f2328;
+      --tok-string: #067d17;
+      --tok-number: #1750eb;
+      --tok-comment: #8c8c8c;
+      --tok-annotation: #9c6b00;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font: 12px/1.5 "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* === Layout === */
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: 100vh;
+    }
+
+    /* === Sidebar === */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 12px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    /* === Header === */
+    .plugin-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .plugin-header h1 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .plugin-header .badge {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: rgba(13, 153, 255, 0.12);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    /* === Section === */
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0;
+    }
+
+    /* === Selection preview === */
+    .selection-preview {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .selection-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .selection-count .num {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .selection-names {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .selection-empty {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* === Form controls === */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--text-secondary);
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0 10px;
+      font: 11px "Inter", sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    input.input-error {
+      border-color: var(--error);
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    select {
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M1 1l3 3 3-3' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 26px;
+    }
+
+    /* Checkbox row */
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 11px;
+      color: var(--control-label);
+      font-weight: 400;
+      user-select: none;
+    }
+
+    .check-row input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--control-border);
+      border-radius: 4px;
+      background: var(--control-bg);
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.12s, border-color 0.12s;
+    }
+
+    .check-row input[type="checkbox"]:checked {
+      background: var(--control-bg);
+      border-color: var(--control-border);
+    }
+
+    .check-row input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 4px;
+      height: 7px;
+      border: solid var(--control-check);
+      border-width: 0 1.4px 1.4px 0;
+      transform: rotate(45deg);
+    }
+
+    .check-row input[type="checkbox"]:hover {
+      border-color: var(--control-border-hover);
+      background: var(--control-bg);
+    }
+
+    .check-row input[type="checkbox"]:focus-visible {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(13, 153, 255, 0.45);
+    }
+
+    /* === Buttons === */
+    .actions-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      height: 32px;
+      border: 1px solid var(--button-secondary-border);
+      border-radius: 6px;
+      padding: 0 12px;
+      font: 11px/32px "Inter", sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      flex: 1;
+      border-color: transparent;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-primary:active {
+      background: var(--accent-hover);
+      filter: brightness(0.96);
+    }
+
+    .btn-secondary {
+      background: var(--button-secondary-bg);
+      color: var(--button-secondary-text);
+      border: 1px solid var(--button-secondary-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--button-secondary-bg-hover);
+      color: var(--button-secondary-text);
+    }
+
+    .btn-secondary:active {
+      background: var(--button-secondary-bg-pressed);
+      color: var(--button-secondary-text);
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 1px rgba(13, 153, 255, 0.42);
+    }
+
+    .btn:disabled {
+      opacity: 1;
+      color: var(--text-muted);
+      background: var(--button-secondary-bg);
+      border-color: var(--button-secondary-border);
+      cursor: not-allowed;
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* === Status bar === */
+    .status-bar {
+      border-top: 1px solid var(--border);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+    }
+
+    .status-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status-icon.ready { background: var(--success); }
+    .status-icon.working { background: var(--accent); animation: pulse 1.2s ease-in-out infinite; }
+    .status-icon.warning { background: var(--warning); }
+    .status-icon.error { background: var(--error); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    #status {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-details {
+      border-top: 1px solid var(--border-light);
+      padding: 6px 12px 8px;
+      background: var(--panel);
+    }
+
+    .status-details summary {
+      cursor: pointer;
+      font-size: 10px;
+      color: var(--text-secondary);
+      user-select: none;
+      list-style: none;
+    }
+
+    .status-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .status-details summary::before {
+      content: ">";
+      display: inline-block;
+      margin-right: 6px;
+      transform: rotate(0deg);
+      transition: transform 0.12s ease;
+    }
+
+    .status-details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .status-diagnostics {
+      margin: 6px 0 0;
+      max-height: 110px;
+      overflow: auto;
+      font: 10px/1.45 "JetBrains Mono", "Fira Code", monospace;
+      color: var(--text-muted);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* === Main panel === */
+    .main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .main-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .main-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .main-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .main-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    #results {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .results-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      padding: 8px 10px;
+    }
+
+    .results-toolbar-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .results-toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* === Empty state === */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .empty-state-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .empty-state-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 11px;
+      color: var(--text-muted);
+      max-width: 240px;
+      line-height: 1.5;
+    }
+
+    /* === Result cards === */
+    .result-card {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .card-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .card-preview img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-info h3 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-info .filename {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .card-btn {
+      height: 24px;
+      padding: 0 8px;
+      border: 1px solid var(--button-secondary-border);
+      border-radius: var(--radius-sm);
+      background: var(--button-secondary-bg);
+      color: var(--button-secondary-text);
+      font: 11px "Inter", sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-btn:hover {
+      background: var(--button-secondary-bg-hover);
+      color: var(--button-secondary-text);
+    }
+
+    .card-btn:active {
+      background: var(--button-secondary-bg-pressed);
+      color: var(--button-secondary-text);
+    }
+
+    .card-btn.copied {
+      border-color: var(--success);
+      color: var(--success);
+      background: rgba(20, 174, 92, 0.08);
+    }
+
+    .card-code {
+      max-height: 280px;
+      overflow: auto;
+      background: var(--code-bg);
+    }
+
+    .loading-card .card-code {
+      overflow: hidden;
+      padding: 12px;
+    }
+
+    .loading-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .loading-line {
+      height: 11px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, var(--panel) 20%, var(--panel-hover) 50%, var(--panel) 80%);
+      background-size: 200% 100%;
+      animation: shimmer 1.25s linear infinite;
+    }
+
+    .loading-line.w-40 { width: 40%; }
+    .loading-line.w-60 { width: 60%; }
+    .loading-line.w-80 { width: 80%; }
+    .loading-line.w-90 { width: 90%; }
+
+    @keyframes shimmer {
+      from { background-position: 200% 0; }
+      to { background-position: -200% 0; }
+    }
+
+    .single-result .card-code {
+      max-height: min(62vh, 720px);
+    }
+
+    .card-code::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .card-code::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .card-code::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    .card-code pre {
+      margin: 0;
+      padding: 10px 12px;
+      font: 11px/1.5 "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      color: var(--code-text);
+      white-space: pre;
+      tab-size: 4;
+    }
+
+    .single-result .card-code pre {
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .card-code .tok-keyword { color: var(--tok-keyword); }
+    .card-code .tok-type { color: var(--tok-type); }
+    .card-code .tok-string { color: var(--tok-string); }
+    .card-code .tok-number { color: var(--tok-number); }
+    .card-code .tok-comment { color: var(--tok-comment); }
+    .card-code .tok-annotation { color: var(--tok-annotation); }
+
+    .card-error {
+      padding: 8px 10px;
+      color: var(--error);
+      font-size: 11px;
+    }
+
+    /* === Utilities === */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-scroll">
+      <div class="plugin-header">
+        <h1>Valkyrie Export</h1>
+        <span class="badge">ImageVector</span>
+      </div>
+
+      <!-- Selection preview -->
+      <div class="selection-preview" id="selection-preview">
+        <div class="selection-empty">No nodes selected</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Options -->
+      <div class="section">
+        <div class="section-label">Options</div>
+
+        <div class="field">
+          <span class="field-label">Package name</span>
+          <input id="package" type="text" value="com.example.icons" />
+        </div>
+
+        <div class="field">
+          <span class="field-label">Output format</span>
+          <select id="output-format">
+            <option value="backing_property">Backing property</option>
+            <option value="lazy_property">Lazy property</option>
+          </select>
+        </div>
+
+        <label class="check-row"><input id="compose-colors" type="checkbox" checked /> Use Compose colors</label>
+        <label class="check-row"><input id="trailing-comma" type="checkbox" /> Trailing comma</label>
+        <label class="check-row"><input id="explicit-mode" type="checkbox" /> Explicit public mode</label>
+        <label class="check-row"><input id="path-data" type="checkbox" /> Use pathData string</label>
+        <label class="check-row"><input id="auto-export" type="checkbox" checked /> Auto export</label>
+
+        <div class="field" style="margin-top: 8px;">
+          <span class="field-label">Auto mirror override</span>
+          <select id="auto-mirror">
+            <option value="">Keep source value</option>
+            <option value="true">Force true</option>
+            <option value="false">Force false</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Actions -->
+      <div class="section">
+        <div class="actions-row">
+          <button class="btn btn-primary" id="run">Refresh</button>
+          <button class="btn btn-secondary" id="cancel" disabled>Cancel</button>
+        </div>
+        <div class="actions-row">
+          <button class="btn btn-secondary" id="copy-all">Copy all</button>
+          <button class="btn btn-secondary" id="download-all">Download .zip</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-icon ready" id="status-icon"></div>
+      <span id="status">Ready</span>
+    </div>
+    <details class="status-details hidden" id="status-details">
+      <summary>Diagnostics</summary>
+      <pre class="status-diagnostics" id="status-diagnostics"></pre>
+    </details>
+  </div>
+
+  <!-- Main panel -->
+  <div class="main">
+    <div class="main-scroll" id="main-scroll">
+      <div id="results"></div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-state-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
+            <line x1="12" y1="22.08" x2="12" y2="11.73"/>
+          </svg>
+        </div>
+        <h3>Preparing export...</h3>
+        <p>Checking current selection and settings.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">/*__WASM_BRIDGE__*/</script>
+<script>/*__UI_SCRIPT__*/</script>
+</body>
+</html>
