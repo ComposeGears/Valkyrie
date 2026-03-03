@@ -1,5 +1,5 @@
 export type OutputFormat = "backing_property" | "lazy_property";
-export type AutoMirrorOption = "" | "true" | "false";
+export type AutoMirrorOption = boolean | null;
 
 export type PluginSettings = {
   packageName: string;
@@ -19,7 +19,7 @@ export const DEFAULT_PLUGIN_SETTINGS: PluginSettings = {
   addTrailingComma: false,
   useExplicitMode: false,
   usePathDataString: false,
-  autoMirror: "",
+  autoMirror: null,
   autoExport: true,
 };
 
@@ -35,7 +35,12 @@ function asOutputFormat(value: unknown): OutputFormat | null {
 }
 
 function asAutoMirrorOption(value: unknown): AutoMirrorOption | null {
-  return value === "" || value === "true" || value === "false" ? value : null;
+  if (value === null || value === undefined) return null;
+  if (typeof value === "boolean") return value;
+  if (value === "") return null;
+  if (value === "true") return true;
+  if (value === "false") return false;
+  return null;
 }
 
 export function sanitizePluginSettings(value: unknown): PluginSettings | null {

@@ -40,7 +40,7 @@ Update changelog: `./gradlew tools:idea-plugin:patchChangelog`
 
 ## FIGMA Plugin (Simple mode)
 
-- Build converter for Wasm executable: `./gradlew :components:converter:figma:compileProductionExecutableKotlinWasmJs`
+- Build converter for Wasm executable: `./gradlew :sdk:figma:converter:compileProductionExecutableKotlinWasmJs`
 - Install plugin package deps (pnpm): `pnpm install` (run in `tools/figma-plugin`)
 - Build plugin assets: `pnpm build` (run in `tools/figma-plugin`)
 - Build converter + plugin assets: `pnpm build:all` (run in `tools/figma-plugin`)

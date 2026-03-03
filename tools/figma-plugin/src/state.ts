@@ -20,9 +20,9 @@ export function replaceConversionResults(results: ConvertResultWithSvg[]): void 
 }
 
 export function hasSuccessfulConversionResults(): boolean {
-  return conversionResults.some((item) => item.ok);
+  return conversionResults.some((item) => item.success);
 }
 
 export function getSuccessfulConversionResults(): ConvertResultWithSvg[] {
-  return conversionResults.filter((item) => item.ok);
+  return conversionResults.filter((item) => item.success);
 }

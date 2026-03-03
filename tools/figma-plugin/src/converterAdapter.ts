@@ -12,10 +12,18 @@ export type ConvertOptions = {
 };
 
 export type ConvertResult = {
-  ok: boolean;
+  success: boolean;
   iconName: string;
   fileName: string;
-  content: string;
+  code: string;
+  error?: string;
+};
+
+type WasmConvertResult = {
+  type: string;
+  iconName: string;
+  fileName?: string;
+  code?: string;
   error?: string;
 };
 
@@ -30,7 +38,7 @@ type WasmConverter = {
     useExplicitMode: boolean,
     usePathDataString: boolean,
     indentSize: number,
-    autoMirror: string,
+    autoMirror: boolean | null,
   ) => string;
   normalizeIconName: (iconName: string) => string;
 };
@@ -56,10 +64,10 @@ export function convert(svg: string, iconName: string, options: ConvertOptions):
   const converter = window.ValkyrieFigmaWasmConverter;
   if (!converter) {
     return {
-      ok: false,
+      success: false,
       iconName,
       fileName: "",
-      content: "",
+      code: "",
       error: "Wasm converter is not loaded. Run `pnpm build:all` in tools/figma-plugin and reload plugin.",
     };
   }
@@ -77,5 +85,28 @@ export function convert(svg: string, iconName: string, options: ConvertOptions):
     options.autoMirror,
   );
 
-  return JSON.parse(json) as ConvertResult;
+  return toPluginConvertResult(JSON.parse(json) as WasmConvertResult);
+}
+
+function toPluginConvertResult(result: WasmConvertResult): ConvertResult {
+  if (isSuccessType(result.type)) {
+    return {
+      success: true,
+      iconName: result.iconName,
+      fileName: result.fileName ?? "",
+      code: result.code ?? "",
+    };
+  }
+
+  return {
+    success: false,
+    iconName: result.iconName,
+    fileName: "",
+    code: "",
+    error: result.error ?? "Unknown conversion error",
+  };
+}
+
+function isSuccessType(type: string): boolean {
+  return type === "success" || type.endsWith(".Success");
 }

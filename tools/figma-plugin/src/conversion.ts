@@ -91,10 +91,10 @@ async function runConversionAsync(icons: ExportedIcon[], context: ConversionCont
 
     if (seenExact.has(normalized)) {
       nextResults.push({
-        ok: false,
+        success: false,
         iconName: normalized,
         fileName: "",
-        content: "",
+        code: "",
         error: `Duplicate icon name '${normalized}'.`,
       });
       continue;
@@ -102,10 +102,10 @@ async function runConversionAsync(icons: ExportedIcon[], context: ConversionCont
 
     if (seenInsensitive.has(lowered)) {
       nextResults.push({
-        ok: false,
+        success: false,
         iconName: normalized,
         fileName: "",
-        content: "",
+        code: "",
         error: `Case-insensitive collision for '${normalized}'.`,
       });
       continue;
@@ -132,7 +132,7 @@ async function runConversionAsync(icons: ExportedIcon[], context: ConversionCont
   renderResults(nextResults);
   updateBulkActionState();
 
-  const successCount = nextResults.filter((item) => item.ok).length;
+  const successCount = nextResults.filter((item) => item.success).length;
   const failCount = nextResults.length - successCount;
   const attemptedCount = context.attemptedCount ?? (nextResults.length + (context.exportFailedCount ?? 0));
   const exportFailedCount = context.exportFailedCount ?? Math.max(0, attemptedCount - nextResults.length);

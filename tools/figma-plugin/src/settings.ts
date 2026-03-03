@@ -21,9 +21,21 @@ export function getSettingsValues(): PluginSettings {
     addTrailingComma: addTrailingCommaInput.checked,
     useExplicitMode: useExplicitModeInput.checked,
     usePathDataString: usePathDataStringInput.checked,
-    autoMirror: autoMirrorInput.value as PluginSettings["autoMirror"],
+    autoMirror: parseAutoMirrorInput(autoMirrorInput.value),
     autoExport: autoExportInput.checked,
   };
+}
+
+function parseAutoMirrorInput(value: string): boolean | null {
+  if (value === "") return null;
+  if (value === "true") return true;
+  if (value === "false") return false;
+  return null;
+}
+
+function autoMirrorToSelectValue(value: boolean | null): string {
+  if (value === null) return "";
+  return value.toString();
 }
 
 export function applySettings(settings: PluginSettings | null): void {
@@ -38,7 +50,7 @@ export function applySettings(settings: PluginSettings | null): void {
   addTrailingCommaInput.checked = parsed.addTrailingComma;
   useExplicitModeInput.checked = parsed.useExplicitMode;
   usePathDataStringInput.checked = parsed.usePathDataString;
-  autoMirrorInput.value = parsed.autoMirror;
+  autoMirrorInput.value = autoMirrorToSelectValue(parsed.autoMirror);
   autoExportInput.checked = parsed.autoExport;
 }
 
@@ -66,6 +78,6 @@ export function getConvertOptions(): ConvertOptions {
     useExplicitMode: useExplicitModeInput.checked,
     usePathDataString: usePathDataStringInput.checked,
     indentSize: 4,
-    autoMirror: autoMirrorInput.value as ConvertOptions["autoMirror"],
+    autoMirror: parseAutoMirrorInput(autoMirrorInput.value),
   };
 }

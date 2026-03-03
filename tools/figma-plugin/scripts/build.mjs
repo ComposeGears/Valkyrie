@@ -1,5 +1,5 @@
 import { build, context } from "esbuild";
-import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const watch = process.argv.includes("--watch");
@@ -9,7 +9,7 @@ const distDir = resolve(root, "dist");
 const repoRoot = resolve(root, "../..");
 const converterDistDir = resolve(
   repoRoot,
-  "components/converter/figma/build/compileSync/wasmJs/main/productionExecutable/kotlin",
+  "sdk/figma/converter/build/compileSync/wasmJs/main/productionExecutable/kotlin",
 );
 
 await mkdir(distDir, { recursive: true });
@@ -42,8 +42,8 @@ async function buildWasmBridgeScript() {
   let wasmBridgeScript = "window.ValkyrieFigmaWasmConverter = undefined;";
 
   try {
-    const uninstantiatedPath = resolve(converterDistDir, "valkyrie-components-converter-figma.uninstantiated.mjs");
-    const wasmPath = resolve(converterDistDir, "valkyrie-components-converter-figma.wasm");
+    const uninstantiatedPath = resolve(converterDistDir, "valkyrie-sdk-figma-converter.uninstantiated.mjs");
+    const wasmPath = resolve(converterDistDir, "valkyrie-sdk-figma-converter.wasm");
     const uninstantiated = await readFile(uninstantiatedPath, "utf8");
     const wasmBytes = await readFile(wasmPath);
     const wasmBase64 = wasmBytes.toString("base64");
@@ -51,7 +51,7 @@ async function buildWasmBridgeScript() {
     wasmBridgeScript = uninstantiated
       .replace("export async function instantiate", "async function instantiate")
       .replace(
-        "fetch(new URL('./valkyrie-components-converter-figma.wasm',import.meta.url).href)",
+        "fetch(new URL('./valkyrie-sdk-figma-converter.wasm',import.meta.url).href)",
         `fetch('data:application/wasm;base64,${wasmBase64}')`,
       )
       .concat(
@@ -60,7 +60,7 @@ async function buildWasmBridgeScript() {
       );
   } catch {
     process.stderr.write(
-      "Converter artifacts missing. Run ../../gradlew :components:converter:figma:compileProductionExecutableKotlinWasmJs first.\n",
+      "Converter artifacts missing. Run ../../gradlew :sdk:figma:converter:compileProductionExecutableKotlinWasmJs first.\n",
     );
   }
 
@@ -119,17 +119,25 @@ if (watch) {
 }
 
 const converterFiles = [
+  "valkyrie-sdk-figma-converter.mjs",
+  "valkyrie-sdk-figma-converter.uninstantiated.mjs",
+  "valkyrie-sdk-figma-converter.wasm",
+];
+
+const staleConverterFiles = [
   "valkyrie-components-converter-figma.mjs",
   "valkyrie-components-converter-figma.uninstantiated.mjs",
   "valkyrie-components-converter-figma.wasm",
 ];
+
+await Promise.all(staleConverterFiles.map((file) => rm(resolve(distDir, file), { force: true })));
 
 for (const file of converterFiles) {
   try {
     await cp(resolve(converterDistDir, file), resolve(distDir, file));
   } catch {
     process.stderr.write(
-      `Missing converter artifact: ${file}. Run ../../gradlew :components:converter:figma:compileProductionExecutableKotlinWasmJs first.\n`,
+      `Missing converter artifact: ${file}. Run ../../gradlew :sdk:figma:converter:compileProductionExecutableKotlinWasmJs first.\n`,
     );
   }
 }

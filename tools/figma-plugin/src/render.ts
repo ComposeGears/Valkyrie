@@ -176,7 +176,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
 
   emptyState.classList.add("hidden");
 
-  const successfulCount = results.filter((result) => result.ok).length;
+  const successfulCount = results.filter((result) => result.success).length;
   const collapseByDefault = successfulCount >= LARGE_BATCH_COLLAPSE_THRESHOLD;
   const expanders: Array<{ expand: (renderCode: boolean) => void; collapse: () => void }> = [];
   const codeRenderers = new WeakMap<HTMLElement, () => void>();
@@ -257,7 +257,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
   }
 
   for (const result of results) {
-    const resultKey = `${result.ok ? "ok" : "error"}:${result.iconName}:${result.fileName}`;
+    const resultKey = `${result.success ? "ok" : "error"}:${result.iconName}:${result.fileName}`;
     const card = document.createElement("section");
     card.className = "result-card";
     card.dataset.resultKey = resultKey;
@@ -286,7 +286,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
     title.textContent = result.iconName;
     info.appendChild(title);
 
-    if (result.ok && result.fileName) {
+    if (result.success && result.fileName) {
       const filename = document.createElement("span");
       filename.className = "filename";
       filename.textContent = result.fileName;
@@ -297,7 +297,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
 
     let codeWrapperForCard: HTMLDivElement | null = null;
 
-    if (result.ok) {
+    if (result.success) {
       const actions = document.createElement("div");
       actions.className = "card-actions";
 
@@ -310,7 +310,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
 
         const pre = document.createElement("pre");
         const code = document.createElement("code");
-        code.innerHTML = highlightKotlin(result.content);
+        code.innerHTML = highlightKotlin(result.code);
         pre.appendChild(code);
         codeWrapper.appendChild(pre);
         codeRendered = true;
@@ -359,7 +359,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
       copyButton.className = "card-btn";
       copyButton.textContent = "Copy";
       copyButton.addEventListener("click", async () => {
-        const copied = await copyText(result.content);
+        const copied = await copyText(result.code);
         if (copied) {
           flashButton(copyButton, "Copied!");
           setStatus(`Copied ${result.fileName}.`);
@@ -373,7 +373,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
       downloadButton.className = "card-btn";
       downloadButton.textContent = "Download";
       downloadButton.addEventListener("click", () => {
-        const blob = new Blob([result.content], { type: "text/plain;charset=utf-8" });
+        const blob = new Blob([result.code], { type: "text/plain;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
@@ -428,7 +428,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
       card.appendChild(codeWrapperForCard);
     }
 
-    if (!result.ok) {
+    if (!result.success) {
       const error = document.createElement("div");
       error.className = "card-error";
       error.textContent = result.error ?? "Unknown conversion error";

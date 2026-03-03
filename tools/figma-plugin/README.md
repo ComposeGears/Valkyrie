@@ -36,9 +36,9 @@ This package contains a Figma plugin shell for exporting selected icons into Kot
 
 `pnpm build` reads these converter outputs:
 
-- `valkyrie-components-converter-figma.mjs`
-- `valkyrie-components-converter-figma.uninstantiated.mjs`
-- `valkyrie-components-converter-figma.wasm`
+- `valkyrie-sdk-figma-converter.mjs`
+- `valkyrie-sdk-figma-converter.uninstantiated.mjs`
+- `valkyrie-sdk-figma-converter.wasm`
 
 Then build-time injection inlines a Wasm bridge and exposes:
 

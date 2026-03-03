@@ -11,7 +11,7 @@ export function initializeBulkActions(): void {
       return;
     }
 
-    const text = successful.map((item) => `// ${item.fileName}\n${item.content}`).join("\n\n");
+    const text = successful.map((item) => `// ${item.fileName}\n${item.code}`).join("\n\n");
     const copied = await copyText(text);
     if (copied) {
       flashButton(copyAllButton, "Copied!");
@@ -29,7 +29,7 @@ export function initializeBulkActions(): void {
 
     const files: Record<string, Uint8Array> = {};
     for (const result of successful) {
-      files[result.fileName] = strToU8(result.content);
+      files[result.fileName] = strToU8(result.code);
     }
 
     const zipped = zipSync(files, { level: 6 });

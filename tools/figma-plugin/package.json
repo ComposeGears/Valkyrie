@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:converter": "../../gradlew :components:converter:figma:compileProductionExecutableKotlinWasmJs",
+    "build:converter": "../../gradlew -p ../../ :sdk:figma:converter:compileProductionExecutableKotlinWasmJs",
     "build": "node ./scripts/build.mjs",
     "build:all": "pnpm build:converter && pnpm build",
     "watch": "node ./scripts/build.mjs --watch",
