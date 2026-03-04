@@ -6,14 +6,7 @@ import { autoMirrorOptionToSelectValue, parseAutoMirrorOption, sanitizePluginSet
 
 let saveSettingsTimeoutId: number | null = null;
 
-export function addSettingsInputListeners(listener: () => void): void {
-  for (const input of settingsInputs) {
-    input.addEventListener("input", listener);
-    input.addEventListener("change", listener);
-  }
-}
-
-export function getSettingsValues(): PluginSettings {
+function readCurrentSettings(): PluginSettings {
   return {
     packageName: packageInput.value.trim(),
     outputFormat: outputFormatInput.value as PluginSettings["outputFormat"],
@@ -24,6 +17,13 @@ export function getSettingsValues(): PluginSettings {
     autoMirror: parseAutoMirrorOption(autoMirrorInput.value),
     autoExport: autoExportInput.checked,
   };
+}
+
+export function addSettingsInputListeners(listener: () => void): void {
+  for (const input of settingsInputs) {
+    input.addEventListener("input", listener);
+    input.addEventListener("change", listener);
+  }
 }
 
 export function applySettings(settings: PluginSettings | null): void {
@@ -47,7 +47,7 @@ export function scheduleSaveSettings(): void {
     window.clearTimeout(saveSettingsTimeoutId);
   }
   saveSettingsTimeoutId = window.setTimeout(() => {
-    sendMessage({ type: "save-settings", settings: getSettingsValues() });
+    sendMessage({ type: "save-settings", settings: readCurrentSettings() });
     saveSettingsTimeoutId = null;
   }, 500);
 }
@@ -58,14 +58,16 @@ export function initSettingsListeners(): void {
 }
 
 export function getConvertOptions(): ConvertOptions {
+  const settings = readCurrentSettings();
+
   return {
-    packageName: packageInput.value.trim(),
-    outputFormat: outputFormatInput.value as ConvertOptions["outputFormat"],
-    useComposeColors: useComposeColorsInput.checked,
-    addTrailingComma: addTrailingCommaInput.checked,
-    useExplicitMode: useExplicitModeInput.checked,
-    usePathDataString: usePathDataStringInput.checked,
+    packageName: settings.packageName,
+    outputFormat: settings.outputFormat,
+    useComposeColors: settings.useComposeColors,
+    addTrailingComma: settings.addTrailingComma,
+    useExplicitMode: settings.useExplicitMode,
+    usePathDataString: settings.usePathDataString,
     indentSize: 4,
-    autoMirror: parseAutoMirrorOption(autoMirrorInput.value),
+    autoMirror: settings.autoMirror,
   };
 }

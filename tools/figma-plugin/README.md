@@ -22,7 +22,7 @@ This package contains a Figma plugin shell for exporting selected icons into Kot
 ## Rerun in Figma
 
 1. Run `pnpm build:all`
-2. In Figma desktop, open `Plugins -> Development -> Reload plugins`
+2. In Figma desktop, open `Plugins -> Development -> Hot Reload Plugin`
 3. Reopen `Valkyrie ImageVector Export`
 
 ## Files

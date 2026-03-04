@@ -37,7 +37,3 @@ Update changelog: `./gradlew tools:idea-plugin:patchChangelog`
 ## WEB
 
 - Run WASM: `./gradlew tools:compose-app:wasmJsBrowserDevelopmentRun`
-
-## FIGMA Plugin
-
-- See `tools/figma-plugin/DEVELOPMENT.md`.

@@ -119,7 +119,12 @@ const uiConfig = {
               process.stdout.write("Updated dist/ui.html\n");
             }
           } catch (error) {
-            process.stderr.write(`Failed to inline ui.html: ${String(error)}\n`);
+            const message = `Failed to inline ui.html: ${String(error)}\n`;
+            if (watch) {
+              process.stderr.write(message);
+              return;
+            }
+            throw error;
           }
         });
       },

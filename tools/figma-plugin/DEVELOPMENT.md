@@ -10,4 +10,4 @@
 
 ## Reload in Figma
 
-- Reload in Figma after build: `Plugins -> Development -> Hot Reload plugin`
+- Reload in Figma after build: `Plugins -> Development -> Hot Reload Plugin`
