@@ -18,6 +18,9 @@ const selectionController = createSelectionController({
   requestConversion: () => {
     requestController.requestConversion();
   },
+  cancelActiveRequest: () => {
+    requestController.cancelActiveRequest();
+  },
   updateBulkActionState,
 });
 

@@ -44,6 +44,11 @@ export function createRequestController(deps: RequestControllerDeps = {}) {
   };
 
   return {
+    cancelActiveRequest(): void {
+      activeRequest = null;
+      clearPendingTimeout();
+    },
+
     requestConversion(): void {
       const hadActiveRequest = activeRequest !== null;
       latestRequestId += 1;

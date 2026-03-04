@@ -6,6 +6,7 @@ const AUTO_RUN_DEBOUNCE_MS = 300;
 
 type SelectionControllerDeps = {
   requestConversion: () => void;
+  cancelActiveRequest: () => void;
   updateBulkActionState: () => void;
 };
 
@@ -74,6 +75,7 @@ export function createSelectionController(deps: SelectionControllerDeps) {
       updateSelectionPreview(count, names);
 
       if (count === 0) {
+        deps.cancelActiveRequest();
         scheduleAutoConversion();
         clearConversionResults();
         renderResults([]);
