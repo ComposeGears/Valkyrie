@@ -711,12 +711,12 @@
         <div class="section-label">Options</div>
 
         <div class="field">
-          <span class="field-label">Package name</span>
+          <label class="field-label" for="package">Package name</label>
           <input id="package" type="text" value="com.example.icons" />
         </div>
 
         <div class="field">
-          <span class="field-label">Output format</span>
+          <label class="field-label" for="output-format">Output format</label>
           <select id="output-format">
             <option value="backing_property">Backing property</option>
             <option value="lazy_property">Lazy property</option>
@@ -730,7 +730,7 @@
         <label class="check-row"><input id="auto-export" type="checkbox" checked /> Auto export</label>
 
         <div class="field" style="margin-top: 8px;">
-          <span class="field-label">Auto mirror override</span>
+          <label class="field-label" for="auto-mirror">Auto mirror override</label>
           <select id="auto-mirror">
             <option value="">Keep source value</option>
             <option value="true">Force true</option>
@@ -754,7 +754,7 @@
     </div>
 
     <!-- Status bar -->
-    <div class="status-bar">
+    <div class="status-bar" role="status" aria-live="polite" aria-atomic="true">
       <div class="status-icon ready" id="status-icon"></div>
       <span id="status">Ready</span>
     </div>

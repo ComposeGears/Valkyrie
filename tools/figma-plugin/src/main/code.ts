@@ -1,3 +1,5 @@
+import * as fastTextEncoding from "fast-text-encoding";
+
 import type {
   ConversionReadyMessage,
   ConversionStartedMessage,
@@ -21,6 +23,9 @@ type ActiveRun = {
     superseded: boolean;
   };
 };
+
+const textDecoderCtor: typeof TextDecoder | undefined =
+  typeof globalThis.TextDecoder !== "undefined" ? globalThis.TextDecoder : fastTextEncoding.TextDecoder;
 
 let activeRun: ActiveRun | null = null;
 
@@ -182,15 +187,10 @@ figma.ui.onmessage = async (message: UiToMainMessage) => {
 };
 
 function decodeUtf8(bytes: Uint8Array): string {
-  if (typeof TextDecoder !== "undefined") {
-    return new TextDecoder("utf-8").decode(bytes);
+  if (!textDecoderCtor) {
+    throw new Error("TextDecoder is unavailable in plugin runtime.");
   }
-
-  let result = "";
-  for (let i = 0; i < bytes.length; i += 1) {
-    result += String.fromCharCode(bytes[i]);
-  }
-  return result;
+  return new textDecoderCtor("utf-8").decode(bytes);
 }
 
 async function exportNodesAsSvg(

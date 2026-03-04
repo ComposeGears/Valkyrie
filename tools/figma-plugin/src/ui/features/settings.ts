@@ -15,7 +15,7 @@ export function addSettingsInputListeners(listener: () => void): void {
 
 export function getSettingsValues(): PluginSettings {
   return {
-    packageName: packageInput.value,
+    packageName: packageInput.value.trim(),
     outputFormat: outputFormatInput.value as PluginSettings["outputFormat"],
     useComposeColors: useComposeColorsInput.checked,
     addTrailingComma: addTrailingCommaInput.checked,

@@ -50,32 +50,46 @@ async function buildWasmBridgeScript() {
     const wasmBytes = await readFile(wasmPath);
     const wasmBase64 = wasmBytes.toString("base64");
 
+    const instantiateMarker = "export async function instantiate";
+    const fetchMarker = "fetch(new URL('./valkyrie-sdk-figma-converter.wasm',import.meta.url).href)";
+
+    if (!uninstantiated.includes(instantiateMarker)) {
+      throw new Error(`Failed to patch converter bridge: missing marker '${instantiateMarker}'.`);
+    }
+    if (!uninstantiated.includes(fetchMarker)) {
+      throw new Error(`Failed to patch converter bridge: missing marker '${fetchMarker}'.`);
+    }
+
     wasmBridgeScript = uninstantiated
-      .replace("export async function instantiate", "async function instantiate")
-      .replace(
-        "fetch(new URL('./valkyrie-sdk-figma-converter.wasm',import.meta.url).href)",
-        `fetch('data:application/wasm;base64,${wasmBase64}')`,
-      )
+      .replace(instantiateMarker, "async function instantiate")
+      .replace(fetchMarker, `fetch('data:application/wasm;base64,${wasmBase64}')`)
       .concat(
         "\nconst __converter = (await instantiate({})).exports;\n" +
           "window.ValkyrieFigmaWasmConverter = { convertSvg: __converter.convertSvg, normalizeIconName: __converter.normalizeIconName };\n",
       );
-  } catch {
-    process.stderr.write(
-      "Converter artifacts missing. Run ../../gradlew :sdk:figma:converter:compileProductionExecutableKotlinWasmJs first.\n",
-    );
+  } catch (error) {
+    if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") {
+      process.stderr.write(
+        "Converter artifacts missing. Run ../../gradlew :sdk:figma:converter:compileProductionExecutableKotlinWasmJs first.\n",
+      );
+    } else {
+      throw error;
+    }
   }
 
   return wasmBridgeScript;
 }
 
-const wasmBridgeScript = await buildWasmBridgeScript();
-
 async function writeInlinedUiHtml() {
+  const wasmBridgeScript = await buildWasmBridgeScript();
   const [uiHtml, uiScript] = await Promise.all([
     readFile(srcUiHtmlPath, "utf8"),
     readFile(distUiJsPath, "utf8"),
   ]);
+
+  if (!uiHtml.includes("/*__WASM_BRIDGE__*/") || !uiHtml.includes("/*__UI_SCRIPT__*/")) {
+    throw new Error("ui.html placeholders are missing: /*__WASM_BRIDGE__*/ and/or /*__UI_SCRIPT__*/");
+  }
 
   const inlinedHtml = uiHtml
     .replace("/*__WASM_BRIDGE__*/", escapeScriptTag(wasmBridgeScript))

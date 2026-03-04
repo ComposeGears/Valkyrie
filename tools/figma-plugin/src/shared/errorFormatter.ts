@@ -4,13 +4,15 @@ export type PluginError = {
   diagnostics?: string;
 };
 
+export const DIAGNOSTICS_DELIMITER = " Diagnostics: ";
+
 export function formatPluginError(error: PluginError): string {
   const base = `${error.summary} Next: ${error.nextStep}`;
   if (!error.diagnostics) {
     return base;
   }
 
-  return `${base} Diagnostics: ${error.diagnostics}`;
+  return `${base}${DIAGNOSTICS_DELIMITER}${error.diagnostics}`;
 }
 
 export function createSelectionError(summary: string, nextStep: string): PluginError {

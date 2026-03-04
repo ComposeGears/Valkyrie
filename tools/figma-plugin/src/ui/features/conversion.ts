@@ -96,6 +96,7 @@ async function runConversionAsync(icons: ExportedIcon[], context: ConversionCont
         fileName: "",
         code: "",
         error: `Duplicate icon name '${normalized}'.`,
+        sourceId: icon.id,
       });
       continue;
     }
@@ -107,6 +108,7 @@ async function runConversionAsync(icons: ExportedIcon[], context: ConversionCont
         fileName: "",
         code: "",
         error: `Case-insensitive collision for '${normalized}'.`,
+        sourceId: icon.id,
       });
       continue;
     }
@@ -114,8 +116,24 @@ async function runConversionAsync(icons: ExportedIcon[], context: ConversionCont
     seenExact.add(normalized);
     seenInsensitive.add(lowered);
 
-    const result: ConvertResultWithSvg = { ...convert(icon.svg, icon.name, options), svg: icon.svg };
-    nextResults.push(result);
+    try {
+      const result: ConvertResultWithSvg = {
+        ...convert(icon.svg, icon.name, options),
+        svg: icon.svg,
+        sourceId: icon.id,
+      };
+      nextResults.push(result);
+    } catch (error) {
+      nextResults.push({
+        success: false,
+        iconName: normalized,
+        fileName: "",
+        code: "",
+        error: `Conversion failed for '${normalized}': ${String(error)}`,
+        svg: icon.svg,
+        sourceId: icon.id,
+      });
+    }
 
     if ((index + 1) % CONVERSION_CHUNK_SIZE === 0) {
       const progress = Math.min(index + 1, icons.length);

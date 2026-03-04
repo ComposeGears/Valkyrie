@@ -21,11 +21,6 @@ const selectionController = createSelectionController({
   updateBulkActionState,
 });
 
-initSettingsListeners();
-initializeBulkActions();
-setStatus("Ready");
-updateBulkActionState();
-
 runButton.addEventListener("click", () => {
   requestController.requestConversion();
 });
@@ -40,6 +35,11 @@ onMessage(
     requestController,
   }),
 );
+
+initSettingsListeners();
+initializeBulkActions();
+setStatus("Ready");
+updateBulkActionState();
 
 onError((event) => {
   setStatus(`UI error: ${event.message}`, "error");

@@ -1,4 +1,5 @@
 import type { AutoMirrorOption, OutputFormat } from "../../shared/pluginSettings";
+import type { ConvertResult } from "../core/types";
 
 export type ConvertOptions = {
   packageName: string;
@@ -9,14 +10,6 @@ export type ConvertOptions = {
   usePathDataString: boolean;
   indentSize: number;
   autoMirror: AutoMirrorOption;
-};
-
-export type ConvertResult = {
-  success: boolean;
-  iconName: string;
-  fileName: string;
-  code: string;
-  error?: string;
 };
 
 type WasmConvertResult = {
@@ -85,7 +78,17 @@ export function convert(svg: string, iconName: string, options: ConvertOptions):
     options.autoMirror,
   );
 
-  return toPluginConvertResult(JSON.parse(json) as WasmConvertResult);
+  try {
+    return toPluginConvertResult(JSON.parse(json) as WasmConvertResult);
+  } catch {
+    return {
+      success: false,
+      iconName,
+      fileName: "",
+      code: "",
+      error: "Failed to parse converter response. Please report this issue.",
+    };
+  }
 }
 
 function toPluginConvertResult(result: WasmConvertResult): ConvertResult {
@@ -108,5 +111,5 @@ function toPluginConvertResult(result: WasmConvertResult): ConvertResult {
 }
 
 function isSuccessType(type: string): boolean {
-  return type === "success" || type.endsWith(".Success");
+  return type === "success";
 }

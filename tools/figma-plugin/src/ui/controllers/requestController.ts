@@ -2,7 +2,8 @@ import { sendMessage } from "../core/api";
 import { createTimeoutError, formatPluginError } from "../../shared/errorFormatter";
 import { setStatus } from "../core/status";
 
-const REQUEST_TIMEOUT_MS = 5000;
+const REQUEST_ACK_TIMEOUT_MS = 5000;
+const RUN_TIMEOUT_MS = 120000;
 
 type RequestState = "requested" | "started";
 
@@ -27,6 +28,21 @@ export function createRequestController(deps: RequestControllerDeps = {}) {
     pendingTimeoutId = window.setTimeout(callback, ms);
   };
 
+  const scheduleRequestTimeout = (requestId: number, state: RequestState, timeoutMs: number): void => {
+    setPendingTimeout(() => {
+      if (!activeRequest || activeRequest.id !== requestId || activeRequest.state !== state) {
+        return;
+      }
+
+      activeRequest = null;
+      if (deps.onTimedOut) {
+        deps.onTimedOut();
+      } else {
+        setStatus(formatPluginError(createTimeoutError()), "error");
+      }
+    }, timeoutMs);
+  };
+
   return {
     requestConversion(): void {
       const hadActiveRequest = activeRequest !== null;
@@ -40,18 +56,7 @@ export function createRequestController(deps: RequestControllerDeps = {}) {
           : "Requesting export from Figma...",
         "working",
       );
-      clearPendingTimeout();
-      setPendingTimeout(() => {
-        if (!activeRequest || activeRequest.id !== requestId || activeRequest.state !== "requested") {
-          return;
-        }
-        activeRequest = null;
-        if (deps.onTimedOut) {
-          deps.onTimedOut();
-        } else {
-          setStatus(formatPluginError(createTimeoutError()), "error");
-        }
-      }, REQUEST_TIMEOUT_MS);
+      scheduleRequestTimeout(requestId, "requested", REQUEST_ACK_TIMEOUT_MS);
 
       sendMessage({ type: "run-conversion", requestId });
     },
@@ -63,6 +68,7 @@ export function createRequestController(deps: RequestControllerDeps = {}) {
 
       clearPendingTimeout();
       activeRequest.state = "started";
+      scheduleRequestTimeout(requestId, "started", RUN_TIMEOUT_MS);
       return true;
     },
 

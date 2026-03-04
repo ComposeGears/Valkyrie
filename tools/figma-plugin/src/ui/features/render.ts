@@ -279,7 +279,7 @@ export function renderResults(results: ConvertResultWithSvg[]): void {
   }
 
   for (const result of results) {
-    const resultKey = `${result.success ? "ok" : "error"}:${result.iconName}:${result.fileName}`;
+    const resultKey = `${result.success ? "ok" : "error"}:${result.sourceId ?? "unknown"}:${result.iconName}:${result.fileName}`;
     const card = document.createElement("section");
     card.className = "result-card";
     card.dataset.resultKey = resultKey;

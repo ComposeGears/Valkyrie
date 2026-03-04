@@ -55,7 +55,8 @@ export function sanitizePluginSettings(value: unknown): PluginSettings | null {
   }
 
   return {
-    packageName: typeof raw.packageName === "string" ? raw.packageName : DEFAULT_PLUGIN_SETTINGS.packageName,
+    packageName:
+      typeof raw.packageName === "string" ? raw.packageName.trim() : DEFAULT_PLUGIN_SETTINGS.packageName,
     outputFormat: asOutputFormat(raw.outputFormat) ?? DEFAULT_PLUGIN_SETTINGS.outputFormat,
     useComposeColors:
       typeof raw.useComposeColors === "boolean"

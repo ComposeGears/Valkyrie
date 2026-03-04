@@ -15,6 +15,16 @@ function restorePreviousResultsWhenLoading(): void {
   }
 }
 
+function clearLoadingResultsWhenNoPrevious(): void {
+  if (getConversionResultsCount() !== 0) {
+    return;
+  }
+
+  if (isLoadingResultsVisible()) {
+    renderResults([]);
+  }
+}
+
 export function applyRunLifecycleState(state: RunLifecycleState): void {
   switch (state) {
     case "superseded": {
@@ -24,6 +34,8 @@ export function applyRunLifecycleState(state: RunLifecycleState): void {
     }
 
     case "timed-out": {
+      restorePreviousResultsWhenLoading();
+      clearLoadingResultsWhenNoPrevious();
       setStatus(formatPluginError(createTimeoutError()), "error");
       return;
     }

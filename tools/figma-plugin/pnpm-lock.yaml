@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      fast-text-encoding:
+        specifier: ^1.0.6
+        version: 1.0.6
       fflate:
         specifier: ^0.8.2
         version: 0.8.2
@@ -188,6 +191,9 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  fast-text-encoding@1.0.6:
+    resolution: {integrity: sha512-VhXlQgj9ioXCqGstD37E/HBeqEGV/qOD/kmbVG8h5xKBYvM1L3lR1Zn4555cQ8GkYbJa8aJSipLPndE1k6zK2w==}
+
   fflate@0.8.2:
     resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
@@ -306,6 +312,8 @@ snapshots:
       '@esbuild/win32-arm64': 0.25.12
       '@esbuild/win32-ia32': 0.25.12
       '@esbuild/win32-x64': 0.25.12
+
+  fast-text-encoding@1.0.6: {}
 
   fflate@0.8.2: {}
 

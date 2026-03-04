@@ -16,6 +16,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "fast-text-encoding": "^1.0.6",
     "fflate": "^0.8.2"
   }
 }
