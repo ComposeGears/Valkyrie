@@ -17,7 +17,7 @@ android-build-tools = "com.android.tools:sdk-common:31.13.2"
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 highlights = "dev.snipme:highlights:1.1.0"
-# Support Kotlin 2.2.20 https://github.com/square/kotlinpoet/releases/tag/2.1.0
+# Support Kotlin 2.2.20 https://github.com/square/kotlinpoet/releases/tag/2.2.0
 kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.2"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
