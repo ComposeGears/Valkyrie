@@ -12,12 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.InlineIconText
-import io.github.composegears.valkyrie.jewel.icons.IntelliJIcons
-import io.github.composegears.valkyrie.jewel.icons.KotlinLogo
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberKtPathPicker
 import io.github.composegears.valkyrie.jewel.platform.rememberFileDragAndDropHandler
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.DragAndDropBox
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.model.ExistingPackAction
@@ -25,6 +23,7 @@ import io.github.composegears.valkyrie.util.stringResource
 import kotlin.io.path.isRegularFile
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 @Composable
 fun ChooseExistingPackFile(
@@ -77,7 +76,7 @@ fun ChooseExistingPackFile(
         ) {
             InlineIconText(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                imageVector = IntelliJIcons.KotlinLogo,
+                key = AllIconsKeys.Language.Kotlin,
                 textAlign = TextAlign.Center,
                 text = stringResource("iconpack.existingpack.choose.file.dnd"),
             )
@@ -87,6 +86,6 @@ fun ChooseExistingPackFile(
 
 @Preview
 @Composable
-private fun ChooseExistingPackFilePreview() = PreviewTheme(alignment = Alignment.Center) {
+private fun ChooseExistingPackFilePreview() = ProjectPreviewTheme(alignment = Alignment.Center) {
     ChooseExistingPackFile(onAction = {})
 }
