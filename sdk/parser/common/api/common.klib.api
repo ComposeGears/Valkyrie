@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.parser:common>
+final object io.github.composegears.valkyrie.sdk.parser.common/AndroidColorParser { // io.github.composegears.valkyrie.sdk.parser.common/AndroidColorParser|null[0]
+    final val androidColorsMap // io.github.composegears.valkyrie.sdk.parser.common/AndroidColorParser.androidColorsMap|{}androidColorsMap[0]
+        final fun <get-androidColorsMap>(): kotlin.collections/Map<kotlin/String, kotlin/String> // io.github.composegears.valkyrie.sdk.parser.common/AndroidColorParser.androidColorsMap.<get-androidColorsMap>|<get-androidColorsMap>(){}[0]
+
+    final fun parse(kotlin/String): io.github.composegears.valkyrie.sdk.ir.core/IrColor? // io.github.composegears.valkyrie.sdk.parser.common/AndroidColorParser.parse|parse(kotlin.String){}[0]
+}
+
+final object io.github.composegears.valkyrie.sdk.parser.common/PathParser { // io.github.composegears.valkyrie.sdk.parser.common/PathParser|null[0]
+    final fun parsePathString(kotlin/String): kotlin.collections/List<io.github.composegears.valkyrie.sdk.ir.core/IrPathNode> // io.github.composegears.valkyrie.sdk.parser.common/PathParser.parsePathString|parsePathString(kotlin.String){}[0]
+}

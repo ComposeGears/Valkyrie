@@ -36,9 +36,9 @@ configurations {
 }
 
 dependencies {
-    implementation(projects.sdk.ir.core)
     implementation(projects.sdk.core.extensions)
-    implementation(projects.components.parser.common)
+    implementation(projects.sdk.ir.core)
+    implementation(projects.sdk.parser.common)
 
     compileOnly(compose.runtime)
 

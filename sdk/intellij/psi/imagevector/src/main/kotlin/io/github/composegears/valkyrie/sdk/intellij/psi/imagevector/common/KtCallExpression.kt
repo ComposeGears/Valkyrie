@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common
 
-import io.github.composegears.valkyrie.parser.common.PathParser
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import io.github.composegears.valkyrie.sdk.ir.core.IrFill
@@ -9,6 +8,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
+import io.github.composegears.valkyrie.sdk.parser.common.PathParser
 import org.jetbrains.kotlin.psi.KtCallExpression
 
 internal fun KtCallExpression.extractPathFillType(): IrPathFillType {
