@@ -48,12 +48,12 @@ class BoxIconsUseCase(
         return icons.toStandardIconConfig()
     }
 
-    override suspend fun loadFontBytes(): FontByteArray {
+    override suspend fun loadFontBytes(style: IconStyle?): FontByteArray {
         return FontByteArray(repository.loadFontBytes())
     }
 
-    override suspend fun downloadSvg(iconName: String, settings: SizeSettings): String {
-        val rawSvg = repository.downloadSvg(iconName)
+    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String {
+        val rawSvg = repository.downloadSvg(icon.name)
         return SvgSizeCustomizer.applySettings(rawSvg, settings)
     }
 }
