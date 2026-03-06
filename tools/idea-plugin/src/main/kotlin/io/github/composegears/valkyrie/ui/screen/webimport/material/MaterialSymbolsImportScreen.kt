@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontVariation.grade
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
+import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
@@ -39,6 +40,7 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
@@ -64,6 +66,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialF
 import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialTopActions
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 
 val MaterialSymbolsImportScreen by navDestination {
@@ -343,3 +346,9 @@ private fun rememberMaterialSymbolsFont(
         FontVariation.opticalSizing(TextUnit(opticalSize, TextUnitType.Sp)),
     ),
 )
+
+@Preview
+@Composable
+private fun MaterialSymbolsImportScreenPreview() = ProjectPreviewTheme {
+    TiamatPreview(MaterialSymbolsImportScreen)
+}
