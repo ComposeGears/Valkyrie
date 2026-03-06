@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.common
+package io.github.composegears.valkyrie.sdk.parser.common
 
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 import kotlin.math.min

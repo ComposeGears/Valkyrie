@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.components.parser.common)
     implementation(projects.sdk.ir.core)
+    implementation(projects.sdk.parser.common)
     implementation(libs.xpp3) {
         exclude(group = "junit", module = "junit")
     }

@@ -10,7 +10,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.sdk.core.xml)
             implementation(projects.sdk.ir.core)
-            implementation(projects.components.parser.common)
+            implementation(projects.sdk.parser.common)
             implementation(libs.xmlutil)
         }
         commonTest {

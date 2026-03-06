@@ -1,6 +1,5 @@
 package io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.common
 
-import io.github.composegears.valkyrie.parser.common.PathParser
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.util.childrenOfType
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.ArcTo
@@ -22,6 +21,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeReflective
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeReflectiveQuadTo
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.RelativeVerticalTo
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode.VerticalTo
+import io.github.composegears.valkyrie.sdk.parser.common.PathParser
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 

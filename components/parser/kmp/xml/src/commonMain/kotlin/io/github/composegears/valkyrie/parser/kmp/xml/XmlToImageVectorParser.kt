@@ -1,7 +1,5 @@
 package io.github.composegears.valkyrie.parser.kmp.xml
 
-import io.github.composegears.valkyrie.parser.common.AndroidColorParser
-import io.github.composegears.valkyrie.parser.common.PathParser
 import io.github.composegears.valkyrie.sdk.core.xml.VectorDrawable
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import io.github.composegears.valkyrie.sdk.ir.core.IrFill
@@ -11,6 +9,8 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
+import io.github.composegears.valkyrie.sdk.parser.common.AndroidColorParser
+import io.github.composegears.valkyrie.sdk.parser.common.PathParser
 
 object XmlToImageVectorParser {
     fun parse(text: String): IrImageVector {
