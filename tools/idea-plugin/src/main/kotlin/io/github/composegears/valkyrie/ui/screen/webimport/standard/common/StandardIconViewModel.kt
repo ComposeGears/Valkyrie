@@ -22,6 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class StandardIconViewModel(
     savedState: MutableSavedState,
@@ -46,12 +47,16 @@ class StandardIconViewModel(
     init {
         when (val initialState = stateRecord.value) {
             is StandardState.Success -> {
+                val restoredStyleId = initialState.selectedStyle?.id
                 val normalizedSelectedStyle = initialState.selectedStyle
                     ?.takeIf { selected -> initialState.config.styles.any { it.id == selected.id } }
                     ?: initialState.config.styles.defaultStyle()
+                val restoredFont = initialState.fontByteArray
+                    ?.takeIf { restoredStyleId == normalizedSelectedStyle?.id }
 
                 stateRecord.value = initialState.copy(
                     selectedStyle = normalizedSelectedStyle,
+                    fontByteArray = restoredFont,
                     gridItems = initialState.config.filterByCategory(
                         category = initialState.selectedCategory,
                         style = normalizedSelectedStyle,
@@ -60,9 +65,9 @@ class StandardIconViewModel(
                 )
 
                 val styleKey = normalizedSelectedStyle?.id
-                initialState.fontByteArray?.let { fontCache[styleKey] = it }
+                restoredFont?.let { fontCache[styleKey] = it }
 
-                if (initialState.fontByteArray == null) {
+                if (restoredFont == null) {
                     downloadFont(normalizedSelectedStyle)
                 }
 
@@ -169,7 +174,9 @@ class StandardIconViewModel(
 
     fun selectStyle(style: IconStyle) {
         viewModelScope.launch(Dispatchers.Default) {
-            val cachedFont = fontCache[style.id]
+            val cachedFont = withContext(Dispatchers.Main.immediate) {
+                fontCache[style.id]
+            }
             updateSuccess { state ->
                 state.copy(
                     selectedStyle = style,
