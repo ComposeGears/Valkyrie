@@ -22,7 +22,7 @@ kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.2"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
 # Support Kotlin 2.2.20 https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.9.0
-kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
+kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0"
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
