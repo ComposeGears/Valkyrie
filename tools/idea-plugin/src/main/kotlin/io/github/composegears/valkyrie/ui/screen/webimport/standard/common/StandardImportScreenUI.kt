@@ -84,6 +84,7 @@ internal fun StandardImportScreen(
         state = state,
         title = title,
         fontAlias = provider.fontAlias,
+        resolveFontWeight = provider::resolveFontWeight,
         onBack = onBack,
         onSelectIcon = viewModel::downloadIcon,
         onSelectCategory = viewModel::selectCategory,
@@ -99,6 +100,7 @@ private fun StandardImportScreenUI(
     state: StandardState,
     title: String,
     fontAlias: String,
+    resolveFontWeight: (IconStyle?) -> FontWeight,
     onBack: () -> Unit,
     onSelectIcon: (StandardIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
@@ -147,6 +149,7 @@ private fun StandardImportScreenUI(
                     IconsContent(
                         state = current,
                         fontAlias = fontAlias,
+                        resolveFontWeight = resolveFontWeight,
                         onSelectIcon = onSelectIcon,
                         onSelectCategory = onSelectCategory,
                         onSelectStyle = onSelectStyle,
@@ -163,6 +166,7 @@ private fun StandardImportScreenUI(
 private fun IconsContent(
     state: StandardState.Success,
     fontAlias: String,
+    resolveFontWeight: (IconStyle?) -> FontWeight,
     onSelectIcon: (StandardIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
     onSelectStyle: (IconStyle) -> Unit,
@@ -233,16 +237,22 @@ private fun IconsContent(
                     )
                 }
                 else -> {
+                    val styleAwareAlias = state.selectedStyle
+                        ?.id
+                        ?.let { "$fontAlias-$it" }
+                        ?: fontAlias
+                    val styleAwareWeight = resolveFontWeight(state.selectedStyle)
                     val iconFont = rememberStandardFont(
                         font = state.fontByteArray.bytes,
-                        alias = fontAlias,
+                        alias = styleAwareAlias,
+                        weight = styleAwareWeight,
                     )
                     val iconSizeDp = state.settings.size.dp
 
                     ProvideIconParameters(
                         iconFont = iconFont,
                         tint = LocalContentColor.current,
-                        weight = FontWeight.W400,
+                        weight = styleAwareWeight,
                     ) {
                         StandardIconGrid(
                             gridItems = state.gridItems,
@@ -330,8 +340,9 @@ private fun StandardIconStub(
 private fun rememberStandardFont(
     font: ByteArray,
     alias: String,
+    weight: FontWeight,
 ): IconFont = rememberVariableIconFont(
     alias = alias,
     data = font,
-    weights = arrayOf(FontWeight.W400),
+    weights = arrayOf(weight),
 )
