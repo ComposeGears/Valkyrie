@@ -22,9 +22,9 @@ fun StandardIconConfig.filterByCategory(
     style: IconStyle? = null,
     searchQuery: String = "",
 ): List<GridItem> {
-    val categoryFiltered = when (category) {
-        InferredCategory.All -> gridItems
-        else -> gridItems.filterKeys { it.name == category.name }
+    val categoryFiltered = when {
+        category.id == InferredCategory.All.id -> gridItems
+        else -> gridItems.filterKeys { it.id == category.id }
     }
 
     val styleFiltered = when {
