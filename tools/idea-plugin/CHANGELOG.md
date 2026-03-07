@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### Added
+
 - [Web Import] Add `Font Awesome` icons provider
 
 ### Changed
