@@ -66,7 +66,7 @@ class FontAwesomeRepository(
             val woff2Bytes = httpClient.get(url).bodyAsChannel().toByteArray()
 
             withContext(Dispatchers.Default) {
-                Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode WOFF2 font")
+                Woff2Decoder.decodeBytes(woff2Bytes) ?: error("Failed to decode WOFF2 font from: $url")
             }
         }
     }
