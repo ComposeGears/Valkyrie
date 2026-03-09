@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain
 
-import io.github.composegears.valkyrie.parser.jvm.svg.SvgManipulator
+import io.github.composegears.valkyrie.sdk.utils.svg.SvgDomModifier
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
 
 /**
@@ -13,7 +13,7 @@ object SvgSizeCustomizer {
     private const val ATTR_HEIGHT = "height"
 
     fun applySettings(svgContent: String, settings: SizeSettings): String {
-        return SvgManipulator.modifySvg(svgContent) { svgElement ->
+        return SvgDomModifier.modify(svgContent) { svgElement ->
             svgElement.setAttribute(ATTR_WIDTH, settings.size.toString())
             svgElement.setAttribute(ATTR_HEIGHT, settings.size.toString())
         }

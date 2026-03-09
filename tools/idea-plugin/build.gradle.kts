@@ -54,6 +54,7 @@ dependencies {
     implementation(projects.sdk.ir.util)
     implementation(projects.sdk.ir.xml)
     implementation(projects.sdk.shared)
+    implementation(projects.sdk.utils.svg)
 
     implementation(libs.android.build.tools)
     implementation(libs.androidx.collection)

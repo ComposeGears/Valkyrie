@@ -5,5 +5,5 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.android.build.tools)
+    testImplementation(libs.bundles.kmp.test)
 }
