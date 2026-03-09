@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.parser.jvm.svg
+package io.github.composegears.valkyrie.sdk.utils.svg
 
 import assertk.assertThat
 import assertk.assertions.contains
@@ -8,7 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class SvgManipulatorTest {
+class SvgDomModifierTest {
 
     @Test
     fun `modifySvg updates root element attribute`() {
@@ -18,7 +18,7 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
             svgElement.setAttribute("width", "48")
             svgElement.setAttribute("height", "48")
         }
@@ -40,8 +40,8 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
-            SvgManipulator.updateAttributeRecursively(
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
+            SvgDomModifier.updateAttributeRecursively(
                 element = svgElement,
                 attributeName = "stroke-width",
                 newValue = "3",
@@ -64,8 +64,8 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
-            SvgManipulator.updateAttributeRecursively(
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
+            SvgDomModifier.updateAttributeRecursively(
                 element = svgElement,
                 attributeName = "stroke-width",
                 newValue = "3",
@@ -86,8 +86,8 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
-            SvgManipulator.updateAttributeConditionally(
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
+            SvgDomModifier.updateAttributeConditionally(
                 element = svgElement,
                 attributeName = "stroke",
                 currentValue = "currentColor",
@@ -118,8 +118,8 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
-            SvgManipulator.updateAttributeRecursively(
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
+            SvgDomModifier.updateAttributeRecursively(
                 element = svgElement,
                 attributeName = "stroke-width",
                 newValue = "5",
@@ -138,7 +138,7 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
             svgElement.setAttribute("width", "48")
         }
 
@@ -153,7 +153,7 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
             svgElement.setAttribute("width", "48")
         }
 
@@ -164,7 +164,7 @@ class SvgManipulatorTest {
     fun `modifySvg returns original content on parse failure`() {
         val invalidSvg = "This is not valid XML"
 
-        val result = SvgManipulator.modifySvg(invalidSvg) { svgElement ->
+        val result = SvgDomModifier.modify(invalidSvg) { svgElement ->
             svgElement.setAttribute("width", "48")
         }
 
@@ -180,7 +180,7 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
             svgElement.setAttribute("width", "48")
         }
 
@@ -200,8 +200,8 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(originalSvg) { svgElement ->
-            SvgManipulator.updateAttributeRecursively(
+        val modifiedSvg = SvgDomModifier.modify(originalSvg) { svgElement ->
+            SvgDomModifier.updateAttributeRecursively(
                 element = svgElement,
                 attributeName = "stroke-width",
                 newValue = "2",
@@ -220,17 +220,17 @@ class SvgManipulatorTest {
             </svg>
         """.trimIndent()
 
-        val modifiedSvg = SvgManipulator.modifySvg(lucideSvg) { svgElement ->
+        val modifiedSvg = SvgDomModifier.modify(lucideSvg) { svgElement ->
             svgElement.setAttribute("width", "48")
             svgElement.setAttribute("height", "48")
 
-            SvgManipulator.updateAttributeRecursively(
+            SvgDomModifier.updateAttributeRecursively(
                 element = svgElement,
                 attributeName = "stroke-width",
                 newValue = "3",
             )
 
-            SvgManipulator.updateAttributeConditionally(
+            SvgDomModifier.updateAttributeConditionally(
                 element = svgElement,
                 attributeName = "stroke",
                 currentValue = "currentColor",

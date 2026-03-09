@@ -1,13 +1,15 @@
-package io.github.composegears.valkyrie.parser.jvm.svg
+package io.github.composegears.valkyrie.sdk.utils.svg
 
 import java.io.StringReader
 import java.io.StringWriter
+import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 import org.w3c.dom.Element
+import org.xml.sax.InputSource
 
 /**
  * Utility for manipulating SVG content using DOM-based XML parsing.
@@ -17,16 +19,16 @@ import org.w3c.dom.Element
  * - Attribute ordering differences
  * - Multiple occurrences of attributes across nested elements
  */
-object SvgManipulator {
+object SvgDomModifier {
 
     /**
      * Applies attribute modifications to SVG content.
      *
      * @param svgContent The original SVG content as a string
      * @param modifications Lambda that receives the root SVG element for modification
-     * @return Modified SVG content, or original content if parsing fails
+     * @return Modified SVG content, or original content if an error occurs
      */
-    fun modifySvg(
+    fun modify(
         svgContent: String,
         modifications: (Element) -> Unit,
     ): String {
@@ -38,14 +40,14 @@ object SvgManipulator {
                 setFeature("http://xml.org/sax/features/external-parameter-entities", false)
             }
             val builder = factory.newDocumentBuilder()
-            val document = builder.parse(org.xml.sax.InputSource(StringReader(svgContent)))
+            val document = builder.parse(InputSource(StringReader(svgContent)))
 
             val svgElement = document.documentElement
             modifications(svgElement)
 
             val transformerFactory = TransformerFactory.newInstance().apply {
-                setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD, "")
-                setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "")
+                setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "")
+                setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "")
             }
             val transformer = transformerFactory.newTransformer()
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes")
@@ -61,7 +63,7 @@ object SvgManipulator {
     /**
      * Updates an attribute on all elements in the tree that have it.
      *
-     * @param element Root element to start searching from
+     * @param element Element to start from (inclusive)
      * @param attributeName Name of the attribute to update
      * @param newValue New value for the attribute
      */
@@ -86,7 +88,7 @@ object SvgManipulator {
     /**
      * Updates an attribute on all elements that have a specific current value.
      *
-     * @param element Root element to start searching from
+     * @param element Element to start from (inclusive)
      * @param attributeName Name of the attribute to update
      * @param currentValue Current value to match
      * @param newValue New value for the attribute
