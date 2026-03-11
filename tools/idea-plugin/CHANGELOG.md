@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- [Web Import] Add `Font Awesome` icons provider
+
 ### Changed
 
 - Migrate to IDEA code highlighting for tooltip snippets

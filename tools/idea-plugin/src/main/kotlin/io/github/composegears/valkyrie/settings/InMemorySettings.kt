@@ -69,6 +69,7 @@ class InMemorySettings(project: Project) {
         bootstrapSize = DEFAULT_SIZE
         remixSize = DEFAULT_SIZE
         boxiconsSize = DEFAULT_SIZE
+        fontAwesomeSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {
