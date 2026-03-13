@@ -31,7 +31,7 @@ leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviat
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
 tiamat = "io.github.composegears:tiamat:2.1.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
-# Support Kotlin 2.2.20 https://github.com/pdvrieze/xmlutil/releases/tag/v0.91.2
+# Support Kotlin 2.2.20 https://github.com/pdvrieze/xmlutil/releases/tag/v0.91.3
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.2"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
