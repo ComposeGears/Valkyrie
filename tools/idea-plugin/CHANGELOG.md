@@ -6,6 +6,10 @@
 
 - Migrate to IDEA code highlighting for tooltip snippets
 
+### Fixed
+
+- Fix wrong line separators in `IntellijEditorTextField` document creation
+
 ## 1.3.0 - 2026-02-28
 
 ### Added

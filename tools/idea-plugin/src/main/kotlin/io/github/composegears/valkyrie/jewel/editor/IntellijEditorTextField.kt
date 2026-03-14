@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -26,6 +27,7 @@ import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.util.Disposer
+import com.intellij.openapi.util.text.StringUtil
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
@@ -78,6 +80,8 @@ private fun rememberIntelliJEditor(
     var editor by rememberMutableState<Editor?> { null }
     var document by rememberMutableState<Document?> { null }
 
+    val normalizedText = remember(text) { StringUtil.convertLineSeparators(text) }
+
     DisposableEffect(project, language) {
         val scope = CoroutineScope(Dispatchers.EDT)
         val disposable = Disposer.newDisposable("intellij-editor")
@@ -90,7 +94,7 @@ private fun rememberIntelliJEditor(
 
             val fileType = FileTypeManager.getInstance().getFileTypeByFileName(fileName)
 
-            val doc = EditorFactory.getInstance().createDocument(text).also {
+            val doc = EditorFactory.getInstance().createDocument(normalizedText).also {
                 document = it
             }
 
@@ -123,12 +127,12 @@ private fun rememberIntelliJEditor(
         }
     }
 
-    LaunchedEffect(text) {
+    LaunchedEffect(normalizedText) {
         val doc = document ?: return@LaunchedEffect
 
-        if (doc.text != text) {
+        if (doc.text != normalizedText) {
             edtWriteAction {
-                doc.setText(text)
+                doc.setText(normalizedText)
             }
         }
     }
