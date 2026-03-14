@@ -1,20 +1,21 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.data
 
-import com.charleskorn.kaml.Yaml
-import com.charleskorn.kaml.YamlConfiguration
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
+import it.krzeminski.snakeyaml.engine.kmp.api.Load
 
-private val yaml = Yaml(configuration = YamlConfiguration(strictMode = false))
+internal fun parseYamlMap(content: String): Map<String, Any?> = Load().loadOne(content).asYamlMap()
 
-internal fun <T> decodeYamlMap(content: String, valueSerializer: KSerializer<T>): Map<String, T> {
-    return yaml.decodeFromString(
-        deserializer = MapSerializer(String.serializer(), valueSerializer),
-        string = content,
-    )
-}
+internal fun Any?.asYamlMap(): Map<String, Any?> = (this as? Map<*, *>).toYamlMap()
 
-internal fun List<String>.cleanNonBlank(): List<String> {
-    return map { it.trim() }.filter { it.isNotBlank() }
-}
+internal fun Any?.asYamlString(): String = this?.toString().orEmpty()
+
+internal fun Any?.asYamlStringList(): List<String> = (this as? List<*>).orEmpty()
+    .map { it.asYamlString().trim() }
+    .filter { it.isNotEmpty() }
+
+internal fun Map<String, Any?>.getYamlMap(key: String): Map<String, Any?> = get(key).asYamlMap()
+
+internal fun Map<String, Any?>.getYamlString(key: String): String = get(key).asYamlString().trim()
+
+internal fun Map<String, Any?>.getYamlStringList(key: String): List<String> = get(key).asYamlStringList()
+
+private fun Map<*, *>?.toYamlMap(): Map<String, Any?> = this?.mapKeys { (key, _) -> key?.toString().orEmpty() }.orEmpty()
