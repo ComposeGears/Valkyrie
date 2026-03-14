@@ -10,7 +10,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.sdk.ir.core)
 
-            implementation(compose.ui)
+            implementation(libs.compose.ui)
         }
     }
 }

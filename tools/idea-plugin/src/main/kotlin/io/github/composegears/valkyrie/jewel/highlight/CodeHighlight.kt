@@ -18,14 +18,13 @@ import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.bridge.code.highlighting.CodeHighlighterFactory
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
-import org.jetbrains.jewel.foundation.code.MimeType
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 @OptIn(ExperimentalJewelApi::class)
 @Composable
 fun rememberCodeHighlight(
     text: String,
-    mimeType: MimeType = MimeType.Known.KOTLIN,
+    language: String = "kt",
     style: UnderlineDsl.() -> Unit = {},
 ): HighlightedCode {
     val dsl = UnderlineDsl(text).apply(style)
@@ -35,7 +34,7 @@ fun rememberCodeHighlight(
     val codeHighlighter = remember { CodeHighlighterFactory.getInstance(project).createHighlighter() }
 
     val highlightedCode by codeHighlighter
-        .highlight(code = text, mimeType = mimeType)
+        .highlight(code = text, language = language)
         .map {
             if (dsl.ranges.isNotEmpty()) {
                 buildAnnotatedString {
