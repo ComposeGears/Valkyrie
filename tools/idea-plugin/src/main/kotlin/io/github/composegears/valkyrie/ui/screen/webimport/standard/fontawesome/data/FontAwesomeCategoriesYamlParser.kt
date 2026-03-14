@@ -2,24 +2,23 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome
 
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
-import kotlinx.serialization.Serializable
 
 class FontAwesomeCategoriesYamlParser {
 
     fun parse(yaml: String): Map<String, InferredCategory> {
-        val root = decodeYamlMap(yaml, FontAwesomeCategoryYaml.serializer())
+        val root = parseYamlMap(yaml)
 
         val iconToCategory = linkedMapOf<String, InferredCategory>()
 
         root.forEach { (categoryId, category) ->
+            val categoryMap = category.asYamlMap()
             val normalizedId = categoryId.trim()
             if (normalizedId.isBlank()) return@forEach
 
-            val normalizedName = category.label.trim().ifBlank { normalizedId.toDisplayName() }
+            val normalizedName = categoryMap.getYamlString("label").ifBlank { normalizedId.toDisplayName() }
             val mappedCategory = InferredCategory(id = normalizedId, name = normalizedName)
 
-            category.icons
-                .cleanNonBlank()
+            categoryMap.getYamlStringList("icons")
                 .forEach { iconName ->
                     iconToCategory.putIfAbsent(iconName, mappedCategory)
                 }
@@ -27,10 +26,4 @@ class FontAwesomeCategoriesYamlParser {
 
         return iconToCategory
     }
-
-    @Serializable
-    private data class FontAwesomeCategoryYaml(
-        val icons: List<String> = emptyList(),
-        val label: String = "",
-    )
 }

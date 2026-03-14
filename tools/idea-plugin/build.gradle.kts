@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.serialization.json)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kaml)
+    implementation(libs.snakeyaml.engine.kmp)
     implementation(libs.fuzzysearch)
     implementation(libs.leviathan)
     implementation(libs.leviathan.compose)
