@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.4.0 - 2026-03-15
+
 ### Changed
 
 - Migrate to IDEA code highlighting for tooltip snippets
