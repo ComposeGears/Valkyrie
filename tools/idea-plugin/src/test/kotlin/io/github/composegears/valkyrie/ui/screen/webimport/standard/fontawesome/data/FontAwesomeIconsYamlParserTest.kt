@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test
 
 class FontAwesomeIconsYamlParserTest {
 
+    private val parser = FontAwesomeIconsYamlParser()
+
     @Test
     fun `parses single style icon`() {
-        val parser = FontAwesomeIconsYamlParser()
         val yaml = """
             '0':
               label: '0'
@@ -39,7 +40,6 @@ class FontAwesomeIconsYamlParserTest {
 
     @Test
     fun `parses multi-style icon`() {
-        val parser = FontAwesomeIconsYamlParser()
         val yaml = """
             address-book:
               label: Address Book
@@ -66,7 +66,6 @@ class FontAwesomeIconsYamlParserTest {
 
     @Test
     fun `parses brands icon`() {
-        val parser = FontAwesomeIconsYamlParser()
         val yaml = """
             github:
               label: GitHub
@@ -91,8 +90,7 @@ class FontAwesomeIconsYamlParserTest {
     }
 
     @Test
-    fun `skips icons with blank name or unicode`() {
-        val parser = FontAwesomeIconsYamlParser()
+    fun `skips icons with blank or invalid identifier data`() {
         val yaml = """
             valid-icon:
               label: Valid
@@ -109,25 +107,8 @@ class FontAwesomeIconsYamlParserTest {
               styles:
                 - solid
               unicode: ''
-        """.trimIndent()
-
-        val result = parser.parse(yaml)
-
-        assertThat(result).hasSize(1)
-        assertThat(result.single().name).isEqualTo("valid-icon")
-    }
-
-    @Test
-    fun `skips icons with invalid unicode hex`() {
-        val parser = FontAwesomeIconsYamlParser()
-        val yaml = """
-            valid-icon:
-              label: Valid
-              styles:
-                - solid
-              unicode: f000
-            invalid-icon:
-              label: Invalid
+            invalid-unicode:
+              label: Invalid Unicode
               styles:
                 - solid
               unicode: not-hex
@@ -141,7 +122,6 @@ class FontAwesomeIconsYamlParserTest {
 
     @Test
     fun `uses icon name as label fallback`() {
-        val parser = FontAwesomeIconsYamlParser()
         val yaml = """
             my-icon:
               search:
@@ -158,7 +138,6 @@ class FontAwesomeIconsYamlParserTest {
 
     @Test
     fun `cleans whitespace from string fields`() {
-        val parser = FontAwesomeIconsYamlParser()
         val yaml = """
             ' icon-name ':
               label: ' Icon Label '

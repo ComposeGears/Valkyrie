@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test
 
 class FontAwesomeCategoriesYamlParserTest {
 
+    private val parser = FontAwesomeCategoriesYamlParser()
+
     @Test
     fun `parses category with icons`() {
-        val parser = FontAwesomeCategoriesYamlParser()
         val yaml = """
             arrows:
               icons:
@@ -25,7 +26,6 @@ class FontAwesomeCategoriesYamlParserTest {
 
     @Test
     fun `parses multiple categories`() {
-        val parser = FontAwesomeCategoriesYamlParser()
         val yaml = """
             communication:
               icons:
@@ -47,7 +47,6 @@ class FontAwesomeCategoriesYamlParserTest {
 
     @Test
     fun `uses formatted category id as name fallback`() {
-        val parser = FontAwesomeCategoriesYamlParser()
         val yaml = """
             no-label:
               icons:
@@ -61,7 +60,6 @@ class FontAwesomeCategoriesYamlParserTest {
 
     @Test
     fun `first category wins when icon appears in multiple`() {
-        val parser = FontAwesomeCategoriesYamlParser()
         val yaml = """
             primary:
               icons:
@@ -80,7 +78,6 @@ class FontAwesomeCategoriesYamlParserTest {
 
     @Test
     fun `skips empty category ids`() {
-        val parser = FontAwesomeCategoriesYamlParser()
         val yaml = """
             '':
               icons:
@@ -100,7 +97,6 @@ class FontAwesomeCategoriesYamlParserTest {
 
     @Test
     fun `cleans whitespace from icon names`() {
-        val parser = FontAwesomeCategoriesYamlParser()
         val yaml = """
             test-category:
               icons:
