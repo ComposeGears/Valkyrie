@@ -44,7 +44,7 @@ allprojects {
         dependencies {
             extensions.configure<IntelliJPlatformDependenciesExtension> {
                 // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html
-                intellijIdea("2025.3")
+                intellijIdea("2025.3.3")
 
                 bundledPlugin("org.jetbrains.kotlin")
 

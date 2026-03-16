@@ -7,6 +7,7 @@
 ### Changed
 
 - Migrate to IDEA code highlighting for tooltip snippets
+- Migrate to Jewel 0.34 and IntelliJ IDEA 2025.3.3
 
 ### Fixed
 
