@@ -3,6 +3,7 @@ import java.nio.file.Paths
 import java.util.Properties
 import kotlin.io.path.exists
 import org.gradle.api.plugins.JavaPlugin.API_ELEMENTS_CONFIGURATION_NAME
+import org.gradle.plugin.compatibility.compatibility
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
@@ -30,6 +31,7 @@ gradlePlugin {
             implementationClass = "io.github.composegears.valkyrie.gradle.ValkyrieGradlePlugin"
             description = "Convert SVG/XML icons into Compose ImageVector format"
             tags.addAll("kotlin", "svg", "xml", "imagevector", "valkyrie", "compose")
+            compatibility { features { configurationCache = true } }
         }
     }
 }
