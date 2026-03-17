@@ -55,7 +55,7 @@ jobs:
           ls -lh libwoff2decoder.so
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: native-linux-x64
           path: libwoff2decoder.so
@@ -127,7 +127,7 @@ jobs:
           Get-Item woff2decoder.dll | Select-Object Name, Length
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: native-windows-x64
           path: woff2decoder.dll
@@ -216,7 +216,7 @@ jobs:
           ls -lh libwoff2decoder.dylib
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: native-macos
           path: libwoff2decoder.dylib
