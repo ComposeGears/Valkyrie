@@ -1,6 +1,6 @@
 [versions]
 collection = "1.6.0"
-compose = "1.9.0"
+compose = "1.10.3"
 intellij = "2.13.1"
 jacoco = "0.8.13"
 jdkRelease = "21"
