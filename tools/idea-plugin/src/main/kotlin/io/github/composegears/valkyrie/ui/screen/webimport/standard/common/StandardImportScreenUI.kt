@@ -175,6 +175,7 @@ private fun IconsContent(
 ) {
     val scope = rememberCoroutineScope()
 
+    var selectedIcon by rememberMutableState<StandardIcon?> { null }
     var isSidePanelOpen by rememberMutableState { false }
     val lazyGridState = rememberLazyGridState()
     val shimmer = rememberShimmer()
@@ -259,8 +260,11 @@ private fun IconsContent(
                             iconContent = { icon ->
                                 IconCard(
                                     name = icon.displayName,
-                                    selected = false,
-                                    onClick = { onSelectIcon(icon) },
+                                    selected = icon == selectedIcon,
+                                    onClick = {
+                                        selectedIcon = icon
+                                        onSelectIcon(icon)
+                                    },
                                     iconContent = {
                                         FontIcon(
                                             modifier = Modifier.size(iconSizeDp),

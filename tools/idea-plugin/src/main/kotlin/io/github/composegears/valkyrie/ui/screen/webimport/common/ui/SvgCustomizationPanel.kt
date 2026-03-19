@@ -49,6 +49,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 
 private val rotationOptions = listOf(0, 90, 180, 270)
 private val presetColors = listOf(
+    "#FFFFFF",
     "#F4CC3A",
     "#63D3AF",
     "#68A9E0",
