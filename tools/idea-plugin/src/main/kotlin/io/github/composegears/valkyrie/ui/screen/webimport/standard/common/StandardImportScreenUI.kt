@@ -46,8 +46,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHea
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SvgCustomizationPanel
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
@@ -175,7 +175,6 @@ private fun IconsContent(
 ) {
     val scope = rememberCoroutineScope()
 
-    var selectedIcon by rememberMutableState<StandardIcon?> { null }
     var isSidePanelOpen by rememberMutableState { false }
     val lazyGridState = rememberLazyGridState()
     val shimmer = rememberShimmer()
@@ -260,11 +259,8 @@ private fun IconsContent(
                             iconContent = { icon ->
                                 IconCard(
                                     name = icon.displayName,
-                                    selected = icon == selectedIcon,
-                                    onClick = {
-                                        selectedIcon = icon
-                                        onSelectIcon(icon)
-                                    },
+                                    selected = false,
+                                    onClick = { onSelectIcon(icon) },
                                     iconContent = {
                                         FontIcon(
                                             modifier = Modifier.size(iconSizeDp),
@@ -284,11 +280,11 @@ private fun IconsContent(
             isOpen = isSidePanelOpen,
             onClose = { isSidePanelOpen = false },
             content = {
-                IconSizeCustomization(
+                SvgCustomizationPanel(
                     settings = state.settings,
+                    capabilities = state.customizationCapabilities,
                     onSettingsChange = onSettingsChange,
                     onClose = { isSidePanelOpen = false },
-                    sizeLabel = stringResource("web.import.font.customize.size"),
                 )
             },
         )

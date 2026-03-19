@@ -3,16 +3,23 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.mode
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconSettings
 
 /**
- * Size settings for standard icon providers.
- * Allows customization of icon dimensions (width/height).
+ * Shared SVG customization settings for standard icon providers.
+ *
+ * The current UI only exposes size, but the shared model also carries
+ * transformer-backed color and transform options used by the standard web import flow.
  */
 data class SizeSettings(
     val size: Int = DEFAULT_SIZE,
+    val color: String? = null,
+    val rotation: Int = DEFAULT_ROTATION,
+    val flipHorizontally: Boolean = false,
+    val flipVertically: Boolean = false,
 ) : IconSettings {
     companion object {
         const val DEFAULT_SIZE = 24
         const val MIN_SIZE = 16
         const val MAX_SIZE = 48
+        const val DEFAULT_ROTATION = 0
     }
 
     init {
@@ -20,5 +27,10 @@ data class SizeSettings(
     }
 
     override val isModified: Boolean
-        get() = size != DEFAULT_SIZE
+        get() =
+            size != DEFAULT_SIZE ||
+                color != null ||
+                rotation != DEFAULT_ROTATION ||
+                flipHorizontally ||
+                flipVertically
 }

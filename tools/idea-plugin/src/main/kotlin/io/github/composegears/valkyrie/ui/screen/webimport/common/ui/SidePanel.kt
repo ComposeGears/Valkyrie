@@ -53,7 +53,7 @@ fun SidePanel(
             )
             Box(
                 modifier = Modifier
-                    .widthIn(max = 250.dp)
+                    .widthIn(max = 320.dp)
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
                     .background(JewelTheme.globalColors.borders.normal),

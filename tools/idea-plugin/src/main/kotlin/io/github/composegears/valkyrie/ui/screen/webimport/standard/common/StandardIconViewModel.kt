@@ -16,6 +16,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgCustomizationCapabilities
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.util.filterByCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -102,6 +103,7 @@ class StandardIconViewModel(
                         style = selectedStyle,
                         searchQuery = "",
                     ),
+                    customizationCapabilities = provider.customizationCapabilities,
                     settings = SizeSettings(size = provider.persistentSize),
                     selectedStyle = selectedStyle,
                 )
@@ -145,7 +147,8 @@ class StandardIconViewModel(
             val currentState = stateRecord.value.safeAs<StandardState.Success>() ?: return@launch
 
             runCatching {
-                val svgContent = provider.downloadSvg(icon, currentState.settings)
+                val latestSettings = stateRecord.value.safeAs<StandardState.Success>()?.settings ?: currentState.settings
+                val svgContent = provider.downloadSvg(icon, latestSettings)
 
                 _events.send(
                     StandardIconEvent.IconDownloaded(
@@ -264,6 +267,7 @@ sealed interface StandardState {
     data class Success(
         val config: StandardIconConfig,
         val gridItems: List<GridItem> = emptyList(),
+        val customizationCapabilities: SvgCustomizationCapabilities = SvgCustomizationCapabilities(),
         val selectedCategory: InferredCategory = InferredCategory.All,
         val selectedStyle: IconStyle? = null,
         val searchQuery: String = "",
