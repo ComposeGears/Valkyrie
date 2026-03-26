@@ -13,9 +13,10 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgCustomizationCapabilities
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.util.filterByCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -102,7 +103,10 @@ class StandardIconViewModel(
                         style = selectedStyle,
                         searchQuery = "",
                     ),
-                    settings = SizeSettings(size = provider.persistentSize),
+                    customizationCapabilities = provider.customizationCapabilities,
+                    settings = SvgImportSettings(size = provider.persistentSize),
+                    lastCustomColor = provider.persistentLastCustomColor,
+                    recentColors = provider.persistentRecentColors,
                     selectedStyle = selectedStyle,
                 )
                 downloadFont(selectedStyle)
@@ -145,7 +149,8 @@ class StandardIconViewModel(
             val currentState = stateRecord.value.safeAs<StandardState.Success>() ?: return@launch
 
             runCatching {
-                val svgContent = provider.downloadSvg(icon, currentState.settings)
+                val latestSettings = stateRecord.value.safeAs<StandardState.Success>()?.settings ?: currentState.settings
+                val svgContent = provider.downloadSvg(icon, latestSettings)
 
                 _events.send(
                     StandardIconEvent.IconDownloaded(
@@ -210,11 +215,55 @@ class StandardIconViewModel(
         }
     }
 
-    fun updateSettings(settings: SizeSettings) {
+    fun updateSettings(settings: SvgImportSettings) {
         viewModelScope.launch(Dispatchers.Default) {
             provider.updatePersistentSize(settings.size)
             updateSuccess { state ->
                 state.copy(settings = settings)
+            }
+        }
+    }
+
+    fun selectCustomColor(color: String) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val currentState = stateRecord.value.safeAs<StandardState.Success>() ?: return@launch
+            val updatedRecentColors = buildList {
+                add(color)
+                currentState.recentColors
+                    .asSequence()
+                    .filter { it != color }
+                    .forEach(::add)
+            }.take(4)
+
+            provider.updatePersistentCustomColors(
+                lastCustomColor = color,
+                recentColors = updatedRecentColors,
+            )
+
+            updateSuccess { state ->
+                state.copy(
+                    settings = state.settings.copy(color = color),
+                    lastCustomColor = color,
+                    recentColors = updatedRecentColors,
+                )
+            }
+        }
+    }
+
+    fun resetCustomization() {
+        viewModelScope.launch(Dispatchers.Default) {
+            provider.updatePersistentSize(SvgImportSettings.DEFAULT_SIZE)
+            provider.updatePersistentCustomColors(
+                lastCustomColor = null,
+                recentColors = emptyList(),
+            )
+
+            updateSuccess { state ->
+                state.copy(
+                    settings = SvgImportSettings(),
+                    lastCustomColor = null,
+                    recentColors = emptyList(),
+                )
             }
         }
     }
@@ -264,10 +313,13 @@ sealed interface StandardState {
     data class Success(
         val config: StandardIconConfig,
         val gridItems: List<GridItem> = emptyList(),
+        val customizationCapabilities: SvgCustomizationCapabilities = SvgCustomizationCapabilities(),
         val selectedCategory: InferredCategory = InferredCategory.All,
         val selectedStyle: IconStyle? = null,
         val searchQuery: String = "",
-        val settings: SizeSettings = SizeSettings(),
+        val settings: SvgImportSettings = SvgImportSettings(),
+        val lastCustomColor: String? = null,
+        val recentColors: List<String> = emptyList(),
         val fontByteArray: FontByteArray? = null,
     ) : StandardState
 

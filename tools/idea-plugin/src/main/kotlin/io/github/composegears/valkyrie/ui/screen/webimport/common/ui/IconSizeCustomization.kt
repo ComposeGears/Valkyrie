@@ -21,7 +21,7 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.math.roundToInt
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -43,8 +43,8 @@ import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
  */
 @Composable
 fun IconSizeCustomization(
-    settings: SizeSettings,
-    onSettingsChange: (SizeSettings) -> Unit,
+    settings: SvgImportSettings,
+    onSettingsChange: (SvgImportSettings) -> Unit,
     onClose: () -> Unit,
     sizeLabel: String,
     modifier: Modifier = Modifier,
@@ -55,8 +55,8 @@ fun IconSizeCustomization(
         CustomizationToolbar(
             onClose = onClose,
             onReset = {
-                size = SizeSettings.DEFAULT_SIZE.toFloat()
-                onSettingsChange(SizeSettings())
+                size = SvgImportSettings.DEFAULT_SIZE.toFloat()
+                onSettingsChange(SvgImportSettings())
             },
             isModified = settings.isModified,
         )
@@ -77,7 +77,7 @@ fun IconSizeCustomization(
                         size = it
                         onSettingsChange(settings.copy(size = size.roundToInt()))
                     },
-                    valueRange = SizeSettings.MIN_SIZE.toFloat()..SizeSettings.MAX_SIZE.toFloat(),
+                    valueRange = SvgImportSettings.MIN_SIZE.toFloat()..SvgImportSettings.MAX_SIZE.toFloat(),
                 )
             }
         }
@@ -87,7 +87,7 @@ fun IconSizeCustomization(
 @Preview
 @Composable
 private fun IconSizeCustomizationPreview() = PreviewTheme(alignment = Alignment.TopEnd) {
-    var settings by rememberMutableState { SizeSettings() }
+    var settings by rememberMutableState { SvgImportSettings() }
 
     IconSizeCustomization(
         modifier = Modifier

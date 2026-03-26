@@ -50,6 +50,7 @@ dependencies {
     implementation(projects.sdk.intellij.psi.iconpack)
     implementation(projects.sdk.intellij.psi.imagevector)
     implementation(projects.sdk.ir.core)
+    implementation(projects.sdk.parser.common)
     implementation(projects.sdk.ir.compose)
     implementation(projects.sdk.ir.util)
     implementation(projects.sdk.ir.xml)
