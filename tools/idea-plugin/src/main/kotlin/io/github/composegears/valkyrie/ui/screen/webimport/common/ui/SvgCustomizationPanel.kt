@@ -1,9 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,8 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -81,7 +81,7 @@ fun SvgCustomizationPanel(
     lastCustomColor: String?,
     capabilities: SvgCustomizationCapabilities,
     onSettingsChange: (SvgImportSettings) -> Unit,
-    onCustomColorPicked: (String) -> Unit,
+    onPickCustomColor: (String) -> Unit,
     onResetCustomization: () -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
@@ -149,13 +149,15 @@ fun SvgCustomizationPanel(
                             val chosenColor = ColorChooserService.getInstance().showDialog(
                                 parent = component,
                                 caption = customLabel,
-                                preselectedColor = (settings.color?.let(Color::fromArgbHexStringOrNull) ?: customColor
-                                ?: defaultPickerColor)
+                                preselectedColor = (
+                                    settings.color?.let(Color::fromArgbHexStringOrNull) ?: customColor
+                                        ?: defaultPickerColor
+                                    )
                                     .toAwtColor(),
                                 enableOpacity = false,
                             )
                             chosenColor?.let {
-                                onCustomColorPicked(it.toRgbHexString())
+                                onPickCustomColor(it.toRgbHexString())
                             }
                         },
                     ) {
@@ -294,7 +296,7 @@ private fun SvgCustomizationPanelPreview() = PreviewTheme(alignment = Alignment.
         capabilities = SvgCustomizationCapabilities(),
         onClose = {},
         onSettingsChange = { settings = it },
-        onCustomColorPicked = { settings = settings.copy(color = it) },
+        onPickCustomColor = { settings = settings.copy(color = it) },
         onResetCustomization = { settings = SvgImportSettings() },
     )
 }

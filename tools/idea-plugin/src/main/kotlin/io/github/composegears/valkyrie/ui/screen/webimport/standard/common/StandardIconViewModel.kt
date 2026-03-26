@@ -13,10 +13,10 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgCustomizationCapabilities
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.util.filterByCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

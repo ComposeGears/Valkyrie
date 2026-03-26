@@ -51,8 +51,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SvgCustomiz
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.ui.StandardTopActions
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
@@ -91,7 +91,7 @@ internal fun StandardImportScreen(
         onSelectStyle = viewModel::selectStyle,
         onSearchQueryChange = viewModel::updateSearchQuery,
         onSettingsChange = viewModel::updateSettings,
-        onCustomColorPicked = viewModel::selectCustomColor,
+        onPickCustomColor = viewModel::selectCustomColor,
         onResetCustomization = viewModel::resetCustomization,
         modifier = modifier,
     )
@@ -109,7 +109,7 @@ private fun StandardImportScreenUI(
     onSelectStyle: (IconStyle) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (SvgImportSettings) -> Unit,
-    onCustomColorPicked: (String) -> Unit,
+    onPickCustomColor: (String) -> Unit,
     onResetCustomization: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -159,7 +159,7 @@ private fun StandardImportScreenUI(
                         onSelectStyle = onSelectStyle,
                         onSearchQueryChange = onSearchQueryChange,
                         onSettingsChange = onSettingsChange,
-                        onCustomColorPicked = onCustomColorPicked,
+                        onPickCustomColor = onPickCustomColor,
                         onResetCustomization = onResetCustomization,
                     )
                 }
@@ -178,7 +178,7 @@ private fun IconsContent(
     onSelectStyle: (IconStyle) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSettingsChange: (SvgImportSettings) -> Unit,
-    onCustomColorPicked: (String) -> Unit,
+    onPickCustomColor: (String) -> Unit,
     onResetCustomization: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -298,7 +298,7 @@ private fun IconsContent(
                     lastCustomColor = state.lastCustomColor,
                     capabilities = state.customizationCapabilities,
                     onSettingsChange = onSettingsChange,
-                    onCustomColorPicked = onCustomColorPicked,
+                    onPickCustomColor = onPickCustomColor,
                     onResetCustomization = onResetCustomization,
                     onClose = { isSidePanelOpen = false },
                 )

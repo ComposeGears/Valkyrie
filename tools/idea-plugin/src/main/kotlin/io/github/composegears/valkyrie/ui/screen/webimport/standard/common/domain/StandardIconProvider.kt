@@ -3,10 +3,10 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.doma
 import androidx.compose.ui.text.font.FontWeight
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgCustomizationCapabilities
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
 
 interface StandardIconProvider {
     val providerName: String
@@ -26,9 +26,7 @@ interface StandardIconProvider {
     suspend fun loadFontBytes(style: IconStyle? = null): FontByteArray
     suspend fun loadSvg(icon: StandardIcon): String
 
-    fun applySettings(svgContent: String, settings: SvgImportSettings): String =
-        SvgImportCustomizer.applySettings(svgContent, settings)
+    fun applySettings(svgContent: String, settings: SvgImportSettings): String = SvgImportCustomizer.applySettings(svgContent, settings)
 
-    suspend fun downloadSvg(icon: StandardIcon, settings: SvgImportSettings): String =
-        applySettings(loadSvg(icon), settings)
+    suspend fun downloadSvg(icon: StandardIcon, settings: SvgImportSettings): String = applySettings(loadSvg(icon), settings)
 }
