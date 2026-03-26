@@ -1,14 +1,15 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain
 
 import io.github.composegears.valkyrie.sdk.utils.svg.SvgDomModifier
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings.Companion.DEFAULT_SIZE
 import org.w3c.dom.Element
 
 /**
- * Utility for applying size settings to SVG content.
+ * Utility for applying SVG import settings to SVG content.
  * Used by standard icon providers (Lucide, Bootstrap, etc.).
  */
-object SvgSizeCustomizer {
+object SvgImportCustomizer {
 
     private const val ATTR_WIDTH = "width"
     private const val ATTR_HEIGHT = "height"
@@ -19,7 +20,7 @@ object SvgSizeCustomizer {
     private const val ATTR_VIEW_BOX = "viewBox"
     private const val CURRENT_COLOR = "currentColor"
 
-    fun applySettings(svgContent: String, settings: SizeSettings): String {
+    fun applySettings(svgContent: String, settings: SvgImportSettings): String {
         return SvgDomModifier.modify(svgContent) { svgElement ->
             svgElement.setAttribute(ATTR_WIDTH, settings.size.toString())
             svgElement.setAttribute(ATTR_HEIGHT, settings.size.toString())
@@ -29,8 +30,10 @@ object SvgSizeCustomizer {
                 if (!svgElement.hasAttribute(ATTR_FILL)) {
                     svgElement.setAttribute(ATTR_FILL, color)
                 }
-                SvgDomModifier.updateAttributeConditionally(svgElement, ATTR_FILL, CURRENT_COLOR, color)
-                SvgDomModifier.updateAttributeConditionally(svgElement, ATTR_STROKE, CURRENT_COLOR, color)
+                SvgDomModifier.apply {
+                    updateAttributeConditionally(svgElement, ATTR_FILL, CURRENT_COLOR, color)
+                    updateAttributeConditionally(svgElement, ATTR_STROKE, CURRENT_COLOR, color)
+                }
             }
 
             buildTransform(svgElement, settings)?.let { transform ->
@@ -41,10 +44,10 @@ object SvgSizeCustomizer {
 
     private fun buildTransform(
         svgElement: Element,
-        settings: SizeSettings,
+        settings: SvgImportSettings,
     ): String? {
         if (
-            settings.rotation == SizeSettings.DEFAULT_ROTATION &&
+            settings.rotation == SvgImportSettings.DEFAULT_ROTATION &&
             !settings.flipHorizontally &&
             !settings.flipVertically
         ) {
@@ -53,7 +56,7 @@ object SvgSizeCustomizer {
 
         val bounds = parseBounds(svgElement)
         val transforms = buildList {
-            if (settings.rotation != SizeSettings.DEFAULT_ROTATION) {
+            if (settings.rotation != SvgImportSettings.DEFAULT_ROTATION) {
                 add("rotate(${settings.rotation} ${bounds.centerX} ${bounds.centerY})")
             }
             if (settings.flipHorizontally) {
@@ -63,7 +66,6 @@ object SvgSizeCustomizer {
                 add("translate(0 ${bounds.flipY}) scale(1 -1)")
             }
         }
-
         return transforms.joinToString(" ")
     }
 
@@ -82,8 +84,8 @@ object SvgSizeCustomizer {
             )
         }
 
-        val width = svgElement.getAttribute(ATTR_WIDTH).toDoubleOrNull() ?: SizeSettings.DEFAULT_SIZE.toDouble()
-        val height = svgElement.getAttribute(ATTR_HEIGHT).toDoubleOrNull() ?: SizeSettings.DEFAULT_SIZE.toDouble()
+        val width = svgElement.getAttribute(ATTR_WIDTH).toDoubleOrNull() ?: DEFAULT_SIZE.toDouble()
+        val height = svgElement.getAttribute(ATTR_HEIGHT).toDoubleOrNull() ?: DEFAULT_SIZE.toDouble()
         return SvgBounds(
             centerX = (width / 2).toString(),
             centerY = (height / 2).toString(),

@@ -1,6 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.domain
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.toPersistedString
+import io.github.composegears.valkyrie.settings.toStringList
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
@@ -21,10 +23,19 @@ class RemixUseCase(
     override val stateKey: String = "remix"
     override val fontAlias: String = "remixicon"
     override val persistentSize: Int = inMemorySettings.readState { remixSize }
+    override val persistentLastCustomColor: String? = inMemorySettings.readState { remixLastCustomColor }?.ifBlank { null }
+    override val persistentRecentColors: List<String> = inMemorySettings.readState { remixRecentColors }.toStringList()
 
     override fun updatePersistentSize(value: Int) {
         inMemorySettings.update {
             remixSize = value
+        }
+    }
+
+    override fun updatePersistentCustomColors(lastCustomColor: String?, recentColors: List<String>) {
+        inMemorySettings.update {
+            remixLastCustomColor = lastCustomColor.orEmpty()
+            remixRecentColors = recentColors.toPersistedString()
         }
     }
 

@@ -8,7 +8,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconSett
  * The current UI only exposes size, but the shared model also carries
  * transformer-backed color and transform options used by the standard web import flow.
  */
-data class SizeSettings(
+data class SvgImportSettings(
     val size: Int = DEFAULT_SIZE,
     val color: String? = null,
     val rotation: Int = DEFAULT_ROTATION,

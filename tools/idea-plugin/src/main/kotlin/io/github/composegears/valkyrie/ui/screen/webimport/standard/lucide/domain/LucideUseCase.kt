@@ -1,6 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.domain
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.toPersistedString
+import io.github.composegears.valkyrie.settings.toStringList
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
@@ -20,10 +22,19 @@ class LucideUseCase(
     override val stateKey: String = "lucide"
     override val fontAlias: String = "lucide"
     override val persistentSize: Int = inMemorySettings.readState { lucideSize }
+    override val persistentLastCustomColor: String? = inMemorySettings.readState { lucideLastCustomColor }?.ifBlank { null }
+    override val persistentRecentColors: List<String> = inMemorySettings.readState { lucideRecentColors }.toStringList()
 
     override fun updatePersistentSize(value: Int) {
         inMemorySettings.update {
             lucideSize = value
+        }
+    }
+
+    override fun updatePersistentCustomColors(lastCustomColor: String?, recentColors: List<String>) {
+        inMemorySettings.update {
+            lucideLastCustomColor = lastCustomColor.orEmpty()
+            lucideRecentColors = recentColors.toPersistedString()
         }
     }
 

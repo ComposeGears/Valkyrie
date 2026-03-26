@@ -1,6 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.domain
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.toPersistedString
+import io.github.composegears.valkyrie.settings.toStringList
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.data.BootstrapRepository
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
@@ -20,10 +22,19 @@ class BootstrapUseCase(
     override val stateKey: String = "bootstrap"
     override val fontAlias: String = "bootstrap-icons"
     override val persistentSize: Int = inMemorySettings.readState { bootstrapSize }
+    override val persistentLastCustomColor: String? = inMemorySettings.readState { bootstrapLastCustomColor }?.ifBlank { null }
+    override val persistentRecentColors: List<String> = inMemorySettings.readState { bootstrapRecentColors }.toStringList()
 
     override fun updatePersistentSize(value: Int) {
         inMemorySettings.update {
             bootstrapSize = value
+        }
+    }
+
+    override fun updatePersistentCustomColors(lastCustomColor: String?, recentColors: List<String>) {
+        inMemorySettings.update {
+            bootstrapLastCustomColor = lastCustomColor.orEmpty()
+            bootstrapRecentColors = recentColors.toPersistedString()
         }
     }
 

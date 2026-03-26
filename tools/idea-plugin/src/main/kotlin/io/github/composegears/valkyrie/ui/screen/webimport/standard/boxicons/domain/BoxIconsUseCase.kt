@@ -1,6 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.domain
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.toPersistedString
+import io.github.composegears.valkyrie.settings.toStringList
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.data.BoxIconsRepository
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
@@ -20,10 +22,19 @@ class BoxIconsUseCase(
     override val stateKey: String = "boxicons"
     override val fontAlias: String = "boxicons"
     override val persistentSize: Int = inMemorySettings.readState { boxiconsSize }
+    override val persistentLastCustomColor: String? = inMemorySettings.readState { boxiconsLastCustomColor }?.ifBlank { null }
+    override val persistentRecentColors: List<String> = inMemorySettings.readState { boxiconsRecentColors }.toStringList()
 
     override fun updatePersistentSize(value: Int) {
         inMemorySettings.update {
             boxiconsSize = value
+        }
+    }
+
+    override fun updatePersistentCustomColors(lastCustomColor: String?, recentColors: List<String>) {
+        inMemorySettings.update {
+            boxiconsLastCustomColor = lastCustomColor.orEmpty()
+            boxiconsRecentColors = recentColors.toPersistedString()
         }
     }
 

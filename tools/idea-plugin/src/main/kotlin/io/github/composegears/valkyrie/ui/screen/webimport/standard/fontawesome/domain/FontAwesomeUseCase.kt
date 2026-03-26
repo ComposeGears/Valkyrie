@@ -2,6 +2,8 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome
 
 import androidx.compose.ui.text.font.FontWeight
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.toPersistedString
+import io.github.composegears.valkyrie.settings.toStringList
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
@@ -22,10 +24,19 @@ class FontAwesomeUseCase(
     override val stateKey: String = "fontawesome"
     override val fontAlias: String = "fontawesome"
     override val persistentSize: Int = inMemorySettings.readState { fontAwesomeSize }
+    override val persistentLastCustomColor: String? = inMemorySettings.readState { fontAwesomeLastCustomColor }?.ifBlank { null }
+    override val persistentRecentColors: List<String> = inMemorySettings.readState { fontAwesomeRecentColors }.toStringList()
 
     override fun updatePersistentSize(value: Int) {
         inMemorySettings.update {
             fontAwesomeSize = value
+        }
+    }
+
+    override fun updatePersistentCustomColors(lastCustomColor: String?, recentColors: List<String>) {
+        inMemorySettings.update {
+            fontAwesomeLastCustomColor = lastCustomColor.orEmpty()
+            fontAwesomeRecentColors = recentColors.toPersistedString()
         }
     }
 
