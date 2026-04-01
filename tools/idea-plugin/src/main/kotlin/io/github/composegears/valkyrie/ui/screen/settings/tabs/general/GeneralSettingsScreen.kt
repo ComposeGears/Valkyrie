@@ -18,7 +18,7 @@ import com.composegears.tiamat.compose.navigationFadeInOut
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination.Companion.toNavEntry
 import com.intellij.openapi.ui.MessageDialogBuilder
-import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.settings.GroupSpacing
 import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
@@ -70,6 +70,7 @@ private fun GeneralSettingsUi(
     onChangeMode: () -> Unit,
 ) {
     val component = LocalComponent.current
+    val project = LocalProject.current
 
     val mode = generalSettings.mode
     val initialMode = remember { mode }
@@ -109,12 +110,13 @@ private fun GeneralSettingsUi(
                     )
                 }
 
-                val projectAccessor = rememberProjectAccessor()
                 InfoSettingsRow(
                     text = stringResource("settings.general.destination"),
                     infoText = when {
                         generalSettings.iconPackDestination.isEmpty() -> stringResource("settings.general.destination.unspecified")
-                        else -> "~${generalSettings.iconPackDestination.replace(projectAccessor.path.orEmpty(), "")}"
+                        else -> {
+                            "~${generalSettings.iconPackDestination.replace(project.basePath.orEmpty(), "")}"
+                        }
                     },
                 )
                 InfoSettingsRow(
