@@ -235,7 +235,10 @@ private fun IconPackConversionUi(
 
 @Composable
 private fun LoadingStateUi(message: String) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
         LoadingPlaceholder(text = message)
     }
 }
