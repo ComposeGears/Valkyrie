@@ -15,7 +15,7 @@ import io.github.composegears.valkyrie.jewel.banner.LocalGlobalBannerState
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerState
 import io.github.composegears.valkyrie.jewel.colors.errorFocused
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
-import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
+import io.github.composegears.valkyrie.jewel.platform.currentProject
 import io.github.composegears.valkyrie.sdk.compose.foundation.dim
 import io.github.composegears.valkyrie.ui.di.DI
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -30,8 +30,7 @@ fun ProjectPreviewTheme(
     alignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.(Project) -> Unit,
 ) {
-    val projectAccessor = rememberProjectAccessor()
-    val project = projectAccessor.project ?: error("No project available in preview")
+    val project = currentProject ?: error("No project available in preview")
 
     GlobalPreviewState.isPreview = true
     DI.initWith(project)

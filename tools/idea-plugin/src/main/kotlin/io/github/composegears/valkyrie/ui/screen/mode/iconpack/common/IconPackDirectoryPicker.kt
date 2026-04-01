@@ -14,11 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
+import io.github.composegears.valkyrie.jewel.platform.currentProjectPath
 import io.github.composegears.valkyrie.jewel.platform.picker.rememberDirectoryPicker
 import io.github.composegears.valkyrie.jewel.platform.rememberDragAndDropFolderHandler
-import io.github.composegears.valkyrie.jewel.platform.rememberProjectAccessor
 import io.github.composegears.valkyrie.jewel.settings.InfoSettingsRow
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.jewel.ui.DragAndDropBox
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.DirectoryState
@@ -84,11 +85,9 @@ fun IconPackDirectoryPicker(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             if (state.iconPackDestination.isNotEmpty()) {
-                val projectAccessor = rememberProjectAccessor()
-
                 InfoSettingsRow(
                     text = stringResource("iconpack.newpack.choose.directory.destination.path"),
-                    infoText = "~${state.iconPackDestination.replace(projectAccessor.path.orEmpty(), "")}",
+                    infoText = "~${state.iconPackDestination.replace(LocalProject.current.basePath.orEmpty(), "")}",
                 )
             }
             if (state.predictedPackage.isNotEmpty()) {
@@ -111,12 +110,10 @@ fun IconPackDirectoryPicker(
 
 @Preview
 @Composable
-private fun IconPackDirectoryPickerPreview() = PreviewTheme(alignment = Alignment.Center) {
-    val projectAccessor = rememberProjectAccessor()
-
+private fun IconPackDirectoryPickerPreview() = ProjectPreviewTheme(alignment = Alignment.Center) {
     IconPackDirectoryPicker(
         state = DirectoryState(
-            iconPackDestination = "${projectAccessor.path}/tools/idea-plugin/src/main/kotlin/io/github/composegears/valkyrie/icons",
+            iconPackDestination = "$currentProjectPath/tools/idea-plugin/src/main/kotlin/io/github/composegears/valkyrie/icons",
             predictedPackage = "io.github.composegears.valkyrie.icons",
             nextAvailable = true,
         ),
