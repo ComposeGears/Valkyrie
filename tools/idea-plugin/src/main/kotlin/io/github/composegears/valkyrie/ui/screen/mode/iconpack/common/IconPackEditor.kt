@@ -58,6 +58,7 @@ fun IconPackEditor(
             text = packageName.text,
             onValueChange = { onValueChange(PackageName(it)) },
             onValidationChange = { onValueChange(PackageNameValidation(it)) },
+            enabled = packageName.enabled,
         )
         Spacer(32.dp)
         CodeTooltipHeader(
@@ -156,7 +157,7 @@ private fun AddPackButton(
 private fun IconPackEditorPreview() = ProjectPreviewTheme(alignment = Alignment.TopCenter) {
     var state by rememberMutableState {
         InputFieldState(
-            packageName = InputState(text = "com.example.iconpack"),
+            packageName = InputState(text = "com.example.iconpack", enabled = false),
             iconPackName = InputState(text = "ValkyrieIcons"),
             nestedPacks = listOf(
                 NestedPack(

@@ -24,6 +24,7 @@ fun PackageTextField(
     text: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onValidationChange: (ValidationResult) -> Unit = {},
 ) {
     ValidationTextField(
@@ -39,6 +40,7 @@ fun PackageTextField(
         },
         onValueChange = onValueChange,
         onValidationChange = onValidationChange,
+        enabled = enabled,
     )
 }
 

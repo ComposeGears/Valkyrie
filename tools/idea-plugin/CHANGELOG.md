@@ -10,6 +10,10 @@
 
 - Migrate to Jewel 0.34 and IntelliJ IDEA 2025.3.3
 
+### Fixed
+
+- [IconPack] Fix package name field being editable in existing pack mode
+
 ## 1.4.0 - 2026-03-15
 
 ### Changed
