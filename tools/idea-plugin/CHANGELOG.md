@@ -13,6 +13,7 @@
 ### Fixed
 
 - [IconPack] Fix package name field being editable in existing pack mode
+- [IconPack] Fix loading state alignment during icon import and processing
 
 ## 1.4.0 - 2026-03-15
 
