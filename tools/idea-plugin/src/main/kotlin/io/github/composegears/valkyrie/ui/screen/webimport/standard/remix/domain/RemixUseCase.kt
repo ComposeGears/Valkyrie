@@ -1,14 +1,14 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.domain
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
+import io.github.composegears.valkyrie.settings.toPersistedString
+import io.github.composegears.valkyrie.settings.toStringList
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.SvgSizeCustomizer
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.toStandardIconConfig
@@ -23,10 +23,19 @@ class RemixUseCase(
     override val stateKey: String = "remix"
     override val fontAlias: String = "remixicon"
     override val persistentSize: Int = inMemorySettings.readState { remixSize }
+    override val persistentLastCustomColor: String? = inMemorySettings.readState { remixLastCustomColor }?.ifBlank { null }
+    override val persistentRecentColors: List<String> = inMemorySettings.readState { remixRecentColors }.toStringList()
 
     override fun updatePersistentSize(value: Int) {
         inMemorySettings.update {
             remixSize = value
+        }
+    }
+
+    override fun updatePersistentCustomColors(lastCustomColor: String?, recentColors: List<String>) {
+        inMemorySettings.update {
+            remixLastCustomColor = lastCustomColor.orEmpty()
+            remixRecentColors = recentColors.toPersistedString()
         }
     }
 
@@ -60,8 +69,5 @@ class RemixUseCase(
         return FontByteArray(repository.loadFontBytes())
     }
 
-    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String {
-        val rawSvg = repository.downloadSvg(icon.name)
-        return SvgSizeCustomizer.applySettings(rawSvg, settings)
-    }
+    override suspend fun loadSvg(icon: StandardIcon): String = repository.downloadSvg(icon.name)
 }

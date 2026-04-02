@@ -5,6 +5,7 @@
 ### Added
 
 - [Web Import] Add `Font Awesome` icons provider
+- [Web Import] Add SVG customization controls for standard icon providers, including size, rotation, flips, and persistent custom/recent colors
 
 ### Changed
 

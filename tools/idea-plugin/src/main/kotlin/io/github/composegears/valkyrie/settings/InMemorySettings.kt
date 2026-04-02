@@ -13,7 +13,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_GRADE
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_WEIGHT
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings.Companion.DEFAULT_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings.Companion.DEFAULT_SIZE
 import java.util.Collections.emptyList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -66,10 +66,20 @@ class InMemorySettings(project: Project) {
         materialFontGrade = DEFAULT_GRADE
         materialFontOpticalSize = DEFAULT_OPTICAL_SIZE
         lucideSize = DEFAULT_SIZE
+        lucideLastCustomColor = ""
+        lucideRecentColors = ""
         bootstrapSize = DEFAULT_SIZE
+        bootstrapLastCustomColor = ""
+        bootstrapRecentColors = ""
         remixSize = DEFAULT_SIZE
+        remixLastCustomColor = ""
+        remixRecentColors = ""
         boxiconsSize = DEFAULT_SIZE
+        boxiconsLastCustomColor = ""
+        boxiconsRecentColors = ""
         fontAwesomeSize = DEFAULT_SIZE
+        fontAwesomeLastCustomColor = ""
+        fontAwesomeRecentColors = ""
     }
 
     fun updateUIState(uiState: SavedState) {
@@ -135,4 +145,15 @@ fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {
 
 fun PersistentSettings.ValkyrieState.updateOutputFormat(format: OutputFormat) {
     outputFormat = format.key
+}
+
+fun String?.toStringList(): List<String> {
+    return orEmpty()
+        .split(",")
+        .map(String::trim)
+        .filter(String::isNotEmpty)
+}
+
+fun List<String>.toPersistedString(): String {
+    return joinToString(separator = ",")
 }

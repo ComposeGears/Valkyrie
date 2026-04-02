@@ -14,7 +14,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_GRADE
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_WEIGHT
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings.Companion.DEFAULT_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SvgImportSettings.Companion.DEFAULT_SIZE
 
 @State(name = "Valkyrie.Settings", storages = [Storage("valkyrie_settings.xml")])
 class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(ValkyrieState()) {
@@ -64,18 +64,28 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         // Lucide
         var lucideSize: Int by property(DEFAULT_SIZE)
+        var lucideLastCustomColor: String? by string()
+        var lucideRecentColors: String? by string()
 
         // Bootstrap
         var bootstrapSize: Int by property(DEFAULT_SIZE)
+        var bootstrapLastCustomColor: String? by string()
+        var bootstrapRecentColors: String? by string()
 
         // Remix
         var remixSize: Int by property(DEFAULT_SIZE)
+        var remixLastCustomColor: String? by string()
+        var remixRecentColors: String? by string()
 
         // BoxIcons
         var boxiconsSize: Int by property(DEFAULT_SIZE)
+        var boxiconsLastCustomColor: String? by string()
+        var boxiconsRecentColors: String? by string()
 
         // Font Awesome
         var fontAwesomeSize: Int by property(DEFAULT_SIZE)
+        var fontAwesomeLastCustomColor: String? by string()
+        var fontAwesomeRecentColors: String? by string()
     }
 
     companion object {
