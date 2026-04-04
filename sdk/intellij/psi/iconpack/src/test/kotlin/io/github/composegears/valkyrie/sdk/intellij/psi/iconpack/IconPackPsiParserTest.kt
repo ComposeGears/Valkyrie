@@ -133,6 +133,21 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
         }
     }
 
+    @Test
+    fun `icon pack with license`() {
+        runInEdtAndGet {
+            val ktFile = loadKtFile("IconPackWithLicense.kt")
+            val iconPackInfo = IconPackPsiParser.parse(ktFile)
+
+            assertThat(iconPackInfo).isNotNull().transform { packInfo ->
+                assertThat(packInfo.packageName).isEqualTo("com.test")
+                assertThat(packInfo.iconPack.name).isEqualTo("Symbols")
+                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.license).isNotNull()
+            }
+        }
+    }
+
     private fun IconPack.navigate(path: String): IconPack {
         val parts = path.split('.')
         var current = this

@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackEditor
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
@@ -61,13 +61,11 @@ fun NewIconPackCreation(
 
 @Preview
 @Composable
-private fun NewIconPackCreationPreview() = PreviewTheme(alignment = Alignment.TopCenter) {
+private fun NewIconPackCreationPreview() = ProjectPreviewTheme(alignment = Alignment.TopCenter) {
     NewIconPackCreation(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
         state = NewPackModeState.PickedState(
             inputFieldState = InputFieldState(
+                license = InputState(text = "MIT"),
                 iconPackName = InputState(text = "ValkyrieIcons"),
                 packageName = InputState(text = "com.example.iconpack"),
                 nestedPacks = listOf(

@@ -129,8 +129,9 @@ class ExistingPackViewModel : ViewModel() {
 
     private fun IconPackInfo.toInputFieldState(): InputFieldState {
         return InputFieldState(
-            packageName = InputState(text = packageName, enabled = false),
+            license = InputState(text = license.orEmpty()),
             iconPackName = InputState(text = iconPack.name, enabled = false),
+            packageName = InputState(text = packageName, enabled = false),
             nestedPacks = iconPack.nested.mapIndexed { index, pack ->
                 NestedPack(
                     id = index.toString(),

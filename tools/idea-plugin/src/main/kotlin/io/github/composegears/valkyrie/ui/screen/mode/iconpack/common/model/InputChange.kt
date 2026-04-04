@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model
 import io.github.composegears.valkyrie.jewel.textfield.validation.ValidationResult
 
 sealed interface InputChange {
+    data class License(val text: String) : InputChange
     data class PackageName(val text: String) : InputChange
     data class IconPackName(val text: String) : InputChange
     data class NestedPackName(val id: String, val text: String) : InputChange

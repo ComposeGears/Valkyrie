@@ -13,11 +13,13 @@ class IconPackGeneratorTest {
         iconPack: IconPack = iconpack(name = "ValkyrieIcons"),
         useExplicitMode: Boolean = false,
         indentSize: Int = 4,
+        license: String? = null,
     ) = IconPackGeneratorConfig(
         packageName = "io.github.composegears.valkyrie.icons",
         iconPack = iconPack,
         useExplicitMode = useExplicitMode,
         indentSize = indentSize,
+        license = license,
     )
 
     @Test
@@ -105,6 +107,24 @@ class IconPackGeneratorTest {
             ),
         )
         val expected = getResourceText("iconpack/IconPack.nested.explicit.kt")
+
+        assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
+    }
+
+    @Test
+    fun `generate icon pack with license`() {
+        val license = "/*\n * Copyright (c) 2024 Test\n */"
+        val result = IconPackGenerator.create(config = createConfig(license = license))
+        val expected = getResourceText("iconpack/IconPack.license.kt")
+
+        assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
+    }
+
+    @Test
+    fun `generate icon pack with license as raw string`() {
+        val license = "Copyright (c) 2024 Test"
+        val result = IconPackGenerator.create(config = createConfig(license = license))
+        val expected = getResourceText("iconpack/IconPack.license.kt")
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
