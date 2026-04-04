@@ -21,9 +21,10 @@ object IconPackPsiParser {
         val iconPack = buildIconPack(topLevelObject)
 
         val license = ktFile.children
+            .takeWhile { it is PsiComment }
             .filterIsInstance<PsiComment>()
-            .firstOrNull()
-            ?.text
+            .joinToString("\n") { it.text }
+            .takeIf { it.isNotEmpty() }
 
         return iconPack?.let {
             IconPackInfo(

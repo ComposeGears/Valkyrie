@@ -52,7 +52,7 @@ fun IconPackEditor(
         val iconPackName = inputFieldState.iconPackName
 
         if (showLicense) {
-            Text("License")
+            Text(stringResource("iconpack.editor.license"))
             Spacer(8.dp)
             TextArea(
                 modifier = Modifier

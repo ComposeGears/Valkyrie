@@ -33,6 +33,14 @@ fun TextArea(
 
     val state = rememberTextFieldState(text)
 
+    LaunchedEffect(text) {
+        if (text != state.text.toString()) {
+            state.edit {
+                replace(0, length, text)
+            }
+        }
+    }
+
     LaunchedEffect(state) {
         snapshotFlow { state.text.toString() }
             .collectLatest { updatedOnValueChange(it) }
