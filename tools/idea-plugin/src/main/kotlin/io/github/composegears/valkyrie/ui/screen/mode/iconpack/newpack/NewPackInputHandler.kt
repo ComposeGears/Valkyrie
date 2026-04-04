@@ -25,6 +25,7 @@ class NewPackInputHandler(
     companion object {
         private val ValkyriesSettings.newPackInputState: InputFieldState
             get() = InputFieldState(
+                license = InputState(),
                 iconPackName = InputState(),
                 packageName = InputState(
                     text = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),

@@ -1,13 +1,15 @@
 package io.github.composegears.valkyrie.generator.iconpack
 
 import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
-import io.github.composegears.valkyrie.generator.iconpack.IconPackSpecOutput
 
 actual object IconPackGenerator {
 
     actual fun create(config: IconPackGeneratorConfig): IconPackSpecOutput {
         val content = buildString {
+            if (config.license != null) {
+                appendLine(config.license.asBlockComment())
+                appendLine()
+            }
             appendLine("package ${config.packageName}")
             appendLine()
 

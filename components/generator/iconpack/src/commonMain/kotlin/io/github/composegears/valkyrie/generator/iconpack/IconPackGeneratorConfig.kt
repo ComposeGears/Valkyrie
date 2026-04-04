@@ -7,4 +7,5 @@ data class IconPackGeneratorConfig(
     val iconPack: IconPack,
     val useExplicitMode: Boolean,
     val indentSize: Int,
+    val license: String? = null,
 )

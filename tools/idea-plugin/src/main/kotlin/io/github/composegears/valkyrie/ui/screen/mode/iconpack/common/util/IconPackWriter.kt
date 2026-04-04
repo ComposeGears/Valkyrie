@@ -37,6 +37,7 @@ object IconPackWriter {
                     ),
                     useExplicitMode = currentSettings.useExplicitMode,
                     indentSize = currentSettings.indentSize,
+                    license = inputFieldState.license.text.ifEmpty { null },
                 ),
             )
             iconPack.content.writeToKt(
