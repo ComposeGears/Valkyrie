@@ -133,6 +133,38 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
         }
     }
 
+    @Test
+    fun `icon pack with license`() {
+        runInEdtAndGet {
+            val ktFile = loadKtFile("IconPackWithLicense.kt")
+            val iconPackInfo = IconPackPsiParser.parse(ktFile)
+
+            val expectedLicense = """
+                /*
+                 * This program is free software: you can redistribute it and/or modify
+                 * it under the terms of the GNU General Public License as published by
+                 * the Free Software Foundation, either version 3 of the License, or
+                 * (at your option) any later version.
+                 *
+                 * This program is distributed in the hope that it will be useful,
+                 * but WITHOUT ANY WARRANTY; without even the implied warranty of
+                 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                 * GNU General Public License for more details.
+                 *
+                 * You should have received a copy of the GNU General Public License
+                 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+                 */
+            """.trimIndent()
+
+            assertThat(iconPackInfo).isNotNull().transform { packInfo ->
+                assertThat(packInfo.packageName).isEqualTo("com.test")
+                assertThat(packInfo.iconPack.name).isEqualTo("Symbols")
+                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.license).isEqualTo(expectedLicense)
+            }
+        }
+    }
+
     private fun IconPack.navigate(path: String): IconPack {
         val parts = path.split('.')
         var current = this

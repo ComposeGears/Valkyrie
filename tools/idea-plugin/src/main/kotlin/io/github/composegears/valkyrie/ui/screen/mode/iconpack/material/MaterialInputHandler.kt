@@ -26,6 +26,7 @@ class MaterialInputHandler(
     companion object {
         private val ValkyriesSettings.materialInputState: InputFieldState
             get() = InputFieldState(
+                license = InputState(text = "", enabled = false),
                 packageName = InputState(
                     text = PackageExtractor.getFrom(path = iconPackDestination).orEmpty(),
                 ),

@@ -62,18 +62,27 @@ abstract class BasicInputHandler(initialState: InputFieldState) : InputHandler {
 }
 
 private fun InputFieldState.applyChange(change: InputChange): InputFieldState = when (change) {
-    is InputChange.IconPackName ->
+    is InputChange.License -> {
+        copy(license = license.updateText(change.text))
+    }
+    is InputChange.IconPackName -> {
         copy(iconPackName = iconPackName.updateText(change.text))
-    is InputChange.IconPackNameValidation ->
+    }
+    is InputChange.IconPackNameValidation -> {
         copy(iconPackName = iconPackName.updateValidation(change.validationResult))
-    is InputChange.PackageName ->
+    }
+    is InputChange.PackageName -> {
         copy(packageName = packageName.updateText(change.text))
-    is InputChange.PackageNameValidation ->
+    }
+    is InputChange.PackageNameValidation -> {
         copy(packageName = packageName.updateValidation(change.validationResult))
-    is InputChange.NestedPackName ->
+    }
+    is InputChange.NestedPackName -> {
         copy(nestedPacks = nestedPacks.updateText(change.id, change.text))
-    is InputChange.NestedPackNameValidation ->
+    }
+    is InputChange.NestedPackNameValidation -> {
         copy(nestedPacks = nestedPacks.updateValidation(change.id, change.validationResult))
+    }
 }
 
 private fun InputState.updateText(text: String): InputState = copy(text = text)

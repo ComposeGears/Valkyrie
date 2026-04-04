@@ -17,7 +17,7 @@ import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.replace
 import io.github.composegears.valkyrie.jewel.PreviewCodeAction
 import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
@@ -103,7 +103,7 @@ private fun ExistingPackUi(
 
 @Preview
 @Composable
-private fun ExistingPackFlowPreview() = PreviewTheme {
+private fun ExistingPackFlowPreview() = ProjectPreviewTheme {
     var state by rememberMutableState<ExistingPackModeState> { ChooserState }
 
     ExistingPackUi(

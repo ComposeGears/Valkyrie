@@ -24,11 +24,17 @@ internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
             addType(iconPackSpec)
             setIndent(config.indentSize)
         }
+        val generatedContent = when {
+            config.useExplicitMode -> fileSpec.toString()
+            else -> fileSpec.removeExplicitModeCode()
+        }
+        val content = if (config.license != null) {
+            "${config.license.asBlockComment()}\n\n$generatedContent"
+        } else {
+            generatedContent
+        }
         return IconPackSpecOutput(
-            content = when {
-                config.useExplicitMode -> fileSpec.toString()
-                else -> fileSpec.removeExplicitModeCode()
-            },
+            content = content,
             name = fileSpec.name,
         )
     }
