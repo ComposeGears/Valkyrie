@@ -120,6 +120,7 @@ class NewPackViewModel : ViewModel() {
                 ),
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
                 indentSize = inMemorySettings.current.indentSize,
+                license = inputFieldState.license.text.ifEmpty { null },
             ),
         ).content
         _events.send(NewPackEvent.PreviewIconPackObject(code = iconPackCode))

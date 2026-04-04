@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
+import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackEditor
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
@@ -55,11 +55,8 @@ fun ExistingPackEditor(
 
 @Preview
 @Composable
-private fun ExistingPackEditorPreview() = PreviewTheme {
+private fun ExistingPackEditorPreview() = ProjectPreviewTheme(alignment = Alignment.TopCenter) {
     ExistingPackEditor(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
         state = ExistingPackEditState(),
         onValueChange = {},
         onAction = {},

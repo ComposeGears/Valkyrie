@@ -1,6 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class InputFieldState(
+    val license: InputState,
     val iconPackName: InputState,
     val packageName: InputState,
     val nestedPacks: List<NestedPack>,
@@ -21,6 +25,7 @@ data class InputFieldState(
 
     companion object {
         val Empty = InputFieldState(
+            license = InputState(),
             iconPackName = InputState(),
             packageName = InputState(),
             nestedPacks = emptyList(),

@@ -102,6 +102,7 @@ class ExistingPackViewModel : ViewModel() {
                 ),
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
                 indentSize = inMemorySettings.current.indentSize,
+                license = inputFieldState.license.text.ifEmpty { null },
             ),
         ).content
 
@@ -129,8 +130,9 @@ class ExistingPackViewModel : ViewModel() {
 
     private fun IconPackInfo.toInputFieldState(): InputFieldState {
         return InputFieldState(
-            packageName = InputState(text = packageName, enabled = false),
+            license = InputState(text = license.orEmpty()),
             iconPackName = InputState(text = iconPack.name, enabled = false),
+            packageName = InputState(text = packageName, enabled = false),
             nestedPacks = iconPack.nested.mapIndexed { index, pack ->
                 NestedPack(
                     id = index.toString(),

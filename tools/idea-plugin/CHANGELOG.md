@@ -5,6 +5,7 @@
 ### Added
 
 - [Web Import] Add `Font Awesome` icons provider
+- [IconPack] Add support for license header generation (accepts both raw text and `/* block comment */` format)
 
 ### Changed
 
@@ -14,6 +15,7 @@
 
 - [IconPack] Fix package name field being editable in existing pack mode
 - [IconPack] Fix loading state alignment during icon import and processing
+- [IconPack] Fix license header being rendered as line comments (`// /* ... */`) instead of a block comment
 
 ## 1.4.0 - 2026-03-15
 

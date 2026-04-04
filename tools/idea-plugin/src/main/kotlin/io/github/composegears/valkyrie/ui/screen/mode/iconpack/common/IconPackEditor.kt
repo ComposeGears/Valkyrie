@@ -3,8 +3,10 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -12,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.button.OutlineIconButton
+import io.github.composegears.valkyrie.jewel.textarea.TextArea
 import io.github.composegears.valkyrie.jewel.textfield.validation.ValidationResult
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
@@ -19,6 +22,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableSta
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange.IconPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange.IconPackNameValidation
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange.License
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange.NestedPackName
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange.NestedPackNameValidation
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputChange.PackageName
@@ -39,11 +43,28 @@ fun IconPackEditor(
     onValueChange: (InputChange) -> Unit,
     onAddNestedPack: () -> Unit,
     modifier: Modifier = Modifier,
+    showLicense: Boolean = true,
     onRemoveNestedPack: (NestedPack) -> Unit,
 ) {
     Column(modifier = modifier) {
+        val license = inputFieldState.license
         val packageName = inputFieldState.packageName
         val iconPackName = inputFieldState.iconPackName
+
+        if (showLicense) {
+            Text(text = stringResource("iconpack.existingpack.editor.license"))
+            Spacer(8.dp)
+            TextArea(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(72.dp),
+                text = license.text,
+                onValueChange = { onValueChange(License(it)) },
+                placeholder = stringResource("iconpack.existingpack.editor.license.placeholder"),
+                enabled = license.enabled,
+            )
+            Spacer(32.dp)
+        }
 
         CodeTooltipHeader(
             text = stringResource("iconpack.editor.package"),
@@ -157,6 +178,7 @@ private fun AddPackButton(
 private fun IconPackEditorPreview() = ProjectPreviewTheme(alignment = Alignment.TopCenter) {
     var state by rememberMutableState {
         InputFieldState(
+            license = InputState(),
             packageName = InputState(text = "com.example.iconpack", enabled = false),
             iconPackName = InputState(text = "ValkyrieIcons"),
             nestedPacks = listOf(
@@ -177,11 +199,14 @@ private fun IconPackEditorPreview() = ProjectPreviewTheme(alignment = Alignment.
 
     IconPackEditor(
         modifier = Modifier
-            .fillMaxWidth()
+            .widthIn(max = 450.dp)
             .padding(horizontal = 16.dp),
         inputFieldState = state,
         onValueChange = {
             when (it) {
+                is License -> state = state.copy(
+                    license = state.license.copy(text = it.text),
+                )
                 is PackageName -> state = state.copy(
                     packageName = state.packageName.copy(text = it.text),
                 )
@@ -240,8 +265,8 @@ private fun IconPackEditorPreview() = ProjectPreviewTheme(alignment = Alignment.
 
     Text(
         modifier = Modifier
-            .align(alignment = Alignment.TopEnd)
-            .padding(end = 16.dp),
+            .align(alignment = Alignment.BottomEnd)
+            .padding(end = 8.dp, bottom = 8.dp),
         text = "Input valid: ${state.isValid}",
     )
 }
