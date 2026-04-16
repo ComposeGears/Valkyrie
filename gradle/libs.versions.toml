@@ -13,7 +13,7 @@ ktor = "3.3.1"
 
 [libraries]
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
-android-build-tools = "com.android.tools:sdk-common:31.13.2"
+android-build-tools = "com.android.tools:sdk-common:32.1.1"
 
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = "org.jetbrains.compose.material3:material3:1.10.0-alpha05"
