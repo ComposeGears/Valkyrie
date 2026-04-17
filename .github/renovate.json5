@@ -6,5 +6,7 @@
   "labels": [
     "dependencies",
   ],
-  "rebaseWhen": "conflicted"
+  "rebaseWhen": "conflicted",
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0
 }
