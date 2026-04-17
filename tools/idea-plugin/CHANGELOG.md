@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.5.0 - 2026-04-17
+
 ### Added
 
 - [Web Import] Add `Font Awesome` icons provider
