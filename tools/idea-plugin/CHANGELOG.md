@@ -5,6 +5,7 @@
 ### Added
 
 - [Web Import] Add `Tabler` icons provider
+- [Web Import] Add `Eva` icons provider
 - Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")` annotation on
   ImageVector extension properties when an icon pack receiver is used (e.g. `ValkyrieIcons`)
 
@@ -17,7 +18,6 @@
 
 ### Added
 
-- [Web Import] Add `Eva` icons provider
 - [Web Import] Add `Font Awesome` icons provider
 - [IconPack] Add support for license header generation (accepts both raw text and `/* block comment */` format)
 
