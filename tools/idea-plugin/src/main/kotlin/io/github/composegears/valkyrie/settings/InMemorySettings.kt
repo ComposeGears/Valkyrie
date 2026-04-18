@@ -72,6 +72,7 @@ class InMemorySettings(project: Project) {
         boxiconsSize = DEFAULT_SIZE
         fontAwesomeSize = DEFAULT_SIZE
         tablerSize = DEFAULT_SIZE
+        evaSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {
