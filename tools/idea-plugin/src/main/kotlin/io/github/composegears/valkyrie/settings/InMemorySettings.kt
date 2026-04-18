@@ -70,6 +70,7 @@ class InMemorySettings(project: Project) {
         remixSize = DEFAULT_SIZE
         boxiconsSize = DEFAULT_SIZE
         fontAwesomeSize = DEFAULT_SIZE
+        evaSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {

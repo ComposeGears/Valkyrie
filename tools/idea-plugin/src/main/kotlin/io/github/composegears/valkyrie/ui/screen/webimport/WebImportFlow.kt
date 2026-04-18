@@ -9,6 +9,7 @@ import com.composegears.tiamat.compose.rememberNavController
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.BoxIconsImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.EvaImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.FontAwesomeImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
@@ -27,6 +28,7 @@ val WebImportFlow by navDestination {
             RemixImportScreen,
             BoxIconsImportScreen,
             FontAwesomeImportScreen,
+            EvaImportScreen,
         ),
         contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
     )

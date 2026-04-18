@@ -22,12 +22,14 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.BootstrapLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.BoxLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.EvaLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.FontAwesomeLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.LucideLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.RemixLogo
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Bootstrap
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.BoxIcons
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Eva
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.FontAwesome
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
@@ -35,6 +37,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Remix
 import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.BoxIconsImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.EvaImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.FontAwesomeImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
@@ -56,6 +59,7 @@ val WebImportSelectorScreen by navDestination {
                 Remix -> RemixImportScreen
                 BoxIcons -> BoxIconsImportScreen
                 FontAwesome -> FontAwesomeImportScreen
+                Eva -> EvaImportScreen
             }
 
             navController.navigate(dest = screen)
@@ -124,6 +128,13 @@ private fun WebImportSelectorScreenUI(
                     title = stringResource("web.import.selector.fontawesome.title"),
                     description = stringResource("web.import.selector.fontawesome.description"),
                 )
+                InfoCard(
+                    onClick = { onClick(Eva) },
+                    icon = ValkyrieIcons.Colored.EvaLogo,
+                    title = stringResource("web.import.selector.eva.title"),
+                    tint = Color.Unspecified,
+                    description = stringResource("web.import.selector.eva.description"),
+                )
                 InfoText(
                     text = stringResource("web.import.selector.coming.soon"),
                     maxLines = 2,
@@ -140,6 +151,7 @@ enum class IconProviders {
     Remix,
     BoxIcons,
     FontAwesome,
+    Eva,
 }
 
 @Preview

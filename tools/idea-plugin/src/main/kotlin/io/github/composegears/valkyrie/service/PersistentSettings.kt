@@ -76,6 +76,9 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         // Font Awesome
         var fontAwesomeSize: Int by property(DEFAULT_SIZE)
+
+        // Eva Icons
+        var evaSize: Int by property(DEFAULT_SIZE)
     }
 
     companion object {

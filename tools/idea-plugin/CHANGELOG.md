@@ -6,6 +6,7 @@
 
 ### Added
 
+- [Web Import] Add `Eva` icons provider
 - [Web Import] Add `Font Awesome` icons provider
 - [IconPack] Add support for license header generation (accepts both raw text and `/* block comment */` format)
 
