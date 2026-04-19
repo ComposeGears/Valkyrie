@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- [Web Import] Add `Tabler` icons provider
+
 ## 1.5.0 - 2026-04-17
 
 ### Added
