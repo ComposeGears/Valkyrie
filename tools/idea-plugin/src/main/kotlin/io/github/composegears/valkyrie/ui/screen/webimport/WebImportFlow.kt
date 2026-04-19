@@ -12,6 +12,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.Box
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.FontAwesomeImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.TablerImportScreen
 
 val WebImportFlow by navDestination {
     Navigation(
@@ -27,6 +28,7 @@ val WebImportFlow by navDestination {
             RemixImportScreen,
             BoxIconsImportScreen,
             FontAwesomeImportScreen,
+            TablerImportScreen,
         ),
         contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
     )
