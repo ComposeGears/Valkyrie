@@ -77,10 +77,10 @@ internal fun registerTask(
  * at configuration time.
  */
 private fun Project.findIconFiles(sourceSetName: String, resourceDirectoryName: Property<String>): FileCollection {
-    val resourceDir = layout.projectDirectory
-        .dir("src/$sourceSetName")
-        .dir(resourceDirectoryName.get())
-    return resourceDir.asFileTree.filter {
-        it.extension == "svg" || it.extension == "xml"
+    val resourceDirProvider = resourceDirectoryName.map { dirName ->
+        layout.projectDirectory.dir("src/$sourceSetName").dir(dirName)
     }
+    return files(
+        resourceDirProvider.map { dir -> dir.asFileTree.filter { it.extension == "svg" || it.extension == "xml" } },
+    )
 }
