@@ -6,6 +6,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrFill
 import org.jetbrains.kotlin.psi.KtBinaryExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
+import org.jetbrains.kotlin.psi.KtExpression
 
 internal fun KtCallExpression.parseFill(): IrFill? {
     val arg = valueArguments.find { it.getArgumentName()?.asName?.identifier == "fill" }
@@ -55,12 +56,12 @@ private fun KtCallExpression.parseLinearGradient(): IrFill.LinearGradient? {
                 colorStops = argValue.safeAs<KtCallExpression>()?.parseColorStops().orEmpty().toMutableList()
             }
             "start" -> {
-                val startExpr = argValue.safeAs<KtCallExpression>()
+                val startExpr = argValue?.resolveCallExpression()
                 startX = startExpr?.valueArguments?.get(0)?.getArgumentExpression()?.text?.toFloatOrNull() ?: 0f
                 startY = startExpr?.valueArguments?.get(1)?.getArgumentExpression()?.text?.toFloatOrNull() ?: 0f
             }
             "end" -> {
-                val endExpr = argValue.safeAs<KtCallExpression>()
+                val endExpr = argValue?.resolveCallExpression()
                 endX = endExpr?.valueArguments?.get(0)?.getArgumentExpression()?.text?.toFloatOrNull() ?: 0f
                 endY = endExpr?.valueArguments?.get(1)?.getArgumentExpression()?.text?.toFloatOrNull() ?: 0f
             }
@@ -94,7 +95,7 @@ private fun KtCallExpression.parseRadialGradient(): IrFill.RadialGradient? {
                 colorStops = argValue.safeAs<KtCallExpression>()?.parseColorStops().orEmpty().toMutableList()
             }
             "center" -> {
-                val centerExpr = argValue.safeAs<KtCallExpression>()
+                val centerExpr = argValue?.resolveCallExpression()
                 centerX = centerExpr?.valueArguments?.get(0)?.getArgumentExpression()?.text?.toFloatOrNull() ?: 0f
                 centerY = centerExpr?.valueArguments?.get(1)?.getArgumentExpression()?.text?.toFloatOrNull() ?: 0f
             }
@@ -134,4 +135,14 @@ private fun KtCallExpression.parseColorStops(): List<IrFill.ColorStop> {
     }
 
     return colorStops
+}
+
+/**
+ * Resolves a [KtCallExpression] from either a direct call (`Offset(...)`)
+ * or a fully-qualified call (`androidx.compose.ui.geometry.Offset(...)`).
+ */
+private fun KtExpression.resolveCallExpression(): KtCallExpression? = when (this) {
+    is KtCallExpression -> this
+    is KtDotQualifiedExpression -> childOfType<KtCallExpression>()
+    else -> null
 }
