@@ -10,7 +10,6 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.Optional
-import org.gradle.declarative.dsl.model.annotations.Configuring
 
 abstract class IconPackExtension @Inject constructor(
     private val objects: ObjectFactory,
@@ -62,7 +61,6 @@ abstract class IconPackExtension @Inject constructor(
         .convention(emptyList())
 
     @Suppress("unused")
-    @Configuring
     fun nested(action: NestedPack.() -> Unit) {
         val config = objects.newInstance<NestedPack>().apply(action)
         nestedPacks.add(config)

@@ -9,7 +9,6 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.Optional
-import org.gradle.declarative.dsl.model.annotations.Configuring
 
 abstract class ValkyrieExtension @Inject constructor(private val objects: ObjectFactory) {
     /**
@@ -81,7 +80,6 @@ abstract class ValkyrieExtension @Inject constructor(private val objects: Object
      * Configures code style options for generated code
      */
     @Suppress("unused")
-    @Configuring
     fun codeStyle(action: CodeStyleConfigExtension.() -> Unit) = action.invoke(codeStyle)
 
     /**
@@ -101,14 +99,12 @@ abstract class ValkyrieExtension @Inject constructor(private val objects: Object
      * Configures ImageVector generation options
      */
     @Suppress("unused")
-    @Configuring
     fun imageVector(action: ImageVectorConfigExtension.() -> Unit) = action.invoke(imageVector)
 
     /**
      * Configures Icon Pack options
      */
     @Suppress("unused")
-    @Configuring
     fun iconPack(action: IconPackExtension.() -> Unit) {
         val spec = iconPack.getOrElse(objects.newInstance<IconPackExtension>()).apply(action)
         iconPack.set(spec)
