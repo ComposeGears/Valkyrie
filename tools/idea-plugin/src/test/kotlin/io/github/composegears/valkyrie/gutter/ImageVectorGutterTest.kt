@@ -120,6 +120,56 @@ class ImageVectorGutterTest : KotlinCodeInsightTest() {
     }
 
     @Test
+    fun `gutter icon with fully qualified Offset in linear gradient`() = runInEdtAndGet {
+        myFixture.configureByText(
+            "FullQualified.kt",
+            """
+            package io.github.composegears.valkyrie.icons
+
+            import androidx.compose.ui.graphics.Brush
+            import androidx.compose.ui.graphics.Color
+            import androidx.compose.ui.graphics.vector.ImageVector
+            import androidx.compose.ui.graphics.vector.path
+            import androidx.compose.ui.unit.dp
+
+            val FullQualified: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+                ImageVector.Builder(
+                    name = "FullQualified",
+                    defaultWidth = 24.dp,
+                    defaultHeight = 24.dp,
+                    viewportWidth = 18f,
+                    viewportHeight = 18f
+                ).apply {
+                    path(
+                        fill = Brush.linearGradient(
+                            colorStops = arrayOf(
+                                0f to Color(0xFF232F34),
+                                1f to Color(0xFFD80027)
+                            ),
+                            start = androidx.compose.ui.geometry.Offset(2f, 2f),
+                            end = androidx.compose.ui.geometry.Offset(6f, 2f)
+                        )
+                    ) {
+                        moveTo(2f, 2f)
+                        lineTo(6f, 2f)
+                        lineTo(6f, 6f)
+                        lineTo(2f, 6f)
+                        close()
+                    }
+                }.build()
+            }
+            """.trimIndent(),
+        )
+
+        val gutters = myFixture.findAllGutters()
+        assertThat(gutters).hasSize(1)
+
+        val gutter = gutters.first()
+        assertEquals("FullQualified", gutter.tooltipText)
+        assertNotNull(gutter.icon)
+    }
+
+    @Test
     fun `multiple equal name gutter icons in file`() = runInEdtAndGet {
         myFixture.configureByText(
             "Stylus.kt",
