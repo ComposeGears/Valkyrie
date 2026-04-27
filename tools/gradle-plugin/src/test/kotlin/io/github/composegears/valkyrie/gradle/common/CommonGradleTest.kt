@@ -47,7 +47,6 @@ open class CommonGradleTest {
         task,
         "--configuration-cache",
         "--stacktrace",
-        "-Pandroid.useAndroidX=true", // needed for android builds to work, unused otherwise
     )
 
     protected fun Path.writeSettingsFile() = resolve("settings.gradle.kts").writeText(

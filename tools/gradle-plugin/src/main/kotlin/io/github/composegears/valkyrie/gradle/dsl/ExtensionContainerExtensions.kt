@@ -10,4 +10,6 @@ internal inline fun <reified T : Any> ExtensionContainer.create(
 
 internal inline fun <reified T : Any> ExtensionContainer.getByType(): T = getByType(typeOf<T>())
 
+internal inline fun <reified T : Any> ExtensionContainer.findByType(): T? = findByType(T::class.java)
+
 internal inline fun <reified T> typeOf(): TypeOf<T> = object : TypeOf<T>() {}
