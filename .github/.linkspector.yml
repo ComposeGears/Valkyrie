@@ -1,0 +1,8 @@
+dirs:
+  - ./
+
+fileExtensions:
+  - md
+
+ignorePatterns:
+  - pattern: "^https://join\\.slack\\.com"
