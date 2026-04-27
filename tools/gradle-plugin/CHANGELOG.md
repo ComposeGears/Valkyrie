@@ -7,6 +7,10 @@
 - Add support for AGP 9.0+ built-in Kotlin — source-set enumeration and generated source wiring now work
   without the external `kotlin("android")` plugin via the stable `CommonExtension` API
 
+### Removed
+
+- Drop support for AGP 8.x. The minimum supported AGP version is now **9.2.0**.
+
 ## 0.4.0 - 2026-02-26
 
 ### Added

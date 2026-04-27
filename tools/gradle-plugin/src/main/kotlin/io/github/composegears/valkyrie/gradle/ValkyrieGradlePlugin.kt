@@ -112,7 +112,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
                 project = this,
                 extension = extension,
                 sourceSetName = sourceSet.name,
-                addGeneratedSrcDir = { /* handled via addGeneratedSourceDirectory in phase 2 */ },
+                addGeneratedSrcDir = { /* handled via addStaticSourceDirectory in phase 2 */ },
             )
         }
 
