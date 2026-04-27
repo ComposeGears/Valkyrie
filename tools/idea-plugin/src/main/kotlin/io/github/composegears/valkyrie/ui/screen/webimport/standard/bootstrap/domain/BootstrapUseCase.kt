@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.d
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.data.BootstrapRepository
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.SvgSizeCustomizer
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
@@ -36,7 +37,7 @@ class BootstrapUseCase(
             StandardIcon(
                 name = name,
                 displayName = name.toDisplayName(),
-                codepoint = codepoint,
+                codepoint = Codepoint(codepoint),
                 tags = emptyList(),
                 category = inferCategoryFromTags(name, emptyList()),
             )

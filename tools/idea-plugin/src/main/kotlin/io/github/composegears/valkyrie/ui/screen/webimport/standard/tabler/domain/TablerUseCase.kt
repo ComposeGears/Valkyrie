@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.doma
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
@@ -64,7 +65,7 @@ internal fun buildTablerIcons(
                 name = name,
                 displayName = name.toDisplayName(),
                 exportName = if (hasMultipleStyles) "$name-${style.id}" else name,
-                codepoint = codepoint,
+                codepoint = Codepoint(codepoint),
                 tags = emptyList(),
                 category = inferCategoryFromTags(name, emptyList()),
                 style = style,
