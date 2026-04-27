@@ -17,8 +17,8 @@ jobs:
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
         with:
+          config_file: .github/.linkspector.yml
           reporter: github-pr-check
-          fail_on_error: true
           filter_mode: nofilter
           fail_level: any
 
