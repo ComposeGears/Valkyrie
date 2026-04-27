@@ -436,7 +436,7 @@ class IrToXmlGeneratorTest {
         generatedXml.assertContains("android:type=\"radial\"")
 
         val gradientItemCount = generatedXml.split("<item").lastIndex
-        assertEquals(3, gradientItemCount, "Should have gradient items")
+        assertEquals(7, gradientItemCount, "Should have gradient items")
     }
 
     @Test
@@ -647,8 +647,12 @@ class IrToXmlGeneratorTest {
             assertContains("android:startY=\"0")
             assertContains("android:endX=\"10")
             assertContains("android:endY=\"10")
-            assertContains("android:startColor=\"#FFFF0000\"")
-            assertContains("android:endColor=\"#FF0000FF\"")
+            assertContains("android:color=\"#FFFF0000\"")
+            assertContains("android:offset=\"0")
+            assertContains("android:color=\"#FF0000FF\"")
+            assertContains("android:offset=\"1")
+            val itemCount = result.split("<item").lastIndex
+            assertEquals(2, itemCount, "Should have 2 gradient items")
             assertContains("</aapt:attr>")
         }
     }
@@ -685,8 +689,12 @@ class IrToXmlGeneratorTest {
             assertContains("android:centerX=\"5")
             assertContains("android:centerY=\"5")
             assertContains("android:gradientRadius=\"7.5\"")
-            assertContains("android:startColor=\"#FF00FF00\"")
-            assertContains("android:endColor=\"#FFFFFF00\"")
+            assertContains("android:color=\"#FF00FF00\"")
+            assertContains("android:offset=\"0")
+            assertContains("android:color=\"#FFFFFF00\"")
+            assertContains("android:offset=\"1")
+            val itemCount = result.split("<item").lastIndex
+            assertEquals(2, itemCount, "Should have 2 gradient items")
             assertContains("</aapt:attr>")
         }
     }
