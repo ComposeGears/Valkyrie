@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model
 
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
 
 /**
  * Standard icon model for icon providers that use inferred categories.
@@ -17,7 +18,7 @@ data class StandardIcon(
     override val name: String,
     val displayName: String,
     val exportName: String = name,
-    val codepoint: Int,
+    val codepoint: Codepoint,
     val tags: List<String>,
     val category: InferredCategory,
     val style: IconStyle? = null,

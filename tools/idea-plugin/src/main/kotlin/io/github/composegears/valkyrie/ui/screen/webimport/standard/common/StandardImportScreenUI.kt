@@ -49,7 +49,6 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoading
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toGlyphString
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings

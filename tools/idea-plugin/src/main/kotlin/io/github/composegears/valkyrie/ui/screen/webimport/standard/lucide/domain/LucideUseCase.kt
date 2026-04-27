@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.doma
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.SvgSizeCustomizer
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
@@ -38,7 +39,7 @@ class LucideUseCase(
             StandardIcon(
                 name = name,
                 displayName = name.toDisplayName(),
-                codepoint = codepoint,
+                codepoint = Codepoint(codepoint),
                 tags = metadata.tags,
                 category = inferCategoryFromTags(name, metadata.tags),
             )

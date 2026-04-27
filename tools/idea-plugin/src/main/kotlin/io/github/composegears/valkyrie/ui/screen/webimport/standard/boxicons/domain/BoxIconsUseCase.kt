@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.do
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.data.BoxIconsRepository
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.SvgSizeCustomizer
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
@@ -38,7 +39,7 @@ class BoxIconsUseCase(
                 name = entry.key,
                 displayName = displayName,
                 exportName = entry.key.toExportName(),
-                codepoint = entry.value,
+                codepoint = Codepoint(entry.value),
                 tags = emptyList(),
                 category = inferCategoryFromTags(entry.key, emptyList()),
                 style = style.value,
