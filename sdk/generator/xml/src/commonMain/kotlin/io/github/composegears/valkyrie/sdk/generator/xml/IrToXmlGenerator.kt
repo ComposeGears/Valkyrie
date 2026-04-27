@@ -105,61 +105,32 @@ object IrToXmlGenerator {
     }
 
     private fun IrFill.LinearGradient.toVectorDrawableGradient(): VectorDrawable.Gradient {
-        // Use startColor/endColor for simple 2-color gradients (0.0 to 1.0)
-        val useSimpleFormat = colorStops.size == 2 &&
-            colorStops.first().offset == 0f &&
-            colorStops.last().offset == 1f
-
         return VectorDrawable.Gradient(
             type = "linear",
             startX = startX,
             startY = startY,
             endX = endX,
             endY = endY,
-            centerX = null,
-            centerY = null,
-            gradientRadius = null,
-            startColor = colorStops.first().irColor.toHexColor().takeIf { useSimpleFormat },
-            endColor = colorStops.last().irColor.toHexColor().takeIf { useSimpleFormat },
-            items = if (useSimpleFormat) {
-                emptyList()
-            } else {
-                colorStops.map { colorStop ->
-                    VectorDrawable.GradientItem(
-                        color = colorStop.irColor.toHexColor(),
-                        offset = colorStop.offset,
-                    )
-                }
+            items = colorStops.map { colorStop ->
+                VectorDrawable.GradientItem(
+                    color = colorStop.irColor.toHexColor(),
+                    offset = colorStop.offset,
+                )
             },
         )
     }
 
     private fun IrFill.RadialGradient.toVectorDrawableGradient(): VectorDrawable.Gradient {
-        // Use startColor/endColor for simple 2-color gradients (0.0 to 1.0)
-        val useSimpleFormat = colorStops.size == 2 &&
-            colorStops.first().offset == 0f &&
-            colorStops.last().offset == 1f
-
         return VectorDrawable.Gradient(
             type = "radial",
-            startX = null,
-            startY = null,
-            endX = null,
-            endY = null,
             centerX = centerX,
             centerY = centerY,
             gradientRadius = radius,
-            startColor = colorStops.first().irColor.toHexColor().takeIf { useSimpleFormat },
-            endColor = colorStops.last().irColor.toHexColor().takeIf { useSimpleFormat },
-            items = if (useSimpleFormat) {
-                emptyList()
-            } else {
-                colorStops.map { colorStop ->
-                    VectorDrawable.GradientItem(
-                        color = colorStop.irColor.toHexColor(),
-                        offset = colorStop.offset,
-                    )
-                }
+            items = colorStops.map { colorStop ->
+                VectorDrawable.GradientItem(
+                    color = colorStop.irColor.toHexColor(),
+                    offset = colorStop.offset,
+                )
             },
         )
     }
