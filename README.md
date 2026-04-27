@@ -73,6 +73,7 @@ needs.
         - [`changelog` command](#changelog-command)
     - [Build](#build-cli)
 - 🐘 [Gradle plugin](#gradle-plugin)
+    - [Compatibility](#compatibility)
     - [Plugin configuration](#plugin-configuration)
     - [Samples](#gradle-plugin-samples)
         - [Basic conversion](#basic-conversion)
@@ -367,6 +368,13 @@ Run `./gradlew buildCLI` to build minified version of CLI tool. Artifact will be
 
 The Gradle plugin automates the conversion of SVG/XML files to Compose ImageVector format during the build process. It's
 ideal for projects that need to version control icon sources and generate type-safe Kotlin code automatically.
+
+### Compatibility
+
+| Valkyrie plugin version | Min AGP | Min Gradle              |
+|-------------------------|---------|-------------------------|
+| 0.4.0                   | 9.0.0   | 9.0.0 (should be lower) |
+| 0.5.0                   | 9.2.0   | 9.4.1                   |
 
 ### Common scenarios
 
