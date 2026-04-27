@@ -5,23 +5,30 @@ import io.github.composegears.valkyrie.gradle.dsl.conventionCompat
 import io.github.composegears.valkyrie.gradle.internal.task.GenerateImageVectorsTask
 import io.github.composegears.valkyrie.parser.unified.ext.capitalized
 import org.gradle.api.Project
-import org.gradle.api.file.Directory
 import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
+/**
+ * Core task registration used by both Kotlin (JVM/KMP) and Android (AGP 9.0 built-in Kotlin) paths.
+ *
+ * @param sourceSetName name of the source set (e.g. "main", "debug", "commonMain")
+ * @param addGeneratedSrcDir callback that wires the generated output directory into the
+ *        appropriate compilation so the Kotlin compiler picks it up.
+ */
 internal fun registerTask(
     project: Project,
     extension: ValkyrieExtension,
-    sourceSet: KotlinSourceSet,
+    sourceSetName: String,
+    addGeneratedSrcDir: (Provider<*>) -> Unit,
 ) {
-    val taskName = "${TASK_NAME}${sourceSet.name.capitalized()}"
-    val sourceSetName = sourceSet.name
+    val taskName = "${TASK_NAME}${sourceSetName.capitalized()}"
     project.tasks.register(taskName, GenerateImageVectorsTask::class.java) { task ->
         task.description = "Converts SVG & Drawable files into ImageVector Kotlin accessor properties"
 
         val resourceDirName = extension.resourceDirectoryName
-        val iconFiles = sourceSet.findIconFiles(resourceDirName)
+        val iconFiles = project.findIconFiles(sourceSetName, resourceDirName)
         task.iconFiles.conventionCompat(iconFiles)
         task.onlyIf("Needs at least one input file or iconPack") {
             !iconFiles.isEmpty ||
@@ -31,9 +38,9 @@ internal fun registerTask(
         task.packageName.convention(extension.packageName)
 
         val outputRoot = extension.outputDirectory
-        val perSourceSetDir = outputRoot.map { it.dir("${sourceSet.name}/kotlin") }
+        val perSourceSetDir = outputRoot.map { it.dir("$sourceSetName/kotlin") }
         task.outputDirectory.convention(perSourceSetDir)
-        sourceSet.kotlin.srcDir(perSourceSetDir)
+        addGeneratedSrcDir(perSourceSetDir)
 
         task.outputFormat.convention(extension.imageVector.outputFormat)
         task.useComposeColors.convention(extension.imageVector.useComposeColors)
@@ -45,27 +52,35 @@ internal fun registerTask(
         task.suppressUnusedReceiverWarning.convention(extension.imageVector.suppressUnusedReceiverWarning)
         task.autoMirror.convention(extension.autoMirror)
 
-        task.sourceSet.convention(sourceSet.name)
+        task.sourceSet.convention(sourceSetName)
         task.iconPack.convention(extension.iconPack)
     }
 }
 
-private fun KotlinSourceSet.root(): Directory = with(project) {
-    // kotlin.srcDirs returns a set like ["src/main/kotlin", "src/main/java"] - we want the "src/main" directory.
-    val src = provider {
-        kotlin.srcDirs
-            .firstOrNull()
-            ?.resolve("..")
-            ?: error("No srcDir found for source set $name")
-    }
-    return layout.dir(src).get()
+/** Convenience overload for Kotlin (JVM / KMP) source sets. */
+internal fun registerTask(
+    project: Project,
+    extension: ValkyrieExtension,
+    sourceSet: KotlinSourceSet,
+) {
+    registerTask(
+        project = project,
+        extension = extension,
+        sourceSetName = sourceSet.name,
+        addGeneratedSrcDir = { dir -> sourceSet.kotlin.srcDir(dir) },
+    )
 }
 
-private fun KotlinSourceSet.findIconFiles(resourceDirectoryName: Property<String>): FileCollection {
-    return root()
+/**
+ * Locates icon files for [sourceSetName] using the standard src/<sourceSetName>/<resourceDir> convention.
+ * This is reliable across JVM, KMP, and AGP 9.0 built-in Kotlin where kotlin.srcDirs may be empty
+ * at configuration time.
+ */
+private fun Project.findIconFiles(sourceSetName: String, resourceDirectoryName: Property<String>): FileCollection {
+    val resourceDir = layout.projectDirectory
+        .dir("src/$sourceSetName")
         .dir(resourceDirectoryName.get())
-        .asFileTree
-        .filter {
-            it.extension == "svg" || it.extension == "xml"
-        }
+    return resourceDir.asFileTree.filter {
+        it.extension == "svg" || it.extension == "xml"
+    }
 }

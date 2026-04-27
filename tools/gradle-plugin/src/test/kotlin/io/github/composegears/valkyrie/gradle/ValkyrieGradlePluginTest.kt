@@ -35,7 +35,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    kotlin("android")
                     id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
@@ -165,28 +164,26 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
     @Test
     fun `Generate from SVGs in KMP project`() {
+        // AGP 9.0: com.android.library is incompatible with kotlin("multiplatform").
+        // Use com.android.kotlin.multiplatform.library + androidLibrary { } instead.
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
                     kotlin("multiplatform")
-                    id("com.android.library")
+                    id("com.android.kotlin.multiplatform.library")
                     id("io.github.composegears.valkyrie")
                 }
 
-                android {
-                    namespace = "x.y.z"
-                    compileSdk = 36
-
-                    flavorDimensions += "test"
-                    productFlavors {
-                        create("free") { dimension = "test" }
-                        create("paid") { dimension = "test" }
+                kotlin {
+                    androidLibrary {
+                        namespace = "x.y.z"
+                        compileSdk = 36
                     }
+                    jvm()
                 }
 
-                kotlin {
-                    androidTarget()
-                    jvm()
+                valkyrie {
+                    packageName = "x.y.z"
                 }
             """.trimIndent(),
         )
@@ -197,8 +194,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         val result = runTask(root, TASK_NAME)
 
         // no SVGs/drawables under these source sets, so the tasks are skipped (but still registered)
-        assertThat(result).taskHadResult(":generateValkyrieImageVectorAndroidFree", SKIPPED)
-        assertThat(result).taskHadResult(":generateValkyrieImageVectorAndroidPaidDebug", SKIPPED)
         assertThat(result).taskHadResult(":generateValkyrieImageVectorCommonMain", SKIPPED)
         assertThat(result).taskHadResult(":generateValkyrieImageVectorJvmTest", SKIPPED)
 
@@ -212,7 +207,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    kotlin("android")
                     id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
@@ -244,7 +238,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    kotlin("android")
                     id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
@@ -274,7 +267,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    kotlin("android")
                     id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
@@ -396,7 +388,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         root.resolve("build.gradle.kts").writeText(
             """
                 plugins {
-                    kotlin("android")
                     id("com.android.library")
                     id("io.github.composegears.valkyrie")
                 }
@@ -410,11 +401,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
                         create("free") { dimension = "myFlavor" }
                         create("paid") { dimension = "myFlavor" }
                     }
-                }
-
-                kotlin {
-                    // to match that used in validation.yml for CI
-                    jvmToolchain(21)
                 }
 
                 dependencies {
