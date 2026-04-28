@@ -18,6 +18,7 @@ internal data class ImageVectorRenderConfig(
     val addTrailingComma: Boolean,
     val usePathDataString: Boolean,
     val indentSize: Int,
+    val suppressUnusedReceiverWarning: Boolean,
     val fullQualifiedImports: FullQualifiedImports,
 )
 

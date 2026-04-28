@@ -21,6 +21,9 @@ internal object ImageVectorRenderer {
         val backingName = "_${config.iconName}"
 
         with(writer) {
+            if (config.suppressUnusedReceiverWarning && config.resolveReceiverName().isNotEmpty()) {
+                line("@Suppress(\"UnusedReceiverParameter\")")
+            }
             line("${explicit}val $targetName: ImageVector")
             line("${indent(1)}get() {")
             line("${indent(2)}if ($backingName != null) {")
@@ -52,6 +55,9 @@ internal object ImageVectorRenderer {
         val explicit = if (config.useExplicitMode) "public " else ""
 
         with(writer) {
+            if (config.suppressUnusedReceiverWarning && config.resolveReceiverName().isNotEmpty()) {
+                line("@Suppress(\"UnusedReceiverParameter\")")
+            }
             line("${explicit}val $targetName: ImageVector by lazy(LazyThreadSafetyMode.NONE) {")
             append("${indent(1)}${builderStart(config, vector, 1)}")
             writeBody(this, config, vector, level = 1)

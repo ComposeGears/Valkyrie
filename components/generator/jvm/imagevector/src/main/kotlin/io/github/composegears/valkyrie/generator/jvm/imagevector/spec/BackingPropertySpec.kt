@@ -63,6 +63,7 @@ internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
     ): PropertySpec = propertySpecBuilder(name = config.iconName, type = ClassNames.ImageVector) {
         receiver(iconPackClassName)
         getter(iconFun(irVector = irVector, backingProperty = backingProperty))
+        addSuppressUnusedReceiverAnnotation(iconPackClassName)
     }
 
     context(config: ImageVectorSpecConfig)

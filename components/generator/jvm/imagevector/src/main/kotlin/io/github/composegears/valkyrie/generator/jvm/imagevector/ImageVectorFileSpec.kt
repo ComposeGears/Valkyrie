@@ -20,6 +20,7 @@ internal data class ImageVectorSpecConfig(
     val addTrailingComma: Boolean,
     val usePathDataString: Boolean,
     val indentSize: Int,
+    val suppressUnusedReceiverWarning: Boolean,
     val fullQualifiedImports: FullQualifiedImports,
 )
 

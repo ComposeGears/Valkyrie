@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 
+@Suppress("UnusedReceiverParameter")
 val ValkyrieIcons.Colored.BootstrapLogo: ImageVector
     get() {
         if (_BootstrapLogo != null) {

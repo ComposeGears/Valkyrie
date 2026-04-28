@@ -229,6 +229,7 @@ class SimpleConversionViewModel(
             addTrailingComma = valkyriesSettings.addTrailingComma,
             usePathDataString = valkyriesSettings.usePathDataString,
             indentSize = valkyriesSettings.indentSize,
+            suppressUnusedReceiverWarning = valkyriesSettings.suppressUnusedReceiverWarning,
         )
     }
 }

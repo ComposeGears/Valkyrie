@@ -57,4 +57,16 @@ abstract class ImageVectorConfigExtension @Inject constructor(objects: ObjectFac
     val usePathDataString: Property<Boolean> = objects
         .property<Boolean>()
         .convention(false)
+
+    /**
+     * Add `@Suppress("UnusedReceiverParameter")` annotation to generated ImageVector extension properties.
+     *
+     * This suppresses the Kotlin warning that appears when the receiver parameter (e.g. `ValkyrieIcons`) is
+     * not used inside the property getter body.
+     *
+     * Default: `false`
+     */
+    val suppressUnusedReceiverWarning: Property<Boolean> = objects
+        .property<Boolean>()
+        .convention(false)
 }

@@ -15,6 +15,7 @@ data class ImageVectorGeneratorConfig(
     val addTrailingComma: Boolean,
     val usePathDataString: Boolean,
     val indentSize: Int,
+    val suppressUnusedReceiverWarning: Boolean,
     val fullQualifiedImports: FullQualifiedImports = FullQualifiedImports(),
 )
 
@@ -54,6 +55,7 @@ object ImageVectorGenerator {
             addTrailingComma = config.addTrailingComma,
             usePathDataString = config.usePathDataString,
             indentSize = config.indentSize,
+            suppressUnusedReceiverWarning = config.suppressUnusedReceiverWarning,
             fullQualifiedImports = config.fullQualifiedImports,
         ),
     ).create(vector)

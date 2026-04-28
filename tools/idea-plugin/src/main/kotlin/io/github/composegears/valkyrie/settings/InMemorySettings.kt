@@ -58,6 +58,7 @@ class InMemorySettings(project: Project) {
         useExplicitMode = false
         addTrailingComma = false
         usePathDataString = false
+        suppressUnusedReceiverWarning = false
         showImageVectorPreview = true
         showIconsInProjectView = true
         indentSize = 4
@@ -96,6 +97,7 @@ class InMemorySettings(project: Project) {
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
             usePathDataString = usePathDataString,
+            suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
             showImageVectorPreview = showImageVectorPreview,
             showIconsInProjectView = showIconsInProjectView,
         )
@@ -122,6 +124,7 @@ data class ValkyriesSettings(
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
     val usePathDataString: Boolean,
+    val suppressUnusedReceiverWarning: Boolean,
 
     val showImageVectorPreview: Boolean,
     val showIconsInProjectView: Boolean,
