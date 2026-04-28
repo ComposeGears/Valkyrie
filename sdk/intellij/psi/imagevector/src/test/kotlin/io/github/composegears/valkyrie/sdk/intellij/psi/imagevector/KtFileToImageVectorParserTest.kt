@@ -13,6 +13,7 @@ import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.Exp
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedEmptyPaths
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedIconWithGroup
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedLinearGradient
+import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedLinearGradientComposeColors
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedLinearGradientWithStroke
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedRadialGradient
 import io.github.composegears.valkyrie.sdk.intellij.psi.imagevector.expected.ExpectedSinglePath
@@ -125,6 +126,17 @@ class KtFileToImageVectorParserTest(private val parseType: ParseType) : KotlinCo
         val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
 
         assertThat(imageVector).isEqualTo(ExpectedLinearGradientWithStroke)
+    }
+
+    @Test
+    fun `parse icon with linear gradient with compose colors`() = runInEdtAndGet {
+        val ktFile = parseType.toKtFile(
+            pathToLazy = "imagevector/kt/lazy/LinearGradient.compose.colors.kt",
+            pathToBacking = "imagevector/kt/backing/LinearGradient.compose.colors.kt",
+        )
+        val imageVector = ImageVectorPsiParser.parseToIrImageVector(ktFile)?.toComposeImageVector()
+
+        assertThat(imageVector).isEqualTo(ExpectedLinearGradientComposeColors)
     }
 
     @Test

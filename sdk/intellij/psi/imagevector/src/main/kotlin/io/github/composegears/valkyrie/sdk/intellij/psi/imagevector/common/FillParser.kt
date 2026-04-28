@@ -123,8 +123,7 @@ private fun KtCallExpression.parseColorStops(): List<IrFill.ColorStop> {
         val binaryExpression = arg.getArgumentExpression().safeAs<KtBinaryExpression>() ?: return@forEach
 
         val offset = binaryExpression.left?.text?.toFloatOrNull() ?: return@forEach
-        val colorCallExpression = binaryExpression.right.safeAs<KtCallExpression>() ?: return@forEach
-        val color = colorCallExpression.parseColor() ?: return@forEach
+        val color = binaryExpression.right?.parseColorExpression() ?: return@forEach
 
         colorStops.add(
             IrFill.ColorStop(
@@ -135,6 +134,26 @@ private fun KtCallExpression.parseColorStops(): List<IrFill.ColorStop> {
     }
 
     return colorStops
+}
+
+/**
+ * Parses a color from any expression:
+ * - `Color(0xFF...)` → [KtCallExpression]
+ * - `Color.White` → [KtDotQualifiedExpression] (property reference)
+ * - `Color.White.copy(alpha = 0.75f)` → [KtDotQualifiedExpression] (method call on named color)
+ */
+private fun KtExpression.parseColorExpression(): IrFill.Color? = when (this) {
+    is KtCallExpression -> parseColor()
+    is KtDotQualifiedExpression -> {
+        val text = this.text
+        if (text.startsWith("Color.")) {
+            val irColor = getIrColor(text.removePrefix("Color.")) ?: return null
+            IrFill.Color(irColor = irColor)
+        } else {
+            null
+        }
+    }
+    else -> null
 }
 
 /**

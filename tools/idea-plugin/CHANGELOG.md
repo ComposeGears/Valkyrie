@@ -6,6 +6,11 @@
 
 - [Web Import] Add `Tabler` icons provider
 
+### Fixed
+
+- [Gutter] Fixed rendering of icons with gradients and Compose colors
+- [Gutter] Fixed rendering of icons with fully qualified imports
+
 ## 1.5.0 - 2026-04-17
 
 ### Added
