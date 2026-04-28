@@ -348,4 +348,26 @@ class XmlToImageVectorTest(
         assertThat(parserOutput.iconType).isEqualTo(XML)
         assertThat(output).isEqualTo(expected)
     }
+
+    @Test
+    fun `suppress unused receiver warning with pack`() {
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
+            config = createConfig(
+                packName = "ValkyrieIcons",
+                outputFormat = outputFormat,
+                suppressUnusedReceiverWarning = true,
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.suppress_receiver.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.suppress_receiver.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
 }

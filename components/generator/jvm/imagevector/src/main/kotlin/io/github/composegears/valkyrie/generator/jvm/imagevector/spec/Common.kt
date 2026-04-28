@@ -1,10 +1,13 @@
 package io.github.composegears.valkyrie.generator.jvm.imagevector.spec
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.PropertySpec
 import io.github.composegears.valkyrie.generator.core.asStatement
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
+import io.github.composegears.valkyrie.generator.jvm.imagevector.util.ClassNames
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.addGroup
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.addPath
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.addPathData
@@ -65,6 +68,17 @@ internal fun FileSpec.Builder.addPreview(
                 iconPackClassName != null -> iconPreviewSpecForNestedPack(iconPackClassName = iconPackClassName)
                 else -> iconPreviewSpec(iconPackage = packageName)
             },
+        )
+    }
+}
+
+context(config: ImageVectorSpecConfig)
+internal fun PropertySpec.Builder.addSuppressUnusedReceiverAnnotation(iconPackClassName: ClassName?) {
+    if (iconPackClassName != null && config.suppressUnusedReceiverWarning) {
+        addAnnotation(
+            AnnotationSpec.builder(ClassNames.Suppress)
+                .addMember("%S", "UnusedReceiverParameter")
+                .build(),
         )
     }
 }

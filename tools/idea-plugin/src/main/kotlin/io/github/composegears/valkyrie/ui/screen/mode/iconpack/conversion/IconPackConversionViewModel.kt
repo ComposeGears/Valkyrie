@@ -376,6 +376,7 @@ class IconPackConversionViewModel(
             addTrailingComma = addTrailingComma,
             usePathDataString = usePathDataString,
             indentSize = indentSize,
+            suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
         )
     }
 }

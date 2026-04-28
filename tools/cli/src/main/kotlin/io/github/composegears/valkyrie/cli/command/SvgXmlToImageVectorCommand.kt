@@ -109,6 +109,11 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
         help = "Generate addPath with pathData strings instead of path builder calls (less optimal due to pre-rendering parsing)",
     )
 
+    private val suppressUnusedReceiverWarning by booleanOption(
+        "--suppress-unused-receiver",
+        help = "Add @Suppress(\"UnusedReceiverParameter\") annotation to generated ImageVector extension properties",
+    )
+
     private val indentSize by intOption(
         "--indent-size",
         help = "Determines the number of spaces used for each level of indentation in the icon",
@@ -144,6 +149,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
             useExplicitMode = useExplicitMode,
             addTrailingComma = addTrailingComma,
             usePathDataString = usePathDataString,
+            suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
             indentSize = indentSize,
             autoMirror = autoMirror,
             verbose = verbose,
@@ -178,6 +184,7 @@ private fun svgXml2ImageVector(
     useExplicitMode: Boolean,
     addTrailingComma: Boolean,
     usePathDataString: Boolean,
+    suppressUnusedReceiverWarning: Boolean,
     indentSize: Int,
     autoMirror: Boolean?,
     verbose: Boolean,
@@ -265,6 +272,7 @@ private fun svgXml2ImageVector(
         addTrailingComma = addTrailingComma,
         usePathDataString = usePathDataString,
         indentSize = indentSize,
+        suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
         fullQualifiedImports = FullQualifiedImports(
             brush = "Brush" in fullQualifiedNames,
             color = "Color" in fullQualifiedNames,

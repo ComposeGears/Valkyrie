@@ -62,5 +62,6 @@ internal class LazyPropertySpec(private val config: ImageVectorSpecConfig) {
                 .endControlFlow()
                 .build(),
         )
+        addSuppressUnusedReceiverAnnotation(iconPackClassName)
     }
 }

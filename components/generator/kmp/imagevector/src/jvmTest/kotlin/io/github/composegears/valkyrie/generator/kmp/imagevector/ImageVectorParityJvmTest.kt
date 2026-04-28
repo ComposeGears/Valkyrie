@@ -113,6 +113,22 @@ class ImageVectorParityJvmTest {
         )
     }
 
+    @Test
+    fun `suppress unused receiver parity`() {
+        assertParity(
+            iconPath = "imagevector/xml/ic_without_path.xml",
+            configTransform = {
+                createConfig(
+                    packName = "ValkyrieIcons",
+                    outputFormat = it,
+                    suppressUnusedReceiverWarning = true,
+                )
+            },
+            backingExpected = "imagevector/kt/backing/WithoutPath.pack.suppress_receiver.kt",
+            lazyExpected = "imagevector/kt/lazy/WithoutPath.pack.suppress_receiver.kt",
+        )
+    }
+
     private fun assertParity(
         iconPath: String,
         configTransform: (OutputFormat) -> ImageVectorGeneratorConfig,

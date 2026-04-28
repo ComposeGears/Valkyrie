@@ -447,6 +447,10 @@ valkyrie {
 
         // Insert a trailing comma after the last element of ImageVector.Builder block and path params (default: false)
         addTrailingComma = false
+
+        // Add `@Suppress("UnusedReceiverParameter")` annotation to generated ImageVector extension properties (default: false)
+        // Suppresses the Kotlin warning when the receiver parameter (e.g. `ValkyrieIcons`) is not used inside the property getter body
+        suppressUnusedReceiverWarning = false
     }
 
     // Optional icon pack object configuration

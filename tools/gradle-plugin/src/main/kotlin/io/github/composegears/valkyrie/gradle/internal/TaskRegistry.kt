@@ -42,6 +42,7 @@ internal fun registerTask(
         task.addTrailingComma.convention(extension.imageVector.addTrailingComma)
         task.indentSize.convention(extension.codeStyle.indentSize)
         task.usePathDataString.convention(extension.imageVector.usePathDataString)
+        task.suppressUnusedReceiverWarning.convention(extension.imageVector.suppressUnusedReceiverWarning)
         task.autoMirror.convention(extension.autoMirror)
 
         task.sourceSet.convention(sourceSet.name)

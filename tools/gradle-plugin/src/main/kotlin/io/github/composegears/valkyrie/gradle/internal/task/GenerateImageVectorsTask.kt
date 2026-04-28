@@ -60,6 +60,9 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
     @get:Input
     abstract val usePathDataString: Property<Boolean>
 
+    @get:Input
+    abstract val suppressUnusedReceiverWarning: Property<Boolean>
+
     @get:Optional
     @get:Input
     abstract val autoMirror: Property<Boolean>
@@ -88,6 +91,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             addTrailingComma = addTrailingComma.get(),
             usePathDataString = usePathDataString.get(),
             indentSize = indentSize.get(),
+            suppressUnusedReceiverWarning = suppressUnusedReceiverWarning.get(),
         )
 
     @TaskAction

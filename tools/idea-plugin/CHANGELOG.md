@@ -5,6 +5,8 @@
 ### Added
 
 - [Web Import] Add `Tabler` icons provider
+- Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")` annotation on
+  ImageVector extension properties when an icon pack receiver is used (e.g. `ValkyrieIcons`)
 
 ## 1.5.0 - 2026-04-17
 

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added
+
+- Add `--suppress-unused-receiver` option to generate `@Suppress("UnusedReceiverParameter")` annotation on ImageVector
+  extension properties when an icon pack receiver is used
+
 ## 1.1.1 - 2026-02-26
 
 ### Fixed

@@ -33,6 +33,7 @@ fun convertSvg(
     usePathDataString: Boolean = false,
     indentSize: Int = 4,
     autoMirror: Boolean? = null,
+    suppressUnusedReceiverWarning: Boolean = false,
 ): String {
     return runCatching {
         val normalizedIconName = IconNameFormatter.format(iconName)
@@ -63,6 +64,7 @@ fun convertSvg(
                 useExplicitMode = useExplicitMode,
                 usePathDataString = usePathDataString,
                 indentSize = indentSize,
+                suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
             ),
         )
 

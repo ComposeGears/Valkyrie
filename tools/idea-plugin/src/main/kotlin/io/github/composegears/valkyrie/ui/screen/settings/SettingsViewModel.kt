@@ -18,6 +18,7 @@ import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.U
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateIndentSize
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateOutputFormat
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdatePreviewGeneration
+import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateSuppressUnusedReceiverWarning
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUseComposeColors
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction.UpdateUsePathDataString
 
@@ -35,6 +36,7 @@ class SettingsViewModel : ViewModel() {
             useExplicitMode = it.useExplicitMode,
             addTrailingComma = it.addTrailingComma,
             usePathDataString = it.usePathDataString,
+            suppressUnusedReceiverWarning = it.suppressUnusedReceiverWarning,
             indentSize = it.indentSize,
         )
     }
@@ -66,6 +68,7 @@ class SettingsViewModel : ViewModel() {
             is UpdateExplicitMode -> useExplicitMode = settingsAction.useExplicitMode
             is UpdateAddTrailingComma -> addTrailingComma = settingsAction.addTrailingComma
             is UpdateUsePathDataString -> usePathDataString = settingsAction.usePathDataString
+            is UpdateSuppressUnusedReceiverWarning -> suppressUnusedReceiverWarning = settingsAction.suppress
             is UpdateIndentSize -> indentSize = settingsAction.indent
             is SettingsAction.UpdatePreviewType -> previewType = settingsAction.previewType
         }
@@ -85,6 +88,7 @@ data class GeneratorSettings(
     val useExplicitMode: Boolean,
     val addTrailingComma: Boolean,
     val usePathDataString: Boolean,
+    val suppressUnusedReceiverWarning: Boolean,
     val indentSize: Int,
     val generatePreview: Boolean,
 )

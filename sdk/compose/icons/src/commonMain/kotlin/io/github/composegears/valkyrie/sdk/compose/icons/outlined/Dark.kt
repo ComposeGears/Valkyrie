@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 
+@Suppress("UnusedReceiverParameter")
 val ValkyrieIcons.Outlined.Dark: ImageVector
     get() {
         if (_Dark != null) {

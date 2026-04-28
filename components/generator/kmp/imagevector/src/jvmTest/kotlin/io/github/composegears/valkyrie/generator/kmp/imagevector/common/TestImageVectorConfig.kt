@@ -17,6 +17,7 @@ internal fun createConfig(
     addTrailingComma: Boolean = false,
     usePathDataString: Boolean = false,
     indentSize: Int = 4,
+    suppressUnusedReceiverWarning: Boolean = false,
     fullQualifiedImports: FullQualifiedImports = FullQualifiedImports(),
 ): ImageVectorGeneratorConfig {
     return ImageVectorGeneratorConfig(
@@ -32,6 +33,7 @@ internal fun createConfig(
         addTrailingComma = addTrailingComma,
         usePathDataString = usePathDataString,
         indentSize = indentSize,
+        suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
         fullQualifiedImports = fullQualifiedImports,
     )
 }
