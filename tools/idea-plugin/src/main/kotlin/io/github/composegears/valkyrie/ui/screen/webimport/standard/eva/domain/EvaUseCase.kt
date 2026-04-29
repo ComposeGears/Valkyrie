@@ -2,6 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.domain
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
@@ -34,7 +35,7 @@ class EvaUseCase(
             StandardIcon(
                 name = name,
                 displayName = displayName,
-                codepoint = codepoint,
+                codepoint = Codepoint(codepoint),
                 tags = emptyList(),
                 category = inferCategoryFromTags(displayName, emptyList()),
                 style = name.toEvaStyle(),
