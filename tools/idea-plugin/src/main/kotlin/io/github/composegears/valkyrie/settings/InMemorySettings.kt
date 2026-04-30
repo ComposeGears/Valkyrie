@@ -74,6 +74,7 @@ class InMemorySettings(project: Project) {
         tablerSize = DEFAULT_SIZE
         evaSize = DEFAULT_SIZE
         featherSize = DEFAULT_SIZE
+        ioniconsSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {

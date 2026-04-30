@@ -37,6 +37,10 @@ public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/Goo
 	public static final fun getGoogleMaterialLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/IoniconsLogoKt {
+	public static final fun getIoniconsLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/LucideLogoKt {
 	public static final fun getLucideLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
