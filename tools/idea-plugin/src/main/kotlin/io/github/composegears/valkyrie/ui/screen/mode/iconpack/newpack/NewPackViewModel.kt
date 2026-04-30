@@ -34,7 +34,7 @@ class NewPackViewModel : ViewModel() {
 
     private val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val inputHandler = NewPackInputHandler(inMemorySettings.current)
+    private val inputHandler = NewPackInputHandler(inMemorySettings)
 
     private val _events = Channel<NewPackEvent>()
     val events = _events.receiveAsFlow()
@@ -103,6 +103,7 @@ class NewPackViewModel : ViewModel() {
     }
 
     private fun initDefaultPack() {
+        inputHandler.init()
         _state.updateState {
             NewPackModeState.PickedState(inputFieldState = inputHandler.state.value)
         }

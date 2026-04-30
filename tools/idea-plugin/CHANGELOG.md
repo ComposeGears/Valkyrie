@@ -13,6 +13,7 @@
 
 - [Gutter] Fixed rendering of icons with gradients and Compose colors
 - [Gutter] Fixed rendering of icons with fully qualified imports
+- [IconPack] Fix incorrect initial state of `packageName` field in new pack mode when destination folder is selected
 
 ## 1.5.0 - 2026-04-17
 

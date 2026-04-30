@@ -1,14 +1,15 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack
 
 import io.github.composegears.valkyrie.parser.unified.util.PackageExtractor
+import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.inputhandler.BasicInputHandler
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputFieldState
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.InputState
 
 class NewPackInputHandler(
-    settings: ValkyriesSettings,
-) : BasicInputHandler(initialState = settings.newPackInputState) {
+    private val inMemorySettings: InMemorySettings,
+) : BasicInputHandler() {
 
     override fun invalidateInputFieldState(
         currentState: InputFieldState,
@@ -20,6 +21,10 @@ class NewPackInputHandler(
         }
 
         return currentState.copy(packageName = currentState.packageName.copy(text = packageNameText))
+    }
+
+    override fun init() {
+        setState(inMemorySettings.current.newPackInputState)
     }
 
     companion object {
