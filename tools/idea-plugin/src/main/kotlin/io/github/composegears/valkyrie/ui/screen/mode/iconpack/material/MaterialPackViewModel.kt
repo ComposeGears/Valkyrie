@@ -37,7 +37,7 @@ class MaterialPackViewModel : ViewModel() {
 
     private val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val inputHandler = MaterialInputHandler(inMemorySettings.current)
+    private val inputHandler = MaterialInputHandler(inMemorySettings)
 
     private val _events = Channel<MaterialPackEvent>()
     val events = _events.receiveAsFlow()
@@ -108,6 +108,7 @@ class MaterialPackViewModel : ViewModel() {
     }
 
     private fun initMaterialPack() {
+        inputHandler.init()
         _state.updateState {
             PickedState(inputFieldState = inputHandler.state.value)
         }

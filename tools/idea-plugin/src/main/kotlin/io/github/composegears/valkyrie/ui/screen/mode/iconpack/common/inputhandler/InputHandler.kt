@@ -15,15 +15,17 @@ import kotlinx.coroutines.flow.asStateFlow
 interface InputHandler {
     val state: StateFlow<InputFieldState>
 
+    fun init() {}
+
     fun handleInput(change: InputChange)
 
     fun addNestedPack()
     fun removeNestedPack(nestedPack: NestedPack)
 }
 
-abstract class BasicInputHandler(initialState: InputFieldState) : InputHandler {
+abstract class BasicInputHandler : InputHandler {
 
-    private val _state = MutableStateFlow(initialState)
+    private val _state = MutableStateFlow(InputFieldState.Empty)
     override val state: StateFlow<InputFieldState> = _state.asStateFlow()
 
     override fun addNestedPack() {
