@@ -25,6 +25,10 @@ public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/Eva
 	public static final fun getEvaLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/FeatherLogoKt {
+	public static final fun getFeatherLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/FontAwesomeLogoKt {
 	public static final fun getFontAwesomeLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }

@@ -10,6 +10,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymb
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.BoxIconsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.EvaImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.feather.FeatherImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.FontAwesomeImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
@@ -31,6 +32,7 @@ val WebImportFlow by navDestination {
             FontAwesomeImportScreen,
             TablerImportScreen,
             EvaImportScreen,
+            FeatherImportScreen,
         ),
         contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
     )
