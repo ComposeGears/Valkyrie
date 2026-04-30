@@ -4,6 +4,7 @@
 
 ### Added
 
+- [Web Import] Add `Feather` icons provider
 - [Web Import] Add `Tabler` icons provider
 - [Web Import] Add `Eva` icons provider
 - Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")` annotation on

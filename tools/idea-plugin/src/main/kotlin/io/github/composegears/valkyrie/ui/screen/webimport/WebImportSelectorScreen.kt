@@ -25,6 +25,7 @@ import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.BootstrapLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.BoxLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.EvaLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.FeatherLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.FontAwesomeLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.LucideLogo
@@ -33,6 +34,7 @@ import io.github.composegears.valkyrie.sdk.compose.icons.colored.TablerLogo
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Bootstrap
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.BoxIcons
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Eva
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Feather
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.FontAwesome
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
@@ -42,6 +44,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymb
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.BoxIconsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.EvaImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.feather.FeatherImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.FontAwesomeImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
@@ -65,6 +68,7 @@ val WebImportSelectorScreen by navDestination {
                 FontAwesome -> FontAwesomeImportScreen
                 Tabler -> TablerImportScreen
                 Eva -> EvaImportScreen
+                Feather -> FeatherImportScreen
             }
 
             navController.navigate(dest = screen)
@@ -124,6 +128,11 @@ enum class IconProviders(
         icon = ValkyrieIcons.Colored.EvaLogo,
         titleKey = "web.import.selector.eva.title",
         descriptionKey = "web.import.selector.eva.description",
+    ),
+    Feather(
+        icon = ValkyrieIcons.Colored.FeatherLogo,
+        titleKey = "web.import.selector.feather.title",
+        descriptionKey = "web.import.selector.feather.description",
     ),
     FontAwesome(
         icon = ValkyrieIcons.Colored.FontAwesomeLogo,
