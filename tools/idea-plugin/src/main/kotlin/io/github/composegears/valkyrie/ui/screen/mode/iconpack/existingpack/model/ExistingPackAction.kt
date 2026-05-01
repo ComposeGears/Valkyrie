@@ -11,5 +11,5 @@ sealed interface ExistingPackAction {
     data class RemoveNestedPack(val nestedPack: NestedPack) : ExistingPackAction
 
     data object PreviewPackObject : ExistingPackAction
-    data object SavePack : ExistingPackAction
+    data class SavePack(val project: Project, val isModified: Boolean) : ExistingPackAction
 }

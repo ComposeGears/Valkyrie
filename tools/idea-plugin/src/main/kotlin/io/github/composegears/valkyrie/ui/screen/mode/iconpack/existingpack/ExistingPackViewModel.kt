@@ -24,7 +24,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.existingpack.mode
 import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,7 +31,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ExistingPackViewModel : ViewModel() {
 
@@ -71,7 +69,7 @@ class ExistingPackViewModel : ViewModel() {
             is ExistingPackAction.AddNestedPack -> inputHandler.addNestedPack()
             is ExistingPackAction.RemoveNestedPack -> inputHandler.removeNestedPack(existingPackAction.nestedPack)
             is ExistingPackAction.PreviewPackObject -> previewIconPackObject()
-            is ExistingPackAction.SavePack -> saveIconPack()
+            is ExistingPackAction.SavePack -> saveIconPack(existingPackAction.project, existingPackAction.isModified)
         }
     }
 
@@ -85,6 +83,7 @@ class ExistingPackViewModel : ViewModel() {
         _state.updateState {
             ExistingPackEditState(
                 inputFieldState = inputFieldState,
+                initialInputFieldState = inputFieldState,
                 importDirectory = path.parent.absolutePathString(),
             )
         }
@@ -109,7 +108,7 @@ class ExistingPackViewModel : ViewModel() {
         _events.send(ExistingPackEvent.PreviewIconPackObject(code = iconPackCode))
     }
 
-    private fun saveIconPack() {
+    private fun saveIconPack(project: Project, isModified: Boolean) {
         val editState = currentState.safeAs<ExistingPackEditState>() ?: return
         val inputFieldState = editState.inputFieldState
 
@@ -118,12 +117,12 @@ class ExistingPackViewModel : ViewModel() {
                 iconPackDestination = editState.importDirectory
                 flatPackage = false
             }
-            withContext(Dispatchers.IO) {
-                IconPackWriter.savePack(
-                    inMemorySettings = inMemorySettings,
-                    inputFieldState = inputFieldState,
-                )
-            }
+            IconPackWriter.savePack(
+                project = project,
+                inMemorySettings = inMemorySettings,
+                inputFieldState = inputFieldState,
+                writeToFile = isModified,
+            )
             _events.send(ExistingPackEvent.OnSettingsUpdated)
         }
     }

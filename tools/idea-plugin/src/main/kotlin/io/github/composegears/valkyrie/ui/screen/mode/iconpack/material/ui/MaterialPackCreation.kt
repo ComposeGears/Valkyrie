@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
 import io.github.composegears.valkyrie.jewel.settings.Group
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
@@ -35,6 +36,8 @@ fun MaterialPackCreation(
     onValueChange: (InputChange) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val project = LocalProject.current
+
     Column(
         modifier = modifier
             .widthIn(max = 450.dp)
@@ -66,7 +69,7 @@ fun MaterialPackCreation(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
         ) {
             DefaultButton(
-                onClick = { onAction(MaterialPackAction.SavePack) },
+                onClick = { onAction(MaterialPackAction.SavePack(project)) },
                 enabled = state.inputFieldState.isValid,
             ) {
                 Text(text = stringResource("iconpack.newpack.creation.continue"))

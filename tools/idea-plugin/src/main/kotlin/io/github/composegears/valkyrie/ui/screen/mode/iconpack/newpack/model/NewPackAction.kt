@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model
 
+import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.NestedPack
 import java.nio.file.Path
 
@@ -11,5 +12,5 @@ sealed interface NewPackAction {
     data class RemoveNestedPack(val nestedPack: NestedPack) : NewPackAction
 
     data object PreviewPackObject : NewPackAction
-    data object SavePack : NewPackAction
+    data class SavePack(val project: Project) : NewPackAction
 }

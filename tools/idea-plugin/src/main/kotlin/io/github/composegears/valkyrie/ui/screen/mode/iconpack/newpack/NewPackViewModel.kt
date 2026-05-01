@@ -3,6 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
+import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
@@ -20,7 +21,6 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.newpack.model.New
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.invariantSeparatorsPathString
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class NewPackViewModel : ViewModel() {
 
@@ -75,7 +74,7 @@ class NewPackViewModel : ViewModel() {
             is NewPackAction.AddNestedPack -> inputHandler.addNestedPack()
             is NewPackAction.RemoveNestedPack -> inputHandler.removeNestedPack(action.nestedPack)
             is NewPackAction.PreviewPackObject -> previewIconPackObject()
-            is NewPackAction.SavePack -> saveIconPack()
+            is NewPackAction.SavePack -> saveIconPack(action.project)
         }
     }
 
@@ -127,16 +126,15 @@ class NewPackViewModel : ViewModel() {
         _events.send(NewPackEvent.PreviewIconPackObject(code = iconPackCode))
     }
 
-    private fun saveIconPack() {
+    private fun saveIconPack(project: Project) {
         val pickedState = currentState.safeAs<NewPackModeState.PickedState>() ?: return
 
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                IconPackWriter.savePack(
-                    inMemorySettings = inMemorySettings,
-                    inputFieldState = pickedState.inputFieldState,
-                )
-            }
+            IconPackWriter.savePack(
+                project = project,
+                inMemorySettings = inMemorySettings,
+                inputFieldState = pickedState.inputFieldState,
+            )
             _events.send(NewPackEvent.OnSettingsUpdated)
         }
     }

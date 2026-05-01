@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackEditor
@@ -29,6 +30,8 @@ fun ExistingPackEditor(
     onAction: (ExistingPackAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val project = LocalProject.current
+
     Column(
         modifier = modifier
             .widthIn(max = 450.dp)
@@ -45,10 +48,21 @@ fun ExistingPackEditor(
         Spacer(32.dp)
         DefaultButton(
             modifier = Modifier.align(Alignment.End),
-            onClick = { onAction(SavePack) },
+            onClick = {
+                onAction(
+                    SavePack(
+                        project = project,
+                        isModified = state.isModified,
+                    ),
+                )
+            },
             enabled = state.inputFieldState.isValid,
         ) {
-            Text(text = stringResource("iconpack.existingpack.editor.update.continue"))
+            if (state.isModified) {
+                Text(text = stringResource("iconpack.existingpack.editor.update.continue"))
+            } else {
+                Text(text = stringResource("iconpack.existingpack.editor.continue"))
+            }
         }
     }
 }

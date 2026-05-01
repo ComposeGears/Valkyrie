@@ -1,10 +1,12 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.util
 
-import com.intellij.openapi.vfs.VirtualFileManager
+import com.intellij.openapi.command.writeCommandAction
+import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VfsUtil
 import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
-import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.updateNestedPack
@@ -12,7 +14,8 @@ import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.model.Inpu
 
 object IconPackWriter {
 
-    fun savePack(
+    suspend fun savePack(
+        project: Project,
         inMemorySettings: InMemorySettings,
         inputFieldState: InputFieldState,
         writeToFile: Boolean = true,
@@ -40,12 +43,37 @@ object IconPackWriter {
                     license = inputFieldState.license.text.ifEmpty { null },
                 ),
             )
-            iconPack.content.writeToKt(
-                outputDir = currentSettings.iconPackDestination,
-                nameWithoutExtension = iconPack.name,
+
+            val fileName = "${iconPack.name}.kt"
+            val content = iconPack.content
+
+            writeTextFile(
+                project = project,
+                directoryPath = currentSettings.iconPackDestination,
+                fileName = fileName,
+                content = content,
             )
         }
+    }
 
-        VirtualFileManager.getInstance().asyncRefresh()
+    private suspend fun writeTextFile(
+        project: Project,
+        directoryPath: String,
+        fileName: String,
+        content: String,
+    ) {
+        writeCommandAction(
+            project = project,
+            commandName = "Generate Icon Pack",
+        ) {
+            runCatching {
+                val dir = VfsUtil.createDirectoryIfMissing(directoryPath) ?: return@writeCommandAction
+                val file = dir.findChild(fileName) ?: dir.createChildData(IconPackWriter, fileName)
+
+                VfsUtil.saveText(file, content)
+            }.getOrElse {
+                Logger.getInstance(IconPackWriter::class.java).error("Failed to save iconpack: ${it.message}")
+            }
+        }
     }
 }
