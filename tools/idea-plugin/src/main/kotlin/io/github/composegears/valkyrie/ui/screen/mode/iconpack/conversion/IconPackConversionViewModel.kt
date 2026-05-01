@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.recordOf
+import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
@@ -13,11 +14,12 @@ import io.github.composegears.valkyrie.parser.unified.ext.isSvg
 import io.github.composegears.valkyrie.parser.unified.ext.isXml
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
-import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState
 import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.util.ImageVectorFile
+import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.util.ImageVectorWriter
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.ConversionEvent.OpenPreview
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.BatchProcessing
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion.IconPackConversionState.IconsPickering
@@ -36,7 +38,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class IconPackConversionViewModel(
     savedState: MutableSavedState,
@@ -171,7 +172,7 @@ class IconPackConversionViewModel(
         _events.send(OpenPreview(output.content))
     }
 
-    fun import() = viewModelScope.launch(Dispatchers.Default) {
+    fun import(project: Project) = viewModelScope.launch(Dispatchers.Default) {
         val icons = when (val state = _state.value) {
             is BatchProcessing.IconPackCreationState -> state.icons
             else -> return@launch
@@ -181,9 +182,9 @@ class IconPackConversionViewModel(
 
         val settings = inMemorySettings.current
 
-        icons
+        val filesToWrite = icons
             .filterIsInstance<BatchIcon.Valid>()
-            .forEach { icon ->
+            .map { icon ->
                 when (val iconPack = icon.iconPack) {
                     is IconPack.Nested -> {
                         val vectorSpecOutput = ImageVectorGenerator.convert(
@@ -194,16 +195,15 @@ class IconPackConversionViewModel(
                                 nestedPackName = iconPack.currentNestedPack,
                             ),
                         )
-
-                        withContext(Dispatchers.IO) {
-                            vectorSpecOutput.content.writeToKt(
-                                outputDir = when {
-                                    settings.flatPackage -> settings.iconPackDestination
-                                    else -> "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}"
-                                },
-                                nameWithoutExtension = vectorSpecOutput.name,
-                            )
+                        val outputDir = when {
+                            settings.flatPackage -> settings.iconPackDestination
+                            else -> "${settings.iconPackDestination}/${iconPack.currentNestedPack.lowercase()}"
                         }
+                        ImageVectorFile(
+                            directoryPath = outputDir,
+                            fileName = "${vectorSpecOutput.name}.kt",
+                            content = vectorSpecOutput.content,
+                        )
                     }
                     is IconPack.Single -> {
                         val vectorSpecOutput = ImageVectorGenerator.convert(
@@ -214,18 +214,20 @@ class IconPackConversionViewModel(
                                 nestedPackName = "",
                             ),
                         )
-
-                        withContext(Dispatchers.IO) {
-                            vectorSpecOutput.content.writeToKt(
-                                outputDir = settings.iconPackDestination,
-                                nameWithoutExtension = vectorSpecOutput.name,
-                            )
-                        }
+                        ImageVectorFile(
+                            directoryPath = settings.iconPackDestination,
+                            fileName = "${vectorSpecOutput.name}.kt",
+                            content = vectorSpecOutput.content,
+                        )
                     }
                 }
             }
 
-        _events.send(ConversionEvent.ImportCompleted)
+        ImageVectorWriter.saveVectors(
+            project = project,
+            files = filesToWrite,
+        )
+
         reset()
     }
 
@@ -383,6 +385,5 @@ class IconPackConversionViewModel(
 
 sealed interface ConversionEvent {
     data class OpenPreview(val iconContent: String) : ConversionEvent
-    data object ImportCompleted : ConversionEvent
     data object NothingToImport : ConversionEvent
 }

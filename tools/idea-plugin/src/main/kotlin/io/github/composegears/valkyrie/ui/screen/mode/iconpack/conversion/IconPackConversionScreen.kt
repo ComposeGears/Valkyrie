@@ -32,9 +32,9 @@ import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import com.composegears.tiamat.compose.saveableViewModel
-import com.intellij.openapi.vfs.VirtualFileManager
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.platform.rememberMultiSelectDragAndDropHandler
 import io.github.composegears.valkyrie.jewel.tooling.PreviewNavigationControls
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
@@ -68,6 +68,7 @@ import org.jetbrains.jewel.ui.component.Text
 val IconPackConversionScreen by navDestination<PendingPathData> {
     val navController = navController()
     val pendingData = navArgsOrNull()
+    val project = LocalProject.current
 
     val viewModel = saveableViewModel {
         IconPackConversionViewModel(
@@ -87,9 +88,6 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
                     navArgs = event.iconContent,
                 )
             }
-            is ConversionEvent.ImportCompleted -> {
-                VirtualFileManager.getInstance().asyncRefresh()
-            }
             is ConversionEvent.NothingToImport -> {
                 bannerManager.show(message = WarningBanner(text = message("iconpack.conversion.nothing.import")))
             }
@@ -108,7 +106,7 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
         onDeleteIcon = viewModel::deleteIcon,
         onReset = viewModel::reset,
         onPreviewClick = viewModel::showPreview,
-        onImport = viewModel::import,
+        onImport = { viewModel.import(project) },
         onRenameIcon = viewModel::renameIcon,
         onResolveIssues = viewModel::resolveImportIssues,
     )
