@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.Spacer
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.common.IconPackEditor
@@ -31,6 +32,8 @@ fun NewIconPackCreation(
     modifier: Modifier = Modifier,
     onValueChange: (InputChange) -> Unit,
 ) {
+    val project = LocalProject.current
+
     Column(
         modifier = modifier
             .widthIn(max = 450.dp)
@@ -51,7 +54,7 @@ fun NewIconPackCreation(
         ) {
             DefaultButton(
                 enabled = state.inputFieldState.isValid,
-                onClick = { onAction(NewPackAction.SavePack) },
+                onClick = { onAction(NewPackAction.SavePack(project)) },
             ) {
                 Text(text = stringResource("iconpack.newpack.creation.continue"))
             }

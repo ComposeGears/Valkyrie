@@ -7,6 +7,13 @@ sealed interface ExistingPackModeState {
 
     data class ExistingPackEditState(
         val inputFieldState: InputFieldState = InputFieldState.Empty,
+        val initialInputFieldState: InputFieldState = InputFieldState.Empty,
         val importDirectory: String = "",
-    ) : ExistingPackModeState
+    ) : ExistingPackModeState {
+
+        val isModified: Boolean
+            get() = inputFieldState.license.text != initialInputFieldState.license.text ||
+                inputFieldState.nestedPacks.map { it.inputFieldState.text } !=
+                initialInputFieldState.nestedPacks.map { it.inputFieldState.text }
+    }
 }

@@ -10,11 +10,16 @@
 - Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")` annotation on
   ImageVector extension properties when an icon pack receiver is used (e.g. `ValkyrieIcons`)
 
+### Changed
+
+- [IconPack] Don’t override the `.kt` file object if the content hasn’t changed
+
 ### Fixed
 
 - [Gutter] Fixed rendering of icons with gradients and Compose colors
 - [Gutter] Fixed rendering of icons with fully qualified imports
 - [IconPack] Fix incorrect initial state of `packageName` field in new pack mode when destination folder is selected
+- [IconPack] The IDE didn’t automatically display the new icon pack object file
 
 ## 1.5.0 - 2026-04-17
 
