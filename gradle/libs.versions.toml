@@ -70,7 +70,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-shadow = "com.gradleup.shadow:9.4.0"
+shadow = "com.gradleup.shadow:9.4.1"
 spotless = "com.diffplug.spotless:8.3.0"
 
 # Project conventional plugins
