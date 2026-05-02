@@ -85,6 +85,11 @@ fun ZoomFloatingBar(
     val canZoomIn = scaleFactor < ZOOM_MAX_SCALE
     val canZoomOut = scaleFactor > ZOOM_MIN_SCALE
 
+    val enterFromStart = expandHorizontally(expandFrom = Alignment.Start) + fadeIn()
+    val exitToStart = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut()
+    val enterFromEnd = expandHorizontally(expandFrom = Alignment.End) + fadeIn()
+    val exitToEnd = shrinkHorizontally(shrinkTowards = Alignment.End) + fadeOut()
+
     Row(
         modifier = modifier
             .heightIn(min = 32.dp)
@@ -101,8 +106,8 @@ fun ZoomFloatingBar(
     ) {
         AnimatedVisibility(
             visible = expanded,
-            enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(),
-            exit = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut(),
+            enter = enterFromStart,
+            exit = exitToStart,
         ) {
             CenterVerticalRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 ZoomOutAction(
@@ -125,15 +130,15 @@ fun ZoomFloatingBar(
         }
         AnimatedVisibility(
             visible = expanded,
-            enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(),
-            exit = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut(),
+            enter = enterFromStart,
+            exit = exitToStart,
         ) {
             Spacer(4.dp)
         }
         AnimatedVisibility(
             visible = !expanded,
-            enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(),
-            exit = shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut(),
+            enter = enterFromStart,
+            exit = exitToStart,
         ) {
             Icon(
                 key = AllIconsKeys.General.ChevronLeft,
@@ -147,8 +152,8 @@ fun ZoomFloatingBar(
         )
         AnimatedVisibility(
             visible = expanded,
-            enter = expandHorizontally(expandFrom = Alignment.End) + fadeIn(),
-            exit = shrinkHorizontally(shrinkTowards = Alignment.End) + fadeOut(),
+            enter = enterFromEnd,
+            exit = exitToEnd,
         ) {
             TooltipIconButton(
                 key = AllIconsKeys.General.ChevronRight,
