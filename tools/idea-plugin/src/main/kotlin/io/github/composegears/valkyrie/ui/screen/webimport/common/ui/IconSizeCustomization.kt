@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
+import io.github.composegears.valkyrie.jewel.colors.onOverlay
+import io.github.composegears.valkyrie.jewel.colors.overlay
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
@@ -30,7 +32,6 @@ import org.jetbrains.jewel.ui.component.InfoText
 import org.jetbrains.jewel.ui.component.Slider
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
-import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 
 /**
  * Generic customization panel for icon size settings
@@ -60,7 +61,7 @@ fun IconSizeCustomization(
             },
             isModified = settings.isModified,
         )
-        HorizontalDivider(color = LocalGroupHeaderStyle.current.colors.divider)
+        HorizontalDivider(color = JewelTheme.onOverlay)
         VerticallyScrollableContainer {
             Column(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
@@ -94,7 +95,7 @@ private fun IconSizeCustomizationPreview() = PreviewTheme(alignment = Alignment.
             .width(300.dp)
             .fillMaxHeight()
             .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
-            .background(JewelTheme.globalColors.borders.normal),
+            .background(JewelTheme.overlay),
         settings = settings,
         sizeLabel = stringResource("web.import.font.customize.size"),
         onClose = {},

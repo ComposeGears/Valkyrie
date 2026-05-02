@@ -4,16 +4,21 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 
 @Composable
-fun VerticalDivider(modifier: Modifier = Modifier) {
+fun VerticalDivider(
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+) {
     Divider(
         modifier = modifier.fillMaxHeight(),
         orientation = Orientation.Vertical,
+        color = color,
     )
 }
 

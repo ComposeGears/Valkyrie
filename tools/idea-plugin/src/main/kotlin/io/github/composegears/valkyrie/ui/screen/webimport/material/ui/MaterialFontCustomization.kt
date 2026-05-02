@@ -15,6 +15,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.LinkIcon
+import io.github.composegears.valkyrie.jewel.colors.onOverlay
+import io.github.composegears.valkyrie.jewel.colors.overlay
 import io.github.composegears.valkyrie.jewel.settings.DropdownSettingsRow
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
@@ -29,7 +31,6 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
-import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 private const val BASE_URL = "https://m3.material.io/styles/icons/applying-icons"
@@ -51,7 +52,7 @@ fun MaterialFontCustomization(
             onReset = { onSettingsChange(MaterialFontSettings()) },
             isModified = fontSettings.isModified,
         )
-        HorizontalDivider(color = LocalGroupHeaderStyle.current.colors.divider)
+        HorizontalDivider(color = JewelTheme.onOverlay)
         FontPlayground(
             fontSettings = fontSettings,
             onSettingsChange = onSettingsChange,
@@ -156,7 +157,7 @@ private fun MaterialFontCustomizationPreview() = PreviewTheme(alignment = Alignm
             .width(300.dp)
             .fillMaxHeight()
             .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
-            .background(JewelTheme.globalColors.borders.normal),
+            .background(JewelTheme.overlay),
         fontSettings = settings,
         onClose = {},
         onSettingsChange = { settings = it },
