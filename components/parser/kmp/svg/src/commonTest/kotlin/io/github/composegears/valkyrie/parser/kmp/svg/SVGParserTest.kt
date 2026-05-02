@@ -100,6 +100,34 @@ internal class SVGParserTest {
     }
 
     @Test
+    fun parse_path_with_inherited_root_stroke_defaults_to_black_fill() {
+        val svg = svg(fill = null, stroke = "#ff0000") {
+            """<path d="M4 4h16"/>"""
+        }
+
+        assertEquals(
+            actual = SVGParser.parse(svg).nodes,
+            expected = listOf(
+                IrVectorNode.IrPath(
+                    pathFillType = IrPathFillType.NonZero,
+                    fill = IrFill.Color(IrColor(0xFF000000)),
+                    paths = listOf(
+                        IrPathNode.MoveTo(4f, 4f),
+                        IrPathNode.RelativeHorizontalTo(16f),
+                    ),
+                    fillAlpha = 1f,
+                    stroke = IrStroke.Color(IrColor(0xFFFF0000)),
+                    strokeAlpha = 1f,
+                    strokeLineWidth = 0f,
+                    strokeLineCap = IrStrokeLineCap.Butt,
+                    strokeLineJoin = IrStrokeLineJoin.Miter,
+                    strokeLineMiter = 4f,
+                ),
+            ),
+        )
+    }
+
+    @Test
     fun parse_path_with_inherited_group_fill() {
         val svg = svg(fill = "none") {
             """

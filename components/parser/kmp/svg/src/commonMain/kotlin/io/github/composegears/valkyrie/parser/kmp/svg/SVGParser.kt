@@ -68,11 +68,10 @@ object SVGParser {
     context(paintContext: PaintContext)
     private fun SVG.Path.toVectorPath(): IrVectorNode.IrPath {
         val resolvedFill = fill ?: paintContext.fill
-        val resolvedStrokeColor = strokeColor ?: paintContext.strokeColor
         var fillColor: IrColor? = resolvedFill?.let(SvgColorParser::parse)
         // NOTE: Only when fill and strokeColor is null use black FillColor as default color as
         //       fill can be none resulting to null.
-        fillColor = if (resolvedFill == null && resolvedStrokeColor == null) Black else fillColor
+        fillColor = if (resolvedFill == null && strokeColor == null) Black else fillColor
         val stroke = getSVGStrokeWithDefaults()
         return IrVectorNode.IrPath(
             name = id.orEmpty(),
