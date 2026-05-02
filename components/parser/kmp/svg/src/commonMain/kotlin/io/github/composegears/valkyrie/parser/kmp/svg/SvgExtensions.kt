@@ -4,13 +4,14 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 
+context(paintContext: PaintContext)
 internal fun SVG.Child.getSVGStrokeWithDefaults(): SVGStroke = SVGStroke(
-    color = strokeColor?.let { SvgColorParser.parse(it) },
-    alpha = strokeAlpha?.toFloat() ?: 1f,
-    width = strokeWidth?.toFloat() ?: 0f,
-    cap = strokeLineCap?.let { SVGStroke.Cap(it) } ?: SVGStroke.Cap.Butt,
-    join = strokeLineJoin?.let { SVGStroke.Join(it) } ?: SVGStroke.Join.Miter,
-    miter = strokeMiter?.toFloat() ?: 4f,
+    color = (strokeColor ?: paintContext.strokeColor)?.let { SvgColorParser.parse(it) },
+    alpha = (strokeAlpha ?: paintContext.strokeAlpha)?.toFloat() ?: 1f,
+    width = (strokeWidth ?: paintContext.strokeWidth)?.toFloat() ?: 0f,
+    cap = (strokeLineCap ?: paintContext.strokeLineCap)?.let { SVGStroke.Cap(it) } ?: SVGStroke.Cap.Butt,
+    join = (strokeLineJoin ?: paintContext.strokeLineJoin)?.let { SVGStroke.Join(it) } ?: SVGStroke.Join.Miter,
+    miter = (strokeMiter ?: paintContext.strokeMiter)?.toFloat() ?: 4f,
 )
 
 internal fun SVGStroke.Cap.toIrStrokeLineCap(): IrStrokeLineCap = when (this) {

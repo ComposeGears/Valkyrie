@@ -43,7 +43,7 @@ internal class SVGParserTest {
 
     @Test
     fun parse_path_with_stroke_from_SVG() {
-        val svg = svg {
+        val svg = svg(fill = "none") {
             """<path d="" stroke="black" stroke-width="2" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="0.25" stroke-opacity="0.5"/>"""
         }
         assertEquals(
@@ -62,6 +62,69 @@ internal class SVGParserTest {
                     strokeLineMiter = .25f,
                 ),
             ),
+        )
+    }
+
+    @Test
+    fun parse_path_with_inherited_root_stroke() {
+        val svg = svg(
+            fill = "none",
+            stroke = "#ff0000",
+            strokeWidth = "1.5",
+            strokeLineCap = "round",
+            strokeLineJoin = "round",
+        ) {
+            """<path d="M4 4h16"/>"""
+        }
+
+        assertEquals(
+            actual = SVGParser.parse(svg).nodes,
+            expected = listOf(
+                IrVectorNode.IrPath(
+                    pathFillType = IrPathFillType.NonZero,
+                    fill = null,
+                    paths = listOf(
+                        IrPathNode.MoveTo(4f, 4f),
+                        IrPathNode.RelativeHorizontalTo(16f),
+                    ),
+                    fillAlpha = 1f,
+                    stroke = IrStroke.Color(IrColor(0xFFFF0000)),
+                    strokeAlpha = 1f,
+                    strokeLineWidth = 1.5f,
+                    strokeLineCap = IrStrokeLineCap.Round,
+                    strokeLineJoin = IrStrokeLineJoin.Round,
+                    strokeLineMiter = 4f,
+                ),
+            ),
+        )
+    }
+
+    @Test
+    fun parse_path_with_inherited_group_fill() {
+        val svg = svg(fill = "none") {
+            """
+            <g fill="#ff0000">
+                <path d="M4 4h16"/>
+            </g>
+            """
+        }
+
+        val actual: List<IrVectorNode> = SVGParser.parse(svg).groups.single().nodes
+
+        assertEquals(
+            expected = listOf<IrVectorNode>(
+                IrVectorNode.IrPath(
+                    pathFillType = IrPathFillType.NonZero,
+                    fill = IrFill.Color(IrColor(0xFFFF0000)),
+                    paths = listOf(
+                        IrPathNode.MoveTo(4f, 4f),
+                        IrPathNode.RelativeHorizontalTo(16f),
+                    ),
+                    fillAlpha = 1f,
+                    stroke = null,
+                ),
+            ),
+            actual = actual,
         )
     }
 

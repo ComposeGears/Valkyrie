@@ -19,6 +19,10 @@ internal inline fun svg(
     height: String = "24px",
     viewBox: String? = "0 0 24 24",
     fill: String = "#000000",
+    stroke: String? = null,
+    strokeWidth: String? = null,
+    strokeLineCap: String? = null,
+    strokeLineJoin: String? = null,
     block: () -> String,
 ): String {
     return buildString {
@@ -27,6 +31,10 @@ internal inline fun svg(
         appendLine("""height="$height"""")
         appendLine("""width="$width"""")
         if (viewBox != null) appendLine("""viewBox="$viewBox"""")
+        if (stroke != null) appendLine("""stroke="$stroke"""")
+        if (strokeWidth != null) appendLine("""stroke-width="$strokeWidth"""")
+        if (strokeLineCap != null) appendLine("""stroke-linecap="$strokeLineCap"""")
+        if (strokeLineJoin != null) appendLine("""stroke-linejoin="$strokeLineJoin"""")
         appendLine("""fill="$fill">""")
         appendLine(block())
         appendLine("</svg>")

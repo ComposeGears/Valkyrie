@@ -39,10 +39,23 @@ object SVGParser {
             defaultHeight = height ?: DEFAULT_HEIGHT,
             viewportWidth = rect?.width ?: width ?: DEFAULT_WIDTH,
             viewportHeight = rect?.height ?: height ?: DEFAULT_HEIGHT,
-            nodes = children.mapNotNull { it.toIrVectorNode() },
+            nodes = with(toPaintContext()) {
+                children.mapNotNull { it.toIrVectorNode() }
+            },
         )
     }
 
+    private fun SVG.toPaintContext(): PaintContext = PaintContext(
+        fill = fill,
+        strokeColor = strokeColor,
+        strokeWidth = strokeWidth,
+        strokeLineCap = strokeLineCap,
+        strokeLineJoin = strokeLineJoin,
+        strokeAlpha = strokeAlpha,
+        strokeMiter = strokeMiter,
+    )
+
+    context(paintContext: PaintContext)
     private fun SVG.Child.toIrVectorNode(): IrVectorNode? = when (this) {
         is SVG.Path -> toVectorPath()
         is SVG.Circle -> toVectorPath()
@@ -52,11 +65,14 @@ object SVGParser {
         is SVG.Ellipse -> toVectorPath()
     }
 
+    context(paintContext: PaintContext)
     private fun SVG.Path.toVectorPath(): IrVectorNode.IrPath {
-        var fillColor: IrColor? = fill?.let(SvgColorParser::parse)
+        val resolvedFill = fill ?: paintContext.fill
+        val resolvedStrokeColor = strokeColor ?: paintContext.strokeColor
+        var fillColor: IrColor? = resolvedFill?.let(SvgColorParser::parse)
         // NOTE: Only when fill and strokeColor is null use black FillColor as default color as
         //       fill can be none resulting to null.
-        fillColor = if (fill == null && strokeColor == null) Black else fillColor
+        fillColor = if (resolvedFill == null && resolvedStrokeColor == null) Black else fillColor
         val stroke = getSVGStrokeWithDefaults()
         return IrVectorNode.IrPath(
             name = id.orEmpty(),
@@ -73,15 +89,16 @@ object SVGParser {
         )
     }
 
+    context(paintContext: PaintContext)
     private fun SVG.Circle.toVectorPath(): IrVectorNode.IrPath {
         val cx = centerX.toFloat()
         val cy = centerY.toFloat()
         val r = radius.toFloat()
-        val color = fill?.let(SvgColorParser::parse) ?: Black
+        val fill = resolveFill(fill)
         val stroke = getSVGStrokeWithDefaults()
         return IrVectorNode.IrPath(
             name = id.orEmpty(),
-            fill = IrFill.Color(color),
+            fill = fill,
             fillAlpha = fillAlpha?.toFloat() ?: 1f,
             stroke = stroke.color?.let { IrStroke.Color(it) },
             strokeAlpha = stroke.alpha,
@@ -115,11 +132,12 @@ object SVGParser {
         )
     }
 
+    context(paintContext: PaintContext)
     private fun SVG.Polygon.toVectorPath(): IrVectorNode.IrPath {
         val stroke = getSVGStrokeWithDefaults()
         return IrVectorNode.IrPath(
             name = id.orEmpty(),
-            fill = if (fill != null) SvgColorParser.parse(fill)?.let { IrFill.Color(it) } else IrFill.Color(Black),
+            fill = resolveFill(fill),
             fillAlpha = fillAlpha?.toFloat() ?: 1f,
             stroke = stroke.color?.let { IrStroke.Color(it) },
             strokeAlpha = stroke.alpha,
@@ -144,13 +162,25 @@ object SVGParser {
         )
     }
 
+    context(paintContext: PaintContext)
     private fun SVG.Group.toVectorGroup(): IrVectorNode.IrGroup {
+        val groupContext = PaintContext(
+            fill = fill ?: paintContext.fill,
+            strokeColor = strokeColor ?: paintContext.strokeColor,
+            strokeWidth = strokeWidth ?: paintContext.strokeWidth,
+            strokeLineCap = strokeLineCap ?: paintContext.strokeLineCap,
+            strokeLineJoin = strokeLineJoin ?: paintContext.strokeLineJoin,
+            strokeAlpha = strokeAlpha ?: paintContext.strokeAlpha,
+            strokeMiter = strokeMiter ?: paintContext.strokeMiter,
+        )
         val pivot = transform?.getPivot() ?: Translation.Default
         val translation = transform?.getTranslation() ?: Translation.Default
         val scale = transform?.getScale() ?: Scale.Default
         return IrVectorNode.IrGroup(
             name = id.orEmpty(),
-            nodes = children.mapNotNull { it.toIrVectorNode() }.toMutableList(),
+            nodes = with(groupContext) {
+                children.mapNotNull { it.toIrVectorNode() }.toMutableList()
+            },
             rotate = transform?.getRotation() ?: 0f,
             pivotX = pivot.x,
             pivotY = pivot.y,
@@ -163,6 +193,7 @@ object SVGParser {
         )
     }
 
+    context(paintContext: PaintContext)
     private fun SVG.Rectangle.toVectorPath(): IrVectorNode.IrPath? {
         val x = x.toFloat()
         val y = y.toFloat()
@@ -174,7 +205,7 @@ object SVGParser {
         return IrVectorNode.IrPath(
             name = id.orEmpty(),
             pathFillType = IrPathFillType.NonZero,
-            fill = if (fill != null) SvgColorParser.parse(fill)?.let { IrFill.Color(it) } else IrFill.Color(Black),
+            fill = resolveFill(fill),
             fillAlpha = 1f,
             stroke = stroke.color?.let { IrStroke.Color(it) },
             strokeAlpha = stroke.alpha,
@@ -192,6 +223,7 @@ object SVGParser {
         )
     }
 
+    context(paintContext: PaintContext)
     private fun SVG.Ellipse.toVectorPath(): IrVectorNode.IrPath {
         val cx = centerX.toFloat()
         val cy = centerY.toFloat()
@@ -203,7 +235,7 @@ object SVGParser {
         return IrVectorNode.IrPath(
             name = id.orEmpty(),
             pathFillType = IrPathFillType.NonZero,
-            fill = if (fill != null) SvgColorParser.parse(fill)?.let { IrFill.Color(it) } else IrFill.Color(Black),
+            fill = resolveFill(fill),
             fillAlpha = 1f,
             stroke = stroke.color?.let { IrStroke.Color(it) },
             strokeAlpha = stroke.alpha,
@@ -261,6 +293,26 @@ object SVGParser {
         return functionStart.substring(1 until endIndex).split(" ", ",").map { it.toFloat() }
     }
 
+    context(paintContext: PaintContext)
+    private fun resolveFill(fill: String?): IrFill.Color? {
+        val resolvedFill = fill ?: paintContext.fill
+        val color = when (resolvedFill) {
+            null -> Black
+            else -> SvgColorParser.parse(resolvedFill)
+        }
+        return color?.let { IrFill.Color(it) }
+    }
+
     @Suppress("PrivatePropertyName")
     private val Black: IrColor = IrColor(0xff000000)
 }
+
+internal data class PaintContext(
+    val fill: String?,
+    val strokeColor: String?,
+    val strokeWidth: String?,
+    val strokeLineCap: String?,
+    val strokeLineJoin: String?,
+    val strokeAlpha: String?,
+    val strokeMiter: String?,
+)
