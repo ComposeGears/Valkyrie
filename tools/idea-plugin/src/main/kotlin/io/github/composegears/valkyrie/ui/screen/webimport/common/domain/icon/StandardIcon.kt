@@ -22,6 +22,6 @@ data class StandardIcon(
     val exportName: String = name,
     val codepoint: Codepoint,
     val tags: List<String>,
-    val category: InferredCategory,
-    val style: IconStyle? = null,
-) : WebIcon
+    override val category: InferredCategory,
+    override val style: IconStyle? = null,
+) : StyledWebIcon

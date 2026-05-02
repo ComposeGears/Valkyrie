@@ -1,8 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings
 
 /**
- * Size settings for standard icon providers.
- * Allows customization of icon dimensions (width/height).
+ * Size settings for icon providers that customize exported SVG dimensions.
  */
 data class SizeSettings(
     val size: Int = DEFAULT_SIZE,

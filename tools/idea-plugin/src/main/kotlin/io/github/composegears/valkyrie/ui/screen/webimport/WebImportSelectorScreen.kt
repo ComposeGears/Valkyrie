@@ -28,6 +28,7 @@ import io.github.composegears.valkyrie.sdk.compose.icons.colored.EvaLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.FeatherLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.FontAwesomeLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.HeroiconsLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.IoniconsLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.LucideLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.RemixLogo
@@ -39,6 +40,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Eva
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Feather
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.FontAwesome
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleMaterialSymbols
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Heroicons
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Ionicons
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Remix
@@ -55,6 +57,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymb
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.simpleicons.SimpleIconsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.TablerImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.svg.heroicons.HeroiconsImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
@@ -75,6 +78,7 @@ val WebImportSelectorScreen by navDestination {
                 Tabler -> TablerImportScreen
                 Eva -> EvaImportScreen
                 Feather -> FeatherImportScreen
+                Heroicons -> HeroiconsImportScreen
                 Ionicons -> IoniconsImportScreen
                 SimpleIcons -> SimpleIconsImportScreen
             }
@@ -151,6 +155,11 @@ enum class IconProviders(
         icon = ValkyrieIcons.Colored.GoogleMaterialLogo,
         titleKey = "web.import.selector.google.title",
         descriptionKey = "web.import.selector.google.description",
+    ),
+    Heroicons(
+        icon = ValkyrieIcons.Colored.HeroiconsLogo,
+        titleKey = "web.import.selector.heroicons.title",
+        descriptionKey = "web.import.selector.heroicons.description",
     ),
     Ionicons(
         icon = ValkyrieIcons.Colored.IoniconsLogo,
