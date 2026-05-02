@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.colors.overlay
 import io.github.composegears.valkyrie.jewel.colors.softContentColor
 import io.github.composegears.valkyrie.jewel.graphics.dashedBorder
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
@@ -36,8 +37,8 @@ fun DragAndDropOverlay(
 ) {
     val backgroundColor by animateColorAsState(
         when {
-            isDragging -> JewelTheme.globalColors.borders.normal.copy(alpha = 0.97f)
-            else -> JewelTheme.globalColors.borders.normal.copy(alpha = 0.0f)
+            isDragging -> JewelTheme.overlay.copy(alpha = 0.97f)
+            else -> JewelTheme.overlay.copy(alpha = 0.0f)
         },
     )
 

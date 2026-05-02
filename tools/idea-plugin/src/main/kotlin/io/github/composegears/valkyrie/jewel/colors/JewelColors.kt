@@ -4,7 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
@@ -15,6 +18,7 @@ import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerti
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 
 val JewelTheme.Companion.softContentColor: Color
     @Composable
@@ -31,11 +35,37 @@ val JewelTheme.Companion.errorFocused: Color
     @ReadOnlyComposable
     get() = JewelTheme.globalColors.outlines.focusedError
 
+/** Background color for floating/overlay surfaces (pills, side panels). */
+val JewelTheme.Companion.overlay: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = JewelTheme.globalColors.borders.normal
+
+/** Divider color for content rendered on top of an [overlay] surface. */
+val JewelTheme.Companion.onOverlay: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = if (JewelTheme.isDark) {
+        LocalGroupHeaderStyle.current.colors.divider
+    } else {
+        JewelTheme.globalColors.borders.disabled
+    }
+
 @Preview
 @Composable
 private fun JewelColorsPreview() = PreviewTheme {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(text = "— Custom —")
         ColorCell(JewelTheme.softContentColor, "softContentColor")
+        ColorCell(JewelTheme.overlay, "overlay")
+        ColorCell(JewelTheme.onOverlay, "onOverlay")
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(text = "— Global —")
         ColorCell(JewelTheme.contentColor, "contentColor")
         ColorCell(JewelTheme.globalColors.panelBackground, "global.panelBackground")
         ColorCell(JewelTheme.globalColors.borders.normal, "global.borders.normal")

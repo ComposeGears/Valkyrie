@@ -5,6 +5,8 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.items
@@ -25,6 +27,7 @@ import androidx.compose.ui.text.font.FontVariation.grade
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.unit.dp
 import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
@@ -58,6 +61,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZOOM_DEFAULT_SCALE
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZoomFloatingBar
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.Category
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.IconModel
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
@@ -185,6 +190,7 @@ private fun IconsContent(
     val scope = rememberCoroutineScope()
 
     var selectedIcon by rememberMutableState<IconModel?> { null }
+    var scaleFactor by rememberMutableState { ZOOM_DEFAULT_SCALE }
     val lazyGridState = rememberLazyGridState()
     val fontSettings = state.fontSettings
 
@@ -193,89 +199,101 @@ private fun IconsContent(
 
     val focusManager = LocalFocusManager.current
 
-    Column(
-        modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        focusManager.clearFocus()
-                    },
-                )
-            },
-    ) {
-        MaterialTopActions(
-            categories = state.config.categories,
-            selectedCategory = state.selectedCategory,
-            iconFontFamily = iconFontFamily,
-            onToggleSidePanel = onToggleSidePanel,
-            onSelectFontFamily = onSelectFontFamily,
-            onSelectCategory = { category ->
-                scope.launch {
-                    lazyGridState.scrollToItem(0)
-                }
-                onSelectCategory(category)
-            },
-            onSearchQueryChange = onSearchQueryChange,
-        )
-        HorizontalDivider()
-        if (fontByteArray == null) {
-            val shimmer = rememberShimmer()
-
-            MaterialIconGrid(
-                gridItems = state.gridItems,
-                lazyGridState = lazyGridState,
-                iconContent = { materialIcon ->
-                    MaterialIconStub(
-                        icon = materialIcon,
-                        shimmer = shimmer,
-                    )
-                },
-            )
-        } else {
-            val iconFont = rememberMaterialSymbolsFont(
-                name = iconFontFamily.fontFamily,
-                font = fontByteArray.bytes,
-                fill = fontSettings.fill,
-                grade = fontSettings.grade,
-                opticalSize = fontSettings.opticalSize,
-            )
-
-            ProvideIconParameters(
-                iconFont = iconFont,
-                tint = LocalContentColor.current,
-                weight = FontWeight(fontSettings.weight),
-            ) {
-                if (state.gridItems.isEmpty()) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
-                    }
-                } else {
-                    MaterialIconGrid(
-                        gridItems = state.gridItems,
-                        lazyGridState = lazyGridState,
-                        iconContent = { icon ->
-                            IconCard(
-                                name = icon.name,
-                                selected = icon == selectedIcon,
-                                onClick = {
-                                    selectedIcon = icon
-                                    onSelectIcon(icon)
-                                },
-                                iconContent = {
-                                    FontIcon(
-                                        modifier = Modifier.fillMaxSize(),
-                                        icon = Char(icon.codepoint),
-                                        contentDescription = null,
-                                    )
-                                },
-                            )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onTap = {
+                            focusManager.clearFocus()
                         },
                     )
+                },
+        ) {
+            MaterialTopActions(
+                categories = state.config.categories,
+                selectedCategory = state.selectedCategory,
+                iconFontFamily = iconFontFamily,
+                onToggleSidePanel = onToggleSidePanel,
+                onSelectFontFamily = onSelectFontFamily,
+                onSelectCategory = { category ->
+                    scope.launch {
+                        lazyGridState.scrollToItem(0)
+                    }
+                    onSelectCategory(category)
+                },
+                onSearchQueryChange = onSearchQueryChange,
+            )
+            HorizontalDivider()
+            if (fontByteArray == null) {
+                val shimmer = rememberShimmer()
+
+                MaterialIconGrid(
+                    gridItems = state.gridItems,
+                    lazyGridState = lazyGridState,
+                    iconContent = { materialIcon ->
+                        MaterialIconStub(
+                            icon = materialIcon,
+                            shimmer = shimmer,
+                        )
+                    },
+                )
+            } else {
+                val iconFont = rememberMaterialSymbolsFont(
+                    name = iconFontFamily.fontFamily,
+                    font = fontByteArray.bytes,
+                    fill = fontSettings.fill,
+                    grade = fontSettings.grade,
+                    opticalSize = fontSettings.opticalSize,
+                )
+                val iconSizeDp = (fontSettings.opticalSize * scaleFactor).dp
+
+                ProvideIconParameters(
+                    iconFont = iconFont,
+                    tint = LocalContentColor.current,
+                    weight = FontWeight(fontSettings.weight),
+                ) {
+                    if (state.gridItems.isEmpty()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            EmptyPlaceholder(message = stringResource("web.import.placeholder.empty"))
+                        }
+                    } else {
+                        MaterialIconGrid(
+                            gridItems = state.gridItems,
+                            lazyGridState = lazyGridState,
+                            iconContent = { icon ->
+                                IconCard(
+                                    name = icon.name,
+                                    selected = icon == selectedIcon,
+                                    onClick = {
+                                        selectedIcon = icon
+                                        onSelectIcon(icon)
+                                    },
+                                    iconContent = {
+                                        FontIcon(
+                                            modifier = Modifier.size(iconSizeDp),
+                                            icon = Char(icon.codepoint),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
+                            },
+                        )
+                    }
                 }
             }
+        }
+        if (fontByteArray != null) {
+            ZoomFloatingBar(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 8.dp),
+                scaleFactor = scaleFactor,
+                onScaleChange = { scaleFactor = it },
+            )
         }
     }
 }

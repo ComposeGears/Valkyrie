@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -48,6 +49,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZOOM_DEFAULT_SCALE
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZoomFloatingBar
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
@@ -177,6 +180,7 @@ private fun IconsContent(
 
     var selectedIcon by rememberMutableState<StandardIcon?> { null }
     var isSidePanelOpen by rememberMutableState { false }
+    var scaleFactor by rememberMutableState { ZOOM_DEFAULT_SCALE }
     val lazyGridState = rememberLazyGridState()
     val shimmer = rememberShimmer()
 
@@ -247,7 +251,7 @@ private fun IconsContent(
                         alias = styleAwareAlias,
                         weight = styleAwareWeight,
                     )
-                    val iconSizeDp = state.settings.size.dp
+                    val iconSizeDp = (state.settings.size * scaleFactor).dp
 
                     ProvideIconParameters(
                         iconFont = iconFont,
@@ -279,7 +283,15 @@ private fun IconsContent(
                 }
             }
         }
-
+        if (state.fontByteArray != null) {
+            ZoomFloatingBar(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 8.dp),
+                scaleFactor = scaleFactor,
+                onScaleChange = { scaleFactor = it },
+            )
+        }
         SidePanel(
             isOpen = isSidePanelOpen,
             onClose = { isSidePanelOpen = false },

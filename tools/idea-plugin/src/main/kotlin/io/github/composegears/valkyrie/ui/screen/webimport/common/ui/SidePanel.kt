@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import io.github.composegears.valkyrie.jewel.colors.overlay
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
@@ -56,7 +57,7 @@ fun SidePanel(
                     .widthIn(max = 250.dp)
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
-                    .background(JewelTheme.globalColors.borders.normal),
+                    .background(JewelTheme.overlay),
             ) {
                 content()
             }

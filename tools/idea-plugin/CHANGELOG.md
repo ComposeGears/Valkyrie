@@ -4,6 +4,8 @@
 
 ### Added
 
+- [Web Import] Add floating zoom control bar to the icon grid — allows changing the visual display size of icons (
+  25%–200%) without affecting import settings
 - [Web Import] Add `Feather` icons provider
 - [Web Import] Add `Ionicons` icons provider
 - [Web Import] Add `Tabler` icons provider

@@ -184,12 +184,14 @@ fun BlackCircleAction(
 @Composable
 fun ZoomInAction(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     TooltipIconButton(
         modifier = modifier,
         key = AllIconsKeys.Graph.ZoomIn,
         contentDescription = stringResource("accessibility.zoom.in"),
+        enabled = enabled,
         onClick = onClick,
         tooltipText = stringResource("component.toolbar.zoom.in"),
     )
@@ -198,12 +200,14 @@ fun ZoomInAction(
 @Composable
 fun ZoomOutAction(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     TooltipIconButton(
         modifier = modifier,
         key = AllIconsKeys.Graph.ZoomOut,
         contentDescription = stringResource("accessibility.zoom.out"),
+        enabled = enabled,
         onClick = onClick,
         tooltipText = stringResource("component.toolbar.zoom.out"),
     )
@@ -212,6 +216,7 @@ fun ZoomOutAction(
 @Composable
 fun ActualZoomAction(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     TooltipIconButton(
@@ -219,6 +224,7 @@ fun ActualZoomAction(
         key = AllIconsKeys.Graph.ActualZoom,
         contentDescription = stringResource("accessibility.zoom.actual"),
         onClick = onClick,
+        enabled = enabled,
         tooltipText = stringResource("component.toolbar.zoom.actual"),
     )
 }

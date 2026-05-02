@@ -21,12 +21,14 @@ fun TooltipIconButton(
     onClick: () -> Unit,
     tooltipText: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     IconActionButton(
         modifier = modifier,
         key = key,
         onClick = onClick,
         focusable = false,
+        enabled = enabled,
         contentDescription = contentDescription,
         tooltip = {
             Text(text = tooltipText)
@@ -42,12 +44,14 @@ fun TooltipIconButton(
     onClick: () -> Unit,
     tooltipText: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     IconActionButton(
         modifier = modifier,
         painter = rememberVectorPainter(imageVector),
         onClick = onClick,
         focusable = false,
+        enabled = enabled,
         contentDescription = contentDescription,
         tooltip = {
             Text(text = tooltipText)
