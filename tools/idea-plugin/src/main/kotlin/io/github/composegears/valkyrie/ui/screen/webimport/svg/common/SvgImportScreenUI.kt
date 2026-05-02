@@ -63,9 +63,8 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.setting
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeaderItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.StandardTopActions
-import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.data.SvgPreviewColorNormalizer
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.data.SvgPreviewCache
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.domain.SvgIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.model.SvgIcon
@@ -307,10 +306,9 @@ private suspend fun loadPreviewImageVector(
     loadPreviewSvg: suspend (SvgIcon) -> String,
 ): ImageVector = withContext(Dispatchers.Default) {
     previewCache.getOrLoad(icon.path) {
-        val svg = SvgPreviewColorNormalizer.normalize(loadPreviewSvg(icon))
         SvgXmlParser.toIrImageVector(
             parser = ParserType.Kmp,
-            value = svg,
+            value = loadPreviewSvg(icon),
             iconName = icon.exportName,
         ).irImageVector.toComposeImageVector()
     }
