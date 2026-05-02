@@ -2,7 +2,6 @@ package io.github.composegears.valkyrie.ui.screen.webimport.common.domain.catego
 
 /**
  * Category inferred from icon names and tags using keyword matching.
- * Used by icon sources that don't provide explicit category metadata (e.g., Bootstrap, Lucide).
  */
 data class InferredCategory(
     val id: String,

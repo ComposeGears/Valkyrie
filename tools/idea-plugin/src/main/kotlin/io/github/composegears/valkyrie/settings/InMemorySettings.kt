@@ -76,6 +76,7 @@ class InMemorySettings(project: Project) {
         featherSize = DEFAULT_SIZE
         ioniconsSize = DEFAULT_SIZE
         simpleIconsSize = DEFAULT_SIZE
+        heroiconsSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {
