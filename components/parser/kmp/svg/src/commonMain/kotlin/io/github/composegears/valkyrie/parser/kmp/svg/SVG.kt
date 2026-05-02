@@ -17,6 +17,12 @@ internal data class SVG(
     @SerialName("height") val height: String? = null,
     @SerialName("viewBox") val viewBox: String? = null,
     @SerialName("fill") val fill: String? = null,
+    @SerialName("stroke") val strokeColor: String? = null,
+    @SerialName("stroke-width") val strokeWidth: String? = null,
+    @SerialName("stroke-linecap") val strokeLineCap: String? = null,
+    @SerialName("stroke-linejoin") val strokeLineJoin: String? = null,
+    @SerialName("stroke-opacity") val strokeAlpha: String? = null,
+    @SerialName("stroke-miterlimit") val strokeMiter: String? = null,
     @XmlPolyChildren([GROUP, PATH, CIRCLE, RECTANGLE, ELLIPSE, POLYGON])
     val children: List<@Polymorphic Child> = emptyList(),
 ) {
@@ -48,6 +54,7 @@ internal data class SVG(
     data class Group(
         @SerialName("id") override val id: String? = null,
         @SerialName("transform") val transform: String? = null,
+        @SerialName("fill") val fill: String? = null,
         @XmlPolyChildren([GROUP, PATH, CIRCLE, RECTANGLE, ELLIPSE, POLYGON])
         val children: List<@Polymorphic Child> = emptyList(),
 
