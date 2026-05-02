@@ -4,7 +4,7 @@ internal fun testSVG(
     height: String = "24px",
     viewBox: String = "0 0 24 24",
     width: String = "24px",
-    fill: String = "#000000",
+    fill: String? = "#000000",
     children: List<SVG.Child>,
 ) = SVG(
     width = width,
@@ -18,7 +18,7 @@ internal inline fun svg(
     width: String = "24px",
     height: String = "24px",
     viewBox: String? = "0 0 24 24",
-    fill: String = "#000000",
+    fill: String? = "#000000",
     stroke: String? = null,
     strokeWidth: String? = null,
     strokeLineCap: String? = null,
@@ -35,7 +35,11 @@ internal inline fun svg(
         if (strokeWidth != null) appendLine("""stroke-width="$strokeWidth"""")
         if (strokeLineCap != null) appendLine("""stroke-linecap="$strokeLineCap"""")
         if (strokeLineJoin != null) appendLine("""stroke-linejoin="$strokeLineJoin"""")
-        appendLine("""fill="$fill">""")
+        if (fill != null) {
+            appendLine("""fill="$fill">""")
+        } else {
+            appendLine(">")
+        }
         appendLine(block())
         appendLine("</svg>")
     }
