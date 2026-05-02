@@ -63,7 +63,7 @@ jobs:
           gh release create ${{ env.RELEASE_TAG }} tools/cli/build/distributions/*.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
 
       - name: Update Homebrew formula
-        uses: mislav/bump-homebrew-formula-action@v3
+        uses: mislav/bump-homebrew-formula-action@v3.6
         if: env.IS_SNAPSHOT == 'false'
         with:
           formula-name: valkyrie
