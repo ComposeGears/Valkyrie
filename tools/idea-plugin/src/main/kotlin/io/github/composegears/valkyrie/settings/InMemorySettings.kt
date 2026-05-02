@@ -75,6 +75,7 @@ class InMemorySettings(project: Project) {
         evaSize = DEFAULT_SIZE
         featherSize = DEFAULT_SIZE
         ioniconsSize = DEFAULT_SIZE
+        heroiconsSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {
