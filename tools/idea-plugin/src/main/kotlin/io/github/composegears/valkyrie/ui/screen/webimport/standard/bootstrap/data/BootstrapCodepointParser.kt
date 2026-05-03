@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.data
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.data.RegexCssCodepointParser
+import io.github.composegears.valkyrie.ui.screen.webimport.common.data.RegexCssCodepointParser
 
 class BootstrapCodepointParser :
     RegexCssCodepointParser(

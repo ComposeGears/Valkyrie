@@ -4,8 +4,8 @@ import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.ionicons.data.IoniconsIconMetadata
 import org.junit.jupiter.api.Test
 

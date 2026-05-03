@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.colors.overlay
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.material.ui.MaterialFontCustomization
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.ui.MaterialFontCustomization
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.DefaultButton

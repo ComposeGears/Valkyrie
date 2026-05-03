@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.doma
 import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.hasSize
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
 import org.junit.jupiter.api.Test
 
 class TablerIconConfigBuilderTest {

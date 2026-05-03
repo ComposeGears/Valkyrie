@@ -9,11 +9,11 @@ import io.github.composegears.valkyrie.service.PersistentSettings.Companion.pers
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 import io.github.composegears.valkyrie.ui.extension.or
 import io.github.composegears.valkyrie.ui.extension.updateState
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_FILL
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_GRADE
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_WEIGHT
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings.Companion.DEFAULT_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings.Companion.DEFAULT_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_FILL
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_GRADE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_WEIGHT
 import java.util.Collections.emptyList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

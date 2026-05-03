@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.domain
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
 import org.junit.jupiter.api.Test
 
 class EvaIconNameTest {

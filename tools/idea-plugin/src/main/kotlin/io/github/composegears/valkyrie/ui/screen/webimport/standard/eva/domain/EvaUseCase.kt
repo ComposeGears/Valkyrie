@@ -1,16 +1,16 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.domain
 
 import io.github.composegears.valkyrie.settings.InMemorySettings
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.FontByteArray
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.StandardIconProvider
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIconConfig
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.toStandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.StandardIconProvider
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.font.Codepoint
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.font.FontByteArray
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.StandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.toStandardIconConfig
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.inferCategoryFromTags
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toDisplayName
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.data.EvaRepository
 
 class EvaUseCase(
