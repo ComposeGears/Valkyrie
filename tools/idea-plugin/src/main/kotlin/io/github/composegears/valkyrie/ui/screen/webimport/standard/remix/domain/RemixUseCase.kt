@@ -61,7 +61,7 @@ class RemixUseCase(
         return FontByteArray(repository.loadFontBytes())
     }
 
-    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String {
+    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle?): String {
         val rawSvg = repository.downloadSvg(icon.name)
         return SvgSizeCustomizer.applySettings(rawSvg, settings)
     }

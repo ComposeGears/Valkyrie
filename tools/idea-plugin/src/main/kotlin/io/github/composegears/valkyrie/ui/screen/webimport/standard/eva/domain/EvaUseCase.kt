@@ -47,7 +47,7 @@ class EvaUseCase(
 
     override suspend fun loadFontBytes(style: IconStyle?): FontByteArray = FontByteArray(repository.loadFontBytes())
 
-    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String = repository.downloadSvg(icon.name)
+    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle?): String = repository.downloadSvg(icon.name)
 }
 
 internal fun String.toEvaStyle(): IconStyle {

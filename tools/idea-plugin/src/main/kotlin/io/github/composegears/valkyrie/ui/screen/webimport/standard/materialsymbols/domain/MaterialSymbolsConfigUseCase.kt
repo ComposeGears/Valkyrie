@@ -29,8 +29,6 @@ class MaterialSymbolsConfigUseCase(
     private val inMemorySettings: InMemorySettings,
 ) : StandardIconProvider {
 
-    private var currentFontFamily: MaterialIconFontFamily = MaterialIconFontFamily.Outlined
-
     private val _fontSettingsFlow = MutableStateFlow(
         inMemorySettings.readState {
             MaterialFontSettings(
@@ -54,10 +52,6 @@ class MaterialSymbolsConfigUseCase(
     override val variableFontConfig = _variableFontConfig.asStateFlow()
 
     override fun resolveFontWeight(style: IconStyle?) = FontWeight(_fontSettingsFlow.value.weight)
-
-    override fun onStyleChanged(style: IconStyle?) {
-        currentFontFamily = FAMILY_BY_STYLE_ID[style?.id] ?: MaterialIconFontFamily.Outlined
-    }
 
     override suspend fun loadConfig(): StandardIconConfig {
         val result = configRepository.load()
@@ -104,11 +98,15 @@ class MaterialSymbolsConfigUseCase(
         return FontByteArray(bytes = fontRepository.loadFont(fontFamily))
     }
 
-    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String = fontRepository.downloadSvg(
-        name = icon.name,
-        fontFamily = currentFontFamily.fontFamily,
-        fontSettings = _fontSettingsFlow.value,
-    )
+    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle?): String {
+        val fontFamily = FAMILY_BY_STYLE_ID[style?.id] ?: MaterialIconFontFamily.Outlined
+
+        return fontRepository.downloadSvg(
+            name = icon.name,
+            fontFamily = fontFamily.fontFamily,
+            fontSettings = _fontSettingsFlow.value,
+        )
+    }
 
     fun updateFontSettings(settings: MaterialFontSettings) {
         _fontSettingsFlow.value = settings
