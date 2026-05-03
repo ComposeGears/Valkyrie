@@ -42,7 +42,7 @@ class TablerUseCase(
 
     override suspend fun loadFontBytes(style: IconStyle?): FontByteArray = FontByteArray(repository.loadFontBytes(style))
 
-    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String = repository.downloadSvg(
+    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle?): String = repository.downloadSvg(
         iconName = icon.name,
         style = icon.style ?: TABLER_OUTLINE_STYLE,
     )

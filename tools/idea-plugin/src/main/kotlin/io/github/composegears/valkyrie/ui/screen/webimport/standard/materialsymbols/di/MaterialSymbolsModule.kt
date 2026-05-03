@@ -21,7 +21,7 @@ object MaterialSymbolsModule : Leviathan() {
         MaterialFontRepository(httpClient = inject(NetworkModule.httpClient))
     }
 
-    val materialSymbolsConfigUseCase by instanceOf {
+    val materialSymbolsConfigUseCase by instanceOf(keepAlive = true) {
         MaterialSymbolsConfigUseCase(
             configRepository = inject(materialSymbolsConfigRepository),
             fontRepository = inject(materialFontRepository),

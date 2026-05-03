@@ -67,7 +67,7 @@ class FontAwesomeUseCase(
         return FontByteArray(repository.loadFontBytes(styleId = styleId))
     }
 
-    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String {
+    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle?): String {
         val styleId = icon.style?.id ?: SOLID_STYLE_ID
         val rawSvg = repository.downloadSvg(iconName = icon.name, styleId = styleId)
         return SvgSizeCustomizer.applySettings(rawSvg, settings)

@@ -38,7 +38,7 @@ interface StandardIconProvider {
 
     suspend fun loadConfig(): StandardIconConfig
     suspend fun loadFontBytes(style: IconStyle? = null): FontByteArray
-    suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings): String
+    suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle? = null): String
 
     companion object {
         /** Shared no-op StateFlow returned by the default [variableFontConfig] getter. */

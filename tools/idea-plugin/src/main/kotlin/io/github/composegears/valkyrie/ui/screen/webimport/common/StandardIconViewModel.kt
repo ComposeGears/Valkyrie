@@ -158,7 +158,7 @@ class StandardIconViewModel(
             val currentState = stateRecord.value.safeAs<StandardState.Success>() ?: return@launch
 
             runCatching {
-                val svgContent = provider.downloadSvg(icon, currentState.settings)
+                val svgContent = provider.downloadSvg(icon, currentState.settings, currentState.selectedStyle)
 
                 _events.send(
                     StandardIconEvent.IconDownloaded(
