@@ -23,7 +23,7 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.CenterVerticalRow
 import io.github.composegears.valkyrie.sdk.compose.foundation.layout.WeightSpacer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings
 import io.github.composegears.valkyrie.util.stringResource
 import kotlin.math.roundToInt
 import org.jetbrains.compose.ui.tooling.preview.Preview

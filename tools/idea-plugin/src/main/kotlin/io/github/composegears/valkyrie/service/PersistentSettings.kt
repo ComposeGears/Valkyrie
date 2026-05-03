@@ -10,11 +10,11 @@ import io.github.composegears.valkyrie.jewel.tooling.GlobalPreviewState
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.service.PersistentSettings.ValkyrieState
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_FILL
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_GRADE
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
-import io.github.composegears.valkyrie.ui.screen.webimport.material.domain.model.font.MaterialFontSettings.Companion.DEFAULT_WEIGHT
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.SizeSettings.Companion.DEFAULT_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings.Companion.DEFAULT_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_FILL
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_GRADE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_OPTICAL_SIZE
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.domain.model.MaterialFontSettings.Companion.DEFAULT_WEIGHT
 
 @State(name = "Valkyrie.Settings", storages = [Storage("valkyrie_settings.xml")])
 class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(ValkyrieState()) {

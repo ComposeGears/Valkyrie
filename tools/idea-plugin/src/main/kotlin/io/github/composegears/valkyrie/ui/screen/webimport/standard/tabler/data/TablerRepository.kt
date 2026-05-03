@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.data
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.data.CodepointParser
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.common.data.CodepointParser
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.domain.TABLER_FILLED_STYLE
 import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder

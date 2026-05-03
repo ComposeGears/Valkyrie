@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.ionicons.domain
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.Codepoint
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.inferCategoryFromTags
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.font.Codepoint
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.StandardIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.inferCategoryFromTags
+import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toDisplayName
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.ionicons.data.IoniconsIconMetadata
 
 fun buildIonicons(

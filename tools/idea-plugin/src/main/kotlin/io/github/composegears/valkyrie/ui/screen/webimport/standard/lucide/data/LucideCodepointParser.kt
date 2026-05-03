@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.data
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.data.RegexCssCodepointParser
+import io.github.composegears.valkyrie.ui.screen.webimport.common.data.RegexCssCodepointParser
 
 class LucideCodepointParser :
     RegexCssCodepointParser(

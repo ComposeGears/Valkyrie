@@ -1,11 +1,11 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common.util
 
 import com.github.androidpasswordstore.sublimefuzzy.Fuzzy
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.CategoryHeader
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.GridItem
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.IconItem
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.common.model.WebIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.WebCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.CategoryHeader
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.GridItem
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconItem
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.WebIcon
 
 /**
  * Converts a map of categories to icons into a flat list of grid items.

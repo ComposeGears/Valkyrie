@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.data
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.domain.toDisplayName
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toDisplayName
 
 class FontAwesomeCategoriesYamlParser {
 

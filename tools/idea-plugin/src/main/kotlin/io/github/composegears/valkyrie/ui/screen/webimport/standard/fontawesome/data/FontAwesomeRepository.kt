@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.data
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
 import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient

@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.data
 
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.data.CodepointParser
+import io.github.composegears.valkyrie.ui.screen.webimport.common.data.CodepointParser
 import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.github.composegears.valkyrie.util.font.Woff2Decoder
 import io.ktor.client.HttpClient

@@ -42,7 +42,6 @@ import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Ionicon
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Remix
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Tabler
-import io.github.composegears.valkyrie.ui.screen.webimport.material.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.bootstrap.BootstrapImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.boxicons.BoxIconsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.eva.EvaImportScreen
@@ -50,6 +49,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.feather.Feat
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.FontAwesomeImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.ionicons.IoniconsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.lucide.LucideImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymbols.MaterialSymbolsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.TablerImportScreen
 import io.github.composegears.valkyrie.util.stringResource

@@ -7,7 +7,9 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
@@ -18,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /** Container holding shared shimmer animation state. */
+@Stable
 class Shimmer internal constructor(
     internal val translateState: State<Float>,
     internal val gradientWidthFactor: Float,
@@ -46,7 +49,9 @@ fun rememberShimmer(
         ),
         label = "RememberShimmerTranslate",
     )
-    return Shimmer(translateState, gradientWidthFactor)
+    return remember(gradientWidthFactor) {
+        Shimmer(translateState, gradientWidthFactor)
+    }
 }
 
 /** Apply a remembered shimmer to this modifier. */

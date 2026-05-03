@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.ui.screen.webimport.standard.common.model.InferredCategory
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
 import org.junit.jupiter.api.Test
 
 class FontAwesomeCategoriesYamlParserTest {
