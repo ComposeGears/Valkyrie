@@ -23,7 +23,7 @@ val ValkyrieIcons.Colored.FeatherLogo: ImageVector
             viewportHeight = 24f,
         ).apply {
             path(
-                stroke = SolidColor(Color.White),
+                stroke = SolidColor(Color.Gray),
                 strokeLineWidth = 2f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
@@ -36,7 +36,7 @@ val ValkyrieIcons.Colored.FeatherLogo: ImageVector
                 close()
             }
             path(
-                stroke = SolidColor(Color.White),
+                stroke = SolidColor(Color.Gray),
                 strokeLineWidth = 2f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
@@ -45,7 +45,7 @@ val ValkyrieIcons.Colored.FeatherLogo: ImageVector
                 lineTo(2f, 22f)
             }
             path(
-                stroke = SolidColor(Color.White),
+                stroke = SolidColor(Color.Gray),
                 strokeLineWidth = 2f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
