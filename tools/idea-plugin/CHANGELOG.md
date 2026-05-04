@@ -4,6 +4,7 @@
 
 ### Added
 
+- [Web Import] Add `css.gg` icons provider
 - [Web Import] Add `Simple` icons provider
 - [Web Import] Add `Hero` icons provider
 - [Web Import] Add floating zoom control bar to the icon grid — allows changing the visual display size of icons (
