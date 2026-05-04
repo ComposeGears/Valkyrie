@@ -11,11 +11,10 @@ import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.WebImportTopActions
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun StandardTopActions(
+fun WebIconTopActions(
     categories: List<InferredCategory>,
     styles: List<IconStyle>,
     selectedCategory: InferredCategory,
@@ -55,11 +54,11 @@ fun StandardTopActions(
 
 @Preview
 @Composable
-private fun StandardTopActionsPreview() = PreviewTheme {
+private fun WebIconTopActionsPreview() = PreviewTheme {
     var category by rememberMutableState { InferredCategory("accessibility", "Accessibility") }
     var style by rememberMutableState { IconStyle("regular", "Regular") }
 
-    StandardTopActions(
+    WebIconTopActions(
         categories = listOf(
             InferredCategory("accessibility", "Accessibility"),
             InferredCategory("communication", "Communication"),

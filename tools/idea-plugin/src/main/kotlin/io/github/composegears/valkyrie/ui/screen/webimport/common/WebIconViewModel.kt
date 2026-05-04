@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.ui.screen.webimport.svg.common
+package io.github.composegears.valkyrie.ui.screen.webimport.common
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
@@ -8,39 +8,39 @@ import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.WebIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.GridItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.StyledWebIcon
+import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.WebIconConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.util.filterByCategory
-import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.domain.SvgIconProvider
-import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.model.SvgIcon
-import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.model.SvgIconConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class SvgIconViewModel(
+class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
     savedState: MutableSavedState,
-    private val provider: SvgIconProvider,
+    private val provider: WebIconProvider<Icon, Config>,
 ) : ViewModel() {
 
-    private val stateRecord = savedState.recordOf<SvgState>(
+    private val stateRecord = savedState.recordOf<WebIconState<Icon>>(
         key = provider.stateKey,
-        initialValue = SvgState.Loading,
+        initialValue = WebIconState.Loading,
     )
     val state = stateRecord.asStateFlow()
 
-    private val _events = Channel<SvgIconEvent>()
+    private val _events = Channel<WebIconEvent>()
     val events = _events.receiveAsFlow()
 
     private var downloadJob: Job? = null
 
     init {
         when (val initialState = stateRecord.value) {
-            is SvgState.Success -> {
+            is WebIconState.Success -> {
                 val selectedStyle = initialState.selectedStyle
                     ?.takeIf { selected -> initialState.config.styles.any { it.id == selected.id } }
                     ?: initialState.config.styles.firstOrNull()
@@ -60,15 +60,17 @@ class SvgIconViewModel(
 
     private fun loadConfig() {
         viewModelScope.launch {
-            stateRecord.value = SvgState.Loading
+            stateRecord.value = WebIconState.Loading
             runCatching {
                 val config = provider.loadConfig()
                 val selectedStyle = config.styles.firstOrNull()
                 if (config.gridItems.isEmpty()) {
-                    stateRecord.value = SvgState.Error("No ${provider.providerName} icons found. Check network connection.")
+                    stateRecord.value = WebIconState.Error(
+                        "No ${provider.providerName} icons found. Check network connection.",
+                    )
                     return@launch
                 }
-                stateRecord.value = SvgState.Success(
+                stateRecord.value = WebIconState.Success(
                     config = config,
                     gridItems = config.filterByCategory(
                         category = InferredCategory.All,
@@ -79,19 +81,21 @@ class SvgIconViewModel(
                     selectedStyle = selectedStyle,
                 )
             }.onFailure { error ->
-                stateRecord.value = SvgState.Error("Error loading ${provider.providerName} icons: ${error.message}")
+                stateRecord.value = WebIconState.Error(
+                    "Error loading ${provider.providerName} icons: ${error.message}",
+                )
             }
         }
     }
 
-    fun downloadIcon(icon: SvgIcon) {
+    fun downloadIcon(icon: Icon) {
         downloadJob?.cancel()
         downloadJob = viewModelScope.launch {
-            val currentState = stateRecord.value.safeAs<SvgState.Success>() ?: return@launch
+            val currentState = stateRecord.value.safeAs<WebIconState.Success<Icon>>() ?: return@launch
             runCatching {
-                val svgContent = provider.downloadSvg(icon, currentState.settings)
+                val svgContent = provider.downloadSvg(icon, currentState.settings, currentState.selectedStyle)
                 _events.send(
-                    SvgIconEvent.IconDownloaded(
+                    WebIconEvent.IconDownloaded(
                         svgContent = svgContent,
                         name = IconNameFormatter.format(icon.exportName),
                     ),
@@ -140,35 +144,34 @@ class SvgIconViewModel(
         }
     }
 
-    suspend fun loadPreviewSvg(icon: SvgIcon): String = provider.loadPreviewSvg(icon)
-
-    private inline fun updateSuccess(crossinline transform: (SvgState.Success) -> SvgState.Success) {
+    private inline fun updateSuccess(crossinline transform: (WebIconState.Success<Icon>) -> WebIconState.Success<Icon>) {
         val current = stateRecord.value
-        if (current is SvgState.Success) {
+        if (current is WebIconState.Success) {
             stateRecord.value = transform(current)
         }
     }
 }
 
-sealed interface SvgIconEvent {
+sealed interface WebIconEvent {
     data class IconDownloaded(
         val svgContent: String,
         val name: String,
-    ) : SvgIconEvent
+    ) : WebIconEvent
 }
 
 @Stable
-sealed interface SvgState {
-    data object Loading : SvgState
+sealed interface WebIconState<out Icon : StyledWebIcon> {
+    data object Loading : WebIconState<Nothing>
 
-    data class Error(val message: String) : SvgState
+    data class Error(val message: String) : WebIconState<Nothing>
 
-    data class Success(
-        val config: SvgIconConfig,
-        val gridItems: List<GridItem>,
-        val settings: SizeSettings,
+    @Stable
+    data class Success<Icon : StyledWebIcon>(
+        val config: WebIconConfig<Icon>,
+        val gridItems: List<GridItem> = emptyList(),
+        val settings: SizeSettings = SizeSettings(),
         val searchQuery: String = "",
         val selectedCategory: InferredCategory = InferredCategory.All,
         val selectedStyle: IconStyle? = null,
-    ) : SvgState
+    ) : WebIconState<Icon>
 }
