@@ -3,17 +3,18 @@ package io.github.composegears.valkyrie.ui.screen.webimport.svg.common.data
 import assertk.assertFailure
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 class SvgPreviewCacheTest {
 
     @Test
-    fun `cache reuses loaded preview by key`() = runBlocking {
+    fun `cache reuses loaded preview by key`() = runTest {
         val cache = SvgPreviewCache<String>()
         var loadCount = 0
 
@@ -32,7 +33,7 @@ class SvgPreviewCacheTest {
     }
 
     @Test
-    fun `cache evicts least recently used preview when full`() = runBlocking {
+    fun `cache evicts least recently used preview when full`() = runTest {
         val cache = SvgPreviewCache<String>(maxEntries = 2)
 
         cache.getOrLoad("first") { "one" }
@@ -46,7 +47,7 @@ class SvgPreviewCacheTest {
     }
 
     @Test
-    fun `cache deduplicates concurrent loads for same key`() = runBlocking {
+    fun `cache deduplicates concurrent loads for same key`() = runTest {
         val cache = SvgPreviewCache<String>()
         var loadCount = 0
 
@@ -54,7 +55,7 @@ class SvgPreviewCacheTest {
             async(Dispatchers.Default) {
                 cache.getOrLoad("same") {
                     loadCount++
-                    delay(10)
+                    delay(10.milliseconds)
                     "preview"
                 }
             }
@@ -65,7 +66,7 @@ class SvgPreviewCacheTest {
     }
 
     @Test
-    fun `cache removes key lock when loader fails`() = runBlocking {
+    fun `cache removes key lock when loader fails`() = runTest {
         val cache = SvgPreviewCache<String>()
         var loadCount = 0
 
