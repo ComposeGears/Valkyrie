@@ -32,6 +32,7 @@ import io.github.composegears.valkyrie.sdk.compose.icons.colored.GoogleMaterialL
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.HeroiconsLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.IoniconsLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.LucideLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.OcticonsLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.RemixLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.SimpleLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.TablerLogo
@@ -45,6 +46,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.GoogleM
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Heroicons
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Ionicons
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Lucide
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Octicons
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Remix
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.SimpleIcons
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Tabler
@@ -61,6 +63,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.simpleicons.
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.TablerImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.cssgg.CssGgImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.heroicons.HeroiconsImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.svg.octicons.OcticonsImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
@@ -82,6 +85,7 @@ val WebImportSelectorScreen by navDestination {
                 Eva -> EvaImportScreen
                 Feather -> FeatherImportScreen
                 Heroicons -> HeroiconsImportScreen
+                Octicons -> OcticonsImportScreen
                 Ionicons -> IoniconsImportScreen
                 SimpleIcons -> SimpleIconsImportScreen
                 CssGg -> CssGgImportScreen
@@ -169,6 +173,11 @@ enum class IconProviders(
         icon = ValkyrieIcons.Colored.HeroiconsLogo,
         titleKey = "web.import.selector.heroicons.title",
         descriptionKey = "web.import.selector.heroicons.description",
+    ),
+    Octicons(
+        icon = ValkyrieIcons.Colored.OcticonsLogo,
+        titleKey = "web.import.selector.octicons.title",
+        descriptionKey = "web.import.selector.octicons.description",
     ),
     Ionicons(
         icon = ValkyrieIcons.Colored.IoniconsLogo,

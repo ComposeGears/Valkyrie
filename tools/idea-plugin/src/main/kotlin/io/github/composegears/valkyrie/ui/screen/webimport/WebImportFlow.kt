@@ -19,6 +19,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.simpleicons.
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.TablerImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.cssgg.CssGgImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.heroicons.HeroiconsImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.svg.octicons.OcticonsImportScreen
 
 val WebImportFlow by navDestination {
     Navigation(
@@ -38,6 +39,7 @@ val WebImportFlow by navDestination {
             EvaImportScreen,
             FeatherImportScreen,
             HeroiconsImportScreen,
+            OcticonsImportScreen,
             IoniconsImportScreen,
             SimpleIconsImportScreen,
             CssGgImportScreen,
