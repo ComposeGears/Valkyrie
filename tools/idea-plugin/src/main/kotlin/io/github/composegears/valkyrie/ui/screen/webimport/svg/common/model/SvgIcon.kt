@@ -7,7 +7,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.St
 data class SvgIcon(
     override val name: String,
     val displayName: String,
-    val exportName: String = name,
+    override val exportName: String = name,
     val path: String,
     val tags: List<String>,
     override val category: InferredCategory,

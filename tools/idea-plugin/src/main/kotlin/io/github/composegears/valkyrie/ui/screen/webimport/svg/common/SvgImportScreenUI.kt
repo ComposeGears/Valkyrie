@@ -3,23 +3,15 @@ package io.github.composegears.valkyrie.ui.screen.webimport.svg.common
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
@@ -51,9 +42,11 @@ import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.sdk.compose.foundation.ObserveEvent
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.Shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.animation.rememberShimmer
-import io.github.composegears.valkyrie.sdk.compose.foundation.animation.shimmer
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.ir.compose.toComposeImageVector
+import io.github.composegears.valkyrie.ui.screen.webimport.common.WebIconEvent
+import io.github.composegears.valkyrie.ui.screen.webimport.common.WebIconState
+import io.github.composegears.valkyrie.ui.screen.webimport.common.WebIconViewModel
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.CategoryHeader
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.GridItem
@@ -62,9 +55,13 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.Ic
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.CategoryHeaderItem
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconCard
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconGrid
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconLoadingPlaceholder
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.IconSizeCustomization
-import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.StandardTopActions
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.WebIconTopActions
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZOOM_DEFAULT_SCALE
+import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZoomFloatingBar
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.data.SvgPreviewCache
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.domain.SvgIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.model.SvgIcon
@@ -77,25 +74,24 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.ui.component.VerticalScrollbar
 
 @Composable
 internal fun SvgImportScreen(
     title: String,
     provider: SvgIconProvider,
-    onIconDownload: (event: SvgIconEvent.IconDownloaded) -> Unit,
+    onIconDownload: (event: WebIconEvent.IconDownloaded) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = saveableViewModel {
-        SvgIconViewModel(savedState = it, provider = provider)
+        WebIconViewModel(savedState = it, provider = provider)
     }
     val state by viewModel.state.collectAsState()
     val currentOnIconDownloaded by rememberUpdatedState(onIconDownload)
 
     ObserveEvent(viewModel.events) { event ->
         when (event) {
-            is SvgIconEvent.IconDownloaded -> currentOnIconDownloaded(event)
+            is WebIconEvent.IconDownloaded -> currentOnIconDownloaded(event)
         }
     }
 
@@ -108,14 +104,14 @@ internal fun SvgImportScreen(
         onSelectStyle = viewModel::selectStyle,
         onSearchQueryChange = viewModel::updateSearchQuery,
         onSettingsChange = viewModel::updateSettings,
-        loadPreviewSvg = viewModel::loadPreviewSvg,
+        loadPreviewSvg = provider::loadPreviewSvg,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun SvgImportScreenUI(
-    state: SvgState,
+    state: WebIconState<SvgIcon>,
     title: String,
     onBack: () -> Unit,
     onSelectIcon: (SvgIcon) -> Unit,
@@ -139,20 +135,20 @@ private fun SvgImportScreenUI(
             targetState = state,
             contentKey = {
                 when (it) {
-                    is SvgState.Loading -> "loading"
-                    is SvgState.Error -> "error"
-                    is SvgState.Success -> "success"
+                    is WebIconState.Loading -> "loading"
+                    is WebIconState.Error -> "error"
+                    is WebIconState.Success -> "success"
                 }
             },
         ) { current ->
             when (current) {
-                is SvgState.Loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                is WebIconState.Loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     LoadingPlaceholder(text = stringResource("web.import.placeholder.loading"))
                 }
-                is SvgState.Error -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                is WebIconState.Error -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     ErrorPlaceholder(message = current.message)
                 }
-                is SvgState.Success -> SvgIconsContent(
+                is WebIconState.Success -> SvgIconsContent(
                     state = current,
                     onSelectIcon = onSelectIcon,
                     onSelectCategory = onSelectCategory,
@@ -168,7 +164,7 @@ private fun SvgImportScreenUI(
 
 @Composable
 private fun SvgIconsContent(
-    state: SvgState.Success,
+    state: WebIconState.Success<SvgIcon>,
     onSelectIcon: (SvgIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
     onSelectStyle: (IconStyle) -> Unit,
@@ -179,6 +175,7 @@ private fun SvgIconsContent(
     val scope = rememberCoroutineScope()
     var selectedIcon by rememberMutableState<SvgIcon?> { null }
     var isSidePanelOpen by rememberMutableState { false }
+    var scaleFactor by rememberMutableState { ZOOM_DEFAULT_SCALE }
     val lazyGridState = rememberLazyGridState()
     val previewCache = remember { SvgPreviewCache<ImageVector>() }
     val shimmer = rememberShimmer()
@@ -204,7 +201,7 @@ private fun SvgIconsContent(
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },
         ) {
-            StandardTopActions(
+            WebIconTopActions(
                 categories = state.config.categories,
                 styles = state.config.styles,
                 selectedCategory = state.selectedCategory,
@@ -241,7 +238,7 @@ private fun SvgIconsContent(
                             iconContent = {
                                 SvgIconPreview(
                                     icon = icon,
-                                    size = state.settings.size,
+                                    size = state.settings.size * scaleFactor,
                                     previewCache = previewCache,
                                     shimmer = shimmer,
                                     loadPreviewSvg = loadPreviewSvg,
@@ -251,6 +248,16 @@ private fun SvgIconsContent(
                     },
                 )
             }
+        }
+
+        if (state.gridItems.isNotEmpty()) {
+            ZoomFloatingBar(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 8.dp),
+                scaleFactor = scaleFactor,
+                onScaleChange = { scaleFactor = it },
+            )
         }
 
         SidePanel(
@@ -271,7 +278,7 @@ private fun SvgIconsContent(
 @Composable
 private fun SvgIconPreview(
     icon: SvgIcon,
-    size: Int,
+    size: Float,
     previewCache: SvgPreviewCache<ImageVector>,
     shimmer: Shimmer,
     loadPreviewSvg: suspend (SvgIcon) -> String,
@@ -359,42 +366,4 @@ private fun SvgIconGrid(
             }
         }
     }
-}
-
-@Composable
-private fun IconGrid(
-    state: LazyGridState,
-    modifier: Modifier = Modifier,
-    content: LazyGridScope.() -> Unit,
-) {
-    Box(modifier = modifier) {
-        LazyVerticalGrid(
-            state = state,
-            modifier = Modifier.fillMaxSize(),
-            columns = GridCells.Adaptive(100.dp),
-            contentPadding = PaddingValues(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            content = content,
-        )
-        VerticalScrollbar(
-            scrollState = state,
-            modifier = Modifier.fillMaxHeight()
-                .align(Alignment.CenterEnd)
-                .padding(end = 4.dp, top = 8.dp, bottom = 4.dp),
-        )
-    }
-}
-
-@Composable
-private fun IconLoadingPlaceholder(
-    shimmer: Shimmer,
-    modifier: Modifier = Modifier,
-) {
-    Spacer(
-        modifier = modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(12.dp))
-            .shimmer(shimmer = shimmer, cornerRadius = 12.dp),
-    )
 }
