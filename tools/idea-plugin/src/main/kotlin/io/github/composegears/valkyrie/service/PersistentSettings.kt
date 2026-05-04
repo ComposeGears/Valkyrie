@@ -89,6 +89,9 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         // Ionicons
         var ioniconsSize: Int by property(DEFAULT_SIZE)
+
+        // Simple Icons
+        var simpleIconsSize: Int by property(DEFAULT_SIZE)
     }
 
     companion object {
