@@ -18,6 +18,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixI
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.simpleicons.SimpleIconsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.TablerImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.heroicons.HeroiconsImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.svg.octicons.OcticonsImportScreen
 
 val WebImportFlow by navDestination {
     Navigation(
@@ -37,6 +38,7 @@ val WebImportFlow by navDestination {
             EvaImportScreen,
             FeatherImportScreen,
             HeroiconsImportScreen,
+            OcticonsImportScreen,
             IoniconsImportScreen,
             SimpleIconsImportScreen,
         ),
