@@ -1,11 +1,13 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.svg.common.domain
 
+import androidx.compose.runtime.Stable
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.WebIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.IconStyle
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.WebIconConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.model.SvgIcon
 
+@Stable
 interface SvgIconProvider : WebIconProvider<SvgIcon, WebIconConfig<SvgIcon>> {
     suspend fun loadPreviewSvg(icon: SvgIcon): String
 
