@@ -49,6 +49,10 @@ public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/Luc
 	public static final fun getLucideLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
 
+public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/OcticonsLogoKt {
+	public static final fun getOcticonsLogo (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
 public final class io/github/composegears/valkyrie/sdk/compose/icons/colored/PluginIconKt {
 	public static final fun getPluginIcon (Lio/github/composegears/valkyrie/sdk/compose/icons/ValkyrieIcons$Colored;)Landroidx/compose/ui/graphics/vector/ImageVector;
 }
