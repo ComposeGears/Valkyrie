@@ -12,11 +12,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Stable
-interface StandardIconProvider {
-    val providerName: String
-    val stateKey: String
+interface StandardIconProvider : WebIconProvider<StandardIcon, StandardIconConfig> {
     val fontAlias: String
-    val persistentSize: Int
 
     /**
      * Optional variable font configuration for providers that support font variation axes
@@ -26,7 +23,7 @@ interface StandardIconProvider {
     val variableFontConfig: StateFlow<VariableFontConfig?>
         get() = NoVariableFontConfig
 
-    fun updatePersistentSize(value: Int) {}
+    override fun updatePersistentSize(value: Int) {}
     fun resolveFontWeight(style: IconStyle?): FontWeight = FontWeight.W400
 
     /**
@@ -36,9 +33,8 @@ interface StandardIconProvider {
      */
     fun onStyleChanged(style: IconStyle?) {}
 
-    suspend fun loadConfig(): StandardIconConfig
     suspend fun loadFontBytes(style: IconStyle? = null): FontByteArray
-    suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle? = null): String
+    override suspend fun downloadSvg(icon: StandardIcon, settings: SizeSettings, style: IconStyle?): String
 
     companion object {
         /** Shared no-op StateFlow returned by the default [variableFontConfig] getter. */

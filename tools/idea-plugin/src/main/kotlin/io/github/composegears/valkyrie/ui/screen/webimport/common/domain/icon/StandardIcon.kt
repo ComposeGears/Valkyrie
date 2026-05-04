@@ -19,7 +19,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.font.Co
 data class StandardIcon(
     override val name: String,
     val displayName: String,
-    val exportName: String = name,
+    override val exportName: String = name,
     val codepoint: Codepoint,
     val tags: List<String>,
     override val category: InferredCategory,
