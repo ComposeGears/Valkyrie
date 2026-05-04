@@ -4,6 +4,7 @@ import io.github.composegears.valkyrie.util.coroutines.suspendLazy
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -34,7 +35,11 @@ class OcticonsRepository(
     suspend fun loadMetadata(): List<OcticonsIconMetadata> = metadata()
 
     suspend fun downloadSvg(path: String): String = withContext(Dispatchers.IO) {
-        httpClient.get(resolveOcticonsSvgUrl(path, version = latestVersion())).bodyAsText()
+        val response = httpClient.get(resolveOcticonsSvgUrl(path, version = latestVersion()))
+        if (!response.status.isSuccess()) {
+            error("Failed to download css.gg SVG: HTTP ${response.status.value}")
+        }
+        response.bodyAsText()
     }
 
     private companion object {
