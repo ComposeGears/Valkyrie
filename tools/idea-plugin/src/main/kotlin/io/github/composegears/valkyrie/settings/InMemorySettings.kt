@@ -77,6 +77,7 @@ class InMemorySettings(project: Project) {
         ioniconsSize = DEFAULT_SIZE
         simpleIconsSize = DEFAULT_SIZE
         heroiconsSize = DEFAULT_SIZE
+        cssGgSize = DEFAULT_SIZE
     }
 
     fun updateUIState(uiState: SavedState) {

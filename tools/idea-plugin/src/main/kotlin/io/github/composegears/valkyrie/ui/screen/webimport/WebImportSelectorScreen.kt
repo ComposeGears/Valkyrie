@@ -24,6 +24,7 @@ import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.icons.ValkyrieIcons
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.BootstrapLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.BoxLogo
+import io.github.composegears.valkyrie.sdk.compose.icons.colored.CssGgLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.EvaLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.FeatherLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.FontAwesomeLogo
@@ -36,6 +37,7 @@ import io.github.composegears.valkyrie.sdk.compose.icons.colored.SimpleLogo
 import io.github.composegears.valkyrie.sdk.compose.icons.colored.TablerLogo
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Bootstrap
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.BoxIcons
+import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.CssGg
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Eva
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.Feather
 import io.github.composegears.valkyrie.ui.screen.webimport.IconProviders.FontAwesome
@@ -57,6 +59,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsymb
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.remix.RemixImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.simpleicons.SimpleIconsImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler.TablerImportScreen
+import io.github.composegears.valkyrie.ui.screen.webimport.svg.cssgg.CssGgImportScreen
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.heroicons.HeroiconsImportScreen
 import io.github.composegears.valkyrie.util.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -81,6 +84,7 @@ val WebImportSelectorScreen by navDestination {
                 Heroicons -> HeroiconsImportScreen
                 Ionicons -> IoniconsImportScreen
                 SimpleIcons -> SimpleIconsImportScreen
+                CssGg -> CssGgImportScreen
             }
 
             navController.navigate(dest = screen)
@@ -135,6 +139,11 @@ enum class IconProviders(
         icon = ValkyrieIcons.Colored.BoxLogo,
         titleKey = "web.import.selector.boxicons.title",
         descriptionKey = "web.import.selector.boxicons.description",
+    ),
+    CssGg(
+        icon = ValkyrieIcons.Colored.CssGgLogo,
+        titleKey = "web.import.selector.cssgg.title",
+        descriptionKey = "web.import.selector.cssgg.description",
     ),
     Eva(
         icon = ValkyrieIcons.Colored.EvaLogo,
