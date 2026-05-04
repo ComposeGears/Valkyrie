@@ -26,6 +26,7 @@ fun StandardTopActions(
     onSearchQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val hasMultipleCategories = categories.count { it.id != InferredCategory.All.id } > 1
     WebImportTopActions(
         modifier = modifier,
         onToggleCustomization = onToggleCustomization,
@@ -42,13 +43,15 @@ fun StandardTopActions(
                     maxPopupWidth = 140.dp,
                 )
             }
-            DropdownList(
-                modifier = Modifier.width(140.dp),
-                selected = selectedCategory,
-                items = categories,
-                transform = { it.name },
-                onSelectItem = onSelectCategory,
-            )
+            if (hasMultipleCategories) {
+                DropdownList(
+                    modifier = Modifier.width(140.dp),
+                    selected = selectedCategory,
+                    items = categories,
+                    transform = { it.name },
+                    onSelectItem = onSelectCategory,
+                )
+            }
         },
     )
 }
