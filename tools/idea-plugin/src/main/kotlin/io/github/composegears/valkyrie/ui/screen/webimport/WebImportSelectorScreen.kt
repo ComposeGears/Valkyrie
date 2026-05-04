@@ -174,11 +174,6 @@ enum class IconProviders(
         titleKey = "web.import.selector.heroicons.title",
         descriptionKey = "web.import.selector.heroicons.description",
     ),
-    Octicons(
-        icon = ValkyrieIcons.Colored.OcticonsLogo,
-        titleKey = "web.import.selector.octicons.title",
-        descriptionKey = "web.import.selector.octicons.description",
-    ),
     Ionicons(
         icon = ValkyrieIcons.Colored.IoniconsLogo,
         titleKey = "web.import.selector.ionicons.title",
@@ -188,6 +183,11 @@ enum class IconProviders(
         icon = ValkyrieIcons.Colored.LucideLogo,
         titleKey = "web.import.selector.lucide.title",
         descriptionKey = "web.import.selector.lucide.description",
+    ),
+    Octicons(
+        icon = ValkyrieIcons.Colored.OcticonsLogo,
+        titleKey = "web.import.selector.octicons.title",
+        descriptionKey = "web.import.selector.octicons.description",
     ),
     Remix(
         icon = ValkyrieIcons.Colored.RemixLogo,
