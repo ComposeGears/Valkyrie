@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
+import com.intellij.openapi.diagnostic.Logger
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.WebIconProvider
@@ -16,6 +17,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.St
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.icon.WebIconConfig
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.settings.SizeSettings
 import io.github.composegears.valkyrie.ui.screen.webimport.common.util.filterByCategory
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -35,6 +37,8 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
 
     private val _events = Channel<WebIconEvent>()
     val events = _events.receiveAsFlow()
+
+    private val logger = Logger.getInstance(WebIconViewModel::class.java)
 
     private var downloadJob: Job? = null
 
@@ -81,6 +85,7 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
                     selectedStyle = selectedStyle,
                 )
             }.onFailure { error ->
+                if (error is CancellationException) throw error
                 stateRecord.value = WebIconState.Error(
                     "Error loading ${provider.providerName} icons: ${error.message}",
                 )
@@ -98,6 +103,15 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
                     WebIconEvent.IconDownloaded(
                         svgContent = svgContent,
                         name = IconNameFormatter.format(icon.exportName),
+                    ),
+                )
+            }.onFailure { error ->
+                if (error is CancellationException) throw error
+                logger.warn("Failed to download ${provider.providerName} icon", error)
+                _events.send(
+                    WebIconEvent.IconDownloadFailed(
+                        providerName = provider.providerName,
+                        reason = error.toWebFailureReason(),
                     ),
                 )
             }
@@ -156,6 +170,11 @@ sealed interface WebIconEvent {
     data class IconDownloaded(
         val svgContent: String,
         val name: String,
+    ) : WebIconEvent
+
+    data class IconDownloadFailed(
+        val providerName: String,
+        val reason: WebFailureReason,
     ) : WebIconEvent
 }
 

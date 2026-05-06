@@ -30,6 +30,7 @@ import org.jetbrains.jewel.ui.component.InlineErrorBanner
 import org.jetbrains.jewel.ui.component.InlineSuccessBanner
 import org.jetbrains.jewel.ui.component.InlineWarningBanner
 import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.banner.BannerLinkActionScope
 
 @Composable
 fun BannerHost(
@@ -73,10 +74,23 @@ fun BannerHost(
 
 @Composable
 private fun BannerRender(bannerData: BannerData) {
-    when (val message = bannerData.message) {
-        is SuccessBanner -> InlineSuccessBanner(text = message.text)
-        is WarningBanner -> InlineWarningBanner(text = message.text)
-        is ErrorBanner -> InlineErrorBanner(text = message.text)
+    val message = bannerData.message
+    val linkActions: (BannerLinkActionScope.() -> Unit)? = if (message.actions.isEmpty()) {
+        null
+    } else {
+        {
+            message.actions.forEach { entry ->
+                action(entry.label) {
+                    entry.onClick()
+                    bannerData.dismiss()
+                }
+            }
+        }
+    }
+    when (message) {
+        is SuccessBanner -> InlineSuccessBanner(text = message.text, linkActions = linkActions)
+        is WarningBanner -> InlineWarningBanner(text = message.text, linkActions = linkActions)
+        is ErrorBanner -> InlineErrorBanner(text = message.text, linkActions = linkActions)
     }
 }
 
