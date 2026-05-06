@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
+import com.intellij.openapi.diagnostic.Logger
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.StandardIconProvider
@@ -41,6 +42,8 @@ class StandardIconViewModel(
 
     private val _events = Channel<StandardIconEvent>()
     val events = _events.receiveAsFlow()
+
+    private val logger = Logger.getInstance(StandardIconViewModel::class.java)
 
     private var downloadJob: Job? = null
     private var fontLoadJob: Job? = null
@@ -116,6 +119,7 @@ class StandardIconViewModel(
                     selectedStyleId = selectedStyle?.id,
                 )
             }.onFailure { error ->
+                if (error is CancellationException) throw error
                 stateRecord.value = StandardState.Error(
                     "Error loading ${provider.providerName} icons: ${error.message}",
                 )
@@ -144,7 +148,14 @@ class StandardIconViewModel(
                     updateSuccess { it.copy(fontByteArray = bytes) }
                 }.onFailure { error ->
                     if (error is CancellationException) throw error
+                    logger.warn("Failed to load ${provider.providerName} font", error)
                     updateSuccess { it.copy(fontByteArray = null) }
+                    _events.send(
+                        StandardIconEvent.FontLoadFailed(
+                            providerName = provider.providerName,
+                            reason = error.toWebFailureReason(),
+                        ),
+                    )
                 }
             } else {
                 updateSuccess { it.copy(fontByteArray = cachedFont) }
@@ -164,6 +175,15 @@ class StandardIconViewModel(
                     StandardIconEvent.IconDownloaded(
                         svgContent = svgContent,
                         name = IconNameFormatter.format(icon.exportName),
+                    ),
+                )
+            }.onFailure { error ->
+                if (error is CancellationException) throw error
+                logger.warn("Failed to download ${provider.providerName} icon", error)
+                _events.send(
+                    StandardIconEvent.IconDownloadFailed(
+                        providerName = provider.providerName,
+                        reason = error.toWebFailureReason(),
                     ),
                 )
             }
@@ -243,6 +263,8 @@ class StandardIconViewModel(
                     if (fontCache[style.id] == null) {
                         runCatching {
                             provider.loadFontBytes(style)
+                        }.onFailure { error ->
+                            if (error is CancellationException) throw error
                         }.onSuccess { bytes ->
                             fontCache[style.id] = bytes
                         }
@@ -267,6 +289,16 @@ sealed interface StandardIconEvent {
     data class IconDownloaded(
         val svgContent: String,
         val name: String,
+    ) : StandardIconEvent
+
+    data class IconDownloadFailed(
+        val providerName: String,
+        val reason: WebFailureReason,
+    ) : StandardIconEvent
+
+    data class FontLoadFailed(
+        val providerName: String,
+        val reason: WebFailureReason,
     ) : StandardIconEvent
 }
 

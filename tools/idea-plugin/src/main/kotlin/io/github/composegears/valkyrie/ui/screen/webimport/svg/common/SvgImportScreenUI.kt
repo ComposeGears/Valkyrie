@@ -34,6 +34,8 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
@@ -65,6 +67,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZoomFloatin
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.data.SvgPreviewCache
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.domain.SvgIconProvider
 import io.github.composegears.valkyrie.ui.screen.webimport.svg.common.model.SvgIcon
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
@@ -87,11 +90,21 @@ internal fun SvgImportScreen(
         WebIconViewModel(savedState = it, provider = provider)
     }
     val state by viewModel.state.collectAsState()
+    val bannerManager = rememberBannerManager()
     val currentOnIconDownloaded by rememberUpdatedState(onIconDownload)
 
     ObserveEvent(viewModel.events) { event ->
         when (event) {
             is WebIconEvent.IconDownloaded -> currentOnIconDownloaded(event)
+            is WebIconEvent.IconDownloadFailed -> bannerManager.show(
+                message = ErrorBanner(
+                    text = message(
+                        "web.import.error.icon.download",
+                        event.providerName,
+                        message(event.reason.bundleKey),
+                    ),
+                ),
+            )
         }
     }
 

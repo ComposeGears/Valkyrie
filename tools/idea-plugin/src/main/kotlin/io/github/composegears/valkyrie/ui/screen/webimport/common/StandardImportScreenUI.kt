@@ -34,6 +34,10 @@ import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
+import io.github.composegears.valkyrie.jewel.banner.BannerAction
+import io.github.composegears.valkyrie.jewel.banner.BannerDuration
+import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
+import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
@@ -60,6 +64,7 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.SidePanel
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.WebIconTopActions
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZOOM_DEFAULT_SCALE
 import io.github.composegears.valkyrie.ui.screen.webimport.common.ui.ZoomFloatingBar
+import io.github.composegears.valkyrie.util.ValkyrieBundle.message
 import io.github.composegears.valkyrie.util.stringResource
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
@@ -78,12 +83,42 @@ internal fun StandardImportScreen(
     }
     val state by viewModel.state.collectAsState()
     val variableFontConfig by provider.variableFontConfig.collectAsState()
+    val bannerManager = rememberBannerManager()
     val currentOnIconDownloaded by rememberUpdatedState(onIconDownload)
 
     ObserveEvent(viewModel.events) { event ->
         when (event) {
             is StandardIconEvent.IconDownloaded -> {
                 currentOnIconDownloaded(event)
+            }
+            is StandardIconEvent.IconDownloadFailed -> {
+                bannerManager.show(
+                    message = ErrorBanner(
+                        text = message(
+                            "web.import.error.icon.download",
+                            event.providerName,
+                            message(event.reason.bundleKey),
+                        ),
+                    ),
+                )
+            }
+            is StandardIconEvent.FontLoadFailed -> {
+                bannerManager.show(
+                    message = ErrorBanner(
+                        text = message(
+                            "web.import.error.font.load",
+                            event.providerName,
+                            message(event.reason.bundleKey),
+                        ),
+                        duration = BannerDuration.Indefinite,
+                        actions = listOf(
+                            BannerAction(
+                                label = message("web.import.error.retry"),
+                                onClick = { viewModel.downloadFont() },
+                            ),
+                        ),
+                    ),
+                )
             }
         }
     }
