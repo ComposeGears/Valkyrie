@@ -4,6 +4,7 @@
 
 ### Added
 
+- [Web Import] Add error banner for icon loading/download
 - [Web Import] Add `css.gg` icons provider
 - [Web Import] Add `Octicons` icons provider
 - [Web Import] Add `Simple` icons provider
