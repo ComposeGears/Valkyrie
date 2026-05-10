@@ -85,6 +85,7 @@ internal fun StandardImportScreen(
     val variableFontConfig by provider.variableFontConfig.collectAsState()
     val bannerManager = rememberBannerManager()
     val currentOnIconDownloaded by rememberUpdatedState(onIconDownload)
+    var selectedIcon by rememberMutableState<StandardIcon?> { null }
 
     ObserveEvent(viewModel.events) { event ->
         when (event) {
@@ -92,6 +93,7 @@ internal fun StandardImportScreen(
                 currentOnIconDownloaded(event)
             }
             is StandardIconEvent.IconDownloadFailed -> {
+                selectedIcon = null
                 bannerManager.show(
                     message = ErrorBanner(
                         text = message(
@@ -130,8 +132,12 @@ internal fun StandardImportScreen(
         resolveFontWeight = provider::resolveFontWeight,
         variableFontConfig = variableFontConfig,
         customizationContent = customizationContent,
+        selectedIcon = selectedIcon,
         onBack = onBack,
-        onSelectIcon = viewModel::downloadIcon,
+        onSelectIcon = { icon ->
+            selectedIcon = icon
+            viewModel.downloadIcon(icon)
+        },
         onSelectCategory = viewModel::selectCategory,
         onSelectStyle = viewModel::selectStyle,
         onSearchQueryChange = viewModel::updateSearchQuery,
@@ -148,6 +154,7 @@ private fun StandardImportScreenUI(
     resolveFontWeight: (IconStyle?) -> FontWeight,
     variableFontConfig: VariableFontConfig?,
     customizationContent: (@Composable (onClose: () -> Unit) -> Unit)?,
+    selectedIcon: StandardIcon?,
     onBack: () -> Unit,
     onSelectIcon: (StandardIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
@@ -199,6 +206,7 @@ private fun StandardImportScreenUI(
                         resolveFontWeight = resolveFontWeight,
                         variableFontConfig = variableFontConfig,
                         customizationContent = customizationContent,
+                        selectedIcon = selectedIcon,
                         onSelectIcon = onSelectIcon,
                         onSelectCategory = onSelectCategory,
                         onSelectStyle = onSelectStyle,
@@ -218,6 +226,7 @@ private fun IconsContent(
     resolveFontWeight: (IconStyle?) -> FontWeight,
     variableFontConfig: VariableFontConfig?,
     customizationContent: (@Composable (onClose: () -> Unit) -> Unit)?,
+    selectedIcon: StandardIcon?,
     onSelectIcon: (StandardIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
     onSelectStyle: (IconStyle) -> Unit,
@@ -225,8 +234,6 @@ private fun IconsContent(
     onSettingsChange: (SizeSettings) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-
-    var selectedIcon by rememberMutableState<StandardIcon?> { null }
     var isSidePanelOpen by rememberMutableState { false }
     var scaleFactor by rememberMutableState { ZOOM_DEFAULT_SCALE }
     val lazyGridState = rememberLazyGridState()
@@ -316,10 +323,7 @@ private fun IconsContent(
                                 IconCard(
                                     name = icon.displayName,
                                     selected = icon == selectedIcon,
-                                    onClick = {
-                                        selectedIcon = icon
-                                        onSelectIcon(icon)
-                                    },
+                                    onClick = { onSelectIcon(icon) },
                                     iconContent = {
                                         FontIcon(
                                             modifier = Modifier.size(iconSizeDp),
