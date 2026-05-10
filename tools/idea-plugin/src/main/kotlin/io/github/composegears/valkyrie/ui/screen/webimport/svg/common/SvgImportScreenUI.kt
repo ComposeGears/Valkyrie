@@ -92,27 +92,35 @@ internal fun SvgImportScreen(
     val state by viewModel.state.collectAsState()
     val bannerManager = rememberBannerManager()
     val currentOnIconDownloaded by rememberUpdatedState(onIconDownload)
+    var selectedIcon by rememberMutableState<SvgIcon?> { null }
 
     ObserveEvent(viewModel.events) { event ->
         when (event) {
             is WebIconEvent.IconDownloaded -> currentOnIconDownloaded(event)
-            is WebIconEvent.IconDownloadFailed -> bannerManager.show(
-                message = ErrorBanner(
-                    text = message(
-                        "web.import.error.icon.download",
-                        event.providerName,
-                        message(event.reason.bundleKey),
+            is WebIconEvent.IconDownloadFailed -> {
+                selectedIcon = null
+                bannerManager.show(
+                    message = ErrorBanner(
+                        text = message(
+                            "web.import.error.icon.download",
+                            event.providerName,
+                            message(event.reason.bundleKey),
+                        ),
                     ),
-                ),
-            )
+                )
+            }
         }
     }
 
     SvgImportScreenUI(
         state = state,
         title = title,
+        selectedIcon = selectedIcon,
         onBack = onBack,
-        onSelectIcon = viewModel::downloadIcon,
+        onSelectIcon = { icon ->
+            selectedIcon = icon
+            viewModel.downloadIcon(icon)
+        },
         onSelectCategory = viewModel::selectCategory,
         onSelectStyle = viewModel::selectStyle,
         onSearchQueryChange = viewModel::updateSearchQuery,
@@ -126,6 +134,7 @@ internal fun SvgImportScreen(
 private fun SvgImportScreenUI(
     state: WebIconState<SvgIcon>,
     title: String,
+    selectedIcon: SvgIcon?,
     onBack: () -> Unit,
     onSelectIcon: (SvgIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
@@ -163,6 +172,7 @@ private fun SvgImportScreenUI(
                 }
                 is WebIconState.Success -> SvgIconsContent(
                     state = current,
+                    selectedIcon = selectedIcon,
                     onSelectIcon = onSelectIcon,
                     onSelectCategory = onSelectCategory,
                     onSelectStyle = onSelectStyle,
@@ -178,6 +188,7 @@ private fun SvgImportScreenUI(
 @Composable
 private fun SvgIconsContent(
     state: WebIconState.Success<SvgIcon>,
+    selectedIcon: SvgIcon?,
     onSelectIcon: (SvgIcon) -> Unit,
     onSelectCategory: (InferredCategory) -> Unit,
     onSelectStyle: (IconStyle) -> Unit,
@@ -186,7 +197,6 @@ private fun SvgIconsContent(
     loadPreviewSvg: suspend (SvgIcon) -> String,
 ) {
     val scope = rememberCoroutineScope()
-    var selectedIcon by rememberMutableState<SvgIcon?> { null }
     var isSidePanelOpen by rememberMutableState { false }
     var scaleFactor by rememberMutableState { ZOOM_DEFAULT_SCALE }
     val lazyGridState = rememberLazyGridState()
@@ -244,10 +254,7 @@ private fun SvgIconsContent(
                         IconCard(
                             name = icon.displayName,
                             selected = icon == selectedIcon,
-                            onClick = {
-                                selectedIcon = icon
-                                onSelectIcon(icon)
-                            },
+                            onClick = { onSelectIcon(icon) },
                             iconContent = {
                                 SvgIconPreview(
                                     icon = icon,
