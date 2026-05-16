@@ -1,7 +1,7 @@
 [versions]
 collection = "1.6.0"
 compose = "1.10.0"
-intellij = "2.13.1"
+intellij = "2.16.0"
 jacoco = "0.8.13"
 jdkRelease = "21"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
