@@ -27,6 +27,7 @@
 
 - [Gutter] Fixed rendering of icons with gradients and Compose colors
 - [Gutter] Fixed rendering of icons with fully qualified imports
+- [Gutter] Handle exceptions during icon rendering to prevent IDE crashes on unsupported icons
 - [IconPack] Fix incorrect initial state of `packageName` field in new pack mode when destination folder is selected
 - [IconPack] The IDE didn't automatically display the new icon pack object file
 
