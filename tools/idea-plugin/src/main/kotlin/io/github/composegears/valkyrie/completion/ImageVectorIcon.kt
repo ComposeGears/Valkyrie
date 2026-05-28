@@ -68,15 +68,21 @@ class ImageVectorIcon(
         val maxDimension = ICON_SCALE_FACTOR * size
         val errorLog = StringBuilder()
 
-        val imageBuffer = VdPreview.getPreviewFromVectorXml(
-            VdPreview.TargetSize.createFromMaxDimension(maxDimension),
-            vectorXml,
-            errorLog,
-        )
+        val imageBuffer = try {
+            VdPreview.getPreviewFromVectorXml(
+                VdPreview.TargetSize.createFromMaxDimension(maxDimension),
+                vectorXml,
+                errorLog,
+            )
+        } catch (e: Exception) {
+            Logger.getInstance(ImageVectorIcon::class.java)
+                .warn("Failed to render icon preview: ${e.message}")
+            return null
+        }
 
         if (errorLog.isNotEmpty()) {
             Logger.getInstance(ImageVectorIcon::class.java)
-                .error("Failed to create icon preview: $errorLog")
+                .warn("Failed to create icon preview: $errorLog")
         }
 
         return imageBuffer
