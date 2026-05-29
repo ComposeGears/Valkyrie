@@ -126,6 +126,6 @@ jobs:
           gh pr create \
             --title "chore: patch changelog for version ${{ steps.version.outputs.number }}" \
             --body "" \
-            --label "changelog" \
+            --label "release" \
             --base main \
             --head $BRANCH
