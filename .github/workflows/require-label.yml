@@ -26,7 +26,7 @@ jobs:
               'bugfix-sdk',
               'housekeeping',
               'dependencies',
-              'changelog'
+              'release'
             ];
 
             const labels = context.payload.pull_request.labels.map(label => label.name);
