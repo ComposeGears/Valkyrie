@@ -11,10 +11,17 @@ plugins {
     alias(libs.plugins.jetbrains.intellij)
     alias(libs.plugins.jetbrains.changelog)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.buildconfig)
 }
 
 group = "io.github.composegears"
 version = ideaPluginVersions.versions.idea.plugin.version.get()
+
+buildConfig {
+    packageName = "io.github.composegears.valkyrie"
+    className = "ValkyrieBuildConfig"
+    buildConfigField("VERSION", ideaPluginVersions.versions.idea.plugin.version.get())
+}
 
 configurations.getByName("implementation") {
     exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")

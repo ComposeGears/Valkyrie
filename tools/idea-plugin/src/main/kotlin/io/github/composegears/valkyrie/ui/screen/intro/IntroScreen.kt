@@ -16,6 +16,7 @@ import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
 import io.github.composegears.valkyrie.FeatureFlag.ICON_EDITOR_FEATURE_ENABLED
 import io.github.composegears.valkyrie.FeatureFlag.KT_TO_SVG_ENABLED
+import io.github.composegears.valkyrie.ValkyrieBuildConfig
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.InfoCard
 import io.github.composegears.valkyrie.jewel.SettingsAction
@@ -34,7 +35,6 @@ import io.github.composegears.valkyrie.sdk.compose.icons.outlined.SvgXml
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieTool
 import io.github.composegears.valkyrie.ui.screen.editor.EditorSelectScreen
-import io.github.composegears.valkyrie.ui.screen.intro.util.rememberPluginVersion
 import io.github.composegears.valkyrie.ui.screen.mode.iconpack.IconPackModeScreen
 import io.github.composegears.valkyrie.ui.screen.mode.simple.picker.SimplePickerScreen
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsScreen
@@ -160,7 +160,7 @@ private fun IntroScreenUI(
                     .align(Alignment.BottomEnd)
                     .padding(end = 16.dp, bottom = 8.dp),
                 style = JewelTheme.typography.small,
-                text = rememberPluginVersion(),
+                text = ValkyrieBuildConfig.VERSION,
                 maxLines = 1,
             )
         }
