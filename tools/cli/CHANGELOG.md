@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.2.0 - 2026-05-29
+
 ### Added
 
 - Add `--suppress-unused-receiver` option to generate `@Suppress("UnusedReceiverParameter")` annotation on ImageVector
