@@ -10,6 +10,7 @@ concurrency:
 
 jobs:
   check-links:
+    if: false # https://github.com/UmbrellaDocs/action-linkspector/issues/62
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
