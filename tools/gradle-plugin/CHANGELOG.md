@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.5.0 - 2026-05-29
+
 ### Added
 
 - Add support for AGP 9.0+ built-in Kotlin — source-set enumeration and generated source wiring now work
