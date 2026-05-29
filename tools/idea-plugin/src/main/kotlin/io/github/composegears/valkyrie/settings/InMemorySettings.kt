@@ -61,6 +61,7 @@ class InMemorySettings(project: Project) {
         suppressUnusedReceiverWarning = false
         showImageVectorPreview = true
         showIconsInProjectView = true
+        showImageVectorGutterIcon = true
         indentSize = 4
         materialFontFill = DEFAULT_FILL
         materialFontWeight = DEFAULT_WEIGHT
@@ -107,6 +108,7 @@ class InMemorySettings(project: Project) {
             suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
             showImageVectorPreview = showImageVectorPreview,
             showIconsInProjectView = showIconsInProjectView,
+            showImageVectorGutterIcon = showImageVectorGutterIcon,
         )
     }
 }
@@ -135,6 +137,7 @@ data class ValkyriesSettings(
 
     val showImageVectorPreview: Boolean,
     val showIconsInProjectView: Boolean,
+    val showImageVectorGutterIcon: Boolean,
 )
 
 fun PersistentSettings.ValkyrieState.updateNestedPack(packs: List<String>) {

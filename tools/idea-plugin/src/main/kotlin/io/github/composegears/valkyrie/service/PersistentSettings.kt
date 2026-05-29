@@ -55,6 +55,7 @@ class PersistentSettings : SimplePersistentStateComponent<ValkyrieState>(Valkyri
 
         var showImageVectorPreview: Boolean by property(true)
         var showIconsInProjectView: Boolean by property(true)
+        var showImageVectorGutterIcon: Boolean by property(true)
         var indentSize: Int by property(4)
 
         // MaterialSymbols

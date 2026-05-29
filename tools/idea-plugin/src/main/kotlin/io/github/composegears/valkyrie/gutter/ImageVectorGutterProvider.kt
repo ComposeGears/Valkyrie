@@ -8,6 +8,7 @@ import com.intellij.pom.Navigatable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.createSmartPointer
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
 import io.github.composegears.valkyrie.util.getOrCreateGutterIcon
 import io.github.composegears.valkyrie.util.isImageVector
 import javax.swing.Icon
@@ -22,6 +23,9 @@ class ImageVectorGutterProvider : LineMarkerProvider {
         elements: List<PsiElement?>,
         result: MutableCollection<in LineMarkerInfo<*>>,
     ) {
+        val psiElement = elements.firstOrNull { it != null } ?: return
+        if (!psiElement.project.persistentSettings.state.showImageVectorGutterIcon) return
+
         // Process ImageVector property definitions
         elements.filterIsInstance<KtProperty>()
             .filter { it.isImageVector() }

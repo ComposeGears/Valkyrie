@@ -16,5 +16,6 @@ sealed interface SettingsAction {
 
     data class UpdateImageVectorPreview(val enabled: Boolean) : SettingsAction
     data class UpdateIconsInProjectView(val enabled: Boolean) : SettingsAction
+    data class UpdateImageVectorGutterIcon(val enabled: Boolean) : SettingsAction
     data class UpdatePreviewType(val previewType: PreviewType) : SettingsAction
 }
