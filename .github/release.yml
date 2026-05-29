@@ -55,4 +55,4 @@ changelog:
           - bugfix-sdk
           - housekeeping
           - dependencies
-          - changelog
+          - release
