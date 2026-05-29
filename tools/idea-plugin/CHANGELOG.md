@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.6.0 - 2026-05-29
+
 ### Added
 
 - [Web Import] Add error banner for icon loading/download
