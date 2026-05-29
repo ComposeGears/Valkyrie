@@ -15,7 +15,8 @@
 - [Web Import] Add `Ionicons` icons provider
 - [Web Import] Add `Tabler` icons provider
 - [Web Import] Add `Eva` icons provider
-- Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")` annotation on
+- [Settings] Add "Gutter area" toggle to control visibility of ImageVector gutter icons in the editor
+- [Settings] Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")` annotation on
   ImageVector extension properties when an icon pack receiver is used (e.g. `ValkyrieIcons`)
 
 ### Changed
