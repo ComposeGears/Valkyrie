@@ -39,5 +39,8 @@ jobs:
         with:
           cache-disabled: true
 
+      - name: Check version compatibility
+        run: ./gradlew :tools:idea-plugin:checkVersionCompatibility
+
       - name: Run build
         run: ./gradlew build

@@ -1,5 +1,4 @@
 [versions]
-collection = "1.6.0"
 compose = "1.10.0"
 intellij = "2.13.1"
 jacoco = "0.8.13"
@@ -12,7 +11,7 @@ leviathan = "3.1.0"
 ktor = "3.3.1"
 
 [libraries]
-androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
+androidx-collection = "androidx.collection:collection:1.6.0"
 android-build-tools = "com.android.tools:sdk-common:32.2.1"
 
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
@@ -25,8 +24,8 @@ compose-ui-tooling-preview = { module = "org.jetbrains.compose.components:compon
 fonticons = "dev.tclement.fonticons:core:2.1.1"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 highlights = "dev.snipme:highlights:1.1.0"
-# Support Kotlin 2.2.20 https://github.com/square/kotlinpoet/releases/tag/2.1.0
-kotlinpoet = "com.squareup:kotlinpoet:2.1.0"
+# Support Kotlin 2.2.20 https://github.com/square/kotlinpoet/releases/tag/2.2.0
+kotlinpoet = "com.squareup:kotlinpoet:2.2.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.8.2"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
 # Support Kotlin 2.2.20 https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.9.0
