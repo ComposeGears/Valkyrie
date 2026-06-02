@@ -1,4 +1,5 @@
 import io.github.composegears.valkyrie.excludeAndroidBuildTools
+import io.github.composegears.valkyrie.task.CheckVersionCompatibility
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
@@ -166,4 +167,24 @@ tasks {
     prepareSandbox {
         exclude { "coroutines" in it.name }
     }
+}
+
+tasks.register<CheckVersionCompatibility>("checkVersionCompatibility") {
+    group = "verification"
+    description = "Ensures transitive deps don't exceed predefined Kotlin/Compose version"
+    // Use a separate configuration without kotlin/compose exclusions so transitive deps
+    // pulled by 3rd-party libs are visible even if they are bundled in IDEA and excluded
+    // from the actual runtimeClasspath.
+    val checkConfig = configurations.register("versionCompatibilityCheck") {
+        isCanBeResolved = true
+        isCanBeConsumed = false
+        dependencies.addAll(configurations.getByName("implementation").dependencies)
+    }
+    resolvedComponents = checkConfig.map { config ->
+        config.incoming.resolutionResult.allComponents
+            .mapNotNull { it.moduleVersion }
+            .map { "${it.group}:${it.name}:${it.version}" }
+    }
+    maxKotlinVersion = libs.versions.kotlin
+    maxComposeVersion = libs.versions.compose
 }
