@@ -1,5 +1,5 @@
 [versions]
-gradle-plugin-version = "0.5.0"
+gradle-plugin-version = "0.5.1"
 
 agp = "9.2.1"
 

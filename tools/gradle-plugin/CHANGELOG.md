@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.5.1 - 2026-06-03
+
+### Fixed
+
+- Fix implicit task dependency errors (`sourcesJar`, `compileKotlin*`, `extractAnnotations`) caused by
+  the generated source directory not being tied to the producing task. All Kotlin compile tasks
+  (`KotlinCompilationTask<*>`) — including JVM, KMP Native (iOS), KMP metadata, and the KMP Android
+  target — now explicitly depend on the codegen task, resolving Gradle strict-dependency validation
+  failures when building multi-target KMP modules.
+
 ## 0.5.0 - 2026-05-29
 
 ### Added

@@ -18,7 +18,7 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetContainer
-import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 @Suppress("unused") // Registered as a Gradle plugin.
 class ValkyrieGradlePlugin : Plugin<Project> {
@@ -52,12 +52,26 @@ class ValkyrieGradlePlugin : Plugin<Project> {
 
         val codegenTasks = tasks.withType<GenerateImageVectorsTask>()
 
-        // AGP's ExtractAnnotations tasks scan all source directories contributing to a variant, including
-        // the generated ones registered via addStaticSourceDirectory. Because addStaticSourceDirectory
-        // doesn't declare a producer-task relationship, Gradle's strict dependency validation (used with
-        // --configuration-cache) raises an "implicit dependency" error.  Declaring an explicit dependsOn
-        // here ensures the files are generated before any extractAnnotations task reads them.
+        // The generated output directory is wired into Kotlin source sets via srcDir(), but the
+        // Provider passed is derived from the extension's outputDirectory — not from the task's
+        // own output property.  Gradle therefore cannot automatically trace the producing task,
+        // so all consumers need an explicit dependsOn to satisfy strict dependency validation.
+
+        // AGP's ExtractAnnotations tasks scan all source directories contributing to a variant,
+        // including ones registered via addStaticSourceDirectory, without declaring a task
+        // dependency.  This explicit dependsOn closes that gap.
         tasks.matching { it.name.startsWith("extract") && it.name.endsWith("Annotations") }
+            .configureEach { it.dependsOn(codegenTasks) }
+
+        // sourcesJar tasks (e.g. "sourcesJar", "commonMainSourcesJar") package all registered
+        // source dirs and need the generated files to exist before they run.
+        tasks.matching { it.name == "sourcesJar" || it.name.endsWith("SourcesJar") }
+            .configureEach { it.dependsOn(codegenTasks) }
+
+        // All Kotlin compile tasks — KotlinCompilationTask<*> is the common interface across
+        // JVM (KotlinCompile), Native (KotlinNativeCompile), metadata (KotlinCompileCommon),
+        // and the KMP Android target (compileAndroidMain) regardless of naming pattern.
+        tasks.withType<KotlinCompilationTask<*>>()
             .configureEach { it.dependsOn(codegenTasks) }
 
         // Run generation immediately if we're syncing Intellij/Android Studio - helps to speed up dev cycle
@@ -68,11 +82,6 @@ class ValkyrieGradlePlugin : Plugin<Project> {
             if (extension.generateAtSync.getOrElse(false) && isIdeSyncing) {
                 tasks.findByName("prepareKotlinIdeaImport")?.dependsOn(codegenTasks)
             }
-        }
-
-        // Run generation before any kind of kotlin source processing
-        tasks.withType<AbstractKotlinCompile<*>>().configureEach { compileTask ->
-            compileTask.dependsOn(codegenTasks)
         }
 
         // Create a wrapper task to invoke all other codegen tasks
@@ -99,7 +108,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
      *   addGeneratedSourceDirectory overrides the task's outputDirectory property, which would
      *   redirect generated files away from the user-visible path
      *   (build/generated/sources/valkyrie/<sourceSet>/kotlin).
-     *   The compile → gen task dependency is declared separately via AbstractKotlinCompile.dependsOn.
+     *   The compile → gen task dependency is declared separately via KotlinCompilationTask.dependsOn.
      */
     @Suppress("UNCHECKED_CAST")
     private fun Project.registerAndroidTasks(extension: ValkyrieExtension) {
@@ -121,7 +130,7 @@ class ValkyrieGradlePlugin : Plugin<Project> {
         // override the task's outputDirectory convention — the files must land at the path our tests
         // and users expect (build/generated/sources/valkyrie/<sourceSet>/kotlin).
         // The compile → gen task dependency is already declared globally via
-        // AbstractKotlinCompile.dependsOn(codegenTasks) above.
+        // KotlinCompilationTask.dependsOn(codegenTasks) above.
         androidComponents.onVariants { variant ->
             // Source sets that contribute to this variant:
             // "main" + buildType (e.g. "debug") + flavors (e.g. "free") + combined (e.g. "freeDebug")
