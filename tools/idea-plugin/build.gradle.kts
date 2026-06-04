@@ -181,10 +181,18 @@ tasks.register<CheckVersionCompatibility>("checkVersionCompatibility") {
         dependencies.addAll(configurations.getByName("implementation").dependencies)
     }
     resolvedComponents = checkConfig.map { config ->
-        config.incoming.resolutionResult.allComponents
-            .mapNotNull { it.moduleVersion }
-            .map { "${it.group}:${it.name}:${it.version}" }
+        val result = mutableMapOf<String, MutableSet<String>>()
+        for (component in config.incoming.resolutionResult.allComponents) {
+            val mv = component.moduleVersion ?: continue
+            val coordinate = "${mv.group}:${mv.name}:${mv.version}"
+            val dependents = result.getOrPut(coordinate) { mutableSetOf() }
+            component.dependents.forEach { dep ->
+                dep.from.moduleVersion?.let { dependents.add("${it.group}:${it.name}:${it.version}") }
+            }
+        }
+        result.toSortedMap().mapValues { (_, deps) -> deps.sorted() }
     }
     maxKotlinVersion = libs.versions.kotlin
     maxComposeVersion = libs.versions.compose
+    maxCoroutinesVersion = libs.versions.coroutines
 }
