@@ -1,5 +1,7 @@
 [versions]
 compose = "1.10.0"
+# https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#coroutinesLibraries
+coroutines = "1.10.2"
 intellij = "2.13.1"
 jacoco = "0.8.13"
 jdkRelease = "21"
@@ -46,7 +48,7 @@ assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.0.3"
 junit-launcher = "org.junit.platform:junit-platform-launcher:6.0.3"
 junit4 = "junit:junit:4.13.2"
-kotlin-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2"
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 semver = "net.swiftzer.semver:semver:2.1.0"
