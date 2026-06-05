@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+- [Web Import] Fix side panel closing when clicking inside the panel content area
+
 ## 1.6.0 - 2026-05-29
 
 ### Added

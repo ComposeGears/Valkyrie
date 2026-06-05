@@ -57,7 +57,8 @@ fun SidePanel(
                     .widthIn(max = 250.dp)
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
-                    .background(JewelTheme.overlay),
+                    .background(JewelTheme.overlay)
+                    .pointerInput(Unit) {},
             ) {
                 content()
             }
