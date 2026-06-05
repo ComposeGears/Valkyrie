@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.composegears.valkyrie.jewel.button.OutlineIconButton
+import io.github.composegears.valkyrie.jewel.settings.LabelTooltipRow
 import io.github.composegears.valkyrie.jewel.textarea.TextArea
 import io.github.composegears.valkyrie.jewel.textfield.validation.ValidationResult
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
@@ -66,12 +67,9 @@ fun IconPackEditor(
             Spacer(32.dp)
         }
 
-        CodeTooltipHeader(
+        LabelTooltipRow(
             text = stringResource("iconpack.editor.package"),
-            code = buildPackPackageHighlight(
-                packageName = packageName.text,
-                iconPackName = iconPackName.text,
-            ),
+            tooltip = stringResource("iconpack.editor.package.tooltip"),
         )
         Spacer(8.dp)
         PackageTextField(
@@ -82,9 +80,9 @@ fun IconPackEditor(
             enabled = packageName.enabled,
         )
         Spacer(32.dp)
-        CodeTooltipHeader(
-            text = stringResource("iconpack.editor.iconpack.name"),
-            code = buildIconPackHighlight(iconPackName.text),
+        LabelTooltipRow(
+            text = stringResource("iconpack.editor.iconpack"),
+            tooltip = stringResource("iconpack.editor.iconpack.tooltip"),
         )
         Spacer(8.dp)
         IconPackTextField(
