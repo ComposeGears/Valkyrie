@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- [IconPack] Replace code snippet tooltip on Package and IconPack name fields with a plain text description tooltip
+
 ### Fixed
 
 - [Web Import] Fix side panel closing when clicking inside the panel content area
@@ -22,8 +26,8 @@
 - [Web Import] Add `Tabler` icons provider
 - [Web Import] Add `Eva` icons provider
 - [Settings] Add "Gutter area" toggle to control visibility of ImageVector gutter icons in the editor
-- [Settings] Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")` annotation on
-  ImageVector extension properties when an icon pack receiver is used (e.g. `ValkyrieIcons`)
+- [Settings] Add "Suppress unused receiver warning" setting to generate `@Suppress("UnusedReceiverParameter")`
+  annotation on ImageVector extension properties when an icon pack receiver is used (e.g. `ValkyrieIcons`)
 
 ### Changed
 
