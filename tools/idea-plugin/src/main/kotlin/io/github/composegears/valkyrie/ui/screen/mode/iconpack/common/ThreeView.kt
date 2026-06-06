@@ -36,6 +36,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
+import androidx.compose.ui.input.key.isShiftPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.onPointerEvent
@@ -51,6 +60,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
 import io.github.composegears.valkyrie.jewel.MoreHorizontalAction
+import io.github.composegears.valkyrie.jewel.button.TooltipIconButton
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import java.awt.Cursor
 import kotlin.math.abs
@@ -58,6 +68,7 @@ import kotlin.math.roundToInt
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 data class TreeNode<T>(
     val data: T,
@@ -67,6 +78,75 @@ data class TreeNode<T>(
 enum class DropPosition { Before, After, Inside }
 
 private val DragPointerIcon = PointerIcon(Cursor(Cursor.MOVE_CURSOR))
+
+@Stable
+class TreeHistoryState<T>(
+    initialTree: TreeNode<T>,
+    private val maxHistorySize: Int = 100,
+) {
+    var tree: TreeNode<T> by mutableStateOf(initialTree)
+        private set
+
+    private val undoStack = ArrayDeque<TreeNode<T>>()
+    private val redoStack = ArrayDeque<TreeNode<T>>()
+
+    val canUndo: Boolean
+        get() = undoStack.isNotEmpty()
+
+    val canRedo: Boolean
+        get() = redoStack.isNotEmpty()
+
+    fun move(from: T, to: T, position: DropPosition) {
+        update { currentTree ->
+            currentTree.moveNode(
+                from = from,
+                to = to,
+                position = position,
+            )
+        }
+    }
+
+    fun update(transform: (TreeNode<T>) -> TreeNode<T>) {
+        val updatedTree = transform(tree)
+        if (updatedTree == tree) return
+
+        undoStack.addLast(tree)
+        while (undoStack.size > maxHistorySize) {
+            undoStack.removeFirst()
+        }
+        redoStack.clear()
+        tree = updatedTree
+    }
+
+    fun undo() {
+        val previousTree = undoStack.removeLastOrNull() ?: return
+        redoStack.addLast(tree)
+        tree = previousTree
+    }
+
+    fun redo() {
+        val nextTree = redoStack.removeLastOrNull() ?: return
+        undoStack.addLast(tree)
+        tree = nextTree
+    }
+
+    fun reset(newTree: TreeNode<T>) {
+        tree = newTree
+        undoStack.clear()
+        redoStack.clear()
+    }
+}
+
+@Composable
+fun <T> rememberTreeHistoryState(
+    initialTree: TreeNode<T>,
+    maxHistorySize: Int = 100,
+): TreeHistoryState<T> = remember(initialTree, maxHistorySize) {
+    TreeHistoryState(
+        initialTree = initialTree,
+        maxHistorySize = maxHistorySize,
+    )
+}
 
 @Stable
 private class DragState<T> {
@@ -527,6 +607,40 @@ private fun <T> TreeNode<T>.insertNode(node: TreeNode<T>, nearTarget: T, positio
     return copy(children = children.map { it.insertNode(node, nearTarget, position) })
 }
 
+private fun Modifier.undoRedoKeybindings(
+    canUndo: Boolean,
+    canRedo: Boolean,
+    onUndo: () -> Unit,
+    onRedo: () -> Unit,
+): Modifier = onPreviewKeyEvent { keyEvent ->
+    when {
+        keyEvent.isUndoShortcut() && canUndo -> {
+            onUndo()
+            true
+        }
+        keyEvent.isRedoShortcut() && canRedo -> {
+            onRedo()
+            true
+        }
+        else -> false
+    }
+}
+
+private fun KeyEvent.isUndoShortcut(): Boolean {
+    return type == KeyEventType.KeyDown &&
+        (isCtrlPressed || isMetaPressed) &&
+        !isShiftPressed &&
+        key == Key.Z
+}
+
+private fun KeyEvent.isRedoShortcut(): Boolean {
+    return type == KeyEventType.KeyDown && when {
+        (isCtrlPressed || isMetaPressed) && isShiftPressed && key == Key.Z -> true
+        isCtrlPressed && key == Key.Y -> true
+        else -> false
+    }
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
@@ -559,33 +673,58 @@ private fun TreeDemoPreview() {
         ),
     )
 
-    var tree by rememberMutableState { initialTree }
+    val history = rememberTreeHistoryState(initialTree = initialTree)
 
-    TreeView(
+    Column(
         modifier = Modifier
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        root = tree,
-        onMove = { from, to, position ->
-            tree = tree.moveNode(from, to, position)
-        },
-    ) { value, isDragging ->
-        var isHovered by rememberMutableState { false }
-
-        Row(
-            modifier = Modifier
-                .heightIn(min = 24.dp)
-                .padding(start = 4.dp)
-                .onPointerEvent(PointerEventType.Enter) { isHovered = true }
-                .onPointerEvent(PointerEventType.Exit) { isHovered = false },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Text(text = value)
-            MoreHorizontalAction(
-                modifier = Modifier.alpha(if (isHovered && !isDragging) 1f else 0f),
-                onClick = {},
+            .undoRedoKeybindings(
+                canUndo = history.canUndo,
+                canRedo = history.canRedo,
+                onUndo = history::undo,
+                onRedo = history::redo,
             )
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TooltipIconButton(
+                key = AllIconsKeys.Actions.Undo,
+                contentDescription = "Undo",
+                enabled = history.canUndo,
+                onClick = history::undo,
+                tooltipText = "Undo move (Cmd/Ctrl+Z)",
+            )
+            TooltipIconButton(
+                key = AllIconsKeys.Actions.Redo,
+                contentDescription = "Redo",
+                enabled = history.canRedo,
+                onClick = history::redo,
+                tooltipText = "Redo move (Cmd/Ctrl+Shift+Z)",
+            )
+        }
+
+        TreeView(
+            root = history.tree,
+            onMove = history::move,
+        ) { value, isDragging ->
+            var isHovered by rememberMutableState { false }
+
+            Row(
+                modifier = Modifier
+                    .heightIn(min = 24.dp)
+                    .padding(start = 4.dp)
+                    .onPointerEvent(PointerEventType.Enter) { isHovered = true }
+                    .onPointerEvent(PointerEventType.Exit) { isHovered = false },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(text = value)
+                MoreHorizontalAction(
+                    modifier = Modifier.alpha(if (isHovered && !isDragging) 1f else 0f),
+                    onClick = {},
+                )
+            }
         }
     }
 }
