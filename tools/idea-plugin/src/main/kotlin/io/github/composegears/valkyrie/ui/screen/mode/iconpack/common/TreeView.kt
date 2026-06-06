@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -53,6 +54,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -173,10 +175,44 @@ private class DragState<T> {
     var dropIndicatorStyle: DropIndicatorStyle by mutableStateOf(DropIndicatorStyle.Sibling)
     var dragPosition: Offset? by mutableStateOf(null)
     var grabOffset: Offset = Offset.Zero
-    val nodeCoords = mutableStateMapOf<T, LayoutCoordinates>()
-    val subtreeCoords = mutableStateMapOf<T, LayoutCoordinates>()
+    val nodeLayouts = mutableStateMapOf<T, NodeDropLayout>()
     val contentWidths = mutableStateMapOf<T, Float>()
-    val hasChildren = mutableStateMapOf<T, Boolean>()
+
+    fun updateNodeRowLayout(node: T, coords: LayoutCoordinates) {
+        val bounds = coords.boundsInRoot()
+        val current = nodeLayouts[node]
+        nodeLayouts[node] = NodeDropLayout(
+            rowLeft = bounds.left,
+            rowTop = bounds.top,
+            rowCenterY = bounds.center.y,
+            subtreeBottom = current?.subtreeBottom ?: bounds.bottom,
+        )
+    }
+
+    fun updateNodeSubtreeLayout(node: T, coords: LayoutCoordinates) {
+        val bounds = coords.boundsInRoot()
+        val current = nodeLayouts[node]
+        nodeLayouts[node] = NodeDropLayout(
+            rowLeft = current?.rowLeft ?: bounds.left,
+            rowTop = current?.rowTop ?: bounds.top,
+            rowCenterY = current?.rowCenterY ?: bounds.center.y,
+            subtreeBottom = bounds.bottom,
+        )
+    }
+
+    fun removeNode(node: T) {
+        nodeLayouts.remove(node)
+        contentWidths.remove(node)
+        if (dropTarget == node) {
+            dropTarget = null
+            dropPosition = DropPosition.Before
+            isDropInvalid = false
+            dropIndicatorStyle = DropIndicatorStyle.Sibling
+        }
+        if (dragging == node) {
+            reset()
+        }
+    }
 
     fun updateDrop(
         rootPosition: Offset,
@@ -189,16 +225,7 @@ private class DragState<T> {
             indentPx = indentPx,
             insideHalfZonePx = insideHalfZonePx,
             dragging = dragging,
-            layouts = nodeCoords.keys.associateWithNotNull { key ->
-                val rowBounds = nodeCoords[key]?.boundsInRoot() ?: return@associateWithNotNull null
-                val subtreeBounds = subtreeCoords[key]?.boundsInRoot() ?: rowBounds
-                NodeDropLayout(
-                    rowLeft = rowBounds.left,
-                    rowTop = rowBounds.top,
-                    rowCenterY = rowBounds.center.y,
-                    subtreeBottom = subtreeBounds.bottom,
-                )
-            },
+            layouts = nodeLayouts,
             isValidTarget = isValidTarget,
         )
 
@@ -281,14 +308,6 @@ internal fun <T> resolveDropTarget(
         }
         .minWithOrNull(compareBy<Triple<ResolvedDropTarget<T>, Float, Float>> { it.second }.thenByDescending { it.third })
         ?.first
-}
-
-private inline fun <K, V : Any> Iterable<K>.associateWithNotNull(transform: (K) -> V?): Map<K, V> {
-    val result = LinkedHashMap<K, V>()
-    for (key in this) {
-        transform(key)?.let { result[key] = it }
-    }
-    return result
 }
 
 @Suppress("ktlint:compose:content-slot-reused")
@@ -412,14 +431,19 @@ private fun <T> TreeNodeRow(
     }
     val insideColor = JewelTheme.globalColors.outlines.focused
     val invalidDropColor = JewelTheme.globalColors.outlines.error
-    var outerCoords by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    var outerCoords by remember(node.data) { mutableStateOf<LayoutCoordinates?>(null) }
+
+    DisposableEffect(dragState, node.data) {
+        onDispose {
+            dragState?.removeNode(node.data)
+        }
+    }
 
     Column(
         modifier = Modifier
             .onGloballyPositioned { coords ->
                 outerCoords = coords
-                dragState?.subtreeCoords?.set(node.data, coords)
-                dragState?.hasChildren?.set(node.data, node.children.isNotEmpty())
+                dragState?.updateNodeSubtreeLayout(node.data, coords)
             }
             .let { mod ->
                 if (dragState != null && onMove != null) {
@@ -430,10 +454,10 @@ private fun <T> TreeNodeRow(
                                 onDragStart = { startOffset ->
                                     dragState.dragging = node.data
                                     dragState.grabOffset = startOffset
-                                    dragState.dragPosition = outerCoords?.localToRoot(startOffset)
+                                    dragState.dragPosition = outerCoords?.positionInRoot()?.plus(startOffset)
                                 },
                                 onDrag = { change, _ ->
-                                    val rootPos = outerCoords?.localToRoot(change.position)
+                                    val rootPos = outerCoords?.positionInRoot()?.plus(change.position)
                                     dragState.dragPosition = rootPos
                                     rootPos?.let {
                                         val invalidTargets = descendantsByNode[dragState.dragging].orEmpty()
@@ -468,7 +492,7 @@ private fun <T> TreeNodeRow(
             modifier = Modifier
                 .height(IntrinsicSize.Min)
                 .fillMaxWidth()
-                .onGloballyPositioned { dragState?.nodeCoords?.set(node.data, it) }
+                .onGloballyPositioned { dragState?.updateNodeRowLayout(node.data, it) }
                 .drawWithContent {
                     drawContent()
                     if (isInsideTarget) {
