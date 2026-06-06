@@ -79,6 +79,19 @@ enum class DropPosition { Before, After, Inside }
 
 private val DragPointerIcon = PointerIcon(Cursor(Cursor.MOVE_CURSOR))
 
+internal data class NodeDropLayout(
+    val rowLeft: Float,
+    val rowTop: Float,
+    val rowCenterY: Float,
+    val subtreeBottom: Float,
+)
+
+internal data class ResolvedDropTarget<T>(
+    val target: T,
+    val position: DropPosition,
+    val isInvalid: Boolean,
+)
+
 @Stable
 class TreeHistoryState<T>(
     initialTree: TreeNode<T>,
@@ -157,37 +170,44 @@ private class DragState<T> {
     var dragPosition: Offset? by mutableStateOf(null)
     var grabOffset: Offset = Offset.Zero
     val nodeCoords = mutableStateMapOf<T, LayoutCoordinates>()
+    val subtreeCoords = mutableStateMapOf<T, LayoutCoordinates>()
     val contentWidths = mutableStateMapOf<T, Float>()
     val hasChildren = mutableStateMapOf<T, Boolean>()
 
     fun updateDrop(
-        rootY: Float,
+        rootPosition: Offset,
+        indentPx: Float,
         insideHalfZonePx: Float,
         isValidTarget: (T) -> Boolean = { true },
     ) {
-        val nearest = nodeCoords.keys
-            .filter { it != dragging }
-            .minByOrNull { key ->
-                nodeCoords[key]?.boundsInRoot()
-                    ?.let { abs(it.center.y - rootY) } ?: Float.MAX_VALUE
-            }
+        val resolved = resolveDropTarget(
+            rootPosition = rootPosition,
+            indentPx = indentPx,
+            insideHalfZonePx = insideHalfZonePx,
+            dragging = dragging,
+            layouts = nodeCoords.keys.associateWithNotNull { key ->
+                val rowBounds = nodeCoords[key]?.boundsInRoot() ?: return@associateWithNotNull null
+                val subtreeBounds = subtreeCoords[key]?.boundsInRoot() ?: rowBounds
+                NodeDropLayout(
+                    rowLeft = rowBounds.left,
+                    rowTop = rowBounds.top,
+                    rowCenterY = rowBounds.center.y,
+                    subtreeBottom = subtreeBounds.bottom,
+                )
+            },
+            isValidTarget = isValidTarget,
+        )
 
-        if (nearest == null) {
+        if (resolved == null) {
             dropTarget = null
             dropPosition = DropPosition.Before
             isDropInvalid = false
             return
         }
 
-        dropTarget = nearest
-        isDropInvalid = !isValidTarget(nearest)
-        val bounds = nodeCoords[nearest]?.boundsInRoot() ?: return
-        val centerY = (bounds.top + bounds.bottom) / 2f
-        dropPosition = when {
-            rootY in (centerY - insideHalfZonePx)..(centerY + insideHalfZonePx) -> DropPosition.Inside
-            rootY < centerY -> DropPosition.Before
-            else -> DropPosition.After
-        }
+        dropTarget = resolved.target
+        dropPosition = resolved.position
+        isDropInvalid = resolved.isInvalid
     }
 
     fun commit(onMove: (T, T, DropPosition) -> Unit) {
@@ -207,6 +227,57 @@ private class DragState<T> {
         dragPosition = null
         grabOffset = Offset.Zero
     }
+}
+
+internal fun <T> resolveDropTarget(
+    rootPosition: Offset,
+    indentPx: Float,
+    insideHalfZonePx: Float,
+    dragging: T?,
+    layouts: Map<T, NodeDropLayout>,
+    isValidTarget: (T) -> Boolean = { true },
+): ResolvedDropTarget<T>? {
+    return layouts.entries
+        .asSequence()
+        .filter { it.key != dragging }
+        .map { (target, layout) ->
+            val rootY = rootPosition.y
+            val position = when {
+                abs(rootY - layout.rowCenterY) <= insideHalfZonePx -> DropPosition.Inside
+                rootY < layout.rowCenterY -> DropPosition.Before
+                else -> DropPosition.After
+            }
+            val anchorX = when (position) {
+                DropPosition.Before,
+                DropPosition.After,
+                -> layout.rowLeft + indentPx / 2f
+                DropPosition.Inside -> layout.rowLeft + indentPx
+            }
+            val anchorY = when (position) {
+                DropPosition.Before -> layout.rowTop
+                DropPosition.Inside -> layout.rowCenterY
+                DropPosition.After -> layout.subtreeBottom
+            }
+            Triple(
+                ResolvedDropTarget(
+                    target = target,
+                    position = position,
+                    isInvalid = !isValidTarget(target),
+                ),
+                abs(rootPosition.x - anchorX) + abs(rootY - anchorY),
+                layout.subtreeBottom,
+            )
+        }
+        .minWithOrNull(compareBy<Triple<ResolvedDropTarget<T>, Float, Float>> { it.second }.thenByDescending { it.third })
+        ?.first
+}
+
+private inline fun <K, V : Any> Iterable<K>.associateWithNotNull(transform: (K) -> V?): Map<K, V> {
+    val result = LinkedHashMap<K, V>()
+    for (key in this) {
+        transform(key)?.let { result[key] = it }
+    }
+    return result
 }
 
 @Suppress("ktlint:compose:content-slot-reused")
@@ -336,6 +407,7 @@ private fun <T> TreeNodeRow(
         modifier = Modifier
             .onGloballyPositioned { coords ->
                 outerCoords = coords
+                dragState?.subtreeCoords?.set(node.data, coords)
                 dragState?.hasChildren?.set(node.data, node.children.isNotEmpty())
             }
             .let { mod ->
@@ -355,7 +427,8 @@ private fun <T> TreeNodeRow(
                                     rootPos?.let {
                                         val invalidTargets = descendantsByNode[dragState.dragging].orEmpty()
                                         dragState.updateDrop(
-                                            rootY = it.y,
+                                            rootPosition = it,
+                                            indentPx = indent.toPx(),
                                             insideHalfZonePx = 9.dp.toPx(),
                                             isValidTarget = { candidate -> candidate !in invalidTargets },
                                         )

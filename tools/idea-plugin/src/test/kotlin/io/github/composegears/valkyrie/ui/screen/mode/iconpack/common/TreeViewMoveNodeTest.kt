@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common
 
+import androidx.compose.ui.geometry.Offset
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
@@ -100,5 +101,81 @@ class TreeViewMoveNodeTest {
         )
 
         assertThat(history.canRedo).isEqualTo(false)
+    }
+
+    @Test
+    fun `drop target can resolve to parent after subtree bottom`() {
+        val resolved = resolveDropTarget(
+            rootPosition = Offset(x = 8f, y = 88f),
+            indentPx = 24f,
+            insideHalfZonePx = 9f,
+            dragging = "logo",
+            layouts = mapOf(
+                "outlined" to NodeDropLayout(
+                    rowLeft = 0f,
+                    rowTop = 0f,
+                    rowCenterY = 10f,
+                    subtreeBottom = 90f,
+                ),
+                "search" to NodeDropLayout(
+                    rowLeft = 24f,
+                    rowTop = 40f,
+                    rowCenterY = 50f,
+                    subtreeBottom = 60f,
+                ),
+                "logo" to NodeDropLayout(
+                    rowLeft = 0f,
+                    rowTop = 70f,
+                    rowCenterY = 80f,
+                    subtreeBottom = 90f,
+                ),
+            ),
+        )
+
+        assertThat(resolved).isEqualTo(
+            ResolvedDropTarget(
+                target = "outlined",
+                position = DropPosition.After,
+                isInvalid = false,
+            ),
+        )
+    }
+
+    @Test
+    fun `drop target can resolve to last child after when pointer is on nested indent`() {
+        val resolved = resolveDropTarget(
+            rootPosition = Offset(x = 34f, y = 68f),
+            indentPx = 24f,
+            insideHalfZonePx = 9f,
+            dragging = "logo",
+            layouts = mapOf(
+                "outlined" to NodeDropLayout(
+                    rowLeft = 0f,
+                    rowTop = 0f,
+                    rowCenterY = 10f,
+                    subtreeBottom = 60f,
+                ),
+                "search" to NodeDropLayout(
+                    rowLeft = 24f,
+                    rowTop = 40f,
+                    rowCenterY = 50f,
+                    subtreeBottom = 60f,
+                ),
+                "logo" to NodeDropLayout(
+                    rowLeft = 0f,
+                    rowTop = 70f,
+                    rowCenterY = 80f,
+                    subtreeBottom = 90f,
+                ),
+            ),
+        )
+
+        assertThat(resolved).isEqualTo(
+            ResolvedDropTarget(
+                target = "search",
+                position = DropPosition.After,
+                isInvalid = false,
+            ),
+        )
     }
 }
