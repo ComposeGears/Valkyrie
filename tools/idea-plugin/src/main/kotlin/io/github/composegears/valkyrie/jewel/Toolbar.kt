@@ -258,6 +258,20 @@ fun PreviewCodeAction(
 }
 
 @Composable
+fun MoreHorizontalAction(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    TooltipIconButton(
+        modifier = modifier,
+        key = AllIconsKeys.Actions.MoreHorizontal,
+        contentDescription = stringResource("accessibility.edit"),
+        onClick = onClick,
+        tooltipText = stringResource("component.toolbar.edit.tooltip"),
+    )
+}
+
+@Composable
 fun EditToggleAction(
     selected: Boolean,
     modifier: Modifier = Modifier,
