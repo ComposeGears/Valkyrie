@@ -175,6 +175,7 @@ class TreeViewMoveNodeTest {
                 target = "search",
                 position = DropPosition.After,
                 isInvalid = false,
+                indicatorStyle = DropIndicatorStyle.NestedAppend,
             ),
         )
     }

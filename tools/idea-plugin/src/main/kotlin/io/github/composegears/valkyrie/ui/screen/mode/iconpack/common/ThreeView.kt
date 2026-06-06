@@ -77,6 +77,8 @@ data class TreeNode<T>(
 
 enum class DropPosition { Before, After, Inside }
 
+internal enum class DropIndicatorStyle { Sibling, NestedAppend }
+
 private val DragPointerIcon = PointerIcon(Cursor(Cursor.MOVE_CURSOR))
 
 internal data class NodeDropLayout(
@@ -90,6 +92,7 @@ internal data class ResolvedDropTarget<T>(
     val target: T,
     val position: DropPosition,
     val isInvalid: Boolean,
+    val indicatorStyle: DropIndicatorStyle = DropIndicatorStyle.Sibling,
 )
 
 @Stable
@@ -167,6 +170,7 @@ private class DragState<T> {
     var dropTarget: T? by mutableStateOf(null)
     var dropPosition: DropPosition by mutableStateOf(DropPosition.Before)
     var isDropInvalid: Boolean by mutableStateOf(false)
+    var dropIndicatorStyle: DropIndicatorStyle by mutableStateOf(DropIndicatorStyle.Sibling)
     var dragPosition: Offset? by mutableStateOf(null)
     var grabOffset: Offset = Offset.Zero
     val nodeCoords = mutableStateMapOf<T, LayoutCoordinates>()
@@ -202,12 +206,14 @@ private class DragState<T> {
             dropTarget = null
             dropPosition = DropPosition.Before
             isDropInvalid = false
+            dropIndicatorStyle = DropIndicatorStyle.Sibling
             return
         }
 
         dropTarget = resolved.target
         dropPosition = resolved.position
         isDropInvalid = resolved.isInvalid
+        dropIndicatorStyle = resolved.indicatorStyle
     }
 
     fun commit(onMove: (T, T, DropPosition) -> Unit) {
@@ -224,6 +230,7 @@ private class DragState<T> {
         dropTarget = null
         dropPosition = DropPosition.Before
         isDropInvalid = false
+        dropIndicatorStyle = DropIndicatorStyle.Sibling
         dragPosition = null
         grabOffset = Offset.Zero
     }
@@ -263,6 +270,10 @@ internal fun <T> resolveDropTarget(
                     target = target,
                     position = position,
                     isInvalid = !isValidTarget(target),
+                    indicatorStyle = when {
+                        position == DropPosition.After && layout.rowLeft > 0f -> DropIndicatorStyle.NestedAppend
+                        else -> DropIndicatorStyle.Sibling
+                    },
                 ),
                 abs(rootPosition.x - anchorX) + abs(rootY - anchorY),
                 layout.subtreeBottom,
@@ -448,6 +459,7 @@ private fun <T> TreeNodeRow(
                 color = if (isInvalidDropTarget) invalidDropColor else lineColor,
                 indent = indent,
                 isInvalid = isInvalidDropTarget,
+                style = DropIndicatorStyle.Sibling,
             )
         }
 
@@ -539,6 +551,7 @@ private fun <T> TreeNodeRow(
                 color = if (isInvalidDropTarget) invalidDropColor else lineColor,
                 indent = indent,
                 isInvalid = isInvalidDropTarget,
+                style = dragState.dropIndicatorStyle,
             )
         }
     }
@@ -549,6 +562,7 @@ private fun DropIndicator(
     color: Color,
     indent: Dp,
     isInvalid: Boolean = false,
+    style: DropIndicatorStyle = DropIndicatorStyle.Sibling,
 ) {
     Canvas(
         modifier = Modifier
@@ -560,23 +574,53 @@ private fun DropIndicator(
         val strokeW = 1.5.dp.toPx()
         val lineX = indent.toPx() / 2
         val indicatorStartX = lineX + r * 2
+        val nestedStartX = indent.toPx()
 
-        drawCircle(
-            color = color,
-            radius = r,
-            center = Offset(lineX, cy),
-            style = Stroke(width = strokeW),
-        )
-        drawLine(
-            color = color,
-            start = Offset(indicatorStartX, cy),
-            end = Offset(size.width, cy),
-            strokeWidth = strokeW,
-        )
+        when (style) {
+            DropIndicatorStyle.Sibling -> {
+                drawCircle(
+                    color = color,
+                    radius = r,
+                    center = Offset(lineX, cy),
+                    style = Stroke(width = strokeW),
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(indicatorStartX, cy),
+                    end = Offset(size.width, cy),
+                    strokeWidth = strokeW,
+                )
+            }
+            DropIndicatorStyle.NestedAppend -> {
+                drawLine(
+                    color = color,
+                    start = Offset(lineX, 0f),
+                    end = Offset(lineX, cy),
+                    strokeWidth = strokeW,
+                )
+                drawCircle(
+                    color = color,
+                    radius = r,
+                    center = Offset(lineX, cy),
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(nestedStartX, cy),
+                    end = Offset(size.width, cy),
+                    strokeWidth = strokeW,
+                )
+            }
+        }
 
         if (isInvalid) {
             val crossHalfSize = 3.dp.toPx()
-            val crossCenter = Offset(indicatorStartX + 8.dp.toPx(), cy)
+            val crossCenter = Offset(
+                x = when (style) {
+                    DropIndicatorStyle.Sibling -> indicatorStartX + 8.dp.toPx()
+                    DropIndicatorStyle.NestedAppend -> nestedStartX + 8.dp.toPx()
+                },
+                y = cy,
+            )
             drawLine(
                 color = color,
                 start = Offset(crossCenter.x - crossHalfSize, crossCenter.y - crossHalfSize),
