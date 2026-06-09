@@ -1,0 +1,16 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.core:tree>
+final class <#A: kotlin/Any?> io.github.composegears.valkyrie.sdk.core.tree/TreeNode { // io.github.composegears.valkyrie.sdk.core.tree/TreeNode|null[0]
+    constructor <init>(#A, kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>> = ...) // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.<init>|<init>(1:0;kotlin.collections.List<io.github.composegears.valkyrie.sdk.core.tree.TreeNode<1:0>>){}[0]
+
+    final val children // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.children|{}children[0]
+        final fun <get-children>(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>> // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.children.<get-children>|<get-children>(){}[0]
+    final val data // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.data|{}data[0]
+        final fun <get-data>(): #A // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.data.<get-data>|<get-data>(){}[0]
+}

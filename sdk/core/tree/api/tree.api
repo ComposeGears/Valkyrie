@@ -1,0 +1,7 @@
+public final class io/github/composegears/valkyrie/sdk/core/tree/TreeNode {
+	public fun <init> (Ljava/lang/Object;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/Object;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getData ()Ljava/lang/Object;
+}
+

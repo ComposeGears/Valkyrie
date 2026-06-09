@@ -64,6 +64,7 @@ import androidx.compose.ui.window.PopupProperties
 import io.github.composegears.valkyrie.jewel.MoreHorizontalAction
 import io.github.composegears.valkyrie.jewel.button.TooltipIconButton
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
+import io.github.composegears.valkyrie.sdk.core.tree.TreeNode
 import java.awt.Cursor
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -71,11 +72,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-
-data class TreeNode<T>(
-    val data: T,
-    val children: List<TreeNode<T>> = emptyList(),
-)
 
 enum class DropPosition { Before, After, Inside }
 
@@ -725,27 +721,28 @@ private fun <T> TreeNode<T>.findNode(target: T): TreeNode<T>? {
 
 private fun <T> TreeNode<T>.removeNode(target: T): TreeNode<T> {
     if (data == target) return this
-    return copy(children = children.filter { it.data != target }.map { it.removeNode(target) })
+    return TreeNode(data, children.filter { it.data != target }.map { it.removeNode(target) })
 }
 
 private fun <T> TreeNode<T>.insertNode(node: TreeNode<T>, nearTarget: T, position: DropPosition): TreeNode<T> {
     if (data == nearTarget && position == DropPosition.Inside) {
-        return copy(children = children + node)
+        return TreeNode(data, children + node)
     }
     val idx = children.indexOfFirst { it.data == nearTarget }
     if (idx != -1) {
         if (position == DropPosition.Inside) {
-            return copy(
+            return TreeNode(
+                data = data,
                 children = children.map {
-                    if (it.data == nearTarget) it.copy(children = it.children + node) else it
+                    if (it.data == nearTarget) TreeNode(it.data, it.children + node) else it
                 },
             )
         }
         val newChildren = children.toMutableList()
         newChildren.add(if (position == DropPosition.Before) idx else idx + 1, node)
-        return copy(children = newChildren)
+        return TreeNode(data, newChildren)
     }
-    return copy(children = children.map { it.insertNode(node, nearTarget, position) })
+    return TreeNode(data, children.map { it.insertNode(node, nearTarget, position) })
 }
 
 private fun Modifier.undoRedoKeybindings(
