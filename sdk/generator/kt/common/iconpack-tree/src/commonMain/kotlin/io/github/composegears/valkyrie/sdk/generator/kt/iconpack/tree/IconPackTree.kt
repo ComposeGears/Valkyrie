@@ -1,6 +1,8 @@
 package io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree
 
+import io.github.composegears.valkyrie.sdk.core.tree.MutableTreeNode
 import io.github.composegears.valkyrie.sdk.core.tree.TreeNode
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
 
 typealias IconPackTree = TreeNode<String>
 
@@ -19,21 +21,17 @@ fun IconPackTree.pathSegments(): List<String> {
 }
 
 fun iconPackOf(input: String): IconPackTree {
-    fun buildHierarchy(paths: List<List<String>>): List<IconPackTree> {
-        if (paths.all { it.isEmpty() }) return emptyList()
+    fun MutableTreeNode<String>.getOrCreateChild(name: String): MutableTreeNode<String> {
+        val existingChild = children.firstOrNull { it.data == name }
+        if (existingChild != null) {
+            return existingChild as MutableTreeNode<String>
+        }
 
-        return paths
-            .groupBy { it.first() }
-            .map { (name, nestedPaths) ->
-                TreeNode(
-                    data = name,
-                    children = buildHierarchy(nestedPaths.mapNotNull { it.drop(1).takeIf { it.isNotEmpty() } }),
-                )
-            }
+        return MutableTreeNode(name).also(::addChild)
     }
 
     if (input.isEmpty()) {
-        return TreeNode(data = "")
+        return buildTree("")
     }
 
     val paths = input.split(',').map { it.split('.') }
@@ -43,10 +41,14 @@ fun iconPackOf(input: String): IconPackTree {
         error("Invalid icon pack structure: expected a single root, but found ${rootNames.size} roots")
     }
 
-    return TreeNode(
-        data = rootNames.first(),
-        children = buildHierarchy(paths.map { it.drop(1) }),
-    )
+    return MutableTreeNode(rootNames.first()).apply {
+        paths.forEach { path ->
+            var current = this
+            path.drop(1).forEach { segment ->
+                current = current.getOrCreateChild(segment)
+            }
+        }
+    }
 }
 
 fun IconPackTree.encode(): String {

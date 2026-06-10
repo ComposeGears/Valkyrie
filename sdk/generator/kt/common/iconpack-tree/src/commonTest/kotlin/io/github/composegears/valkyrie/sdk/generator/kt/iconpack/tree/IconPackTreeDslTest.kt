@@ -3,13 +3,15 @@ package io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
 import kotlin.test.Test
 
 class IconPackTreeDslTest {
 
     @Test
     fun `simple iconpack`() {
-        val iconPack = iconPackTree("ValkyrieIcons")
+        val iconPack = buildTree("ValkyrieIcons")
 
         assertThat(iconPack.data).isEqualTo("ValkyrieIcons")
         assertThat(iconPack.children).hasSize(0)
@@ -17,9 +19,9 @@ class IconPackTreeDslTest {
 
     @Test
     fun `pack with one level of nesting`() {
-        val iconPack = iconPackTree("ValkyrieIcons") {
-            pack("Outlined")
-            pack("Filled")
+        val iconPack = buildTree("ValkyrieIcons") {
+            child("Outlined")
+            child("Filled")
         }
 
         assertThat(iconPack.data).isEqualTo("ValkyrieIcons")
@@ -30,17 +32,17 @@ class IconPackTreeDslTest {
 
     @Test
     fun `iconpack with multiple nested levels`() {
-        val iconPack = iconPackTree("ValkyrieIcons") {
-            pack("Material") {
-                pack("Rounded") {
-                    pack("Filled")
+        val iconPack = buildTree("ValkyrieIcons") {
+            child("Material") {
+                child("Rounded") {
+                    child("Filled")
                 }
-                pack("Sharp") {
-                    pack("Outlined")
+                child("Sharp") {
+                    child("Outlined")
                 }
             }
-            pack("Custom") {
-                pack("Brand")
+            child("Custom") {
+                child("Brand")
             }
         }
 

@@ -6,6 +6,8 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
 import io.github.composegears.valkyrie.sdk.core.tree.get
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,12 +24,12 @@ class IconPackTreeTest {
 
     @Test
     fun `toString should return formatted tree structure`() {
-        val iconPack = iconPackTree("Root") {
-            pack("Child1") {
-                pack("Grandchild1")
-                pack("Grandchild2")
+        val iconPack = buildTree("Root") {
+            child("Child1") {
+                child("Grandchild1")
+                child("Grandchild2")
             }
-            pack("Child2")
+            child("Child2")
         }
 
         val expected = """
@@ -45,16 +47,16 @@ class IconPackTreeTest {
 
     @Test
     fun `toString should handle deeply nested IconPack`() {
-        val iconPack = iconPackTree("Root") {
-            pack("Child1") {
-                pack("Grandchild1") {
-                    pack("GreatGrandchild1") {
-                        pack("GreatGreatGrandchild1")
+        val iconPack = buildTree("Root") {
+            child("Child1") {
+                child("Grandchild1") {
+                    child("GreatGrandchild1") {
+                        child("GreatGreatGrandchild1")
                     }
                 }
             }
-            pack("Child2") {
-                pack("Grandchild2")
+            child("Child2") {
+                child("Grandchild2")
             }
         }
 
@@ -167,15 +169,21 @@ class IconPackTreeTest {
     fun `fromString parsing with shared paths`() {
         val input = "AAA.BB,AAA.CC,AAA.BB.FF,AAA.BB.FF.CC.AAA,AAA.CC.BB"
         val result = iconPackOf(input)
+        val rootLevelBb = result.children.first { it.data == "BB" }
+        val cc = result.children.first { it.data == "CC" }
+        val ff = rootLevelBb.children.first { it.data == "FF" }
+        val nestedCc = ff.children.first { it.data == "CC" }
+        val nestedAaa = nestedCc.children.first { it.data == "AAA" }
+        val ccLevelBb = cc.children.first { it.data == "BB" }
 
         assertThat(result.data).isEqualTo("AAA")
         assertThat(result.children).hasSize(2)
-        assertThat(result["BB"].children).hasSize(1)
-        assertThat(result["BB"]["FF"].children).hasSize(1)
-        assertThat(result["BB"]["FF"]["CC"].children).hasSize(1)
-        assertThat(result["BB"]["FF"]["CC"]["AAA"].children).isEmpty()
-        assertThat(result["CC"].children).hasSize(1)
-        assertThat(result["CC"]["BB"].children).isEmpty()
+        assertThat(rootLevelBb.children).hasSize(1)
+        assertThat(ff.children).hasSize(1)
+        assertThat(nestedCc.children).hasSize(1)
+        assertThat(nestedAaa.children).isEmpty()
+        assertThat(cc.children).hasSize(1)
+        assertThat(ccLevelBb.children).isEmpty()
 
         assertThat(result.encode()).isEqualTo("AAA.BB.FF.CC.AAA,AAA.CC.BB")
     }

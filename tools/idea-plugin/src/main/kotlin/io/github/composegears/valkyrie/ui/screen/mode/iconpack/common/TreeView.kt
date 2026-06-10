@@ -65,7 +65,10 @@ import io.github.composegears.valkyrie.jewel.MoreHorizontalAction
 import io.github.composegears.valkyrie.jewel.button.TooltipIconButton
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.core.tree.TreeNode
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
 import io.github.composegears.valkyrie.sdk.core.tree.contains
+import io.github.composegears.valkyrie.sdk.core.tree.copy
 import io.github.composegears.valkyrie.sdk.core.tree.find
 import java.awt.Cursor
 import kotlin.math.abs
@@ -774,33 +777,21 @@ private fun KeyEvent.isRedoShortcut(): Boolean {
 @Preview
 @Composable
 private fun TreeDemoPreview() {
-    val initialTree = TreeNode(
-        data = "ValkyrieIcons",
-        children = listOf(
-            TreeNode(
-                data = "Filled",
-                children = listOf(
-                    TreeNode("Add"),
-                    TreeNode(
-                        data = "Arrows",
-                        children = listOf(
-                            TreeNode("ArrowUp"),
-                            TreeNode("ArrowDown"),
-                        ),
-                    ),
-                    TreeNode("Close"),
-                ),
-            ),
-            TreeNode(
-                data = "Outlined",
-                children = listOf(
-                    TreeNode("Home"),
-                    TreeNode("Search"),
-                ),
-            ),
-            TreeNode("Logo"),
-        ),
-    )
+    val initialTree = buildTree("ValkyrieIcons") {
+        child("Filled") {
+            child("Add")
+            child("Arrows") {
+                child("ArrowUp")
+                child("ArrowDown")
+            }
+            child("Close")
+        }
+        child("Outlined") {
+            child("Home")
+            child("Search")
+        }
+        child("Logo")
+    }
 
     val history = rememberTreeHistoryState(initialTree = initialTree)
 

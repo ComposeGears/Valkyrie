@@ -13,6 +13,7 @@ tasks.test {
 
 dependencies {
     implementation(projects.components.generator.core)
+    implementation(projects.sdk.generator.kt.common.iconpackTree)
 
     testImplementation(testFixtures(projects.sdk.intellij.testFixtures))
     testImplementation(projects.sdk.test.resourceLoader)

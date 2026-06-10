@@ -3,22 +3,18 @@ package io.github.composegears.valkyrie.ui.screen.mode.iconpack.common
 import androidx.compose.ui.geometry.Offset
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
 import org.junit.jupiter.api.Test
 
 class TreeViewMoveNodeTest {
 
-    private val sampleTree = TreeNode(
-        data = "root",
-        children = listOf(
-            TreeNode(
-                data = "parent",
-                children = listOf(
-                    TreeNode("child"),
-                ),
-            ),
-            TreeNode("sibling"),
-        ),
-    )
+    private val sampleTree = buildTree("root") {
+        child("parent") {
+            child("child")
+        }
+        child("sibling")
+    }
 
     @Test
     fun `moving node into its own descendant keeps tree unchanged`() {
@@ -40,14 +36,11 @@ class TreeViewMoveNodeTest {
         )
 
         assertThat(movedTree).isEqualTo(
-            TreeNode(
-                data = "root",
-                children = listOf(
-                    TreeNode("parent"),
-                    TreeNode("sibling"),
-                    TreeNode("child"),
-                ),
-            ),
+            buildTree("root") {
+                child("parent")
+                child("sibling")
+                child("child")
+            },
         )
     }
 
