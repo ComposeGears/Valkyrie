@@ -6,46 +6,46 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 
-fun FileSpec.Builder.setIndent(indent: Int) = indent(" ".repeat(indent))
+public fun FileSpec.Builder.setIndent(indent: Int): FileSpec.Builder = indent(" ".repeat(indent))
 
-fun FileSpec.removeExplicitModeCode(): String = toString()
+public fun FileSpec.removeExplicitModeCode(): String = toString()
     .replace("public ", "")
 
-inline fun objectBuilder(
+public inline fun objectBuilder(
     name: String,
     builderAction: TypeSpec.Builder.() -> Unit,
-) = TypeSpec.objectBuilder(name)
+): TypeSpec = TypeSpec.objectBuilder(name)
     .apply(builderAction)
     .build()
 
-inline fun fileSpecBuilder(
+public inline fun fileSpecBuilder(
     packageName: String,
     fileName: String,
     builderAction: FileSpec.Builder.() -> Unit,
-) = FileSpec
+): FileSpec = FileSpec
     .builder(packageName = packageName, fileName = fileName)
     .addKotlinDefaultImports()
     .apply(builderAction)
     .build()
 
-inline fun funSpecBuilder(
+public inline fun funSpecBuilder(
     name: String,
     builderAction: FunSpec.Builder.() -> Unit,
-) = FunSpec.builder(name)
+): FunSpec = FunSpec.builder(name)
     .apply(builderAction)
     .build()
 
-inline fun getterFunSpecBuilder(
+public inline fun getterFunSpecBuilder(
     builderAction: FunSpec.Builder.() -> Unit,
-) = FunSpec.getterBuilder()
+): FunSpec = FunSpec.getterBuilder()
     .apply(builderAction)
     .build()
 
-inline fun propertySpecBuilder(
+public inline fun propertySpecBuilder(
     name: String,
     type: TypeName,
     builderAction: PropertySpec.Builder.() -> Unit,
-) = PropertySpec
+): PropertySpec = PropertySpec
     .builder(name = name, type = type)
     .apply(builderAction)
     .build()

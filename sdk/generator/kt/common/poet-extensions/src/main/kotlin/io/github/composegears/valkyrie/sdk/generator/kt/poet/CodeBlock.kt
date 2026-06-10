@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.sdk.generator.kt.poet
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.withIndent
 
-fun CodeBlock.Builder.argumentBlock(
+public fun CodeBlock.Builder.argumentBlock(
     argumentFlow: String,
     vararg args: Any?,
     isNested: Boolean = false,
@@ -19,7 +19,7 @@ fun CodeBlock.Builder.argumentBlock(
     }
 }
 
-fun CodeBlock.Builder.builderBlock(
+public fun CodeBlock.Builder.builderBlock(
     argumentFlow: String,
     vararg args: Any?,
     block: CodeBlock.Builder.() -> Unit,
@@ -29,11 +29,11 @@ fun CodeBlock.Builder.builderBlock(
     add("}")
 }
 
-fun CodeBlock.Builder.newLine() {
+public fun CodeBlock.Builder.newLine() {
     add("\n")
 }
 
-fun CodeBlock.Builder.trailingComma() {
+public fun CodeBlock.Builder.trailingComma() {
     add(",")
     newLine()
 }
