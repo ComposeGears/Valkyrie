@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator.core
+package io.github.composegears.valkyrie.sdk.generator.kt.util
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
