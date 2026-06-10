@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.intellij.psi.iconpack.IconPackInfo
 import io.github.composegears.valkyrie.sdk.intellij.psi.iconpack.IconPackPsiParser
 import io.github.composegears.valkyrie.ui.di.DI

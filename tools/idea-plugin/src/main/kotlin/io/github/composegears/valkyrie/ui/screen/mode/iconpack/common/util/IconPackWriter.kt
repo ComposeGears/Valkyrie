@@ -5,8 +5,8 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
 import io.github.composegears.valkyrie.generator.core.iconPack
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.settings.InMemorySettings
 import io.github.composegears.valkyrie.settings.updateNestedPack

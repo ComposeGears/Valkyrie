@@ -1,8 +1,6 @@
 package io.github.composegears.valkyrie.gradle.internal.task
 
 import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports
 import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports.Companion.reservedComposeQualifiers
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
@@ -14,6 +12,8 @@ import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig
 import java.io.File
 import kotlinx.io.files.Path
 import org.gradle.api.DefaultTask

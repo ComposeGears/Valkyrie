@@ -98,10 +98,10 @@ changelog {
 }
 
 dependencies {
-    implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.unified)
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.generator.kt.iconpack)
     implementation(projects.sdk.ir.core)
 
     implementation(kotlin("stdlib"))

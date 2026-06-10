@@ -102,8 +102,8 @@ dependencies {
     compileOnly(libs.kotlin.gradle.plugin)
 
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.generator.kt.iconpack)
     implementation(projects.sdk.ir.core)
-    implementation(projects.components.generator.iconpack)
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.unified)
 
