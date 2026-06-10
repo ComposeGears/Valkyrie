@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.generator.iconpack
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.generator.core.iconpack
+import io.github.composegears.valkyrie.generator.core.iconPack
 import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 
@@ -13,9 +13,9 @@ class IconPackWithIndentTest {
         indentSize: Int = 4,
     ) = IconPackGeneratorConfig(
         packageName = "io.github.composegears.valkyrie.icons",
-        iconPack = iconpack(name = "ValkyrieIcons") {
-            pack(name = "Filled")
-            pack(name = "Colored")
+        iconPack = iconPack("ValkyrieIcons") {
+            pack("Filled")
+            pack("Colored")
         },
         useExplicitMode = useExplicitMode,
         indentSize = indentSize,

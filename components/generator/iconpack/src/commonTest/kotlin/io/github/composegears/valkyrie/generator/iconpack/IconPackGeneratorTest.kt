@@ -3,14 +3,14 @@ package io.github.composegears.valkyrie.generator.iconpack
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.generator.core.iconpack
+import io.github.composegears.valkyrie.generator.core.iconPack
 import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 
 class IconPackGeneratorTest {
 
     private fun createConfig(
-        iconPack: IconPack = iconpack(name = "ValkyrieIcons"),
+        iconPack: IconPack = iconPack("ValkyrieIcons"),
         useExplicitMode: Boolean = false,
         indentSize: Int = 4,
         license: String? = null,
@@ -42,9 +42,9 @@ class IconPackGeneratorTest {
     fun `generate nested pack level 2`() {
         val result = IconPackGenerator.create(
             config = createConfig(
-                iconPack = iconpack(name = "ValkyrieIcons") {
-                    pack(name = "Filled")
-                    pack(name = "Colored")
+                iconPack = iconPack("ValkyrieIcons") {
+                    pack("Filled")
+                    pack("Colored")
                 },
             ),
         )
@@ -57,13 +57,13 @@ class IconPackGeneratorTest {
     fun `generate nested pack level 3`() {
         val result = IconPackGenerator.create(
             config = createConfig(
-                iconPack = iconpack(name = "ValkyrieIcons") {
-                    pack(name = "Rounded") {
-                        pack(name = "Filled")
+                iconPack = iconPack("ValkyrieIcons") {
+                    pack("Rounded") {
+                        pack("Filled")
                     }
-                    pack(name = "Sharp") {
-                        pack(name = "Colored")
-                        pack(name = "Dark")
+                    pack("Sharp") {
+                        pack("Colored")
+                        pack("Dark")
                     }
                 },
             ),
@@ -77,15 +77,15 @@ class IconPackGeneratorTest {
     fun `generate nested pack level 4`() {
         val result = IconPackGenerator.create(
             config = createConfig(
-                iconPack = iconpack(name = "ValkyrieIcons") {
-                    pack(name = "Material") {
-                        pack(name = "Rounded") {
-                            pack(name = "Filled")
-                            pack(name = "Outlined")
+                iconPack = iconPack("ValkyrieIcons") {
+                    pack("Material") {
+                        pack("Rounded") {
+                            pack("Filled")
+                            pack("Outlined")
                         }
                     }
-                    pack(name = "Custom") {
-                        pack(name = "Brand")
+                    pack("Custom") {
+                        pack("Brand")
                     }
                 },
             ),
@@ -99,9 +99,9 @@ class IconPackGeneratorTest {
     fun `generate nested packs explicit`() {
         val result = IconPackGenerator.create(
             config = createConfig(
-                iconPack = iconpack(name = "ValkyrieIcons") {
-                    pack(name = "Filled")
-                    pack(name = "Colored")
+                iconPack = iconPack("ValkyrieIcons") {
+                    pack("Filled")
+                    pack("Colored")
                 },
                 useExplicitMode = true,
             ),

@@ -148,9 +148,9 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         val iconPackExtension = iconPack.get()
 
         val pack = IconPack(
-            name = iconPackExtension.name.get(),
-            nested = iconPackExtension.nestedPacks.get().map { nestedPack ->
-                IconPack(name = nestedPack.name.get())
+            data = iconPackExtension.name.get(),
+            children = iconPackExtension.nestedPacks.get().map { nestedPack ->
+                IconPack(data = nestedPack.name.get())
             },
         )
 
@@ -169,7 +169,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                 outputDir = absolutePath,
                 nameWithoutExtension = it.name,
             )
-            logger.lifecycle("Generated \"${pack.name}\" iconpack in package \"$packageName\"")
+            logger.lifecycle("Generated \"${pack.data}\" iconpack in package \"$packageName\"")
         }
     }
 

@@ -4,7 +4,7 @@ package io.github.composegears.valkyrie.generator.core
 annotation class IconPackDsl
 
 @IconPackDsl
-fun iconpack(name: String, init: PackBuilder.() -> Unit = {}): IconPack {
+fun iconPack(name: String, init: PackBuilder.() -> Unit = {}): IconPack {
     val builder = PackBuilder(name)
     builder.init()
     return builder.build()
@@ -20,5 +20,5 @@ class PackBuilder(private val name: String) {
         nestedPacks.add(builder.build())
     }
 
-    internal fun build(): IconPack = IconPack(name, nestedPacks)
+    internal fun build(): IconPack = IconPack(data = name, children = nestedPacks)
 }

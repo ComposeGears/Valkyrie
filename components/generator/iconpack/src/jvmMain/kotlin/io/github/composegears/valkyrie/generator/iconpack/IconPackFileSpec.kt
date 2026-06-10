@@ -10,10 +10,10 @@ import io.github.composegears.valkyrie.generator.jvm.ext.setIndent
 internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
 
     fun createSpec(): IconPackSpecOutput {
-        val iconPackName = config.iconPack.name
+        val iconPackName = config.iconPack.data
 
         val iconPackSpec = objectBuilder(name = iconPackName) {
-            config.iconPack.nested.forEach { pack ->
+            config.iconPack.children.forEach { pack ->
                 addType(createNestedObjectSpec(pack))
             }
         }
@@ -40,8 +40,8 @@ internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
     }
 
     private fun createNestedObjectSpec(pack: IconPack): TypeSpec {
-        return objectBuilder(name = pack.name) {
-            pack.nested.forEach { nestedPack ->
+        return objectBuilder(name = pack.data) {
+            pack.children.forEach { nestedPack ->
                 addType(createNestedObjectSpec(nestedPack))
             }
         }

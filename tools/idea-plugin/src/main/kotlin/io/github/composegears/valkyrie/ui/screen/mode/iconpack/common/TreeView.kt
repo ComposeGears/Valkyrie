@@ -65,6 +65,8 @@ import io.github.composegears.valkyrie.jewel.MoreHorizontalAction
 import io.github.composegears.valkyrie.jewel.button.TooltipIconButton
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
 import io.github.composegears.valkyrie.sdk.core.tree.TreeNode
+import io.github.composegears.valkyrie.sdk.core.tree.contains
+import io.github.composegears.valkyrie.sdk.core.tree.find
 import java.awt.Cursor
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -690,8 +692,8 @@ private fun TreeBranch(
 }
 
 internal fun <T> TreeNode<T>.moveNode(from: T, to: T, position: DropPosition): TreeNode<T> {
-    val dragged = findNode(from) ?: return this
-    if (dragged.containsNode(to)) return this
+    val dragged = find(from) ?: return this
+    if (to in dragged) return this
     val withoutDragged = removeNode(from)
     return withoutDragged.insertNode(dragged, to, position)
 }
@@ -709,40 +711,29 @@ private fun <T> TreeNode<T>.descendantsByNode(): Map<T, Set<T>> {
     return descendants
 }
 
-private fun <T> TreeNode<T>.containsNode(target: T): Boolean {
-    if (data == target) return true
-    return children.any { it.containsNode(target) }
-}
-
-private fun <T> TreeNode<T>.findNode(target: T): TreeNode<T>? {
-    if (data == target) return this
-    return children.firstNotNullOfOrNull { it.findNode(target) }
-}
-
 private fun <T> TreeNode<T>.removeNode(target: T): TreeNode<T> {
     if (data == target) return this
-    return TreeNode(data, children.filter { it.data != target }.map { it.removeNode(target) })
+    return copy(children = children.filter { it.data != target }.map { it.removeNode(target) })
 }
 
 private fun <T> TreeNode<T>.insertNode(node: TreeNode<T>, nearTarget: T, position: DropPosition): TreeNode<T> {
     if (data == nearTarget && position == DropPosition.Inside) {
-        return TreeNode(data, children + node)
+        return copy(children = children + node)
     }
     val idx = children.indexOfFirst { it.data == nearTarget }
     if (idx != -1) {
         if (position == DropPosition.Inside) {
-            return TreeNode(
-                data = data,
+            return copy(
                 children = children.map {
-                    if (it.data == nearTarget) TreeNode(it.data, it.children + node) else it
+                    if (it.data == nearTarget) it.copy(children = it.children + node) else it
                 },
             )
         }
         val newChildren = children.toMutableList()
         newChildren.add(if (position == DropPosition.Before) idx else idx + 1, node)
-        return TreeNode(data, newChildren)
+        return copy(children = newChildren)
     }
-    return TreeNode(data, children.map { it.insertNode(node, nearTarget, position) })
+    return copy(children = children.map { it.insertNode(node, nearTarget, position) })
 }
 
 private fun Modifier.undoRedoKeybindings(

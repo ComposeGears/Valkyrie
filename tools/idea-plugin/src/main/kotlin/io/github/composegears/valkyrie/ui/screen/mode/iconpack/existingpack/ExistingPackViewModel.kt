@@ -96,8 +96,8 @@ class ExistingPackViewModel : ViewModel() {
             config = IconPackGeneratorConfig(
                 packageName = inputFieldState.packageName.text,
                 iconPack = IconPack(
-                    name = inputFieldState.iconPackName.text,
-                    nested = inputFieldState.nestedPacks.map { IconPack(it.inputFieldState.text) },
+                    data = inputFieldState.iconPackName.text,
+                    children = inputFieldState.nestedPacks.map { IconPack(data = it.inputFieldState.text) },
                 ),
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
                 indentSize = inMemorySettings.current.indentSize,
@@ -130,12 +130,12 @@ class ExistingPackViewModel : ViewModel() {
     private fun IconPackInfo.toInputFieldState(): InputFieldState {
         return InputFieldState(
             license = InputState(text = license.orEmpty()),
-            iconPackName = InputState(text = iconPack.name, enabled = false),
+            iconPackName = InputState(text = iconPack.data, enabled = false),
             packageName = InputState(text = packageName, enabled = false),
-            nestedPacks = iconPack.nested.mapIndexed { index, pack ->
+            nestedPacks = iconPack.children.mapIndexed { index, pack ->
                 NestedPack(
                     id = index.toString(),
-                    inputFieldState = InputState(text = pack.name, enabled = false),
+                    inputFieldState = InputState(text = pack.data, enabled = false),
                 )
             },
         )

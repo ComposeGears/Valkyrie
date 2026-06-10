@@ -9,61 +9,61 @@ class IconPackDslTest {
 
     @Test
     fun `simple iconpack`() {
-        val iconPack = iconpack(name = "ValkyrieIcons")
+        val iconPack = iconPack("ValkyrieIcons")
 
-        assertThat(iconPack.name).isEqualTo("ValkyrieIcons")
-        assertThat(iconPack.nested).hasSize(0)
+        assertThat(iconPack.data).isEqualTo("ValkyrieIcons")
+        assertThat(iconPack.children).hasSize(0)
     }
 
     @Test
     fun `pack with one level of nesting`() {
-        val iconPack = iconpack(name = "ValkyrieIcons") {
-            pack(name = "Outlined")
-            pack(name = "Filled")
+        val iconPack = iconPack("ValkyrieIcons") {
+            pack("Outlined")
+            pack("Filled")
         }
 
-        assertThat(iconPack.name).isEqualTo("ValkyrieIcons")
-        assertThat(iconPack.nested).hasSize(2)
-        assertThat(iconPack.nested[0].name).isEqualTo("Outlined")
-        assertThat(iconPack.nested[1].name).isEqualTo("Filled")
+        assertThat(iconPack.data).isEqualTo("ValkyrieIcons")
+        assertThat(iconPack.children).hasSize(2)
+        assertThat(iconPack.children[0].data).isEqualTo("Outlined")
+        assertThat(iconPack.children[1].data).isEqualTo("Filled")
     }
 
     @Test
     fun `iconpack with multiple nested levels`() {
-        val iconPack = iconpack(name = "ValkyrieIcons") {
-            pack(name = "Material") {
-                pack(name = "Rounded") {
-                    pack(name = "Filled")
+        val iconPack = iconPack("ValkyrieIcons") {
+            pack("Material") {
+                pack("Rounded") {
+                    pack("Filled")
                 }
-                pack(name = "Sharp") {
-                    pack(name = "Outlined")
+                pack("Sharp") {
+                    pack("Outlined")
                 }
             }
-            pack(name = "Custom") {
-                pack(name = "Brand")
+            pack("Custom") {
+                pack("Brand")
             }
         }
 
-        assertThat(iconPack.name).isEqualTo("ValkyrieIcons")
-        assertThat(iconPack.nested).hasSize(2)
+        assertThat(iconPack.data).isEqualTo("ValkyrieIcons")
+        assertThat(iconPack.children).hasSize(2)
 
-        val material = iconPack.nested[0]
-        assertThat(material.name).isEqualTo("Material")
-        assertThat(material.nested).hasSize(2)
+        val material = iconPack.children[0]
+        assertThat(material.data).isEqualTo("Material")
+        assertThat(material.children).hasSize(2)
 
-        val rounded = material.nested[0]
-        assertThat(rounded.name).isEqualTo("Rounded")
-        assertThat(rounded.nested).hasSize(1)
-        assertThat(rounded.nested[0].name).isEqualTo("Filled")
+        val rounded = material.children[0]
+        assertThat(rounded.data).isEqualTo("Rounded")
+        assertThat(rounded.children).hasSize(1)
+        assertThat(rounded.children[0].data).isEqualTo("Filled")
 
-        val sharp = material.nested[1]
-        assertThat(sharp.name).isEqualTo("Sharp")
-        assertThat(sharp.nested).hasSize(1)
-        assertThat(sharp.nested[0].name).isEqualTo("Outlined")
+        val sharp = material.children[1]
+        assertThat(sharp.data).isEqualTo("Sharp")
+        assertThat(sharp.children).hasSize(1)
+        assertThat(sharp.children[0].data).isEqualTo("Outlined")
 
-        val custom = iconPack.nested[1]
-        assertThat(custom.name).isEqualTo("Custom")
-        assertThat(custom.nested).hasSize(1)
-        assertThat(custom.nested[0].name).isEqualTo("Brand")
+        val custom = iconPack.children[1]
+        assertThat(custom.data).isEqualTo("Custom")
+        assertThat(custom.children).hasSize(1)
+        assertThat(custom.children[0].data).isEqualTo("Brand")
     }
 }

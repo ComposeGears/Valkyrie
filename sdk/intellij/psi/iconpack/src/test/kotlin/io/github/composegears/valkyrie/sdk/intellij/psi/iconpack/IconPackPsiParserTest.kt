@@ -6,6 +6,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import com.intellij.testFramework.runInEdtAndGet
 import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.generator.core.encode
+import io.github.composegears.valkyrie.generator.core.iconPackOf
 import io.github.composegears.valkyrie.sdk.intellij.testfixtures.KotlinCodeInsightTest
 import org.junit.jupiter.api.Test
 
@@ -19,8 +21,8 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack.name).isEqualTo("SimpleIconPack")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.iconPack.data).isEqualTo("SimpleIconPack")
+                assertThat(packInfo.iconPack.children.size).isEqualTo(0)
             }
         }
     }
@@ -33,9 +35,9 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack.name).isEqualTo("NestedIconPack")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(5)
-                assertThat(packInfo.iconPack.nested.map { it.name }).containsExactly(
+                assertThat(packInfo.iconPack.data).isEqualTo("NestedIconPack")
+                assertThat(packInfo.iconPack.children.size).isEqualTo(5)
+                assertThat(packInfo.iconPack.children.map { it.data }).containsExactly(
                     "Filled",
                     "Outlined",
                     "TwoTone",
@@ -54,8 +56,8 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack.name).isEqualTo("DataObjectIconPack")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.iconPack.data).isEqualTo("DataObjectIconPack")
+                assertThat(packInfo.iconPack.children.size).isEqualTo(0)
             }
         }
     }
@@ -110,7 +112,7 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
                 packInfo.iconPack.navigate("Single").assertStructure("Single", 0)
 
                 // Verify toRawString produces correct paths
-                val rawString = IconPack.toRawString(packInfo.iconPack)
+                val rawString = packInfo.iconPack.encode()
                 val expectedPaths = listOf(
                     "DeepNestedIconPack.Level1.Level2.Level3.Level4.Level5",
                     "DeepNestedIconPack.Branch.Left.LeftDeep1.LeftDeep2",
@@ -127,7 +129,7 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
                 assertThat(rawString).isEqualTo(expectedPaths.joinToString(","))
 
                 // Verify round-trip conversion (toRawString -> fromString)
-                val reconstructed = IconPack.fromString(rawString)
+                val reconstructed = iconPackOf(rawString)
                 assertThat(reconstructed).isEqualTo(packInfo.iconPack)
             }
         }
@@ -158,8 +160,8 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("com.test")
-                assertThat(packInfo.iconPack.name).isEqualTo("Symbols")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.iconPack.data).isEqualTo("Symbols")
+                assertThat(packInfo.iconPack.children.size).isEqualTo(0)
                 assertThat(packInfo.license).isEqualTo(expectedLicense)
             }
         }
@@ -170,7 +172,7 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
         var current = this
 
         parts.forEach { part ->
-            current = current.nested.first { it.name == part }
+            current = current.children.first { it.data == part }
         }
 
         return current
@@ -181,10 +183,10 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
         expectedNestedCount: Int,
         expectedNestedNames: List<String> = emptyList(),
     ) {
-        assertThat(name).isEqualTo(expectedName)
-        assertThat(nested.size).isEqualTo(expectedNestedCount)
+        assertThat(data).isEqualTo(expectedName)
+        assertThat(children.size).isEqualTo(expectedNestedCount)
         if (expectedNestedNames.isNotEmpty()) {
-            assertThat(nested.map { it.name }).containsExactly(*expectedNestedNames.toTypedArray())
+            assertThat(children.map { it.data }).containsExactly(*expectedNestedNames.toTypedArray())
         }
     }
 }

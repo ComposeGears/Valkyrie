@@ -8,6 +8,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.sdk.ir.core)
+            api(projects.sdk.core.tree)
         }
         commonTest.dependencies {
             implementation(libs.bundles.kmp.test)

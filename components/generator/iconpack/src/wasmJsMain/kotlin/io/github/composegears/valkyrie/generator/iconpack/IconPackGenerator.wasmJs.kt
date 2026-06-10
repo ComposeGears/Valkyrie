@@ -21,18 +21,18 @@ actual object IconPackGenerator {
             appendLine(iconPack)
         }
 
-        return IconPackSpecOutput(name = config.iconPack.name, content = content)
+        return IconPackSpecOutput(name = config.iconPack.data, content = content)
     }
 
     private fun createIconPack(iconPack: IconPack, indentSize: Int, isExplicit: Boolean): String {
         return buildString {
             if (isExplicit) append("public ")
-            append("object ${iconPack.name}")
+            append("object ${iconPack.data}")
 
-            if (iconPack.nested.isNotEmpty()) {
+            if (iconPack.children.isNotEmpty()) {
                 appendLine(" {")
-                val lastIndex = iconPack.nested.lastIndex
-                iconPack.nested.forEachIndexed { i, nestedPack ->
+                val lastIndex = iconPack.children.lastIndex
+                iconPack.children.forEachIndexed { i, nestedPack ->
                     val pack = createIconPack(
                         iconPack = nestedPack,
                         indentSize = indentSize,

@@ -13,6 +13,7 @@ import io.github.composegears.valkyrie.cli.ext.outputInfo
 import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
 import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.generator.core.iconPackOf
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
@@ -47,8 +48,8 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
         "--iconpack",
         help = "Simple or hierarchical icon pack structure (e.g. 'MyIconPack' or 'MyIconPack.Filled,MyIconPack.Outlined')",
     ).convert {
-        IconPack.fromString(it)
-    }.default(IconPack(name = ""))
+        iconPackOf(it)
+    }.default(iconPackOf(""))
 
     private val indentSize by intOption(
         "--indent-size",

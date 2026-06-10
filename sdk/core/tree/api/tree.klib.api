@@ -13,4 +13,17 @@ final class <#A: kotlin/Any?> io.github.composegears.valkyrie.sdk.core.tree/Tree
         final fun <get-children>(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>> // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.children.<get-children>|<get-children>(){}[0]
     final val data // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.data|{}data[0]
         final fun <get-data>(): #A // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.data.<get-data>|<get-data>(){}[0]
+
+    final fun component1(): #A // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>> // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.component2|component2(){}[0]
+    final fun copy(#A = ..., kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>> = ...): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A> // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.copy|copy(1:0;kotlin.collections.List<io.github.composegears.valkyrie.sdk.core.tree.TreeNode<1:0>>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.core.tree/TreeNode.toString|toString(){}[0]
 }
+
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>).io.github.composegears.valkyrie.sdk.core.tree/map(kotlin/Function1<#A, #B>): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#B> // io.github.composegears.valkyrie.sdk.core.tree/map|map@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<0:0>(kotlin.Function1<0:0,0:1>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>).io.github.composegears.valkyrie.sdk.core.tree/contains(#A): kotlin/Boolean // io.github.composegears.valkyrie.sdk.core.tree/contains|contains@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<0:0>(0:0){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>).io.github.composegears.valkyrie.sdk.core.tree/find(#A): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>? // io.github.composegears.valkyrie.sdk.core.tree/find|find@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<0:0>(0:0){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>).io.github.composegears.valkyrie.sdk.core.tree/flatten(): kotlin.collections/List<io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>> // io.github.composegears.valkyrie.sdk.core.tree/flatten|flatten@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A>).io.github.composegears.valkyrie.sdk.core.tree/get(#A): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<#A> // io.github.composegears.valkyrie.sdk.core.tree/get|get@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<0:0>(0:0){0§<kotlin.Any?>}[0]

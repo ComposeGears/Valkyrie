@@ -4,7 +4,7 @@ import com.intellij.openapi.command.writeCommandAction
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
-import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.generator.core.iconPack
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
@@ -34,10 +34,11 @@ object IconPackWriter {
             val iconPack = IconPackGenerator.create(
                 config = IconPackGeneratorConfig(
                     packageName = currentSettings.packageName,
-                    iconPack = IconPack(
-                        name = currentSettings.iconPackName,
-                        nested = currentSettings.nestedPacks.map(::IconPack),
-                    ),
+                    iconPack = iconPack(currentSettings.iconPackName) {
+                        currentSettings.nestedPacks.onEach {
+                            pack(it)
+                        }
+                    },
                     useExplicitMode = currentSettings.useExplicitMode,
                     indentSize = currentSettings.indentSize,
                     license = inputFieldState.license.text.ifEmpty { null },

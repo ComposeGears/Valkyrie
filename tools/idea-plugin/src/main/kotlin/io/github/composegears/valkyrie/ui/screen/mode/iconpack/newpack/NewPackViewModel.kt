@@ -115,8 +115,10 @@ class NewPackViewModel : ViewModel() {
             config = IconPackGeneratorConfig(
                 packageName = inputFieldState.packageName.text,
                 iconPack = IconPack(
-                    name = inputFieldState.iconPackName.text,
-                    nested = inputFieldState.nestedPacks.map { IconPack(it.inputFieldState.text) },
+                    data = inputFieldState.iconPackName.text,
+                    children = inputFieldState.nestedPacks.map {
+                        IconPack(data = it.inputFieldState.text)
+                    },
                 ),
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
                 indentSize = inMemorySettings.current.indentSize,

@@ -43,8 +43,8 @@ object IconPackPsiParser {
             .orEmpty()
 
         return IconPack(
-            name = name,
-            nested = nestedObjects,
+            data = name,
+            children = nestedObjects,
         )
     }
 }
