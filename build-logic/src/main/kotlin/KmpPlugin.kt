@@ -1,6 +1,6 @@
 import io.github.composegears.valkyrie.extension.applyTargets
 import io.github.composegears.valkyrie.internal.configureArchiveBaseName
-import io.github.composegears.valkyrie.internal.kmpExtension
+import io.github.composegears.valkyrie.internal.kotlinMultiplatform
 import io.github.composegears.valkyrie.internal.kotlinMultiplatformPluginId
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -12,7 +12,7 @@ class KmpPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         apply(plugin = kotlinMultiplatformPluginId)
 
-        kmpExtension {
+        kotlinMultiplatform {
             applyTargets()
 
             compilerOptions {
