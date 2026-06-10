@@ -18,8 +18,9 @@ kotlin {
 
 dependencies {
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.generator.kt.common.poetExtensions)
+    implementation(projects.sdk.generator.kt.common.util)
     implementation(projects.sdk.ir.core)
-    api(projects.components.generator.jvm.poetExtensions)
     api(projects.components.generator.core)
 
     implementation(libs.kotlinpoet)

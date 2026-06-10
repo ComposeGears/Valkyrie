@@ -11,7 +11,7 @@ kotlin {
             implementation(projects.components.generator.core)
         }
         jvmMain.dependencies {
-            implementation(projects.components.generator.jvm.poetExtensions)
+            implementation(projects.sdk.generator.kt.common.poetExtensions)
             implementation(libs.kotlinpoet)
         }
         commonTest {

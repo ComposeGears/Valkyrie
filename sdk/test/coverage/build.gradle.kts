@@ -6,7 +6,8 @@ plugins {
 dependencies {
     kover(projects.tools.cli)
     kover(projects.components.generator.core)
-    kover(projects.components.generator.jvm.poetExtensions)
+    kover(projects.sdk.generator.kt.common.poetExtensions)
+    kover(projects.sdk.generator.kt.common.util)
     kover(projects.components.generator.iconpack)
     kover(projects.components.generator.jvm.imagevector)
     kover(projects.components.parser.jvm.svg)

@@ -8,6 +8,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.sdk.generator.kt.common.util)
             implementation(projects.components.generator.core)
             api(projects.sdk.ir.core)
         }

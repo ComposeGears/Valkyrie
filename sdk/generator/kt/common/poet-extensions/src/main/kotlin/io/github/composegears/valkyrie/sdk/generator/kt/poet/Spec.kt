@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.generator.jvm.ext
+package io.github.composegears.valkyrie.sdk.generator.kt.poet
 
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
