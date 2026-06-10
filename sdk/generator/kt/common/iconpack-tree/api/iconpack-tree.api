@@ -1,0 +1,21 @@
+public abstract interface annotation class io/github/composegears/valkyrie/sdk/generator/kt/iconpack/tree/IconPackDsl : java/lang/annotation/Annotation {
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/iconpack/tree/IconPackTreeDslKt {
+	public static final fun iconPackTree (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static synthetic fun iconPackTree$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/iconpack/tree/IconPackTreeKt {
+	public static final fun encode (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Ljava/lang/String;
+	public static final fun iconPackOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static final fun pathSegments (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Ljava/util/List;
+	public static final fun toPrettyString (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/iconpack/tree/PackBuilder {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun pack (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun pack$default (Lio/github/composegears/valkyrie/sdk/generator/kt/iconpack/tree/PackBuilder;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+

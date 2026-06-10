@@ -1,0 +1,23 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.generator.kt.common:iconpack-tree>
+open annotation class io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/IconPackDsl : kotlin/Annotation { // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/IconPackDsl|null[0]
+    constructor <init>() // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/IconPackDsl.<init>|<init>(){}[0]
+}
+
+final class io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/PackBuilder { // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/PackBuilder|null[0]
+    constructor <init>(kotlin/String) // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/PackBuilder.<init>|<init>(kotlin.String){}[0]
+
+    final fun pack(kotlin/String, kotlin/Function1<io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/PackBuilder, kotlin/Unit> = ...) // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/PackBuilder.pack|pack(kotlin.String;kotlin.Function1<io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.PackBuilder,kotlin.Unit>){}[0]
+}
+
+final fun (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String>).io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/encode(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/encode|encode@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<kotlin.String>(){}[0]
+final fun (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String>).io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/pathSegments(): kotlin.collections/List<kotlin/String> // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/pathSegments|pathSegments@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<kotlin.String>(){}[0]
+final fun (io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String>).io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/toPrettyString(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/toPrettyString|toPrettyString@io.github.composegears.valkyrie.sdk.core.tree.TreeNode<kotlin.String>(){}[0]
+final fun io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/iconPackOf(kotlin/String): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String> // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/iconPackOf|iconPackOf(kotlin.String){}[0]
+final fun io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/iconPackTree(kotlin/String, kotlin/Function1<io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/PackBuilder, kotlin/Unit> = ...): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String> // io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree/iconPackTree|iconPackTree(kotlin.String;kotlin.Function1<io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.PackBuilder,kotlin.Unit>){}[0]

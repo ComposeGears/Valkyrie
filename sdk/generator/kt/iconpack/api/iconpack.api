@@ -6,7 +6,7 @@ public final class io/github/composegears/valkyrie/sdk/generator/kt/iconpack/Ico
 public final class io/github/composegears/valkyrie/sdk/generator/kt/iconpack/IconPackGeneratorConfig {
 	public fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;ZILjava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;ZILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getIconPack ()Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public final fun getIconPackTree ()Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
 	public final fun getIndentSize ()I
 	public final fun getLicense ()Ljava/lang/String;
 	public final fun getPackageName ()Ljava/lang/String;

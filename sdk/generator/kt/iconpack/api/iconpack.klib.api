@@ -9,8 +9,8 @@
 final class io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig { // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig|null[0]
     constructor <init>(kotlin/String, io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String>, kotlin/Boolean, kotlin/Int, kotlin/String? = ...) // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.<init>|<init>(kotlin.String;io.github.composegears.valkyrie.sdk.core.tree.TreeNode<kotlin.String>;kotlin.Boolean;kotlin.Int;kotlin.String?){}[0]
 
-    final val iconPack // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.iconPack|{}iconPack[0]
-        final fun <get-iconPack>(): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String> // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.iconPack.<get-iconPack>|<get-iconPack>(){}[0]
+    final val iconPackTree // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.iconPackTree|{}iconPackTree[0]
+        final fun <get-iconPackTree>(): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String> // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.iconPackTree.<get-iconPackTree>|<get-iconPackTree>(){}[0]
     final val indentSize // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.indentSize|{}indentSize[0]
         final fun <get-indentSize>(): kotlin/Int // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.indentSize.<get-indentSize>|<get-indentSize>(){}[0]
     final val license // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.license|{}license[0]
