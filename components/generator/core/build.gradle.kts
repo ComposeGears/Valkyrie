@@ -8,11 +8,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.sdk.ir.core)
-            api(projects.sdk.generator.kt.common.iconpackTree)
             implementation(projects.sdk.generator.kt.common.util)
-        }
-        commonTest.dependencies {
-            implementation(libs.bundles.kmp.test)
         }
     }
 }
