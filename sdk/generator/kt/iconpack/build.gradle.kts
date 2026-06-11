@@ -8,7 +8,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.components.generator.core)
+            implementation(projects.sdk.generator.kt.common.iconpackTree)
         }
         jvmMain.dependencies {
             implementation(projects.sdk.generator.kt.common.poetExtensions)

@@ -1,6 +1,6 @@
+
 import io.github.composegears.valkyrie.excludeAndroidBuildTools
 import io.github.composegears.valkyrie.task.CheckVersionCompatibility
-import org.gradle.declarative.dsl.schema.FqName.Empty.packageName
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
@@ -55,6 +55,7 @@ dependencies {
     implementation(projects.sdk.compose.foundation)
     implementation(projects.sdk.compose.icons)
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.core.tree)
     implementation(projects.sdk.generator.kt.iconpack)
     implementation(projects.sdk.intellij.psi.iconpack)
     implementation(projects.sdk.intellij.psi.imagevector)

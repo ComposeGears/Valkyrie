@@ -1,0 +1,4 @@
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/PathNodeRendererKt {
+	public static final fun asStatement (Lio/github/composegears/valkyrie/sdk/ir/core/IrPathNode;)Ljava/lang/String;
+}
+

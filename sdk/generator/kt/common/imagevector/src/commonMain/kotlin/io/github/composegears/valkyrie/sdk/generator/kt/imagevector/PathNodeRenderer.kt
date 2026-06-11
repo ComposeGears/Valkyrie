@@ -1,7 +1,7 @@
-package io.github.composegears.valkyrie.generator.core
+package io.github.composegears.valkyrie.sdk.generator.kt.imagevector
 
+import io.github.composegears.valkyrie.sdk.generator.kt.util.formatFloat
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
-import io.github.composegears.valkyrie.sdk.ir.core.toPathString
 
 fun IrPathNode.asStatement(): String = when (this) {
     is IrPathNode.Close -> "close()"
@@ -40,5 +40,3 @@ fun IrPathNode.asStatement(): String = when (this) {
         "arcTo(${horizontalEllipseRadius.formatFloat()}, ${verticalEllipseRadius.formatFloat()}, ${theta.formatFloat()}, isMoreThanHalf = $isMoreThanHalf, isPositiveArc = $isPositiveArc, ${arcStartX.formatFloat()}, ${arcStartY.formatFloat()})"
     }
 }
-
-fun List<IrPathNode>.asPathDataString(): String = toPathString()

@@ -3,11 +3,6 @@ package io.github.composegears.valkyrie.generator.jvm.imagevector.util
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import io.github.composegears.valkyrie.generator.core.asPathDataString
-import io.github.composegears.valkyrie.generator.core.formatFloat
-import io.github.composegears.valkyrie.generator.jvm.ext.argumentBlock
-import io.github.composegears.valkyrie.generator.jvm.ext.newLine
-import io.github.composegears.valkyrie.generator.jvm.ext.trailingComma
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorSpecConfig
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillAlphaParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.FillParam
@@ -20,6 +15,10 @@ import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.StrokeLineMiterParam
 import io.github.composegears.valkyrie.generator.jvm.imagevector.util.PathParams.StrokeLineWidthParam
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.generator.kt.poet.argumentBlock
+import io.github.composegears.valkyrie.sdk.generator.kt.poet.newLine
+import io.github.composegears.valkyrie.sdk.generator.kt.poet.trailingComma
+import io.github.composegears.valkyrie.sdk.generator.kt.util.formatFloat
 import io.github.composegears.valkyrie.sdk.ir.core.IrColor
 import io.github.composegears.valkyrie.sdk.ir.core.IrFill
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathFillType
@@ -27,6 +26,7 @@ import io.github.composegears.valkyrie.sdk.ir.core.IrStroke
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineCap
 import io.github.composegears.valkyrie.sdk.ir.core.IrStrokeLineJoin
 import io.github.composegears.valkyrie.sdk.ir.core.IrVectorNode
+import io.github.composegears.valkyrie.sdk.ir.core.toPathString
 
 context(config: ImageVectorSpecConfig)
 internal fun CodeBlock.Builder.addPath(
@@ -86,7 +86,7 @@ internal fun CodeBlock.Builder.addPath(
 context(config: ImageVectorSpecConfig)
 internal fun CodeBlock.Builder.addPathData(path: IrVectorNode.IrPath) {
     val pathParams = path.buildPathParams()
-    val pathData = path.paths.asPathDataString()
+    val pathData = path.paths.toPathString()
 
     add(
         codeBlock = buildCodeBlock {

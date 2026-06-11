@@ -8,9 +8,10 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.sdk.generator.kt.common.iconpackTree)
             implementation(projects.sdk.generator.kt.common.util)
-            implementation(projects.components.generator.core)
-            api(projects.sdk.ir.core)
+            implementation(projects.sdk.generator.kt.common.imagevector)
+            implementation(projects.sdk.ir.core)
         }
         commonTest.dependencies {
             implementation(libs.bundles.kmp.test)

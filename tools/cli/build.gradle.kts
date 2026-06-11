@@ -1,3 +1,7 @@
+import org.gradle.declarative.dsl.schema.FqName.Empty.packageName
+import org.gradle.internal.classpath.Instrumented.systemProperty
+import org.gradle.internal.execution.caching.CachingState.enabled
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.buildconfig)
@@ -101,6 +105,7 @@ dependencies {
     implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.unified)
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.generator.kt.common.iconpackTree)
     implementation(projects.sdk.generator.kt.iconpack)
     implementation(projects.sdk.ir.core)
 
