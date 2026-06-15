@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.sdk.generator.kt.imagevector
+package io.github.composegears.valkyrie.generator.kt.common.ir
 
 import io.github.composegears.valkyrie.sdk.generator.kt.util.formatFloat
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode

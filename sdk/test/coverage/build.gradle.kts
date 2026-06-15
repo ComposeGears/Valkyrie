@@ -11,7 +11,7 @@ dependencies {
     kover(projects.components.parser.kmp.xml)
     kover(projects.components.parser.unified)
     kover(projects.sdk.generator.kt.common.iconpackTree)
-    kover(projects.sdk.generator.kt.common.imagevector)
+    kover(projects.sdk.generator.kt.common.ir)
     kover(projects.sdk.generator.kt.common.poetExtensions)
     kover(projects.sdk.generator.kt.common.util)
     kover(projects.sdk.generator.kt.iconpack)

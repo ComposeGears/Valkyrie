@@ -1,9 +1,0 @@
-// Klib ABI Dump
-// Targets: [wasmJs]
-// Rendering settings:
-// - Signature version: 2
-// - Show manifest properties: true
-// - Show declarations: true
-
-// Library unique name: <valkyrie.sdk.generator.kt.common:imagevector>
-final fun (io.github.composegears.valkyrie.sdk.ir.core/IrPathNode).io.github.composegears.valkyrie.sdk.generator.kt.imagevector/asStatement(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector/asStatement|asStatement@io.github.composegears.valkyrie.sdk.ir.core.IrPathNode(){}[0]
