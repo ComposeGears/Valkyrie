@@ -112,7 +112,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
     fun `Generate from test SVGs with custom config`() {
         root.resolve("build.gradle.kts").writeText(
             """
-                import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+                import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
 
                 plugins {
                     kotlin("jvm")

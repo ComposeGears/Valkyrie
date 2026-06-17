@@ -1,0 +1,73 @@
+package io.github.composegears.valkyrie.sdk.generator.kt.imagevector.jvm.util
+
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.buildCodeBlock
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.poet.funSpecBuilder
+
+context(config: ImageVectorGeneratorConfig)
+internal fun iconPreviewSpecForNestedPack(
+    iconPackClassName: ClassName,
+): FunSpec = funSpecBuilder("${config.iconName}Preview") {
+    addModifiers(KModifier.PRIVATE)
+    addPreviewAnnotation()
+    addComposableAnnotation()
+    addCode(
+        codeBlock = buildCodeBlock {
+            beginControlFlow(
+                controlFlow = "%M(modifier = %M.%M(12.%M))",
+                MemberNames.Box,
+                MemberNames.Modifier,
+                MemberNames.Padding,
+                MemberNames.Dp,
+            )
+            addStatement(
+                format = "%M(imageVector = %T, contentDescription = null)",
+                MemberNames.Image,
+                iconPackClassName.nestedClass(config.iconName),
+            )
+            endControlFlow()
+        },
+    )
+}
+
+context(config: ImageVectorGeneratorConfig)
+internal fun iconPreviewSpec(
+    iconPackage: String,
+): FunSpec = funSpecBuilder("${config.iconName}Preview") {
+    addModifiers(KModifier.PRIVATE)
+    addPreviewAnnotation()
+    addComposableAnnotation()
+    addCode(
+        codeBlock = buildCodeBlock {
+            beginControlFlow(
+                controlFlow = "%M(modifier = %M.%M(12.%M))",
+                MemberNames.Box,
+                MemberNames.Modifier,
+                MemberNames.Padding,
+                MemberNames.Dp,
+            )
+            addStatement(
+                format = "%M(imageVector = %M, contentDescription = null)",
+                MemberNames.Image,
+                MemberName(
+                    packageName = iconPackage,
+                    simpleName = config.iconName,
+                ),
+            )
+            endControlFlow()
+        },
+    )
+}
+
+private fun FunSpec.Builder.addPreviewAnnotation() {
+    addAnnotation(AnnotationSpec.builder(ClassNames.AndroidXPreview).build())
+}
+
+private fun FunSpec.Builder.addComposableAnnotation() {
+    addAnnotation(AnnotationSpec.builder(ClassNames.Composable).build())
+}

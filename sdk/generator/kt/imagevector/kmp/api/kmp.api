@@ -1,0 +1,5 @@
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/kmp/ImageVectorGenerator {
+	public static final field INSTANCE Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/kmp/ImageVectorGenerator;
+	public final fun convert (Lio/github/composegears/valkyrie/sdk/ir/core/IrImageVector;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorOutput;
+}
+

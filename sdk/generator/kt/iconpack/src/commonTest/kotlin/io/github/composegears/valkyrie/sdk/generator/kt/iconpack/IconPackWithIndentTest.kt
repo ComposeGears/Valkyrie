@@ -2,24 +2,12 @@ package io.github.composegears.valkyrie.sdk.generator.kt.iconpack
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.generator.core.iconPack
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
 import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourceText
 import kotlin.test.Test
 
 class IconPackWithIndentTest {
-
-    private fun createConfig(
-        useExplicitMode: Boolean = false,
-        indentSize: Int = 4,
-    ) = IconPackGeneratorConfig(
-        packageName = "io.github.composegears.valkyrie.icons",
-        iconPack = iconPack("ValkyrieIcons") {
-            pack("Filled")
-            pack("Colored")
-        },
-        useExplicitMode = useExplicitMode,
-        indentSize = indentSize,
-    )
 
     @Test
     fun `generate nested indent 1 packs`() {
@@ -52,4 +40,17 @@ class IconPackWithIndentTest {
 
         assertThat(result).isEqualTo(IconPackSpecOutput(name = "ValkyrieIcons", content = expected))
     }
+
+    private fun createConfig(
+        useExplicitMode: Boolean = false,
+        indentSize: Int = 4,
+    ) = IconPackGeneratorConfig(
+        packageName = "io.github.composegears.valkyrie.icons",
+        iconPackTree = buildTree("ValkyrieIcons") {
+            child("Filled")
+            child("Colored")
+        },
+        useExplicitMode = useExplicitMode,
+        indentSize = indentSize,
+    )
 }

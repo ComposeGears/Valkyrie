@@ -1,0 +1,428 @@
+package io.github.composegears.valkyrie.sdk.generator.kt.imagevector.jvm
+
+import assertk.assertFailure
+import assertk.assertThat
+import assertk.assertions.hasMessage
+import assertk.assertions.isEqualTo
+import assertk.assertions.isInstanceOf
+import io.github.composegears.valkyrie.parser.unified.ParserType
+import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
+import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
+import io.github.composegears.valkyrie.parser.unified.model.IconType.XML
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.testfixtures.DEFAULT_PACKAGE
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.testfixtures.toResourceText
+import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourcePath
+import kotlin.io.path.Path
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedClass
+import org.junit.jupiter.params.provider.EnumSource
+
+@ParameterizedClass
+@EnumSource(value = OutputFormat::class)
+class XmlToImageVectorTest(
+    private val outputFormat: OutputFormat,
+) {
+
+    @Test
+    fun `broken icon path should throw exception`() {
+        val brokenIconPath = Path("").toIOPath()
+
+        assertFailure {
+            SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = brokenIconPath)
+        }.isInstanceOf(IllegalStateException::class)
+            .hasMessage(" must be an SVG or XML file.")
+    }
+
+    @Test
+    fun `generation without icon pack`() {
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.simple(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `generation with nested icon pack`() {
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons") {
+                    child("Colored")
+                },
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.nested.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.nested.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `generation with deep nested icon pack`() {
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons") {
+                    child("Material") {
+                        child("Rounded")
+                    }
+                },
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.deep.nested.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.deep.nested.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `empty path xml`() {
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon only with path`() {
+        val icon = getResourcePath("imagevector/xml/ic_only_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/OnlyPath.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/OnlyPath.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with path and solid color`() {
+        val icon = getResourcePath("imagevector/xml/ic_fill_color_stroke.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/FillColorStroke.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/FillColorStroke.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with all path params`() {
+        val icon = getResourcePath("imagevector/xml/ic_all_path_params.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/AllPathParams.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/AllPathParams.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with all group params`() {
+        val icon = getResourcePath("imagevector/xml/ic_all_group_params.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(
+                    outputFormat = outputFormat,
+                    useComposeColors = false,
+                ),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/AllGroupParams.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/AllGroupParams.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with several path`() {
+        val icon = getResourcePath("imagevector/xml/ic_several_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(
+                    outputFormat = outputFormat,
+                    useComposeColors = false,
+                ),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/SeveralPath.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/SeveralPath.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with compose colors enabled`() {
+        val icon = getResourcePath("imagevector/xml/ic_compose_color.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/ComposeColor.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/ComposeColor.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with compose colors and linear gradient`() {
+        val icon = getResourcePath("imagevector/xml/ic_compose_color_linear_gradient.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.simple(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/ComposeColor.linear.gradient.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/ComposeColor.linear.gradient.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with compose colors and radial gradient`() {
+        val icon = getResourcePath("imagevector/xml/ic_compose_color_radial_gradient.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.simple(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/ComposeColor.radial.gradient.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/ComposeColor.radial.gradient.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with linear and radial gradient + offset`() {
+        val icon = getResourcePath("imagevector/xml/ic_linear_radial_gradient_with_offset.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.simple(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/LinearRadialGradientWithOffset.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/LinearRadialGradientWithOffset.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with transparent fill color`() {
+        val icon = getResourcePath("imagevector/xml/ic_transparent_fill_color.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(
+                    outputFormat = outputFormat,
+                    useComposeColors = false,
+                ),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/TransparentFillColor.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/TransparentFillColor.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with named arguments`() {
+        val icon = getResourcePath("imagevector/xml/icon_with_named_args.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/IconWithNamedArgs.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/IconWithNamedArgs.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `icon with shorthand color`() {
+        val icon = getResourcePath("imagevector/xml/icon_with_shorthand_color.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(outputFormat = outputFormat),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/IconWithShorthandColor.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/IconWithShorthandColor.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+
+    @Test
+    fun `suppress unused receiver warning with pack`() {
+        val icon = getResourcePath("imagevector/xml/ic_without_path.xml").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            config = ImageVectorGeneratorConfig.iconPack(
+                iconName = parserOutput.iconName,
+                packageName = DEFAULT_PACKAGE,
+                iconPackTree = buildTree("ValkyrieIcons"),
+                imageVector = ImageVectorConfig(
+                    outputFormat = outputFormat,
+                    suppressUnusedReceiverWarning = true,
+                ),
+            ),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/WithoutPath.pack.suppress_receiver.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/WithoutPath.pack.suppress_receiver.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(XML)
+        assertThat(output).isEqualTo(expected)
+    }
+}

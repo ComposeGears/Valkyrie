@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.settings
 import androidx.lifecycle.ViewModel
 import com.composegears.leviathan.compose.inject
 import com.intellij.collaboration.async.mapState
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode.Unspecified
 import io.github.composegears.valkyrie.settings.updateOutputFormat

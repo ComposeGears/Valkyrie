@@ -61,6 +61,8 @@ final class io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/
     final object Companion { // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/FullyQualifiedImports.Companion|null[0]
         final val reservedComposeTypeNames // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/FullyQualifiedImports.Companion.reservedComposeTypeNames|{}reservedComposeTypeNames[0]
             final fun <get-reservedComposeTypeNames>(): kotlin.collections/Set<kotlin/String> // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/FullyQualifiedImports.Companion.reservedComposeTypeNames.<get-reservedComposeTypeNames>|<get-reservedComposeTypeNames>(){}[0]
+
+        final fun from(kotlin.collections/Collection<kotlin/String>): io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/FullyQualifiedImports // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/FullyQualifiedImports.Companion.from|from(kotlin.collections.Collection<kotlin.String>){}[0]
     }
 }
 
@@ -138,11 +140,7 @@ final class io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/
         final fun <get-content>(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.content.<get-content>|<get-content>(){}[0]
     final val name // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.name|{}name[0]
         final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.name.<get-name>|<get-name>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.component1|component1(){}[0]
-    final fun component2(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.component2|component2(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/String = ...): io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.copy|copy(kotlin.String;kotlin.String){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput.toString|toString(){}[0]
 }
+
+final fun (io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorGeneratorConfig).io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/resolveIconBuilderName(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/resolveIconBuilderName|resolveIconBuilderName@io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig(){}[0]
+final fun (io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorGeneratorConfig).io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/resolvePackageName(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/resolvePackageName|resolvePackageName@io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig(){}[0]

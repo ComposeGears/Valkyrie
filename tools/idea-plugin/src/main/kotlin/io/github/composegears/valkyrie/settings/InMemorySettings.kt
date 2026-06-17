@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.settings
 
 import com.composegears.tiamat.navigation.SavedState
 import com.intellij.openapi.project.Project
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
 import io.github.composegears.valkyrie.sdk.shared.ValkyrieMode
 import io.github.composegears.valkyrie.service.PersistentSettings
 import io.github.composegears.valkyrie.service.PersistentSettings.Companion.persistentSettings
@@ -98,7 +98,7 @@ class InMemorySettings(project: Project) {
                 .split(",")
                 .filter { it.isNotEmpty() },
             generatePreview = generatePreview,
-            outputFormat = OutputFormat.from(outputFormat),
+            outputFormat = OutputFormat.fromOrNull(outputFormat) ?: OutputFormat.BackingProperty,
             useComposeColors = useComposeColors,
             indentSize = indentSize,
             flatPackage = flatPackage,

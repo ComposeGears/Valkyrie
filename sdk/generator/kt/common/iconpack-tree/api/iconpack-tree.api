@@ -1,6 +1,7 @@
 public final class io/github/composegears/valkyrie/sdk/generator/kt/iconpack/tree/IconPackTreeKt {
 	public static final fun encode (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Ljava/lang/String;
 	public static final fun iconPackOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static final fun navigate (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
 	public static final fun pathSegments (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Ljava/util/List;
 	public static final fun toPrettyString (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Ljava/lang/String;
 }

@@ -5,7 +5,6 @@ plugins {
 // include only necessary projects for the test coverage
 dependencies {
     kover(projects.tools.cli)
-    kover(projects.components.generator.jvm.imagevector)
     kover(projects.components.parser.jvm.svg)
     kover(projects.components.parser.jvm.xml)
     kover(projects.components.parser.kmp.xml)
@@ -15,6 +14,8 @@ dependencies {
     kover(projects.sdk.generator.kt.common.poetExtensions)
     kover(projects.sdk.generator.kt.common.util)
     kover(projects.sdk.generator.kt.iconpack)
+    kover(projects.sdk.generator.kt.imagevector.common)
+    kover(projects.sdk.generator.kt.imagevector.jvm)
     kover(projects.sdk.intellij.psi.iconpack)
     kover(projects.sdk.intellij.psi.imagevector)
     kover(projects.sdk.ir.compose)

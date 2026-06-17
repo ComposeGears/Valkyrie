@@ -1,5 +1,6 @@
 package io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common
 
+import io.github.composegears.valkyrie.sdk.core.tree.flatten
 import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
 
 /**
@@ -23,6 +24,15 @@ data class ImageVectorGeneratorConfig(
     val imageVector: ImageVectorConfig = ImageVectorConfig(),
     val fullyQualifiedImports: FullyQualifiedImports = FullyQualifiedImports(),
 ) {
+    init {
+        if (iconPackTree != null) {
+            val branching = iconPackTree.flatten().firstOrNull { it.children.size > 1 }
+            require(branching == null) {
+                "iconPackTree must be a linear chain (each node has at most one child), " +
+                    "but node '${branching!!.data}' has ${branching.children.size} children"
+            }
+        }
+    }
     companion object {
         /**
          * Creates a config for simple (no icon-pack) conversion.
@@ -133,6 +143,15 @@ data class FullyQualifiedImports(
          * building a [FullyQualifiedImports] instance from external configuration.
          */
         val reservedComposeTypeNames = setOf("Brush", "Color", "Offset")
+
+        /**
+         * Builds a [FullyQualifiedImports] from a collection of conflicting icon names.
+         */
+        fun from(conflictingNames: Collection<String>) = FullyQualifiedImports(
+            brush = "Brush" in conflictingNames,
+            color = "Color" in conflictingNames,
+            offset = "Offset" in conflictingNames,
+        )
     }
 }
 
@@ -165,14 +184,3 @@ enum class OutputFormat(val key: String) {
         fun fromOrNull(key: String?): OutputFormat? = entries.find { it.key == key }
     }
 }
-
-/**
- * Result produced by the ImageVector generator.
- *
- * @property content Generated Kotlin source code as a plain string.
- * @property name Simple name of the generated icon (matches [ImageVectorGeneratorConfig.iconName]).
- */
-data class ImageVectorOutput(
-    val content: String,
-    val name: String,
-)

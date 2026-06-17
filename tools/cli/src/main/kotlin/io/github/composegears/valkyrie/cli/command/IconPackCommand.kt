@@ -12,11 +12,11 @@ import io.github.composegears.valkyrie.cli.ext.intOption
 import io.github.composegears.valkyrie.cli.ext.outputInfo
 import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
-import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.generator.core.iconPackOf
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
 import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGenerator
 import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.iconPackOf
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 
@@ -44,7 +44,7 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
         help = "Package name of IconPack object",
     )
 
-    private val iconPack by option(
+    private val iconPackTree by option(
         "--iconpack",
         help = "Simple or hierarchical icon pack structure (e.g. 'MyIconPack' or 'MyIconPack.Filled,MyIconPack.Outlined')",
     ).convert {
@@ -70,7 +70,7 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
         generateIconPack(
             outputPath = outputPath,
             packageName = packageName,
-            iconPack = iconPack,
+            iconPackTree = iconPackTree,
             useExplicitMode = useExplicitMode,
             indentSize = indentSize,
         )
@@ -79,7 +79,7 @@ internal class IconPackCommand : CliktCommand(name = "iconpack") {
 
 private fun generateIconPack(
     outputPath: Path,
-    iconPack: IconPack,
+    iconPackTree: IconPackTree,
     useExplicitMode: Boolean,
     indentSize: Int,
     packageName: String,
@@ -87,7 +87,7 @@ private fun generateIconPack(
     IconPackGenerator.create(
         config = IconPackGeneratorConfig(
             packageName = packageName,
-            iconPack = iconPack,
+            iconPackTree = iconPackTree,
             useExplicitMode = useExplicitMode,
             indentSize = indentSize,
         ),

@@ -1,10 +1,10 @@
 package io.github.composegears.valkyrie.sdk.generator.kt.iconpack.internal
 
 import com.squareup.kotlinpoet.TypeSpec
-import io.github.composegears.valkyrie.generator.core.IconPack
 import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackSpecOutput
 import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.asBlockComment
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
 import io.github.composegears.valkyrie.sdk.generator.kt.poet.fileSpecBuilder
 import io.github.composegears.valkyrie.sdk.generator.kt.poet.objectBuilder
 import io.github.composegears.valkyrie.sdk.generator.kt.poet.removeExplicitModeCode
@@ -13,10 +13,10 @@ import io.github.composegears.valkyrie.sdk.generator.kt.poet.setIndent
 internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
 
     fun createSpec(): IconPackSpecOutput {
-        val iconPackName = config.iconPack.data
+        val iconPackName = config.iconPackTree.data
 
         val iconPackSpec = objectBuilder(name = iconPackName) {
-            config.iconPack.children.forEach { pack ->
+            config.iconPackTree.children.forEach { pack ->
                 addType(createNestedObjectSpec(pack))
             }
         }
@@ -42,7 +42,7 @@ internal class IconPackFileSpec(private val config: IconPackGeneratorConfig) {
         )
     }
 
-    private fun createNestedObjectSpec(pack: IconPack): TypeSpec {
+    private fun createNestedObjectSpec(pack: IconPackTree): TypeSpec {
         return objectBuilder(name = pack.data) {
             pack.children.forEach { nestedPack ->
                 addType(createNestedObjectSpec(nestedPack))

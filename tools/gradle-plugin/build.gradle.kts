@@ -104,8 +104,8 @@ dependencies {
     implementation(projects.sdk.core.extensions)
     implementation(projects.sdk.generator.kt.common.iconpackTree)
     implementation(projects.sdk.generator.kt.iconpack)
+    implementation(projects.sdk.generator.kt.imagevector.jvm)
     implementation(projects.sdk.ir.core)
-    implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.unified)
 
     implementation(kotlin("stdlib"))

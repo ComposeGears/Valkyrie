@@ -16,7 +16,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.components.parser.unified)
-            implementation(projects.components.generator.kmp.imagevector)
+            implementation(projects.sdk.generator.kt.imagevector.kmp)
             implementation(projects.sdk.ir.core)
             implementation(libs.kotlinx.serialization.json)
         }

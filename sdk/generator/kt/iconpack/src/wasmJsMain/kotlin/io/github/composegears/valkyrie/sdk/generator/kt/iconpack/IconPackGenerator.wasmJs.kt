@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.sdk.generator.kt.iconpack
 
-import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
 
 actual object IconPackGenerator {
 
@@ -14,37 +14,36 @@ actual object IconPackGenerator {
             appendLine()
 
             val iconPack = createIconPack(
-                iconPack = config.iconPack,
+                iconPackTree = config.iconPackTree,
                 indentSize = config.indentSize,
                 isExplicit = config.useExplicitMode,
-            ).clearBlankLines()
+            )
             appendLine(iconPack)
         }
 
-        return IconPackSpecOutput(name = config.iconPack.data, content = content)
+        return IconPackSpecOutput(
+            name = config.iconPackTree.data,
+            content = content,
+        )
     }
 
-    private fun createIconPack(iconPack: IconPack, indentSize: Int, isExplicit: Boolean): String {
-        return buildString {
-            if (isExplicit) append("public ")
-            append("object ${iconPack.data}")
-
-            if (iconPack.children.isNotEmpty()) {
-                appendLine(" {")
-                val lastIndex = iconPack.children.lastIndex
-                iconPack.children.forEachIndexed { i, nestedPack ->
-                    val pack = createIconPack(
-                        iconPack = nestedPack,
-                        indentSize = indentSize,
-                        isExplicit = isExplicit,
-                    )
-                    appendLine(pack.prependIndent(indent = " ".repeat(indentSize)))
-                    if (i != lastIndex) appendLine()
-                }
-                append("}")
-            }
+    private fun createIconPack(iconPackTree: IconPackTree, indentSize: Int, isExplicit: Boolean): String {
+        val prefix = if (isExplicit) "public " else ""
+        if (iconPackTree.children.isEmpty()) {
+            return "${prefix}object ${iconPackTree.data}"
         }
+
+        val indent = " ".repeat(indentSize)
+        val nested = iconPackTree.children.joinToString("\n\n") { child ->
+            createIconPack(
+                iconPackTree = child,
+                indentSize = indentSize,
+                isExplicit = isExplicit,
+            ).indentLines(indent)
+        }
+        return "${prefix}object ${iconPackTree.data} {\n$nested\n}"
     }
 
-    private fun String.clearBlankLines(): String = this.lines().joinToString("\n") { it.takeUnless { it.isBlank() }.orEmpty() }
+    // prependIndent pads blank lines with spaces; this variant leaves them empty
+    private fun String.indentLines(indent: String): String = lines().joinToString("\n") { if (it.isBlank()) "" else "$indent$it" }
 }

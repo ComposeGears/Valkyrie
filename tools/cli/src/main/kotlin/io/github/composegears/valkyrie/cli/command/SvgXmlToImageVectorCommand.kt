@@ -15,12 +15,6 @@ import io.github.composegears.valkyrie.cli.ext.outputError
 import io.github.composegears.valkyrie.cli.ext.outputInfo
 import io.github.composegears.valkyrie.cli.ext.requiredPathOption
 import io.github.composegears.valkyrie.cli.ext.requiredStringOption
-import io.github.composegears.valkyrie.cli.ext.stringOption
-import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports
-import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports.Companion.reservedComposeQualifiers
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.isSvg
@@ -28,6 +22,16 @@ import io.github.composegears.valkyrie.parser.unified.ext.isXml
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.iconPackOf
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.pathSegments
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.CodeStyleConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.FullyQualifiedImports
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.FullyQualifiedImports.Companion.reservedComposeTypeNames
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.jvm.ImageVectorGenerator
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.isDirectory
@@ -64,17 +68,10 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
         help = "The package name of the generated sources (usually equal to IconPack package)",
     )
 
-    private val iconPackName by stringOption(
-        "--iconpack-name",
-        help = "The name of the existing IconPack",
-        default = "",
-    )
-
-    private val nestedPackName by stringOption(
-        "--nested-pack-name",
-        help = "The name of the existing nested IconPack",
-        default = "",
-    )
+    private val iconPackTree by option(
+        "--iconpack",
+        help = "Icon pack structure (e.g. 'ValkyrieIcons' or 'ValkyrieIcons.Filled')",
+    ).convert { iconPackOf(it) }
 
     private val outputFormat by outputFormatOption()
 
@@ -140,8 +137,7 @@ internal class SvgXmlToImageVectorCommand : CliktCommand(name = "svgxml2imagevec
             inputPath = inputPath,
             outputPath = outputPath,
             packageName = packageName,
-            iconPackName = iconPackName,
-            nestedPackName = nestedPackName,
+            iconPackTree = iconPackTree,
             generatePreview = generatePreview,
             outputFormat = outputFormat,
             useComposeColors = useComposeColors,
@@ -175,8 +171,7 @@ private fun svgXml2ImageVector(
     inputPath: Path,
     outputPath: Path,
     packageName: String,
-    iconPackName: String,
-    nestedPackName: String,
+    iconPackTree: IconPackTree?,
     generatePreview: Boolean,
     outputFormat: OutputFormat,
     useComposeColors: Boolean,
@@ -216,12 +211,12 @@ private fun svgXml2ImageVector(
 
     val iconNames = iconPaths.map { IconNameFormatter.format(name = it.name) }
 
-    val fullQualifiedNames = iconNames.filter { reservedComposeQualifiers.contains(it) }
+    val fullyQualifiedNames = iconNames.filter { it in reservedComposeTypeNames }
 
-    if (fullQualifiedNames.isNotEmpty()) {
+    if (fullyQualifiedNames.isNotEmpty()) {
         outputInfo(
             "Found icons names that conflict with reserved Compose qualifiers. " +
-                "Full qualified import will be used for: ${fullQualifiedNames.joinToString(", ")}",
+                "Full qualified import will be used for: ${fullyQualifiedNames.joinToString(", ")}",
         )
     }
 
@@ -259,26 +254,42 @@ private fun svgXml2ImageVector(
         )
     }
 
-    val config = ImageVectorGeneratorConfig(
-        packageName = packageName,
-        iconPackPackage = packageName,
-        packName = iconPackName,
-        nestedPackName = nestedPackName,
+    val codeStyle = CodeStyleConfig(
+        useExplicitMode = useExplicitMode,
+        indentSize = indentSize,
+    )
+    val imageVector = ImageVectorConfig(
         outputFormat = outputFormat,
         useComposeColors = useComposeColors,
         generatePreview = generatePreview,
         useFlatPackage = useFlatPackage,
-        useExplicitMode = useExplicitMode,
         addTrailingComma = addTrailingComma,
         usePathDataString = usePathDataString,
-        indentSize = indentSize,
         suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
-        fullQualifiedImports = FullQualifiedImports(
-            brush = "Brush" in fullQualifiedNames,
-            color = "Color" in fullQualifiedNames,
-            offset = "Offset" in fullQualifiedNames,
-        ),
     )
+    val fullyQualifiedImports = FullyQualifiedImports.from(fullyQualifiedNames)
+    val config = when {
+        iconPackTree != null -> {
+            ImageVectorGeneratorConfig.iconPack(
+                iconName = "",
+                packageName = packageName,
+                iconPackPackage = packageName,
+                iconPackTree = iconPackTree,
+                codeStyle = codeStyle,
+                imageVector = imageVector,
+                fullyQualifiedImports = fullyQualifiedImports,
+            )
+        }
+        else -> {
+            ImageVectorGeneratorConfig.simple(
+                iconName = "",
+                packageName = packageName,
+                codeStyle = codeStyle,
+                imageVector = imageVector,
+                fullyQualifiedImports = fullyQualifiedImports,
+            )
+        }
+    }
 
     iconPaths
         .sortedBy { it.name }
@@ -295,15 +306,17 @@ private fun svgXml2ImageVector(
 
             val vectorSpecOutput = ImageVectorGenerator.convert(
                 vector = parseOutput.irImageVector,
-                iconName = parseOutput.iconName,
-                config = config,
+                config = config.copy(iconName = parseOutput.iconName),
             )
 
             vectorSpecOutput.content.writeToKt(
                 outputDir = when {
-                    useFlatPackage -> outputPath.absolutePathString()
-                    else -> "${outputPath.absolutePathString()}/${nestedPackName.lowercase()}"
-                },
+                    useFlatPackage || iconPackTree == null -> outputPath
+                    else -> {
+                        val subDir = iconPackTree.pathSegments().drop(1).joinToString("/") { it.lowercase() }
+                        if (subDir.isNotEmpty()) outputPath.resolve(subDir) else outputPath
+                    }
+                }.absolutePathString(),
                 nameWithoutExtension = vectorSpecOutput.name,
             )
         }

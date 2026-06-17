@@ -6,12 +6,14 @@ import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.asStateFlow
 import com.composegears.tiamat.navigation.recordOf
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.CodeStyleConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.jvm.ImageVectorGenerator
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconContent
 import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.IconSource.FileBasedIcon
@@ -181,8 +183,7 @@ class SimpleConversionViewModel(
 
             val output = ImageVectorGenerator.convert(
                 vector = parserOutput.irImageVector,
-                iconName = name,
-                config = createGeneratorConfig(),
+                config = createGeneratorConfig(iconName = name),
             )
             IconContent(
                 name = name,
@@ -201,8 +202,7 @@ class SimpleConversionViewModel(
 
             val output = ImageVectorGenerator.convert(
                 vector = parserOutput.irImageVector,
-                iconName = iconName,
-                config = createGeneratorConfig(),
+                config = createGeneratorConfig(iconName = iconName),
             )
             IconContent(
                 name = iconName,
@@ -212,24 +212,25 @@ class SimpleConversionViewModel(
         }
     }
 
-    private fun createGeneratorConfig(): ImageVectorGeneratorConfig {
+    private fun createGeneratorConfig(iconName: String): ImageVectorGeneratorConfig {
         val valkyriesSettings = inMemorySettings.current
 
-        return ImageVectorGeneratorConfig(
+        return ImageVectorGeneratorConfig.simple(
+            iconName = iconName,
             // don't add package name for single icon conversion, let user decide where to put it
             packageName = "",
-            iconPackPackage = "",
-            packName = "",
-            nestedPackName = "",
-            outputFormat = valkyriesSettings.outputFormat,
-            useComposeColors = valkyriesSettings.useComposeColors,
-            generatePreview = valkyriesSettings.generatePreview,
-            useFlatPackage = false,
-            useExplicitMode = valkyriesSettings.useExplicitMode,
-            addTrailingComma = valkyriesSettings.addTrailingComma,
-            usePathDataString = valkyriesSettings.usePathDataString,
-            indentSize = valkyriesSettings.indentSize,
-            suppressUnusedReceiverWarning = valkyriesSettings.suppressUnusedReceiverWarning,
+            codeStyle = CodeStyleConfig(
+                useExplicitMode = valkyriesSettings.useExplicitMode,
+                indentSize = valkyriesSettings.indentSize,
+            ),
+            imageVector = ImageVectorConfig(
+                outputFormat = valkyriesSettings.outputFormat,
+                useComposeColors = valkyriesSettings.useComposeColors,
+                generatePreview = valkyriesSettings.generatePreview,
+                addTrailingComma = valkyriesSettings.addTrailingComma,
+                usePathDataString = valkyriesSettings.usePathDataString,
+                suppressUnusedReceiverWarning = valkyriesSettings.suppressUnusedReceiverWarning,
+            ),
         )
     }
 }

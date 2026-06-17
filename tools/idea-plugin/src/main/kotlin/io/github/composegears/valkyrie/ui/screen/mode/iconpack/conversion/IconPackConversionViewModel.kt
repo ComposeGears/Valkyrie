@@ -6,14 +6,18 @@ import com.composegears.leviathan.compose.inject
 import com.composegears.tiamat.navigation.MutableSavedState
 import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.project.Project
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.isSvg
 import io.github.composegears.valkyrie.parser.unified.ext.isXml
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.CodeStyleConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.jvm.ImageVectorGenerator
 import io.github.composegears.valkyrie.settings.ValkyriesSettings
 import io.github.composegears.valkyrie.ui.di.DI
 import io.github.composegears.valkyrie.ui.extension.updateState
@@ -162,8 +166,8 @@ class IconPackConversionViewModel(
         val settings = inMemorySettings.current
         val output = ImageVectorGenerator.convert(
             vector = icon.irImageVector,
-            iconName = icon.iconName.name,
             config = settings.toImageVectorConfig(
+                iconName = icon.iconName,
                 packageName = icon.iconPack.iconPackage,
                 nestedPackName = icon.iconPack.currentNestedPack,
             ),
@@ -189,8 +193,8 @@ class IconPackConversionViewModel(
                     is IconPack.Nested -> {
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             vector = icon.irImageVector,
-                            iconName = icon.iconName.name,
                             config = settings.toImageVectorConfig(
+                                iconName = icon.iconName,
                                 packageName = icon.iconPack.iconPackage,
                                 nestedPackName = iconPack.currentNestedPack,
                             ),
@@ -208,8 +212,8 @@ class IconPackConversionViewModel(
                     is IconPack.Single -> {
                         val vectorSpecOutput = ImageVectorGenerator.convert(
                             vector = icon.irImageVector,
-                            iconName = icon.iconName.name,
                             config = settings.toImageVectorConfig(
+                                iconName = icon.iconName,
                                 packageName = icon.iconPack.iconPackage,
                                 nestedPackName = "",
                             ),
@@ -362,23 +366,32 @@ class IconPackConversionViewModel(
     }
 
     private fun ValkyriesSettings.toImageVectorConfig(
+        iconName: IconName,
         packageName: String,
         nestedPackName: String = "",
     ): ImageVectorGeneratorConfig {
-        return ImageVectorGeneratorConfig(
+        return ImageVectorGeneratorConfig.iconPack(
+            iconName = iconName.name,
             packageName = packageName,
             iconPackPackage = iconPackPackage,
-            packName = iconPackName,
-            nestedPackName = nestedPackName,
-            outputFormat = outputFormat,
-            useComposeColors = useComposeColors,
-            generatePreview = generatePreview,
-            useFlatPackage = flatPackage,
-            useExplicitMode = useExplicitMode,
-            addTrailingComma = addTrailingComma,
-            usePathDataString = usePathDataString,
-            indentSize = indentSize,
-            suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
+            iconPackTree = buildTree(iconPackName) {
+                if (nestedPackName.isNotEmpty()) {
+                    child(nestedPackName)
+                }
+            },
+            codeStyle = CodeStyleConfig(
+                useExplicitMode = useExplicitMode,
+                indentSize = indentSize,
+            ),
+            imageVector = ImageVectorConfig(
+                outputFormat = outputFormat,
+                useComposeColors = useComposeColors,
+                generatePreview = generatePreview,
+                useFlatPackage = flatPackage,
+                addTrailingComma = addTrailingComma,
+                usePathDataString = usePathDataString,
+                suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
+            ),
         )
     }
 }

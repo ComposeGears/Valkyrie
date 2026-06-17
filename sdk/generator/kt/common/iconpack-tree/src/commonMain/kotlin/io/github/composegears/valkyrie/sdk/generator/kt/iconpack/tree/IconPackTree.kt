@@ -72,6 +72,10 @@ fun IconPackTree.encode(): String {
     return paths.joinToString(separator = ",")
 }
 
+fun IconPackTree.navigate(path: String): IconPackTree {
+    return path.split('.').fold(this) { node, part -> node.children.first { it.data == part } }
+}
+
 fun IconPackTree.toPrettyString(): String {
     fun StringBuilder.buildNestedTree(prefix: String, items: List<IconPackTree>) {
         items.forEachIndexed { index, iconPack ->

@@ -1,6 +1,6 @@
 package io.github.composegears.valkyrie.ui.screen.settings.model
 
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
 import io.github.composegears.valkyrie.ui.domain.model.PreviewType
 
 sealed interface SettingsAction {

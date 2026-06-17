@@ -12,8 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.BackingProperty
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.jewel.EditorText
 import io.github.composegears.valkyrie.jewel.highlight.rememberCodeHighlight
 import io.github.composegears.valkyrie.jewel.settings.CheckboxSettingsRow
@@ -24,6 +22,8 @@ import io.github.composegears.valkyrie.jewel.settings.RadioButtonGroup
 import io.github.composegears.valkyrie.jewel.settings.RadioButtonTooltipRow
 import io.github.composegears.valkyrie.jewel.tooling.ProjectPreviewTheme
 import io.github.composegears.valkyrie.sdk.compose.foundation.rememberMutableState
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat.BackingProperty
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.ui.screen.settings.GeneratorSettings
 import io.github.composegears.valkyrie.ui.screen.settings.SettingsViewModel
 import io.github.composegears.valkyrie.ui.screen.settings.model.SettingsAction

@@ -32,6 +32,7 @@ public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/
 }
 
 public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports$Companion {
+	public final fun from (Ljava/util/Collection;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;
 	public final fun getReservedComposeTypeNames ()Ljava/util/Set;
 }
 
@@ -94,15 +95,8 @@ public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/
 
 public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorOutput {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorOutput;
-	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorOutput;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorOutput;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getContent ()Ljava/lang/String;
 	public final fun getName ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat : java/lang/Enum {
@@ -118,5 +112,10 @@ public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/
 public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat$Companion {
 	public final fun from (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
 	public final fun fromOrNull (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/UtilKt {
+	public static final fun resolveIconBuilderName (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;)Ljava/lang/String;
+	public static final fun resolvePackageName (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;)Ljava/lang/String;
 }
 

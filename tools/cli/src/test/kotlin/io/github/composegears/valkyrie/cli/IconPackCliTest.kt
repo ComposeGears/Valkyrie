@@ -2,7 +2,7 @@ package io.github.composegears.valkyrie.cli
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.github.composegears.valkyrie.cli.IconPackCommand.IconPackStructure
+import io.github.composegears.valkyrie.cli.IconPackCommand.IconPack
 import io.github.composegears.valkyrie.cli.IconPackCommand.IndentSize
 import io.github.composegears.valkyrie.cli.IconPackCommand.OutputPath
 import io.github.composegears.valkyrie.cli.IconPackCommand.PackageName
@@ -34,7 +34,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.kt",
-            iconPack = IconPackStructure("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
         )
     }
 
@@ -43,7 +43,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.explicit.kt",
-            iconPack = IconPackStructure("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             useExplicitMode = UseExplicitMode(true),
         )
     }
@@ -53,7 +53,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.L2.kt",
-            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
+            iconPack = IconPack("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
         )
     }
 
@@ -62,7 +62,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.explicit.kt",
-            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
+            iconPack = IconPack("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             useExplicitMode = UseExplicitMode(true),
         )
     }
@@ -72,7 +72,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent1.kt",
-            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
+            iconPack = IconPack("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(1),
         )
     }
@@ -82,7 +82,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent2.kt",
-            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
+            iconPack = IconPack("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(2),
         )
     }
@@ -92,7 +92,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent3.kt",
-            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
+            iconPack = IconPack("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(3),
         )
     }
@@ -102,7 +102,7 @@ class IconPackCliTest(
         testIconPack(
             cliTestType = cliTestType,
             expectedResource = "iconpack/IconPack.nested.indent6.kt",
-            iconPack = IconPackStructure("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
+            iconPack = IconPack("ValkyrieIcons.Filled,ValkyrieIcons.Colored"),
             indentSize = IndentSize(6),
         )
     }
@@ -110,7 +110,7 @@ class IconPackCliTest(
     private fun testIconPack(
         cliTestType: CliTestType,
         expectedResource: String,
-        iconPack: IconPackStructure,
+        iconPack: IconPack,
         useExplicitMode: UseExplicitMode? = null,
         indentSize: IndentSize? = null,
     ) {
@@ -153,7 +153,7 @@ private sealed interface IconPackCommand {
         override val command: String = "--package-name=$name"
     }
 
-    data class IconPackStructure(val value: String) : IconPackCommand {
+    data class IconPack(val value: String) : IconPackCommand {
         override val command: String = "--iconpack=$value"
     }
 
