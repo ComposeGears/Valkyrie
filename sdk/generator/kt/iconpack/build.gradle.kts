@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.valkyrie.abi)
     alias(libs.plugins.valkyrie.wasm.resources)
     alias(libs.plugins.valkyrie.kover)
+    alias(libs.plugins.valkyrie.explicit.api)
 }
 
 kotlin {

@@ -4,13 +4,13 @@ import io.github.composegears.valkyrie.sdk.core.tree.MutableTreeNode
 import io.github.composegears.valkyrie.sdk.core.tree.TreeNode
 import io.github.composegears.valkyrie.sdk.core.tree.buildTree
 
-typealias IconPackTree = TreeNode<String>
+public typealias IconPackTree = TreeNode<String>
 
 /**
  * Returns all node names from root to the deepest first child.
  * E.g. ValkyrieIcons -> Material -> Rounded → ["ValkyrieIcons", "Material", "Rounded"]
  */
-fun IconPackTree.pathSegments(): List<String> {
+public fun IconPackTree.pathSegments(): List<String> {
     val segments = mutableListOf(data)
     var current = this
     while (current.children.isNotEmpty()) {
@@ -20,7 +20,7 @@ fun IconPackTree.pathSegments(): List<String> {
     return segments
 }
 
-fun iconPackOf(input: String): IconPackTree {
+public fun iconPackOf(input: String): IconPackTree {
     fun MutableTreeNode<String>.getOrCreateChild(name: String): MutableTreeNode<String> {
         val existingChild = children.firstOrNull { it.data == name }
         if (existingChild != null) {
@@ -51,7 +51,7 @@ fun iconPackOf(input: String): IconPackTree {
     }
 }
 
-fun IconPackTree.encode(): String {
+public fun IconPackTree.encode(): String {
     if (data.isEmpty()) return ""
 
     val paths = mutableListOf<String>()
@@ -72,11 +72,11 @@ fun IconPackTree.encode(): String {
     return paths.joinToString(separator = ",")
 }
 
-fun IconPackTree.navigate(path: String): IconPackTree {
+public fun IconPackTree.navigate(path: String): IconPackTree {
     return path.split('.').fold(this) { node, part -> node.children.first { it.data == part } }
 }
 
-fun IconPackTree.toPrettyString(): String {
+public fun IconPackTree.toPrettyString(): String {
     fun StringBuilder.buildNestedTree(prefix: String, items: List<IconPackTree>) {
         items.forEachIndexed { index, iconPack ->
             val isLastChild = index == items.lastIndex

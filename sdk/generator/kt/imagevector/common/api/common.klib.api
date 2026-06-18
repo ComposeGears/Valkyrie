@@ -19,7 +19,6 @@ final enum class io.github.composegears.valkyrie.sdk.generator.kt.imagevector.co
     final fun values(): kotlin/Array<io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/OutputFormat> // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/OutputFormat.values|values#static(){}[0]
 
     final object Companion { // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/OutputFormat.Companion|null[0]
-        final fun from(kotlin/String): io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/OutputFormat // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/OutputFormat.Companion.from|from(kotlin.String){}[0]
         final fun fromOrNull(kotlin/String?): io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/OutputFormat? // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/OutputFormat.Companion.fromOrNull|fromOrNull(kotlin.String?){}[0]
     }
 }

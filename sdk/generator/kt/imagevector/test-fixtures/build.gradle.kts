@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.valkyrie.jvm)
+    alias(libs.plugins.valkyrie.explicit.api)
 }
 
 dependencies {

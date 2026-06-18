@@ -5,7 +5,7 @@ import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.Outpu
 import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat.LazyProperty
 import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourceText
 
-fun OutputFormat.toResourceText(
+public fun OutputFormat.toResourceText(
     pathToBackingProperty: String,
     pathToLazyProperty: String,
 ): String = when (this) {

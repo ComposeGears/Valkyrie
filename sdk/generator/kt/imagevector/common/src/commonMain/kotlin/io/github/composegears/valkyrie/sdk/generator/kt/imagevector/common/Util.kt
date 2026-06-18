@@ -9,7 +9,7 @@ import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.pathSegmen
  * [ImageVectorConfig.useFlatPackage] is set. Otherwise appends each nested segment (lowercased)
  * to form a sub-package, e.g. `"com.example.icons.filled"` for a `ValkyrieIcons → Filled` tree.
  */
-fun ImageVectorGeneratorConfig.resolvePackageName(): String {
+public fun ImageVectorGeneratorConfig.resolvePackageName(): String {
     val nested = iconPackTree?.pathSegments()?.drop(1).orEmpty()
     return when {
         nested.isEmpty() -> packageName
@@ -25,7 +25,7 @@ fun ImageVectorGeneratorConfig.resolvePackageName(): String {
  * Otherwise prefixes with the deepest sub-pack segment,
  * e.g. `"Rounded.Add"` for a `ValkyrieIcons → Material → Rounded` tree with icon `Add`.
  */
-fun ImageVectorGeneratorConfig.resolveIconBuilderName(): String {
+public fun ImageVectorGeneratorConfig.resolveIconBuilderName(): String {
     val segments = iconPackTree?.pathSegments().orEmpty()
     return when {
         segments.size <= 1 -> iconName

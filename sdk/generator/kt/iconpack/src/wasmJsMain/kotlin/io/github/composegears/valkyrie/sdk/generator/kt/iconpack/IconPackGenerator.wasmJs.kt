@@ -2,9 +2,9 @@ package io.github.composegears.valkyrie.sdk.generator.kt.iconpack
 
 import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
 
-actual object IconPackGenerator {
+public actual object IconPackGenerator {
 
-    actual fun create(config: IconPackGeneratorConfig): IconPackSpecOutput {
+    public actual fun create(config: IconPackGeneratorConfig): IconPackSpecOutput {
         val content = buildString {
             if (config.license != null) {
                 appendLine(config.license.asBlockComment())

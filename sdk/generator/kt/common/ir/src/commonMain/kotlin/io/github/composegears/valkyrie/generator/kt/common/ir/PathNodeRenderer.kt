@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.generator.kt.common.ir
 import io.github.composegears.valkyrie.sdk.generator.kt.util.formatFloat
 import io.github.composegears.valkyrie.sdk.ir.core.IrPathNode
 
-fun IrPathNode.asStatement(): String = when (this) {
+public fun IrPathNode.asStatement(): String = when (this) {
     is IrPathNode.Close -> "close()"
     is IrPathNode.RelativeMoveTo -> "moveToRelative(${x.formatFloat()}, ${y.formatFloat()})"
     is IrPathNode.MoveTo -> "moveTo(${x.formatFloat()}, ${y.formatFloat()})"

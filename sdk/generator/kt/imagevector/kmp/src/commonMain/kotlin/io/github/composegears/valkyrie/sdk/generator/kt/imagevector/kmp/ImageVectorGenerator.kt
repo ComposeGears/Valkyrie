@@ -7,9 +7,9 @@ import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.kmp.render.B
 import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.kmp.render.LazyPropertyRenderer
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
-object ImageVectorGenerator {
+public object ImageVectorGenerator {
 
-    fun convert(
+    public fun convert(
         vector: IrImageVector,
         config: ImageVectorGeneratorConfig,
     ): ImageVectorOutput = when (config.imageVector.outputFormat) {

@@ -15,7 +15,7 @@ import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTr
  * @property fullyQualifiedImports Controls which Compose types are referenced by fully-qualified
  *   name instead of an import. Defaults to [FullyQualifiedImports].
  */
-data class ImageVectorGeneratorConfig(
+public data class ImageVectorGeneratorConfig(
     val iconName: String,
     val packageName: String,
     val iconPackTree: IconPackTree? = null,
@@ -33,13 +33,14 @@ data class ImageVectorGeneratorConfig(
             }
         }
     }
-    companion object {
+
+    public companion object {
         /**
          * Creates a config for simple (no icon-pack) conversion.
          *
          * [iconPackPackage] is set to [packageName] and [iconPackTree] is left `null`.
          */
-        fun simple(
+        public fun simple(
             iconName: String,
             packageName: String = "",
             codeStyle: CodeStyleConfig = CodeStyleConfig(),
@@ -59,7 +60,7 @@ data class ImageVectorGeneratorConfig(
          *
          * Uses the provided [iconPackTree] to describe icon-pack hierarchy.
          */
-        fun iconPack(
+        public fun iconPack(
             iconName: String,
             packageName: String,
             iconPackPackage: String = packageName,
@@ -87,7 +88,7 @@ data class ImageVectorGeneratorConfig(
  * @property indentSize Number of spaces used for each indentation level. Must be greater than `0`.
  *   Defaults to `4`.
  */
-data class CodeStyleConfig(
+public data class CodeStyleConfig(
     val useExplicitMode: Boolean = false,
     val indentSize: Int = 4,
 ) {
@@ -113,7 +114,7 @@ data class CodeStyleConfig(
  * @property suppressUnusedReceiverWarning When `true`, a `@Suppress("UnusedReceiverParameter")`
  *   annotation is added to the icon property getter.
  */
-data class ImageVectorConfig(
+public data class ImageVectorConfig(
     val outputFormat: OutputFormat = OutputFormat.BackingProperty,
     val useComposeColors: Boolean = true,
     val generatePreview: Boolean = false,
@@ -132,26 +133,28 @@ data class ImageVectorConfig(
  * @property color When `true`, `androidx.compose.ui.graphics.Color` is fully qualified.
  * @property offset When `true`, `androidx.compose.ui.geometry.Offset` is fully qualified.
  */
-data class FullyQualifiedImports(
+public data class FullyQualifiedImports(
     val brush: Boolean = false,
     val color: Boolean = false,
     val offset: Boolean = false,
 ) {
-    companion object {
+    public companion object {
         /**
          * Simple Compose type names that can be requested as fully-qualified references when
          * building a [FullyQualifiedImports] instance from external configuration.
          */
-        val reservedComposeTypeNames = setOf("Brush", "Color", "Offset")
+        public val reservedComposeTypeNames: Set<String> = setOf("Brush", "Color", "Offset")
 
         /**
          * Builds a [FullyQualifiedImports] from a collection of conflicting icon names.
          */
-        fun from(conflictingNames: Collection<String>) = FullyQualifiedImports(
-            brush = "Brush" in conflictingNames,
-            color = "Color" in conflictingNames,
-            offset = "Offset" in conflictingNames,
-        )
+        public fun from(conflictingNames: Collection<String>): FullyQualifiedImports {
+            return FullyQualifiedImports(
+                brush = "Brush" in conflictingNames,
+                color = "Color" in conflictingNames,
+                offset = "Offset" in conflictingNames,
+            )
+        }
     }
 }
 
@@ -160,7 +163,7 @@ data class FullyQualifiedImports(
  *
  * @property key Stable external identifier used by CLI and Gradle configuration.
  */
-enum class OutputFormat(val key: String) {
+public enum class OutputFormat(public val key: String) {
     /** Classic pattern using a private backing field and a public property. */
     BackingProperty(key = "backing_property"),
 
@@ -168,19 +171,11 @@ enum class OutputFormat(val key: String) {
     LazyProperty(key = "lazy_property"),
     ;
 
-    companion object {
-        /**
-         * Resolves an [OutputFormat] from its external [key].
-         *
-         * Throws [IllegalStateException] when [key] does not match any known format.
-         */
-        fun from(key: String): OutputFormat = fromOrNull(key)
-            ?: error("Unsupported outputFormat '$key'. Supported values: ${entries.joinToString { "'${it.key}'" }}.")
-
+    public companion object {
         /**
          * Resolves an [OutputFormat] from its external [key], or returns `null` when [key] is not
          * supported.
          */
-        fun fromOrNull(key: String?): OutputFormat? = entries.find { it.key == key }
+        public fun fromOrNull(key: String?): OutputFormat? = entries.find { it.key == key }
     }
 }

@@ -4,9 +4,9 @@ import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.Image
 import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorOutput
 import io.github.composegears.valkyrie.sdk.ir.core.IrImageVector
 
-object ImageVectorGenerator {
+public object ImageVectorGenerator {
 
-    fun convert(
+    public fun convert(
         vector: IrImageVector,
         config: ImageVectorGeneratorConfig,
     ): ImageVectorOutput = ImageVectorFileSpec(config).createFileFor(vector)
