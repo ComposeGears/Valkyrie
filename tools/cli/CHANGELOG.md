@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Migrate generator to new SDK architecture with improved IconPackTree structure for better hierarchical icon pack support
+
 ## 1.2.0 - 2026-05-29
 
 ### Added

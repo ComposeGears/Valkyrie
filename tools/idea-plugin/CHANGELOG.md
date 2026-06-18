@@ -2,9 +2,17 @@
 
 ## Unreleased
 
+### Added
+
+- [IconPack] Add TreeView component for hierarchical icon pack structure representation with drag-and-drop support
+- [IconPack] Add undo/redo functionality for TreeView component with keyboard shortcuts (`Cmd+Z` / `Cmd+Shift+Z`)
+- [IconPack] Add nested drop indicator style to TreeView for improved visual feedback during drag operations
+
 ### Changed
 
 - [IconPack] Replace code snippet tooltip on Package and IconPack name fields with a plain text description tooltip
+- [IconPack] Allow unlimited nesting of icon packs within the TreeView component for better organization of large icon
+  sets
 
 ### Fixed
 
