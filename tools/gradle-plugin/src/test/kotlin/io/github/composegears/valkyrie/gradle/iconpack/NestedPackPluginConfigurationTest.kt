@@ -1,10 +1,11 @@
-package io.github.composegears.valkyrie.gradle
+package io.github.composegears.valkyrie.gradle.iconpack
 
 import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.exists
 import assertk.assertions.isEqualTo
+import io.github.composegears.valkyrie.gradle.RESOURCES_DIR_SVG
 import io.github.composegears.valkyrie.gradle.common.CommonGradleTest
 import io.github.composegears.valkyrie.gradle.common.doesNotExist
 import io.github.composegears.valkyrie.gradle.internal.TASK_NAME
@@ -430,5 +431,107 @@ class NestedPackPluginConfigurationTest : CommonGradleTest() {
         val filledPackageDir = root.resolveGeneratedPath("commonMain", "x/y/z/filled")
         assertThat(outlinedPackageDir).doesNotExist()
         assertThat(filledPackageDir).doesNotExist()
+    }
+
+    @Test
+    fun `generate icon pack with recursive nested structure using DSL`(@TempDir root: Path) {
+        root.writeSettingsFile()
+
+        root.resolve("build.gradle.kts").writeText(
+            """
+                plugins {
+                    kotlin("multiplatform")
+                    id("io.github.composegears.valkyrie")
+                }
+                valkyrie {
+                    packageName = "x.y.z"
+
+                    iconPack {
+                        name = "ValkyrieIcons"
+                        targetSourceSet = "commonMain"
+
+                        nested {
+                            name = "Material"
+                            sourceFolder = "material"
+                            
+                            nested {
+                                name = "Filled"
+                                sourceFolder = "filled"
+                            }
+                            nested {
+                                name = "Outlined"
+                                sourceFolder = "outlined"
+                            }
+                        }
+                    }
+                }
+                kotlin {
+                    jvm()
+                }
+            """.trimIndent(),
+        )
+
+        // Create nested directories with SVG files
+        val sourceDir = RESOURCES_DIR_SVG.toPath()
+        val resourceDir = root.resolve("src/commonMain/valkyrieResources")
+
+        // Filled
+        val filledDir = resourceDir.resolve("material/filled").createDirectories()
+        sourceDir.resolve("ic_clip_path_gradient.svg").copyTo(filledDir.resolve("ic_clip_path_gradient.svg"))
+        sourceDir.resolve("ic_linear_gradient.svg").copyTo(filledDir.resolve("ic_linear_gradient.svg"))
+
+        // Outlined
+        val outlinedDir = resourceDir.resolve("material/outlined").createDirectories()
+        sourceDir.resolve("ic_radial_gradient.svg").copyTo(outlinedDir.resolve("ic_radial_gradient.svg"))
+        sourceDir.resolve("ic_linear_gradient_with_stroke.svg")
+            .copyTo(outlinedDir.resolve("ic_linear_gradient_with_stroke.svg"))
+
+        val result = runTask(root, TASK_NAME)
+
+        assertThat(result).taskHadResult(":generateValkyrieImageVectorCommonMain", SUCCESS)
+        assertThat(result).taskHadResult(":generateValkyrieImageVector", SUCCESS)
+        assertThat(result.output).contains("Generated \"ValkyrieIcons\" iconpack in package \"x.y.z\"")
+        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Material.Filled\"")
+        assertThat(result.output).contains("Generated 2 ImageVector icons in nested pack \"Material.Outlined\"")
+
+        val expectedCode = """
+            package x.y.z
+
+            object ValkyrieIcons {
+                object Material {
+                    object Filled
+
+                    object Outlined
+                }
+            }
+
+        """.trimIndent()
+
+        val iconPackFile = root.resolveGeneratedPath("commonMain", "x/y/z/ValkyrieIcons.kt")
+        assertThat(iconPackFile).exists()
+        assertThat(iconPackFile.readText()).isEqualTo(expectedCode)
+
+        // Count total generated files (1 pack file + 4 icon files)
+        assertThat(root.allGeneratedFiles().size).isEqualTo(5)
+
+        // Verify material/filled icons are in the correct nested package
+        val materialFilledFiles = root.resolveGeneratedPath("commonMain", "x/y/z/material/filled")
+        val materialFilledIconFiles = materialFilledFiles.toFile().listFiles().orEmpty()
+        assertThat(materialFilledIconFiles.size).isEqualTo(2)
+        materialFilledIconFiles.forEach { file ->
+            val content = file.readText()
+            assertThat(content).contains("package x.y.z.material.filled")
+            assertThat(content).contains("val ValkyrieIcons.Material.Filled.")
+        }
+
+        // Verify material/outlined icons are in the correct nested package
+        val materialOutlinedFiles = root.resolveGeneratedPath("commonMain", "x/y/z/material/outlined")
+        val materialOutlinedIconFiles = materialOutlinedFiles.toFile().listFiles().orEmpty()
+        assertThat(materialOutlinedIconFiles.size).isEqualTo(2)
+        materialOutlinedIconFiles.forEach { file ->
+            val content = file.readText()
+            assertThat(content).contains("package x.y.z.material.outlined")
+            assertThat(content).contains("val ValkyrieIcons.Material.Outlined.")
+        }
     }
 }

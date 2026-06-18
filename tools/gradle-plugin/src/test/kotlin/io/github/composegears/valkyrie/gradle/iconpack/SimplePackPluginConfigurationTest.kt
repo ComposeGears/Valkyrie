@@ -1,4 +1,4 @@
-package io.github.composegears.valkyrie.gradle
+package io.github.composegears.valkyrie.gradle.iconpack
 
 import assertk.assertThat
 import assertk.assertions.contains
@@ -125,7 +125,7 @@ class SimplePackPluginConfigurationTest : CommonGradleTest() {
         assertThat(result).taskHadResult(":generateValkyrieImageVectorCommonTest", SKIPPED)
         assertThat(result).taskHadResult(":generateValkyrieImageVectorJvmMain", SKIPPED)
         assertThat(result).taskHadResult(":generateValkyrieImageVectorJvmTest", SKIPPED)
-        assertThat(result).taskWasSuccessful(":$TASK_NAME")
+        assertThat(result).taskWasSuccessful(":${TASK_NAME}")
         assertThat(result.output).contains("Generated \"ValkyrieIcons\" iconpack in package \"x.y.z\"")
         assertThat(result.output).contains("Generated 17 ImageVector icons in package \"x.y.z\"")
 

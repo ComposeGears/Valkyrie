@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.gradle.internal.common
 
 import io.github.composegears.valkyrie.gradle.IconPackExtension
+import io.github.composegears.valkyrie.gradle.NestedPack
 import io.github.composegears.valkyrie.gradle.ValkyrieExtension
 import org.gradle.api.GradleException
 
@@ -13,7 +14,7 @@ internal object ExtensionValidator {
      * Throws [org.gradle.api.GradleException] if configuration is invalid.
      */
     fun validate(extension: ValkyrieExtension) {
-        if (extension.packageName.orNull.isNullOrBlank()) {
+        if (!extension.packageName.isPresent || extension.packageName.get().isBlank()) {
             throw GradleException("\"packageName\" cannot be blank")
         }
 
@@ -41,7 +42,16 @@ internal object ExtensionValidator {
             throw GradleException("iconPack \"targetSourceSet\" is required but not set")
         }
 
+        val targetSourceSet = iconPack.targetSourceSet.get()
+        if (targetSourceSet.isBlank()) {
+            throw GradleException("iconPack \"targetSourceSet\" cannot be blank")
+        }
+
         val nestedPacks = iconPack.nestedPacks.get()
+        validateNestedPacks(nestedPacks)
+    }
+
+    private fun validateNestedPacks(nestedPacks: List<NestedPack>) {
         val nestedNames = mutableSetOf<String>()
         val sourceFolders = mutableSetOf<String>()
 
@@ -54,17 +64,21 @@ internal object ExtensionValidator {
                 name.isBlank() -> throw GradleException("nested pack \"name\" cannot be blank")
             }
 
-            when {
-                sourceFolder == null -> throw GradleException("nested pack \"sourceFolder\" is required but not set")
-                sourceFolder.isBlank() -> throw GradleException("nested pack \"sourceFolder\" cannot be blank")
-            }
-
             if (!nestedNames.add(name)) {
                 throw GradleException("Duplicate nested pack name found: \"$name\"")
             }
 
+            when {
+                sourceFolder == null -> throw GradleException("nested pack \"sourceFolder\" is required but not set")
+                sourceFolder.isBlank() -> throw GradleException("nested pack \"sourceFolder\" cannot be blank")
+            }
             if (!sourceFolders.add(sourceFolder)) {
                 throw GradleException("Duplicate sourceFolder found: \"$sourceFolder\"")
+            }
+
+            val childNestedPacks = nested.nestedPacks.get()
+            if (childNestedPacks.isNotEmpty()) {
+                validateNestedPacks(childNestedPacks)
             }
         }
     }
