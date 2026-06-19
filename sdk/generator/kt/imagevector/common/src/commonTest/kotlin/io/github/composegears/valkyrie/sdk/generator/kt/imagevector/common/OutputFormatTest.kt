@@ -8,16 +8,16 @@ class OutputFormatTest {
 
     @Test
     fun `from returns output format for valid key`() {
-        val result = OutputFormat.fromOrNull("backing_property")
+        val result = OutputFormat.from("backing_property")
         assertEquals(OutputFormat.BackingProperty, result)
 
-        val resultLazy = OutputFormat.fromOrNull("lazy_property")
+        val resultLazy = OutputFormat.from("lazy_property")
         assertEquals(OutputFormat.LazyProperty, resultLazy)
     }
 
     @Test
     fun `fromOrNull returns null for unsupported keys`() {
-        assertNull(OutputFormat.fromOrNull("invalid_key"))
-        assertNull(OutputFormat.fromOrNull(null))
+        assertNull(OutputFormat.from("invalid_key"))
+        assertNull(OutputFormat.from(null))
     }
 }

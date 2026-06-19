@@ -98,7 +98,7 @@ class InMemorySettings(project: Project) {
                 .split(",")
                 .filter { it.isNotEmpty() },
             generatePreview = generatePreview,
-            outputFormat = OutputFormat.fromOrNull(outputFormat) ?: OutputFormat.BackingProperty,
+            outputFormat = OutputFormat.from(outputFormat) ?: OutputFormat.BackingProperty,
             useComposeColors = useComposeColors,
             indentSize = indentSize,
             flatPackage = flatPackage,

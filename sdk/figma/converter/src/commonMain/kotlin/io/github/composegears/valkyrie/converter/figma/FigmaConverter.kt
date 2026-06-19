@@ -60,7 +60,8 @@ fun convertSvg(
                     indentSize = indentSize,
                 ),
                 imageVector = ImageVectorConfig(
-                    outputFormat = OutputFormat.fromOrNull(outputFormat) ?: OutputFormat.BackingProperty,
+                    outputFormat = OutputFormat.from(outputFormat)
+                        ?: error("Unsupported outputFormat '$outputFormat'"),
                     useComposeColors = useComposeColors,
                     addTrailingComma = addTrailingComma,
                     usePathDataString = usePathDataString,

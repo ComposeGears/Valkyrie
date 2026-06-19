@@ -176,6 +176,6 @@ public enum class OutputFormat(public val key: String) {
          * Resolves an [OutputFormat] from its external [key], or returns `null` when [key] is not
          * supported.
          */
-        public fun fromOrNull(key: String?): OutputFormat? = entries.find { it.key == key }
+        public fun from(key: String?): OutputFormat? = entries.find { it.key == key }
     }
 }

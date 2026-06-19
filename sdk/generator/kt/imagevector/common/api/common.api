@@ -110,7 +110,7 @@ public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/
 }
 
 public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat$Companion {
-	public final fun fromOrNull (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+	public final fun from (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
 }
 
 public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/UtilKt {
