@@ -47,7 +47,7 @@ needs.
 - 🔌 [IntelliJ IDEA / Android Studio plugin](#idea-plugin)
 - 🖥️ [CLI tool](#cli-tool)
 - 🐘 [Gradle plugin](#gradle-plugin)
-- Web app (🚧 under development 🚧)
+- 🌐 Web app (🚧 under development 🚧)
 
 ## Table of Contents
 
@@ -56,12 +56,17 @@ needs.
     - [Plugin features](#plugin-features)
     - [Simple mode](#simple-mode)
     - [IconPack mode](#iconpack-mode)
-        - [Create new icon pack](#new-icon-pack)
-        - [Update existing icon pack](#existing-icon-pack)
+        - [New pack](#new-pack)
+        - [Existing pack](#existing-pack)
+        - [Material pack](#material-pack)
+    - [Web Import](#web-import)
+    - [SVG to XML](#svg-to-xml)
+    - [ImageVector to XML](#imagevector-to-xml)
     - [ImageVector previewer](#imagevector-previewer)
         - [Embedded previewer](#embedded-previewer)
         - [AutoCompletion previewer](#autocompletion-previewer)
         - [Gutter previewer](#gutter-previewer)
+        - [Project view previewer](#project-view-previewer)
     - [Requirements](#requirements)
     - [Installation](#installation)
     - [Build plugin](#build-plugin)
@@ -109,108 +114,193 @@ needs.
 - Support for Drag&Drop files/directories and pasting content from clipboard
 - Easy option to add more icons into existing project icon pack
 - Copy generated ImageVector to clipboard or file (depends on the mode)
-- Fully customizable setting for generated icons
+- Fully customizable settings for generated icons
 - Build-in [ImageVector previewer](#imagevector-previewer) for any icons without compilation ✨
-- The plugin is completely built using [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
-  and [Tiamat](https://github.com/ComposeGears/Tiamat) navigation library
+- [Web Import](#web-import): directly download and convert icons from popular online icon libraries
+- [SVG to XML](#svg-to-xml) conversion tool
+- [ImageVector to XML](#imagevector-to-xml) backward conversion tool
+- Built entirely with [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform); since version 1.0.0
+  powered by the [Jewel](https://github.com/JetBrains/intellij-community/tree/master/platform/jewel)
+  UI framework and [Tiamat](https://github.com/ComposeGears/Tiamat) for navigation
 
-More exclusive features under development, stay tuned 🌚
+### Simple mode
 
-### **Simple mode**
-
-> [!NOTE]
-> One-click solution to convert SVG/XML to ImageVector (requires only specifying the package).
+Quick conversion of individual SVG/XML icons to ImageVector format. Perfect for one-off conversions, prototyping, or
+testing icons without setting up a full icon pack structure.
 
 #### Available quick actions:
 
 - Rename icon
-- Preview current ImageVector
-- Copy generated ImageVector to clipboard
+- Preview `ImageVector` on different backgrounds (pixel grid, white, black)
+- Export generated `ImageVector` to file or copy to clipboard
 
 <div align="center">
     <img src="assets/simple_mode_1.png" width="252" />
-    <img src="assets/simple_mode_2.png" width="251.2" />
-    <img src="assets/simple_mode_3.png" width="250" />
+    <img src="assets/simple_mode_2.png" width="251" />
+    <img src="assets/simple_mode_3.png" width="252" />
 </div>
-
 
 Demo:
 
-https://github.com/user-attachments/assets/f48eb027-ccb2-4194-87bb-868c6be222ae
+https://github.com/user-attachments/assets/2a2367ee-3158-4200-b764-cbb1bc0508d8
 
-### **IconPack mode**
+### IconPack mode
 
-#### **New icon pack**
-
-> [!NOTE]
-> Facilitates creating an organized icon pack with extension properties for your pack `object`, previewing the list of
-> icons, and batch importing them to your specified directory.
+Facilitates creating an organized icon pack with extension properties for your pack `object`, previewing the list of
+icons, and batch importing them to your specified directory.
 
 <div align="center">
-    <img src="assets/iconpack_mode_new_1.png" width="300" />
-    <img src="assets/iconpack_mode_new_2.png" width="300" />
+    <img src="assets/iconpack_mode.png" width="250" />
 </div>
 
-Demo:
+#### New pack
 
-https://github.com/user-attachments/assets/ccb568a4-bda9-4f2b-bf40-29b1a8e4c854
+Create a brand new icon pack for your project from scratch. This mode guides you through the complete setup process,
+allowing you to configure:
 
-#### **Existing icon pack**
-
-> [!NOTE]
-> Instead of importing icon pack settings, the plugin provides a direct way to import an already created icon pack from
-> a Kotlin file.
+- **Destination path** and **package name**
+- **License header** (optional)
+- **Icon pack object name** (e.g., `AppIcons`, `MyIcons`)
+- **Nested packs** for hierarchical organization (e.g., `Outlined`, `Filled`, `Сolored`)
 
 <div align="center">
-    <img src="assets/iconpack_mode_existing_1.png" width="300" />
-    <img src="assets/iconpack_mode_existing_2.png" width="300" />
+    <img src="assets/iconpack_mode_new_1.png" width="250" />
+    <img src="assets/iconpack_mode_new_2.png" width="250" />
+    <img src="assets/iconpack_mode_new_3.png" width="250" />
 </div>
-
-> [!IMPORTANT]
-> Editing features are limited for now; you can only load an existing pack and add more nested packs.
 
 Demo:
 
-https://github.com/user-attachments/assets/77f449dd-a6d0-44ea-9059-b7b30ee94426
+https://github.com/user-attachments/assets/d5044e24-972b-4185-88bb-0e8cf3084b96
+
+#### Existing pack
+
+Load and extend an existing project icon pack. The plugin automatically detects package, icon pack object, and nested
+packs. It is allowed to add additional nested packs and continue importing icons into the existing structure.
+
+<div align="center">
+    <img src="assets/iconpack_mode_existing_1.png" width="250" />
+    <img src="assets/iconpack_mode_existing_2.png" width="250" />
+    <img src="assets/iconpack_mode_existing_3.png" width="250" />
+</div>
+
+Demo:
+
+https://github.com/user-attachments/assets/dad6c9b2-63c4-44f1-a642-395e32277513
+
+#### Material pack
+
+Extend the existing Material Icons pack provided by the `material-icons-core` library with your custom icons. This mode
+allows you to seamlessly add your own icons to the Material Icons structure, maintaining consistency with the existing
+naming conventions and package organization.
+
+<div align="center">
+    <img src="assets/iconpack_mode_material_1.png" width="250" />
+    <img src="assets/iconpack_mode_material_2.png" width="250" />
+    <img src="assets/iconpack_mode_material_3.png" width="250" />
+</div>
+
+Demo:
+
+https://github.com/user-attachments/assets/9751c0f9-1971-4f00-a2b2-9d475e090bf4
+
+### Web Import
+
+Directly search, browse, and download icons from popular online icon libraries and convert them to ImageVector in one
+click — no manual SVG/XML download required.
+
+Supported icon providers:
+
+- [Material Symbols](https://fonts.google.com/icons) (Google)
+- [Lucide](https://lucide.dev)
+- [Font Awesome](https://fontawesome.com)
+- [Bootstrap Icons](https://icons.getbootstrap.com)
+- [Remix Icons](https://remixicon.com)
+- [Box Icons](https://boxicons.com)
+- [Feather Icons](https://feathericons.com)
+- [Hero Icons](https://heroicons.com)
+- [Ionicons](https://ionicons.com)
+- [Tabler Icons](https://tabler.io/icons)
+- [Eva Icons](https://akveo.github.io/eva-icons)
+- [Simple Icons](https://simpleicons.org)
+- [Octicons](https://primer.style/foundations/icons)
+- [css.gg](https://css.gg)
+
+Features:
+
+- Fuzzy search across icon names
+- Adjustable icon grid zoom (25%–200%)
+- Persistent cache — icons are not re-fetched on every plugin restart
+- Persistent per-provider font customization settings
+
+Demo:
+
+https://github.com/user-attachments/assets/86df2f2b-7a4e-4caf-91e8-c2290b347770
+
+### SVG to XML
+
+Convert SVG files to Android XML vector drawable format directly inside the plugin. This tool is useful when you need
+to use icons in Android Views or want to maintain compatibility with the traditional Android resource system.
+
+Demo:
+
+https://github.com/user-attachments/assets/f75c9a64-05d6-48fb-bdb2-4df11a67ff78
+
+### ImageVector to XML
+
+Backward conversion tool that converts existing Kotlin `ImageVector` code back to Android XML vector drawable format.
+This is particularly useful when you need to share icons with projects that don't use Compose yet, migrate icons to a
+legacy codebase, or generate XML resources from programmatically created ImageVectors.
+
+Demo:
+
+https://github.com/user-attachments/assets/88601612-8a5a-44b6-9e0b-23d075c9d843
 
 ### ImageVector Previewer
 
 #### Embedded Previewer
 
-We personally find it very useful to have a previewer for ImageVector (such we have for SVG or XML).
-Previewer available for any ImageVector formats (backing or lazy property, legacy google material icons) without
-compose @Preview annotation and project compilation.
+Plugin-exclusive feature: preview ImageVectors directly in the editor (similar to SVG or XML previews).
+Works with any ImageVector format (backing or lazy property, legacy Google Material icons) without requiring `@Preview`
+annotations.
 
 <div align="center">
-    <img src="assets/imagevector_previewer.png" />
+    <img src="assets/imagevector_previewer.png" width="700" />
 </div>
 
-Previewer actions:
+Available actions:
 
-- Change icon background (pixel grid, white, black)
-- Zoom in, zoom out icon without loosing quality
-- Draw as actual size
-- Fit icon to window
+- Toggle background (pixel grid, white, black)
+- Zoom in/out without quality loss
+- View at actual size
+- Fit to window
 
 Demo:
 
-https://github.com/user-attachments/assets/1047a2b3-81ec-4e10-a118-0ff20bd5227b
+https://github.com/user-attachments/assets/3f5f37d1-9add-4bb2-b971-b0d8392a5700
 
 #### AutoCompletion Previewer
 
-When IDEA auto-completion popup is shown for any ImageVector property, the preview image will be displayed in the popup.
+Preview icons directly in the IDE autocomplete popup - see what each ImageVector looks like before selecting it.
 
 <div align="center">
-    <img src="assets/imagevector_previewer_autocomplete.png" />
+    <img src="assets/imagevector_previewer_autocomplete.png" width="700" />
 </div>
 
 #### Gutter Previewer
 
-Preview inside gutter available for any ImageVector property. By clicking on the gutter icon, the original file will be
-opened in the editor with embedded previewer.
+Icon previews appear in the editor gutter. Click to open the file with embedded previewer.
 
 <div align="center">
-    <img src="assets/imagevector_previewer_gutter.png" />
+    <img src="assets/imagevector_previewer_gutter.png" width="650" />
+</div>
+
+#### Project View Previewer
+
+Icon previews in the project file tree.
+
+<div align="center">
+    <img src="assets/imagevector_previewer_project_view.png" width="300"/>
 </div>
 
 ### Requirements
@@ -335,6 +425,27 @@ Usage:
 <img src="assets/cli_valkyrie_svgxml2imagevector.png" width="550" />
 </div>
 
+Key options:
+
+| Option                       | Default            | Description                                                        |
+|------------------------------|--------------------|--------------------------------------------------------------------|
+| `--input-path`               | *(required)*       | Directory with SVG/XML files or path to a single file              |
+| `--output-path`              | *(required)*       | Output directory for generated sources                             |
+| `--package-name`             | *(required)*       | Package name of the generated sources                              |
+| `--iconpack-name`            | `""`               | Name of the existing IconPack                                      |
+| `--nested-pack-name`         | `""`               | Name of the existing nested IconPack                               |
+| `--output-format`            | `backing-property` | `backing-property` or `lazy-property`                              |
+| `--use-compose-colors`       | `true`             | Use predefined Compose colors instead of hex codes                 |
+| `--generate-preview`         | `false`            | Generate `@Preview` function                                       |
+| `--flatpackage`              | `false`            | Import all icons into a single package                             |
+| `--explicit-mode`            | `false`            | Add explicit `public` modifier                                     |
+| `--trailing-comma`           | `false`            | Insert trailing comma in path params                               |
+| `--use-path-data-string`     | `false`            | Generate `addPath` with pathData strings instead of builder calls  |
+| `--suppress-unused-receiver` | `false`            | Add `@Suppress("UnusedReceiverParameter")` to extension properties |
+| `--indent-size`              | `4`                | Spaces per indentation level                                       |
+| `--auto-mirror`              | *(not set)*        | Force `autoMirror=true` or `autoMirror=false` on all icons         |
+| `-v`, `--verbose`            | `false`            | Print additional info logs                                         |
+
 Demo:
 
 https://github.com/user-attachments/assets/1e1d07bd-080f-4d39-8683-c1c30ef905e8
@@ -371,10 +482,10 @@ ideal for projects that need to version control icon sources and generate type-s
 
 ### Compatibility
 
-| Valkyrie plugin version | Min AGP | Min Gradle              |
-|-------------------------|---------|-------------------------|
-| 0.4.0                   | 9.0.0   | 9.0.0 (should be lower) |
-| 0.5.0                   | 9.2.0   | 9.4.1                   |
+| Valkyrie plugin version | Min AGP | Min Gradle |
+|-------------------------|---------|------------|
+| 0.4.0                   | 9.0.0   | 9.0.0      |
+| 0.5.0                   | 9.2.0   | 9.4.1      |
 
 ### Common scenarios
 
@@ -455,6 +566,10 @@ valkyrie {
 
         // Insert a trailing comma after the last element of ImageVector.Builder block and path params (default: false)
         addTrailingComma = false
+
+        // Generate addPath with pathData strings instead of path builder calls (default: false)
+        // Less optimal due to pre-rendering parsing, but may be preferred for readability
+        usePathDataString = false
 
         // Add `@Suppress("UnusedReceiverParameter")` annotation to generated ImageVector extension properties (default: false)
         // Suppresses the Kotlin warning when the receiver parameter (e.g. `ValkyrieIcons`) is not used inside the property getter body
