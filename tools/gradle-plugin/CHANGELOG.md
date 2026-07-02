@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Migrate to new IconPackTree architecture for improved hierarchical icon pack structure support
+
 ## 0.5.1 - 2026-06-03
 
 ### Fixed

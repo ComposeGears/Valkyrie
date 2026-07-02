@@ -1,0 +1,11 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.generator.kt.imagevector:kmp>
+final object io.github.composegears.valkyrie.sdk.generator.kt.imagevector.kmp/ImageVectorGenerator { // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.kmp/ImageVectorGenerator|null[0]
+    final fun convert(io.github.composegears.valkyrie.sdk.ir.core/IrImageVector, io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorGeneratorConfig): io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common/ImageVectorOutput // io.github.composegears.valkyrie.sdk.generator.kt.imagevector.kmp/ImageVectorGenerator.convert|convert(io.github.composegears.valkyrie.sdk.ir.core.IrImageVector;io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig){}[0]
+}

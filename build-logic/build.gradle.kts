@@ -37,5 +37,9 @@ gradlePlugin {
             id = "valkyrie.abi"
             implementationClass = "AbiPlugin"
         }
+        register("valkyrie.explicit-api") {
+            id = "valkyrie.explicit-api"
+            implementationClass = "ExplicitApiPlugin"
+        }
     }
 }

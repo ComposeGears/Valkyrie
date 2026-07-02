@@ -4,12 +4,14 @@ package io.github.composegears.valkyrie.converter.figma
 
 import io.github.composegears.valkyrie.converter.figma.ConverterResult.Error
 import io.github.composegears.valkyrie.converter.figma.ConverterResult.Success
-import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.kmp.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.generator.kmp.imagevector.OutputFormat
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.CodeStyleConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.kmp.ImageVectorGenerator
 import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
 import kotlinx.serialization.SerialName
@@ -50,21 +52,21 @@ fun convertSvg(
 
         val output = ImageVectorGenerator.convert(
             vector = parseOutput.irImageVector,
-            iconName = parseOutput.iconName,
-            config = ImageVectorGeneratorConfig(
+            config = ImageVectorGeneratorConfig.simple(
+                iconName = parseOutput.iconName,
                 packageName = packageName,
-                iconPackPackage = packageName,
-                packName = "",
-                nestedPackName = "",
-                outputFormat = resolveOutputFormat(outputFormat),
-                useComposeColors = useComposeColors,
-                generatePreview = false,
-                useFlatPackage = false,
-                addTrailingComma = addTrailingComma,
-                useExplicitMode = useExplicitMode,
-                usePathDataString = usePathDataString,
-                indentSize = indentSize,
-                suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
+                codeStyle = CodeStyleConfig(
+                    useExplicitMode = useExplicitMode,
+                    indentSize = indentSize,
+                ),
+                imageVector = ImageVectorConfig(
+                    outputFormat = OutputFormat.from(outputFormat)
+                        ?: error("Unsupported outputFormat '$outputFormat'"),
+                    useComposeColors = useComposeColors,
+                    addTrailingComma = addTrailingComma,
+                    usePathDataString = usePathDataString,
+                    suppressUnusedReceiverWarning = suppressUnusedReceiverWarning,
+                ),
             ),
         )
 
@@ -79,15 +81,6 @@ fun convertSvg(
             error = error.message ?: "Unknown conversion error",
         )
     }.let { Json.encodeToString(it) }
-}
-
-private fun resolveOutputFormat(outputFormat: String): OutputFormat = when (outputFormat) {
-    OutputFormat.BackingProperty.key -> OutputFormat.BackingProperty
-    OutputFormat.LazyProperty.key -> OutputFormat.LazyProperty
-    else -> throw IllegalArgumentException(
-        "Unsupported outputFormat '$outputFormat'. Supported values: " +
-            "'${OutputFormat.BackingProperty.key}', '${OutputFormat.LazyProperty.key}'.",
-    )
 }
 
 /**

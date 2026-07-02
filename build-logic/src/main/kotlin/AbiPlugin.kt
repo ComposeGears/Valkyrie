@@ -1,5 +1,5 @@
 import io.github.composegears.valkyrie.internal.abiValidation
-import io.github.composegears.valkyrie.internal.kmpExtension
+import io.github.composegears.valkyrie.internal.kotlinMultiplatform
 import io.github.composegears.valkyrie.internal.kotlinJvm
 import io.github.composegears.valkyrie.internal.kotlinJvmPluginId
 import io.github.composegears.valkyrie.internal.kotlinMultiplatformPluginId
@@ -12,7 +12,7 @@ class AbiPlugin : Plugin<Project> {
     @OptIn(ExperimentalAbiValidation::class)
     override fun apply(target: Project) = with(target) {
         plugins.withId(kotlinMultiplatformPluginId) {
-            kmpExtension {
+            kotlinMultiplatform {
                 abiValidation {
                     enabled.set(true)
                 }

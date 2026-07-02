@@ -1,3 +1,4 @@
+
 import io.github.composegears.valkyrie.excludeAndroidBuildTools
 import io.github.composegears.valkyrie.task.CheckVersionCompatibility
 import org.jetbrains.changelog.Changelog
@@ -48,13 +49,14 @@ configurations.getByName("implementation") {
 }
 
 dependencies {
-    implementation(projects.components.generator.iconpack)
-    implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.jvm.svg)
     implementation(projects.components.parser.unified)
     implementation(projects.sdk.compose.foundation)
     implementation(projects.sdk.compose.icons)
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.core.tree)
+    implementation(projects.sdk.generator.kt.iconpack)
+    implementation(projects.sdk.generator.kt.imagevector.jvm)
     implementation(projects.sdk.intellij.psi.iconpack)
     implementation(projects.sdk.intellij.psi.imagevector)
     implementation(projects.sdk.ir.core)

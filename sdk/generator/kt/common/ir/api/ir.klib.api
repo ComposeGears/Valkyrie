@@ -1,0 +1,9 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.generator.kt.common:ir>
+final fun (io.github.composegears.valkyrie.sdk.ir.core/IrPathNode).io.github.composegears.valkyrie.generator.kt.common.ir/asStatement(): kotlin/String // io.github.composegears.valkyrie.generator.kt.common.ir/asStatement|asStatement@io.github.composegears.valkyrie.sdk.ir.core.IrPathNode(){}[0]

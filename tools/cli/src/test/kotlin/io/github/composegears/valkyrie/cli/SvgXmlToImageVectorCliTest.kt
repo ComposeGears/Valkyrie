@@ -6,11 +6,10 @@ import assertk.assertions.isNotNull
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.AddTrailingComma
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.AutoMirror
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.GeneratePreview
-import io.github.composegears.valkyrie.cli.SvgXmlCommand.IconPackName
+import io.github.composegears.valkyrie.cli.SvgXmlCommand.IconPack
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.ImageVectorOutputFormat
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.IndentSize
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.InputPath
-import io.github.composegears.valkyrie.cli.SvgXmlCommand.NestedPackName
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.OutputPath
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.PackageName
 import io.github.composegears.valkyrie.cli.SvgXmlCommand.UseComposeColors
@@ -21,8 +20,8 @@ import io.github.composegears.valkyrie.cli.common.CliTestType
 import io.github.composegears.valkyrie.cli.common.CliTestType.DirectMain
 import io.github.composegears.valkyrie.cli.common.CliTestType.JarTerminal
 import io.github.composegears.valkyrie.cli.common.CommandLineTestRunner
-import io.github.composegears.valkyrie.cli.common.toResourceText
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.testfixtures.toResourceText
 import io.github.composegears.valkyrie.sdk.test.resource.loader.ResourceLoader.getResourcePath
 import java.nio.file.Path
 import kotlin.io.path.absolutePathString
@@ -121,7 +120,7 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_flat_package.xml",
             expectedKtName = "FlatPackage.pack.kt",
             actualKtName = "FlatPackage.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             useFlatPackage = UseFlatPackage(true),
         )
     }
@@ -132,8 +131,18 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_flat_package.xml",
             expectedKtName = "FlatPackage.pack.nested.kt",
             actualKtName = "FlatPackage.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
-            nestedPackName = NestedPackName("Filled"),
+            iconPack = IconPack("ValkyrieIcons.Filled"),
+            useFlatPackage = UseFlatPackage(true),
+        )
+    }
+
+    @Test
+    fun `flat package with deep nested icon pack`() {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_flat_package.xml",
+            expectedKtName = "FlatPackage.pack.deep.nested.kt",
+            actualKtName = "FlatPackage.kt",
+            iconPack = IconPack("ValkyrieIcons.Material.Rounded"),
             useFlatPackage = UseFlatPackage(true),
         )
     }
@@ -204,7 +213,7 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.preview.androidx.kt",
             actualKtName = "WithoutPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             generatePreview = GeneratePreview(true),
         )
     }
@@ -215,9 +224,18 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.nested.preview.androidx.kt",
             actualKtName = "filled/WithoutPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
-            nestedPackName = NestedPackName("Filled"),
+            iconPack = IconPack("ValkyrieIcons.Filled"),
             generatePreview = GeneratePreview(true),
+        )
+    }
+
+    @Test
+    fun `deep nested icon pack output directory structure`() {
+        arg.testConversion(
+            inputResource = "imagevector/xml/ic_without_path.xml",
+            expectedKtName = "WithoutPath.pack.deep.nested.kt",
+            actualKtName = "material/rounded/WithoutPath.kt",
+            iconPack = IconPack("ValkyrieIcons.Material.Rounded"),
         )
     }
 
@@ -227,7 +245,7 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_without_path.xml",
             expectedKtName = "WithoutPath.pack.kt",
             actualKtName = "WithoutPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
         )
     }
 
@@ -236,7 +254,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_only_path.xml",
             expectedKtName = "OnlyPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
         )
     }
 
@@ -245,7 +263,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_fill_color_stroke.xml",
             expectedKtName = "FillColorStroke.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
         )
     }
 
@@ -255,7 +273,7 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_fill_color_stroke.xml",
             expectedKtName = "FillColorStroke.trailing.kt",
             actualKtName = "FillColorStroke.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             addTrailingComma = AddTrailingComma(true),
         )
     }
@@ -266,7 +284,7 @@ class SvgXmlToImageVectorCliTest(
             inputResource = "imagevector/xml/ic_only_path.xml",
             expectedKtName = "OnlyPathWithPathData.kt",
             actualKtName = "OnlyPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             usePathDataString = UsePathDataString(true),
         )
     }
@@ -276,7 +294,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_path_params.xml",
             expectedKtName = "AllPathParams.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
         )
     }
 
@@ -285,7 +303,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_path_params.xml",
             expectedKtName = "AllPathParams.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             autoMirror = AutoMirror(true),
         )
     }
@@ -295,7 +313,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_group_params.xml",
             expectedKtName = "AllGroupParams.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             useComposeColors = UseComposeColors(false),
         )
     }
@@ -305,7 +323,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_all_group_params.xml",
             expectedKtName = "AllGroupParams.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             useComposeColors = UseComposeColors(false),
             autoMirror = AutoMirror(false),
         )
@@ -316,7 +334,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_several_path.xml",
             expectedKtName = "SeveralPath.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             useComposeColors = UseComposeColors(false),
         )
     }
@@ -326,7 +344,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_compose_color.xml",
             expectedKtName = "ComposeColor.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             useComposeColors = UseComposeColors(true),
         )
     }
@@ -356,7 +374,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/ic_transparent_fill_color.xml",
             expectedKtName = "TransparentFillColor.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
             useComposeColors = UseComposeColors(false),
         )
     }
@@ -366,7 +384,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/icon_with_named_args.xml",
             expectedKtName = "IconWithNamedArgs.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
         )
     }
 
@@ -375,7 +393,7 @@ class SvgXmlToImageVectorCliTest(
         arg.testConversion(
             inputResource = "imagevector/xml/icon_with_shorthand_color.xml",
             expectedKtName = "IconWithShorthandColor.kt",
-            iconPackName = IconPackName("ValkyrieIcons"),
+            iconPack = IconPack("ValkyrieIcons"),
         )
     }
 
@@ -416,10 +434,9 @@ class SvgXmlToImageVectorCliTest(
         inputResource: String,
         expectedKtName: String,
         actualKtName: String = expectedKtName,
-        iconPackName: IconPackName? = null,
+        iconPack: IconPack? = null,
         useExplicitMode: UseExplicitMode? = null,
         useComposeColors: UseComposeColors? = null,
-        nestedPackName: NestedPackName? = null,
         useFlatPackage: UseFlatPackage? = null,
         indentSize: IndentSize? = null,
         generatePreview: GeneratePreview? = null,
@@ -436,8 +453,7 @@ class SvgXmlToImageVectorCliTest(
                 InputPath(input.absolutePathString()),
                 OutputPath(tempDir.absolutePathString()),
                 PackageName("io.github.composegears.valkyrie.icons"),
-                iconPackName,
-                nestedPackName,
+                iconPack,
                 ImageVectorOutputFormat(outputFormat),
                 generatePreview,
                 useFlatPackage,
@@ -500,12 +516,8 @@ private sealed interface SvgXmlCommand {
         override val command: String = "--package-name=$name"
     }
 
-    data class IconPackName(val name: String) : SvgXmlCommand {
-        override val command: String = "--iconpack-name=$name"
-    }
-
-    data class NestedPackName(val name: String) : SvgXmlCommand {
-        override val command: String = "--nested-pack-name=$name"
+    data class IconPack(val tree: String) : SvgXmlCommand {
+        override val command: String = "--iconpack=$tree"
     }
 
     data class ImageVectorOutputFormat(val format: OutputFormat) : SvgXmlCommand {

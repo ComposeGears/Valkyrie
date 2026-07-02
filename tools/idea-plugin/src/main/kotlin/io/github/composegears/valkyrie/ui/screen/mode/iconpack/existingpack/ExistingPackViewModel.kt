@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
 import com.intellij.openapi.project.Project
-import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig
 import io.github.composegears.valkyrie.sdk.intellij.psi.iconpack.IconPackInfo
 import io.github.composegears.valkyrie.sdk.intellij.psi.iconpack.IconPackPsiParser
 import io.github.composegears.valkyrie.ui.di.DI
@@ -92,20 +93,21 @@ class ExistingPackViewModel : ViewModel() {
     private fun previewIconPackObject() = viewModelScope.launch {
         val inputFieldState = currentState.safeAs<ExistingPackEditState>()?.inputFieldState ?: return@launch
 
-        val iconPackCode = IconPackGenerator.create(
+        val iconPackTreeCode = IconPackGenerator.create(
             config = IconPackGeneratorConfig(
                 packageName = inputFieldState.packageName.text,
-                iconPack = IconPack(
-                    name = inputFieldState.iconPackName.text,
-                    nested = inputFieldState.nestedPacks.map { IconPack(it.inputFieldState.text) },
-                ),
+                iconPackTree = buildTree(inputFieldState.iconPackName.text) {
+                    inputFieldState.nestedPacks.forEach {
+                        child(it.inputFieldState.text)
+                    }
+                },
                 useExplicitMode = inMemorySettings.current.useExplicitMode,
                 indentSize = inMemorySettings.current.indentSize,
                 license = inputFieldState.license.text.ifEmpty { null },
             ),
         ).content
 
-        _events.send(ExistingPackEvent.PreviewIconPackObject(code = iconPackCode))
+        _events.send(ExistingPackEvent.PreviewIconPackObject(code = iconPackTreeCode))
     }
 
     private fun saveIconPack(project: Project, isModified: Boolean) {
@@ -130,12 +132,12 @@ class ExistingPackViewModel : ViewModel() {
     private fun IconPackInfo.toInputFieldState(): InputFieldState {
         return InputFieldState(
             license = InputState(text = license.orEmpty()),
-            iconPackName = InputState(text = iconPack.name, enabled = false),
+            iconPackName = InputState(text = iconPackTree.data, enabled = false),
             packageName = InputState(text = packageName, enabled = false),
-            nestedPacks = iconPack.nested.mapIndexed { index, pack ->
+            nestedPacks = iconPackTree.children.mapIndexed { index, pack ->
                 NestedPack(
                     id = index.toString(),
-                    inputFieldState = InputState(text = pack.name, enabled = false),
+                    inputFieldState = InputState(text = pack.data, enabled = false),
                 )
             },
         )

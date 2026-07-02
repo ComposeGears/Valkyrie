@@ -28,6 +28,7 @@ public abstract class io/github/composegears/valkyrie/gradle/NestedPack {
 	public final fun getAutoMirror ()Lorg/gradle/api/provider/Property;
 	public final fun getName ()Lorg/gradle/api/provider/Property;
 	public final fun getSourceFolder ()Lorg/gradle/api/provider/Property;
+	public final fun nested (Lkotlin/jvm/functions/Function1;)V
 }
 
 public abstract class io/github/composegears/valkyrie/gradle/ValkyrieExtension {

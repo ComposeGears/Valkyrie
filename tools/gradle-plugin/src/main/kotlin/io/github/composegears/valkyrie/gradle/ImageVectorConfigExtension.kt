@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.gradle
 
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.gradle.dsl.property
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
 import javax.inject.Inject
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property

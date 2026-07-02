@@ -1,0 +1,39 @@
+public final class io/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode : io/github/composegears/valkyrie/sdk/core/tree/TreeNode {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun addChild (Lio/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode;)V
+	public final fun addChild (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun addChild$default (Lio/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getChildren ()Ljava/util/List;
+	public fun getData ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface annotation class io/github/composegears/valkyrie/sdk/core/tree/TreeDsl : java/lang/annotation/Annotation {
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/tree/TreeDslKt {
+	public static final fun buildTree (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static synthetic fun buildTree$default (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static final fun child (Lio/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode;Lio/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode;)V
+	public static final fun child (Lio/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun child$default (Lio/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public abstract interface class io/github/composegears/valkyrie/sdk/core/tree/TreeNode {
+	public abstract fun getChildren ()Ljava/util/List;
+	public abstract fun getData ()Ljava/lang/Object;
+}
+
+public final class io/github/composegears/valkyrie/sdk/core/tree/TreeNodeExtensionsKt {
+	public static final fun contains (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/Object;)Z
+	public static final fun copy (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/util/List;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/util/List;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static final fun find (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static final fun flatten (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Ljava/util/List;
+	public static final fun get (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/Object;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static final fun map (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Lkotlin/jvm/functions/Function1;)Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public static final fun toMutableTree (Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;)Lio/github/composegears/valkyrie/sdk/core/tree/MutableTreeNode;
+}
+

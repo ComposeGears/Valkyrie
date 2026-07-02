@@ -1,0 +1,42 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <valkyrie.sdk.generator.kt:iconpack>
+final class io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig { // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig|null[0]
+    constructor <init>(kotlin/String, io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String>, kotlin/Boolean, kotlin/Int, kotlin/String? = ...) // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.<init>|<init>(kotlin.String;io.github.composegears.valkyrie.sdk.core.tree.TreeNode<kotlin.String>;kotlin.Boolean;kotlin.Int;kotlin.String?){}[0]
+
+    final val iconPackTree // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.iconPackTree|{}iconPackTree[0]
+        final fun <get-iconPackTree>(): io.github.composegears.valkyrie.sdk.core.tree/TreeNode<kotlin/String> // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.iconPackTree.<get-iconPackTree>|<get-iconPackTree>(){}[0]
+    final val indentSize // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.indentSize|{}indentSize[0]
+        final fun <get-indentSize>(): kotlin/Int // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.indentSize.<get-indentSize>|<get-indentSize>(){}[0]
+    final val license // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.license|{}license[0]
+        final fun <get-license>(): kotlin/String? // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.license.<get-license>|<get-license>(){}[0]
+    final val packageName // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.packageName|{}packageName[0]
+        final fun <get-packageName>(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.packageName.<get-packageName>|<get-packageName>(){}[0]
+    final val useExplicitMode // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.useExplicitMode|{}useExplicitMode[0]
+        final fun <get-useExplicitMode>(): kotlin/Boolean // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig.useExplicitMode.<get-useExplicitMode>|<get-useExplicitMode>(){}[0]
+}
+
+final class io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput { // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput|null[0]
+    constructor <init>(kotlin/String, kotlin/String) // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.<init>|<init>(kotlin.String;kotlin.String){}[0]
+
+    final val content // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.content|{}content[0]
+        final fun <get-content>(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.content.<get-content>|<get-content>(){}[0]
+    final val name // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.name|{}name[0]
+        final fun <get-name>(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.name.<get-name>|<get-name>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.component1|component1(){}[0]
+    final fun component2(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.component2|component2(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ...): io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.copy|copy(kotlin.String;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput.toString|toString(){}[0]
+}
+
+final object io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGenerator { // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGenerator|null[0]
+    final fun create(io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGeneratorConfig): io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackSpecOutput // io.github.composegears.valkyrie.sdk.generator.kt.iconpack/IconPackGenerator.create|create(io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig){}[0]
+}

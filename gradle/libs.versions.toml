@@ -81,6 +81,7 @@ valkyrie-kmp = { id = "valkyrie.kmp" }
 valkyrie-compose = { id = "valkyrie.compose" }
 valkyrie-wasm-resources = { id = "valkyrie.wasm.resources" }
 valkyrie-abi = { id = "valkyrie.abi" }
+valkyrie-explicit-api = { id = "valkyrie.explicit-api" }
 valkyrie-kover = { id = "valkyrie.kover" }
 
 [bundles]

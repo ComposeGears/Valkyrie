@@ -1,19 +1,24 @@
 package io.github.composegears.valkyrie.gradle.internal.task
 
-import io.github.composegears.valkyrie.generator.core.IconPack
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGenerator
-import io.github.composegears.valkyrie.generator.iconpack.IconPackGeneratorConfig
-import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports
-import io.github.composegears.valkyrie.generator.jvm.imagevector.FullQualifiedImports.Companion.reservedComposeQualifiers
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
-import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
-import io.github.composegears.valkyrie.generator.jvm.imagevector.OutputFormat
 import io.github.composegears.valkyrie.gradle.IconPackExtension
 import io.github.composegears.valkyrie.gradle.NestedPack
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.writeToKt
+import io.github.composegears.valkyrie.sdk.core.tree.MutableTreeNode
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGenerator
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.IconPackGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.CodeStyleConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.FullyQualifiedImports
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.FullyQualifiedImports.Companion.reservedComposeTypeNames
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.ImageVectorGeneratorConfig
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.common.OutputFormat
+import io.github.composegears.valkyrie.sdk.generator.kt.imagevector.jvm.ImageVectorGenerator
 import java.io.File
 import kotlinx.io.files.Path
 import org.gradle.api.DefaultTask
@@ -77,20 +82,20 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
     @get:Input
     abstract val sourceSet: Property<String>
 
-    private val basicConfig: ImageVectorGeneratorConfig
-        get() = ImageVectorGeneratorConfig(
-            packageName = packageName.get(),
-            iconPackPackage = packageName.get(),
-            packName = "",
-            nestedPackName = "",
+    private val codeStyleConfig: CodeStyleConfig
+        get() = CodeStyleConfig(
+            useExplicitMode = useExplicitMode.get(),
+            indentSize = indentSize.get(),
+        )
+
+    private val imageVectorConfig: ImageVectorConfig
+        get() = ImageVectorConfig(
             outputFormat = outputFormat.get(),
             useComposeColors = useComposeColors.get(),
             generatePreview = generatePreview.get(),
-            useFlatPackage = false,
-            useExplicitMode = useExplicitMode.get(),
+            useFlatPackage = iconPack.isPresent && iconPack.get().useFlatPackage.get(),
             addTrailingComma = addTrailingComma.get(),
             usePathDataString = usePathDataString.get(),
-            indentSize = indentSize.get(),
             suppressUnusedReceiverWarning = suppressUnusedReceiverWarning.get(),
         )
 
@@ -111,17 +116,36 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         // Detect icons with names conflicting with reserved Compose qualifiers
         val iconNames = iconFiles.files.map { IconNameFormatter.format(name = it.name) }
 
-        val fullQualifiedNames = iconNames.filter { reservedComposeQualifiers.contains(it) }
+        val fullyQualifiedNames = iconNames.filter { it in reservedComposeTypeNames }
 
-        if (fullQualifiedNames.isNotEmpty()) {
+        if (fullyQualifiedNames.isNotEmpty()) {
             logger.lifecycle(
                 "Found icons names that conflict with reserved Compose qualifiers. " +
-                    "Full qualified import will be used for: \"${fullQualifiedNames.joinToString(", ")}\"",
+                    "Full qualified import will be used for: \"${fullyQualifiedNames.joinToString(", ")}\"",
             )
         }
 
         // Check for duplicates with nested pack awareness
-        validateDuplicates(iconFiles.files.toList(), iconNames)
+        if (iconPack.isPresent) {
+            val nestedPacks = if (iconPack.get().nestedPacks.get().isNotEmpty()) {
+                NestedPackFlattener.flatten(iconPack.get().nestedPacks.get())
+            } else {
+                emptyList()
+            }
+            DuplicateIconValidator.validateDuplicates(
+                files = iconFiles.files.toList(),
+                iconNames = iconNames,
+                packName = iconPack.get().name.get(),
+                nestedPacks = nestedPacks,
+                useFlatPackage = iconPack.get().useFlatPackage.get(),
+            )
+        } else {
+            // No icon pack - validate as package without nesting
+            DuplicateIconValidator.checkDuplicatesInIconNames(
+                names = iconNames,
+                context = "\"${packageName.get()}\"",
+            )
+        }
 
         if (iconPack.isPresent && iconPack.get().targetSourceSet.get() == sourceSet.get()) {
             generateIconPack(outputDirectory = outputDirectory)
@@ -130,12 +154,12 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         if (iconPack.isPresent) {
             generateIconsWithIconPack(
                 outputDirectory = outputDirectory,
-                fullQualifiedNames = fullQualifiedNames,
+                fullQualifiedNames = fullyQualifiedNames,
             )
         } else {
             generateIconsWithoutPack(
                 outputDirectory = outputDirectory,
-                fullQualifiedNames = fullQualifiedNames,
+                fullQualifiedNames = fullyQualifiedNames,
             )
         }
 
@@ -147,17 +171,12 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         val packageName = packageName.get()
         val iconPackExtension = iconPack.get()
 
-        val pack = IconPack(
-            name = iconPackExtension.name.get(),
-            nested = iconPackExtension.nestedPacks.get().map { nestedPack ->
-                IconPack(name = nestedPack.name.get())
-            },
-        )
+        val pack = buildIconPackTree(iconPackExtension)
 
         IconPackGenerator.create(
             config = IconPackGeneratorConfig(
                 packageName = packageName,
-                iconPack = pack,
+                iconPackTree = pack,
                 useExplicitMode = useExplicitMode.get(),
                 indentSize = indentSize.get(),
             ),
@@ -169,7 +188,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                 outputDir = absolutePath,
                 nameWithoutExtension = it.name,
             )
-            logger.lifecycle("Generated \"${pack.name}\" iconpack in package \"$packageName\"")
+            logger.lifecycle("Generated \"${pack.data}\" iconpack in package \"$packageName\"")
         }
     }
 
@@ -188,7 +207,13 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
             useFlatPackage = false,
         )
 
-        val config = basicConfig.copy(fullQualifiedImports = createFullQualifiedImports(fullQualifiedNames))
+        val config = ImageVectorGeneratorConfig.simple(
+            iconName = "",
+            packageName = packageName,
+            codeStyle = codeStyleConfig,
+            imageVector = imageVectorConfig,
+            fullyQualifiedImports = FullyQualifiedImports.from(fullQualifiedNames),
+        )
         var convertedCount = 0
         iconFiles.files.forEach { file ->
             runCatching {
@@ -197,6 +222,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                     config = config,
                     targetDirectory = targetDirectory,
                     nestedPackName = null,
+                    flattenedNestedPack = null,
                 )
                 convertedCount++
             }.onFailure {
@@ -213,9 +239,15 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         val nestedPacks = pack.nestedPacks.get()
         val useFlatPackage = pack.useFlatPackage.get()
 
-        val config = basicConfig.copy(
-            packName = pack.name.get(),
-            fullQualifiedImports = createFullQualifiedImports(fullQualifiedNames),
+        // Note: for ImageVectorConfig, we must pass a linear chain tree (single path)
+        // Individual nested packs are handled separately in generateIconsForNestedPacks
+        val config = ImageVectorGeneratorConfig.iconPack(
+            iconName = "",
+            packageName = packageName,
+            iconPackTree = buildTree(pack.name.get()),
+            codeStyle = codeStyleConfig,
+            imageVector = imageVectorConfig,
+            fullyQualifiedImports = FullyQualifiedImports.from(fullQualifiedNames),
         )
 
         if (iconFiles.isEmpty) {
@@ -235,7 +267,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                 packageName = packageName,
                 useFlatPackage = useFlatPackage,
                 nestedPacks = nestedPacks,
-                config = config.copy(useFlatPackage = useFlatPackage),
+                config = config.copy(imageVector = config.imageVector.copy(useFlatPackage = useFlatPackage)),
             )
         }
     }
@@ -260,6 +292,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                     config = config,
                     targetDirectory = targetDirectory,
                     nestedPackName = null,
+                    flattenedNestedPack = null,
                 )
                 convertedCount++
             }.onFailure {
@@ -276,16 +309,38 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         nestedPacks: List<NestedPack>,
         config: ImageVectorGeneratorConfig,
     ) {
-        val sourceFolderToNestedPack = nestedPacks.associateBy { it.sourceFolder.get() }
+        val packName = config.iconPackTree?.data.orEmpty()
+
+        // Flatten nested packs recursively to handle arbitrary depth
+        val flattenedPacks = NestedPackFlattener.flatten(nestedPacks)
         val nestedPackIconCounts = mutableMapOf<String, Int>()
 
-        iconFiles.files.forEach { file ->
-            val parentDirName = file.parentFile.name
-            val nestedPack = sourceFolderToNestedPack[parentDirName]
+        // Find the common resources directory.
+        // We need to go up the hierarchy based on the max nesting depth of nested packs.
+        // For 1-level nested: depth = 1, go up 1 level to get from "filled/" to "valkyrieResources/"
+        // For 2-level nested: depth = 2, go up 2 levels to get from "material/filled/" to "valkyrieResources/"
+        val maxNestedPackDepth = flattenedPacks.maxOfOrNull { it.hierarchyPath.size } ?: 1
+        val resourcesDir = iconFiles.files.findResourcesDirectory(maxNestedPackDepth)
 
-            if (nestedPack != null) {
-                val nestedPackName = nestedPack.name.get()
-                val nestedPackConfig = config.copy(nestedPackName = nestedPackName)
+        iconFiles.files.forEach { file ->
+            // Calculate relative path from resources directory
+            val relativeFileDir = if (resourcesDir != null && resourcesDir.isDirectory) {
+                file.parentFile.toRelativeString(resourcesDir)
+            } else {
+                file.parentFile.name
+            }
+
+            // Find matching flattened nested pack based on source folder - exact match required
+            val matchingNestedPack = flattenedPacks.find { nestedPack ->
+                val normalizedSourceFolder = nestedPack.sourceFolder.replace('/', File.separatorChar)
+                relativeFileDir == normalizedSourceFolder
+            }
+
+            if (matchingNestedPack != null) {
+                val nestedPackName = matchingNestedPack.displayName
+                val nestedPackConfig = config.copy(
+                    iconPackTree = buildNestedTree(packName, nestedPackName),
+                )
                 val nestedTargetDirectory = resolveTargetDirectory(
                     outputDirectory = outputDirectory,
                     packageName = packageName,
@@ -299,6 +354,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
                         config = nestedPackConfig,
                         targetDirectory = nestedTargetDirectory,
                         nestedPackName = nestedPackName,
+                        flattenedNestedPack = matchingNestedPack,
                     )
                     nestedPackIconCounts[nestedPackName] = nestedPackIconCounts.getOrDefault(nestedPackName, 0) + 1
                 }.onFailure {
@@ -318,11 +374,12 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         config: ImageVectorGeneratorConfig,
         targetDirectory: File,
         nestedPackName: String?,
+        flattenedNestedPack: FlattenedNestedPack? = null,
     ) {
         val parseOutput = SvgXmlParser.toIrImageVector(ParserType.Jvm, Path(file.absolutePath))
 
         // Apply autoMirror override if specified (nested pack > icon pack > root)
-        val effectiveAutoMirror = resolveAutoMirror(nestedPackName)
+        val effectiveAutoMirror = resolveAutoMirror(flattenedNestedPack)
         val irImageVector = if (effectiveAutoMirror != null) {
             parseOutput.irImageVector.copy(autoMirror = effectiveAutoMirror)
         } else {
@@ -331,8 +388,7 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
 
         val vectorSpecOutput = ImageVectorGenerator.convert(
             vector = irImageVector,
-            iconName = parseOutput.iconName,
-            config = config,
+            config = config.copy(iconName = parseOutput.iconName),
         )
 
         val path = vectorSpecOutput.content.writeToKt(
@@ -365,27 +421,16 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         else -> "$packageName.${nestedPackName.lowercase()}"
     }
 
-    private fun createFullQualifiedImports(fullQualifiedNames: List<String>): FullQualifiedImports {
-        return FullQualifiedImports(
-            brush = "Brush" in fullQualifiedNames,
-            color = "Color" in fullQualifiedNames,
-            offset = "Offset" in fullQualifiedNames,
-        )
-    }
-
     private fun iconWord(count: Int): String = if (count == 1) "icon" else "icons"
 
     private fun logFileParseError(file: File, error: Throwable) {
         logger.warn("Skipping file ${file.name} due to processing error, details: ${error.message}")
     }
 
-    private fun resolveAutoMirror(nestedPackName: String?): Boolean? {
+    private fun resolveAutoMirror(flattenedNestedPack: FlattenedNestedPack?): Boolean? {
         // Priority: nested pack > icon pack > root extension
-        if (iconPack.isPresent && nestedPackName != null) {
-            val nestedPack = iconPack.get().nestedPacks.get().find { it.name.get() == nestedPackName }
-            if (nestedPack?.autoMirror?.isPresent == true) {
-                return nestedPack.autoMirror.get()
-            }
+        if (flattenedNestedPack?.autoMirror != null) {
+            return flattenedNestedPack.autoMirror
         }
 
         if (iconPack.isPresent && iconPack.get().autoMirror.isPresent) {
@@ -399,118 +444,44 @@ internal abstract class GenerateImageVectorsTask : DefaultTask() {
         return null
     }
 
-    private fun validateDuplicates(files: List<File>, iconNames: List<String>) {
-        if (iconPack.isPresent) {
-            val pack = iconPack.get()
-            val nestedPacks = pack.nestedPacks.get()
-            val useFlatPackage = pack.useFlatPackage.get()
-
-            if (nestedPacks.isNotEmpty()) {
-                // Build map: file -> nested pack name
-                val sourceFolderToNestedPack = nestedPacks.associateBy { it.sourceFolder.get() }
-
-                // When useFlatPackage is false, only validate files that are in configured nested pack folders
-                // (matching the behavior of generateIconsForNestedPacks)
-                val filesToValidate = if (useFlatPackage) {
-                    files
-                } else {
-                    files.filter { file -> sourceFolderToNestedPack.containsKey(file.parentFile.name) }
-                }
-
-                val fileToNestedPack = filesToValidate.associateWith { file ->
-                    sourceFolderToNestedPack[file.parentFile.name]?.name?.get()
-                }
-
-                // Group by nested pack (or single group if useFlatPackage)
-                val iconsByPack = filesToValidate.groupBy { file ->
-                    if (useFlatPackage) {
-                        pack.name.get() // All in same pack when flat
-                    } else {
-                        val nestedPackName = fileToNestedPack[file]
-                        if (nestedPackName != null) "${pack.name.get()}.$nestedPackName" else pack.name.get()
-                    }
-                }
-
-                iconsByPack.forEach { (packIdentifier, filesInPack) ->
-                    val names = filesInPack.map { IconNameFormatter.format(name = it.name) }
-
-                    // Check exact duplicates within this pack/group
-                    val exactDuplicates = names
-                        .groupBy { it }
-                        .filter { it.value.size > 1 }
-                        .keys
-                        .toList()
-                        .sorted()
-
-                    if (exactDuplicates.isNotEmpty()) {
-                        throw GradleException(
-                            "Found duplicate icon names in \"$packIdentifier\": ${exactDuplicates.joinToString(", ")}. " +
-                                "Each icon must have a unique name. " +
-                                "Please rename the source files to avoid duplicates.",
-                        )
-                    }
-
-                    // Check case-insensitive duplicates within this pack/group
-                    val caseInsensitiveDuplicates = names
-                        .groupBy { it.lowercase() }
-                        .filter { it.value.size > 1 && it.value.distinct().size > 1 }
-                        .values
-                        .flatten()
-                        .distinct()
-                        .sorted()
-
-                    if (caseInsensitiveDuplicates.isNotEmpty()) {
-                        throw GradleException(
-                            "Found icon names that would collide on case-insensitive file systems (macOS/Windows) in \"$packIdentifier\": " +
-                                "${caseInsensitiveDuplicates.joinToString(", ")}. " +
-                                "These icons would overwrite each other during generation. " +
-                                "Please rename the source files to avoid case-insensitive duplicates.",
-                        )
-                    }
-                }
-            } else {
-                // Single pack - check all files together
-                checkDuplicatesInIconNames(iconNames, "icon pack \"${pack.name.get()}\"")
-            }
-        } else {
-            // No icon pack - check all files together
-            checkDuplicatesInIconNames(iconNames, "package \"${packageName.get()}\"")
+    private fun buildIconPackTree(iconPackExtension: IconPackExtension): IconPackTree {
+        return buildTree(iconPackExtension.name.get()) {
+            buildNestedPacksTree(this, iconPackExtension.nestedPacks.get())
         }
     }
 
-    private fun checkDuplicatesInIconNames(names: List<String>, context: String) {
-        // Check exact duplicates
-        val exactDuplicates = names
-            .groupBy { it }
-            .filter { it.value.size > 1 }
-            .keys
-            .toList()
-            .sorted()
+    private fun buildNestedPacksTree(parent: MutableTreeNode<String>, nestedPacks: List<NestedPack>) {
+        nestedPacks.forEach { pack ->
+            parent.child(pack.name.get()) {
+                val children = pack.nestedPacks.get()
+                logger.info("Building tree for '${pack.name.get()}' with ${children.size} children")
+                buildNestedPacksTree(this, children)
+            }
+        }
+    }
 
-        if (exactDuplicates.isNotEmpty()) {
-            throw GradleException(
-                "Found duplicate icon names in $context: ${exactDuplicates.joinToString(", ")}. " +
-                    "Each icon must have a unique name. " +
-                    "Please rename the source files to avoid duplicates.",
-            )
+    /**
+     * Build a nested tree from root pack and display name path.
+     * Example: buildNestedTree("ValkyrieIcons", "Material.Filled") produces:
+     *   ValkyrieIcons
+     *     └─ Material
+     *         └─ Filled
+     */
+    private fun buildNestedTree(rootPackName: String, displayNamePath: String): IconPackTree {
+        val parts = displayNamePath.split(".")
+        if (parts.isEmpty()) {
+            return buildTree(rootPackName)
         }
 
-        // Check case-insensitive duplicates
-        val caseInsensitiveDuplicates = names
-            .groupBy { it.lowercase() }
-            .filter { it.value.size > 1 && it.value.distinct().size > 1 }
-            .values
-            .flatten()
-            .distinct()
-            .sorted()
-
-        if (caseInsensitiveDuplicates.isNotEmpty()) {
-            throw GradleException(
-                "Found icon names that would collide on case-insensitive file systems (macOS/Windows) in $context: " +
-                    "${caseInsensitiveDuplicates.joinToString(", ")}. " +
-                    "These icons would overwrite each other during generation. " +
-                    "Please rename the source files to avoid case-insensitive duplicates.",
-            )
+        return buildTree(rootPackName) {
+            // Recursively build nested children
+            fun addChildLevels(node: MutableTreeNode<String>, levelIndex: Int) {
+                if (levelIndex >= parts.size) return
+                node.child(parts[levelIndex]) {
+                    addChildLevels(this, levelIndex + 1)
+                }
+            }
+            addChildLevels(this, 0)
         }
     }
 }

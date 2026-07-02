@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.AbiValidationMultiplatformExtension
 
-internal fun Project.kmpExtension(action: KotlinMultiplatformExtension.() -> Unit) =
+internal fun Project.kotlinMultiplatform(action: KotlinMultiplatformExtension.() -> Unit) =
     extensions.configure<KotlinMultiplatformExtension>(action)
 
 internal fun Project.kotlinJvm(action: KotlinJvmProjectExtension.() -> Unit) =

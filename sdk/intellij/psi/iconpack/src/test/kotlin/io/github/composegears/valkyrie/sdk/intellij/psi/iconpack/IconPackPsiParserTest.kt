@@ -5,7 +5,10 @@ import assertk.assertions.containsExactly
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import com.intellij.testFramework.runInEdtAndGet
-import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.encode
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.iconPackOf
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.navigate
 import io.github.composegears.valkyrie.sdk.intellij.testfixtures.KotlinCodeInsightTest
 import org.junit.jupiter.api.Test
 
@@ -19,8 +22,8 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack.name).isEqualTo("SimpleIconPack")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.iconPackTree.data).isEqualTo("SimpleIconPack")
+                assertThat(packInfo.iconPackTree.children.size).isEqualTo(0)
             }
         }
     }
@@ -33,9 +36,9 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack.name).isEqualTo("NestedIconPack")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(5)
-                assertThat(packInfo.iconPack.nested.map { it.name }).containsExactly(
+                assertThat(packInfo.iconPackTree.data).isEqualTo("NestedIconPack")
+                assertThat(packInfo.iconPackTree.children.size).isEqualTo(5)
+                assertThat(packInfo.iconPackTree.children.map { it.data }).containsExactly(
                     "Filled",
                     "Outlined",
                     "TwoTone",
@@ -54,8 +57,8 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                assertThat(packInfo.iconPack.name).isEqualTo("DataObjectIconPack")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.iconPackTree.data).isEqualTo("DataObjectIconPack")
+                assertThat(packInfo.iconPackTree.children.size).isEqualTo(0)
             }
         }
     }
@@ -67,50 +70,34 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
             val iconPackInfo = IconPackPsiParser.parse(ktFile)
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
+                val tree = packInfo.iconPackTree
+
                 assertThat(packInfo.packageName).isEqualTo("io.github.composegears.valkyrie.psi")
-                packInfo.iconPack.assertStructure(
-                    expectedName = "DeepNestedIconPack",
-                    expectedNestedCount = 4,
-                    expectedNestedNames = listOf("Level1", "Branch", "Wide", "Single"),
-                )
+                tree.assertStructure("DeepNestedIconPack", listOf("Level1", "Branch", "Wide", "Single"))
 
                 // Verify deep linear chain: Level1 -> Level2 -> Level3 -> Level4 -> Level5
-                packInfo.iconPack.navigate("Level1").assertStructure("Level1", 1)
-                packInfo.iconPack.navigate("Level1.Level2").assertStructure("Level2", 1)
-                packInfo.iconPack.navigate("Level1.Level2.Level3").assertStructure("Level3", 1)
-                packInfo.iconPack.navigate("Level1.Level2.Level3.Level4").assertStructure("Level4", 1)
-                packInfo.iconPack.navigate("Level1.Level2.Level3.Level4.Level5").assertStructure("Level5", 0)
+                tree.navigate("Level1").assertStructure("Level1", 1)
+                tree.navigate("Level1.Level2").assertStructure("Level2", 1)
+                tree.navigate("Level1.Level2.Level3").assertStructure("Level3", 1)
+                tree.navigate("Level1.Level2.Level3.Level4").assertStructure("Level4", 1)
+                tree.navigate("Level1.Level2.Level3.Level4.Level5").assertStructure("Level5", 0)
 
                 // Verify Branch with multiple sub-branches
-                packInfo.iconPack.navigate("Branch").assertStructure(
-                    expectedName = "Branch",
-                    expectedNestedCount = 3,
-                    expectedNestedNames = listOf("Left", "Middle", "Right"),
-                )
-                packInfo.iconPack.navigate("Branch.Left").assertStructure("Left", 1)
-                packInfo.iconPack.navigate("Branch.Left.LeftDeep1").assertStructure("LeftDeep1", 1)
-                packInfo.iconPack.navigate("Branch.Left.LeftDeep1.LeftDeep2").assertStructure("LeftDeep2", 0)
-                packInfo.iconPack.navigate("Branch.Middle").assertStructure("Middle", 0)
-                packInfo.iconPack.navigate("Branch.Right")
-                    .assertStructure(
-                        expectedName = "Right",
-                        expectedNestedCount = 2,
-                        expectedNestedNames = listOf("RightDeep1", "RightDeep2"),
-                    )
+                tree.navigate("Branch").assertStructure("Branch", listOf("Left", "Middle", "Right"))
+                tree.navigate("Branch.Left").assertStructure("Left", 1)
+                tree.navigate("Branch.Left.LeftDeep1").assertStructure("LeftDeep1", 1)
+                tree.navigate("Branch.Left.LeftDeep1.LeftDeep2").assertStructure("LeftDeep2", 0)
+                tree.navigate("Branch.Middle").assertStructure("Middle", 0)
+                tree.navigate("Branch.Right").assertStructure("Right", listOf("RightDeep1", "RightDeep2"))
 
                 // Verify wide tree with multiple children
-                packInfo.iconPack.navigate("Wide")
-                    .assertStructure(
-                        expectedName = "Wide",
-                        expectedNestedCount = 5,
-                        expectedNestedNames = listOf("Item1", "Item2", "Item3", "Item4", "Item5"),
-                    )
+                tree.navigate("Wide").assertStructure("Wide", listOf("Item1", "Item2", "Item3", "Item4", "Item5"))
 
                 // Verify single leaf node
-                packInfo.iconPack.navigate("Single").assertStructure("Single", 0)
+                tree.navigate("Single").assertStructure("Single", 0)
 
                 // Verify toRawString produces correct paths
-                val rawString = IconPack.toRawString(packInfo.iconPack)
+                val rawString = tree.encode()
                 val expectedPaths = listOf(
                     "DeepNestedIconPack.Level1.Level2.Level3.Level4.Level5",
                     "DeepNestedIconPack.Branch.Left.LeftDeep1.LeftDeep2",
@@ -127,8 +114,8 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
                 assertThat(rawString).isEqualTo(expectedPaths.joinToString(","))
 
                 // Verify round-trip conversion (toRawString -> fromString)
-                val reconstructed = IconPack.fromString(rawString)
-                assertThat(reconstructed).isEqualTo(packInfo.iconPack)
+                val reconstructed = iconPackOf(rawString)
+                assertThat(reconstructed).isEqualTo(tree)
             }
         }
     }
@@ -158,33 +145,20 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
 
             assertThat(iconPackInfo).isNotNull().transform { packInfo ->
                 assertThat(packInfo.packageName).isEqualTo("com.test")
-                assertThat(packInfo.iconPack.name).isEqualTo("Symbols")
-                assertThat(packInfo.iconPack.nested.size).isEqualTo(0)
+                assertThat(packInfo.iconPackTree.data).isEqualTo("Symbols")
+                assertThat(packInfo.iconPackTree.children.size).isEqualTo(0)
                 assertThat(packInfo.license).isEqualTo(expectedLicense)
             }
         }
     }
 
-    private fun IconPack.navigate(path: String): IconPack {
-        val parts = path.split('.')
-        var current = this
-
-        parts.forEach { part ->
-            current = current.nested.first { it.name == part }
-        }
-
-        return current
+    private fun IconPackTree.assertStructure(expectedName: String, expectedNestedCount: Int) {
+        assertThat(data).isEqualTo(expectedName)
+        assertThat(children.size).isEqualTo(expectedNestedCount)
     }
 
-    private fun IconPack.assertStructure(
-        expectedName: String,
-        expectedNestedCount: Int,
-        expectedNestedNames: List<String> = emptyList(),
-    ) {
-        assertThat(name).isEqualTo(expectedName)
-        assertThat(nested.size).isEqualTo(expectedNestedCount)
-        if (expectedNestedNames.isNotEmpty()) {
-            assertThat(nested.map { it.name }).containsExactly(*expectedNestedNames.toTypedArray())
-        }
+    private fun IconPackTree.assertStructure(expectedName: String, expectedNestedNames: List<String>) {
+        assertThat(data).isEqualTo(expectedName)
+        assertThat(children.map { it.data }).containsExactly(*expectedNestedNames.toTypedArray())
     }
 }

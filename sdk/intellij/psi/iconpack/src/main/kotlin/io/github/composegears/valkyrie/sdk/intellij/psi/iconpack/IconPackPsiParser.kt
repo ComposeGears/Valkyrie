@@ -1,13 +1,16 @@
 package io.github.composegears.valkyrie.sdk.intellij.psi.iconpack
 
 import com.intellij.psi.PsiComment
-import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.sdk.core.tree.buildTree
+import io.github.composegears.valkyrie.sdk.core.tree.child
+import io.github.composegears.valkyrie.sdk.core.tree.toMutableTree
+import io.github.composegears.valkyrie.sdk.generator.kt.iconpack.tree.IconPackTree
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 
 data class IconPackInfo(
     val packageName: String,
-    val iconPack: IconPack,
+    val iconPackTree: IconPackTree,
     val license: String? = null,
 )
 
@@ -28,13 +31,13 @@ object IconPackPsiParser {
         return iconPack?.let {
             IconPackInfo(
                 packageName = ktFile.packageFqName.asString(),
-                iconPack = it,
+                iconPackTree = it,
                 license = license,
             )
         }
     }
 
-    private fun buildIconPack(objectDeclaration: KtObjectDeclaration): IconPack? {
+    private fun buildIconPack(objectDeclaration: KtObjectDeclaration): IconPackTree? {
         val name = objectDeclaration.name ?: return null
 
         val nestedObjects = objectDeclaration.body?.declarations
@@ -42,9 +45,10 @@ object IconPackPsiParser {
             ?.mapNotNull { buildIconPack(it) }
             .orEmpty()
 
-        return IconPack(
-            name = name,
-            nested = nestedObjects,
-        )
+        return buildTree(name) {
+            nestedObjects.forEach {
+                child(it.toMutableTree())
+            }
+        }
     }
 }

@@ -67,7 +67,7 @@ abstract class IconPackExtension @Inject constructor(
     }
 }
 
-abstract class NestedPack @Inject constructor(objects: ObjectFactory) {
+abstract class NestedPack @Inject constructor(private val objects: ObjectFactory) {
     /**
      * Nested icon pack name
      *
@@ -81,28 +81,44 @@ abstract class NestedPack @Inject constructor(objects: ObjectFactory) {
      *
      * The path is relative to the configured resources directory (typically `valkyrieResources`).
      *
+     * This property is required.
+     *
      * Example configuration:
      * ```
      * nested {
      *     name = "Outlined"
-     *     sourceFolder = "outlined" // Icons located at valkyrieResources/outlined/
+     *     sourceFolder = "outlined"
      * }
      * ```
      *
-     * If your project structure is:
+     * Or with recursive nesting:
+     * ```
+     * nested {
+     *     name = "Material"
+     *     sourceFolder = "material"
+     *
+     *     nested {
+     *         name = "Filled"
+     *         sourceFolder = "filled"
+     *     }
+     *     nested {
+     *         name = "Outlined"
+     *         sourceFolder = "outlined"
+     *     }
+     * }
+     * ```
+     *
+     * Folder structure:
      * ```
      * valkyrieResources/
-     *   ├── outlined/
-     *   │   ├── icon1.svg
-     *   │   └── icon2.svg
-     *   └── filled/
-     *       ├── icon1.svg
-     *       └── icon2.svg
-     * ```
-     *
-     * Then for the "Outlined" nested pack, set `sourceFolder.set("outlined")`.
-     *
-     * This property is required and must be set for each nested pack.
+     *    └── material/
+     *        ├── outlined/
+     *        │     ├── icon1.svg
+     *        │     └── icon2.svg
+     *        └── filled/
+     *              ├── icon1.svg
+     *              └── icon2.svg
+     *```
      */
     @get:Input
     val sourceFolder: Property<String> = objects.property<String>()
@@ -119,4 +135,35 @@ abstract class NestedPack @Inject constructor(objects: ObjectFactory) {
     @get:Input
     @get:Optional
     val autoMirror: Property<Boolean> = objects.property<Boolean>()
+
+    /**
+     * Nested packs within this pack for recursive hierarchy support.
+     * Allows defining arbitrarily deep icon pack structures.
+     */
+    @get:Nested
+    internal val nestedPacks: ListProperty<NestedPack> = objects
+        .listProperty<NestedPack>()
+        .convention(emptyList())
+
+    /**
+     * Add a nested pack within this pack.
+     *
+     * Example:
+     * ```
+     * nested {
+     *     name = "Material"
+     *     sourceFolder = "material"
+     *
+     *     nested {
+     *         name = "Filled"
+     *         sourceFolder = "filled"
+     *     }
+     * }
+     * ```
+     */
+    @Suppress("unused")
+    fun nested(action: NestedPack.() -> Unit) {
+        val config = objects.newInstance<NestedPack>().apply(action)
+        nestedPacks.add(config)
+    }
 }

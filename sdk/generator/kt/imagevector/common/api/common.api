@@ -1,0 +1,120 @@
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig {
+	public fun <init> ()V
+	public fun <init> (ZI)V
+	public synthetic fun <init> (ZIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()I
+	public final fun copy (ZI)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;ZIILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIndentSize ()I
+	public final fun getUseExplicitMode ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports {
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports$Companion;
+	public fun <init> ()V
+	public fun <init> (ZZZ)V
+	public synthetic fun <init> (ZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Z
+	public final fun component3 ()Z
+	public final fun copy (ZZZ)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;ZZZILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBrush ()Z
+	public final fun getColor ()Z
+	public final fun getOffset ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports$Companion {
+	public final fun from (Ljava/util/Collection;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;
+	public final fun getReservedComposeTypeNames ()Ljava/util/Set;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig {
+	public fun <init> ()V
+	public fun <init> (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;ZZZZZZ)V
+	public synthetic fun <init> (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;ZZZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+	public final fun component2 ()Z
+	public final fun component3 ()Z
+	public final fun component4 ()Z
+	public final fun component5 ()Z
+	public final fun component6 ()Z
+	public final fun component7 ()Z
+	public final fun copy (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;ZZZZZZ)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;ZZZZZZILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddTrailingComma ()Z
+	public final fun getGeneratePreview ()Z
+	public final fun getOutputFormat ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+	public final fun getSuppressUnusedReceiverWarning ()Z
+	public final fun getUseComposeColors ()Z
+	public final fun getUseFlatPackage ()Z
+	public final fun getUsePathDataString ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig {
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;
+	public final fun component6 ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;
+	public final fun component7 ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;
+	public static synthetic fun copy$default (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCodeStyle ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;
+	public final fun getFullyQualifiedImports ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;
+	public final fun getIconName ()Ljava/lang/String;
+	public final fun getIconPackPackage ()Ljava/lang/String;
+	public final fun getIconPackTree ()Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;
+	public final fun getImageVector ()Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;
+	public final fun getPackageName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig$Companion {
+	public final fun iconPack (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;
+	public static synthetic fun iconPack$default (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig$Companion;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/core/tree/TreeNode;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;
+	public final fun simple (Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;
+	public static synthetic fun simple$default (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig$Companion;Ljava/lang/String;Ljava/lang/String;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/CodeStyleConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorConfig;Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/FullyQualifiedImports;ILjava/lang/Object;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorOutput {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat : java/lang/Enum {
+	public static final field BackingProperty Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+	public static final field Companion Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat$Companion;
+	public static final field LazyProperty Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getKey ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+	public static fun values ()[Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat$Companion {
+	public final fun from (Ljava/lang/String;)Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/OutputFormat;
+}
+
+public final class io/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/UtilKt {
+	public static final fun resolveIconBuilderName (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;)Ljava/lang/String;
+	public static final fun resolvePackageName (Lio/github/composegears/valkyrie/sdk/generator/kt/imagevector/common/ImageVectorGeneratorConfig;)Ljava/lang/String;
+}
+

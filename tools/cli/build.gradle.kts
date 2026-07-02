@@ -1,3 +1,7 @@
+import org.gradle.declarative.dsl.schema.FqName.Empty.packageName
+import org.gradle.internal.classpath.Instrumented.systemProperty
+import org.gradle.internal.execution.caching.CachingState.enabled
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.buildconfig)
@@ -98,10 +102,11 @@ changelog {
 }
 
 dependencies {
-    implementation(projects.components.generator.iconpack)
-    implementation(projects.components.generator.jvm.imagevector)
     implementation(projects.components.parser.unified)
     implementation(projects.sdk.core.extensions)
+    implementation(projects.sdk.generator.kt.common.iconpackTree)
+    implementation(projects.sdk.generator.kt.imagevector.jvm)
+    implementation(projects.sdk.generator.kt.iconpack)
     implementation(projects.sdk.ir.core)
 
     implementation(kotlin("stdlib"))
@@ -109,6 +114,7 @@ dependencies {
     implementation(cli.clikt.markdown)
     r8(cli.r8)
 
+    testImplementation(projects.sdk.generator.kt.imagevector.testFixtures)
     testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.bundles.test)
     testImplementation(libs.kotlin.test)
