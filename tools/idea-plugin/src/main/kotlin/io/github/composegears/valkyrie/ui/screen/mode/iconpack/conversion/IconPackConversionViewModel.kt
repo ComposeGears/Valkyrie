@@ -1,10 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.mode.iconpack.conversion
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
-import com.composegears.tiamat.navigation.MutableSavedState
-import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
@@ -40,13 +39,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class IconPackConversionViewModel(
-    savedState: MutableSavedState,
+    savedState: SavedStateHandle,
     paths: List<Path>,
 ) : ViewModel() {
 
     val inMemorySettings = inject(DI.core.inMemorySettings)
-
-    private val iconsRecord = savedState.recordOf<List<BatchIcon>?>("icons", null)
 
     private val _state = MutableStateFlow<IconPackConversionState>(IconsPickering)
     val state = _state.asStateFlow()
@@ -58,7 +55,7 @@ class IconPackConversionViewModel(
         get() = inMemorySettings.current.flatPackage
 
     init {
-        val restoredState = iconsRecord.value
+        val restoredState = savedState.get<List<BatchIcon>?>("icons")
 
         when {
             restoredState != null -> {
@@ -83,7 +80,7 @@ class IconPackConversionViewModel(
         }
         _state
             .onEach {
-                iconsRecord.value = when (val state = _state.value) {
+                savedState["icons"] = when (val state = _state.value) {
                     is BatchProcessing.IconPackCreationState -> state.icons
                     else -> emptyList()
                 }

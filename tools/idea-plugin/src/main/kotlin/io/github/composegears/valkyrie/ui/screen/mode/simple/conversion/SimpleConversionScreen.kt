@@ -8,13 +8,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
@@ -58,9 +59,9 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
     val params = navArgs()
     val bannerManager = rememberBannerManager()
 
-    val viewModel = saveableViewModel {
+    val viewModel = viewModel {
         SimpleConversionViewModel(
-            savedState = it,
+            savedState = createSavedStateHandle(),
             params = params,
         )
     }
@@ -126,7 +127,7 @@ val SimpleConversionScreen by navDestination<SimpleConversionParamsSource> {
                 WeightSpacer(weight = 0.7f)
             }
         }
-        is SimpleConversionState.Loading -> {
+        is SimpleConversionState.Initial, SimpleConversionState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,

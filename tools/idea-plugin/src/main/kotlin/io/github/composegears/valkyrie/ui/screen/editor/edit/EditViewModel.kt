@@ -1,8 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.editor.edit
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.composegears.tiamat.navigation.MutableSavedState
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.kotlin.psi.KtFile
 
 class EditViewModel(
-    val savedState: MutableSavedState,
+    val savedState: SavedStateHandle,
     val editorType: EditorType,
 ) : ViewModel() {
 
@@ -44,7 +44,7 @@ class EditViewModel(
                 .mapNotNull { ImageVectorPsiParser.parseToIrImageVector(it) }
         }
 
-        irFiles.map {
+        irFiles.forEach {
             it.toComposeImageVector()
         }
 

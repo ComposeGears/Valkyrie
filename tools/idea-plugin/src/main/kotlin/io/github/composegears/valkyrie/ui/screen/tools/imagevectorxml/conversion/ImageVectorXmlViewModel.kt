@@ -1,10 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.tools.imagevectorxml.conversion
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.composegears.tiamat.navigation.MutableSavedState
-import com.composegears.tiamat.navigation.asStateFlow
-import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.project.Project
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
@@ -25,6 +23,7 @@ import io.github.composegears.valkyrie.util.extension.resolveKtFile
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,28 +31,30 @@ import org.jetbrains.kotlin.psi.KtFile
 
 class ImageVectorXmlViewModel(
     private val project: Project,
-    savedState: MutableSavedState,
+    savedState: SavedStateHandle,
     params: ImageVectorXmlParams,
 ) : ViewModel() {
 
-    private val stateRecord = savedState.recordOf<ImageVectorXmlState>(
-        key = "conversionState",
-        initialValue = ImageVectorXmlState.Loading,
+    private val _state = savedState.getMutableStateFlow<ImageVectorXmlState>(
+        key = "ImageVectorXmlViewModel",
+        initialValue = ImageVectorXmlState.Initial,
     )
-    val state = stateRecord.asStateFlow()
+    val state = _state.asStateFlow()
 
     private val _events = Channel<ImageVectorXmlEvent>()
     val events = _events.receiveAsFlow()
 
     init {
-        when (params) {
-            is PathSource -> convertFromPath(params.path)
-            is TextSource -> convertFromText(params.kotlinCode)
+        if (_state.value is ImageVectorXmlState.Initial) {
+            when (params) {
+                is PathSource -> convertFromPath(params.path)
+                is TextSource -> convertFromText(params.kotlinCode)
+            }
         }
     }
 
     fun onAction(action: ImageVectorXmlAction) {
-        val state = stateRecord.value.safeAs<ImageVectorXmlState.Content>() ?: return
+        val state = _state.value.safeAs<ImageVectorXmlState.Content>() ?: return
 
         viewModelScope.launch {
             when (action) {
@@ -69,7 +70,12 @@ class ImageVectorXmlViewModel(
                     _events.send(CopyInClipboard(action.text))
                 }
                 is ImageVectorXmlAction.OnIconNameChange -> {
-                    changeIconName(action.name)
+                    val currentState = _state.value.safeAs<ImageVectorXmlState.Content>() ?: return@launch
+                    _state.value = currentState.copy(
+                        xmlContent = currentState.xmlContent.copy(
+                            name = action.name,
+                        ),
+                    )
                 }
             }
         }
@@ -79,7 +85,7 @@ class ImageVectorXmlViewModel(
         val ktFile = path.resolveKtFile(project)
 
         if (ktFile == null) {
-            stateRecord.value = ImageVectorXmlState.Error("Failed to read Kotlin file")
+            _state.value = ImageVectorXmlState.Error("Failed to read Kotlin file")
             return@launch
         }
 
@@ -87,13 +93,13 @@ class ImageVectorXmlViewModel(
 
         parseImageVectorToXml(ktFile, preferredName = "ic_${sanitizeResourceName(fileName)}")
             .onFailure {
-                stateRecord.value = ImageVectorXmlState.Error(
+                _state.value = ImageVectorXmlState.Error(
                     message = "Failed to parse ImageVector from file",
                     stacktrace = "Error: ${it.message}",
                 )
             }
             .onSuccess {
-                stateRecord.value = ImageVectorXmlState.Content(
+                _state.value = ImageVectorXmlState.Content(
                     iconSource = ImageVectorSource.FileBasedIcon(path),
                     xmlContent = it,
                 )
@@ -108,38 +114,23 @@ class ImageVectorXmlViewModel(
         )
 
         if (ktFile == null) {
-            stateRecord.value = ImageVectorXmlState.Error("Failed to parse Kotlin code")
+            _state.value = ImageVectorXmlState.Error("Failed to parse Kotlin code")
             return@launch
         }
 
         parseImageVectorToXml(ktFile)
             .onFailure {
-                stateRecord.value = ImageVectorXmlState.Error(
+                _state.value = ImageVectorXmlState.Error(
                     message = "Failed to parse ImageVector from code",
                     stacktrace = "Error: ${it.message}",
                 )
             }
             .onSuccess {
-                stateRecord.value = ImageVectorXmlState.Content(
+                _state.value = ImageVectorXmlState.Content(
                     iconSource = ImageVectorSource.TextBasedIcon(kotlinCode),
                     xmlContent = it,
                 )
             }
-    }
-
-    private suspend fun changeIconName(name: String) = withContext(Dispatchers.Default) {
-        val currentState = stateRecord.value.safeAs<ImageVectorXmlState.Content>() ?: return@withContext
-
-        val newXml = currentState.xmlContent.irImageVector
-            .copy(name = name)
-            .toVectorXmlString()
-
-        stateRecord.value = currentState.copy(
-            xmlContent = currentState.xmlContent.copy(
-                name = name,
-                xmlCode = newXml,
-            ),
-        )
     }
 
     private suspend fun parseImageVectorToXml(

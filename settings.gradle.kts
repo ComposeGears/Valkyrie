@@ -57,8 +57,8 @@ dependencyResolutionManagement {
     }
 }
 
-if (JavaVersion.current() < JavaVersion.VERSION_21) {
-    throw GradleException("Java 21 or higher is required to run this project. Current version: ${JavaVersion.current()}")
+if (JavaVersion.current() < JavaVersion.VERSION_25) {
+    throw GradleException("Java 25 or higher is required to run this project. Current version: ${JavaVersion.current()}")
 }
 
 rootProject.name = "valkyrie"

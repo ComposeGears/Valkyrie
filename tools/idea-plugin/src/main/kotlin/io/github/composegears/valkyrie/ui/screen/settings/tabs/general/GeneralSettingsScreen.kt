@@ -43,8 +43,7 @@ import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 val GeneralSettingsScreen by navDestination {
     val navController = navController()
-
-    val viewModel = viewModel<SettingsViewModel>(viewModelStoreOwner = navController)
+    val viewModel = viewModel(viewModelStoreOwner = navController) { SettingsViewModel() }
     val generalSettings by viewModel.generalSettings.collectAsState()
 
     GeneralSettingsUi(

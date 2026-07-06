@@ -1,4 +1,3 @@
-import org.gradle.internal.classpath.Instrumented.systemProperty
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {

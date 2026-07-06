@@ -58,6 +58,7 @@ fun ValkyrieApp(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize(),
                 navController = navController,
                 destinations = arrayOf(IntroScreen, SimpleConversionScreen),
+                handleSystemBackEvent = false,
             )
         }
     }

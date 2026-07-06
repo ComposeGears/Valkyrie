@@ -7,6 +7,8 @@ import java.nio.file.Path
 @Stable
 sealed interface ImageVectorXmlState {
 
+    data object Initial : ImageVectorXmlState
+
     data class Content(
         val iconSource: ImageVectorSource,
         val xmlContent: XmlContent,

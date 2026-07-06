@@ -49,7 +49,7 @@ val NewPackScreen by navDestination<PendingPathData> {
     val navController = navController()
     val pendingData = navArgsOrNull()
 
-    val viewModel = viewModel<NewPackViewModel>()
+    val viewModel = viewModel { NewPackViewModel() }
     val state by viewModel.state.collectAsState()
 
     ObserveEvent(viewModel.events) { event ->

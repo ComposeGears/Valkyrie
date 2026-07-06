@@ -26,12 +26,13 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgsOrNull
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.WarningBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
@@ -70,9 +71,9 @@ val IconPackConversionScreen by navDestination<PendingPathData> {
     val pendingData = navArgsOrNull()
     val project = LocalProject.current
 
-    val viewModel = saveableViewModel {
+    val viewModel = viewModel {
         IconPackConversionViewModel(
-            savedState = it,
+            savedState = createSavedStateHandle(),
             paths = pendingData?.paths.orEmpty(),
         )
     }

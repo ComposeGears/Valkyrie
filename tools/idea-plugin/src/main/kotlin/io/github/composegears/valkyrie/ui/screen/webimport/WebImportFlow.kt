@@ -45,5 +45,6 @@ val WebImportFlow by navDestination {
             CssGgImportScreen,
         ),
         contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
+        handleSystemBackEvent = false,
     )
 }

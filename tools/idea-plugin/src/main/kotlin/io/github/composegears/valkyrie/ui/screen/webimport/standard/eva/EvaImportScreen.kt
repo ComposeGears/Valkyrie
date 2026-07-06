@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.eva
 
 import androidx.compose.runtime.Composable
-import com.composegears.leviathan.compose.inject
+import com.composegears.leviathan.compose.injectAndRetain
 import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
@@ -19,7 +19,7 @@ val EvaImportScreen by navDestination {
     val navController = navController()
     StandardImportScreen(
         title = stringResource("web.import.title.eva"),
-        provider = inject(EvaModule.evaUseCase),
+        provider = injectAndRetain(EvaModule.evaUseCase),
         onBack = navController::back,
         onIconDownload = {
             navController.parent?.navigate(

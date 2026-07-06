@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common.di
 
 import com.composegears.leviathan.Leviathan
+import com.composegears.leviathan.singleton
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.diagnostic.Logger
 import io.ktor.client.HttpClient
@@ -15,16 +16,16 @@ import java.nio.file.Paths
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.serialization.json.Json
 
-object NetworkModule : Leviathan() {
+object NetworkModule : Leviathan {
 
-    val json by instanceOf(keepAlive = true) {
+    val json by singleton {
         Json {
             ignoreUnknownKeys = true
             isLenient = true
         }
     }
 
-    val httpClient by instanceOf {
+    val httpClient by singleton {
         HttpClient(OkHttp) {
             install(HttpTimeout) {
                 requestTimeoutMillis = 30.seconds.inWholeMilliseconds

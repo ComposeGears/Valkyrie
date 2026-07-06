@@ -7,6 +7,8 @@ import java.nio.file.Path
 @Stable
 sealed interface SimpleConversionState {
 
+    data object Initial : SimpleConversionState
+
     data class ConversionState(
         val iconSource: IconSource,
         val iconContent: IconContent,
