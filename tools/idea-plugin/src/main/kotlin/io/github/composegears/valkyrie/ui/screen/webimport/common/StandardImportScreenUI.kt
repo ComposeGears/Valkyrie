@@ -24,7 +24,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.compose.saveableViewModel
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.tclement.fonticons.ExperimentalFontIconsApi
 import dev.tclement.fonticons.FontIcon
 import dev.tclement.fonticons.IconFont
@@ -78,8 +79,11 @@ internal fun StandardImportScreen(
     customizationContent: (@Composable (onClose: () -> Unit) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = saveableViewModel {
-        StandardIconViewModel(savedState = it, provider = provider)
+    val viewModel = viewModel {
+        StandardIconViewModel(
+            savedState = createSavedStateHandle(),
+            provider = provider,
+        )
     }
     val state by viewModel.state.collectAsState()
     val variableFontConfig by provider.variableFontConfig.collectAsState()

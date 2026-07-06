@@ -5,6 +5,8 @@ import androidx.compose.runtime.Stable
 @Stable
 sealed interface SvgXmlState {
 
+    data object Initial : SvgXmlState
+
     data class Content(
         val fileName: String,
         val xmlCode: XmlCode,

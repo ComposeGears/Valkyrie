@@ -11,13 +11,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.CopyAction
 import io.github.composegears.valkyrie.jewel.EditToggleAction
@@ -66,7 +67,12 @@ val SvgXmlConversionScreen by navDestination<SvgXmlParams> {
         title = stringResource("svg.to.xml.export.dialog.title"),
         description = stringResource("svg.to.xml.export.dialog.description"),
     )
-    val viewModel = saveableViewModel { SvgXmlViewModel(savedState = it, params = params) }
+    val viewModel = viewModel {
+        SvgXmlViewModel(
+            savedState = createSavedStateHandle(),
+            params = params,
+        )
+    }
 
     ObserveEvent(viewModel.events) { event ->
         when (event) {
@@ -122,7 +128,7 @@ val SvgXmlConversionScreen by navDestination<SvgXmlParams> {
                 WeightSpacer(weight = 0.7f)
             }
         }
-        is SvgXmlState.Loading -> {
+        is SvgXmlState.Initial, SvgXmlState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,

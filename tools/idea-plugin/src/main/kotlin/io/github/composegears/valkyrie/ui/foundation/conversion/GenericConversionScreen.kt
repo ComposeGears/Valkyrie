@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import io.github.composegears.valkyrie.jewel.BackAction
@@ -70,7 +72,7 @@ fun GenericConversionScreen(
     modifier: Modifier = Modifier,
 ) {
     var latestCode by rememberMutableState { codeContent }
-    var expandedAction by rememberMutableState { ConversionExpandedAction.None }
+    var expandedAction by rememberSaveable { mutableStateOf(ConversionExpandedAction.None) }
 
     FocusableColumn(modifier = modifier.fillMaxSize()) {
         Toolbar {

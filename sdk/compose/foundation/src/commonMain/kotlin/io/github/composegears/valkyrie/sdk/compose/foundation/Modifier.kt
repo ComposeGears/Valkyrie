@@ -20,8 +20,10 @@ import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SweepGradientShader
+import androidx.compose.ui.graphics.asComposeShader
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.skiaShader
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.skia.Matrix33
@@ -60,13 +62,14 @@ fun Modifier.animatedBorder(
                 return SweepGradientShader(
                     center = Offset(x, y),
                     colors = colors,
-                ).makeWithLocalMatrix(
-                    localMatrix = Matrix33.makeRotate(
-                        deg = angle,
-                        pivotx = x,
-                        pivoty = y,
-                    ),
-                )
+                ).skiaShader
+                    .makeWithLocalMatrix(
+                        localMatrix = Matrix33.makeRotate(
+                            deg = angle,
+                            pivotx = x,
+                            pivoty = y,
+                        ),
+                    ).asComposeShader()
             }
         }
     }

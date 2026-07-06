@@ -56,7 +56,7 @@ fun ValkyriePlugin(
     val project = LocalProject.current
 
     val navController = rememberNavController(
-        startDestination = null,
+        saveable = true,
         savedState = inMemorySettings.uiState,
         configuration = {
             if (getCurrentNavEntry() == null) initialFlow(inMemorySettings)
@@ -109,6 +109,7 @@ fun ValkyriePlugin(
                 WebImportFlow,
             ),
             contentTransformProvider = { isForward -> navigationSlideInOut(isForward) },
+            handleSystemBackEvent = false,
         )
         BannerHost(
             modifier = Modifier.align(Alignment.BottomCenter),

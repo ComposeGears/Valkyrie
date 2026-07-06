@@ -77,6 +77,7 @@ val SettingsScreen by navDestination {
             modifier = Modifier.fillMaxSize(),
             navController = tabsNavController,
             destinations = tabScreens,
+            handleSystemBackEvent = false,
         )
     }
 }

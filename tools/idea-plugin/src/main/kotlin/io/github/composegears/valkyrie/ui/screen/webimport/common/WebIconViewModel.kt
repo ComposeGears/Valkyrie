@@ -1,11 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common
 
 import androidx.compose.runtime.Stable
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.composegears.tiamat.navigation.MutableSavedState
-import com.composegears.tiamat.navigation.asStateFlow
-import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.diagnostic.Logger
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
@@ -21,19 +19,20 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
-    savedState: MutableSavedState,
+    savedState: SavedStateHandle,
     private val provider: WebIconProvider<Icon, Config>,
 ) : ViewModel() {
 
-    private val stateRecord = savedState.recordOf<WebIconState<Icon>>(
+    private val _state = savedState.getMutableStateFlow<WebIconState<Icon>>(
         key = provider.stateKey,
         initialValue = WebIconState.Loading,
     )
-    val state = stateRecord.asStateFlow()
+    val state = _state.asStateFlow()
 
     private val _events = Channel<WebIconEvent>()
     val events = _events.receiveAsFlow()
@@ -43,13 +42,13 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
     private var downloadJob: Job? = null
 
     init {
-        when (val initialState = stateRecord.value) {
+        when (val initialState = _state.value) {
             is WebIconState.Success -> {
                 val selectedStyle = initialState.selectedStyle
                     ?.takeIf { selected -> initialState.config.styles.any { it.id == selected.id } }
                     ?: initialState.config.styles.firstOrNull()
 
-                stateRecord.value = initialState.copy(
+                _state.value = initialState.copy(
                     selectedStyle = selectedStyle,
                     gridItems = initialState.config.filterByCategory(
                         category = initialState.selectedCategory,
@@ -64,17 +63,17 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
 
     private fun loadConfig() {
         viewModelScope.launch {
-            stateRecord.value = WebIconState.Loading
+            _state.value = WebIconState.Loading
             runCatching {
                 val config = provider.loadConfig()
                 val selectedStyle = config.styles.firstOrNull()
                 if (config.gridItems.isEmpty()) {
-                    stateRecord.value = WebIconState.Error(
+                    _state.value = WebIconState.Error(
                         "No ${provider.providerName} icons found. Check network connection.",
                     )
                     return@launch
                 }
-                stateRecord.value = WebIconState.Success(
+                _state.value = WebIconState.Success(
                     config = config,
                     gridItems = config.filterByCategory(
                         category = InferredCategory.All,
@@ -86,7 +85,7 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
                 )
             }.onFailure { error ->
                 if (error is CancellationException) throw error
-                stateRecord.value = WebIconState.Error(
+                _state.value = WebIconState.Error(
                     "Error loading ${provider.providerName} icons: ${error.message}",
                 )
             }
@@ -96,7 +95,7 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
     fun downloadIcon(icon: Icon) {
         downloadJob?.cancel()
         downloadJob = viewModelScope.launch {
-            val currentState = stateRecord.value.safeAs<WebIconState.Success<Icon>>() ?: return@launch
+            val currentState = _state.value.safeAs<WebIconState.Success<Icon>>() ?: return@launch
             runCatching {
                 val svgContent = provider.downloadSvg(icon, currentState.settings, currentState.selectedStyle)
                 _events.send(
@@ -159,9 +158,9 @@ class WebIconViewModel<Icon : StyledWebIcon, Config : WebIconConfig<Icon>>(
     }
 
     private inline fun updateSuccess(crossinline transform: (WebIconState.Success<Icon>) -> WebIconState.Success<Icon>) {
-        val current = stateRecord.value
+        val current = _state.value
         if (current is WebIconState.Success) {
-            stateRecord.value = transform(current)
+            _state.value = transform(current)
         }
     }
 }

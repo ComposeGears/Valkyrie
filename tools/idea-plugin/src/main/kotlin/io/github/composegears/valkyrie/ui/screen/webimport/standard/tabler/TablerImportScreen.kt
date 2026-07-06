@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.tabler
 
 import androidx.compose.runtime.Composable
-import com.composegears.leviathan.compose.inject
+import com.composegears.leviathan.compose.injectAndRetain
 import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
@@ -19,7 +19,7 @@ val TablerImportScreen by navDestination {
     val navController = navController()
     StandardImportScreen(
         title = stringResource("web.import.title.tabler"),
-        provider = inject(TablerModule.tablerUseCase),
+        provider = injectAndRetain(TablerModule.tablerUseCase),
         onBack = navController::back,
         onIconDownload = {
             navController.parent?.navigate(

@@ -29,7 +29,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.composegears.tiamat.compose.saveableViewModel
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.HorizontalDivider
 import io.github.composegears.valkyrie.jewel.Title
@@ -86,8 +87,11 @@ internal fun SvgImportScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = saveableViewModel {
-        WebIconViewModel(savedState = it, provider = provider)
+    val viewModel = viewModel {
+        WebIconViewModel(
+            savedState = createSavedStateHandle(),
+            provider = provider,
+        )
     }
     val state by viewModel.state.collectAsState()
     val bannerManager = rememberBannerManager()

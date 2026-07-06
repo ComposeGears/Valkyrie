@@ -1,11 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.mode.simple.conversion
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composegears.leviathan.compose.inject
-import com.composegears.tiamat.navigation.MutableSavedState
-import com.composegears.tiamat.navigation.asStateFlow
-import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGenerator
 import io.github.composegears.valkyrie.generator.jvm.imagevector.ImageVectorGeneratorConfig
 import io.github.composegears.valkyrie.parser.unified.ParserType
@@ -25,6 +23,7 @@ import io.github.composegears.valkyrie.ui.screen.mode.simple.conversion.model.Si
 import java.nio.file.Path
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,29 +32,31 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SimpleConversionViewModel(
-    savedState: MutableSavedState,
+    savedState: SavedStateHandle,
     params: SimpleConversionParamsSource,
 ) : ViewModel() {
 
     val inMemorySettings = inject(DI.core.inMemorySettings)
 
-    private val stateRecord = savedState.recordOf<SimpleConversionState>(
-        key = "conversionState",
-        initialValue = SimpleConversionState.Loading,
+    private val _state = savedState.getMutableStateFlow<SimpleConversionState>(
+        key = "SimpleConversionViewModel",
+        initialValue = SimpleConversionState.Initial,
     )
-    val state = stateRecord.asStateFlow()
+    val state = _state.asStateFlow()
 
     private val _events = Channel<SimpleConversionEvent>()
     val events = _events.receiveAsFlow()
 
     init {
-        when (params) {
-            is SimpleConversionParamsSource.PathSource -> selectPath(params.path)
-            is SimpleConversionParamsSource.TextSource -> fromText(text = params.text, name = params.name)
+        if (_state.value is SimpleConversionState.Initial) {
+            when (params) {
+                is SimpleConversionParamsSource.PathSource -> selectPath(params.path)
+                is SimpleConversionParamsSource.TextSource -> fromText(text = params.text, name = params.name)
+            }
         }
         inMemorySettings.settings
             .onEach {
-                val currentState = stateRecord.value.safeAs<ConversionState>() ?: return@onEach
+                val currentState = _state.value.safeAs<ConversionState>() ?: return@onEach
 
                 when (val source = currentState.iconSource) {
                     is FileBasedIcon -> {
@@ -63,7 +64,7 @@ class SimpleConversionViewModel(
                             path = source.path,
                             iconName = currentState.iconContent.name,
                         ).onSuccess {
-                            stateRecord.value = ConversionState(
+                            _state.value = ConversionState(
                                 iconSource = FileBasedIcon(source.path),
                                 iconContent = it,
                             )
@@ -74,7 +75,7 @@ class SimpleConversionViewModel(
                             text = source.text,
                             iconName = currentState.iconContent.name,
                         ).onSuccess {
-                            stateRecord.value = ConversionState(
+                            _state.value = ConversionState(
                                 iconSource = StringBasedIcon(source.text),
                                 iconContent = it,
                             )
@@ -87,7 +88,7 @@ class SimpleConversionViewModel(
     }
 
     fun onAction(action: SimpleConversionAction) {
-        val state = stateRecord.value.safeAs<ConversionState>() ?: return
+        val state = _state.value.safeAs<ConversionState>() ?: return
 
         viewModelScope.launch {
             when (action) {
@@ -112,13 +113,13 @@ class SimpleConversionViewModel(
     fun selectPath(path: Path) = viewModelScope.launch(Dispatchers.Default) {
         parseIcon(path)
             .onFailure {
-                stateRecord.value = SimpleConversionState.Error(
+                _state.value = SimpleConversionState.Error(
                     message = "Failed to parse icon",
                     stacktrace = "Error: ${it.message}",
                 )
             }
             .onSuccess {
-                stateRecord.value = ConversionState(
+                _state.value = ConversionState(
                     iconSource = FileBasedIcon(path),
                     iconContent = it,
                 )
@@ -133,13 +134,13 @@ class SimpleConversionViewModel(
     ) = viewModelScope.launch(Dispatchers.Default) {
         parseIcon(text = text, iconName = iconName)
             .onFailure {
-                stateRecord.value = SimpleConversionState.Error(
+                _state.value = SimpleConversionState.Error(
                     message = "Failed to parse icon from clipboard",
                     stacktrace = "Error: ${it.message}",
                 )
             }
             .onSuccess {
-                stateRecord.value = ConversionState(
+                _state.value = ConversionState(
                     iconSource = StringBasedIcon(text),
                     iconContent = it,
                 )
@@ -147,28 +148,22 @@ class SimpleConversionViewModel(
     }
 
     private suspend fun changeIconName(name: String) = withContext(Dispatchers.Default) {
-        val conversionState = stateRecord.value.safeAs<ConversionState>() ?: return@withContext
+        val conversionState = _state.value.safeAs<ConversionState>() ?: return@withContext
 
-        when (val source = conversionState.iconSource) {
-            is FileBasedIcon -> {
-                parseIcon(path = source.path, iconName = name)
-                    .onSuccess {
-                        stateRecord.value = ConversionState(
-                            iconSource = FileBasedIcon(conversionState.iconSource.path),
-                            iconContent = it,
-                        )
-                    }
-            }
-            is StringBasedIcon -> {
-                parseIcon(text = source.text, iconName = name)
-                    .onSuccess {
-                        stateRecord.value = ConversionState(
-                            iconSource = StringBasedIcon(conversionState.iconSource.text),
-                            iconContent = it,
-                        )
-                    }
-            }
-        }
+        val output = ImageVectorGenerator.convert(
+            vector = conversionState.iconContent.irImageVector,
+            iconName = name,
+            config = createGeneratorConfig(),
+        )
+
+        _state.value = ConversionState(
+            iconSource = conversionState.iconSource,
+            iconContent = IconContent(
+                name = name,
+                code = output.content,
+                irImageVector = conversionState.iconContent.irImageVector,
+            ),
+        )
     }
 
     private fun parseIcon(

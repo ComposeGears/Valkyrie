@@ -8,12 +8,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.jewel.BackAction
 import io.github.composegears.valkyrie.jewel.SettingsAction
 import io.github.composegears.valkyrie.jewel.Title
@@ -54,10 +55,10 @@ val ImageVectorXmlScreen by navDestination<ImageVectorXmlParams> {
 
     val project = LocalProject.current
 
-    val viewModel = saveableViewModel {
+    val viewModel = viewModel {
         ImageVectorXmlViewModel(
             project = project,
-            savedState = it,
+            savedState = createSavedStateHandle(),
             params = params,
         )
     }
@@ -121,7 +122,7 @@ val ImageVectorXmlScreen by navDestination<ImageVectorXmlParams> {
                 WeightSpacer(weight = 0.7f)
             }
         }
-        is ImageVectorXmlState.Loading -> {
+        is ImageVectorXmlState.Initial, ImageVectorXmlState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,

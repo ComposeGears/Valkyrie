@@ -11,12 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navArgs
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
 import com.composegears.tiamat.compose.navigate
-import com.composegears.tiamat.compose.saveableViewModel
 import io.github.composegears.valkyrie.jewel.platform.LocalProject
 import io.github.composegears.valkyrie.jewel.tooling.PreviewTheme
 import io.github.composegears.valkyrie.ui.foundation.picker.PickerEvent
@@ -31,9 +32,9 @@ val EditScreen by navDestination<EditorType> {
     val navController = navController()
     val args = navArgs()
 
-    val viewModel = saveableViewModel {
+    val viewModel = viewModel {
         EditViewModel(
-            savedState = it,
+            savedState = createSavedStateHandle(),
             editorType = args,
         )
     }

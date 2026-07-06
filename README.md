@@ -25,10 +25,10 @@
 
 ## Motivation
 
-During the development Jetpack Compose / Compose Multiplatform, we often faced the challenge of
-converting icons from SVG or XML format to ImageVector. While there are existing tools available for this purpose, we
-found that they often fell short in terms of usability, reliability, and the quality of the generated code and in some
-cases, even being paid 😄.
+During the development Jetpack Compose / Compose Multiplatform, we often faced the challenge of converting icons from
+SVG or XML format to ImageVector. While there are existing tools available for this purpose, we found that they often
+fell short in terms of usability, reliability, and the quality of the generated code and in some cases, even being paid
+😄.
 
 To address these issues, we decided to create our own tool that would streamline the conversion process and provide a
 better user experience.
@@ -239,8 +239,8 @@ https://github.com/user-attachments/assets/86df2f2b-7a4e-4caf-91e8-c2290b347770
 
 ### SVG to XML
 
-Convert SVG files to Android XML vector drawable format directly inside the plugin. This tool is useful when you need
-to use icons in Android Views or want to maintain compatibility with the traditional Android resource system.
+Convert SVG files to Android XML vector drawable format directly inside the plugin. This tool is useful when you need to
+use icons in Android Views or want to maintain compatibility with the traditional Android resource system.
 
 Demo:
 
@@ -260,8 +260,8 @@ https://github.com/user-attachments/assets/88601612-8a5a-44b6-9e0b-23d075c9d843
 
 #### Embedded Previewer
 
-Plugin-exclusive feature: preview ImageVectors directly in the editor (similar to SVG or XML previews).
-Works with any ImageVector format (backing or lazy property, legacy Google Material icons) without requiring `@Preview`
+Plugin-exclusive feature: preview ImageVectors directly in the editor (similar to SVG or XML previews). Works with any
+ImageVector format (backing or lazy property, legacy Google Material icons) without requiring `@Preview`
 annotations.
 
 <div align="center">
@@ -311,6 +311,7 @@ Icon previews in the project file tree.
 | 0.15.0         | IntelliJ IDEA 2024.2, Android Studio Ladybug   |
 | 1.0.0          | IntelliJ IDEA 2025.3, Android Studio Panda 1   |
 | 1.5.0          | IntelliJ IDEA 2025.3.3, Android Studio Panda 3 |
+| 1.7.0          | IntelliJ IDEA 2026.2                           |
 
 ### Installation
 
@@ -636,8 +637,8 @@ Run the Gradle task to generate ImageVector sources:
 
 #### Basic conversion
 
-Simply convert SVG/XML files to ImageVector in the specified package.
-For this example, we will use a multiplatform project structure.
+Simply convert SVG/XML files to ImageVector in the specified package. For this example, we will use a multiplatform
+project structure.
 
 ```kotlin
 plugins {
@@ -691,8 +692,8 @@ fun Demo() {
 
 #### Icon pack configuration
 
-For better organization and type-safe access to your icons, you can create an icon pack.
-For this example, we will use a multiplatform project structure.
+For better organization and type-safe access to your icons, you can create an icon pack. For this example, we will use a
+multiplatform project structure.
 
 ```kotlin
 plugins {
@@ -829,8 +830,8 @@ fun Demo() {
 
 #### Copy generated icons into source folder instead of build folder
 
-To keep generated icons in your source folder (e.g. for version control), you can create custom Gradle tasks to sync
-the generated files after the generation task.
+To keep generated icons in your source folder (e.g. for version control), you can create custom Gradle tasks to sync the
+generated files after the generation task.
 
 ```kotlin
 val copyTask = tasks.register<Copy>("copyValkyrieIcons") {
@@ -852,8 +853,8 @@ tasks.register("updateValkyrieIcons") {
 
 #### AutoMirror configuration
 
-The `autoMirror` parameter controls whether icons should automatically flip horizontally when used in right-to-left (
-RTL) layouts. This is particularly useful for directional icons like arrows, chevrons, or navigation elements.
+The `autoMirror` parameter controls whether icons should automatically flip horizontally when used in right-to-left
+(RTL) layouts. This is particularly useful for directional icons like arrows, chevrons, or navigation elements.
 
 **Configuration hierarchy:**
 

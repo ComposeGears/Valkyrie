@@ -41,7 +41,7 @@ val ExistingPackScreen by navDestination<PendingPathData> {
     val navController = navController()
     val pendingData = navArgsOrNull()
 
-    val viewModel = viewModel<ExistingPackViewModel>()
+    val viewModel = viewModel { ExistingPackViewModel() }
     val state by viewModel.state.collectAsState()
 
     ObserveEvent(viewModel.events) { event ->

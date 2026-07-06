@@ -1,11 +1,9 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.common
 
 import androidx.compose.runtime.Stable
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.composegears.tiamat.navigation.MutableSavedState
-import com.composegears.tiamat.navigation.asStateFlow
-import com.composegears.tiamat.navigation.recordOf
 import com.intellij.openapi.diagnostic.Logger
 import io.github.composegears.valkyrie.parser.unified.util.IconNameFormatter
 import io.github.composegears.valkyrie.sdk.core.extensions.safeAs
@@ -22,23 +20,24 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 
 class StandardIconViewModel(
-    savedState: MutableSavedState,
+    savedState: SavedStateHandle,
     private val provider: StandardIconProvider,
 ) : ViewModel() {
 
     private val fontCache = mutableMapOf<String?, FontByteArray>()
 
-    private val stateRecord = savedState.recordOf<StandardState>(
+    private val _state = savedState.getMutableStateFlow<StandardState>(
         key = provider.stateKey,
         initialValue = StandardState.Loading,
     )
-    val state = stateRecord.asStateFlow()
+    val state = _state.asStateFlow()
 
     private val _events = Channel<StandardIconEvent>()
     val events = _events.receiveAsFlow()
@@ -50,7 +49,7 @@ class StandardIconViewModel(
     private var prefetchJob: Job? = null
 
     init {
-        when (val initialState = stateRecord.value) {
+        when (val initialState = _state.value) {
             is StandardState.Success -> {
                 val restoredStyleId = initialState.selectedStyle?.id
                 val normalizedSelectedStyle = initialState.selectedStyle
@@ -59,7 +58,7 @@ class StandardIconViewModel(
                 val restoredFont = initialState.fontByteArray
                     ?.takeIf { restoredStyleId == normalizedSelectedStyle?.id }
 
-                stateRecord.value = initialState.copy(
+                _state.value = initialState.copy(
                     selectedStyle = normalizedSelectedStyle,
                     fontByteArray = restoredFont,
                     gridItems = initialState.config.filterByCategory(
@@ -89,20 +88,20 @@ class StandardIconViewModel(
 
     private fun loadConfig() {
         viewModelScope.launch {
-            stateRecord.value = StandardState.Loading
+            _state.value = StandardState.Loading
 
             runCatching {
                 val config = provider.loadConfig()
                 val selectedStyle = config.styles.defaultStyle()
 
                 if (config.gridItems.isEmpty()) {
-                    stateRecord.value = StandardState.Error(
+                    _state.value = StandardState.Error(
                         "No ${provider.providerName} icons found. Check network connection.",
                     )
                     return@launch
                 }
 
-                stateRecord.value = StandardState.Success(
+                _state.value = StandardState.Success(
                     config = config,
                     gridItems = config.filterByCategory(
                         category = InferredCategory.All,
@@ -120,7 +119,7 @@ class StandardIconViewModel(
                 )
             }.onFailure { error ->
                 if (error is CancellationException) throw error
-                stateRecord.value = StandardState.Error(
+                _state.value = StandardState.Error(
                     "Error loading ${provider.providerName} icons: ${error.message}",
                 )
             }
@@ -130,8 +129,7 @@ class StandardIconViewModel(
     fun downloadFont(style: IconStyle? = null) {
         fontLoadJob?.cancel()
         fontLoadJob = viewModelScope.launch {
-            val resolvedStyle = style
-                ?: (stateRecord.value as? StandardState.Success)?.selectedStyle
+            val resolvedStyle = style ?: _state.value.safeAs<StandardState.Success>()?.selectedStyle
             val styleKey = resolvedStyle?.id
             val cachedFont = fontCache[styleKey]
 
@@ -166,7 +164,7 @@ class StandardIconViewModel(
     fun downloadIcon(icon: StandardIcon) {
         downloadJob?.cancel()
         downloadJob = viewModelScope.launch {
-            val currentState = stateRecord.value.safeAs<StandardState.Success>() ?: return@launch
+            val currentState = _state.value.safeAs<StandardState.Success>() ?: return@launch
 
             runCatching {
                 val svgContent = provider.downloadSvg(icon, currentState.settings, currentState.selectedStyle)
@@ -278,9 +276,9 @@ class StandardIconViewModel(
     }
 
     private inline fun updateSuccess(crossinline transform: (StandardState.Success) -> StandardState.Success) {
-        val current = stateRecord.value
+        val current = _state.value
         if (current is StandardState.Success) {
-            stateRecord.value = transform(current)
+            _state.value = transform(current)
         }
     }
 }

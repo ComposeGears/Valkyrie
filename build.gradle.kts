@@ -44,9 +44,11 @@ allprojects {
         dependencies {
             extensions.configure<IntelliJPlatformDependenciesExtension> {
                 // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html
-                intellijIdea("2025.3.3")
+                // https://youtrack.jetbrains.com/articles/IDEA-A-21/IDEA-Latest-Builds-And-Release-Notes
+                intellijIdea("2026.2")
 
                 bundledPlugin("org.jetbrains.kotlin")
+                bundledPlugin("com.intellij.java.ide")
 
                 // https://github.com/JetBrains/intellij-platform-compose-plugin-template
                 composeUI()

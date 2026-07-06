@@ -3,7 +3,7 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.materialsym
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.composegears.leviathan.compose.inject
+import com.composegears.leviathan.compose.injectAndRetain
 import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
@@ -22,7 +22,7 @@ val MaterialSymbolsImportScreen by navDestination {
     val navController = navController()
     val parentNavController = navController.parent
 
-    val useCase = inject(MaterialSymbolsModule.materialSymbolsConfigUseCase)
+    val useCase = injectAndRetain(MaterialSymbolsModule.materialSymbolsConfigUseCase)
 
     StandardImportScreen(
         title = stringResource("web.import.title.material"),

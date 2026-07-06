@@ -41,7 +41,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val GeneratorSettingsScreen by navDestination {
-    val viewModel = viewModel<SettingsViewModel>(viewModelStoreOwner = navController())
+    val navController = navController()
+    val viewModel = viewModel(viewModelStoreOwner = navController) { SettingsViewModel() }
     val generatorSettings by viewModel.generatorSettings.collectAsState()
 
     GeneratorSettingsUi(

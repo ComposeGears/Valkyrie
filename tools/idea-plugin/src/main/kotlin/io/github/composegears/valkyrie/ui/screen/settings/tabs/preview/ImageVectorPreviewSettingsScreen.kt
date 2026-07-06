@@ -33,7 +33,8 @@ import org.jetbrains.jewel.foundation.LocalComponent
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 val ImageVectorPreviewSettingsScreen by navDestination {
-    val viewModel = viewModel<SettingsViewModel>(viewModelStoreOwner = navController())
+    val navController = navController()
+    val viewModel = viewModel(viewModelStoreOwner = navController) { SettingsViewModel() }
     val previewSettings by viewModel.previewSettings.collectAsState()
 
     ImageVectorPreviewSettingsUi(

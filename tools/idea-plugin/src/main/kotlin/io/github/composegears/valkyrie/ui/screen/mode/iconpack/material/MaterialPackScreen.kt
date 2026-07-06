@@ -27,7 +27,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 val MaterialPackScreen by navDestination {
     val navController = navController()
 
-    val viewModel = viewModel<MaterialPackViewModel>()
+    val viewModel = viewModel { MaterialPackViewModel() }
     val state by viewModel.state.collectAsState()
 
     ObserveEvent(viewModel.events) { event ->

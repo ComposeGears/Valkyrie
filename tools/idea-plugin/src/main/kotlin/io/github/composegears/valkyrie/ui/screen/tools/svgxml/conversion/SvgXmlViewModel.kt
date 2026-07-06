@@ -1,10 +1,8 @@
 package io.github.composegears.valkyrie.ui.screen.tools.svgxml.conversion
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.composegears.tiamat.navigation.MutableSavedState
-import com.composegears.tiamat.navigation.asStateFlow
-import com.composegears.tiamat.navigation.recordOf
 import io.github.composegears.valkyrie.parser.unified.ParserType
 import io.github.composegears.valkyrie.parser.unified.SvgXmlParser
 import io.github.composegears.valkyrie.parser.unified.ext.toIOPath
@@ -20,32 +18,35 @@ import java.nio.file.Path
 import kotlin.io.path.nameWithoutExtension
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class SvgXmlViewModel(
-    savedState: MutableSavedState,
+    savedState: SavedStateHandle,
     params: SvgXmlParams,
 ) : ViewModel() {
 
-    private val stateRecord = savedState.recordOf<SvgXmlState>(
-        key = "conversionState",
-        initialValue = SvgXmlState.Loading,
+    private val _state = savedState.getMutableStateFlow<SvgXmlState>(
+        key = "SvgXmlViewModel",
+        initialValue = SvgXmlState.Initial,
     )
-    val state = stateRecord.asStateFlow()
+    val state = _state.asStateFlow()
 
     private val _events = Channel<SvgXmlEvent>()
     val events = _events.receiveAsFlow()
 
     init {
-        when (params) {
-            is SvgXmlParams.PathSource -> convertFromPath(params.path)
-            is SvgXmlParams.TextSource -> convertFromText(params.svg)
+        if (_state.value is SvgXmlState.Initial) {
+            when (params) {
+                is SvgXmlParams.PathSource -> convertFromPath(params.path)
+                is SvgXmlParams.TextSource -> convertFromText(params.svg)
+            }
         }
     }
 
     fun onAction(action: SvgXmlAction) {
-        val state = stateRecord.value.safeAs<SvgXmlState.Content>() ?: return
+        val state = _state.value.safeAs<SvgXmlState.Content>() ?: return
 
         viewModelScope.launch {
             when (action) {
@@ -61,10 +62,10 @@ class SvgXmlViewModel(
                     )
                 }
                 is SvgXmlAction.OnNameChange -> {
-                    stateRecord.value = state.copy(fileName = action.name)
+                    _state.value = state.copy(fileName = action.name)
                 }
                 is SvgXmlAction.OnCodeChange -> {
-                    stateRecord.value = state.copy(xmlCode = XmlCode(value = action.newCode))
+                    _state.value = state.copy(xmlCode = XmlCode(value = action.newCode))
                 }
             }
         }
@@ -76,12 +77,12 @@ class SvgXmlViewModel(
 
             XmlCode(value = xmlOutput)
         }.onFailure {
-            stateRecord.value = SvgXmlState.Error(
+            _state.value = SvgXmlState.Error(
                 message = "Failed to convert SVG to XML",
                 stacktrace = "Error: ${it.message}",
             )
         }.onSuccess {
-            stateRecord.value = SvgXmlState.Content(
+            _state.value = SvgXmlState.Content(
                 fileName = path.nameWithoutExtension,
                 xmlCode = it,
             )
@@ -94,12 +95,12 @@ class SvgXmlViewModel(
 
             XmlCode(value = xmlOutput)
         }.onFailure {
-            stateRecord.value = SvgXmlState.Error(
+            _state.value = SvgXmlState.Error(
                 message = "Failed to convert SVG to XML",
                 stacktrace = "Error: ${it.message}",
             )
         }.onSuccess {
-            stateRecord.value = SvgXmlState.Content(
+            _state.value = SvgXmlState.Content(
                 fileName = "ic_temp",
                 xmlCode = it,
             )

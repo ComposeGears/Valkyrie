@@ -1,16 +1,11 @@
 package io.github.composegears.valkyrie.ui.di
 
-import com.composegears.leviathan.Dependency
 import com.composegears.leviathan.Leviathan
+import com.composegears.leviathan.mutableOf
 import com.intellij.openapi.project.Project
 
-fun intellijPlatformModule(): IntellijPlatformModule = IntellijPlatformModuleImpl
+fun intellijPlatformModule() = IntellijPlatformModule
 
-interface IntellijPlatformModule {
-    val project: Dependency<Project>
-}
-
-private object IntellijPlatformModuleImpl : Leviathan(), IntellijPlatformModule {
-
-    override val project by providableOf<Project> { error("Not initialized") }
+object IntellijPlatformModule : Leviathan {
+    val project by mutableOf<Project> { error("Project is not initialized") }
 }

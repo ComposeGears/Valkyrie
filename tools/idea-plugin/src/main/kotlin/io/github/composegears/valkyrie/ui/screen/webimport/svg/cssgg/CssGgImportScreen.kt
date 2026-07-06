@@ -1,7 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.svg.cssgg
 
 import androidx.compose.runtime.Composable
-import com.composegears.leviathan.compose.inject
+import com.composegears.leviathan.compose.injectAndRetain
 import com.composegears.tiamat.compose.TiamatPreview
 import com.composegears.tiamat.compose.back
 import com.composegears.tiamat.compose.navController
@@ -19,7 +19,7 @@ val CssGgImportScreen by navDestination {
     val navController = navController()
     SvgImportScreen(
         title = stringResource("web.import.title.cssgg"),
-        provider = inject(CssGgModule.cssGgUseCase),
+        provider = injectAndRetain(CssGgModule.cssGgUseCase),
         onBack = navController::back,
         onIconDownload = {
             navController.parent?.navigate(
