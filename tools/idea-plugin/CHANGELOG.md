@@ -7,6 +7,7 @@
 ### Changed
 
 - [IconPack] Replace code snippet tooltip on Package and IconPack name fields with a plain text description tooltip
+- [ImageVector to XML] Use kt file name with `ic_` prefix for converted XML icon
 
 ### Fixed
 
