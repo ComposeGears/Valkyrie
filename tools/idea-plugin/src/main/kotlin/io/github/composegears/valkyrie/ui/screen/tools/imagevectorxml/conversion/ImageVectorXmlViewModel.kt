@@ -83,7 +83,9 @@ class ImageVectorXmlViewModel(
             return@launch
         }
 
-        parseImageVectorToXml(ktFile)
+        val fileName = ktFile.virtualFile.nameWithoutExtension
+
+        parseImageVectorToXml(ktFile, preferredName = "ic_${sanitizeResourceName(fileName)}")
             .onFailure {
                 stateRecord.value = ImageVectorXmlState.Error(
                     message = "Failed to parse ImageVector from file",
@@ -140,7 +142,10 @@ class ImageVectorXmlViewModel(
         )
     }
 
-    private suspend fun parseImageVectorToXml(ktFile: KtFile): Result<XmlContent> {
+    private suspend fun parseImageVectorToXml(
+        ktFile: KtFile,
+        preferredName: String? = null,
+    ): Result<XmlContent> {
         return withContext(Dispatchers.Default) {
             runCatching {
                 readAction {
@@ -148,7 +153,7 @@ class ImageVectorXmlViewModel(
                         ?: error("Failed to parse image vector psi")
 
                     val xmlCode = irImageVector.toVectorXmlString()
-                    val iconName = irImageVector.name.lowercase().ifEmpty { "Icon" }
+                    val iconName = preferredName ?: sanitizeResourceName(irImageVector.name)
 
                     XmlContent(
                         name = iconName,
@@ -160,3 +165,13 @@ class ImageVectorXmlViewModel(
         }
     }
 }
+
+/**
+ * Normalizes a file name into a valid Android XML resource name segment: lowercase, with any
+ * character outside [a-z0-9] replaced by `_`. Leading/trailing underscores are trimmed and an
+ * empty result falls back to "icon". The caller prefixes it with "ic_", guaranteeing a letter start.
+ */
+internal fun sanitizeResourceName(name: String): String = name.lowercase()
+    .replace("[^a-z0-9]".toRegex(), "_")
+    .trim('_')
+    .ifEmpty { "icon" }
