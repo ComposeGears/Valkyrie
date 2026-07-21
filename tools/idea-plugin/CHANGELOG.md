@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.6.1 - 2026-06-21
+
 ### Changed
 
 - [IconPack] Replace code snippet tooltip on Package and IconPack name fields with a plain text description tooltip
