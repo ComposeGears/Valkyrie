@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -46,6 +48,11 @@ jobs:
           echo "IS_SNAPSHOT=$IS_SNAPSHOT" >> $GITHUB_ENV
           echo "PRE_RELEASE_FLAG=$PRE_RELEASE_FLAG" >> $GITHUB_ENV
 
+      - name: Get previous CLI tag
+        run: |
+          PREV_TAG=$(git tag --sort=-version:refname | grep '^cli-' | head -n 1)
+          echo "PREVIOUS_TAG=$PREV_TAG" >> $GITHUB_ENV
+
       - name: Build CLI distribution
         run: ./gradlew buildCLI
 
@@ -60,7 +67,9 @@ jobs:
 
       - name: Create GitHub release
         run: |
-          gh release create ${{ env.RELEASE_TAG }} tools/cli/build/distributions/*.zip --generate-notes ${{ env.PRE_RELEASE_FLAG }}
+          gh release create ${{ env.RELEASE_TAG }} tools/cli/build/distributions/*.zip \
+            --generate-notes ${{ env.PRE_RELEASE_FLAG }} \
+            --notes-start-tag "${{ env.PREVIOUS_TAG }}"
 
       - name: Update Homebrew formula
         uses: mislav/bump-homebrew-formula-action@v4.1

@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -34,6 +36,11 @@ jobs:
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
           echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
 
+      - name: Get previous Gradle plugin tag
+        run: |
+          PREV_TAG=$(git tag --sort=-version:refname | grep '^gradle-plugin-' | head -n 1)
+          echo "PREVIOUS_TAG=$PREV_TAG" >> $GITHUB_ENV
+
       - name: Validate Plugin
         run: ./gradlew :tools:gradle-plugin:validatePlugins
 
@@ -45,5 +52,7 @@ jobs:
 
       - name: Create GitHub release
         run: |
-          gh release create ${{ env.RELEASE_TAG }} --generate-notes --prerelease
+          gh release create ${{ env.RELEASE_TAG }} \
+            --generate-notes --prerelease \
+            --notes-start-tag "${{ env.PREVIOUS_TAG }}"
 
