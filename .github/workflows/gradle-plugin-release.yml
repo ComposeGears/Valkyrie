@@ -53,6 +53,6 @@ jobs:
       - name: Create GitHub release
         run: |
           gh release create ${{ env.RELEASE_TAG }} \
-            --generate-notes --prerelease \
+            --generate-notes \
             --notes-start-tag "${{ env.PREVIOUS_TAG }}"
 
