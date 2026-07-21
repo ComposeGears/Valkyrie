@@ -9,6 +9,7 @@
 ### Fixed
 
 - [Web Import] Fix side panel closing when clicking inside the panel content area
+- [SDK] Fix parsing of gradient color stops with alpha (e.g. `stop-opacity="0"`) being silently dropped
 
 ## 1.6.0 - 2026-05-29
 
@@ -19,8 +20,8 @@
 - [Web Import] Add `Octicons` icons provider
 - [Web Import] Add `Simple` icons provider
 - [Web Import] Add `Hero` icons provider
-- [Web Import] Add floating zoom control bar to the icon grid — allows changing the visual display size of icons (
-  25%–200%) without affecting import settings
+- [Web Import] Add floating zoom control bar to the icon grid — allows changing the visual display size of icons
+  (25%–200%) without affecting import settings
 - [Web Import] Add `Feather` icons provider
 - [Web Import] Add `Ionicons` icons provider
 - [Web Import] Add `Tabler` icons provider

@@ -38,6 +38,6 @@ internal fun XmlPullParser.valueAsStrokeLineJoin(): IrStrokeLineJoin {
 
 internal fun XmlPullParser.valueAsIrColor(name: String): IrColor? {
     return getAttribute(name)?.let { value ->
-        AndroidColorParser.parse(value) ?: IrColor(value).takeUnless { it.isTransparent() }
+        AndroidColorParser.parse(value) ?: IrColor(value)
     }
 }

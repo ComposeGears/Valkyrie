@@ -15,6 +15,8 @@ application {
     mainClass = "io.github.composegears.valkyrie.cli.MainKt"
     applicationName = "valkyrie"
     version = versionName
+    // Suppress native access warnings in forked JVMs on JDK 24+
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
 
 sourceSets {
