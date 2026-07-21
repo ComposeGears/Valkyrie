@@ -50,7 +50,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
         val result = runTask(root, TASK_NAME)
 
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains("Generated 4 ImageVector icons in package \"a.b.c\"")
+        assertThat(result.output).contains("Generated 5 ImageVector icons in package \"a.b.c\"")
     }
 
     @Test
@@ -74,7 +74,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
             .build()
 
         assertThat(result).taskWasSuccessful(":$TASK_NAME")
-        assertThat(result.output).contains("Generated 4 ImageVector icons in package \"my.custom.package\"")
+        assertThat(result.output).contains("Generated 5 ImageVector icons in package \"my.custom.package\"")
     }
 
     @Test
@@ -561,6 +561,6 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
         // then - both SVGs and drawables from the custom directory are processed
         assertThat(result).taskWasSuccessful(":generateValkyrieImageVectorJvmMain")
-        assertThat(result.output).contains("Generated 21 ImageVector icons in package \"x.y.z\"")
+        assertThat(result.output).contains("Generated 22 ImageVector icons in package \"x.y.z\"")
     }
 }

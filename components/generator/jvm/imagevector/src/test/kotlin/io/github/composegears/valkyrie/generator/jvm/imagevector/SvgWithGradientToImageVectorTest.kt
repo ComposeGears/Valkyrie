@@ -90,4 +90,22 @@ class SvgWithGradientToImageVectorTest(
         assertThat(parserOutput.iconType).isEqualTo(SVG)
         assertThat(output).isEqualTo(expected)
     }
+
+    @Test
+    fun `svg linear gradient with alpha stop`() {
+        val icon = getResourcePath("imagevector/svg/ic_linear_gradient_alpha.svg").toIOPath()
+        val parserOutput = SvgXmlParser.toIrImageVector(parser = ParserType.Jvm, path = icon)
+        val output = ImageVectorGenerator.convert(
+            vector = parserOutput.irImageVector,
+            iconName = parserOutput.iconName,
+            config = createConfig(outputFormat = outputFormat),
+        ).content
+
+        val expected = outputFormat.toResourceText(
+            pathToBackingProperty = "imagevector/kt/backing/LinearGradientAlpha.kt",
+            pathToLazyProperty = "imagevector/kt/lazy/LinearGradientAlpha.kt",
+        )
+        assertThat(parserOutput.iconType).isEqualTo(SVG)
+        assertThat(output).isEqualTo(expected)
+    }
 }

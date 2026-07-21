@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+- [SDK] Fix parsing of gradient color stops with alpha being silently dropped
+
 ## 1.2.0 - 2026-05-29
 
 ### Added

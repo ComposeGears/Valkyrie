@@ -103,7 +103,7 @@ class SvgXmlToImageVectorCliTest(
         )
 
         val files = tempDir.toFile().listFiles().orEmpty()
-        assertThat(files.size).isEqualTo(4)
+        assertThat(files.size).isEqualTo(5)
     }
 
     @Test
