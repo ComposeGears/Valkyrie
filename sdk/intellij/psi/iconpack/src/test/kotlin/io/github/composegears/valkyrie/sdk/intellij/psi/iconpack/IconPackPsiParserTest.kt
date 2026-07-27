@@ -6,6 +6,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import com.intellij.testFramework.runInEdtAndGet
 import io.github.composegears.valkyrie.generator.core.IconPack
+import io.github.composegears.valkyrie.psi.iconpack.TEST_DATA_PATH
 import io.github.composegears.valkyrie.sdk.intellij.testfixtures.KotlinCodeInsightTest
 import org.junit.jupiter.api.Test
 
@@ -187,4 +188,6 @@ class IconPackPsiParserTest : KotlinCodeInsightTest() {
             assertThat(nested.map { it.name }).containsExactly(*expectedNestedNames.toTypedArray())
         }
     }
+
+    override fun getTestDataPath(): String = TEST_DATA_PATH
 }

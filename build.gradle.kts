@@ -95,6 +95,8 @@ allprojects {
     }
 
     tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
+        useJUnitPlatform {
+            excludeEngines("junit-vintage")
+        }
     }
 }

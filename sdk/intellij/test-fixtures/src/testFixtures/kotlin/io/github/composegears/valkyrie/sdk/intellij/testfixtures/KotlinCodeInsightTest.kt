@@ -28,8 +28,6 @@ abstract class KotlinCodeInsightTest : BasePlatformTestCase() {
         super.tearDown()
     }
 
-    override fun getTestDataPath(): String = "src/test/resources"
-
     protected fun loadKtFile(fileName: String): KtFile {
         val path = Path.of(testDataPath, fileName).absolute()
 
