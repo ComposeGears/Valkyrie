@@ -5,6 +5,17 @@ plugins {
     alias(libs.plugins.valkyrie.abi)
     alias(libs.plugins.jetbrains.intellij.module)
     alias(libs.plugins.valkyrie.kover)
+    alias(libs.plugins.buildconfig)
+}
+
+buildConfig.sourceSets.getByName("test") {
+    useKotlinOutput {
+        topLevelConstants = true
+    }
+    packageName = "io.github.composegears.valkyrie.psi.iconpack"
+
+    val path = project.layout.buildDirectory.dir("resources/test").get().asFile.absolutePath
+    buildConfigField<String>("TEST_DATA_PATH", path)
 }
 
 tasks.test {
