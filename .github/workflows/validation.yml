@@ -22,17 +22,12 @@ jobs:
           filter_mode: nofilter
           fail_level: any
 
-  build:
+  check-compatibility:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v7
 
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 25
+      - uses: ./.github/actions/setup-java
 
       - uses: gradle/actions/setup-gradle@v6
         with:
@@ -40,6 +35,18 @@ jobs:
 
       - name: Check version compatibility
         run: ./gradlew :tools:idea-plugin:checkVersionCompatibility
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-java
+
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-disabled: true
 
       - name: Run build
         run: ./gradlew build

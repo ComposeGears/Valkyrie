@@ -32,11 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 25
+      - uses: ./.github/actions/setup-java
 
       - name: Optionally bump version in TOML
         id: bump
