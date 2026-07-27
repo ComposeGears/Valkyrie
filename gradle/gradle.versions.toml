@@ -1,7 +1,7 @@
 [versions]
 gradle-plugin-version = "0.5.2"
 
-agp = "9.2.1"
+agp = "9.3.1"
 
 [libraries]
 agp-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
