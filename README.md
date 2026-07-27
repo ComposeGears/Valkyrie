@@ -258,6 +258,21 @@ https://github.com/user-attachments/assets/88601612-8a5a-44b6-9e0b-23d075c9d843
 
 ### ImageVector Previewer
 
+> [!NOTE]
+>
+> **Important limitation:** The previewer works by parsing the Kotlin PSI tree, so it cannot resolve variables computed
+in Compose Runtime. For such cases, use the `@Preview` annotation. For example, this icon **won't preview** because
+`MyCustomTheme.colorPrimary` is only known at runtime:
+
+
+```kotlin
+val Icon: ImageVector by lazy {
+    ImageVector.Builder().apply {
+        path(fill = SolidColor(MyCustomTheme.colorPrimary)) // ❌ MyCustomTheme.colorPrimary not resolvable during preview
+    }.build()
+}
+```
+
 #### Embedded Previewer
 
 Plugin-exclusive feature: preview ImageVectors directly in the editor (similar to SVG or XML previews). Works with any
