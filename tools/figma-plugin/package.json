@@ -1,0 +1,22 @@
+{
+  "name": "@composegears/valkyrie-figma-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:converter": "../../gradlew -p ../../ :sdk:figma:converter:compileProductionExecutableKotlinWasmJs",
+    "build": "node ./scripts/build.mjs",
+    "build:all": "pnpm build:converter && pnpm build",
+    "watch": "node ./scripts/build.mjs --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.122.0",
+    "esbuild": "^0.25.10",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "fast-text-encoding": "^1.0.6",
+    "fflate": "^0.8.2"
+  }
+}
