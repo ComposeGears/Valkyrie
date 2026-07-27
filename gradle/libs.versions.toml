@@ -58,7 +58,7 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kover-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
 [plugins]
-buildconfig = "com.github.gmazzo.buildconfig:6.0.9"
+buildconfig = "com.github.gmazzo.buildconfig:6.0.10"
 jetbrains-changelog = "org.jetbrains.changelog:2.5.0"
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 jetbrains-intellij = { id = "org.jetbrains.intellij.platform", version.ref = "intellij" }
