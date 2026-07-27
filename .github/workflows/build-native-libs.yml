@@ -9,11 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 25
+      - uses: ./.github/actions/setup-java
 
       - name: Clone google/woff2
         run: git clone --recursive --depth 1 https://github.com/google/woff2.git /tmp/woff2
@@ -65,11 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 25
+      - uses: ./.github/actions/setup-java
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
@@ -137,11 +129,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 25
+      - uses: ./.github/actions/setup-java
 
       - name: Clone google/woff2
         run: git clone --recursive --depth 1 https://github.com/google/woff2.git /tmp/woff2

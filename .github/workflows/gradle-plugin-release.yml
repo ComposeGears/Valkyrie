@@ -19,11 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 25
+      - uses: ./.github/actions/setup-java
 
       - name: Prepare release information
         run: |
