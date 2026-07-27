@@ -72,7 +72,7 @@ jobs:
             --notes-start-tag "${{ env.PREVIOUS_TAG }}"
 
       - name: Update Homebrew formula
-        uses: mislav/bump-homebrew-formula-action@v4.1
+        uses: mislav/bump-homebrew-formula-action@v4.2
         if: env.IS_SNAPSHOT == 'false'
         with:
           formula-name: valkyrie
