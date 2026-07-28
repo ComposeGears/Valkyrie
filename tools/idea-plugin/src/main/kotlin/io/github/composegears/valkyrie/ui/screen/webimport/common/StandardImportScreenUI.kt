@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
@@ -26,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.tclement.fonticons.ExperimentalFontIconsApi
 import dev.tclement.fonticons.FontIcon
 import dev.tclement.fonticons.IconFont
 import dev.tclement.fonticons.ProvideIconParameters
@@ -39,6 +39,8 @@ import io.github.composegears.valkyrie.jewel.banner.BannerAction
 import io.github.composegears.valkyrie.jewel.banner.BannerDuration
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.scroll.SpanAwareGridScrollbarAdapter
+import io.github.composegears.valkyrie.jewel.scroll.rememberGridColumnCount
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
@@ -376,7 +378,20 @@ private fun StandardIconGrid(
     lazyGridState: LazyGridState,
     iconContent: @Composable (StandardIcon) -> Unit,
 ) {
-    IconGrid(state = lazyGridState) {
+    val columnCount = rememberGridColumnCount(lazyGridState)
+    val scrollbarAdapter = remember(lazyGridState, columnCount, gridItems) {
+        SpanAwareGridScrollbarAdapter(
+            gridState = lazyGridState,
+            columns = columnCount,
+            items = gridItems,
+            isHeader = { it is CategoryHeader },
+        )
+    }
+
+    IconGrid(
+        state = lazyGridState,
+        scrollbarAdapter = scrollbarAdapter,
+    ) {
         items(
             items = gridItems,
             key = { it.id },
@@ -410,7 +425,6 @@ private fun StandardIconStub(
     )
 }
 
-@OptIn(ExperimentalFontIconsApi::class)
 @Composable
 private fun rememberStandardFont(
     font: FontByteArray,

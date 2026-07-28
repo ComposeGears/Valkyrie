@@ -6,6 +6,10 @@
 
 - Migrate to IntelliJ IDEA 2026.2, Kotlin 2.3.20, and Java 25
 
+### Fixed
+
+- [Web Import] Fix scrollbar thumb in the grid going out of screen bounds
+
 ## 1.6.1 - 2026-06-21
 
 ### Changed

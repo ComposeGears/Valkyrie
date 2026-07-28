@@ -37,6 +37,8 @@ import io.github.composegears.valkyrie.jewel.Title
 import io.github.composegears.valkyrie.jewel.Toolbar
 import io.github.composegears.valkyrie.jewel.banner.BannerMessage.ErrorBanner
 import io.github.composegears.valkyrie.jewel.banner.rememberBannerManager
+import io.github.composegears.valkyrie.jewel.scroll.SpanAwareGridScrollbarAdapter
+import io.github.composegears.valkyrie.jewel.scroll.rememberGridColumnCount
 import io.github.composegears.valkyrie.jewel.ui.placeholder.EmptyPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.ErrorPlaceholder
 import io.github.composegears.valkyrie.jewel.ui.placeholder.LoadingPlaceholder
@@ -373,7 +375,20 @@ private fun SvgIconGrid(
     lazyGridState: LazyGridState,
     iconContent: @Composable (SvgIcon) -> Unit,
 ) {
-    IconGrid(state = lazyGridState) {
+    val columnCount = rememberGridColumnCount(lazyGridState)
+    val scrollbarAdapter = remember(lazyGridState, columnCount, gridItems) {
+        SpanAwareGridScrollbarAdapter(
+            gridState = lazyGridState,
+            columns = columnCount,
+            items = gridItems,
+            isHeader = { it is CategoryHeader },
+        )
+    }
+
+    IconGrid(
+        state = lazyGridState,
+        scrollbarAdapter = scrollbarAdapter,
+    ) {
         items(
             items = gridItems,
             key = { it.id },
