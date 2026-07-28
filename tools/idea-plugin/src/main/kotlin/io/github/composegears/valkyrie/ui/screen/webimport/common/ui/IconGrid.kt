@@ -10,15 +10,17 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.v2.ScrollbarAdapter
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.ui.component.VerticalScrollbar
+import io.github.composegears.valkyrie.jewel.scroll.VerticalScrollbar
 
 @Composable
 fun IconGrid(
     state: LazyGridState,
+    scrollbarAdapter: ScrollbarAdapter,
     modifier: Modifier = Modifier,
     content: LazyGridScope.() -> Unit,
 ) {
@@ -36,7 +38,8 @@ fun IconGrid(
             scrollState = state,
             modifier = Modifier.fillMaxHeight()
                 .align(Alignment.CenterEnd)
-                .padding(end = 4.dp, top = 8.dp, bottom = 4.dp),
+                .padding(end = 1.dp),
+            adapter = scrollbarAdapter,
         )
     }
 }
