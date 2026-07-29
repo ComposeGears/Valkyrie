@@ -183,6 +183,7 @@ tasks.register<CheckVersionCompatibility>("checkVersionCompatibility") {
         isCanBeResolved = true
         isCanBeConsumed = false
         dependencies.addAll(configurations.getByName("implementation").dependencies)
+        dependencies.addAll(configurations.getByName("testImplementation").dependencies)
     }
     resolvedComponents = checkConfig.map { config ->
         val result = mutableMapOf<String, MutableSet<String>>()
@@ -198,4 +199,5 @@ tasks.register<CheckVersionCompatibility>("checkVersionCompatibility") {
     }
     maxKotlinVersion = libs.versions.kotlin
     maxComposeVersion = libs.versions.compose
+    maxCoroutinesVersion = libs.versions.coroutines
 }
