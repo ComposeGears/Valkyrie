@@ -20,10 +20,14 @@ abstract class CheckVersionCompatibility : DefaultTask() {
     @get:Input
     abstract val maxComposeVersion: Property<String>
 
+    @get:Input
+    abstract val maxCoroutinesVersion: Property<String>
+
     @TaskAction
     fun check() {
         val maxKotlin = SemVer.parse(maxKotlinVersion.get())
         val maxCompose = SemVer.parse(maxComposeVersion.get())
+        val maxCoroutines = SemVer.parse(maxCoroutinesVersion.get())
 
         val violations = resolvedComponents.get()
             .mapNotNull { (coordinate, dependents) ->
@@ -38,6 +42,8 @@ abstract class CheckVersionCompatibility : DefaultTask() {
                         "\t- $group:$name:$version  (max supported: $maxKotlin)$requiredBy"
                     group.startsWith("org.jetbrains.compose") && SemVer.parse(version) > maxCompose ->
                         "\t- $group:$name:$version  (max supported: $maxCompose)$requiredBy"
+                    group == "org.jetbrains.kotlinx" && name.startsWith("kotlinx-coroutines") && SemVer.parse(version) > maxCoroutines ->
+                        "\t- $group:$name:$version  (max supported: $maxCoroutines)$requiredBy"
                     else -> null
                 }
             }
@@ -51,6 +57,6 @@ abstract class CheckVersionCompatibility : DefaultTask() {
                 },
             )
         }
-        logger.lifecycle("✅ All dependencies are compatible (kotlin ≤ $maxKotlin, compose ≤ $maxCompose)")
+        logger.lifecycle("✅ All dependencies are compatible (kotlin ≤ $maxKotlin, compose ≤ $maxCompose, coroutines ≤ $maxCoroutines)")
     }
 }
