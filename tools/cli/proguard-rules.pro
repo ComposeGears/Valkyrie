@@ -18,3 +18,6 @@
 }
 
 -dontwarn org.xmlpull.mxp1.**
+
+# ProtoXmlPullParser handles compiled/binary AAPT2 XML, not exercised when parsing plain text SVG/XML
+-dontwarn com.android.aapt.Resources$**
