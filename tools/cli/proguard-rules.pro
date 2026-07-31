@@ -21,3 +21,7 @@
 
 # ProtoXmlPullParser handles compiled/binary AAPT2 XML, not exercised when parsing plain text SVG/XML
 -dontwarn com.android.aapt.Resources$**
+
+-dontwarn com.google.auto.service.AutoService
+-dontwarn com.sun.activation.registries.LogSupport
+-dontwarn com.sun.activation.registries.MailcapFile
