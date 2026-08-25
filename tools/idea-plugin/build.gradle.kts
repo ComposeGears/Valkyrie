@@ -129,14 +129,13 @@ intellijPlatform {
             FailureLevel.NOT_DYNAMIC,
         )
         ides {
-            create(
-                type = IntelliJPlatformType.IntellijIdea,
-                version = "2026.2",
-            )
-            create(
-                type = IntelliJPlatformType.AndroidStudio,
-                version = "2026.2",
-            )
+            recommended()
+            select {
+                types = listOf(
+                    IntelliJPlatformType.IntellijIdea,
+                    IntelliJPlatformType.AndroidStudio
+                )
+            }
         }
     }
     signing {
