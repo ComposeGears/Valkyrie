@@ -133,6 +133,10 @@ intellijPlatform {
                 type = IntelliJPlatformType.IntellijIdea,
                 version = "2026.2",
             )
+            create(
+                type = IntelliJPlatformType.AndroidStudio,
+                version = "2026.2",
+            )
         }
     }
     signing {
