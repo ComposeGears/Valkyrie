@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.7.0 - 2026-08-25
+
 ### Changed
 
 - Migrate to IntelliJ IDEA 2026.2, Kotlin 2.3.20, and Java 25
