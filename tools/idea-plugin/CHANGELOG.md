@@ -5,6 +5,7 @@
 ### Changed
 
 - Migrate to IntelliJ IDEA 2026.2, Kotlin 2.3.20, and Java 25
+- Declare explicit Compose/Jewel platform module dependencies instead of `com.intellij.modules.compose`
 
 ### Fixed
 
