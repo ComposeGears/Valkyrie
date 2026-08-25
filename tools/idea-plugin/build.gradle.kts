@@ -133,7 +133,7 @@ intellijPlatform {
             select {
                 types = listOf(
                     IntelliJPlatformType.IntellijIdea,
-                    IntelliJPlatformType.AndroidStudio
+                    IntelliJPlatformType.AndroidStudio,
                 )
             }
         }
