@@ -1,0 +1,19 @@
+name: Verify IntelliJ Plugin
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup-java
+
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-disabled: true
+
+      - name: Verify IntelliJ plugin
+        run: ./gradlew verifyPlugin
