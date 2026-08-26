@@ -1,5 +1,5 @@
 [versions]
-compose = "1.11.0"
+compose = "1.11.1"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#coroutinesLibraries
 coroutines = "1.10.2"
 intellij = "2.18.1"
