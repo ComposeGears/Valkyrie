@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.7.1 - 2026-09-23
+
 ### Fixed
 
 - [IDEA] Fix `CompositionLocal LocalLifecycleOwner not present` crash on IntelliJ IDEA 2026.2.3 by providing the
