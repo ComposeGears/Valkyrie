@@ -106,7 +106,7 @@ private fun KtCallExpression.parseRadialGradient(): IrFill.RadialGradient? {
     }
 
     return when {
-        colorStops.isEmpty() -> return null
+        colorStops.isEmpty() -> null
         else -> IrFill.RadialGradient(
             radius = gradientRadius,
             centerX = centerX,

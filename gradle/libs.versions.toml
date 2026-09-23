@@ -1,15 +1,15 @@
 [versions]
-compose = "1.11.0"
+compose = "1.12.0"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#coroutinesLibraries
 coroutines = "1.10.2"
 intellij = "2.18.1"
 jacoco = "0.8.13"
 jdkRelease = "25"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
-kotlin = "2.3.20"
+kotlin = "2.4.0"
 kover = "0.9.9"
 leviathan = "4.0.0"
-# Compatible with Kotlin 2.3.20 https://github.com/ktorio/ktor/releases/tag/3.4.3
+# Last version needing kotlinx-coroutines <= 1.10.2; 3.5.x+ require 1.11.0, which IJPL 2026.2 doesn't bundle
 ktor = "3.4.3"
 
 [libraries]
@@ -39,8 +39,8 @@ leviathan = { module = "io.github.composegears:leviathan", version.ref = "leviat
 leviathan-compose = { module = "io.github.composegears:leviathan-compose", version.ref = "leviathan" }
 tiamat = "io.github.composegears:tiamat:2.4.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
-# Last compatible with Kotlin 2.3.20
-xmlutil = "io.github.pdvrieze.xmlutil:serialization:0.91.3"
+# Last version whose kotlin-stdlib requirement is <= 2.4.0 (bundled in IJPL 2026.2); 1.0.2+ need 2.4.10
+xmlutil = "io.github.pdvrieze.xmlutil:serialization:1.0.1"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.1.2"

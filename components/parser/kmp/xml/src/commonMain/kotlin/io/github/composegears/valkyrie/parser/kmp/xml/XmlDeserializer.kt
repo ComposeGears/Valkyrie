@@ -5,9 +5,10 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
-import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
-import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
+import nl.adaptivity.xmlutil.XmlDeclMode
+import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
+import nl.adaptivity.xmlutil.serialization.XmlConfig
 
 internal object XmlDeserializer {
     private val baseModule = SerializersModule {
@@ -18,15 +19,20 @@ internal object XmlDeserializer {
         }
     }
 
-    @OptIn(ExperimentalXmlUtilApi::class)
-    private val xmlConfig = XML(baseModule) {
-        autoPolymorphic = true
-        defaultPolicy {
-            pedantic = false
-            repairNamespaces = true
-            unknownChildHandler = UnknownChildHandler { _, _, _, _, _ -> emptyList() }
-        }
-    }
+    private val xmlConfig = XML(
+        XmlConfig(
+            XmlConfig.DefaultBuilder(
+                repairNamespaces = true,
+                xmlDeclMode = XmlDeclMode.None,
+                policy = DefaultXmlSerializationPolicy {
+                    autoPolymorphic = true
+                    pedantic = false
+                    ignoreUnknownChildren()
+                },
+            ),
+        ),
+        serializersModule = baseModule,
+    )
 
     fun deserialize(content: String): VectorDrawable = xmlConfig.decodeFromString(content)
 }

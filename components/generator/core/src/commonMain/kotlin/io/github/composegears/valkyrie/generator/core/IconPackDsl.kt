@@ -3,7 +3,6 @@ package io.github.composegears.valkyrie.generator.core
 @DslMarker
 annotation class IconPackDsl
 
-@IconPackDsl
 fun iconpack(name: String, init: PackBuilder.() -> Unit = {}): IconPack {
     val builder = PackBuilder(name)
     builder.init()

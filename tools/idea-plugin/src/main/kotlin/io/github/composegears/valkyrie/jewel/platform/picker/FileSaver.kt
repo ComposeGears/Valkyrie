@@ -49,7 +49,9 @@ private class FileSaverImpl(
         val descriptor = FileSaverDescriptor(title, description)
         val dialog = FileChooserFactory.getInstance().createSaveFileDialog(descriptor, project)
 
-        val fileWrapper = dialog.save(null as? Path, fileName)
+        // Typed null: FileChooserDialog has both VirtualFile? and Path? overloads.
+        val targetDirectory: Path? = null
+        val fileWrapper = dialog.save(targetDirectory, fileName)
             ?: return@withContext SaveResult.Cancelled
 
         return@withContext runCatching {

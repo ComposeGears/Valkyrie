@@ -27,7 +27,7 @@ internal fun KtBlockExpression.builderExpression(): BuilderExpression? {
 
 internal fun BuilderExpression.name(): String {
     val nameArgument = callExpression.valueArguments.find { arg ->
-        arg?.getArgumentName()?.asName?.identifier == "name"
+        arg.getArgumentName()?.asName?.identifier == "name"
     }
 
     return nameArgument?.getArgumentExpression().safeAs<KtStringTemplateExpression>()
@@ -58,7 +58,7 @@ internal fun BuilderExpression.autoMirror(defaultValue: Boolean = false): Boolea
 
 private fun BuilderExpression.extractFloat(paramName: String, defaultValue: Float): Float {
     val argument = callExpression.valueArguments.find { arg ->
-        arg?.getArgumentName()?.asName?.identifier == paramName
+        arg.getArgumentName()?.asName?.identifier == paramName
     }
 
     val valueText = argument?.getArgumentExpression()?.text ?: return defaultValue
@@ -72,7 +72,7 @@ private fun BuilderExpression.extractFloat(paramName: String, defaultValue: Floa
 
 private fun BuilderExpression.extractBoolean(paramName: String, defaultValue: Boolean): Boolean {
     val argument = callExpression.valueArguments.find { arg ->
-        arg?.getArgumentName()?.asName?.identifier == paramName
+        arg.getArgumentName()?.asName?.identifier == paramName
     }
 
     val valueText = argument?.getArgumentExpression()?.text ?: return defaultValue

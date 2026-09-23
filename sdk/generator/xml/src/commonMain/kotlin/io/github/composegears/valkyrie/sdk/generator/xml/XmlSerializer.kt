@@ -5,8 +5,10 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
-import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
+import nl.adaptivity.xmlutil.XmlDeclMode
+import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
+import nl.adaptivity.xmlutil.serialization.XmlConfig
 import nl.adaptivity.xmlutil.serialization.XmlSerializationPolicy
 
 internal object XmlSerializer {
@@ -18,16 +20,21 @@ internal object XmlSerializer {
         }
     }
 
-    @OptIn(ExperimentalXmlUtilApi::class)
-    private val xmlConfig = XML(baseModule) {
-        autoPolymorphic = true
-        indent = 4
-        defaultPolicy {
-            pedantic = false
-            repairNamespaces = true
-            encodeDefault = XmlSerializationPolicy.XmlEncodeDefault.NEVER
-        }
-    }
+    private val xmlConfig = XML(
+        XmlConfig(
+            XmlConfig.DefaultBuilder(
+                repairNamespaces = true,
+                xmlDeclMode = XmlDeclMode.None,
+                indentString = " ".repeat(4),
+                policy = DefaultXmlSerializationPolicy {
+                    autoPolymorphic = true
+                    pedantic = false
+                    encodeDefault = XmlSerializationPolicy.XmlEncodeDefault.NEVER
+                },
+            ),
+        ),
+        serializersModule = baseModule,
+    )
 
     fun serialize(vector: VectorDrawable): String {
         val rawXml = xmlConfig.encodeToString(vector)
