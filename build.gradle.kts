@@ -45,13 +45,34 @@ allprojects {
             extensions.configure<IntelliJPlatformDependenciesExtension> {
                 // https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html
                 // https://youtrack.jetbrains.com/articles/IDEA-A-21/IDEA-Latest-Builds-And-Release-Notes
-                intellijIdea("2026.2")
+                intellijIdea("2026.2.3")
 
                 bundledPlugin("org.jetbrains.kotlin")
                 bundledPlugin("com.intellij.java.ide")
 
                 // https://github.com/JetBrains/intellij-platform-compose-plugin-template
                 composeUI()
+            }
+        }
+
+        // IntelliJ IDEA IU 2026.2.3 registers `<postStartupActivity implementation="Z.Z.Z.Z.Z"/>` from
+        // `plugins/ultimate-plugin/lib/ultimate-plugin.jar`, but that class name also exists in the core
+        // `lib/product-backend.jar` as an interface. Unit tests run with `-Didea.force.use.core.classloader=true`,
+        // so the core interface wins and creating the activity fails with "Cannot find suitable constructor",
+        // breaking every platform test. The Ultimate plugin is unused in tests, so disable it in the test config.
+        tasks.withType<Test>().configureEach {
+            doFirst {
+                val configPath = allJvmArgs.firstNotNullOfOrNull { arg ->
+                    "-Didea.config.path=".takeIf { arg.startsWith(it) }?.let { arg.removePrefix(it) }
+                }
+                if (configPath != null) {
+                    val disabled = File(configPath, "disabled_plugins.txt")
+                    val marker = "com.intellij.modules.ultimate"
+                    val current = disabled.takeIf { it.isFile }?.readLines().orEmpty()
+                    if (marker !in current) {
+                        disabled.writeText((current + marker).joinToString("\n", postfix = "\n"))
+                    }
+                }
             }
         }
     }

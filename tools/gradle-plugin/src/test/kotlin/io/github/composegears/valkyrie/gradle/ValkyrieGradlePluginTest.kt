@@ -41,7 +41,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
                 android {
                     namespace = "a.b.c"
-                    compileSdk = 36
+                    compileSdk = 37
                 }
             """.trimIndent(),
         )
@@ -177,7 +177,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
                 kotlin {
                     androidLibrary {
                         namespace = "x.y.z"
-                        compileSdk = 36
+                        compileSdk = 37
                     }
                     jvm()
                 }
@@ -213,7 +213,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
                 android {
                     namespace = "x.y.z"
-                    compileSdk = 36
+                    compileSdk = 37
                 }
             """.trimIndent(),
         )
@@ -244,7 +244,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
                 android {
                     namespace = "x.y.z"
-                    compileSdk = 36
+                    compileSdk = 37
                 }
             """.trimIndent(),
         )
@@ -273,7 +273,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
                 android {
                     namespace = "x.y.z"
-                    compileSdk = 36
+                    compileSdk = 37
 
                     flavorDimensions += "test"
                     productFlavors {
@@ -394,7 +394,7 @@ class ValkyrieGradlePluginTest : CommonGradleTest() {
 
                 android {
                     namespace = "com.example.app"
-                    compileSdk = 36
+                    compileSdk = 37
 
                     flavorDimensions += "myFlavor"
                     productFlavors {

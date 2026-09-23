@@ -80,6 +80,7 @@ actual object SvgXmlParser {
         )
     }
 
+    @Throws(IllegalStateException::class)
     actual fun svgToXml(parser: ParserType, path: Path): String {
         val iconType = IconType.from(path) ?: error("$path must be an SVG")
 
@@ -94,6 +95,7 @@ actual object SvgXmlParser {
         }
     }
 
+    @Throws(IllegalStateException::class)
     actual fun svgToXml(parser: ParserType, text: String): String {
         val iconType = IconType.from(text) ?: error("Unsupported icon type")
 

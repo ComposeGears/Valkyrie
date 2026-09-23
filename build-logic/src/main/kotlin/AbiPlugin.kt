@@ -1,4 +1,3 @@
-import io.github.composegears.valkyrie.internal.abiValidation
 import io.github.composegears.valkyrie.internal.kmpExtension
 import io.github.composegears.valkyrie.internal.kotlinJvm
 import io.github.composegears.valkyrie.internal.kotlinJvmPluginId
@@ -13,26 +12,21 @@ class AbiPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         plugins.withId(kotlinMultiplatformPluginId) {
             kmpExtension {
-                abiValidation {
-                    enabled.set(true)
-                }
+                abiValidation()
                 configureAbiTask()
             }
         }
         plugins.withId(kotlinJvmPluginId) {
             kotlinJvm {
-                abiValidation {
-                    enabled.set(true)
-                }
+                abiValidation()
                 configureAbiTask()
             }
         }
     }
 
     private fun Project.configureAbiTask() {
-        // TODO: https://youtrack.jetbrains.com/issue/KT-78525
         tasks.named("check") {
-            dependsOn(tasks.named("checkLegacyAbi"))
+            dependsOn(tasks.named("checkKotlinAbi"))
         }
     }
 }

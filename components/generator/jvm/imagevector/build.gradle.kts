@@ -10,12 +10,6 @@ sourceSets {
     }
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xcontext-parameters")
-    }
-}
-
 dependencies {
     implementation(projects.sdk.core.extensions)
     implementation(projects.sdk.ir.core)

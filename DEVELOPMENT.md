@@ -4,23 +4,23 @@
 
 ### Verification
 
-- run all tests: `./gradlew test`
+- run all tests: `./gradlew test` (JVM; `./gradlew allTests` also runs wasmJs tests and needs a local Chrome)
 
 - check code style: `./gradlew spotlessCheck`
 
-- check ABI: `./gradlew checkLegacyAbi`
+- check ABI: `./gradlew checkKotlinAbi`
 
 ### Update
 
 - apply formatting: `./gradlew spotlessApply`
 
-- update ABI: `./gradlew updateLegacyAbi`
+- update ABI: `./gradlew updateKotlinAbi`
 
 ### Info
 
-- create html test report: `./gradlew components:test:coverage:koverHtmlReport`
+- create html test report: `./gradlew :sdk:test:coverage:koverHtmlReport`
 
-- print test coverage: `./gradlew components:test:coverage:koverLog`
+- print test coverage: `./gradlew :sdk:test:coverage:koverLog`
 
 ## IDEA Plugin
 
