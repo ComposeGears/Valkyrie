@@ -5,6 +5,10 @@ plugins {
 }
 
 kotlin {
+    // https://youtrack.jetbrains.com/issue/CMP-4906
+    wasmJs {
+        binaries.executable()
+    }
     sourceSets {
         commonMain.dependencies {
             implementation(libs.compose.ui)
