@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Removed
+
+- Drop support for AGP 9.0 – 9.3. The minimum supported AGP version is now **9.4.0**, which requires Gradle **9.6.0**.
+
 ## 0.5.2 - 2026-06-21
 
 ### Fixed

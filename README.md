@@ -264,7 +264,6 @@ https://github.com/user-attachments/assets/88601612-8a5a-44b6-9e0b-23d075c9d843
 in Compose Runtime. For such cases, use the `@Preview` annotation. For example, this icon **won't preview** because
 `MyCustomTheme.colorPrimary` is only known at runtime:
 
-
 ```kotlin
 val Icon: ImageVector by lazy {
     ImageVector.Builder().apply {
@@ -502,6 +501,7 @@ ideal for projects that need to version control icon sources and generate type-s
 |-------------------------|---------|------------|
 | 0.4.0                   | 9.0.0   | 9.0.0      |
 | 0.5.0                   | 9.2.0   | 9.4.1      |
+| 0.6.0                   | 9.4.0   | 9.6.0      |
 
 ### Common scenarios
 
