@@ -34,7 +34,7 @@ buildConfig {
     packageName = "io.github.composegears.valkyrie.cli"
 }
 
-tasks.withType<Jar>().configureEach {
+tasks.shadowJar {
     archiveBaseName = baseName
     archiveVersion = versionName
 
@@ -42,39 +42,26 @@ tasks.withType<Jar>().configureEach {
         attributes["Main-Class"] = "io.github.composegears.valkyrie.cli.MainKt"
         attributes["Implementation-Version"] = versionName
     }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    minimize {
+        r8 {
+            enableOptimization()
+            keepRuleFiles.from(layout.projectDirectory.file("proguard-rules.pro"))
+        }
+    }
 }
 
-tasks.shadowJar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+tasks.jar {
+    enabled = false
 }
 
 tasks.distTar {
     enabled = false
 }
 
-val buildWithR8 by tasks.registering(JavaExec::class) {
-    dependsOn(tasks.installShadowDist)
-
-    val proguardRulesFile = layout.projectDirectory.file("proguard-rules.pro").asFile
-    val jar = layout.buildDirectory.file("install/valkyrie-shadow/lib/$baseName-$version-all.jar").map { it.asFile }
-
-    inputs.files(jar, proguardRulesFile)
-    outputs.file(jar)
-
-    classpath(r8)
-    mainClass = "com.android.tools.r8.R8"
-    args(
-        "--release",
-        "--classfile",
-        "--output", jar.get().path,
-        "--pg-conf", proguardRulesFile.path,
-        "--lib", providers.systemProperty("java.home").get(),
-        jar.get().toString(),
-    )
-}
-
 val buildCLI by tasks.registering(Zip::class) {
-    dependsOn(buildWithR8)
+    dependsOn(tasks.installShadowDist)
 
     from(layout.buildDirectory.file("install/valkyrie-shadow")) {
         filesMatching("bin/valkyrie") {
@@ -89,11 +76,9 @@ val buildCLI by tasks.registering(Zip::class) {
 }
 
 tasks.test {
-    dependsOn(buildWithR8)
+    dependsOn(tasks.installShadowDist)
     systemProperty("CLI_PATH", layout.buildDirectory.file("install/valkyrie-shadow/bin").get().asFile.path)
 }
-
-val r8: Configuration by configurations.creating
 
 changelog {
     groups.empty()
@@ -109,7 +94,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(cli.clikt)
     implementation(cli.clikt.markdown)
-    r8(cli.r8)
+    shadowR8(cli.r8)
 
     testImplementation(projects.sdk.test.resourceLoader)
     testImplementation(libs.bundles.test)

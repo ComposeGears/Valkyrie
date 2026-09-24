@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Migrate CLI build to use Shadow R8 optimization
+
 ## 1.2.0 - 2026-06-21
 
 ### Fixed
