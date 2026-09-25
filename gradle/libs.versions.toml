@@ -23,7 +23,7 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.components:components-ui-tooling-preview", version.ref = "compose" }
 
-fonticons = "dev.tclement.fonticons:core:2.1.1"
+fonticons = "dev.tclement.fonticons:core:2.2.0"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 highlights = "dev.snipme:highlights:1.1.0"
 kotlinpoet = "com.squareup:kotlinpoet:2.3.0"
