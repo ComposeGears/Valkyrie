@@ -43,8 +43,8 @@ xpp3 = "org.ogce:xpp3:1.1.6"
 xmlutil = "io.github.pdvrieze.xmlutil:serialization:1.0.1"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
-junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.1.2"
-junit-launcher = "org.junit.platform:junit-platform-launcher:6.1.2"
+junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.1.3"
+junit-launcher = "org.junit.platform:junit-platform-launcher:6.1.3"
 junit4 = "junit:junit:4.13.2"
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
