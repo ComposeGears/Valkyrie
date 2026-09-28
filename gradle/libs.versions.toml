@@ -6,7 +6,7 @@ intellij = "2.18.1"
 jacoco = "0.8.13"
 jdkRelease = "25"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
-kotlin = "2.4.0"
+kotlin = "2.4.20"
 kover = "0.9.9"
 leviathan = "4.0.0"
 # Last version needing kotlinx-coroutines <= 1.10.2; 3.5.x+ require 1.11.0, which IJPL 2026.2 doesn't bundle
