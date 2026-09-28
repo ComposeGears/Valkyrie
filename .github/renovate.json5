@@ -6,10 +6,14 @@
   "packageRules": [
     {
       "matchDatasources": ["maven"],
-      "matchPackagePatterns": ["^org\\.jetbrains\\.kotlin"],
+      "matchPackagePatterns": [
+        "^org\\.jetbrains\\.kotlin",
+        "^org\\.jetbrains\\.compose",
+        "^androidx\\.compose"
+      ],
       "enabled": false
     }
-  ],
+  ]
   "labels": [
     "dependencies",
   ],
