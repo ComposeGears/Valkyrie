@@ -3,6 +3,13 @@
   "extends": [
     "config:recommended",
   ],
+  "packageRules": [
+    {
+      "matchDatasources": ["maven"],
+      "matchPackagePatterns": ["^org\\.jetbrains\\.kotlin"],
+      "enabled": false
+    }
+  ],
   "labels": [
     "dependencies",
   ],
