@@ -9,10 +9,9 @@ import androidx.compose.ui.unit.dp
 
 val ComposeColorRadialGradient: ImageVector
     get() {
-        if (_ComposeColorRadialGradient != null) {
-            return _ComposeColorRadialGradient!!
-        }
-        _ComposeColorRadialGradient = ImageVector.Builder(
+        _ComposeColorRadialGradient?.let { return it }
+
+        val ComposeColorRadialGradient = ImageVector.Builder(
             name = "ComposeColorRadialGradient",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -277,7 +276,8 @@ val ComposeColorRadialGradient: ImageVector
             }
         }.build()
 
-        return _ComposeColorRadialGradient!!
+        _ComposeColorRadialGradient = ComposeColorRadialGradient
+        return ComposeColorRadialGradient
     }
 
 @Suppress("ObjectPropertyName")

@@ -69,21 +69,17 @@ internal class BackingPropertySpec(private val config: ImageVectorSpecConfig) {
     context(config: ImageVectorSpecConfig)
     private fun iconFun(irVector: IrImageVector, backingProperty: PropertySpec): FunSpec {
         return getterFunSpecBuilder {
+            addStatement("%N?.let { return it }", backingProperty)
+            addStatement("")
             addCode(
                 buildCodeBlock {
-                    beginControlFlow("if (%N != null)", backingProperty)
-                    addStatement("return %N!!", backingProperty)
-                    endControlFlow()
-                },
-            )
-            addCode(
-                buildCodeBlock {
-                    addCode("%N = ", backingProperty)
+                    addCode("val %N = ", config.iconName)
                     addImageVectorBlock(irVector = irVector)
                 },
             )
             addStatement("")
-            addStatement("return %N!!", backingProperty)
+            addStatement("%N = %N", backingProperty, config.iconName)
+            addStatement("return %N", config.iconName)
         }
     }
 }

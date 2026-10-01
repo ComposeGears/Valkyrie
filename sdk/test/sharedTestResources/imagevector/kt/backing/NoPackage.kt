@@ -3,10 +3,9 @@ import androidx.compose.ui.unit.dp
 
 val FlatPackage: ImageVector
     get() {
-        if (_FlatPackage != null) {
-            return _FlatPackage!!
-        }
-        _FlatPackage = ImageVector.Builder(
+        _FlatPackage?.let { return it }
+
+        val FlatPackage = ImageVector.Builder(
             name = "FlatPackage",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -14,7 +13,8 @@ val FlatPackage: ImageVector
             viewportHeight = 18f
         ).build()
 
-        return _FlatPackage!!
+        _FlatPackage = FlatPackage
+        return FlatPackage
     }
 
 @Suppress("ObjectPropertyName")

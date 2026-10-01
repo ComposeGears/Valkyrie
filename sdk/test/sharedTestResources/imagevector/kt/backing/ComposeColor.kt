@@ -8,10 +8,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.ComposeColor: ImageVector
     get() {
-        if (_ComposeColor != null) {
-            return _ComposeColor!!
-        }
-        _ComposeColor = ImageVector.Builder(
+        _ComposeColor?.let { return it }
+
+        val ComposeColor = ImageVector.Builder(
             name = "ComposeColor",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -132,7 +131,8 @@ val ValkyrieIcons.ComposeColor: ImageVector
             }
         }.build()
 
-        return _ComposeColor!!
+        _ComposeColor = ComposeColor
+        return ComposeColor
     }
 
 @Suppress("ObjectPropertyName")

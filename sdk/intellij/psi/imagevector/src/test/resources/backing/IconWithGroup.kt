@@ -5,10 +5,9 @@ import androidx.compose.ui.graphics.vector.path
 
 val ValkyrieIcons.IconWithGroup: ImageVector
     get() {
-        if (_IconWithGroup != null) {
-            return _IconWithGroup!!
-        }
-        _IconWithGroup = ImageVector.Builder(
+        _IconWithGroup?.let { return it }
+
+        val IconWithGroup = ImageVector.Builder(
             name = "IconWithGroup",
             defaultWidth = 48.dp,
             defaultHeight = 48.dp,
@@ -39,5 +38,6 @@ val ValkyrieIcons.IconWithGroup: ImageVector
             }
         }.build()
 
-        return _IconWithGroup!!
+        _IconWithGroup = IconWithGroup
+        return IconWithGroup
     }

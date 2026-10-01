@@ -9,10 +9,9 @@ import androidx.compose.ui.unit.dp
 
 val RadialGradient: ImageVector
     get() {
-        if (_RadialGradient != null) {
-            return _RadialGradient!!
-        }
-        _RadialGradient = ImageVector.Builder(
+        _RadialGradient?.let { return it }
+
+        val RadialGradient = ImageVector.Builder(
             name = "RadialGradient",
             defaultWidth = 100.dp,
             defaultHeight = 20.dp,
@@ -39,7 +38,8 @@ val RadialGradient: ImageVector
             }
         }.build()
 
-        return _RadialGradient!!
+        _RadialGradient = RadialGradient
+        return RadialGradient
     }
 
 @Suppress("ObjectPropertyName")

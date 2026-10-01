@@ -8,10 +8,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.IconWithNamedArgs: ImageVector
     get() {
-        if (_IconWithNamedArgs != null) {
-            return _IconWithNamedArgs!!
-        }
-        _IconWithNamedArgs = ImageVector.Builder(
+        _IconWithNamedArgs?.let { return it }
+
+        val IconWithNamedArgs = ImageVector.Builder(
             name = "IconWithNamedArgs",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -59,7 +58,8 @@ val ValkyrieIcons.IconWithNamedArgs: ImageVector
             }
         }.build()
 
-        return _IconWithNamedArgs!!
+        _IconWithNamedArgs = IconWithNamedArgs
+        return IconWithNamedArgs
     }
 
 @Suppress("ObjectPropertyName")

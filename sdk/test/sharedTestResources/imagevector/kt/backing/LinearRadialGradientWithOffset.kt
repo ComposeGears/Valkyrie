@@ -12,10 +12,9 @@ import androidx.compose.ui.unit.dp
 
 val LinearRadialGradientWithOffset: ImageVector
     get() {
-        if (_LinearRadialGradientWithOffset != null) {
-            return _LinearRadialGradientWithOffset!!
-        }
-        _LinearRadialGradientWithOffset = ImageVector.Builder(
+        _LinearRadialGradientWithOffset?.let { return it }
+
+        val LinearRadialGradientWithOffset = ImageVector.Builder(
             name = "LinearRadialGradientWithOffset",
             defaultWidth = 128.dp,
             defaultHeight = 128.dp,
@@ -125,7 +124,8 @@ val LinearRadialGradientWithOffset: ImageVector
             }
         }.build()
 
-        return _LinearRadialGradientWithOffset!!
+        _LinearRadialGradientWithOffset = LinearRadialGradientWithOffset
+        return LinearRadialGradientWithOffset
     }
 
 @Suppress("ObjectPropertyName")

@@ -9,10 +9,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.AllGroupParams: ImageVector
     get() {
-        if (_AllGroupParams != null) {
-            return _AllGroupParams!!
-        }
-        _AllGroupParams = ImageVector.Builder(
+        _AllGroupParams?.let { return it }
+
+        val AllGroupParams = ImageVector.Builder(
             name = "AllGroupParams",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -69,7 +68,8 @@ val ValkyrieIcons.AllGroupParams: ImageVector
             }
         }.build()
 
-        return _AllGroupParams!!
+        _AllGroupParams = AllGroupParams
+        return AllGroupParams
     }
 
 @Suppress("ObjectPropertyName")

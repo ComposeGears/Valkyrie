@@ -9,10 +9,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.TransparentFillColor: ImageVector
     get() {
-        if (_TransparentFillColor != null) {
-            return _TransparentFillColor!!
-        }
-        _TransparentFillColor = ImageVector.Builder(
+        _TransparentFillColor?.let { return it }
+
+        val TransparentFillColor = ImageVector.Builder(
             name = "TransparentFillColor",
             defaultWidth = 192.dp,
             defaultHeight = 192.dp,
@@ -45,7 +44,8 @@ val ValkyrieIcons.TransparentFillColor: ImageVector
             }
         }.build()
 
-        return _TransparentFillColor!!
+        _TransparentFillColor = TransparentFillColor
+        return TransparentFillColor
     }
 
 @Suppress("ObjectPropertyName")

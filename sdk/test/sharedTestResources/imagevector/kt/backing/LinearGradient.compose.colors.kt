@@ -8,10 +8,9 @@ import androidx.compose.ui.unit.dp
 
 val LinearGradientComposeColors: ImageVector
     get() {
-        if (_LinearGradientComposeColors != null) {
-            return _LinearGradientComposeColors!!
-        }
-        _LinearGradientComposeColors = ImageVector.Builder(
+        _LinearGradientComposeColors?.let { return it }
+
+        val LinearGradientComposeColors = ImageVector.Builder(
             name = "LinearGradientComposeColors",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -52,9 +51,9 @@ val LinearGradientComposeColors: ImageVector
             }
         }.build()
 
-        return _LinearGradientComposeColors!!
+        _LinearGradientComposeColors = LinearGradientComposeColors
+        return LinearGradientComposeColors
     }
 
 @Suppress("ObjectPropertyName")
 private var _LinearGradientComposeColors: ImageVector? = null
-

@@ -13,10 +13,9 @@ private var _notificationsAlert: ImageVector? = null
 
 val Icons.NotificationsAlert: ImageVector
     get() {
-        if (_notificationsAlert != null) {
-            return _notificationsAlert!!
-        }
-        _notificationsAlert = Builder(
+        _notificationsAlert?.let { return it }
+
+        val notificationsAlert = Builder(
             name = "NotificationsAlert",
             defaultWidth = 24.0.dp,
             defaultHeight = 24.0.dp,
@@ -58,5 +57,7 @@ val Icons.NotificationsAlert: ImageVector
                 close()
             }
         }.build()
-        return _notificationsAlert!!
+
+        _notificationsAlert = notificationsAlert
+        return notificationsAlert
     }

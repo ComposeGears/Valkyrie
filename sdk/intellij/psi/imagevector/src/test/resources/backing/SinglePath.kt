@@ -6,10 +6,9 @@ import androidx.compose.ui.unit.dp
 
 val Outlined.SinglePath: ImageVector
     get() {
-        if (_SinglePath != null) {
-            return _SinglePath!!
-        }
-        _SinglePath = ImageVector.Builder(
+        _SinglePath?.let { return it }
+
+        val SinglePath = ImageVector.Builder(
             name = "SinglePath",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -34,7 +33,8 @@ val Outlined.SinglePath: ImageVector
             }
         }.build()
 
-        return _SinglePath!!
+        _SinglePath = SinglePath
+        return SinglePath
 
     }
 

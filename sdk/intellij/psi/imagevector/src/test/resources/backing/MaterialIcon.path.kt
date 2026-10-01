@@ -15,9 +15,9 @@ private var _arrowRight: ImageVector? = null
 
 val FinesIcons.ArrowRight: ImageVector
     get() {
-        if (_arrowRight != null) return _arrowRight!!
+        _arrowRight?.let { return it }
 
-        _arrowRight = materialIcon(name = "ArrowRight") {
+        val arrowRight = materialIcon(name = "ArrowRight") {
             path(
                 fill = SolidColor(Color.Black),
                 stroke = null,
@@ -34,5 +34,6 @@ val FinesIcons.ArrowRight: ImageVector
             }
         }.build()
 
-        return _arrowRight!!
+        _arrowRight = arrowRight
+        return arrowRight
     }

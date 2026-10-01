@@ -9,10 +9,9 @@ import androidx.compose.ui.unit.dp
 
 val LinearGradientWithStroke: ImageVector
     get() {
-        if (_LinearGradientWithStroke != null) {
-            return _LinearGradientWithStroke!!
-        }
-        _LinearGradientWithStroke = ImageVector.Builder(
+        _LinearGradientWithStroke?.let { return it }
+
+        val LinearGradientWithStroke = ImageVector.Builder(
             name = "LinearGradientWithStroke",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -79,7 +78,8 @@ val LinearGradientWithStroke: ImageVector
             }
         }.build()
 
-        return _LinearGradientWithStroke!!
+        _LinearGradientWithStroke = LinearGradientWithStroke
+        return LinearGradientWithStroke
     }
 
 @Suppress("ObjectPropertyName")
