@@ -12,9 +12,9 @@ private var _tbank: ImageVector? = null
 
 val Tbank: ImageVector
     get() {
-        if (_tbank != null) return _tbank!!
+        _tbank?.let { return it }
 
-        _tbank = Builder(
+        val tbank = Builder(
             name = "Tbank",
             defaultWidth = 40.0.dp,
             defaultHeight = 40.0.dp,
@@ -53,5 +53,6 @@ val Tbank: ImageVector
             }
         }.build()
 
-        return _tbank!!
+        _tbank = tbank
+        return tbank
     }

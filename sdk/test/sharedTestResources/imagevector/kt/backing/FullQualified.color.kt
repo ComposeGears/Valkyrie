@@ -8,10 +8,9 @@ import androidx.compose.ui.unit.dp
 
 val FullQualified: ImageVector
     get() {
-        if (_FullQualified != null) {
-            return _FullQualified!!
-        }
-        _FullQualified = ImageVector.Builder(
+        _FullQualified?.let { return it }
+
+        val FullQualified = ImageVector.Builder(
             name = "FullQualified",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -72,7 +71,8 @@ val FullQualified: ImageVector
             }
         }.build()
 
-        return _FullQualified!!
+        _FullQualified = FullQualified
+        return FullQualified
     }
 
 @Suppress("ObjectPropertyName")

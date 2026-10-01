@@ -10,10 +10,9 @@ import androidx.compose.ui.unit.dp
 
 val LinearGradient: ImageVector
     get() {
-        if (_LinearGradient != null) {
-            return _LinearGradient!!
-        }
-        _LinearGradient = ImageVector.Builder(
+        _LinearGradient?.let { return it }
+
+        val LinearGradient = ImageVector.Builder(
             name = "LinearGradient",
             defaultWidth = 51.dp,
             defaultHeight = 63.dp,
@@ -172,7 +171,8 @@ val LinearGradient: ImageVector
             }
         }.build()
 
-        return _LinearGradient!!
+        _LinearGradient = LinearGradient
+        return LinearGradient
     }
 
 @Suppress("ObjectPropertyName")

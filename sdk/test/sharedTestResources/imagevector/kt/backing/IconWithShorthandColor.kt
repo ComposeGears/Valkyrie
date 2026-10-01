@@ -9,10 +9,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.IconWithShorthandColor: ImageVector
     get() {
-        if (_IconWithShorthandColor != null) {
-            return _IconWithShorthandColor!!
-        }
-        _IconWithShorthandColor = ImageVector.Builder(
+        _IconWithShorthandColor?.let { return it }
+
+        val IconWithShorthandColor = ImageVector.Builder(
             name = "IconWithShorthandColor",
             defaultWidth = 48.dp,
             defaultHeight = 48.dp,
@@ -43,7 +42,8 @@ val ValkyrieIcons.IconWithShorthandColor: ImageVector
             }
         }.build()
 
-        return _IconWithShorthandColor!!
+        _IconWithShorthandColor = IconWithShorthandColor
+        return IconWithShorthandColor
     }
 
 @Suppress("ObjectPropertyName")

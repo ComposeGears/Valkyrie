@@ -6,10 +6,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.OnlyPath: ImageVector
     get() {
-        if (_OnlyPath != null) {
-            return _OnlyPath!!
-        }
-        _OnlyPath = ImageVector.Builder(
+        _OnlyPath?.let { return it }
+
+        val OnlyPath = ImageVector.Builder(
             name = "OnlyPath",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -21,7 +20,8 @@ val ValkyrieIcons.OnlyPath: ImageVector
             )
         }.build()
 
-        return _OnlyPath!!
+        _OnlyPath = OnlyPath
+        return OnlyPath
     }
 
 @Suppress("ObjectPropertyName")

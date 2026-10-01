@@ -9,10 +9,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.ClipPath: ImageVector
     get() {
-        if (_ClipPath != null) {
-            return _ClipPath!!
-        }
-        _ClipPath = ImageVector.Builder(
+        _ClipPath?.let { return it }
+
+        val ClipPath = ImageVector.Builder(
             name = "ClipPath",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -29,7 +28,8 @@ val ValkyrieIcons.ClipPath: ImageVector
             }
         }.build()
 
-        return _ClipPath!!
+        _ClipPath = ClipPath
+        return ClipPath
     }
 
 @Suppress("ObjectPropertyName")

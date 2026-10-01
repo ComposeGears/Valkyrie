@@ -8,10 +8,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.SeveralPath: ImageVector
     get() {
-        if (_SeveralPath != null) {
-            return _SeveralPath!!
-        }
-        _SeveralPath = ImageVector.Builder(
+        _SeveralPath?.let { return it }
+
+        val SeveralPath = ImageVector.Builder(
             name = "SeveralPath",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -40,7 +39,8 @@ val ValkyrieIcons.SeveralPath: ImageVector
             }
         }.build()
 
-        return _SeveralPath!!
+        _SeveralPath = SeveralPath
+        return SeveralPath
     }
 
 @Suppress("ObjectPropertyName")

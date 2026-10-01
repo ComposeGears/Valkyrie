@@ -6,10 +6,9 @@ import io.github.composegears.valkyrie.icons.ValkyrieIcons
 
 val ValkyrieIcons.Colored.WithoutPath: ImageVector
     get() {
-        if (_WithoutPath != null) {
-            return _WithoutPath!!
-        }
-        _WithoutPath = ImageVector.Builder(
+        _WithoutPath?.let { return it }
+
+        val WithoutPath = ImageVector.Builder(
             name = "Colored.WithoutPath",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -17,7 +16,8 @@ val ValkyrieIcons.Colored.WithoutPath: ImageVector
             viewportHeight = 18f
         ).build()
 
-        return _WithoutPath!!
+        _WithoutPath = WithoutPath
+        return WithoutPath
     }
 
 @Suppress("ObjectPropertyName")

@@ -8,10 +8,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.FillColorStroke: ImageVector
     get() {
-        if (_FillColorStroke != null) {
-            return _FillColorStroke!!
-        }
-        _FillColorStroke = ImageVector.Builder(
+        _FillColorStroke?.let { return it }
+
+        val FillColorStroke = ImageVector.Builder(
             name = "FillColorStroke",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -33,7 +32,8 @@ val ValkyrieIcons.FillColorStroke: ImageVector
             }
         }.build()
 
-        return _FillColorStroke!!
+        _FillColorStroke = FillColorStroke
+        return FillColorStroke
     }
 
 @Suppress("ObjectPropertyName")

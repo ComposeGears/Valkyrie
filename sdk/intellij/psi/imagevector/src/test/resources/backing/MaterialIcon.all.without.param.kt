@@ -9,9 +9,9 @@ private var _bell: ImageVector? = null
 
 val Icons.Bell: ImageVector
     get() {
-        if (_bell != null) return _bell!!
+        _bell?.let { return it }
 
-        _bell = materialIcon(name = "Bell") {
+        val bell = materialIcon(name = "Bell") {
             materialPath {
                 moveTo(18.0f, 16.0f)
                 lineTo(18.0f, 11.0f)
@@ -35,5 +35,7 @@ val Icons.Bell: ImageVector
                 moveTo(12.0f, 22.0f)
             }
         }
-        return _bell!!
+
+        _bell = bell
+        return bell
     }

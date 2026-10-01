@@ -11,10 +11,9 @@ import androidx.compose.ui.unit.dp
 
 val ValkyrieIcons.AllPathParams: ImageVector
     get() {
-        if (_AllPathParams != null) {
-            return _AllPathParams!!
-        }
-        _AllPathParams = ImageVector.Builder(
+        _AllPathParams?.let { return it }
+
+        val AllPathParams = ImageVector.Builder(
             name = "AllPathParams",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -58,7 +57,8 @@ val ValkyrieIcons.AllPathParams: ImageVector
             }
         }.build()
 
-        return _AllPathParams!!
+        _AllPathParams = AllPathParams
+        return AllPathParams
     }
 
 @Suppress("ObjectPropertyName")

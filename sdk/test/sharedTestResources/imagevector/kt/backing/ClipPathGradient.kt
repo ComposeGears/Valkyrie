@@ -11,10 +11,9 @@ import androidx.compose.ui.unit.dp
 
 val ClipPathGradient: ImageVector
     get() {
-        if (_ClipPathGradient != null) {
-            return _ClipPathGradient!!
-        }
-        _ClipPathGradient = ImageVector.Builder(
+        _ClipPathGradient?.let { return it }
+
+        val ClipPathGradient = ImageVector.Builder(
             name = "ClipPathGradient",
             defaultWidth = 5000.dp,
             defaultHeight = 2916.dp,
@@ -142,7 +141,8 @@ val ClipPathGradient: ImageVector
             }
         }.build()
 
-        return _ClipPathGradient!!
+        _ClipPathGradient = ClipPathGradient
+        return ClipPathGradient
     }
 
 @Suppress("ObjectPropertyName")

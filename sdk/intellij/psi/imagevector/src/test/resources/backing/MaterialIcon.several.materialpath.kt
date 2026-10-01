@@ -13,9 +13,9 @@ private var _percent: ImageVector? = null
 
 val Icons.Percent: ImageVector
     get() {
-        if (_percent != null) return _percent!!
+        _percent?.let { return it }
 
-        _percent = materialIcon(name = "Percent") {
+        val percent = materialIcon(name = "Percent") {
             materialPath(
                 pathFillType = PathFillType.EvenOdd,
             ) {
@@ -58,5 +58,6 @@ val Icons.Percent: ImageVector
             }
         }
 
-        return _percent!!
+        _percent = percent
+        return percent
     }
