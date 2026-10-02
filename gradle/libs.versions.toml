@@ -26,7 +26,7 @@ compose-ui-tooling-preview = { module = "org.jetbrains.compose.components:compon
 fonticons = "dev.tclement.fonticons:core:2.2.0"
 fuzzysearch = "com.github.android-password-store:sublime-fuzzy:2.3.4"
 highlights = "dev.snipme:highlights:1.1.0"
-kotlinpoet = "com.squareup:kotlinpoet:2.3.0"
+kotlinpoet = "com.squareup:kotlinpoet:2.4.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.9.1"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
