@@ -40,7 +40,7 @@ leviathan-compose = { module = "io.github.composegears:leviathan-compose", versi
 tiamat = "io.github.composegears:tiamat:3.0.0"
 xpp3 = "org.ogce:xpp3:1.1.6"
 # Last version whose kotlin-stdlib requirement is <= 2.4.0 (bundled in IJPL 2026.2); 1.0.2+ need 2.4.10
-xmlutil = "io.github.pdvrieze.xmlutil:serialization:1.0.1"
+xmlutil = "io.github.pdvrieze.xmlutil:serialization:1.0.2.1"
 
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 junit5-jupiter = "org.junit.jupiter:junit-jupiter:6.1.3"
