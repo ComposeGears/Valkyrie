@@ -3,25 +3,21 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome
 class FontAwesomeIconsYamlParser {
 
     fun parse(yaml: String): List<FontAwesomeIconMetadata> {
-        val root = parseYamlMap(yaml)
+        val icons = decodeYamlMap(yaml, FontAwesomeIconYamlEntry.serializer())
 
-        return root.mapNotNull { (name, icon) ->
-            val iconMap = icon.asYamlMap()
+        return icons.mapNotNull { (name, entry) ->
             val iconName = name.trim()
-            val unicodeHex = iconMap.getYamlString("unicode")
+            val unicodeHex = entry.unicode.trim()
 
             if (iconName.isBlank() || unicodeHex.isBlank() || unicodeHex.toIntOrNull(16) == null) {
                 return@mapNotNull null
             }
 
-            val styles = iconMap.getYamlStringList("styles")
-            val searchTerms = iconMap.getYamlMap("search").getYamlStringList("terms")
-
             FontAwesomeIconMetadata(
                 name = iconName,
-                label = iconMap.getYamlString("label").ifBlank { iconName },
-                searchTerms = searchTerms,
-                styles = styles,
+                label = entry.label.orEmpty().trim().ifBlank { iconName },
+                searchTerms = entry.search?.terms.orEmpty().map { it.trim() }.filter { it.isNotEmpty() },
+                styles = entry.styles.map { it.trim() }.filter { it.isNotEmpty() },
                 unicodeHex = unicodeHex,
             )
         }

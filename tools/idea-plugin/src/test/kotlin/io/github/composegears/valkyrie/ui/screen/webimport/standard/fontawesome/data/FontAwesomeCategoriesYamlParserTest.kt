@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.data
 
 import assertk.assertThat
+import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
 import org.junit.jupiter.api.Test
@@ -8,6 +9,16 @@ import org.junit.jupiter.api.Test
 class FontAwesomeCategoriesYamlParserTest {
 
     private val parser = FontAwesomeCategoriesYamlParser()
+
+    @Test
+    fun `returns empty map for non-map root yaml`() {
+        val yaml = """
+            - arrows
+            - business
+        """.trimIndent()
+
+        assertThat(parser.parse(yaml)).isEmpty()
+    }
 
     @Test
     fun `parses category with icons`() {
