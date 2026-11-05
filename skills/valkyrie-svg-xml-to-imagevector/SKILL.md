@@ -9,10 +9,11 @@ Valkyrie converts SVG and Android `vector` XML files into Compose `ImageVector` 
 
 ## Prerequisites
 
-The CLI ships as a standalone `valkyrie` binary. Check availability with `command -v valkyrie`.
+The CLI is a JVM application: its `valkyrie` launcher needs Java on `PATH` or `JAVA_HOME` — the
+release zip does not bundle a runtime. Check availability with `command -v valkyrie`.
 If missing, install it — pick the first option that works:
 
-1. **Homebrew** (macOS/Linux):
+1. **Homebrew** (macOS/Linux; installs OpenJDK automatically):
 
    ```bash
    brew install ComposeGears/repo/valkyrie
@@ -29,8 +30,9 @@ If missing, install it — pick the first option that works:
    Then download the zip from the `url` (pattern:
    `https://github.com/ComposeGears/Valkyrie/releases/download/cli-<version>/valkyrie-cli-<version>.zip`),
    verify it with `shasum -a 256` against the formula's `sha256`, unzip, and use `bin/valkyrie`
-   from the unpacked directory. Installing to `~/.local/share/valkyrie` and adding `bin` to PATH
-   makes it reusable across sessions.
+   from the unpacked directory. Installing to `~/.local/share/valkyrie` makes it reusable across
+   sessions — but invoke it by full path or put that `bin` directory **first** on `PATH`,
+   otherwise an older `valkyrie` earlier on `PATH` keeps running.
 
 Notes:
 - `valkyrie --version` prints JNA `WARNING:` lines on stderr — they are harmless, ignore them.
@@ -48,8 +50,8 @@ Notes:
 valkyrie svgxml2imagevector \
   --input-path <dir-with-svg-xml-or-single-file> \
   --output-path <output-dir> \
-  --package-name <com.example.icons> \
-  [flags]
+  --package-name <com.example.icons>
+# append additional flags as needed, e.g. --iconpack-name MyIcons --nested-pack-name Filled
 ```
 
 | Flag | Default | When to use |
@@ -71,12 +73,12 @@ valkyrie svgxml2imagevector \
 ### Decision: Simple vs IconPack mode
 
 - **Simple** (default): no `--iconpack-name`/`--nested-pack-name`. Each icon becomes a standalone top-level property. Use when the user just wants icons converted.
-- **IconPack**: set `--iconpack-name` (and `--nested-pack-name` for `Pack.Filled/Outlined/...` hierarchy). Use when the user has an existing icon pack or asks for one; afterwards generate the pack object with command 2.
+- **IconPack**: set `--iconpack-name` (and `--nested-pack-name` for `Pack.Filled/Outlined/...` hierarchy). Use when the user has an existing icon pack or asks for one; afterward generate the pack object with command 2.
 
 ### Rules
 
 - **Extension must match the format**: SVG content in `.svg` files, Android `<vector>` XML in `.xml` files. A mismatch (e.g. vector XML named `.svg`) makes the CLI crash with a raw stack trace like `IllegalStateException: No <svg> tags found` — rename the files instead of debugging the stack trace.
-- **Directory input is NOT recursive** — the CLI reads `*.svg`/`*.xml` from the top level only. If the user points at a nested tree, collect the files first (e.g. into a temp dir) or convert per-directory.
+- **Directory input is NOT recursive** — the CLI reads `*.svg`/`*.xml` from the top level only. If the user points at a nested tree, collect the files into a single flat directory first and convert in one run. Duplicate names are checked per run only, so converting several directories into the same output path can silently overwrite earlier files — if a single run is impossible, use a separate `--output-path` for each directory.
 - Icon names are derived from file names (formatted to PascalCase). Duplicate names or macOS case-insensitive collisions make the CLI fail — resolve by renaming source files, never by editing output.
 - If icons land next to Compose reserved names (`Color`, `Brush`, `Offset`), the CLI automatically switches those to fully-qualified imports; just mention it to the user.
 
@@ -86,17 +88,22 @@ valkyrie svgxml2imagevector \
 valkyrie iconpack \
   --output-path <output-dir> \
   --package-name <com.example.icons> \
-  --iconpack 'MyIcons.Filled,MyIcons.Outlined'   # simple: 'MyIcons'
-  [--indent-size 4] [--use-explicit-mode]
+  --iconpack 'MyIcons.Filled,MyIcons.Outlined'
+# simple pack: pass --iconpack 'MyIcons' instead
+# optional flags: --indent-size 4, --use-explicit-mode
 ```
 
 Run this after converting icons in IconPack mode so imports resolve against a real pack object.
+The command overwrites the existing `<Name>.kt` pack file with only the packs passed to `--iconpack` —
+include every nested pack the user needs, and never keep hand-written declarations in that file.
 
 ## Post-generation
 
 1. List the written files and show the user what was generated (paths + icon count).
 2. Show one generated file's head (package, imports, first property) so the user can sanity-check style.
 
-The generated code is already ktlint-clean. Do not run the host project's build or formatter
-unless the user asks — compilation may be slow, and the project's formatter could override
-intentional flags like `--indent-size` or `--trailing-comma`.
+Generated code follows Valkyrie's own ktlint rules, but indentation comes from `--indent-size` —
+it can fail the host project's ktlint `indent` rule if that value differs from the project's
+`.editorconfig`. Do not run the host project's build or formatter unless the user asks —
+compilation may be slow, and the project's formatter could override intentional flags like
+`--indent-size` or `--trailing-comma`.
