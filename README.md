@@ -13,6 +13,7 @@
 
 [![CLI release][badge:cli-release]][url:gh-releases]
 [![Homebrew][badge:homebrew]][url:homebrew]
+[![Agent skill][badge:agent-skill]][url:agent-skill]
 
 [![Gradle Plugin Portal][badge:gradle-plugin]][url:gradle-plugin]
 
@@ -1242,6 +1243,7 @@ limitations under the License.
 [badge:cli-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?filter=cli-*&style=for-the-badge&label=CLI&labelColor=black&color=white
 
 [badge:homebrew]: https://img.shields.io/badge/homebrew-tap-orange?style=for-the-badge&labelColor=black&color=white&logo=homebrew
+[badge:agent-skill]: https://img.shields.io/badge/agent_skill-npx_skills_add-blue?style=for-the-badge&labelColor=black&color=white
 
 [badge:gradle-plugin]: https://img.shields.io/gradle-plugin-portal/v/io.github.composegears.valkyrie?style=for-the-badge&labelColor=black&color=white&label=Gradle%20Plugin
 
@@ -1262,6 +1264,7 @@ limitations under the License.
 [url:gh-releases]: https://github.com/ComposeGears/Valkyrie/releases
 
 [url:homebrew]: https://github.com/ComposeGears/homebrew-repo
+[url:agent-skill]: #install-as-an-agent-skill
 
 [url:gradle-plugin]: https://plugins.gradle.org/plugin/io.github.composegears.valkyrie
 
