@@ -409,12 +409,25 @@ cd "$TARGET_DIR/bin" || exit
 
 ### Install as an Agent Skill
 
-Let your AI coding agent (Claude Code, Cursor, ZCode, etc.) run icon conversion for you. The repo ships a
-`valkyrie-icon-converter` skill that teaches the agent how to use the CLI:
+The repo ships a `valkyrie-svg-xml-to-imagevector` agent skill that teaches AI coding agents
+(Claude Code, Cursor, ZCode, etc.) to convert icons for you: just ask the agent to convert an SVG/XML
+icon or a folder of icons into Compose `ImageVector`, and it will pick the right CLI command and flags.
+
+The skill covers:
+
+- both CLI commands — `svgxml2imagevector` (conversion) and `iconpack` (pack object generation);
+- all CLI flags with defaults and when to use them (Simple vs IconPack mode, output format, colors, previews);
+- known pitfalls — non-recursive input directories, duplicate icon names, extension/content mismatches;
+- keeping the CLI up to date — the agent checks `valkyrie --version` against the latest release and
+  updates it via brew or a direct download when it is outdated.
+
+Install it with:
 
 ```bash
 npx skills add ComposeGears/Valkyrie
 ```
+
+The skill source lives in [skills/valkyrie-svg-xml-to-imagevector/SKILL.md](https://github.com/ComposeGears/Valkyrie/blob/main/skills/valkyrie-svg-xml-to-imagevector/SKILL.md).
 
 ### Available commands:
 
@@ -1243,7 +1256,7 @@ limitations under the License.
 [badge:cli-release]: https://img.shields.io/github/v/release/ComposeGears/Valkyrie?filter=cli-*&style=for-the-badge&label=CLI&labelColor=black&color=white
 
 [badge:homebrew]: https://img.shields.io/badge/homebrew-tap-orange?style=for-the-badge&labelColor=black&color=white&logo=homebrew
-[badge:agent-skill]: https://img.shields.io/badge/agent_skill-npx_skills_add-blue?style=for-the-badge&labelColor=black&color=white
+[badge:agent-skill]: https://img.shields.io/badge/agent_skill-npx_skills-blue?style=for-the-badge&labelColor=black&color=white
 
 [badge:gradle-plugin]: https://img.shields.io/gradle-plugin-portal/v/io.github.composegears.valkyrie?style=for-the-badge&labelColor=black&color=white&label=Gradle%20Plugin
 
