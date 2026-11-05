@@ -406,6 +406,15 @@ cd "$TARGET_DIR/bin" || exit
 ./valkyrie --version
 ```
 
+### Install as an Agent Skill
+
+Let your AI coding agent (Claude Code, Cursor, ZCode, etc.) run icon conversion for you. The repo ships a
+`valkyrie-icon-converter` skill that teaches the agent how to use the CLI:
+
+```bash
+npx skills add ComposeGears/Valkyrie
+```
+
 ### Available commands:
 
 #### `iconpack` command
