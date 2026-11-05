@@ -24,15 +24,15 @@ internal fun <T> decodeYamlMap(content: String, deserializer: KSerializer<T>): M
 internal data class FontAwesomeIconYamlEntry(
     val label: String? = null,
     val search: Search? = null,
-    val styles: List<String> = emptyList(),
+    val styles: List<String?> = emptyList(),
     val unicode: String = "",
 ) {
     @Serializable
-    data class Search(val terms: List<String> = emptyList())
+    data class Search(val terms: List<String?> = emptyList())
 }
 
 @Serializable
 internal data class FontAwesomeCategoryYamlEntry(
     val label: String? = null,
-    val icons: List<String> = emptyList(),
+    val icons: List<String?> = emptyList(),
 )

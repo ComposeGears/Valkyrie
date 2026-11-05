@@ -16,8 +16,8 @@ class FontAwesomeIconsYamlParser {
             FontAwesomeIconMetadata(
                 name = iconName,
                 label = entry.label.orEmpty().trim().ifBlank { iconName },
-                searchTerms = entry.search?.terms.orEmpty().map { it.trim() }.filter { it.isNotEmpty() },
-                styles = entry.styles.map { it.trim() }.filter { it.isNotEmpty() },
+                searchTerms = entry.search?.terms.orEmpty().filterNotNull().map { it.trim() }.filter { it.isNotEmpty() },
+                styles = entry.styles.filterNotNull().map { it.trim() }.filter { it.isNotEmpty() },
                 unicodeHex = unicodeHex,
             )
         }

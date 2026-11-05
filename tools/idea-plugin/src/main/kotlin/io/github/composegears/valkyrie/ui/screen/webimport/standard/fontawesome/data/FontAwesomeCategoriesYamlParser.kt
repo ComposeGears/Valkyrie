@@ -17,7 +17,7 @@ class FontAwesomeCategoriesYamlParser {
             val normalizedName = entry.label.orEmpty().trim().ifBlank { normalizedId.toDisplayName() }
             val mappedCategory = InferredCategory(id = normalizedId, name = normalizedName)
 
-            entry.icons.map { it.trim() }
+            entry.icons.filterNotNull().map { it.trim() }
                 .filter { it.isNotEmpty() }
                 .forEach { iconName ->
                     iconToCategory.putIfAbsent(iconName, mappedCategory)
