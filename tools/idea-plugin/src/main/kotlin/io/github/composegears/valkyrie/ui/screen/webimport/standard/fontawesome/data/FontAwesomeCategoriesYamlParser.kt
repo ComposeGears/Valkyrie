@@ -5,6 +5,11 @@ import io.github.composegears.valkyrie.ui.screen.webimport.common.util.toDisplay
 
 class FontAwesomeCategoriesYamlParser {
 
+    /**
+     * Parses Font Awesome categories into a map from icon name to inferred category.
+     *
+     * The first category wins when an icon appears in several; empty category ids are skipped.
+     */
     fun parse(yaml: String): Map<String, InferredCategory> {
         val categories = decodeYamlMap(yaml, FontAwesomeCategoryYamlEntry.serializer())
 

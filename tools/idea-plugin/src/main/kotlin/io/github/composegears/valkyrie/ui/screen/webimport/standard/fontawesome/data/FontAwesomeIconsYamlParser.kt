@@ -2,6 +2,11 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome
 
 class FontAwesomeIconsYamlParser {
 
+    /**
+     * Parses Font Awesome icon metadata from the given YAML document.
+     *
+     * Entries with missing or invalid identifiers are skipped.
+     */
     fun parse(yaml: String): List<FontAwesomeIconMetadata> {
         val icons = decodeYamlMap(yaml, FontAwesomeIconYamlEntry.serializer())
 

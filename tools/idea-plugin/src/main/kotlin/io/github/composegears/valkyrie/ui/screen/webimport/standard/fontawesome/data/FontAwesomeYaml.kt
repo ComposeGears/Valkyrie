@@ -10,6 +10,12 @@ import kotlinx.serialization.Serializable
 // malformed or non-map documents decode to an empty map instead of failing the import
 internal val fontAwesomeYaml = Yaml(configuration = YamlConfiguration(strictMode = false))
 
+/**
+ * Decodes a Font Awesome YAML document into a map keyed by entry name.
+ *
+ * Malformed or non-map documents yield an empty map; individual entries that
+ * fail to deserialize are skipped instead of failing the whole document.
+ */
 internal fun <T> decodeYamlMap(content: String, deserializer: KSerializer<T>): Map<String, T> {
     val root = runCatching { fontAwesomeYaml.parseToYamlNode(content) }.getOrNull() as? YamlMap ?: return emptyMap()
     val result = linkedMapOf<String, T>()
