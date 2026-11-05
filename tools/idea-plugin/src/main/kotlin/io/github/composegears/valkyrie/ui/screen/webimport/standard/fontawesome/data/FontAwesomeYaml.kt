@@ -2,18 +2,23 @@ package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome
 
 import com.charleskorn.kaml.Yaml
 import com.charleskorn.kaml.YamlConfiguration
+import com.charleskorn.kaml.YamlMap
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
 
 // Font Awesome metadata contains many extra fields, so unknown keys are ignored;
 // malformed or non-map documents decode to an empty map instead of failing the import
 internal val fontAwesomeYaml = Yaml(configuration = YamlConfiguration(strictMode = false))
 
-internal fun <T> decodeYamlMap(content: String, deserializer: KSerializer<T>): Map<String, T> = runCatching {
-    fontAwesomeYaml.decodeFromString(MapSerializer(String.serializer(), deserializer), content)
-}.getOrDefault(emptyMap())
+internal fun <T> decodeYamlMap(content: String, deserializer: KSerializer<T>): Map<String, T> {
+    val root = runCatching { fontAwesomeYaml.parseToYamlNode(content) }.getOrNull() as? YamlMap ?: return emptyMap()
+    val result = linkedMapOf<String, T>()
+    for ((key, value) in root.entries) {
+        val decoded = runCatching { fontAwesomeYaml.decodeFromYamlNode(deserializer, value) }.getOrNull() ?: continue
+        result[key.content] = decoded
+    }
+    return result
+}
 
 @Serializable
 internal data class FontAwesomeIconYamlEntry(

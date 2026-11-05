@@ -153,6 +153,38 @@ class FontAwesomeIconsYamlParserTest {
     }
 
     @Test
+    fun `skips incompatible entries but keeps valid ones`() {
+        val yaml = """
+            valid-icon:
+              label: Valid
+              search:
+                terms:
+                  - valid
+              styles:
+                - solid
+              unicode: f000
+            bad-icon:
+              label: Bad
+              styles:
+                - solid
+              unicode:
+                - not
+                - a
+                - string
+            another-valid:
+              label: Another
+              styles:
+                - regular
+              unicode: f001
+        """.trimIndent()
+
+        val result = parser.parse(yaml)
+
+        assertThat(result).hasSize(2)
+        assertThat(result.map { it.name }).containsExactly("valid-icon", "another-valid")
+    }
+
+    @Test
     fun `cleans whitespace from string fields`() {
         val yaml = """
             ' icon-name ':

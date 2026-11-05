@@ -107,6 +107,28 @@ class FontAwesomeCategoriesYamlParserTest {
     }
 
     @Test
+    fun `skips incompatible entries but keeps valid ones`() {
+        val yaml = """
+            valid:
+              icons:
+                - valid-icon
+              label: Valid
+            bad:
+              icons: not-a-list
+              label: Bad
+            another:
+              icons:
+                - another-icon
+              label: Another
+        """.trimIndent()
+
+        val result = parser.parse(yaml)
+
+        assertThat(result["valid-icon"]).isEqualTo(InferredCategory(id = "valid", name = "Valid"))
+        assertThat(result["another-icon"]).isEqualTo(InferredCategory(id = "another", name = "Another"))
+    }
+
+    @Test
     fun `cleans whitespace from icon names`() {
         val yaml = """
             test-category:
