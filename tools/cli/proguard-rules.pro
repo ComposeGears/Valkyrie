@@ -19,6 +19,10 @@
 
 -dontwarn org.xmlpull.mxp1.**
 
+# Workaround: R8 9.2+ drops this sealed interface while leaving a dangling
+# `IrStroke` descriptor in `IrVectorNode.IrPath`, breaking the jar at runtime.
+-keep class io.github.composegears.valkyrie.sdk.ir.core.IrStroke
+
 # ProtoXmlPullParser handles compiled/binary AAPT2 XML, not exercised when parsing plain text SVG/XML
 -dontwarn com.android.aapt.Resources$**
 
