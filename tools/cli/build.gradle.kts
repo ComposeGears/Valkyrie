@@ -43,11 +43,19 @@ tasks.shadowJar {
         attributes["Implementation-Version"] = versionName
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // .kotlin_module files must reach the metadata transformer even when duplicated,
+    // so it can merge them instead of Gradle silently dropping the later ones
+    filesMatching("META-INF/*kotlin_module") {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
 
     // The CLI never looks up these providers via ServiceLoader, but keeping their
     // descriptors makes Shadow's R8 minimization retain BouncyCastle and JAXB (~1.5 MB).
     exclude("META-INF/services/java.security.Provider")
     exclude("META-INF/services/javax.xml.bind.JAXBContext")
+    // Its provider classes are unreachable for the CLI and get stripped anyway,
+    // leaving an unresolved service descriptor in the jar
+    exclude("META-INF/services/nl.adaptivity.xmlutil.util.SerializationProvider")
     // Build-time metadata that the old R8 pipeline never carried in the fat jar.
     exclude("META-INF/maven/**")
 
