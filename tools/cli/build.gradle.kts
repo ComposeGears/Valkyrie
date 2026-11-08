@@ -63,6 +63,13 @@ tasks.shadowJar {
         r8 {
             enableOptimization()
             keepRuleFiles.from(layout.projectDirectory.file("proguard-rules.pro"))
+            // Downgrade R8 warnings to info: the only remaining one is a false positive on
+            // xpp3's comma-separated service descriptor, while real problems fail as errors
+            args.addAll(
+                "--map-diagnostics",
+                "warning",
+                "info",
+            )
         }
     }
 }
