@@ -5,6 +5,16 @@
   ],
   "packageRules": [
     {
+      "description": "AGP and sdk-common live on the same release train and must be updated together",
+      "matchPackageNames": [
+        "com.android.tools.build:gradle",
+        "com.android.tools.build:gradle-api",
+        "com.android.tools:sdk-common"
+      ],
+      "groupName": "AGP + Android tools",
+      "groupSlug": "agp-android-tools"
+    },
+    {
       "matchDatasources": ["maven"],
       "matchPackagePatterns": [
         "^org\\.jetbrains\\.kotlin",
