@@ -21,6 +21,7 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import org.junit.jupiter.api.Assumptions.assumeTrue
 
 open class CommonGradleTest {
 
@@ -103,14 +104,16 @@ open class CommonGradleTest {
 
     protected fun androidHomeOrSkip(): Path {
         val androidHome = ANDROID_HOME
-        check(!androidHome.isNullOrBlank()) {
-            "No Android home directory configured - skipping test"
-        }
+        assumeTrue(
+            !androidHome.isNullOrBlank(),
+            "No Android home directory configured - skipping test",
+        )
 
         val androidHomePath = Paths.get(androidHome)
-        check(androidHomePath.exists()) {
-            "Configured Android home directory ($androidHomePath) doesn't exist - skipping test"
-        }
+        assumeTrue(
+            androidHomePath.exists(),
+            "Configured Android home directory ($androidHomePath) doesn't exist - skipping test",
+        )
 
         return androidHomePath
     }
