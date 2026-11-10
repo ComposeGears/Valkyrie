@@ -30,8 +30,6 @@ jobs:
       - uses: ./.github/actions/setup-java
 
       - uses: gradle/actions/setup-gradle@v6
-        with:
-          cache-disabled: true
 
       - name: Check version compatibility
         run: ./gradlew :tools:idea-plugin:checkVersionCompatibility
@@ -45,8 +43,17 @@ jobs:
       - uses: ./.github/actions/setup-java
 
       - uses: gradle/actions/setup-gradle@v6
-        with:
-          cache-disabled: true
 
       - name: Run build
         run: ./gradlew build
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports
+          path: |
+            **/build/reports/tests/**
+            **/build/test-results/**
+          if-no-files-found: ignore
+          retention-days: 7

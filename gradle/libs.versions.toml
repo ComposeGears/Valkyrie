@@ -72,6 +72,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 shadow = "com.gradleup.shadow:9.6.1"
 spotless = "com.diffplug.spotless:8.11.0"
+test-retry = "org.gradle.test-retry:1.6.6"
 
 # Project conventional plugins
 valkyrie-jvm = { id = "valkyrie.jvm" }

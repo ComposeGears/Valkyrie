@@ -12,8 +12,6 @@ jobs:
       - uses: ./.github/actions/setup-java
 
       - uses: gradle/actions/setup-gradle@v6
-        with:
-          cache-disabled: true
 
       - name: Verify IntelliJ plugin
         run: ./gradlew verifyPlugin

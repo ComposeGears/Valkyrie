@@ -14,6 +14,7 @@ plugins {
     alias(libs.plugins.shadow)
     alias(gradlePluginVersions.plugins.plugin.publish)
     alias(libs.plugins.jetbrains.changelog)
+    alias(libs.plugins.test.retry)
     `java-gradle-plugin`
 }
 
@@ -119,6 +120,14 @@ dependencies {
 changelog {
     groups.empty()
     versionPrefix = ""
+}
+
+tasks.test {
+    // TestKit inner builds download dependencies; retry spurious network-hiccup failures
+    retry {
+        maxRetries = 2
+        failOnPassedAfterRetry = false
+    }
 }
 
 fun androidHome(): String? {
