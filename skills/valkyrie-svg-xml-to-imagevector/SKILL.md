@@ -9,7 +9,7 @@ Valkyrie converts SVG and Android `vector` XML files into Compose `ImageVector` 
 
 ## Prerequisites
 
-The CLI is a JVM application: its `valkyrie` launcher needs Java on `PATH` or `JAVA_HOME` — the
+The CLI is a JVM application: its `valkyrie` launcher needs Java 21+ on `PATH` or `JAVA_HOME` — the
 release zip does not bundle a runtime. Check availability with `command -v valkyrie`.
 If missing, install it — pick the first option that works:
 
@@ -35,7 +35,7 @@ If missing, install it — pick the first option that works:
    otherwise an older `valkyrie` earlier on `PATH` keeps running.
 
 Notes:
-- `valkyrie --version` prints JNA `WARNING:` lines on stderr — they are harmless, ignore them.
+- `valkyrie --version` may print JNA `WARNING:` lines on stderr — they are harmless, ignore them.
 - Do NOT hand-edit generated `.kt` files. If output is wrong, adjust flags and re-run.
 - **Version matters.** An outdated CLI (e.g. an old brew install) silently overwrites icons whose
   names collide, and lacks newer flags. Compare `valkyrie --version` with the version in the
@@ -70,6 +70,14 @@ valkyrie svgxml2imagevector \
 | `--auto-mirror <bool>` | from source | Force `autoMirror=true/false` |
 | `-v` / `--verbose` | off | Per-file progress logs |
 
+Boolean options require an explicit value: write `--flatpackage=true`, `--generate-preview=true`,
+`--explicit-mode=false`, etc. A bare `--generate-preview` fails with
+`Error: option --generate-preview requires a value` before generating anything.
+
+`--generate-preview=true` emits `import androidx.compose.ui.tooling.preview.Preview` — the target
+source set needs a dependency providing it (e.g. `androidx.compose.ui:ui-tooling-preview`), otherwise
+the generated files do not compile.
+
 ### Decision: Simple vs IconPack mode
 
 - **Simple** (default): no `--iconpack-name`/`--nested-pack-name`. Each icon becomes a standalone top-level property. Use when the user just wants icons converted.
@@ -90,7 +98,7 @@ valkyrie iconpack \
   --package-name <com.example.icons> \
   --iconpack 'MyIcons.Filled,MyIcons.Outlined'
 # simple pack: pass --iconpack 'MyIcons' instead
-# optional flags: --indent-size 4, --use-explicit-mode
+# optional flags: --indent-size 4, --use-explicit-mode=true
 ```
 
 Run this after converting icons in IconPack mode so imports resolve against a real pack object.
