@@ -2,7 +2,7 @@
 compose = "1.12.0"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#coroutinesLibraries
 coroutines = "1.10.2"
-intellij = "2.20.0"
+intellij = "2.20.1"
 jacoco = "0.8.13"
 jdkRelease = "25"
 # https://plugins.jetbrains.com/docs/intellij/using-kotlin.html#bundled-stdlib-versions
