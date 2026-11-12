@@ -4,6 +4,7 @@ import assertk.all
 import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.hasSize
+import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.prop
 import org.junit.jupiter.api.Test
@@ -11,6 +12,21 @@ import org.junit.jupiter.api.Test
 class FontAwesomeIconsYamlParserTest {
 
     private val parser = FontAwesomeIconsYamlParser()
+
+    @Test
+    fun `returns empty list for non-map root yaml`() {
+        val yaml = """
+            - solid
+            - regular
+        """.trimIndent()
+
+        assertThat(parser.parse(yaml)).isEmpty()
+    }
+
+    @Test
+    fun `returns empty list for malformed yaml`() {
+        assertThat(parser.parse("icons: [unclosed")).isEmpty()
+    }
 
     @Test
     fun `parses single style icon`() {
@@ -134,6 +150,38 @@ class FontAwesomeIconsYamlParserTest {
         val result = parser.parse(yaml)
 
         assertThat(result.single().label).isEqualTo("my-icon")
+    }
+
+    @Test
+    fun `skips incompatible entries but keeps valid ones`() {
+        val yaml = """
+            valid-icon:
+              label: Valid
+              search:
+                terms:
+                  - valid
+              styles:
+                - solid
+              unicode: f000
+            bad-icon:
+              label: Bad
+              styles:
+                - solid
+              unicode:
+                - not
+                - a
+                - string
+            another-valid:
+              label: Another
+              styles:
+                - regular
+              unicode: f001
+        """.trimIndent()
+
+        val result = parser.parse(yaml)
+
+        assertThat(result).hasSize(2)
+        assertThat(result.map { it.name }).containsExactly("valid-icon", "another-valid")
     }
 
     @Test

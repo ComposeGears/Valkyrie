@@ -30,7 +30,8 @@ kotlinpoet = "com.squareup:kotlinpoet:2.3.0"
 kotlin-io = "org.jetbrains.kotlinx:kotlinx-io-core:0.9.1"
 kotlinx-browser = "org.jetbrains.kotlinx:kotlinx-browser:0.5.0"
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
-snakeyaml-engine-kmp = "it.krzeminski:snakeyaml-engine-kmp:4.0.1"
+# Supported fork of unmaintained kaml; last version whose kotlin-stdlib requirement is <= 2.4.0 (bundled in IJPL 2026.2); 0.111.0+ need 2.4.20+
+kotaml = "io.heapy.kotaml:kotaml:0.110.0"
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }

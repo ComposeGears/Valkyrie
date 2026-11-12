@@ -1,6 +1,7 @@
 package io.github.composegears.valkyrie.ui.screen.webimport.standard.fontawesome.data
 
 import assertk.assertThat
+import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import io.github.composegears.valkyrie.ui.screen.webimport.common.domain.category.InferredCategory
 import org.junit.jupiter.api.Test
@@ -8,6 +9,16 @@ import org.junit.jupiter.api.Test
 class FontAwesomeCategoriesYamlParserTest {
 
     private val parser = FontAwesomeCategoriesYamlParser()
+
+    @Test
+    fun `returns empty map for non-map root yaml`() {
+        val yaml = """
+            - arrows
+            - business
+        """.trimIndent()
+
+        assertThat(parser.parse(yaml)).isEmpty()
+    }
 
     @Test
     fun `parses category with icons`() {
@@ -93,6 +104,28 @@ class FontAwesomeCategoriesYamlParserTest {
 
         assertThat(result["ignored-icon"]).isEqualTo(null)
         assertThat(result["valid-icon"]).isEqualTo(InferredCategory(id = "valid", name = "Valid"))
+    }
+
+    @Test
+    fun `skips incompatible entries but keeps valid ones`() {
+        val yaml = """
+            valid:
+              icons:
+                - valid-icon
+              label: Valid
+            bad:
+              icons: not-a-list
+              label: Bad
+            another:
+              icons:
+                - another-icon
+              label: Another
+        """.trimIndent()
+
+        val result = parser.parse(yaml)
+
+        assertThat(result["valid-icon"]).isEqualTo(InferredCategory(id = "valid", name = "Valid"))
+        assertThat(result["another-icon"]).isEqualTo(InferredCategory(id = "another", name = "Another"))
     }
 
     @Test
