@@ -6,6 +6,7 @@
 
 - [IDEA] Migrate to IntelliJ IDEA 2026.2.3, Kotlin 2.4.0, and JetBrains Compose 1.12.0
 - [SDK] Upgrade xmlutil to 1.0.1 and port SVG/XML (de)serialization to its stable configuration API
+- [Web Import] Replace SnakeYAML with Kotaml for Font Awesome metadata parsing
 
 ## 1.7.1 - 2026-09-23
 
