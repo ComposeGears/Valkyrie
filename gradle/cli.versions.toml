@@ -1,7 +1,7 @@
 [versions]
 cli-version = "1.2.1"
 
-clikt = "5.1.0"
+clikt = "5.2.1"
 
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
